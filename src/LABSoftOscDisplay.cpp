@@ -95,24 +95,21 @@ LABSoftOscDisplay::LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder)
   verbose       {VERBOSE}
 {
   std::cout << "DEBUG: LABSoftOscDisplay constructor begin.\n";
+  builder->get_widget("glarea_disp_graph", glarea_disp_graph);
     
   chan_vals = num_vals / num_chans;
   //graph_do ();
   
-  //if (!is_fifo (osc_fifo_name) || (osc_fifo_fd = open (osc_fifo_name, O_RDONLY)) == -1 ||
-          //fcntl (osc_fifo_fd, F_SETFL, O_NONBLOCK) == -1)
-    //{
-      //printf ("Can't open %s\n", osc_fifo_name);
-    //}
-  //else
-    //{
-      //printf("Reading FIFO %s\n", osc_fifo_name);
-      //use_fifo = 1;
-    //}
-  
-  builder->get_widget("glarea_disp_graph", glarea_disp_graph);
-  
-  std::cout << "hello!\n";
+  if (!is_fifo (osc_fifo_name) || (osc_fifo_fd = open (osc_fifo_name, O_RDONLY)) == -1 ||
+          fcntl (osc_fifo_fd, F_SETFL, O_NONBLOCK) == -1)
+    {
+      printf ("Can't open %s\n", osc_fifo_name);
+    }
+  else
+    {
+      printf("Reading FIFO %s\n", osc_fifo_name);
+      use_fifo = 1;
+    }
   
   // Connect GLArea signals
   glarea_disp_graph->signal_realize().connect   (sigc::mem_fun(*this, &LABSoftOscDisplay::on_realize));
@@ -128,7 +125,6 @@ void
 LABSoftOscDisplay::on_realize ()
 {  
   glarea_disp_graph->make_current ();
-  // glarea_disp_graph->set_error ();
   
   // If there were errors during the initialization or
   // when trying to make the context current, this
@@ -139,11 +135,10 @@ LABSoftOscDisplay::on_realize ()
     }
   catch (const Gdk::GLError& gle)
     {
-      std::cerr << "An error occured making the context current during realize:" << std::endl;
+      std::cerr << "An error occured making the context current:" << std::endl;
       std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
     }
 
-  
   program = create_program (vert_shader, frag_shader);
   
   if (program == 0)
@@ -151,11 +146,11 @@ LABSoftOscDisplay::on_realize ()
       std::cout << "Error in program creation.\n";
     //return 0;
     }
-    
+  
   a_coord3d = get_attrib  (program, "coord3d");
   u_colours = get_uniform (program, "u_colours");
   u_scoffs  = get_uniform (program, "u_scoffs");
-  
+    
   if (a_coord3d == -1 || u_colours == -1 || u_scoffs == -1)
     {
       std::cout << "Error in get_attrib/get_uniform.\n";
@@ -164,31 +159,33 @@ LABSoftOscDisplay::on_realize ()
     
   // Draw grid and trace
   create_grid (&traces[0], GRID_DIVS, GRID_CHAN);
+  std::cout << "123123\n";
   
   for (int i = 0; i < num_chans; i++)
     create_test_trace (&traces[i+1], i, chan_vals, TRACE1_CHAN + i);
     
+    
   // Line width and multisample anti-alias
   glLineWidth (LINE_WIDTH);
   // glEnable (GLUT_MULTISAMPLE);
-  
+   
   // Enable blending
   glEnable (GL_BLEND);
   glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  
+
   // create vao
   glGenVertexArrays (1, &vao);
   glBindVertexArray (vao);
-  
+
   // Create the vertex buffer object
   glGenBuffers (1, &vbo);
   glBindBuffer (GL_ARRAY_BUFFER, vbo);
-  
+
   // Copy data into the buffer object
   nvertices = add_vertex_data ();
   glEnableVertexAttribArray (a_coord3d);
   glVertexAttribPointer (a_coord3d, 3, GL_FLOAT, GL_FALSE, 0, 0);
-  
+
   init_scale_offset (trace_ymax);
 }
 
@@ -197,7 +194,7 @@ LABSoftOscDisplay::on_render (const Glib::RefPtr<Gdk::GLContext>&)
 {
   // make glarea_disp_graph context current
   glarea_disp_graph->make_current ();
-  
+    
   // If there were errors during the initialization or
   // when trying to make the context current, this
   // function will return a `GError` for you to catch
@@ -309,17 +306,19 @@ int
 LABSoftOscDisplay::is_fifo (const char *fname)
 {
   struct stat stat_p;
-  stat(fname, &stat_p);
+  stat (fname, &stat_p);
   
-  return (S_ISFIFO(stat_p.st_mode));
+  return (S_ISFIFO (stat_p.st_mode));
 }
 
-
-
 // Handler for idle events
-void 
+bool 
 LABSoftOscDisplay::idle_handler ()
 {
+  std::cout << ".";
+  
+  glarea_disp_graph->make_current ();
+  
   int n, i;
 
    if (use_fifo && (n = fifo_read(fifo_vals, MAX_VALS)) > 0 && !paused)
@@ -331,6 +330,9 @@ LABSoftOscDisplay::idle_handler ()
     }
     
   // glutPostRedisplay();
+  glarea_disp_graph->queue_render ();
+  
+  return TRUE;
 }
 
 // Handler for timer events
@@ -472,14 +474,14 @@ LABSoftOscDisplay::draw_grid (POINT *p,
 
   for (i = 0; i <= nx; i++)
     {
-      x = NORM_XMIN + (NORM_XMAX-NORM_XMIN) * i / nx;
-      n += move_draw_line(&p[n], x, NORM_YMIN, x, NORM_YMAX, z);
+      x = NORM_XMIN + (NORM_XMAX - NORM_XMIN) * i / nx;
+      n += move_draw_line (&p[n], x, NORM_YMIN, x, NORM_YMAX, z);
     }
     
   for (i = 0; i <= ny; i++)
     {
-      y = NORM_YMIN + (NORM_YMAX-NORM_YMIN) * i / ny;
-      n += move_draw_line(&p[n], NORM_XMIN, y, NORM_XMAX, y, z);
+      y = NORM_YMIN + (NORM_YMAX - NORM_YMIN) * i / ny;
+      n += move_draw_line (&p[n], NORM_XMIN, y, NORM_XMAX, y, z);
     }
     
   return (n);
@@ -492,12 +494,14 @@ LABSoftOscDisplay::create_grid (TRACE *tp,
                                 int    ny, 
                                 int    z)
 {
-  int n=0;
+  int n = 0;
 
   if (!tp->pts)
-    tp->pts = (POINT *)malloc((nx+1+ny+1)*4 * sizeof(POINT));
+    tp->pts = (POINT *) malloc ((nx + 1 + ny + 1) * 4 * sizeof(POINT));
+    
   if (tp->pts)
-    n = draw_grid(tp->pts, nx, ny, z);
+    n = draw_grid (tp->pts, nx, ny, z);
+    
   tp->mod = 1;
   
   return (tp->np = n);
@@ -714,23 +718,23 @@ LABSoftOscDisplay::graph_init()
 void 
 LABSoftOscDisplay::graph_display ()
 {
+  glarea_disp_graph->make_current ();
+  
   glUseProgram (program);
 
   glUniform4fv (u_colours, MAX_TRACES, (GLfloat *)trace_colours);
-  glUniform2fv (u_scoffs, MAX_TRACES, (GLfloat *)trace_scoffs);
+  glUniform2fv (u_scoffs, MAX_TRACES,  (GLfloat *)trace_scoffs);
 
   glClearColor (CLEAR_COLOUR);
-  glClear (GL_COLOR_BUFFER_BIT);
+  glClear      (GL_COLOR_BUFFER_BIT);
 
   glDrawArrays(GL_LINE_STRIP, 0, nvertices);
   
-  #if GLUT_MODE == GLUT_DOUBLE
-    //glutSwapBuffers();
-  #else
-    glFlush();
-  #endif
+  glFlush ();
   
   frame_count++;
+  
+  // return FALSE;
 }
 
 // Clean up on exit

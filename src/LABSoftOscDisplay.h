@@ -14,17 +14,20 @@ private:
   
   // changeable vars
   int num_chans {};
+  
   // Structure for a 3D point
-  typedef struct {
-      GLfloat x;
-      GLfloat y;
-      GLfloat z;
+  typedef struct 
+  {
+    GLfloat x;
+    GLfloat y;
+    GLfloat z;
   } POINT;
 
   // Structure for a trace
-  typedef struct {
-      int np, mod;
-      POINT *pts;
+  typedef struct
+  {
+    int np, mod;
+    POINT *pts = nullptr;
   } TRACE;
 
   // Traces (grid plus channels)
@@ -32,6 +35,7 @@ private:
 
   // Buffer for FIFO text, and shader compiler messages
   char txtbuff[20000];
+  
   // Buffer for floating-point FIFO values
   float fifo_vals[MAX_VALS];
 
@@ -49,15 +53,17 @@ private:
       frame_count, 
       win_width, 
       win_height, 
-      num_vals;
-      
-  int use_fifo, 
+      num_vals,
+      use_fifo, 
       osc_fifo_fd, 
       fifo_in, 
       discard, 
-      chan_vals;
+      chan_vals,
+      args, 
+      verbose, 
+      vert_buff_alloc, 
+      paused;
       
-  int args, verbose, vert_buff_alloc, paused;
   float trace_ymax;
   
   const char* osc_fifo_name;
@@ -66,12 +72,12 @@ public:
   LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder);
   
 
-  void idle_handler ();
+  bool idle_handler ();
   void timer_handler (int value);
   
   // --- Signal Handlers ---
   void on_realize ();
-  bool on_render (const Glib::RefPtr<Gdk::GLContext>&);
+  bool on_render (const Glib::RefPtr<Gdk::GLContext>& context);
   void on_resize (int width, int height);
   void on_unrealize ();
    

@@ -11,9 +11,9 @@
 class LABSoftApp : public Gtk::Application
 {
 private:
-  LabInABox*          m_LabInABox;
-  LABSoftOscDisplay*  m_LABSoftOscDisplay;
-  LABSoftAppWindow*   appwindow;
+  LabInABox*                 m_LabInABox;
+  LABSoftOscDisplay*         m_LABSoftOscDisplay;
+  LABSoftAppWindow*          appwindow;
   Glib::RefPtr<Gtk::Builder> builder;
   
 protected: 
@@ -30,3 +30,5 @@ public:
 };
 
 #endif 
+
+// EOF

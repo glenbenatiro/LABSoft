@@ -19,8 +19,11 @@ void
 LABSoftApp::on_activate ()
 { 
   builder             = Gtk::Builder::create_from_file ("../ui/lab.glade");
+  
   m_LabInABox         = new LabInABox;
   m_LABSoftOscDisplay = new LABSoftOscDisplay (builder);
+  
+  Glib::signal_idle().connect(sigc::mem_fun(m_LABSoftOscDisplay, &LABSoftOscDisplay::idle_handler));
   
   try
   {
@@ -32,11 +35,11 @@ LABSoftApp::on_activate ()
   // and therefore the application will stop running.
   catch (const Glib::Error& ex)
   {
-    std::cerr << "ExampleApplication::on_activate(): " << ex.what() << std::endl;
+    std::cerr << "LABSoftApp::on_activate(): " << ex.what() << std::endl;
   }
   catch (const std::exception& ex)
   {
-    std::cerr << "ExampleApplication::on_activate(): " << ex.what() << std::endl;
+    std::cerr << "LABSoftApp::on_activate(): " << ex.what() << std::endl;
   }
   
   appwindow->present();

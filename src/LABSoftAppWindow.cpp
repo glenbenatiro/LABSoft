@@ -3,16 +3,21 @@
 
 #include "LABSoftAppWindow.h"
 
-LABSoftAppWindow::LABSoftAppWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
-: Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder)
+LABSoftAppWindow::LABSoftAppWindow (BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder)
+: Gtk::ApplicationWindow(cobject)
+//: Gtk::ApplicationWindow(cobject), m_builder(builder)
 {
-  m_refBuilder = Gtk::Builder::create_from_file("../ui/lab.glade");
+  std::cout << "labsoftappwindow construcotr\n";
   
-  m_refBuilder->get_widget("toggle_btn_panel_osc_enable", toggle_btn_panel_osc_enable);
-  m_refBuilder->get_widget<Gtk::Button>("btn_panel_menu1", btn_panel_menu1);
+  //m_builder = Gtk::Builder::create_from_file ("../ui/lab.glade");
   
-  btn_panel_menu1->signal_clicked().connect             (sigc::mem_fun(*this, &LABSoftAppWindow::on_btn_panel_menu1_clicked));  
-  toggle_btn_panel_osc_enable->signal_toggled().connect (sigc::mem_fun(*this, &LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggle));
+  builder->get_widget("toggle_btn_panel_osc_enable", toggle_btn_panel_osc_enable);
+  
+  //m_refBuilder->get_widget<Gtk::Button>("btn_panel_menu1", btn_panel_menu1);
+  
+  // Connect signals
+  //btn_panel_menu1->signal_clicked().connect             (sigc::mem_fun (*this, &LABSoftAppWindow::on_btn_panel_menu1_clicked));  
+  toggle_btn_panel_osc_enable->signal_toggled().connect (sigc::mem_fun(*this, &LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled));
 }
 
 // Static
@@ -30,15 +35,32 @@ LABSoftAppWindow::create (Glib::RefPtr<Gtk::Builder> builder)
 
 // --- SIGNAL HANDLERS ---
 void 
-LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggle ()
+LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled ()
 {
-  std::cout << "button clicked!\n";
+  if (toggle_btn_panel_osc_enable->get_active ())
+    {
+      toggle_btn_panel_osc_enable->set_label ("Enabled");
+      
+      if (worker_thread)
+        {
+          std::cout << "Can't start a worker thread while another one is running.\n";
+        }
+      else
+        {
+          // Start a new worker thread
+          //worker_thread = new std::thread ([this]{worker.do_work(this);});
+        }
+    }
+  else
+    {
+      toggle_btn_panel_osc_enable->set_label ("Disabled");
+    }
 }
-// EOF
 
-void
-LABSoftAppWindow::on_btn_panel_menu1_clicked ()
-{
-  std::cout << "Button clicked!\n";
-  exit (0);
-}
+
+//void
+//LABSoftAppWindow::on_btn_panel_menu1_clicked ()
+//{
+  //std::cout << "Button clicked!\n";
+  //exit (0);
+//}
