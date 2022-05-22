@@ -18,17 +18,13 @@ LABSoftApp::LABSoftApp ()
 void 
 LABSoftApp::on_activate ()
 { 
-  builder             = Gtk::Builder::create_from_file ("../ui/lab.glade");
-  
-  m_LabInABox         = new LabInABox;
-  m_LABSoftOscDisplay = new LABSoftOscDisplay (builder);
-  
-  Glib::signal_idle().connect(sigc::mem_fun(m_LABSoftOscDisplay, &LABSoftOscDisplay::idle_handler));
-  
+  builder = Gtk::Builder::create_from_file (BUILDER_NAME);
+    
   try
   {
     // The application has been started, so let's show a window.
-    appwindow = create_appwindow (builder);
+    appwindow = create_appwindow ();
+    appwindow->builder = builder;
   }
   // If create_appwindow() throws an exception (perhaps from Gtk::Builder),
   // no window has been created, no window has been added to the application,
@@ -46,9 +42,10 @@ LABSoftApp::on_activate ()
 }
 
 LABSoftAppWindow* 
-LABSoftApp::create_appwindow (Glib::RefPtr<Gtk::Builder> builder)
+LABSoftApp::create_appwindow ()
 {
   LABSoftAppWindow* appwindow = LABSoftAppWindow::create (builder);
+  appwindow->init (builder);
   
   // Make sure that the application runs for as long this window is still open.
   add_window(*appwindow);
@@ -64,11 +61,6 @@ LABSoftApp::create_appwindow (Glib::RefPtr<Gtk::Builder> builder)
     &LABSoftApp::on_hide_window), appwindow));
 
   return appwindow;
-}
-
-LABSoftApp::~LABSoftApp ()
-{
-  m_LABSoftOscDisplay->graph_free ();
 }
 
 void 

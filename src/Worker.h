@@ -4,7 +4,9 @@
 #include <thread>
 #include <mutex>
 
-#include "LABSoftAppWindow.h"
+#include "LabInABox.h"
+
+class LABSoftAppWindow;
 
 class Worker
 {
@@ -24,7 +26,7 @@ public:
   Worker ();
   
   // Thread function
-  void do_work (LABSoftAppWindow *caller);
+  void do_work (LABSoftAppWindow *caller, LabInABox *labinabox);
   
   // void get_data (double* fraction_done, Glib::ustring *message) const;
   void stop_work ();

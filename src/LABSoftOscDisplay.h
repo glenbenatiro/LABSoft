@@ -9,7 +9,6 @@
 class LABSoftOscDisplay
 {
 private:
-  Glib::RefPtr<Gtk::Builder> builder;
   Gtk::GLArea* glarea_disp_graph;
   
   // changeable vars
@@ -109,7 +108,6 @@ public:
   int  graph_init ();
   void graph_display ();
   void graph_free();
-  void graph_do ();
 };
 
 #endif

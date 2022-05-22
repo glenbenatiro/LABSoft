@@ -4,7 +4,7 @@ import math, time, os, signal, sys, random
  
 fifo_name = "/tmp/adc.fifo"
 ymax = 2.0
-delay = 0.5
+delay = 0.02
 nchans = 1
 npoints = 1000
 running = True

@@ -4,17 +4,13 @@
 #include <gtkmm/application.h>
 #include <gtkmm/builder.h>
 
-#include "LabInABox.h"
-#include "LABSoftOscDisplay.h"
 #include "LABSoftAppWindow.h"
 
 class LABSoftApp : public Gtk::Application
 {
 private:
-  LabInABox*                 m_LabInABox;
-  LABSoftOscDisplay*         m_LABSoftOscDisplay;
-  LABSoftAppWindow*          appwindow;
-  Glib::RefPtr<Gtk::Builder> builder;
+  LABSoftAppWindow           *appwindow;
+  Glib::RefPtr<Gtk::Builder>  builder;
   
 protected: 
   // Override default signal handlers:
@@ -22,9 +18,7 @@ protected:
   
 public:
   LABSoftApp ();
-  ~LABSoftApp ();
-  
-  LABSoftAppWindow* create_appwindow (Glib::RefPtr<Gtk::Builder> builder);
+  LABSoftAppWindow* create_appwindow ();
   static Glib::RefPtr<LABSoftApp> create ();  
   void on_hide_window (Gtk::Window *window);
 };

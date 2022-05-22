@@ -83,11 +83,13 @@ LabInABox::fail (const char *s)
 
 // --- STREAMING DATA ---
 void 
-LabInABox::do_streaming (MEM_MAP *mp, 
-                         char    *vals, 
-                         int      maxlen, 
-                         int      nsamp)
+LabInABox::do_streaming ()
 {
+  MEM_MAP *mp = &vc_mem;
+  char *vals = stream_buff;
+  int maxlen = STREAM_BUFFLEN;
+  int nsamp = sample_count;
+	
   int n;
 
   if (!adc_fifo_fd)

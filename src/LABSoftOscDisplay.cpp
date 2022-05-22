@@ -8,97 +8,20 @@
 #include <fcntl.h>
 #include <epoxy/gl.h>
 
-//#include <stdio.h>
-//
-//
-//#include <string.h>
-//
-//#include <sys/ioctl.h>
-//
-//
-//#include <ctype.h>
-
-//#include <GL/glew.h>
-//#include <GL/freeglut.h>
-
 #include "LABSoftOscDisplay.h"
 
-//int main(int argc, char *argv[])
-//{
-    //printf("RPi streaming display v" VERSION "\n");
-    //glutInit(&argc, argv);
-    //if (!is_fifo(FIFO) || (fifo_fd = open(FIFO, O_RDONLY)) == -1 ||
-            //fcntl(fifo_fd, F_SETFL, O_NONBLOCK) == -1)
-        //printf("Can't open %s\n", FIFO);
-    //else
-    //{
-        //printf("Reading FIFO %s\n", FIFO);
-        //use_fifo = 1;
-    //}
-    //while (argc > ++args)               // Process command-line args
-    //{
-        //if (argv[args][0] == '-')
-        //{
-            //switch (toupper(argv[args][1]))
-            //{
-            //case 'I':                   // -I: number of input channels
-                //if (args>=argc-1 || !isdigit((int)argv[args+1][0]))
-                    //fprintf(stderr, "Error: no input chan count\n");
-                //else
-                    //num_chans = atoi(argv[++args]);
-                //break;
-            //case 'N':                   // -N: number of values per block
-                //if (args>=argc-1 || !isdigit((int)argv[args+1][0]) ||
-                    //(num_vals = atoi(argv[++args])) < 1)
-                    //fprintf(stderr, "Error: no sample count\n");
-                //else if (num_vals > MAX_VALS)
-                //{
-                    //fprintf(stderr, "Error: maximum sample count %u\n", MAX_VALS);
-                    //num_vals = MAX_VALS;
-                //}
-                //break;
-            //case 'S':                   // -S: stream from named pipe (FIFO)
-                //if (args>=argc-1 || !argv[args+1][0])
-                    //fprintf(stderr, "Error: no FIFO name\n");
-                //else
-                    //fifo_name = argv[++args];
-                //break;
-            //case 'V':                   // -V: verbose mode (display hex data)
-                //verbose = 1;
-                //break;
-            //case 'Y':                   // -Y: max y-value for each chan
-                //if (args>=argc-1 || !isdigit((int)argv[args+1][0]))
-                    //fprintf(stderr, "Error: no max y-value\n");
-                //else if (!(trace_ymax = atof(argv[++args])))
-                //{
-                    //fprintf(stderr, "Error: invalid max y-value\n");
-                    //trace_ymax = TRACE_YMAX;
-                //}
-                //break;
-            //default:
-                //printf("Error: unrecognised option '%s'\n", argv[args]);
-                //exit(1);
-            //}
-        //}
-    //}
-    //chan_vals = num_vals / num_chans;
-    //do_graph();
-//}
-
-
 LABSoftOscDisplay::LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder) 
-: builder       {builder},
-  osc_fifo_name {OSC_FIFO_NAME},
+: osc_fifo_name {OSC_FIFO_NAME},
   num_vals      {NUM_VALS},
   trace_ymax    {TRACE_YMAX},
   num_chans     {NUM_CHANS},
   verbose       {VERBOSE}
 {
   std::cout << "DEBUG: LABSoftOscDisplay constructor begin.\n";
+  
   builder->get_widget("glarea_disp_graph", glarea_disp_graph);
     
   chan_vals = num_vals / num_chans;
-  //graph_do ();
   
   if (!is_fifo (osc_fifo_name) || (osc_fifo_fd = open (osc_fifo_name, O_RDONLY)) == -1 ||
           fcntl (osc_fifo_fd, F_SETFL, O_NONBLOCK) == -1)
@@ -742,36 +665,6 @@ void
 LABSoftOscDisplay::graph_free ()
 {
   glDeleteProgram (program);
-}
-
-// Initialise display, and update with data
-void 
-LABSoftOscDisplay::graph_do ()
-{
-    //glutInitDisplayMode(GLUT_MODE | GLUT_RGB | GLUT_MULTISAMPLE);
-#ifdef WIN_SIZE
-    //glutInitWindowSize(WIN_SIZE);
-#endif
-    //glutCreateWindow("Graph test");
-    //GLenum glew_status = glewInit();
-    //if (glew_status != GLEW_OK)
-    //{
-        //fprintf(stderr, "Error: %s\n", glewGetErrorString(glew_status));
-        //return;
-    //}
-    printf("OpenGL version %s\n", glGetString(GL_VERSION));
-    if (graph_init())
-    {
-        //glutDisplayFunc(graph_display);
-        //glutIdleFunc(idle_handler);
-        //glutKeyboardFunc(key_handler);
-        //glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
-        //glutTimerFunc(0, timer_handler, 0);
-        //glutReshapeFunc(reshape);
-        //glutMainLoop();
-    }
-    
-    graph_free();
 }
 
 // EOF 

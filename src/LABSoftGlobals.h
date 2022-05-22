@@ -8,7 +8,8 @@
 #define RPI_VERSION     3
 
 // FIFO name
-const char* const FIFO_NAME   {"/tmp/adc.fifo"};
+const char* const FIFO_NAME    {"/tmp/adc.fifo"};
+const char* const BUILDER_NAME {"../ui/lab.glade"};
 
 #define STREAM_BUFFLEN	10000
 #define	VERBOSE			0

@@ -46,7 +46,7 @@ public:
   void fail (const char *s);
   
   // --- STREAMING DATA ---
-  void do_streaming (MEM_MAP *mp, char *vals, int maxlen, int nsamp); 
+  void do_streaming (); 
   
   // --- ADC ---
   void adc_dma_init (MEM_MAP *mp, int nsamp, int single);
