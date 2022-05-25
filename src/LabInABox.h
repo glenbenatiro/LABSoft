@@ -6,10 +6,12 @@
 class LabInABox
 {
 private:
+  // status flags
+  
   int         in_chans, 
               sample_count, 
               sample_rate,
-              adc_fifo_fd {0},
+              adc_fifo_fd,
               lockstep {0},
               data_format,
               verbose {0};
@@ -50,8 +52,9 @@ public:
   
   // --- ADC ---
   void adc_dma_init (MEM_MAP *mp, int nsamp, int single);
-  // void adc_stream_start ();
+  void adc_stream_start ();
   int adc_stream_csv (MEM_MAP *mp, char *vals, int maxlen, int nsamp);
+  void adc_stream_stop ();
   
   // --- FIFO ---
   int      fifo_create (const char *fifo_name);

@@ -54,7 +54,7 @@ private:
       win_height, 
       num_vals,
       use_fifo, 
-      osc_fifo_fd, 
+      osc_fifo_fd {0}, 
       fifo_in, 
       discard, 
       chan_vals,
@@ -81,6 +81,7 @@ public:
   void on_unrealize ();
    
   // --- FIFO ---
+  int fifo_open_read (const char *fifo_name);
   int fifo_read (float *vals, int maxvals);
   int is_fifo (const char *fname);
   

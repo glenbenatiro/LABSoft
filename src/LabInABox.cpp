@@ -12,10 +12,13 @@
 LabInABox::LabInABox () : in_chans      {IN_CHANS},
                           sample_count  {SAMPLE_COUNT},
                           sample_rate   {SAMPLE_RATE},
+                          adc_fifo_fd   {0},
                           adc_fifo_name {FIFO_NAME},
                           lockstep      {LOCKSTEP},
                           verbose       {VERBOSE}
 { 
+  std::cout << "DEBUG: LabInABox constructor start.\n";
+  
   map_devices ();                           // Map peripheral registers  
   std::cout << "Devices mapped.\n";
   
@@ -31,19 +34,27 @@ LabInABox::LabInABox () : in_chans      {IN_CHANS},
   adc_dma_init (&vc_mem, sample_count, 0);  // Initialize and ready all DMA controls
   std::cout << "DMA initialized.\n";
   
-  //adc_stream_start ();
   pwm_start ();                             // Start the DMA 
   std::cout << "PWM started.\n";
   
-  //fifo_create (adc_fifo_name);              // Create FIFO for ADC storage
-  //printf("Created FIFO '%s'\n", adc_fifo_name);
-  //printf("Streaming %u samples per block at %u S/s %s\n",
-  //sample_count, sample_rate, lockstep ? "(lockstep)" : "");
+  fifo_create (adc_fifo_name);              // Create FIFO for ADC storage
+  printf("Streaming %u samples per block at %u S/s %s\n",
+  sample_count, sample_rate, lockstep ? "(lockstep)" : "");
   
-  //while (1)
+  //if (!adc_fifo_fd)
     //{
-      //do_streaming (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count);
+      //if ((adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
+        //{
+          //printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
+          //fifo_size = fifo_freespace (adc_fifo_fd);
+        //}
+      //else
+        //{
+          //std::cout << "FAIL: Failed open FIFO in LabInABox constructor. adc_fifo_fd: " << adc_fifo_fd << "\n";
+        //}
     //}
+  
+  std::cout << "DEBUG: LabInABox constructor end.\n";
 }  
   
 LabInABox::~LabInABox ()
@@ -85,16 +96,11 @@ LabInABox::fail (const char *s)
 void 
 LabInABox::do_streaming ()
 {
-  MEM_MAP *mp = &vc_mem;
-  char *vals = stream_buff;
-  int maxlen = STREAM_BUFFLEN;
-  int nsamp = sample_count;
-	
   int n;
-
+   
   if (!adc_fifo_fd)
     {
-      if ((adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0)
+      if ((adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
         {
           printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
           fifo_size = fifo_freespace (adc_fifo_fd);
@@ -102,12 +108,12 @@ LabInABox::do_streaming ()
     }
   
   if (adc_fifo_fd)
-    {
-      std::cout << ".";
-      
-      if ((n = adc_stream_csv (mp, vals, maxlen, nsamp)) > 0)
+    {      
+      if ((n = adc_stream_csv (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count)) > 0)
         {
-          if (!fifo_write (adc_fifo_fd, vals, n))
+          std::cout << ".";
+          
+          if (!fifo_write (adc_fifo_fd, stream_buff, n))
             {
                 printf ("Stopped streaming\n");
                 close (adc_fifo_fd);
@@ -185,8 +191,10 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
                            int      nsamp)
 {
   ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
+  
   uint32_t i, n, usec, slen = 0;
   
+    
   for (n = 0; n < 2 && slen ==0 ; n++)
     {
       if (dp->states[n])
@@ -216,6 +224,8 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
                 slen += sprintf(&vals[slen], "%s%4.3f", slen ? "," : "",
                   ADC_VOLTAGE(ADC_RAW_VAL(rx_buff[i])));
                   
+              std::cout << ADC_VOLTAGE(ADC_RAW_VAL(rx_buff[i])) << "\n";
+                  
               slen += sprintf(&vals[slen], "\n");
               
               if (verbose)
@@ -234,6 +244,18 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
   return (slen);
 }
 
+void
+LabInABox::adc_stream_start ()
+{
+  pwm_start ();
+}
+
+void
+LabInABox::adc_stream_stop ()
+{
+  pwm_stop ();
+}
+
 
 
 // --- FIFO ---
@@ -246,7 +268,11 @@ LabInABox::fifo_create (const char *fifo_name)
   umask(0);
   
   // using actual fifo_name variable
-  if (mkfifo(fifo_name, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH) < 0 && errno != EEXIST)
+  // S_IRUSR = read permission bit for the owner of the file
+  // S_IWUSR = write permission bit for the owner of the file
+  // S_IRGRP = read permission bit for the group owner of the file
+  // S_IROTH = read permission bit for other users
+  if (mkfifo (fifo_name, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH) < 0 && errno != EEXIST)
     {
       printf("Can't open FIFO '%s'\n", fifo_name);
     }
@@ -271,8 +297,11 @@ LabInABox::fifo_destroy (const char *fifo_name,
 
 int 
 LabInABox::fifo_open_write (const char *fifo_name)
-{
+{ 
+  
   int f = open (fifo_name, O_WRONLY | O_NONBLOCK);
+  
+  std::cout << "fifo open write" << f <<  "\n";
   
   return (f == -1 ? 0 : f);
 }
@@ -304,12 +333,12 @@ LabInABox::fifo_write (int   fd,
 void
 LabInABox::map_devices ()
 {
-  map_periph (&gpio_regs, (void *)GPIO_BASE,  PAGE_SIZE);
-  map_periph (&dma_regs,  (void *)DMA_BASE,   PAGE_SIZE);
-  map_periph (&spi_regs,  (void *)SPI0_BASE,  PAGE_SIZE);
-  map_periph (&clk_regs,  (void *)CLK_BASE,   PAGE_SIZE);
-  map_periph (&pwm_regs,  (void *)PWM_BASE,   PAGE_SIZE);
-  map_periph (&usec_regs, (void *)USEC_BASE,  PAGE_SIZE);
+  map_periph (&gpio_regs, (void *)GPIO_BASE, PAGE_SIZE);
+  map_periph (&dma_regs,  (void *)DMA_BASE,  PAGE_SIZE);
+  map_periph (&spi_regs,  (void *)SPI0_BASE, PAGE_SIZE);
+  map_periph (&clk_regs,  (void *)CLK_BASE,  PAGE_SIZE);
+  map_periph (&pwm_regs,  (void *)PWM_BASE,  PAGE_SIZE);
+  map_periph (&usec_regs, (void *)USEC_BASE, PAGE_SIZE);
 }
   
 // Use mmap to obtain virtual address, given physical

@@ -23,23 +23,12 @@ LABSoftOscDisplay::LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder)
     
   chan_vals = num_vals / num_chans;
   
-  if (!is_fifo (osc_fifo_name) || (osc_fifo_fd = open (osc_fifo_name, O_RDONLY)) == -1 ||
-          fcntl (osc_fifo_fd, F_SETFL, O_NONBLOCK) == -1)
-    {
-      printf ("Can't open %s\n", osc_fifo_name);
-    }
-  else
-    {
-      printf("Reading FIFO %s\n", osc_fifo_name);
-      use_fifo = 1;
-    }
-  
   // Connect GLArea signals
   glarea_disp_graph->signal_realize().connect   (sigc::mem_fun(*this, &LABSoftOscDisplay::on_realize));
   glarea_disp_graph->signal_render().connect    (sigc::mem_fun(*this, &LABSoftOscDisplay::on_render));
   glarea_disp_graph->signal_resize().connect    (sigc::mem_fun(*this, &LABSoftOscDisplay::on_resize));
   glarea_disp_graph->signal_unrealize().connect (sigc::mem_fun(*this, &LABSoftOscDisplay::on_unrealize));
-  
+    
   std::cout << "DEBUG: LABSoftOscDisplay constructor end.\n";
 }
 
@@ -82,7 +71,6 @@ LABSoftOscDisplay::on_realize ()
     
   // Draw grid and trace
   create_grid (&traces[0], GRID_DIVS, GRID_CHAN);
-  std::cout << "123123\n";
   
   for (int i = 0; i < num_chans; i++)
     create_test_trace (&traces[i+1], i, chan_vals, TRACE1_CHAN + i);
@@ -173,6 +161,25 @@ LABSoftOscDisplay::on_unrealize ()
 
 
 // --- FIFO ---
+int 
+LABSoftOscDisplay::fifo_open_read (const char* fifo_name)
+{
+  if 
+  (
+    !is_fifo (fifo_name)                           ||
+    (m_osc_fifo_fd = open (fifo_name, O_RDONLY | O_NONBLOCK)) == -1  
+    //fcntl (m_osc_fifo_fd, F_SETFL, O_NONBLOCK)     == -1 
+  ) 
+    {
+      printf ("Can't open %s\n", osc_fifo_name);
+    }
+  else
+    {
+      printf("Reading FIFO %s\n", osc_fifo_name);
+      m_use_fifo = 1;
+    } 
+}
+
 // Read in comma or space-delimited floating-point values
 int 
 LABSoftOscDisplay::fifo_read (float *vals, 
@@ -181,7 +188,7 @@ LABSoftOscDisplay::fifo_read (float *vals,
   int i, n, nvals = 0, done = 0;
   char *s;
 
-    while (!done && (n = read(osc_fifo_fd, &txtbuff[fifo_in], sizeof(txtbuff)-fifo_in-1)) > 0)
+    while (!done && (n = read(m_osc_fifo_fd, &txtbuff[fifo_in], sizeof(txtbuff)-fifo_in-1)) > 0)
     {
         txtbuff[fifo_in + n] = 0;
         if ((s=strchr(&txtbuff[fifo_in], '\n')) != 0)
@@ -196,7 +203,7 @@ LABSoftOscDisplay::fifo_read (float *vals,
                 {
                     if ((i=strlen(s+1)) > 0)
                     {
-                        strcpy(txtbuff, s+1);
+                        strcpy(txtbuff, s+1);us
                         fifo_in = i;
                     }
                     else
@@ -238,13 +245,13 @@ LABSoftOscDisplay::is_fifo (const char *fname)
 bool 
 LABSoftOscDisplay::idle_handler ()
 {
-  std::cout << ".";
-  
+  std::cout << "idl.";
+    
   glarea_disp_graph->make_current ();
   
   int n, i;
 
-   if (use_fifo && (n = fifo_read(fifo_vals, MAX_VALS)) > 0 && !paused)
+   if (m_use_fifo && (n = fifo_read(fifo_vals, MAX_VALS)) > 0 && !paused)
     {
       for (i=0; i<num_chans; i++)
         update_polyline(&traces[TRACE1_CHAN+i], fifo_vals+i, n/num_chans);
@@ -252,26 +259,25 @@ LABSoftOscDisplay::idle_handler ()
       add_vertex_data();
     }
     
-  // glutPostRedisplay();
   glarea_disp_graph->queue_render ();
   
   return TRUE;
 }
 
-// Handler for timer events
-void 
-LABSoftOscDisplay::timer_handler (int value)
-{
-    char temps[50] = "";
+//// Handler for timer events
+//void 
+//LABSoftOscDisplay::timer_handler (int value)
+//{
+    //char temps[50] = "";
 
-    if (value)
-    {
-        sprintf(temps, "%d FPS, %u x %u", frame_count, win_width, win_height);
-        //glutSetWindowTitle(temps);
-    }
-    frame_count = 0;
-    //glutTimerFunc(TIMER_MSEC, timer_handler, 1);
-}
+    //if (value)
+    //{
+        //sprintf(temps, "%d FPS, %u x %u", frame_count, win_width, win_height);
+        ////glutSetWindowTitle(temps);
+    //}
+    //frame_count = 0;
+    ////glutTimerFunc(TIMER_MSEC, timer_handler, 1);
+//}
 
 // --- GL ---
 // Get attribute

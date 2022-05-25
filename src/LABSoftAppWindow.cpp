@@ -17,17 +17,19 @@ LABSoftAppWindow::init (Glib::RefPtr<Gtk::Builder> _builder)
   _LabInABox         = new LabInABox;
   _LABSoftOscDisplay = new LABSoftOscDisplay (builder);
   
+  worker_thread = nullptr;
+  
   builder->get_widget("toggle_btn_panel_osc_enable", toggle_btn_panel_osc_enable);
   
   // Connect signals
-  //btn_panel_menu1->signal_clicked().connect             (sigc::mem_fun (*this, &LABSoftAppWindow::on_btn_panel_menu1_clicked));  
+  //btn_panel_menu1->signal_clicked().connect           (sigc::mem_fun (*this, &LABSoftAppWindow::on_btn_panel_menu1_clicked));  
   toggle_btn_panel_osc_enable->signal_toggled().connect (sigc::mem_fun(*this, &LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled));
   
   // Connect idle signal
-  Glib::signal_idle().connect(sigc::mem_fun(_LABSoftOscDisplay, &LABSoftOscDisplay::idle_handler));
+  //Glib::signal_idle().connect(sigc::mem_fun(_LABSoftOscDisplay, &LABSoftOscDisplay::idle_handler));
   
   // Connect the handler to the dispatcher
-  m_dispatcher.connect (sigc::mem_fun (*this, &LABSoftAppWindow::on_notification_from_worker_thread));
+  dispatcher.connect (sigc::mem_fun (*this, &LABSoftAppWindow::on_notification_from_worker_thread));
 }
 
 // Static
@@ -51,50 +53,63 @@ LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled ()
     {
       toggle_btn_panel_osc_enable->set_label ("Enabled");
       
-      if (m_worker_thread)
-        {
-          std::cout << "Can't start a worker thread while another one is running.\n";
-        }
-      else
-        {
-          // Start a new worker thread
-          // m_worker_thread = new std::thread ([this]{m_worker.do_work(this);});
+      // open fifo for adc writing
+      _LabInABox->fifo_open_write(_LabInABox->adc_fifo_name);
+      
+      // open fifo for osc reading
+      _LABSoftOscDisplay->fifo_open_read(_LABSoftOscDisplay->osc_fifo_name);
+      
+      // spawn thread 1 and start adc (pwm_start)
+      std::thread thread1;
+      
+      // spawn thread 2 and start reading from osc
+      
+      //if (worker_thread)
+        //{
+          //std::cout << "Can't start a worker thread while another one is running.\n";
+        //}
+      //else
+        //{
+          //// Begin LabInABox ADC stream
+          
+          //// Start a new worker thread
+          //worker_thread = new std::thread ([this]{worker.do_work(this, _LabInABox);});
         }
     }
   else
     {
       toggle_btn_panel_osc_enable->set_label ("Disabled");
       
-      if (!m_worker_thread)
-        {
-          std::cout << "Can't stop a worker thread. None is running.\n";
-        }
-      else
-        {
-          // Order the worker thread to stop working
-          m_worker.stop_work ();
-        }
+      //if (!worker_thread)
+        //{
+          //std::cout << "Can't stop a worker thread. None is running.\n";
+        //}
+      //else
+        //{
+          //// Order the worker thread to stop and wait for it to stop
+          //worker.stop_work ();
+        //}
     }
 }
 
 void
 LABSoftAppWindow::notify ()
 {
-  m_dispatcher.emit ();
+  dispatcher.emit ();
 }
 
 void 
 LABSoftAppWindow::on_notification_from_worker_thread ()
 {
-  if (m_worker_thread && m_worker.has_stopped ())
+  if (worker_thread && worker.has_stopped ())
     {
       // Work is done
-      if (m_worker_thread->joinable ())
-        m_worker_thread->join ();
+      if (worker_thread->joinable ())
+        worker_thread->join ();
       
-      delete m_worker_thread;
+      delete worker_thread;
       
-      m_worker_thread = nullptr;
+      worker_thread = nullptr;
     }
 }
 

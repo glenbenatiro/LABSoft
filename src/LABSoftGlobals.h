@@ -64,24 +64,23 @@ const char* const BUILDER_NAME {"../ui/lab.glade"};
 
 // ----------
 
-
-
+// Select RPi version
 #if RPI_VERSION == 0
-#define PHYS_REG_BASE   PI_01_REG_BASE
-#define CLOCK_HZ        250000000
-#define SPI_CLOCK_HZ    400000000
+  #define PHYS_REG_BASE PI_01_REG_BASE
+  #define CLOCK_HZ      250000000
+  #define SPI_CLOCK_HZ  400000000
 #elif RPI_VERSION == 1
-#define PHYS_REG_BASE   PI_01_REG_BASE
-#define CLOCK_HZ        250000000
-#define SPI_CLOCK_HZ    250000000
-#elif RPI_VERSION==2 || RPI_VERSION==3
-#define PHYS_REG_BASE   PI_23_REG_BASE
-#define CLOCK_HZ        250000000
-#define SPI_CLOCK_HZ    250000000
-#elif RPI_VERSION==4
-#define PHYS_REG_BASE   PI_4_REG_BASE
-#define CLOCK_HZ        375000000
-#define SPI_CLOCK_HZ    200000000
+  #define PHYS_REG_BASE PI_01_REG_BASE
+  #define CLOCK_HZ      250000000
+  #define SPI_CLOCK_HZ  250000000
+#elif RPI_VERSION == 2 || RPI_VERSION == 3
+  #define PHYS_REG_BASE PI_23_REG_BASE
+  #define CLOCK_HZ      250000000
+  #define SPI_CLOCK_HZ  250000000
+#elif RPI_VERSION == 4
+  #define PHYS_REG_BASE PI_4_REG_BASE
+  #define CLOCK_HZ      375000000
+  #define SPI_CLOCK_HZ  200000000
 #endif
 
 // Location of peripheral registers in physical memory
@@ -94,17 +93,38 @@ const char* const BUILDER_NAME {"../ui/lab.glade"};
 
 // Structure for mapped peripheral or memory
 typedef struct {
-    int   fd,             // File descriptor
-          h,              // Memory handle
-          size;           // Memory size
-    void *bus  {nullptr}, // Bus address
-         *virt {nullptr}, // Virtual address
-         *phys {nullptr}; // Physical address
+    int   fd,   // File descriptor
+          h,    // Memory handle
+          size; // Memory size
+    void *bus,  // Bus address
+         *virt, // Virtual address
+         *phys; // Physical address
 } MEM_MAP;
 
-const char* const dma_regstrs[] = {"DMA CS", "CB_AD", "TI", "SRCE_AD", "DEST_AD",
-    "TFR_LEN", "STRIDE", "NEXT_CB", "DEBUG", ""};
-const char* const spi_regstrs[] = {"CS", "FIFO", "CLK", "DLEN", "LTOH", "DC", ""};
+const char* const dma_regstrs[] = 
+  {
+    "DMA CS",
+    "CB_AD", 
+    "TI", 
+    "SRCE_AD", 
+    "DEST_AD",
+    "TFR_LEN", 
+    "STRIDE", 
+    "NEXT_CB", 
+    "DEBUG", 
+    ""
+  };
+  
+const char* const spi_regstrs[] = 
+  {
+    "CS", 
+    "FIFO", 
+    "CLK", 
+    "DLEN", 
+    "LTOH", 
+    "DC", 
+    ""
+  };
 
 
 
