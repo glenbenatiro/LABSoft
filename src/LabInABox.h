@@ -6,12 +6,11 @@
 class LabInABox
 {
 private:
-  // status flags
-  
+    
   int         in_chans, 
               sample_count, 
               sample_rate,
-              adc_fifo_fd,
+              m_adc_fifo_fd {0},
               lockstep {0},
               data_format,
               verbose {0};
@@ -46,6 +45,9 @@ public:
   LabInABox ();
   ~LabInABox ();
   void fail (const char *s);
+
+  // --- Status flags ---
+  bool m_flag_adc_stream {false};
   
   // --- STREAMING DATA ---
   void do_streaming (); 
@@ -59,9 +61,11 @@ public:
   // --- FIFO ---
   int      fifo_create (const char *fifo_name);
   void     fifo_destroy (const char *fifo_name, int fd);
-  int      fifo_open_write (const char *fifo_name);
+  int      fifo_open_write ();
+  int      fifo_aux_open_write (const char *fifo_name);
   uint32_t fifo_freespace (int fd);
   int      fifo_write (int fd, void *data, int dlen);
+  const char* fifo_get_name ();
   
   // --- MEMORY AND PERIPHERAL  ---
   void map_devices ();

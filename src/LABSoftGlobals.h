@@ -302,12 +302,13 @@ typedef struct {
 #define SPI0_MOSI_PIN   10
 #define SPI0_SCLK_PIN   11
 
-// SPI registers and constants
+// SPI registers
 #define SPI0_BASE       (PHYS_REG_BASE + 0x204000)
 #define SPI_CS          0x00
 #define SPI_FIFO        0x04
 #define SPI_CLK         0x08
 #define SPI_DLEN        0x0c
+#define SPI_LTOH        0x10
 #define SPI_DC          0x14
 #define SPI_FIFO_CLR    (3 << 4)
 #define SPI_RX_FIFO_CLR (2 << 4)
@@ -338,7 +339,7 @@ typedef struct {
 #define OSC_FIFO_NAME   "/tmp/adc.fifo"
 //#define WIN_SIZE        640, 480
 #define MAX_CHANS       16      // Max number of I/P chans
-#define NUM_CHANS       2       // Default number of I/P chans
+#define NUM_CHANS       1       // Default number of I/P chans
 #define GRID_CHAN       0       // Channel num used by grid
 #define TRACE1_CHAN     1       // Channel num used by first trace
 #define MAX_TRACES      (TRACE1_CHAN + MAX_CHANS)
@@ -351,7 +352,7 @@ typedef struct {
 #define NORM_YMAX       1.0
 #define TRACE_YMAX      2.0     // Max analog value for each trace
 #define GRID_DIVS       10,8    // Number of divisions in grid
-#define CLEAR_COLOUR    0.8, 0.82, 0.8, 0.0 // Normalised background colour
+#define CLEAR_COLOUR    0.0, 0.0, 0.0, 0.0 // Normalised background colour
 #define MAX_VALS        10000   // Maximum number of I/P values
 #define NUM_VALS        1000    // Default number of I/P values
 #define ZEN(z)          ((z)+0.1)   // Z-value to enable drawing
@@ -406,8 +407,8 @@ char const vert_shader[] =
 #define COLR(x) {(x>>16&255)/255.0, (x>>8&255)/255.0, (x&255)/255.0, 1}
 
 // Normalised colour values for each trace. First is grid
-GLfloat const trace_colours[MAX_TRACES][4] = {{0.6, 0.7, 0.6, 1},
-    COLR(0x000000), COLR(0x800000), COLR(0xff0000), COLR(0xff9900),
+GLfloat const trace_colours[MAX_TRACES][4] = {{1, 1, 1, 0.5},
+    COLR(0xffff00), COLR(0x800000), COLR(0xff0000), COLR(0xff9900),
     COLR(0xffff00), COLR(0x00ff00), COLR(0x0000ff), COLR(0xff00ff),
     COLR(0x969696), COLR(0xffffcc), COLR(0x000000), COLR(0x800000),
     COLR(0xff0000), COLR(0xff9900), COLR(0xffff00), COLR(0x00ff00)};

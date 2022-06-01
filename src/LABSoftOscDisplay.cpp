@@ -15,7 +15,8 @@ LABSoftOscDisplay::LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder)
   num_vals      {NUM_VALS},
   trace_ymax    {TRACE_YMAX},
   num_chans     {NUM_CHANS},
-  verbose       {VERBOSE}
+  verbose       {VERBOSE},
+  m_flag_osc_update {false}
 {
   std::cout << "DEBUG: LABSoftOscDisplay constructor begin.\n";
   
@@ -161,8 +162,13 @@ LABSoftOscDisplay::on_unrealize ()
 
 
 // --- FIFO ---
+int LABSoftOscDisplay::fifo_open_read ()
+{
+  return (fifo_aux_open_read (osc_fifo_name));
+}
+
 int 
-LABSoftOscDisplay::fifo_open_read (const char* fifo_name)
+LABSoftOscDisplay::fifo_aux_open_read (const char* fifo_name)
 {
   if 
   (
@@ -172,11 +178,15 @@ LABSoftOscDisplay::fifo_open_read (const char* fifo_name)
   ) 
     {
       printf ("Can't open %s\n", osc_fifo_name);
+      
+      return -1;
     }
   else
     {
       printf("Reading FIFO %s\n", osc_fifo_name);
       m_use_fifo = 1;
+      
+      return 0;
     } 
 }
 
@@ -203,7 +213,7 @@ LABSoftOscDisplay::fifo_read (float *vals,
                 {
                     if ((i=strlen(s+1)) > 0)
                     {
-                        strcpy(txtbuff, s+1);us
+                        strcpy(txtbuff, s+1);
                         fifo_in = i;
                     }
                     else
@@ -245,21 +255,22 @@ LABSoftOscDisplay::is_fifo (const char *fname)
 bool 
 LABSoftOscDisplay::idle_handler ()
 {
-  std::cout << "idl.";
-    
-  glarea_disp_graph->make_current ();
-  
-  int n, i;
-
-   if (m_use_fifo && (n = fifo_read(fifo_vals, MAX_VALS)) > 0 && !paused)
+  if (m_flag_osc_update)
     {
-      for (i=0; i<num_chans; i++)
-        update_polyline(&traces[TRACE1_CHAN+i], fifo_vals+i, n/num_chans);
+      glarea_disp_graph->make_current ();
+      
+      int n, i;
+
+       if (m_use_fifo && (n = fifo_read(fifo_vals, MAX_VALS)) > 0 && !paused)
+        {
+          for (i=0; i<num_chans; i++)
+            update_polyline(&traces[TRACE1_CHAN+i], fifo_vals+i, n/num_chans);
+            
+          add_vertex_data();
+        }
         
-      add_vertex_data();
+      glarea_disp_graph->queue_render ();
     }
-    
-  glarea_disp_graph->queue_render ();
   
   return TRUE;
 }
@@ -528,8 +539,8 @@ LABSoftOscDisplay::create_test_trace (TRACE *tp,
   if (vals)
     {
        for (i = 0; i < np; i++)
-          vals[i] = (sin(i / 10.0 - M_PI / 2) + 1) *
-            trace_ymax / (2.0 + i/100.0);
+          vals[i] = 0 * trace_ymax / (2.0 + i/100.0);
+          //vals[i] = (sin(i / 10.0 - M_PI / 2) + 1) * trace_ymax / (2.0 + i/100.0);
             
       n = create_trace (tp, idx, vals, np, zval);
       free(vals);

@@ -9,6 +9,8 @@
 class LABSoftOscDisplay
 {
 private:
+  
+  
   Gtk::GLArea* glarea_disp_graph;
   
   // changeable vars
@@ -53,8 +55,8 @@ private:
       win_width, 
       win_height, 
       num_vals,
-      use_fifo, 
-      osc_fifo_fd {0}, 
+      m_use_fifo, 
+      m_osc_fifo_fd {0}, 
       fifo_in, 
       discard, 
       chan_vals,
@@ -68,12 +70,15 @@ private:
   const char* osc_fifo_name;
 
 public:
+// Flags
+  bool m_flag_osc_update;
+  
   LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder);
   
 
   bool idle_handler ();
   void timer_handler (int value);
-  
+
   // --- Signal Handlers ---
   void on_realize ();
   bool on_render (const Glib::RefPtr<Gdk::GLContext>& context);
@@ -81,7 +86,8 @@ public:
   void on_unrealize ();
    
   // --- FIFO ---
-  int fifo_open_read (const char *fifo_name);
+  int fifo_aux_open_read (const char *fifo_name);
+  int fifo_open_read ();
   int fifo_read (float *vals, int maxvals);
   int is_fifo (const char *fname);
   

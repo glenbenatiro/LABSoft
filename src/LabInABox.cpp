@@ -12,7 +12,7 @@
 LabInABox::LabInABox () : in_chans      {IN_CHANS},
                           sample_count  {SAMPLE_COUNT},
                           sample_rate   {SAMPLE_RATE},
-                          adc_fifo_fd   {0},
+                          m_adc_fifo_fd   {0},
                           adc_fifo_name {FIFO_NAME},
                           lockstep      {LOCKSTEP},
                           verbose       {VERBOSE}
@@ -38,19 +38,19 @@ LabInABox::LabInABox () : in_chans      {IN_CHANS},
   std::cout << "PWM started.\n";
   
   fifo_create (adc_fifo_name);              // Create FIFO for ADC storage
-  printf("Streaming %u samples per block at %u S/s %s\n",
-  sample_count, sample_rate, lockstep ? "(lockstep)" : "");
+  //printf("Streaming %u samples per block at %u S/s %s\n",
+  //sample_count, sample_rate, lockstep ? "(lockstep)" : "");
   
-  //if (!adc_fifo_fd)
+  //if (!m_adc_fifo_fd)
     //{
-      //if ((adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
+      //if ((m_adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
         //{
           //printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
-          //fifo_size = fifo_freespace (adc_fifo_fd);
+          //fifo_size = fifo_freespace (m_adc_fifo_fd);
         //}
       //else
         //{
-          //std::cout << "FAIL: Failed open FIFO in LabInABox constructor. adc_fifo_fd: " << adc_fifo_fd << "\n";
+          //std::cout << "FAIL: Failed open FIFO in LabInABox constructor. m_adc_fifo_fd: " << m_adc_fifo_fd << "\n";
         //}
     //}
   
@@ -76,7 +76,7 @@ LabInABox::~LabInABox ()
   unmap_periph_mem(&gpio_regs);
   
   if (adc_fifo_name)
-      fifo_destroy (adc_fifo_name, adc_fifo_fd);
+      fifo_destroy (adc_fifo_name, m_adc_fifo_fd);
   if (samp_total)
       printf("Total samples %u, overruns %u\n", samp_total, overrun_total);
       
@@ -97,33 +97,49 @@ void
 LabInABox::do_streaming ()
 {
   int n;
-   
-  if (!adc_fifo_fd)
-    {
-      if ((adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
-        {
-          printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
-          fifo_size = fifo_freespace (adc_fifo_fd);
-        }
-    }
   
-  if (adc_fifo_fd)
-    {      
-      if ((n = adc_stream_csv (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count)) > 0)
+  adc_stream_start ();
+  
+  while (true)
+    {
+      std::cout << ".";
+      
+      if (m_flag_adc_stream)
         {
-          std::cout << ".";
+           //if (!m_adc_fifo_fd)
+            //{
+              //if ((m_adc_fifo_fd = fifo_aux_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
+                //{
+                  //printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
+                  //fifo_size = fifo_freespace (m_adc_fifo_fd);
+                //}
+            //}
           
-          if (!fifo_write (adc_fifo_fd, stream_buff, n))
-            {
-                printf ("Stopped streaming\n");
-                close (adc_fifo_fd);
-                adc_fifo_fd = 0;
-                usleep (100000);
+          if (m_adc_fifo_fd)
+            {      
+              if ((n = adc_stream_csv (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count)) > 0)
+                {
+                  std::cout << ".";
+                  
+                  if (!fifo_write (m_adc_fifo_fd, stream_buff, n))
+                    {
+                        printf ("Stopped streaming\n");
+                        close (m_adc_fifo_fd);
+                        m_adc_fifo_fd = 0;
+                        usleep (100000);
+                    }
+                }
+              else
+                {
+                  usleep(10);
+                }
             }
         }
       else
         {
-          usleep(10);
+          adc_stream_stop ();
+          
+          break;
         }
     }
 }
@@ -215,7 +231,7 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
           if (usec_start == 0)
             usec_start = usec;
                 
-          if (!lockstep || fifo_freespace (adc_fifo_fd) >= fifo_size)
+          if (!lockstep || fifo_freespace (m_adc_fifo_fd) >= fifo_size)
             {
               if (data_format == FMT_USEC)
                 slen += sprintf(&vals[slen], "%u", usec-usec_start);
@@ -274,11 +290,11 @@ LabInABox::fifo_create (const char *fifo_name)
   // S_IROTH = read permission bit for other users
   if (mkfifo (fifo_name, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH) < 0 && errno != EEXIST)
     {
-      printf("Can't open FIFO '%s'\n", fifo_name);
+      printf("FAIL: Can't open FIFO '%s'\n", fifo_name);
     }
   else
     {
-      printf("FIFO '%s' created.\n", fifo_name);
+      printf("DEBUG: FIFO '%s' created.\n", fifo_name);
       ok = 1;
     }
     
@@ -295,13 +311,31 @@ LabInABox::fifo_destroy (const char *fifo_name,
   unlink (fifo_name);
 }
 
+int LabInABox::fifo_open_write ()
+{
+  if (!m_adc_fifo_fd)
+    {
+      if (m_adc_fifo_fd = fifo_aux_open_write (adc_fifo_name)) // open in nonblockingmode
+        {
+          printf ("DEBUG: LabInABox opened FIFO '%s'\n", adc_fifo_name);
+          fifo_size = fifo_freespace (m_adc_fifo_fd);
+        }
+      else
+        {
+          printf ("FAIL: Failed opening FIFO '%s'.\n", adc_fifo_name, m_adc_fifo_fd);
+        }
+    }
+  
+  return (m_adc_fifo_fd);
+}
+
 int 
-LabInABox::fifo_open_write (const char *fifo_name)
+LabInABox::fifo_aux_open_write (const char *fifo_name)
 { 
   
   int f = open (fifo_name, O_WRONLY | O_NONBLOCK);
   
-  std::cout << "fifo open write" << f <<  "\n";
+  std::cout << "DEBUG: fifo_fd value in fifo_aux_open_write: " << f <<  "\n";
   
   return (f == -1 ? 0 : f);
 }
@@ -325,6 +359,12 @@ LabInABox::fifo_write (int   fd,
     return (fd ? write (fd, data, dlen) : 0);
         
   return (0);
+}
+
+const char*
+LabInABox::fifo_get_name ()
+{
+  return adc_fifo_name;
 }
 
 
