@@ -1,6 +1,8 @@
 #ifndef LABINABOX_H
 #define LABINABOX_H
 
+#include <atomic>
+
 #include "LABSoftGlobals.h"
 
 class LabInABox
@@ -10,7 +12,7 @@ private:
   int         in_chans, 
               sample_count, 
               sample_rate,
-              m_adc_fifo_fd {0},
+              m_fd_adc_fifo {0},
               lockstep {0},
               data_format,
               verbose {0};
@@ -47,10 +49,10 @@ public:
   void fail (const char *s);
 
   // --- Status flags ---
-  bool m_flag_adc_stream {false};
-  
+  std::atomic<bool> m_flag_run_adc_streaming {false};
+
   // --- STREAMING DATA ---
-  void do_streaming (); 
+  void run_adc_streaming (); 
   
   // --- ADC ---
   void adc_dma_init (MEM_MAP *mp, int nsamp, int single);
@@ -59,12 +61,15 @@ public:
   void adc_stream_stop ();
   
   // --- FIFO ---
-  int      fifo_create (const char *fifo_name);
-  void     fifo_destroy (const char *fifo_name, int fd);
+  void      fifo_create ();
+  int     fifo_aux_create (const char *fifo_name);
+  void     fifo_destroy ();
+  void     fifo_aux_destroy (const char *fifo_name, int fd);
   int      fifo_open_write ();
   int      fifo_aux_open_write (const char *fifo_name);
   uint32_t fifo_freespace (int fd);
   int      fifo_write (int fd, void *data, int dlen);
+  int     fifo_close ();
   const char* fifo_get_name ();
   
   // --- MEMORY AND PERIPHERAL  ---

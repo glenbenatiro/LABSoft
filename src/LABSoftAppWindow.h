@@ -22,7 +22,8 @@ private:
   Gtk::ToggleButton *toggle_btn_panel_osc_enable;
     
   Worker            worker;
-  std::thread       *worker_thread;
+  std::thread       *m_thread_1;
+  std::thread       *m_thread_2;
   Glib::Dispatcher  dispatcher;
     
   // Dispatcher handler

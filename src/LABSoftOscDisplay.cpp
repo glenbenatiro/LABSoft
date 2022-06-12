@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <math.h>
 #include <iostream>
 #include <fcntl.h>
@@ -16,7 +17,7 @@ LABSoftOscDisplay::LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder)
   trace_ymax    {TRACE_YMAX},
   num_chans     {NUM_CHANS},
   verbose       {VERBOSE},
-  m_flag_osc_update {false}
+  m_flag_run_osc_display {false}
 {
   std::cout << "DEBUG: LABSoftOscDisplay constructor begin.\n";
   
@@ -172,18 +173,18 @@ LABSoftOscDisplay::fifo_aux_open_read (const char* fifo_name)
 {
   if 
   (
-    !is_fifo (fifo_name)                           ||
-    (m_osc_fifo_fd = open (fifo_name, O_RDONLY | O_NONBLOCK)) == -1  
-    //fcntl (m_osc_fifo_fd, F_SETFL, O_NONBLOCK)     == -1 
+    !is_fifo (fifo_name) ||
+    (m_fd_osc_fifo = open (fifo_name, O_RDONLY | O_NONBLOCK)) == -1  
+    //fcntl (m_fd_osc_fifo, F_SETFL, O_NONBLOCK)     == -1 
   ) 
     {
-      printf ("Can't open %s\n", osc_fifo_name);
+      printf ("FAIL: Can't open %s\n", osc_fifo_name);
       
       return -1;
     }
   else
     {
-      printf("Reading FIFO %s\n", osc_fifo_name);
+      printf("DEBUG: Opened FIFO %s for reading\n", osc_fifo_name);
       m_use_fifo = 1;
       
       return 0;
@@ -198,7 +199,7 @@ LABSoftOscDisplay::fifo_read (float *vals,
   int i, n, nvals = 0, done = 0;
   char *s;
 
-    while (!done && (n = read(m_osc_fifo_fd, &txtbuff[fifo_in], sizeof(txtbuff)-fifo_in-1)) > 0)
+    while (!done && (n = read(m_fd_osc_fifo, &txtbuff[fifo_in], sizeof(txtbuff)-fifo_in-1)) > 0)
     {
         txtbuff[fifo_in + n] = 0;
         if ((s=strchr(&txtbuff[fifo_in], '\n')) != 0)
@@ -251,26 +252,64 @@ LABSoftOscDisplay::is_fifo (const char *fname)
   return (S_ISFIFO (stat_p.st_mode));
 }
 
+int
+LABSoftOscDisplay::fifo_close ()
+{
+  if (close (m_fd_osc_fifo) == 0)
+    {
+      std::cout << "DEBUG: success close m_fd_osc_fifo\n";
+      m_fd_osc_fifo = 0;
+      return 1;
+    }
+  else
+    {
+      std::cout << "FAIL: fail close m_fd_osc_fifo\n";
+      m_fd_osc_fifo = 0;
+      return 0;
+    }     
+}
+
+
+
 // Handler for idle events
 bool 
-LABSoftOscDisplay::idle_handler ()
+LABSoftOscDisplay::run_osc_display ()
 {
-  if (m_flag_osc_update)
-    {
-      glarea_disp_graph->make_current ();
-      
-      int n, i;
-
-       if (m_use_fifo && (n = fifo_read(fifo_vals, MAX_VALS)) > 0 && !paused)
-        {
-          for (i=0; i<num_chans; i++)
-            update_polyline(&traces[TRACE1_CHAN+i], fifo_vals+i, n/num_chans);
+  std::cout << "DEBUG: Start run_osc_display (osc. graphing) thread.\n";
+  
+  int n, i;
+    
+  // make the current GtkGLArea context current
+  glarea_disp_graph->make_current ();
             
-          add_vertex_data();
+  while (true)
+    {
+      if (m_flag_run_osc_display)
+        {
+          if (m_use_fifo)
+          {
+            std::cout << "a";
+            
+            //if ((n = fifo_read (fifo_vals, MAX_VALS) > 0 ) && !paused)
+              //{
+                //std::cout << "i";
+                
+                //for (i=0; i<num_chans; i++)
+                  //update_polyline(&traces[TRACE1_CHAN+i], fifo_vals + i, n / num_chans);
+                  
+                //add_vertex_data();
+              //}
+            
+            //glarea_disp_graph->queue_render ();
+          }
         }
-        
-      glarea_disp_graph->queue_render ();
+      else
+        {
+          break;
+        }
     }
+  
+  std::cout << "DEBUG: End run_osc_display (osc. graphing) thread.\n";
   
   return TRUE;
 }

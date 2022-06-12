@@ -12,7 +12,7 @@
 LabInABox::LabInABox () : in_chans      {IN_CHANS},
                           sample_count  {SAMPLE_COUNT},
                           sample_rate   {SAMPLE_RATE},
-                          m_adc_fifo_fd   {0},
+                          m_fd_adc_fifo   {0},
                           adc_fifo_name {FIFO_NAME},
                           lockstep      {LOCKSTEP},
                           verbose       {VERBOSE}
@@ -30,29 +30,14 @@ LabInABox::LabInABox () : in_chans      {IN_CHANS},
   
   spi_init (SPI_FREQ);                      // Initialize SPI peripheral
   std::cout << "SPI initialized.\n";
-                   
+                     
+  // fifo_aux_create (adc_fifo_name);              // Create FIFO for ADC storage
+  
   adc_dma_init (&vc_mem, sample_count, 0);  // Initialize and ready all DMA controls
   std::cout << "DMA initialized.\n";
   
-  pwm_start ();                             // Start the DMA 
+  adc_stream_start ();                      // Start the DMA 
   std::cout << "PWM started.\n";
-  
-  fifo_create (adc_fifo_name);              // Create FIFO for ADC storage
-  //printf("Streaming %u samples per block at %u S/s %s\n",
-  //sample_count, sample_rate, lockstep ? "(lockstep)" : "");
-  
-  //if (!m_adc_fifo_fd)
-    //{
-      //if ((m_adc_fifo_fd = fifo_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
-        //{
-          //printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
-          //fifo_size = fifo_freespace (m_adc_fifo_fd);
-        //}
-      //else
-        //{
-          //std::cout << "FAIL: Failed open FIFO in LabInABox constructor. m_adc_fifo_fd: " << m_adc_fifo_fd << "\n";
-        //}
-    //}
   
   std::cout << "DEBUG: LabInABox constructor end.\n";
 }  
@@ -76,7 +61,7 @@ LabInABox::~LabInABox ()
   unmap_periph_mem(&gpio_regs);
   
   if (adc_fifo_name)
-      fifo_destroy (adc_fifo_name, m_adc_fifo_fd);
+      fifo_aux_destroy (adc_fifo_name, m_fd_adc_fifo);
   if (samp_total)
       printf("Total samples %u, overruns %u\n", samp_total, overrun_total);
       
@@ -94,54 +79,57 @@ LabInABox::fail (const char *s)
 
 // --- STREAMING DATA ---
 void 
-LabInABox::do_streaming ()
+LabInABox::run_adc_streaming ()
 {
   int n;
   
-  adc_stream_start ();
+  std::cout << "DEBUG: Start run_adc_streaming thread.\n";
   
+  // adc_stream_start ();
+  
+  // thread loop
   while (true)
     {
-      std::cout << ".";
-      
-      if (m_flag_adc_stream)
-        {
-           //if (!m_adc_fifo_fd)
-            //{
-              //if ((m_adc_fifo_fd = fifo_aux_open_write (adc_fifo_name)) > 0) // opens in nonblocking mode
-                //{
-                  //printf("Started streaming to FIFO '%s'\n", adc_fifo_name);
-                  //fifo_size = fifo_freespace (m_adc_fifo_fd);
-                //}
-            //}
-          
-          if (m_adc_fifo_fd)
-            {      
+      // check stream flag is enabled
+      if (m_flag_run_adc_streaming)
+        {   
+          // check if fifo is present and opened 
+          if (m_fd_adc_fifo)
+            {
+              std::cout << ".";
+              
+              // fetch samples from ADC buffer, store it in stream_buff
               if ((n = adc_stream_csv (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count)) > 0)
-                {
-                  std::cout << ".";
+                {    
                   
-                  if (!fifo_write (m_adc_fifo_fd, stream_buff, n))
-                    {
-                        printf ("Stopped streaming\n");
-                        close (m_adc_fifo_fd);
-                        m_adc_fifo_fd = 0;
-                        usleep (100000);
-                    }
-                }
-              else
-                {
-                  usleep(10);
+                  
+                  //// write stream_buff to FIFO. close if write fail
+                  //if (!fifo_write (m_fd_adc_fifo, stream_buff, n))
+                    //{
+                      //printf ("Stopped streaming\n");
+                      //close (m_fd_adc_fifo);
+                      //m_fd_adc_fifo = 0;
+                      //usleep (100000);
+                    //}
+                  //else
+                    //{
+                      //usleep(10);
+                    //}
                 }
             }
-        }
+          else 
+            { 
+              fifo_open_write ();
+              // if m_fd_adc_fifo is equal to or less than zero; no fifo present
+            }
+          }
       else
         {
-          adc_stream_stop ();
-          
           break;
         }
     }
+  
+  std::cout << "DEBUG: End run_adc_streaming thread.\n";
 }
 
 // --- ADC ---
@@ -211,10 +199,13 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
   uint32_t i, n, usec, slen = 0;
   
     
-  for (n = 0; n < 2 && slen ==0 ; n++)
+  for (n = 0; n < 2 && slen == 0 ; n++)
     {
+      // for some reason, program doesnt go to dp states n    
       if (dp->states[n])
         {
+          std::cout << "b";
+         
           samp_total += nsamp;
           memcpy(rx_buff, n ? (void *)dp->rxd2 : (void *)dp->rxd1, nsamp*4);
           usec = dp->usecs[n];
@@ -231,7 +222,7 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
           if (usec_start == 0)
             usec_start = usec;
                 
-          if (!lockstep || fifo_freespace (m_adc_fifo_fd) >= fifo_size)
+          if (!lockstep || fifo_freespace (m_fd_adc_fifo) >= fifo_size)
             {
               if (data_format == FMT_USEC)
                 slen += sprintf(&vals[slen], "%u", usec-usec_start);
@@ -275,9 +266,15 @@ LabInABox::adc_stream_stop ()
 
 
 // --- FIFO ---
+void
+LabInABox::fifo_create ()
+{
+  fifo_aux_create (FIFO_NAME);
+}
+
 // Create a FIFO (named pipe)
 int 
-LabInABox::fifo_create (const char *fifo_name)
+LabInABox::fifo_aux_create (const char *fifo_name)
 {
   int ok = 0;
 
@@ -302,31 +299,75 @@ LabInABox::fifo_create (const char *fifo_name)
 }
 
 void 
-LabInABox::fifo_destroy (const char *fifo_name,
-                         int         fd)
+LabInABox::fifo_destroy ()
 {
-  if (fd > 0)
-    close (fd);
+  // fifo_aux_destroy (adc_fifo_name, m_fd_adc_fifo);
   
-  unlink (fifo_name);
-}
-
-int LabInABox::fifo_open_write ()
-{
-  if (!m_adc_fifo_fd)
+  std::cout << "i am here!\n";
+  
+  if (m_fd_adc_fifo > 0)
     {
-      if (m_adc_fifo_fd = fifo_aux_open_write (adc_fifo_name)) // open in nonblockingmode
+      if (close (m_fd_adc_fifo) == 0)
         {
-          printf ("DEBUG: LabInABox opened FIFO '%s'\n", adc_fifo_name);
-          fifo_size = fifo_freespace (m_adc_fifo_fd);
+          std::cout << "DEBUG: success close m_fd_adc_fifo\n";
         }
       else
         {
-          printf ("FAIL: Failed opening FIFO '%s'.\n", adc_fifo_name, m_adc_fifo_fd);
+          std::cout << "FAIL: fail close m_fd_adc_fifo\n";
+        }
+    }
+  else
+    {
+      std::cout << "FAIL: m_fd_adc_fifo is less than or equal to zero\n";
+    }
+    
+  if (unlink (FIFO_NAME) != 0)
+    std::cout << "FAIL: error in unlinking fifo_name in LabInABox\n";
+  else
+    std::cout << "DEBUG: success unlinking fifo_name in LabInABox\n";
+    
+  m_fd_adc_fifo = 0;
+}
+
+void 
+LabInABox::fifo_aux_destroy (const char *fifo_name,
+                             int         fd)
+{
+  if (fd > 0)
+    {
+      close (fd);
+      std::cout << "DEBUG: fifo fd closed in LabInABox\n";
+    }
+  else
+    {
+      std::cout << "FAIL: fifo is less than or equal to zero\n";
+    }
+    
+    if (unlink (fifo_name) < 0)
+    std::cout << "FAIL: error in unlinking fifo_name in LabInABox\n";
+  else
+    std::cout << "DEBUG: success unlinking fifo_name in LabInABox\n";
+  
+}
+
+
+int 
+LabInABox::fifo_open_write ()
+{
+  if (!m_fd_adc_fifo)
+    {
+      if (m_fd_adc_fifo = fifo_aux_open_write (adc_fifo_name) > 0) // open in nonblockingmode
+        {
+          printf ("DEBUG: LabInABox opened FIFO '%s' for wriring\n", adc_fifo_name);
+          fifo_size = fifo_freespace (m_fd_adc_fifo);
+        }
+      else
+        {
+          printf ("FAIL: Failed opening FIFO '%s'.\n", adc_fifo_name, m_fd_adc_fifo);
         }
     }
   
-  return (m_adc_fifo_fd);
+  return (m_fd_adc_fifo);
 }
 
 int 
@@ -359,6 +400,12 @@ LabInABox::fifo_write (int   fd,
     return (fd ? write (fd, data, dlen) : 0);
         
   return (0);
+}
+
+int
+LabInABox::fifo_close ()
+{
+  return (close (m_fd_adc_fifo));
 }
 
 const char*

@@ -1,5 +1,7 @@
 #include <stdexcept>
 #include <iostream>
+#include <unistd.h>
+
 
 #include "LABSoftAppWindow.h"
 
@@ -17,7 +19,7 @@ LABSoftAppWindow::init (Glib::RefPtr<Gtk::Builder> _builder)
   _LabInABox         = new LabInABox;
   _LABSoftOscDisplay = new LABSoftOscDisplay (builder);
   
-  worker_thread = nullptr;
+  m_thread_1 = nullptr;
      
   builder->get_widget("toggle_btn_panel_osc_enable", toggle_btn_panel_osc_enable);
   
@@ -26,10 +28,10 @@ LABSoftAppWindow::init (Glib::RefPtr<Gtk::Builder> _builder)
   toggle_btn_panel_osc_enable->signal_toggled().connect (sigc::mem_fun(*this, &LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled));
   
   // Connect idle signal
-  Glib::signal_idle().connect(sigc::mem_fun(_LABSoftOscDisplay, &LABSoftOscDisplay::idle_handler));
+  // Glib::signal_idle().connect(sigc::mem_fun(_LABSoftOscDisplay, &LABSoftOscDisplay::run_osc_display));
   
   // Connect the handler to the dispatcher
-  dispatcher.connect (sigc::mem_fun (*this, &LABSoftAppWindow::on_notification_from_worker_thread));
+ //  dispatcher.connect (sigc::mem_fun (*this, &LABSoftAppWindow::on_notification_from_worker_thread));
 }
 
 // Static
@@ -51,54 +53,48 @@ LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled ()
 {
   if (toggle_btn_panel_osc_enable->get_active ())
     {
-      std::cout << "DEBUG: Button enabled.\n";
+      // create fifo
+      _LabInABox->fifo_create ();
       
-      _LABSoftOscDisplay->m_flag_osc_update = true;
-      
-      toggle_btn_panel_osc_enable->set_label ("Enabled");
-      
-      // IT IS IMPORTANT to open fifo first before reading!
-      // open fifo for adc writing
+      // IT IS IMPORTANT TO OPEN FIFO FOR READING FIRST BEFORE WRITING
+      // open fifo for osc graphing
       _LABSoftOscDisplay->fifo_open_read ();
-      
+            
       // open fifo for adc writing
       _LabInABox->fifo_open_write ();
       
-      // spawn thread 1, set streaming flag to true, and start adc (pwm_start)
-      _LabInABox->m_flag_adc_stream = true;
-      worker_thread = new std::thread (&LabInABox::do_streaming, _LabInABox);
+      // spawn thread 1, set adc_streaming flag to true
+      _LabInABox->m_flag_run_adc_streaming = true;
+      m_thread_1 = new std::thread (&LabInABox::run_adc_streaming, _LabInABox);
       
-      // spawn thread 2 and start reading from osc, OR just enable idle flag
-      
-      //if (worker_thread)
-        //{
-          //std::cout << "Can't start a worker thread while another one is running.\n";
-        //}
-      //else
-        //{
-          //// Begin LabInABox ADC stream
-          
-          //// Start a new worker thread
-          //worker_thread = new std::thread ([this]{worker.do_work(this, _LabInABox);});
-      }
+      // spawn thread 2 and start reading from osc
+      _LABSoftOscDisplay->m_flag_run_osc_display = true;
+      m_thread_2 = new std::thread (&LABSoftOscDisplay::run_osc_display, _LABSoftOscDisplay);
+                
+      toggle_btn_panel_osc_enable->set_label ("Enabled");
+      std::cout << "DEBUG: Button enabled.\n";
+    }
   else
     {
-      std::cout << "DEBUG: Button disabled.\n";
+      _LABSoftOscDisplay->m_flag_run_osc_display = false;
+      _LabInABox->m_flag_run_adc_streaming       = false;
       
-      _LABSoftOscDisplay->m_flag_osc_update = false;
-      _LabInABox->m_flag_adc_stream = false;
+      // wait for threads to finish
+      m_thread_1->join ();
+      m_thread_2->join ();
+      
+      delete m_thread_1;
+      delete m_thread_2;
+      
+      std::cout << "Threads joined\n";
+            
+      _LABSoftOscDisplay->fifo_close ();
+      std::cout << "HELLO\n";
+      _LabInABox->fifo_destroy ();
+      std::cout << "HELLO2\n";
       
       toggle_btn_panel_osc_enable->set_label ("Disabled");
-      
-      //if (!worker_thread)
-        //{
-          //std::cout << "Can't stop a worker thread. None is running.\n";
-        //}
-      //else
-        //{
-          //// Order the worker thread to stop and wait for it to stop
-          //worker.stop_work ();
-        //}
+      std::cout << "DEBUG: Button disabled.\n";
     }
 }
 
@@ -111,15 +107,15 @@ LABSoftAppWindow::notify ()
 void 
 LABSoftAppWindow::on_notification_from_worker_thread ()
 {
-  if (worker_thread && worker.has_stopped ())
+  if (m_thread_1 && worker.has_stopped ())
     {
       // Work is done
-      if (worker_thread->joinable ())
-        worker_thread->join ();
+      if (m_thread_1->joinable ())
+        m_thread_1->join ();
       
-      delete worker_thread;
+      delete m_thread_1;
       
-      worker_thread = nullptr;
+      m_thread_1 = nullptr;
     }
 }
 

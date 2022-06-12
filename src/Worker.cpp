@@ -28,7 +28,7 @@ Worker::do_work (LABSoftAppWindow *caller, LabInABox *_LabInABox)
       {
         std::lock_guard<std::mutex> lock (m_mutex);
          
-        _LabInABox->do_streaming ();
+        _LabInABox->run_adc_streaming ();
       
         if (m_shall_stop)
           {

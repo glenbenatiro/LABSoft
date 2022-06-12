@@ -1,6 +1,8 @@
 #ifndef LABSOFTOSCDISPLAY_H
 #define LABSOFTOSCDISPLAY_H
 
+#include <atomic>
+
 #include "LABSoftGlobals.h"
 
 #include <gtkmm/glarea.h>
@@ -9,8 +11,6 @@
 class LABSoftOscDisplay
 {
 private:
-  
-  
   Gtk::GLArea* glarea_disp_graph;
   
   // changeable vars
@@ -56,7 +56,7 @@ private:
       win_height, 
       num_vals,
       m_use_fifo, 
-      m_osc_fifo_fd {0}, 
+      m_fd_osc_fifo {0}, 
       fifo_in, 
       discard, 
       chan_vals,
@@ -71,12 +71,12 @@ private:
 
 public:
 // Flags
-  bool m_flag_osc_update;
+  std::atomic<bool> m_flag_run_osc_display {false};
   
   LABSoftOscDisplay (Glib::RefPtr<Gtk::Builder> builder);
   
 
-  bool idle_handler ();
+  bool run_osc_display ();
   void timer_handler (int value);
 
   // --- Signal Handlers ---
@@ -90,6 +90,7 @@ public:
   int fifo_open_read ();
   int fifo_read (float *vals, int maxvals);
   int is_fifo (const char *fname);
+  int fifo_close ();
   
   // --- GL ---
   GLint get_attrib (GLuint prog, const char *name);
