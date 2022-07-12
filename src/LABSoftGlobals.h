@@ -11,34 +11,34 @@
 const char* const FIFO_NAME    {"/tmp/adc.fifo"};
 const char* const BUILDER_NAME {"../ui/lab.glade"};
 
-#define STREAM_BUFFLEN	10000
-#define	VERBOSE			0
-#define	LOCKSTEP		0
+#define STREAM_BUFFLEN	BUFF_LEN * MAX_BUFFS
+#define	VERBOSE			    0
+#define	LOCKSTEP		    0
 
 #define FMT_USEC        1
-#define SAMPLE_COUNT	100	 // number of samples per block
+#define SAMPLE_COUNT	  3200	 // number of samples per block
 
 // SPI clock frequency
-#define MIN_SPI_FREQ    10000
-#define MAX_SPI_FREQ    1000000
-#define SPI_FREQ        1000000
+#define MIN_SPI_FREQ    1000000
+#define MAX_SPI_FREQ    20000000
+#define SPI_FREQ        20000000
 
 // input channels
 #define IN_CHANS		1
 
 // Non-cached memory size
-#define MAX_SAMPS       1024
+#define MAX_SAMPS       16384
 #define SAMP_SIZE       4
 #define BUFF_LEN        (MAX_SAMPS * SAMP_SIZE)
 #define MAX_BUFFS       2
 #define VC_MEM_SIZE     (PAGE_SIZE + (BUFF_LEN * MAX_BUFFS))
 
 // Default & max sample rate (samples/sec)
-#define SAMPLE_RATE     200000     
-#define MAX_SAMPLE_RATE 200000
+#define SAMPLE_RATE     800000 // it is x4 of value placed   
+#define MAX_SAMPLE_RATE 800000
 
 // PWM definitions: divisor, and reload value
-#define PWM_FREQ        1000000
+#define PWM_FREQ        10000000
 #define PWM_VALUE       2
 
 // ADC sample size (2 bytes, with 11 data bits)
@@ -60,11 +60,8 @@ const char* const BUILDER_NAME {"../ui/lab.glade"};
 #define VERSION "0.1"
 
 
-
-
 // ----------
 
-// Select RPi version
 #if RPI_VERSION == 0
   #define PHYS_REG_BASE PI_01_REG_BASE
   #define CLOCK_HZ      250000000
