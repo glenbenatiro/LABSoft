@@ -11,7 +11,7 @@ private:
     
   int         in_chans, 
               sample_count, 
-              sample_rate,
+              ,
               m_fd_adc_fifo {0},
               lockstep {0},
               data_format,

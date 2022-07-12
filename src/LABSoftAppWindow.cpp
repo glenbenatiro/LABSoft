@@ -61,15 +61,15 @@ LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled ()
       _LABSoftOscDisplay->fifo_open_read ();
             
       // open fifo for adc writing
-      _LabInABox->fifo_open_write ();
+      //_LabInABox->fifo_open_write ();
       
       // spawn thread 1, set adc_streaming flag to true
       _LabInABox->m_flag_run_adc_streaming = true;
       m_thread_1 = new std::thread (&LabInABox::run_adc_streaming, _LabInABox);
       
       // spawn thread 2 and start reading from osc
-      _LABSoftOscDisplay->m_flag_run_osc_display = true;
-      m_thread_2 = new std::thread (&LABSoftOscDisplay::run_osc_display, _LABSoftOscDisplay);
+      //_LABSoftOscDisplay->m_flag_run_osc_display = true;
+      //m_thread_2 = new std::thread (&LABSoftOscDisplay::run_osc_display, _LABSoftOscDisplay);
                 
       toggle_btn_panel_osc_enable->set_label ("Enabled");
       std::cout << "DEBUG: Button enabled.\n";
@@ -81,10 +81,10 @@ LABSoftAppWindow::on_toggle_btn_panel_osc_enable_toggled ()
       
       // wait for threads to finish
       m_thread_1->join ();
-      m_thread_2->join ();
+      //m_thread_2->join ();
       
       delete m_thread_1;
-      delete m_thread_2;
+      //delete m_thread_2;
       
       std::cout << "Threads joined\n";
             

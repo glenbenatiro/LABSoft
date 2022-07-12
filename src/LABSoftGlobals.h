@@ -34,8 +34,8 @@ const char* const BUILDER_NAME {"../ui/lab.glade"};
 #define VC_MEM_SIZE     (PAGE_SIZE + (BUFF_LEN * MAX_BUFFS))
 
 // Default & max sample rate (samples/sec)
-#define SAMPLE_RATE     1000     
-#define MAX_SAMPLE_RATE 50000
+#define SAMPLE_RATE     200000     
+#define MAX_SAMPLE_RATE 200000
 
 // PWM definitions: divisor, and reload value
 #define PWM_FREQ        1000000

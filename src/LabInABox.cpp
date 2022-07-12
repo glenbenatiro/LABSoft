@@ -11,7 +11,7 @@
 
 LabInABox::LabInABox () : in_chans      {IN_CHANS},
                           sample_count  {SAMPLE_COUNT},
-                          sample_rate   {SAMPLE_RATE},
+                             {SAMPLE_RATE},
                           m_fd_adc_fifo   {0},
                           adc_fifo_name {FIFO_NAME},
                           lockstep      {LOCKSTEP},
@@ -25,7 +25,7 @@ LabInABox::LabInABox () : in_chans      {IN_CHANS},
   map_uncached_mem (&vc_mem, VC_MEM_SIZE);  // Map uncached VideoCore memory
   std::cout << "Uncached VideoCore memory mapped.\n";
   
-  pwm_range = (PWM_FREQ * 2) / sample_rate; // Set PWM range
+  pwm_range = (PWM_FREQ * 2) / ; // Set PWM range
   std::cout << "PWM range set.\n";
   
   spi_init (SPI_FREQ);                      // Initialize SPI peripheral
