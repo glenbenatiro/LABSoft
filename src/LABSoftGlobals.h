@@ -150,6 +150,7 @@ const char* const spi_regstrs[] =
 #define ADC_RAW_VAL(d)  (((uint16_t)(d) & 0x003f) << 6) | (((uint16_t)(d) & 0xfc00) >> 10)
 
 
+
 // --- GPIO ---
 // GPIO register definitions
 #define GPIO_BASE       (PHYS_REG_BASE + 0x200000)
