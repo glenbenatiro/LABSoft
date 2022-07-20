@@ -467,18 +467,21 @@ void do_streaming(MEM_MAP *mp, char *vals, int maxlen, int nsamp)
     }
     if (fifo_fd)
     {
-        if ((n=adc_stream_csv(mp, vals, maxlen, nsamp)) > 0)
-        {
-            if (!write_fifo(fifo_fd, vals, n))
+      adc_stream_csv(mp, vals, maxlen, nsamp);
+      
+        //if ((n=adc_stream_csv(mp, vals, maxlen, nsamp)) > 0)
+        //{
+            if (!write_fifo(fifo_fd, rx_buff, nsamp * 4))
+            
             {
                 printf("Stopped streaming\n");
                 close(fifo_fd);
                 fifo_fd = 0;
                 usleep(100000);
             }
-        }
-        else
-          usleep(10);
+        //}
+        //else
+          //usleep(10);
     }
 }
 
@@ -510,9 +513,12 @@ int adc_stream_csv(MEM_MAP *mp, char *vals, int maxlen, int nsamp)
     
     for (n=0; n<2 && slen==0; n++)
     {	
+      printf ("+");
+      
         if (dp->states[n])
         {
-		
+          printf (".");
+          
             samp_total += nsamp;
             memcpy(rx_buff, n ? (void *)dp->rxd2 : (void *)dp->rxd1, nsamp*4);
             usec = dp->usecs[n];
@@ -525,27 +531,27 @@ int adc_stream_csv(MEM_MAP *mp, char *vals, int maxlen, int nsamp)
             dp->states[n] = 0;
             if (usec_start == 0)
                 usec_prev = usec_start = usec;
-            if (!lockstep || fifo_freespace(fifo_fd)>=fifo_size)
-            {
-                if (data_format == FMT_USEC)
-                {
-                    usec_time = usec - usec_start;
-                    slen += sprintf(&vals[slen], "%u, ", usec_time);
-                    // usec_delta = usec_time;
+            //if (!lockstep || fifo_freespace(fifo_fd)>=fifo_size)
+            //{
+                //if (data_format == FMT_USEC)
+                //{
+                    //usec_time = usec - usec_start;
+                    //slen += sprintf(&vals[slen], "%u, ", usec_time);
+                    //// usec_delta = usec_time;
                     
-                }
+                //}
                 
-                for (i=0; i<nsamp && slen+20<maxlen; i++)
-                    slen += sprintf(&vals[slen], "%s%4.3f", slen ? "," : "",
-                        ADC_VOLTAGE(ADC_RAW_VAL(rx_buff[i])));
-                slen += sprintf(&vals[slen], "\n");
-                if (verbose)
-                {
-                    for (int i=0; i<nsamp*4; i++)
-                        printf("%02X ", *(((uint8_t *)rx_buff)+i));
-                    printf("\n");
-                }                
-            }
+                //for (i=0; i<nsamp && slen+20<maxlen; i++)
+                    //slen += sprintf(&vals[slen], "%s%4.3f", slen ? "," : "",
+                        //ADC_VOLTAGE(ADC_RAW_VAL(rx_buff[i])));
+                //slen += sprintf(&vals[slen], "\n");
+                //if (verbose)
+                //{
+                    //for (int i=0; i<nsamp*4; i++)
+                        //printf("%02X ", *(((uint8_t *)rx_buff)+i));
+                    //printf("\n");
+                //}                
+            //}
         }
     }
     vals[slen] = 0;

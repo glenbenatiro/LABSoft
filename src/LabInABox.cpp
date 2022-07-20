@@ -140,10 +140,10 @@ LabInABox::adc_dma_init (MEM_MAP *mp,
       .cbs = {
         // Rx input: read data from usec clock and SPI, into 2 ping-pong buffers
             {SPI_RX_TI, REG(usec_regs, USEC_TIME), MEM(mp, &dp->usecs[0]),  4, 0, CBS(1), 0}, // 0
-            {SPI_RX_TI, REG(spi_regs, SPI_FIFO),   MEM(mp, dp->rxd1), nsamp*4, 0, CBS(2), 0}, // 1
+            {SPI_RX_TI, REG(spi_regs, SPI_FIFO),   MEM(mp, dp->rxd1), static_cast<uint32_t>(nsamp*4), 0, CBS(2), 0}, // 1
             {SPI_RX_TI, REG(spi_regs, SPI_CS),     MEM(mp, &dp->states[0]), 4, 0, CBS(3), 0}, // 2
             {SPI_RX_TI, REG(usec_regs, USEC_TIME), MEM(mp, &dp->usecs[1]),  4, 0, CBS(4), 0}, // 3
-            {SPI_RX_TI, REG(spi_regs, SPI_FIFO),   MEM(mp, dp->rxd2), nsamp*4, 0, CBS(5), 0}, // 4
+            {SPI_RX_TI, REG(spi_regs, SPI_FIFO),   MEM(mp, dp->rxd2), static_cast<uint32_t>(nsamp*4), 0, CBS(5), 0}, // 4
             {SPI_RX_TI, REG(spi_regs, SPI_CS),     MEM(mp, &dp->states[1]), 4, 0, CBS(0), 0}, // 5
         // Tx output: 2 data writes to SPI for chan 0 & 1, or both chan 0
             {SPI_TX_TI, MEM(mp, dp->txd),          REG(spi_regs, SPI_FIFO), 8, 0, CBS(6), 0}, // 6
@@ -155,7 +155,7 @@ LabInABox::adc_dma_init (MEM_MAP *mp,
         .samp_size = 2,
         .pwm_val = pwm_range,
         .adc_csd = SPI_TFR_ACT | SPI_AUTO_CS | SPI_DMA_EN | SPI_FIFO_CLR | ADC_CE_NUM,
-        .txd={0xd0, in_chans>1 ? 0xf0 : 0xd0},
+        .txd={0xd0, static_cast<uint32_t>(in_chans>1 ? 0xf0 : 0xd0)},
         .usecs = {0, 0}, .states = {0, 0}, .rxd1 = {0}, .rxd2 = {0}
     };
     if (single)                                 // If single-shot, stop after first Rx block

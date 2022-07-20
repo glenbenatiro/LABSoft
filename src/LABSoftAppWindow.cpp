@@ -105,16 +105,7 @@ LABSoftAppWindow::notify ()
 void 
 LABSoftAppWindow::on_notification_from_worker_thread ()
 {
-  if (m_thread_1 && worker.has_stopped ())
-    {
-      // Work is done
-      if (m_thread_1->joinable ())
-        m_thread_1->join ();
-      
-      delete m_thread_1;
-      
-      m_thread_1 = nullptr;
-    }
+
 }
 
 //void
