@@ -1,7 +1,7 @@
 #include "LABSoftApp.h"
 
 // compile with
-// g++ *.cpp -o -pthread LABSoft `pkg-config gtkmm-3.0 epoxy --cflags --libs`
+// g++ *.cpp -o LABSoft `pkg-config gtkmm-3.0 epoxy --cflags --libs`
 
 int 
 main (int   argc, 

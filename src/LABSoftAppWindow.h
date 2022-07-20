@@ -8,7 +8,7 @@
 #include <glibmm/dispatcher.h>
 #include <thread>
 
-#include "Worker.h"
+
 #include "LABSoftOscDisplay.h"
 #include "LabInABox.h"
 
@@ -21,7 +21,6 @@ private:
   Gtk::Button 			*btn_panel_menu1;
   Gtk::ToggleButton *toggle_btn_panel_osc_enable;
     
-  Worker            worker;
   std::thread       *m_thread_1;
   std::thread       *m_thread_2;
   Glib::Dispatcher  dispatcher;

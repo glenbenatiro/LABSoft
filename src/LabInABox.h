@@ -11,13 +11,13 @@ private:
     
   int         in_chans, 
               sample_count, 
-              ,
+              sample_rate,
               m_fd_adc_fifo {0},
               lockstep {0},
               data_format,
               verbose {0};
       
-  const char *adc_fifo_name;
+  const char *m_adc_fifo_name;
 
   MEM_MAP     gpio_regs, // GPIO registers
               dma_regs,  // DMA registers

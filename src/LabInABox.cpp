@@ -11,9 +11,9 @@
 
 LabInABox::LabInABox () : in_chans      {IN_CHANS},
                           sample_count  {SAMPLE_COUNT},
-                             {SAMPLE_RATE},
-                          m_fd_adc_fifo   {0},
-                          adc_fifo_name {FIFO_NAME},
+                          sample_rate   {SAMPLE_RATE},
+                          m_fd_adc_fifo {0},
+                          m_adc_fifo_name {FIFO_NAME},
                           lockstep      {LOCKSTEP},
                           verbose       {VERBOSE}
 { 
@@ -25,19 +25,19 @@ LabInABox::LabInABox () : in_chans      {IN_CHANS},
   map_uncached_mem (&vc_mem, VC_MEM_SIZE);  // Map uncached VideoCore memory
   std::cout << "Uncached VideoCore memory mapped.\n";
   
-  pwm_range = (PWM_FREQ * 2) / ; // Set PWM range
+  pwm_range = (PWM_FREQ * 2) / sample_rate; // Set PWM range
   std::cout << "PWM range set.\n";
   
   spi_init (SPI_FREQ);                      // Initialize SPI peripheral
   std::cout << "SPI initialized.\n";
                      
-  // fifo_aux_create (adc_fifo_name);              // Create FIFO for ADC storage
+  // fifo_aux_create (m_adc_fifo_name);              // Create FIFO for ADC storage
   
   adc_dma_init (&vc_mem, sample_count, 0);  // Initialize and ready all DMA controls
   std::cout << "DMA initialized.\n";
   
-  adc_stream_start ();                      // Start the DMA 
-  std::cout << "PWM started.\n";
+  // adc_stream_start ();                      // Start the DMA 
+  // std::cout << "PWM started.\n";
   
   std::cout << "DEBUG: LabInABox constructor end.\n";
 }  
@@ -60,8 +60,8 @@ LabInABox::~LabInABox ()
   unmap_periph_mem(&dma_regs);
   unmap_periph_mem(&gpio_regs);
   
-  if (adc_fifo_name)
-      fifo_aux_destroy (adc_fifo_name, m_fd_adc_fifo);
+  if (m_adc_fifo_name)
+      fifo_aux_destroy (m_adc_fifo_name, m_fd_adc_fifo);
   if (samp_total)
       printf("Total samples %u, overruns %u\n", samp_total, overrun_total);
       
@@ -83,53 +83,47 @@ LabInABox::run_adc_streaming ()
 {
   int n;
   
-  std::cout << "DEBUG: Start run_adc_streaming thread.\n";
+  adc_stream_stop ();
+  adc_stream_start ();
+  fifo_create ();
   
-  // adc_stream_start ();
+  printf ("DEBUG: running run_adc_streaming\n");
   
-  // thread loop
-  while (true)
+  while (m_flag_run_adc_streaming)
     {
-      // check stream flag is enabled
-      if (m_flag_run_adc_streaming)
-        {   
-          // check if fifo is present and opened 
-          if (m_fd_adc_fifo)
+      if (!m_fd_adc_fifo)
+        {
+          if ((m_fd_adc_fifo = fifo_open_write ()) > 0)
             {
-              std::cout << ".";
-              
-              // fetch samples from ADC buffer, store it in stream_buff
-              if ((n = adc_stream_csv (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count)) > 0)
-                {    
-                  
-                  
-                  //// write stream_buff to FIFO. close if write fail
-                  //if (!fifo_write (m_fd_adc_fifo, stream_buff, n))
-                    //{
-                      //printf ("Stopped streaming\n");
-                      //close (m_fd_adc_fifo);
-                      //m_fd_adc_fifo = 0;
-                      //usleep (100000);
-                    //}
-                  //else
-                    //{
-                      //usleep(10);
-                    //}
+              printf ("Started streaming to FIFO '%s'\n", m_adc_fifo_name);
+              fifo_size = fifo_freespace (m_fd_adc_fifo);
+            }
+        }
+        
+      if (m_fd_adc_fifo)
+        {
+          if ((n = adc_stream_csv (&vc_mem, stream_buff, STREAM_BUFFLEN, sample_count)) > 0)
+            {
+              printf("e");
+              if (!fifo_write (m_fd_adc_fifo, stream_buff, n))
+                {
+                  printf ("Stopped streaming\n");
+                  close (m_fd_adc_fifo);
+                  m_fd_adc_fifo = 0;
+                  usleep (100000);
                 }
             }
           else 
-            { 
-              fifo_open_write ();
-              // if m_fd_adc_fifo is equal to or less than zero; no fifo present
+            {
+              usleep (10);
             }
-          }
-      else
-        {
-          break;
         }
     }
   
-  std::cout << "DEBUG: End run_adc_streaming thread.\n";
+  fifo_destroy ();
+  adc_stream_stop ();
+  
+  printf ("DEBUG: exiting run_adc_streaming");
 }
 
 // --- ADC ---
@@ -139,51 +133,41 @@ LabInABox::adc_dma_init (MEM_MAP *mp,
                          int      nsamp, 
                          int      single)
 { 
-  ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
-  // ADC_DMA_DATA *dp = mp->virt;
+  ADC_DMA_DATA *dp = reinterpret_cast<ADC_DMA_DATA*>(mp->virt);
   
-  ADC_DMA_DATA dma_data = {
-    .cbs = 
-       {
-         // Rx input: read data from usec clock and SPI, into 2 ping-pong buffers
-         {SPI_RX_TI, REG (usec_regs, USEC_TIME), MEM (mp, &dp->usecs[0]),                        4,  0, CBS (1), 0}, // 0
-         {SPI_RX_TI, REG (spi_regs, SPI_FIFO),   MEM (mp, dp->rxd1), static_cast<uint32_t>(nsamp*4), 0, CBS (2), 0}, // 1
-         {SPI_RX_TI, REG (spi_regs, SPI_CS),     MEM (mp, &dp->states[0]),                       4,  0, CBS (3), 0}, // 2
-         {SPI_RX_TI, REG (usec_regs, USEC_TIME), MEM (mp, &dp->usecs[1]),                        4,  0, CBS (4), 0}, // 3
-         {SPI_RX_TI, REG (spi_regs, SPI_FIFO),   MEM (mp, dp->rxd2), static_cast<uint32_t>(nsamp*4), 0, CBS (5), 0}, // 4
-         {SPI_RX_TI, REG (spi_regs, SPI_CS),     MEM (mp, &dp->states[1]),                       4,  0, CBS (0), 0}, // 5
-        
-         // Tx output: 2 data writes to SPI for chan 0 & 1, or both chan 0
-         {SPI_TX_TI, MEM (mp, dp->txd),          REG (spi_regs, SPI_FIFO), 8, 0, CBS (6), 0}, // 6
-        
-         // PWM ADC trigger: wait for PWM, set sample length, trigger SPI
-         {PWM_TI,    MEM (mp, &dp->pwm_val),     REG (pwm_regs, PWM_FIF1), 4, 0, CBS (8), 0}, // 7
-         {PWM_TI,    MEM (mp, &dp->samp_size),   REG (spi_regs, SPI_DLEN), 4, 0, CBS (9), 0}, // 8
-         {PWM_TI,    MEM (mp, &dp->adc_csd),     REG (spi_regs, SPI_CS),   4, 0, CBS (7), 0}, // 9
-       },
-     .samp_size = 2, 
-     .pwm_val   = pwm_range, 
-     .adc_csd   = (SPI_TFR_ACT | SPI_AUTO_CS | SPI_DMA_EN | SPI_FIFO_CLR | ADC_CE_NUM),
-     .txd       = {0xd0, static_cast<uint32_t>(in_chans > 1 ? 0xf0 : 0xd0)},
-     .usecs     = {0, 0}, 
-     .states    = {0, 0}, 
-     .rxd1      = {0}, 
-     .rxd2      = {0}
+  
+    ADC_DMA_DATA dma_data = {
+      .cbs = {
+        // Rx input: read data from usec clock and SPI, into 2 ping-pong buffers
+            {SPI_RX_TI, REG(usec_regs, USEC_TIME), MEM(mp, &dp->usecs[0]),  4, 0, CBS(1), 0}, // 0
+            {SPI_RX_TI, REG(spi_regs, SPI_FIFO),   MEM(mp, dp->rxd1), static_cast<uint32_t>(nsamp*4), 0, CBS(2), 0}, // 1
+            {SPI_RX_TI, REG(spi_regs, SPI_CS),     MEM(mp, &dp->states[0]), 4, 0, CBS(3), 0}, // 2
+            {SPI_RX_TI, REG(usec_regs, USEC_TIME), MEM(mp, &dp->usecs[1]),  4, 0, CBS(4), 0}, // 3
+            {SPI_RX_TI, REG(spi_regs, SPI_FIFO),   MEM(mp, dp->rxd2), static_cast<uint32_t>(nsamp*4), 0, CBS(5), 0}, // 4
+            {SPI_RX_TI, REG(spi_regs, SPI_CS),     MEM(mp, &dp->states[1]), 4, 0, CBS(0), 0}, // 5
+        // Tx output: 2 data writes to SPI for chan 0 & 1, or both chan 0
+            {SPI_TX_TI, MEM(mp, dp->txd),          REG(spi_regs, SPI_FIFO), 8, 0, CBS(6), 0}, // 6
+        // PWM ADC trigger: wait for PWM, set sample length, trigger SPI
+            {PWM_TI,    MEM(mp, &dp->pwm_val),     REG(pwm_regs, PWM_FIF1), 4, 0, CBS(8), 0}, // 7
+            {PWM_TI,    MEM(mp, &dp->samp_size),   REG(spi_regs, SPI_DLEN), 4, 0, CBS(9), 0}, // 8
+            {PWM_TI,    MEM(mp, &dp->adc_csd),     REG(spi_regs, SPI_CS),   4, 0, CBS(7), 0}, // 9
+        },
+        .samp_size = 2,
+        .pwm_val = pwm_range,
+        .adc_csd = SPI_TFR_ACT | SPI_AUTO_CS | SPI_DMA_EN | SPI_FIFO_CLR | ADC_CE_NUM,
+        .txd={0xd0, static_cast<uint32_t>(in_chans>1 ? 0xf0 : 0xd0)},
+        .usecs = {0, 0}, .states = {0, 0}, .rxd1 = {0}, .rxd2 = {0}
     };
-
-  if (single)                                 // If single-shot, stop after first Rx block
-    dma_data.cbs[2].next_cb = 0;
-    
-  memcpy (dp, &dma_data, sizeof(dma_data));    // Copy DMA data into uncached memory
-  pwm_init (PWM_FREQ, pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
-      
-  *REG32 (pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
-  *REG32 (spi_regs, SPI_DC)   = (8 << 24) | (1 << 16) | (8 << 8) | 1; // Set DMA priorities
-  *REG32 (spi_regs, SPI_CS)   = SPI_FIFO_CLR;                         // Clear SPI FIFOs
-    
-  dma_start (mp, DMA_CHAN_C, &dp->cbs[6], 0); // Start SPI Tx DMA
-  dma_start (mp, DMA_CHAN_B, &dp->cbs[0], 0); // Start SPI Rx DMA
-  dma_start (mp, DMA_CHAN_A, &dp->cbs[7], 0); // Start PWM DMA, for SPI trigger
+    if (single)                                 // If single-shot, stop after first Rx block
+        dma_data.cbs[2].next_cb = 0;
+    memcpy(dp, &dma_data, sizeof(dma_data));    // Copy DMA data into uncached memory
+    pwm_init(PWM_FREQ, pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
+    *REG32(pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
+    *REG32(spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
+    *REG32(spi_regs, SPI_CS) = SPI_FIFO_CLR;                    // Clear SPI FIFOs
+    dma_start(mp, DMA_CHAN_C, &dp->cbs[6], 0);  // Start SPI Tx DMA
+    dma_start(mp, DMA_CHAN_B, &dp->cbs[0], 0);  // Start SPI Rx DMA
+    dma_start(mp, DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 }
 
 // Fetch samples from ADC buffer, return comma-delimited integer values
@@ -198,14 +182,13 @@ LabInABox::adc_stream_csv (MEM_MAP *mp,
   
   uint32_t i, n, usec, slen = 0;
   
-    
   for (n = 0; n < 2 && slen == 0 ; n++)
-    {
-      // for some reason, program doesnt go to dp states n    
+    {         
+      // !! for some reason, program doesnt go to if dp states n 
       if (dp->states[n])
-        {
-          std::cout << "b";
-         
+        {               
+          printf (".");
+             
           samp_total += nsamp;
           memcpy(rx_buff, n ? (void *)dp->rxd2 : (void *)dp->rxd1, nsamp*4);
           usec = dp->usecs[n];
@@ -269,7 +252,7 @@ LabInABox::adc_stream_stop ()
 void
 LabInABox::fifo_create ()
 {
-  fifo_aux_create (FIFO_NAME);
+  fifo_aux_create (m_adc_fifo_name);
 }
 
 // Create a FIFO (named pipe)
@@ -301,9 +284,7 @@ LabInABox::fifo_aux_create (const char *fifo_name)
 void 
 LabInABox::fifo_destroy ()
 {
-  // fifo_aux_destroy (adc_fifo_name, m_fd_adc_fifo);
-  
-  std::cout << "i am here!\n";
+  // fifo_aux_destroy (m_adc_fifo_name, m_fd_adc_fifo);
   
   if (m_fd_adc_fifo > 0)
     {
@@ -321,7 +302,7 @@ LabInABox::fifo_destroy ()
       std::cout << "FAIL: m_fd_adc_fifo is less than or equal to zero\n";
     }
     
-  if (unlink (FIFO_NAME) != 0)
+  if (unlink (m_adc_fifo_name) != 0)
     std::cout << "FAIL: error in unlinking fifo_name in LabInABox\n";
   else
     std::cout << "DEBUG: success unlinking fifo_name in LabInABox\n";
@@ -350,24 +331,13 @@ LabInABox::fifo_aux_destroy (const char *fifo_name,
   
 }
 
-
+// Open a FIFO for writing, return 0 if there is no reader
 int 
 LabInABox::fifo_open_write ()
 {
-  if (!m_fd_adc_fifo)
-    {
-      if (m_fd_adc_fifo = fifo_aux_open_write (adc_fifo_name) > 0) // open in nonblockingmode
-        {
-          printf ("DEBUG: LabInABox opened FIFO '%s' for wriring\n", adc_fifo_name);
-          fifo_size = fifo_freespace (m_fd_adc_fifo);
-        }
-      else
-        {
-          printf ("FAIL: Failed opening FIFO '%s'.\n", adc_fifo_name, m_fd_adc_fifo);
-        }
-    }
+  int f = open (m_adc_fifo_name, O_WRONLY | O_NONBLOCK);
   
-  return (m_fd_adc_fifo);
+  return (f == -1 ? 0 : f);
 }
 
 int 
@@ -411,7 +381,7 @@ LabInABox::fifo_close ()
 const char*
 LabInABox::fifo_get_name ()
 {
-  return adc_fifo_name;
+  return m_adc_fifo_name;
 }
 
 
