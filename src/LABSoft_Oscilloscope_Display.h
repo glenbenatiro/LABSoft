@@ -1,59 +1,73 @@
 #ifndef LABSOFT_OSCILLOSCOPE_DISPLAY_H
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_H
 
-#include <FL/fl_draw.H>
-#include <FL/Enumerations.H>
 #include <stdio.h>
 #include <cmath>
 #include <vector>
+#include <iostream>
+#include <cstdlib>
+
+#include <FL/fl_draw.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl_Box.H>
 
 #include "LAB_Globals.h"
-
 
 #define GREEN     0xb0			// brightness
 #define GREENBURN (0xff-GREEN)		// burn brightness
 
 // NTSC color bar scope simulator
-class LABSoft_Oscilloscope_Display : public Fl_Widget 
-{
-  private:
-  int m_number_of_rows,
+class LABSoft_Oscilloscope_Display : public Fl_Widget
+{ 
+  public:
+    const double m_pi = 3.14159265358979323846264338327950;
+
+    // value buffers
+    std::vector<std::vector<int>> m_channel_1_display_buffer,
+                                  m_channel_2_display_buffer;
+
+    std::vector<float>            m_channel_1_values_buffer,  
+                                  m_channel_2_values_buffer;
+
+    // for displaying
+    float     m_x_zoom = 1,        // zoom, x/y offset
+              m_y_zoom = 1,
+              m_x_offset = 0,
+              m_y_offset = 0,
+              m_max_amplitude,
+              m_time_per_division = 1.0,
+              m_volts_per_division = 1.0; // default to 1 second
+          
+    // for function generator
+    float     m_amplitude = 1.0, // in volts
+              m_frequency = 1.0, // in hz
+              m_phase = 0.0;     // in DEGREES
+          
+    WaveType  m_wave_type = SINE;   
+
+  
+
+    bool m_flag_global_enable = false,
+         m_flag_channel_1_enable = true,
+         m_flag_channel_2_enable = false;
+
+         int m_number_of_rows,
       m_number_of_columns,
       m_channel_1_line_color,
       m_channel_2_line_color,
       m_display_relative_x_position,
       m_display_relative_y_position,
       m_background_color;
+    
 
-  bool m_flag_global_enable = false,
-       m_flag_channel_1_enable = true,
-       m_flag_channel_2_enable = true;
 
-  protected:
-    // these vectors store the converted voltage values which are converted to x and y coordinates to be drawn on screen
-    // index 0 is the x coordinate, index 1 is the y coordinate
-    std::vector<std::vector<int>> m_display_buffer_channel_1,
-                                  m_display_buffer_channel_2;
 
-    // these vectors store the converted voltage values (from min amplitude to max amplitude)
-    std::vector<float>  m_values_buffer_channel_1,  // converted voltage values
-                        m_values_buffer_channel_2;
-
-    // to be used in wave generator
-    float m_frequency = 1.0; 
-
-  float const m_pi = 3.141592653589; // 12 decimal places
   
   int m_grid_color;
 
   char m_stop;	         // 'stop drawing' flag
 
-  float m_x_zoom,        // zoom, x/y offset
-        m_y_zoom, 
-        m_x_offset, 
-        m_y_offset,
-        m_max_amplitude,
-        m_time_per_division = 1.0; // default to 1 second
+  
 
   
                        
@@ -66,9 +80,9 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
   float m_beam_x, 
         m_beam_y;			   // current beam position
 
-    
-
+  // draw commands
   void LABSoft_Oscilloscope_Display_draw_line (float x1, float y1, float x2, float y2);
+  
   void LABSoft_Oscilloscope_Display_trace_relative (float xo, float yo);
   void LABSoft_Oscilloscope_Display_trace_to (float x2, float y2);
 
@@ -80,37 +94,53 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
   void  LABSoft_Oscilloscope_Display_draw_grid ();
   void  draw ();
 
-public:
-        LABSoft_Oscilloscope_Display (int x, int y, int w, int h);
-  float LABSoft_Oscilloscope_Display_get_x_zoom   ();
-  float LABSoft_Oscilloscope_Display_get_y_zoom   ();
-  float LABSoft_Oscilloscope_Display_get_x_offset ();
-  float LABSoft_Oscilloscope_Display_get_y_offset ();
+  public:
+    LABSoft_Oscilloscope_Display (int x, int y, int w, int h);
 
-  void  LABSoft_Oscilloscope_Display_set_x_zoom   (float val);
-  void  LABSoft_Oscilloscope_Display_set_y_zoom   (float val);
-  void  LABSoft_Oscilloscope_Display_set_x_offset (float val);
-  void  LABSoft_Oscilloscope_Display_set_y_offset (float val);
+    void LABSoft_Oscilloscope_Display_reload ();
 
-  void  LABSoft_Oscilloscope_Display_save         ();
-  void  LABSoft_Oscilloscope_Display_load         ();
+    // getters
+    float LABSoft_Oscilloscope_Display_get_x_zoom   ();
+    float LABSoft_Oscilloscope_Display_get_y_zoom   ();
+    float LABSoft_Oscilloscope_Display_get_x_offset ();
+    float LABSoft_Oscilloscope_Display_get_y_offset ();
 
-  void  LABSoft_Oscilloscope_Display_set_test_pattern (char flag);
+    // setters
+    void  LABSoft_Oscilloscope_Display_set_x_zoom   (float value);
+    void  LABSoft_Oscilloscope_Display_set_y_zoom   (float value);
+    void  LABSoft_Oscilloscope_Display_set_x_offset (float value);
+    void  LABSoft_Oscilloscope_Display_set_y_offset (float value);
+    void  LABSoft_Oscilloscope_Display_set_volts_per_division (float value);
 
-  void  LABSoft_Oscilloscope_Display_black_pattern ();
+    //
 
-  void  LABSoft_Oscilloscope_Display_normalize_values_to_display (int channel);
+    void  LABSoft_Oscilloscope_Display_save         ();
+    void  LABSoft_Oscilloscope_Display_load         ();
 
-  void  LABSoft_Oscilloscope_Display_generate_sine_sample (int channel, float amplitude, float frequency);
+    void  LABSoft_Oscilloscope_Display_set_test_pattern (char flag);
 
-  
+    void  LABSoft_Oscilloscope_Display_black_pattern ();
 
-  void LABSoft_Oscilloscope_Display_set_time_per_division (float value);
+    void  LABSoft_Oscilloscope_Display_normalize_values_to_display (int channel);
 
-  void LABSoft_Oscilloscope_Display_display_enable ();
-  void LABSoft_Oscilloscope_Display_display_disable ();
+    void  LABSoft_Oscilloscope_Display_generate_sine_sample (int channel, float amplitude, float frequency);
 
-  void LABSoft_Oscilloscope_Display_reload_and_draw ();
+    
+
+    void LABSoft_Oscilloscope_Display_set_time_per_division (float valueue);
+
+    void LABSoft_Oscilloscope_Display_display_enable ();
+    void LABSoft_Oscilloscope_Display_display_disable ();
+
+    void LABSoft_Oscilloscope_Display_reload_and_draw ();
+
+      // setters
+      void LABSoft_Oscilloscope_Display_set_wave_type (WaveType wave_type);
+      void LABSoft_Oscilloscope_Display_set_amplitude (float value);
+      void LABSoft_Oscilloscope_Display_set_frequency (float value);
+      void LABSoft_Oscilloscope_Display_set_phase (float value);
+
+      void LABSoft_Oscilloscope_Display_generate_wave ();
 };
 
 #endif

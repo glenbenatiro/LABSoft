@@ -18,12 +18,23 @@ ADD_EXECUTABLE(LABSoft
   src/main.cpp
   src/LABSoft.cpp
   src/LABSoft_GUI.cpp
+
+  src/LABSoft_Controller.cpp
+  src/LABSoft_Controller_Voltmeter.cpp
+  src/LABSoft_Controller_Main.cpp
+
+  src/LABSoft_Oscilloscope_Display_Group.cpp
   src/LABSoft_Oscilloscope_Display.cpp
-  src/LABSoft_Function_Generator_Display.cpp
   src/LAB.cpp
   src/LAB_Core.cpp
   src/LAB_Oscilloscope.cpp
+  src/LAB_Meter.cpp
+  src/LAB_Voltmeter.cpp
+  src/LAB_Ammeter.cpp
+  src/LAB_Ohmmeter.cpp
   src/LAB_Function_Generator.cpp
+  src/LAB_Power_Supply.cpp
+  src/LAB_Globals.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

@@ -115,9 +115,61 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.s
 
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Controller_Voltmeter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Controller_Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.cpp
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: ../src/LABSoft_Oscilloscope_Display_Group.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.s
+
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/LABSoft_Oscilloscope_Display.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.i: cmake_force
@@ -128,22 +180,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.s
 
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o: CMakeFiles/LABSoft.dir/flags.make
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o: ../src/LABSoft_Function_Generator_Display.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Function_Generator_Display.cpp
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Function_Generator_Display.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Function_Generator_Display.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s
-
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB.cpp
 
 CMakeFiles/LABSoft.dir/src/LAB.cpp.i: cmake_force
@@ -156,7 +195,7 @@ CMakeFiles/LABSoft.dir/src/LAB.cpp.s: cmake_force
 
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Core.cpp
 
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.i: cmake_force
@@ -169,7 +208,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.s: cmake_force
 
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
 
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.i: cmake_force
@@ -180,9 +219,61 @@ CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.s
 
+CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/LAB_Meter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Meter.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_Meter.cpp > CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Meter.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp > CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/LAB_Ammeter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Ammeter.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_Ammeter.cpp > CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Ammeter.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Ohmmeter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.cpp > CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.s
+
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Function_Generator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
 
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.i: cmake_force
@@ -193,17 +284,52 @@ CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.s
 
+CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/LAB_Power_Supply.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp > CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o: ../src/LAB_Globals.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_Globals.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_Globals.cpp > CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_Globals.cpp -o CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.s
+
 # Object files for target LABSoft
 LABSoft_OBJECTS = \
 "CMakeFiles/LABSoft.dir/src/main.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LAB.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
+"CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o"
 
 # External object files for target LABSoft
 LABSoft_EXTERNAL_OBJECTS =
@@ -211,16 +337,25 @@ LABSoft_EXTERNAL_OBJECTS =
 LABSoft: CMakeFiles/LABSoft.dir/src/main.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
-LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LAB.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/build.make
 LABSoft: /usr/lib/arm-linux-gnueabihf/libfltk.so
 LABSoft: CMakeFiles/LABSoft.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable LABSoft"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable LABSoft"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LABSoft.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

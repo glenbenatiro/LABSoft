@@ -20,6 +20,8 @@
 
 #define DATA_FORMAT  1
 
+#define DISPLAY_UPDATE_RATE 0.04 // 25 Hz/FPS
+
 // if non-zero, print debug info
 #define DEBUG       0
 
@@ -32,7 +34,7 @@
 
 
 // for oscilloscope display
-#define OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS       8
+#define OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS       10
 #define OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS    10
 #define OSCILLOSCOPE_DISPLAY_GRID_COLOR           0xC0C0C000
 #define OSCILLOSCOPE_DISPLAY_MAX_AMPLITUDE        5.0
@@ -340,39 +342,10 @@ ADC_DMA_DATA;
 #define USEC_TIME 0x04
 
 // ---
-enum WaveType {SINE, SQUARE, TRIANGLE};
+enum WaveType {SINE, SQUARE, TRIANGLE, DC};
 
-float GLOBAL_label_to_value (const char *label)
-{
-  float value = atof (strtok (strdup (label), " "));
-  char *unit  = strtok (NULL, "sH");
-  float scaler;
-    
-  if (unit != NULL)
-    {
-      if (!strcmp (unit, "G"))
-        scaler = 1000000000;
-      else if (!strcmp (unit, "M"))
-        scaler = 1000000;
-      else if (!strcmp (unit, "k"))
-        scaler = 1000;
-      else if (!strcmp (unit, ""))
-        scaler = 1;
-      else if (!strcmp (unit, "m"))
-        scaler = 0.001;
-      else if (!strcmp (unit, "u"))
-        scaler = 0.000001;
-      else if (!strcmp (unit, "n"))
-        scaler = 0.000000001;
-      else
-        scaler = 1;
-    }
-  else 
-    {
-      return 0;
-    }
+float LAB_Globals_label_to_value (const char *label);
 
-  return value * scaler;  
-}
+
 
 #endif
