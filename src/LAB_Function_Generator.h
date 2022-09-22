@@ -16,31 +16,19 @@
 
 class LAB_Function_Generator : public LAB_Core
 {
-  private:
-    float m_frequency = 1.0;
-    float m_amplitude = 1.0;
-    WaveType m_wave_type = SINE;
-    bool m_flag_global_enable = false;
-  
   public:
-    
-    LAB_Function_Generator ();
+    float m_frequency,
+          m_period,
+          m_amplitude,
+          m_y_offset, 
+          m_duty_cycle,
+          m_phase;
 
-    // setters
-    void LAB_Function_Generator_set_wave_type (WaveType wave_type);
-    void LAB_Function_Generator_set_amplitude (float amplitude);   
-    void LAB_Function_Generator_set_period_or_frequency (Fl_Input_Choice *w, void *data);
-                                                                  
-    // callback functions
-    void LAB_Function_Generator_cb_function_generator_fl_light_button_start_stop (Fl_Light_Button *w, void *data);
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_wave_type (Fl_Input_Choice *w, void *data);
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_frequency (Fl_Input_Choice *w, void *data);
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_period (Fl_Input_Choice *w, void *data);   
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_amplitude (Fl_Input_Choice *w, void *data);
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_offset (Fl_Input_Choice *w, void *data);
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_time_per_division (Fl_Input_Choice *w, void *data);  
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_volts_per_division (Fl_Input_Choice *w, void *data);
-    void LAB_Function_Generator_cb_function_generator_fl_input_choice_phase (Fl_Input_Choice *w, void *data);
+    WaveType m_wave_type;
+
+    bool m_flag_is_running = false;
+  
+    LAB_Function_Generator ();
 };
 
 #endif

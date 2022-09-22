@@ -22,10 +22,19 @@ LABSoft_Oscilloscope_Display (int X,
   m_channel_2_line_color  = OSCILLOSCOPE_DISPLAY_CHANNEL_2_LINE_COLOR;
   m_background_color      = OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR;
 
+  // load in default values for function generator
+  m_frequency   = LAB_DEFAULTS_FUNCTION_GENERATOR_FREQUENCY; 
+  m_period      = LAB_DEFAULTS_FUNCTION_GENERATOR_PERIOD; 
+  m_amplitude   = LAB_DEFAULTS_FUNCTION_GENERATOR_AMPLITUDE; 
+  //m_offset      = LAB_DEFAULTS_FUNCTION_GENERATOR_OFFSET;  
+  m_duty_cycle  = LAB_DEFAULTS_FUNCTION_GENERATOR_DUTY_CYCLE; 
+  m_phase       = LAB_DEFAULTS_FUNCTION_GENERATOR_PHASE; 
+  m_wave_type   = LAB_DEFAULTS_FUNCTION_GENERATOR_WAVE_TYPE;
+
   m_x_zoom = 1;
   m_y_zoom = 1;
   m_x_offset = 0;
-  m_y_offset = 0;
+  m_y_offset = LAB_DEFAULTS_FUNCTION_GENERATOR_Y_OFFSET; 
 
   //
   m_display_relative_x_position = X;
@@ -38,6 +47,8 @@ LABSoft_Oscilloscope_Display (int X,
   // resize 2D vectors
   m_channel_1_display_buffer.resize (w (), std::vector<int> (2));
   m_channel_2_display_buffer.resize (w (), std::vector<int> (2));
+
+  LABSoft_Oscilloscope_Display_generate_wave ();
 }
 
 void LABSoft_Oscilloscope_Display::
@@ -71,15 +82,7 @@ LABSoft_Oscilloscope_Display_normalize_values_to_display (int channel)
     {
       (*points)[a][0] = x () + a;
 
-      if ((*vals)[a] >= scaled_max_amplitude)
-        {
-          (*points)[a][1] = y ();
-        }
-      else if ((*vals)[a] <= (-1 * scaled_max_amplitude))
-        {
-          (*points)[a][1] = y () + h ();
-        }
-      else if ((*vals)[a] == 0)
+      if ((*vals)[a] == 0)
         {
           (*points)[a][1] = y_mid_pixel;
         }
@@ -87,6 +90,23 @@ LABSoft_Oscilloscope_Display_normalize_values_to_display (int channel)
         {
           (*points)[a][1] = y_mid_pixel + (-1 * (*vals)[a] * (y_half_range / scaled_max_amplitude));
         }
+      
+      // if ((*vals)[a] >= scaled_max_amplitude)
+      //   {
+      //     (*points)[a][1] = y ();
+      //   }
+      // else if ((*vals)[a] <= (-1 * scaled_max_amplitude))
+      //   {
+      //     (*points)[a][1] = y () + h ();
+      //   }
+      // else if ((*vals)[a] == 0)
+      //   {
+      //     (*points)[a][1] = y_mid_pixel;
+      //   }
+      // else 
+      //   {
+      //     (*points)[a][1] = y_mid_pixel + (-1 * (*vals)[a] * (y_half_range / scaled_max_amplitude));
+      //   }
     }
 }
 
@@ -226,7 +246,7 @@ draw ()
   // draw grid
   LABSoft_Oscilloscope_Display_draw_grid ();
 
-  if (m_flag_global_enable)  
+  if (m_flag_is_display_enabled)  
     {
       if (m_flag_channel_1_enable)
         LABSoft_Oscilloscope_Display_draw_signal (1);
@@ -326,19 +346,19 @@ LABSoft_Oscilloscope_Display_set_time_per_division (float value)
 void LABSoft_Oscilloscope_Display:: 
 LABSoft_Oscilloscope_Display_display_enable ()
 {
-  m_flag_global_enable = true;
+  m_flag_is_display_enabled = true;
 }
 
 void LABSoft_Oscilloscope_Display:: 
 LABSoft_Oscilloscope_Display_display_disable ()
 {
-  m_flag_global_enable = false;
+  m_flag_is_display_enabled = false;
 }
 
 void LABSoft_Oscilloscope_Display:: 
 LABSoft_Oscilloscope_Display_reload_and_draw ()
 {
-  if (m_flag_global_enable)
+  if (m_flag_is_display_enabled)
     {
       if (m_flag_channel_1_enable)
         LABSoft_Oscilloscope_Display_normalize_values_to_display (1);
@@ -348,6 +368,60 @@ LABSoft_Oscilloscope_Display_reload_and_draw ()
     }
   
   redraw ();
+}
+
+// FOR OSCILLOSCOPE
+
+// this function uses channel 1
+void LABSoft_Oscilloscope_Display:: 
+LABSoft_Oscilloscope_Display_generate_wave ()
+{
+  std::vector<float> values (m_channel_1_values_buffer.size (), 0.0);
+  
+  float x_scaler = 1 / (static_cast<float>(w ()) / static_cast<float>(m_number_of_columns));
+
+  for (int a = 0; a < values.size (); a++)
+    {
+      switch (m_wave_type)
+        {
+          case (SINE):
+            values[a] = (m_amplitude / m_volts_per_division) * 
+              sin ((2 * m_pi * m_frequency * a * m_time_per_division * x_scaler) 
+                + (m_phase * m_pi / 180.0)) + m_y_offset;
+            break;
+
+          case (SQUARE):
+            values[a] = copysign ((m_amplitude / m_volts_per_division), sin ((2 * m_pi * m_frequency * 
+              a * m_time_per_division * x_scaler) + (m_phase * m_pi / 180.0))) + m_y_offset;
+            break;
+
+          case (TRIANGLE):
+            // values[a] = (1.0 / m_volts_per_division) * (((4 * m_amplitude) / (1.0 / m_frequency)) * 
+            //   abs (fmod ((a * m_time_per_division * x_scaler + (m_phase / 360.0)) - ((1.0 / m_frequency) / 4.0), 
+            //     (1.0 / m_frequency)) - ((1.0 / m_frequency) / 2.0)) - m_amplitude) + m_y_offset;
+
+            values[a] = ((2 * (m_amplitude / m_volts_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
+              (1.0 / m_frequency)) * a * x_scaler + (m_phase * m_pi / 180.0))) + m_y_offset;        
+            break;
+
+          case (DC):
+            values[a] = (m_amplitude / m_volts_per_division) + m_y_offset;
+            break;
+
+          default:
+            break;
+        } 
+    }
+
+  m_channel_1_values_buffer = values;
+}
+
+
+void LABSoft_Oscilloscope_Display:: 
+LABSoft_Oscilloscope_Display_renerate_wave_and_draw ()
+{
+  LABSoft_Oscilloscope_Display_generate_wave ();
+  LABSoft_Oscilloscope_Display_reload_and_draw ();
 }
 
 // setters
@@ -375,44 +449,12 @@ LABSoft_Oscilloscope_Display_set_phase (float value)
   m_phase = value;
 }
 
-void LABSoft_Oscilloscope_Display:: 
-LABSoft_Oscilloscope_Display_generate_wave ()
-{
-  std::vector<float> values (m_channel_1_values_buffer.size (), 0.0);
-  
-  float x_scaler = 1 / (w () / m_number_of_columns);
 
-  for (int a = 0; a < values.size (); a++)
-    {
-      switch (m_wave_type)
-        {
-          case (SINE):
-            values[a] = (m_amplitude / m_volts_per_division) * 
-                        sin ((2 * m_pi * m_frequency * static_cast<float>(a) * m_time_per_division * x_scaler) + 
-                        (m_phase * m_pi / 180.0));
-            printf ("%f\n", values[a]);
-            break;
-          case (SQUARE):
-            //values[a] = (sin ((a * x_scaler) / (1 / m_frequency) * 2.0 * m_pi) >= 0.0) ? m_amplitude : (m_amplitude * -1);
-            break;
-          case (TRIANGLE):
-            //values[a] = 
-            break;
-          case (DC):
-            values[a] = m_amplitude / m_volts_per_division;
-            break;
-          default:
-            break;
-        }
-    }
-
-  m_channel_1_values_buffer = values;
-}
 
 void LABSoft_Oscilloscope_Display:: 
 LABSoft_Oscilloscope_Display_reload ()
 {
-  if (m_flag_global_enable)
+  if (m_flag_is_display_enabled)
     {
       if (m_flag_channel_1_enable)
         LABSoft_Oscilloscope_Display_normalize_values_to_display (1);
@@ -420,4 +462,11 @@ LABSoft_Oscilloscope_Display_reload ()
       if (m_flag_channel_2_enable)
         LABSoft_Oscilloscope_Display_normalize_values_to_display (2);
     }
+}
+
+
+void LABSoft_Oscilloscope_Display:: 
+LABSoft_Oscilloscope_Display_generate_random_values ()
+{
+
 }

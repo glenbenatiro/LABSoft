@@ -25,7 +25,7 @@ class LAB_Oscilloscope : public LAB_Core
 {
   private:   
 
-  protected:
+  public:
     int         m_fifo_read_fd,
                 m_fifo_write_fd;
 
@@ -68,6 +68,9 @@ class LAB_Oscilloscope : public LAB_Core
 
     float fifo_vals[MAX_SAMPS];
 
+
+    bool m_flag_is_generate_random_values_running = false;
+
     std::thread *m_thread_ADC_streaming,
                 *m_thread_ADC_reading;
 
@@ -93,6 +96,8 @@ class LAB_Oscilloscope : public LAB_Core
     int LAB_Oscilloscope_is_fifo(char *fname);
 
     void LAB_Oscilloscope_stream_run     ();
+
+    void LAB_Oscilloscope_generate_sine_wave ();
 
     // callback functions
     void LAB_Oscilloscope_cb_oscilloscope_fl_light_button_enable_disable (Fl_Light_Button *w, void *data);

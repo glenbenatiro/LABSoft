@@ -7,16 +7,23 @@
 #include <FL/Fl.H>
 
 #include "LAB_Globals.h"
+#include "LABSoft_Controller_Oscilloscope.h"
 #include "LABSoft_Controller_Voltmeter.h"
+#include "LABSoft_Controller_Function_Generator.h"
+#include "LABSoft_Controller_Power_Supply.h"
 #include "LABSoft_Controller_Main.h"
 
 class LABSoft_Controller
 {
   public:
-    LAB                          *m_LAB;
-    LABSoft_GUI                  *m_LABSoft_GUI;
-    LABSoft_Controller_Voltmeter *m_LABSoft_Controller_Voltmeter;
-    LABSoft_Controller_Main      *m_LABSoft_Controller_Main;
+    LAB                                   *m_LAB;
+    LABSoft_GUI                           *m_LABSoft_GUI;
+    LABSoft_Controller_Oscilloscope       *m_LABSoft_Controller_Oscilloscope;
+    LABSoft_Controller_Voltmeter          *m_LABSoft_Controller_Voltmeter;
+    LABSoft_Controller_Function_Generator *m_LABSoft_Controller_Function_Generator;
+    LABSoft_Controller_Power_Supply       *m_LABSoft_Controller_Power_Supply;
+    LABSoft_Controller_Main               *m_LABSoft_Controller_Main;
+
 
     LABSoft_Controller (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 };

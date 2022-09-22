@@ -339,4 +339,13 @@ LAB_Oscilloscope_cb_oscilloscope_fl_light_button_enable_disable (Fl_Light_Button
     }
 }
 
+// for debug
+void LAB_Oscilloscope:: 
+LAB_Oscilloscope_generate_sine_wave ()
+{
+
+}
+
+
+
 // EOF

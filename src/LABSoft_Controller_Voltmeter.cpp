@@ -10,12 +10,10 @@ LABSoft_Controller_Voltmeter (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 // cbs
 void LABSoft_Controller_Voltmeter:: 
 LABSoft_Controller_Voltmeter_cb_fl_light_button_generate_random_values (Fl_Light_Button *w, 
-                                                                        void            *data)
+                                                                    void            *data)
 {
   if (w->value () == 0)
     {
-       printf ("hello!\n");
-
       m_LAB->m_LAB_Voltmeter->m_flag_is_generate_random_values_running = false;
 
       thread1->join();
@@ -26,7 +24,7 @@ LABSoft_Controller_Voltmeter_cb_fl_light_button_generate_random_values (Fl_Light
     {
       m_LAB->m_LAB_Voltmeter->m_flag_is_generate_random_values_running = true;
 
-      thread1 = new std::thread (&LAB_Voltmeter::LAB_Meter_random_values_generator, m_LAB->m_LAB_Voltmeter);
+      thread1 = new std::thread (&LAB_Meter::LAB_Meter_random_values_generator, m_LAB->m_LAB_Voltmeter);
 
       w->label ("Stop");
     }
@@ -42,14 +40,13 @@ LABSoft_Controller_Voltmeter_cb_fl_light_button_start_stop (Fl_Light_Button *w,
 
       thread2->join ();
 
-
       w->label ("Run");
     }
   else 
     {
       m_LAB->m_LAB_Voltmeter->m_flag_is_meter_running = true;
 
-      thread2 = new std::thread (&LABSoft_Controller_Voltmeter::LABSoft_Controller_Voltmeter_update_voltmeter_value,
+      thread2 = new std::thread (&LABSoft_Controller_Voltmeter::LABSoft_Controller_Voltmeter_update_meter_value,
         this);
 
       w->label ("Stop");
@@ -65,15 +62,26 @@ LABSoft_Controller_Voltmeter_cb_fl_choice_unit (Fl_Choice *w,
 
 
 void LABSoft_Controller_Voltmeter:: 
-LABSoft_Controller_Voltmeter_update_voltmeter_value ()
+LABSoft_Controller_Voltmeter_update_meter_value ()
 {
-  float value;
-  char s[6];
+  float value, scaler;
+  char s[10];
 
   while (m_LAB->m_LAB_Voltmeter->m_flag_is_meter_running)
     {
-      value = m_LAB->m_LAB_Voltmeter->m_value;
-      snprintf (s, 6, "%f", value);
+      // copy value
+      scaler = (strcmp(m_LABSoft_GUI->voltmeter_fl_choice_unit->text(), "V") == 0 ? 1.0 : 1000.0);
+
+      value = m_LAB->m_LAB_Voltmeter->m_value * scaler;
+
+      if (scaler == 1000.0)
+        {
+          snprintf (s, 7, "%d", (int)value);
+        }
+      else
+        {
+          snprintf (s, 7, "%2.3f", value);
+        }
 
       m_LABSoft_GUI->voltmeter_fl_output_value->value (s);
 

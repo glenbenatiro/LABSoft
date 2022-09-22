@@ -20,7 +20,7 @@
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
   public:
-    const double m_pi = 3.14159265358979323846264338327950;
+    const double m_pi = 3.1415926535897932384626433832795028841971693993751058209;
 
     // value buffers
     std::vector<std::vector<int>> m_channel_1_display_buffer,
@@ -39,15 +39,18 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
               m_volts_per_division = 1.0; // default to 1 second
           
     // for function generator
-    float     m_amplitude = 1.0, // in volts
-              m_frequency = 1.0, // in hz
-              m_phase = 0.0;     // in DEGREES
+    float m_frequency,
+          m_period,
+          m_amplitude,
+          m_offset, 
+          m_duty_cycle,
+          m_phase;
           
-    WaveType  m_wave_type = SINE;   
+    WaveType  m_wave_type;  
 
   
 
-    bool m_flag_global_enable = false,
+    bool m_flag_is_display_enabled = false,
          m_flag_channel_1_enable = true,
          m_flag_channel_2_enable = false;
 
@@ -141,6 +144,12 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
       void LABSoft_Oscilloscope_Display_set_phase (float value);
 
       void LABSoft_Oscilloscope_Display_generate_wave ();
+
+      void LABSoft_Oscilloscope_Display_renerate_wave_and_draw ();
+
+    // for debug
+    void LABSoft_Oscilloscope_Display_generate_random_values ();
+
 };
 
 #endif

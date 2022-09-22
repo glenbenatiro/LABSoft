@@ -20,7 +20,10 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_GUI.cpp
 
   src/LABSoft_Controller.cpp
+  src/LABSoft_Controller_Oscilloscope.cpp
   src/LABSoft_Controller_Voltmeter.cpp
+  src/LABSoft_Controller_Function_Generator.cpp
+  src/LABSoft_Controller_Power_Supply.cpp
   src/LABSoft_Controller_Main.cpp
 
   src/LABSoft_Oscilloscope_Display_Group.cpp

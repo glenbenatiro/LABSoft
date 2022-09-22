@@ -1,3 +1,4 @@
+
 #ifndef LAB_METER
 #define LAB_METER
 
@@ -16,8 +17,8 @@ class LAB_Meter
   public:
     LAB_Core *m_LAB_Core;
 
-    float m_value = 0.0;
-    float m_unit_scaler = 0.0;
+    float m_value       = 0.0;
+    float m_unit_scaler = 1.0;
     
     bool m_flag_is_meter_running = false;
     bool m_flag_is_generate_random_values_running = false;
