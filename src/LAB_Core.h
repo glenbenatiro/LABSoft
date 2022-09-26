@@ -22,10 +22,7 @@ class LAB_Core
     static MEM_MAP m_vc_mem;
        
   public:
-    int      m_sample_count,
-             m_sample_rate,
-             m_in_chans,
-             m_fifo_fd = 0;
+    int   m_fifo_fd = 0;
 
     uint32_t m_pwm_range,  
              m_fifo_size;

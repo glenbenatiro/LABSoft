@@ -34,7 +34,7 @@ LABSoft_Controller_Function_Generator_cb_fl_light_button_start_stop (Fl_Light_Bu
 void LABSoft_Controller_Function_Generator::
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_horizontal_position (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->label ());
+  float value = LAB_Globals_label_to_scaled_value (w->label ());
 
   // change display only
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->disp ()->m_x_offset = value;
@@ -44,7 +44,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_horizontal_position (Fl
 void LABSoft_Controller_Function_Generator::
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_time_per_division (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->label ());
+  float value = LAB_Globals_label_to_scaled_value (w->label ());
 
   // change display only
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->disp ()->m_time_per_division = value;
@@ -80,7 +80,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_wave_type (Fl_Input_Cho
 void LABSoft_Controller_Function_Generator:: 
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_frequency (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->value ());
+  float value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // change in backend
   m_LAB->m_LAB_Function_Generator->m_frequency = value;
@@ -93,7 +93,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_frequency (Fl_Input_Cho
 void LABSoft_Controller_Function_Generator:: 
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_period (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->value ());
+  float value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // change in backend
   m_LAB->m_LAB_Function_Generator->m_period = value;
@@ -106,7 +106,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_period (Fl_Input_Choice
 void LABSoft_Controller_Function_Generator:: 
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_amplitude (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->value ());
+  float value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // change in backend
   m_LAB->m_LAB_Function_Generator->m_amplitude = value;
@@ -119,7 +119,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_amplitude (Fl_Input_Cho
 void LABSoft_Controller_Function_Generator:: 
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_y_offset (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->value ());
+  float value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // change in backend
   m_LAB->m_LAB_Function_Generator->m_y_offset = value;
@@ -132,7 +132,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_y_offset (Fl_Input_Choi
 void LABSoft_Controller_Function_Generator:: 
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_duty_cycle (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->value ());
+  float value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // change in backend
   m_LAB->m_LAB_Function_Generator->m_duty_cycle = value;
@@ -145,7 +145,7 @@ LABSoft_Controller_Function_Generator_cb_fl_input_choice_duty_cycle (Fl_Input_Ch
 void LABSoft_Controller_Function_Generator:: 
 LABSoft_Controller_Function_Generator_cb_fl_input_choice_phase (Fl_Input_Choice *w, void *data)
 {
-  float value = LAB_Globals_label_to_value (w->value ());
+  float value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // change in backend
   m_LAB->m_LAB_Function_Generator->m_phase = value;

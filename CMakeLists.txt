@@ -16,19 +16,10 @@ add_definitions(${FLTK_DEFINITIONS})
 
 ADD_EXECUTABLE(LABSoft
   src/main.cpp
+
   src/LABSoft.cpp
-  src/LABSoft_GUI.cpp
-
-  src/LABSoft_Controller.cpp
-  src/LABSoft_Controller_Oscilloscope.cpp
-  src/LABSoft_Controller_Voltmeter.cpp
-  src/LABSoft_Controller_Function_Generator.cpp
-  src/LABSoft_Controller_Power_Supply.cpp
-  src/LABSoft_Controller_Main.cpp
-
-  src/LABSoft_Oscilloscope_Display_Group.cpp
-  src/LABSoft_Oscilloscope_Display.cpp
   src/LAB.cpp
+
   src/LAB_Core.cpp
   src/LAB_Oscilloscope.cpp
   src/LAB_Meter.cpp
@@ -38,6 +29,25 @@ ADD_EXECUTABLE(LABSoft
   src/LAB_Function_Generator.cpp
   src/LAB_Power_Supply.cpp
   src/LAB_Globals.cpp
+
+  src/LABSoft_Controller.cpp
+  src/LABSoft_Controller_Oscilloscope.cpp
+  src/LABSoft_Controller_Meter.cpp
+  src/LABSoft_Controller_Voltmeter.cpp
+  src/LABSoft_Controller_Ammeter.cpp
+  src/LABSoft_Controller_Ohmmeter.cpp
+  src/LABSoft_Controller_Function_Generator.cpp
+  src/LABSoft_Controller_Power_Supply.cpp
+  src/LABSoft_Controller_Circuit_Checker.cpp
+  src/LABSoft_Controller_Main.cpp
+
+  src/LABSoft_GUI.cpp
+  src/LABSoft_Oscilloscope_Display_Group.cpp
+  src/LABSoft_Oscilloscope_Display.cpp
+  src/LABSoft_Oscilloscope_Function_Generator_Display.cpp
+
+  src/ChannelSignals.cpp
+  src/pugixml.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

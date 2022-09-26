@@ -74,6 +74,10 @@ class LAB_Oscilloscope : public LAB_Core
     std::thread *m_thread_ADC_streaming,
                 *m_thread_ADC_reading;
 
+    ChannelSignals m_channel_signals;
+
+
+    // functions
     LAB_Oscilloscope                     ();
    ~LAB_Oscilloscope                     ();
 

@@ -4,6 +4,10 @@ LAB_Meter::
 LAB_Meter (LAB_Core *_LAB_Core)
 {
   m_LAB_Core = _LAB_Core;
+
+  // initialize defaults
+  m_value       = LAB_DEFAULTS_METER_VALUE;
+  m_unit_scaler = LAB_DEFAULTS_METER_UNIT_SCALER;
 }
 
 void LAB_Meter:: 
@@ -43,7 +47,8 @@ void LAB_Meter::
 LAB_Meter_cb_fl_choice_unit (Fl_Choice *w,
                              void      *data)
 {
-  
+ 
+
 }
 
 void LAB_Meter:: 

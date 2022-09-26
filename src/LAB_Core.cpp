@@ -23,10 +23,6 @@ MEM_MAP LAB_Core::m_vc_mem;
 
 LAB_Core::LAB_Core ()
 {
-  m_in_chans     = IN_CHANS;
-  m_sample_rate  = OSCILLOSCOPE_STREAMING_SAMPLE_RATE;
-  m_sample_count = OSCILLOSCOPE_STREAMING_SAMPLE_COUNT;
-
   m_spi_frequency = SPI_FREQ;
 
   LAB_Core_init ();

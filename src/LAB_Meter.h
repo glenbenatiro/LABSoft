@@ -10,6 +10,7 @@
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Output.H>
 
+#include "LAB_Globals.h"
 #include "LAB_Core.h"
 
 class LAB_Meter
@@ -17,8 +18,8 @@ class LAB_Meter
   public:
     LAB_Core *m_LAB_Core;
 
-    float m_value       = 0.0;
-    float m_unit_scaler = 1.0;
+    float m_value,
+          m_unit_scaler;
     
     bool m_flag_is_meter_running = false;
     bool m_flag_is_generate_random_values_running = false;

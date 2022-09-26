@@ -223,6 +223,60 @@ src/LABSoft_Controller.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.s
 .PHONY : src/LABSoft_Controller.cpp.s
 
+src/LABSoft_Controller_Ammeter.o: src/LABSoft_Controller_Ammeter.cpp.o
+
+.PHONY : src/LABSoft_Controller_Ammeter.o
+
+# target to build an object file
+src/LABSoft_Controller_Ammeter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o
+.PHONY : src/LABSoft_Controller_Ammeter.cpp.o
+
+src/LABSoft_Controller_Ammeter.i: src/LABSoft_Controller_Ammeter.cpp.i
+
+.PHONY : src/LABSoft_Controller_Ammeter.i
+
+# target to preprocess a source file
+src/LABSoft_Controller_Ammeter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.i
+.PHONY : src/LABSoft_Controller_Ammeter.cpp.i
+
+src/LABSoft_Controller_Ammeter.s: src/LABSoft_Controller_Ammeter.cpp.s
+
+.PHONY : src/LABSoft_Controller_Ammeter.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller_Ammeter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.s
+.PHONY : src/LABSoft_Controller_Ammeter.cpp.s
+
+src/LABSoft_Controller_Circuit_Checker.o: src/LABSoft_Controller_Circuit_Checker.cpp.o
+
+.PHONY : src/LABSoft_Controller_Circuit_Checker.o
+
+# target to build an object file
+src/LABSoft_Controller_Circuit_Checker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o
+.PHONY : src/LABSoft_Controller_Circuit_Checker.cpp.o
+
+src/LABSoft_Controller_Circuit_Checker.i: src/LABSoft_Controller_Circuit_Checker.cpp.i
+
+.PHONY : src/LABSoft_Controller_Circuit_Checker.i
+
+# target to preprocess a source file
+src/LABSoft_Controller_Circuit_Checker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.i
+.PHONY : src/LABSoft_Controller_Circuit_Checker.cpp.i
+
+src/LABSoft_Controller_Circuit_Checker.s: src/LABSoft_Controller_Circuit_Checker.cpp.s
+
+.PHONY : src/LABSoft_Controller_Circuit_Checker.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller_Circuit_Checker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.s
+.PHONY : src/LABSoft_Controller_Circuit_Checker.cpp.s
+
 src/LABSoft_Controller_Function_Generator.o: src/LABSoft_Controller_Function_Generator.cpp.o
 
 .PHONY : src/LABSoft_Controller_Function_Generator.o
@@ -276,6 +330,60 @@ src/LABSoft_Controller_Main.s: src/LABSoft_Controller_Main.cpp.s
 src/LABSoft_Controller_Main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.s
 .PHONY : src/LABSoft_Controller_Main.cpp.s
+
+src/LABSoft_Controller_Meter.o: src/LABSoft_Controller_Meter.cpp.o
+
+.PHONY : src/LABSoft_Controller_Meter.o
+
+# target to build an object file
+src/LABSoft_Controller_Meter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Meter.cpp.o
+.PHONY : src/LABSoft_Controller_Meter.cpp.o
+
+src/LABSoft_Controller_Meter.i: src/LABSoft_Controller_Meter.cpp.i
+
+.PHONY : src/LABSoft_Controller_Meter.i
+
+# target to preprocess a source file
+src/LABSoft_Controller_Meter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Meter.cpp.i
+.PHONY : src/LABSoft_Controller_Meter.cpp.i
+
+src/LABSoft_Controller_Meter.s: src/LABSoft_Controller_Meter.cpp.s
+
+.PHONY : src/LABSoft_Controller_Meter.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller_Meter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Meter.cpp.s
+.PHONY : src/LABSoft_Controller_Meter.cpp.s
+
+src/LABSoft_Controller_Ohmmeter.o: src/LABSoft_Controller_Ohmmeter.cpp.o
+
+.PHONY : src/LABSoft_Controller_Ohmmeter.o
+
+# target to build an object file
+src/LABSoft_Controller_Ohmmeter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o
+.PHONY : src/LABSoft_Controller_Ohmmeter.cpp.o
+
+src/LABSoft_Controller_Ohmmeter.i: src/LABSoft_Controller_Ohmmeter.cpp.i
+
+.PHONY : src/LABSoft_Controller_Ohmmeter.i
+
+# target to preprocess a source file
+src/LABSoft_Controller_Ohmmeter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.i
+.PHONY : src/LABSoft_Controller_Ohmmeter.cpp.i
+
+src/LABSoft_Controller_Ohmmeter.s: src/LABSoft_Controller_Ohmmeter.cpp.s
+
+.PHONY : src/LABSoft_Controller_Ohmmeter.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller_Ohmmeter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.s
+.PHONY : src/LABSoft_Controller_Ohmmeter.cpp.s
 
 src/LABSoft_Controller_Oscilloscope.o: src/LABSoft_Controller_Oscilloscope.cpp.o
 
@@ -709,6 +817,33 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/pugixml.o: src/pugixml.cpp.o
+
+.PHONY : src/pugixml.o
+
+# target to build an object file
+src/pugixml.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/pugixml.cpp.o
+.PHONY : src/pugixml.cpp.o
+
+src/pugixml.i: src/pugixml.cpp.i
+
+.PHONY : src/pugixml.i
+
+# target to preprocess a source file
+src/pugixml.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/pugixml.cpp.i
+.PHONY : src/pugixml.cpp.i
+
+src/pugixml.s: src/pugixml.cpp.s
+
+.PHONY : src/pugixml.s
+
+# target to generate assembly for a file
+src/pugixml.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/pugixml.cpp.s
+.PHONY : src/pugixml.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -727,12 +862,24 @@ help:
 	@echo "... src/LABSoft_Controller.o"
 	@echo "... src/LABSoft_Controller.i"
 	@echo "... src/LABSoft_Controller.s"
+	@echo "... src/LABSoft_Controller_Ammeter.o"
+	@echo "... src/LABSoft_Controller_Ammeter.i"
+	@echo "... src/LABSoft_Controller_Ammeter.s"
+	@echo "... src/LABSoft_Controller_Circuit_Checker.o"
+	@echo "... src/LABSoft_Controller_Circuit_Checker.i"
+	@echo "... src/LABSoft_Controller_Circuit_Checker.s"
 	@echo "... src/LABSoft_Controller_Function_Generator.o"
 	@echo "... src/LABSoft_Controller_Function_Generator.i"
 	@echo "... src/LABSoft_Controller_Function_Generator.s"
 	@echo "... src/LABSoft_Controller_Main.o"
 	@echo "... src/LABSoft_Controller_Main.i"
 	@echo "... src/LABSoft_Controller_Main.s"
+	@echo "... src/LABSoft_Controller_Meter.o"
+	@echo "... src/LABSoft_Controller_Meter.i"
+	@echo "... src/LABSoft_Controller_Meter.s"
+	@echo "... src/LABSoft_Controller_Ohmmeter.o"
+	@echo "... src/LABSoft_Controller_Ohmmeter.i"
+	@echo "... src/LABSoft_Controller_Ohmmeter.s"
 	@echo "... src/LABSoft_Controller_Oscilloscope.o"
 	@echo "... src/LABSoft_Controller_Oscilloscope.i"
 	@echo "... src/LABSoft_Controller_Oscilloscope.s"
@@ -781,6 +928,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/pugixml.o"
+	@echo "... src/pugixml.i"
+	@echo "... src/pugixml.s"
 .PHONY : help
 
 

@@ -16,7 +16,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Choice.H>
-#include <FL/Fl_File_Browser.H>
+#include <FL/Fl_Text_Display.H>
 
 class LABSoft_GUI {
 public:
@@ -29,16 +29,23 @@ public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_1;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_1_enable;
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_volts_per_division;
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_volts_per_division[];
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_vertical_offset;
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[];
   Fl_Group *oscilloscope_fl_group_vertical_channel_2;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_2_enable;
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_volts_per_division;
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_volts_per_division[];
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_vertical_offset;
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_vertical_offset[];
   Fl_Group *oscilloscope_fl_group_horizontal;
   Fl_Input_Choice *oscilloscope_fl_input_choice_time_per_division;
   Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;
   Fl_Group *oscilloscope_fl_group_trigger;
+  Fl_Input_Choice *oscilloscope_fl_input_choice_trigger_level;
   Fl_Group *oscilloscope_fl_group_display;
+  Fl_Input_Choice *oscilloscope_fl_input_choice_display_mode;
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_display_mode[];
   Fl_Light_Button *oscilloscope_fl_light_button_generate_sine_wave;
 private:
   inline void cb_oscilloscope_fl_light_button_generate_sine_wave_i(Fl_Light_Button*, void*);
@@ -65,10 +72,20 @@ public:
   Fl_Choice *ammeter_fl_choice_unit;
   static Fl_Menu_Item menu_ammeter_fl_choice_unit[];
   Fl_Light_Button *ammeter_fl_light_button_run_stop;
+  Fl_Light_Button *ammeter_fl_light_button_generate_random_values;
+private:
+  inline void cb_ammeter_fl_light_button_generate_random_values_i(Fl_Light_Button*, void*);
+  static void cb_ammeter_fl_light_button_generate_random_values(Fl_Light_Button*, void*);
+public:
   Fl_Output *ohmmeter_fl_output_value;
   Fl_Choice *ohmmeter_fl_choice_unit;
   static Fl_Menu_Item menu_ohmmeter_fl_choice_unit[];
   Fl_Light_Button *ohmmeter_fl_light_button_run_stop;
+  Fl_Light_Button *ohmmeter_fl_light_button_generate_random_values;
+private:
+  inline void cb_ohmmeter_fl_light_button_generate_random_values_i(Fl_Light_Button*, void*);
+  static void cb_ohmmeter_fl_light_button_generate_random_values(Fl_Light_Button*, void*);
+public:
   Fl_Light_Button *function_generator_fl_light_button_start_stop;
 private:
   inline void cb_function_generator_fl_light_button_start_stop_i(Fl_Light_Button*, void*);
@@ -137,29 +154,39 @@ private:
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
   LABSoft_Oscilloscope_Display_Group *function_generator_labsoft_oscilloscope_dsplay_group_display;
-  Fl_Light_Button *power_supply_fl_light_button_positive_12_volts_run_stop;
+  Fl_Light_Button *power_supply_fl_light_button_positive_12_volts_enable_disable;
 private:
-  inline void cb_power_supply_fl_light_button_positive_12_volts_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_positive_12_volts_run_stop(Fl_Light_Button*, void*);
+  inline void cb_power_supply_fl_light_button_positive_12_volts_enable_disable_i(Fl_Light_Button*, void*);
+  static void cb_power_supply_fl_light_button_positive_12_volts_enable_disable(Fl_Light_Button*, void*);
 public:
-  Fl_Light_Button *power_supply_fl_light_button_negative_12_volts_run_stop;
+  Fl_Light_Button *power_supply_fl_light_button_negative_12_volts_enable_disable;
 private:
-  inline void cb_power_supply_fl_light_button_negative_12_volts_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_negative_12_volts_run_stop(Fl_Light_Button*, void*);
+  inline void cb_power_supply_fl_light_button_negative_12_volts_enable_disable_i(Fl_Light_Button*, void*);
+  static void cb_power_supply_fl_light_button_negative_12_volts_enable_disable(Fl_Light_Button*, void*);
 public:
-  Fl_Light_Button *power_supply_fl_light_button_positive_5_volts_run_stop;
+  Fl_Light_Button *power_supply_fl_light_button_positive_5_volts_enable_disable;
 private:
-  inline void cb_power_supply_fl_light_button_positive_5_volts_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_positive_5_volts_run_stop(Fl_Light_Button*, void*);
+  inline void cb_power_supply_fl_light_button_positive_5_volts_enable_disable_i(Fl_Light_Button*, void*);
+  static void cb_power_supply_fl_light_button_positive_5_volts_enable_disable(Fl_Light_Button*, void*);
 public:
   Fl_Light_Button *power_supply_fl_light_button_master_enable_disable;
 private:
   inline void cb_power_supply_fl_light_button_master_enable_disable_i(Fl_Light_Button*, void*);
   static void cb_power_supply_fl_light_button_master_enable_disable(Fl_Light_Button*, void*);
 public:
-  Fl_File_Browser *circuit_checker_fl_file_browser_file_browser;
-  Fl_Button *circuit_checker_fl_button_start;
+  Fl_Button *circuit_checker_fl_button_choose_circuit_checker_file;
+private:
+  inline void cb_circuit_checker_fl_button_choose_circuit_checker_file_i(Fl_Button*, void*);
+  static void cb_circuit_checker_fl_button_choose_circuit_checker_file(Fl_Button*, void*);
+public:
+  Fl_Button *circuit_checker_fl_button_start_circuit_checking;
+private:
+  inline void cb_circuit_checker_fl_button_start_circuit_checking_i(Fl_Button*, void*);
+  static void cb_circuit_checker_fl_button_start_circuit_checking(Fl_Button*, void*);
+public:
+  Fl_Output *circuit_checker_fl_output_selected_circuit_checker_file;
   Fl_Output *circuit_checker_fl_output_similarity_score;
+  Fl_Text_Display *circuit_checker_fl_text_display_logger;
   Fl_Group *alignment_guides;
   Fl_Box *inner_height;
   Fl_Box *outer_height;

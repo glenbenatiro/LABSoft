@@ -7,8 +7,12 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ammeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Meter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Meter.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ohmmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Power_Supply.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o"
@@ -25,6 +29,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/main.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/main.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/pugixml.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
