@@ -21,13 +21,16 @@
 #include "LAB_Core.h"
 #include "LAB_Globals.h"
 
+#include "ChannelSignals.h"
+
 class LAB_Oscilloscope : public LAB_Core
 {
   private:   
 
   public:
     int         m_fifo_read_fd,
-                m_fifo_write_fd;
+                m_fifo_write_fd,
+                m_number_of_channels;
 
     const char *m_fifo_name;
 
@@ -36,6 +39,8 @@ class LAB_Oscilloscope : public LAB_Core
 
     float       m_voltage_per_div = 1,
                 m_seconds_per_div = 1;
+
+    
     
     
   public:
@@ -74,7 +79,7 @@ class LAB_Oscilloscope : public LAB_Core
     std::thread *m_thread_ADC_streaming,
                 *m_thread_ADC_reading;
 
-    ChannelSignals m_channel_signals;
+    ChannelSignals *m_channel_signals;
 
 
     // functions

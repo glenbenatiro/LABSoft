@@ -1,6 +1,7 @@
 #include "LAB_Oscilloscope.h"
 
-LAB_Oscilloscope::LAB_Oscilloscope ()
+LAB_Oscilloscope::
+LAB_Oscilloscope () : LAB_Core ()
 {
 
   m_verbose        = VERBOSE;
@@ -50,7 +51,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_dma_init (MEM_MAP *mp, int nsamp, int single)
     .samp_size = 2, 
     .pwm_val   = m_pwm_range, 
     .adc_csd   = SPI_TFR_ACT | SPI_AUTO_CS | SPI_DMA_EN | SPI_FIFO_CLR | ADC_CE_NUM,
-    .txd       = {0xd0, static_cast<uint32_t>(m_in_chans > 1 ? 0xf0 : 0xd0)},
+    .txd       = {0xd0, static_cast<uint32_t>(m_number_of_channels > 1 ? 0xf0 : 0xd0)},
     .usecs     = {0, 0},  
     .states    = {0, 0}, 
     .rxd1      = {0}, 

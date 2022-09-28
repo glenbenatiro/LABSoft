@@ -31,7 +31,7 @@ draw ()
     draw_channel_signals ();
 }
 
-void LABSoft_Oscilloscope_Display::
+void LABSoft_Oscilloscope_Display:: 
 draw_grid ()
 {
   // set color
@@ -76,120 +76,61 @@ draw_grid ()
 void LABSoft_Oscilloscope_Display:: 
 draw_channel_signals ()
 {
-  for (int a = 0; a < m_channel_signals.size (); a++)
-    {
-      if (m_channel_signal[a].m_flag_is_enabled)
-        {
-          std::vector<std::vector<int>> *p = &(m_channel_signal[a].m_pixel_points);
+  // for (int a = 0; a < m_channel_signals.size (); a++)
+  //   {
+  //     if (m_channel_signal[a].m_flag_is_enabled)
+  //       {
+  //         std::vector<std::vector<int>> *p = &(m_channel_signal[a].m_pixel_points);
 
-          for (int b = 0; b < (p->size ()); b++)
-            {
-              fl_line ((*p)[b][0], (*p)[b][1], (*p)[b + 1][0], (*p)[b + 1][1]);
-            }
-        }
-    }
+  //         for (int b = 0; b < (p->size ()); b++)
+  //           {
+  //             fl_line ((*p)[b][0], (*p)[b][1], (*p)[b + 1][0], (*p)[b + 1][1]);
+  //           }
+  //       }
+  //   }
 }
 
 void LABSoft_Oscilloscope_Display:: 
 normalize_channel_signals ()
 {
-  for (int a = 0; a < m_channel_signals.size (); a++)
-  {
-    if (m_channel_signal[a].m_flag_is_enabled)
-      {
-        std::vector<std::vector<int>> *p = &(m_channel_signal[a].m_pixel_points);
+  // for (int a = 0; a < m_channel_signals.size (); a++)
+  // {
+  //   if (m_channel_signal[a].m_flag_is_enabled)
+  //     {
+  //       std::vector<std::vector<int>> *p = &(m_channel_signal[a].m_pixel_points);
 
-        for (int b = 0; b < (p->size ()); b++)
-          {
-            fl_line ((*p)[b][0], (*p)[b][1], (*p)[b + 1][0], (*p)[b + 1][1]);
-          }
-      }
+  //       for (int b = 0; b < (p->size ()); b++)
+  //         {
+  //           fl_line ((*p)[b][0], (*p)[b][1], (*p)[b + 1][0], (*p)[b + 1][1]);
+  //         }
+  //     }
   }
 
-  // setters
-  void LABSoft_Oscilloscope_Display:: 
-  flag_is_display_enabled (bool value)
-  {
-    m_flag_is_display_enabled = value;
-  }
-
-  void LABSoft_Oscilloscope_Display:: 
-  number_of_channels (int value)
-  {
-    m_number_of_channels = value;
-  }
-
-  void LABSoft_Oscilloscope_Display:: 
-  max_number_of_samples (int value)
-  {
-    m_max_number_of_samples = value;
-  }
-
-  // getters
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  std::vector<float>            *vals   = (channel == 2) ? &m_channel_2_values_buffer : &m_channel_1_values_buffer;
-  std::vector<std::vector<int>> *points = (channel == 2) ? &m_channel_2_display_buffer : &m_channel_1_display_buffer;
-
-  float scaled_max_amplitude = m_volts_per_division * (m_number_of_rows / 2);
-
-  int y_mid_pixel = y () + (h () / 2);
-  int y_half_range = h () / 2;
-  
-  for (int a = 0; a < vals->size (); a++)
-    {
-      (*points)[a][0] = x () + a;
-
-      if ((*vals)[a] == 0)
-        {
-          (*points)[a][1] = y_mid_pixel;
-        }
-      else 
-        {
-          (*points)[a][1] = y_mid_pixel + (-1 * (*vals)[a] * (y_half_range / scaled_max_amplitude));
-        }
-      
-      // if ((*vals)[a] >= scaled_max_amplitude)
-      //   {
-      //     (*points)[a][1] = y ();
-      //   }
-      // else if ((*vals)[a] <= (-1 * scaled_max_amplitude))
-      //   {
-      //     (*points)[a][1] = y () + h ();
-      //   }
-      // else if ((*vals)[a] == 0)
-      //   {
-      //     (*points)[a][1] = y_mid_pixel;
-      //   }
-      // else 
-      //   {
-      //     (*points)[a][1] = y_mid_pixel + (-1 * (*vals)[a] * (y_half_range / scaled_max_amplitude));
-      //   }
-    }
+// setters
+void LABSoft_Oscilloscope_Display:: 
+flag_is_display_enabled (bool value)
+{
+  m_flag_is_display_enabled = value;
 }
 
+void LABSoft_Oscilloscope_Display:: 
+number_of_channels (int value)
+{
+  m_number_of_channels = value;
+}
+
+void LABSoft_Oscilloscope_Display:: 
+max_number_of_samples (int value)
+{
+  m_max_number_of_samples = value;
+}
+
+void LABSoft_Oscilloscope_Display:: 
+rows_columns (int number_of_rows,
+              int number_of_columns)
+{
+  m_number_of_rows = number_of_rows;
+  m_number_of_columns = number_of_columns;
+}
 
 

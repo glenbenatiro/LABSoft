@@ -1,7 +1,7 @@
 #include "LAB_Function_Generator.h"
 
 LAB_Function_Generator::
-LAB_Function_Generator ()
+LAB_Function_Generator () : LAB_Core ()
 {
   m_frequency   = LAB_DEFAULTS_FUNCTION_GENERATOR_FREQUENCY; 
   m_period      = LAB_DEFAULTS_FUNCTION_GENERATOR_PERIOD; 

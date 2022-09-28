@@ -13,7 +13,7 @@
 #include "LAB_Globals.h"
 #include "LAB_Core.h"
 
-class LAB_Meter
+class LAB_Meter : public LAB_Core
 {
   public:
     LAB_Core *m_LAB_Core;
@@ -25,7 +25,7 @@ class LAB_Meter
     bool m_flag_is_generate_random_values_running = false;
 
     // functions  
-    LAB_Meter (LAB_Core *_LAB_Core);
+    LAB_Meter ();
 
     //
     void LAB_Meter_update_value (Fl_Output *w);

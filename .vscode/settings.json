@@ -2,5 +2,8 @@
     "makefile.extensionOutputFolder": "./.vscode",
     "editor.detectIndentation": false,
     "editor.autoIndent": "full",
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "files.associations": {
+      "4-fltk-input-choice": "cpp"
+    }
 }

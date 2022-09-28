@@ -142,6 +142,33 @@ LABSoft/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/build
 .PHONY : LABSoft/fast
 
+src/ChannelSignals.o: src/ChannelSignals.cpp.o
+
+.PHONY : src/ChannelSignals.o
+
+# target to build an object file
+src/ChannelSignals.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o
+.PHONY : src/ChannelSignals.cpp.o
+
+src/ChannelSignals.i: src/ChannelSignals.cpp.i
+
+.PHONY : src/ChannelSignals.i
+
+# target to preprocess a source file
+src/ChannelSignals.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.i
+.PHONY : src/ChannelSignals.cpp.i
+
+src/ChannelSignals.s: src/ChannelSignals.cpp.s
+
+.PHONY : src/ChannelSignals.s
+
+# target to generate assembly for a file
+src/ChannelSignals.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.s
+.PHONY : src/ChannelSignals.cpp.s
+
 src/LAB.o: src/LAB.cpp.o
 
 .PHONY : src/LAB.o
@@ -303,6 +330,33 @@ src/LABSoft_Controller_Function_Generator.s: src/LABSoft_Controller_Function_Gen
 src/LABSoft_Controller_Function_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.s
 .PHONY : src/LABSoft_Controller_Function_Generator.cpp.s
+
+src/LABSoft_Controller_Logic_Analyzer.o: src/LABSoft_Controller_Logic_Analyzer.cpp.o
+
+.PHONY : src/LABSoft_Controller_Logic_Analyzer.o
+
+# target to build an object file
+src/LABSoft_Controller_Logic_Analyzer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o
+.PHONY : src/LABSoft_Controller_Logic_Analyzer.cpp.o
+
+src/LABSoft_Controller_Logic_Analyzer.i: src/LABSoft_Controller_Logic_Analyzer.cpp.i
+
+.PHONY : src/LABSoft_Controller_Logic_Analyzer.i
+
+# target to preprocess a source file
+src/LABSoft_Controller_Logic_Analyzer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.i
+.PHONY : src/LABSoft_Controller_Logic_Analyzer.cpp.i
+
+src/LABSoft_Controller_Logic_Analyzer.s: src/LABSoft_Controller_Logic_Analyzer.cpp.s
+
+.PHONY : src/LABSoft_Controller_Logic_Analyzer.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller_Logic_Analyzer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.s
+.PHONY : src/LABSoft_Controller_Logic_Analyzer.cpp.s
 
 src/LABSoft_Controller_Main.o: src/LABSoft_Controller_Main.cpp.o
 
@@ -466,6 +520,33 @@ src/LABSoft_Controller_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.s
 .PHONY : src/LABSoft_Controller_Voltmeter.cpp.s
 
+src/LABSoft_Function_Generator_Display.o: src/LABSoft_Function_Generator_Display.cpp.o
+
+.PHONY : src/LABSoft_Function_Generator_Display.o
+
+# target to build an object file
+src/LABSoft_Function_Generator_Display.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o
+.PHONY : src/LABSoft_Function_Generator_Display.cpp.o
+
+src/LABSoft_Function_Generator_Display.i: src/LABSoft_Function_Generator_Display.cpp.i
+
+.PHONY : src/LABSoft_Function_Generator_Display.i
+
+# target to preprocess a source file
+src/LABSoft_Function_Generator_Display.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i
+.PHONY : src/LABSoft_Function_Generator_Display.cpp.i
+
+src/LABSoft_Function_Generator_Display.s: src/LABSoft_Function_Generator_Display.cpp.s
+
+.PHONY : src/LABSoft_Function_Generator_Display.s
+
+# target to generate assembly for a file
+src/LABSoft_Function_Generator_Display.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s
+.PHONY : src/LABSoft_Function_Generator_Display.cpp.s
+
 src/LABSoft_GUI.o: src/LABSoft_GUI.cpp.o
 
 .PHONY : src/LABSoft_GUI.o
@@ -574,6 +655,33 @@ src/LAB_Ammeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.s
 .PHONY : src/LAB_Ammeter.cpp.s
 
+src/LAB_Circuit_Checker.o: src/LAB_Circuit_Checker.cpp.o
+
+.PHONY : src/LAB_Circuit_Checker.o
+
+# target to build an object file
+src/LAB_Circuit_Checker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o
+.PHONY : src/LAB_Circuit_Checker.cpp.o
+
+src/LAB_Circuit_Checker.i: src/LAB_Circuit_Checker.cpp.i
+
+.PHONY : src/LAB_Circuit_Checker.i
+
+# target to preprocess a source file
+src/LAB_Circuit_Checker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.i
+.PHONY : src/LAB_Circuit_Checker.cpp.i
+
+src/LAB_Circuit_Checker.s: src/LAB_Circuit_Checker.cpp.s
+
+.PHONY : src/LAB_Circuit_Checker.s
+
+# target to generate assembly for a file
+src/LAB_Circuit_Checker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.s
+.PHONY : src/LAB_Circuit_Checker.cpp.s
+
 src/LAB_Core.o: src/LAB_Core.cpp.o
 
 .PHONY : src/LAB_Core.o
@@ -654,6 +762,33 @@ src/LAB_Globals.s: src/LAB_Globals.cpp.s
 src/LAB_Globals.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.s
 .PHONY : src/LAB_Globals.cpp.s
+
+src/LAB_Logic_Analyzer.o: src/LAB_Logic_Analyzer.cpp.o
+
+.PHONY : src/LAB_Logic_Analyzer.o
+
+# target to build an object file
+src/LAB_Logic_Analyzer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o
+.PHONY : src/LAB_Logic_Analyzer.cpp.o
+
+src/LAB_Logic_Analyzer.i: src/LAB_Logic_Analyzer.cpp.i
+
+.PHONY : src/LAB_Logic_Analyzer.i
+
+# target to preprocess a source file
+src/LAB_Logic_Analyzer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.i
+.PHONY : src/LAB_Logic_Analyzer.cpp.i
+
+src/LAB_Logic_Analyzer.s: src/LAB_Logic_Analyzer.cpp.s
+
+.PHONY : src/LAB_Logic_Analyzer.s
+
+# target to generate assembly for a file
+src/LAB_Logic_Analyzer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.s
+.PHONY : src/LAB_Logic_Analyzer.cpp.s
 
 src/LAB_Meter.o: src/LAB_Meter.cpp.o
 
@@ -853,6 +988,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LABSoft"
+	@echo "... src/ChannelSignals.o"
+	@echo "... src/ChannelSignals.i"
+	@echo "... src/ChannelSignals.s"
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"
@@ -871,6 +1009,9 @@ help:
 	@echo "... src/LABSoft_Controller_Function_Generator.o"
 	@echo "... src/LABSoft_Controller_Function_Generator.i"
 	@echo "... src/LABSoft_Controller_Function_Generator.s"
+	@echo "... src/LABSoft_Controller_Logic_Analyzer.o"
+	@echo "... src/LABSoft_Controller_Logic_Analyzer.i"
+	@echo "... src/LABSoft_Controller_Logic_Analyzer.s"
 	@echo "... src/LABSoft_Controller_Main.o"
 	@echo "... src/LABSoft_Controller_Main.i"
 	@echo "... src/LABSoft_Controller_Main.s"
@@ -889,6 +1030,9 @@ help:
 	@echo "... src/LABSoft_Controller_Voltmeter.o"
 	@echo "... src/LABSoft_Controller_Voltmeter.i"
 	@echo "... src/LABSoft_Controller_Voltmeter.s"
+	@echo "... src/LABSoft_Function_Generator_Display.o"
+	@echo "... src/LABSoft_Function_Generator_Display.i"
+	@echo "... src/LABSoft_Function_Generator_Display.s"
 	@echo "... src/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI.s"
@@ -901,6 +1045,9 @@ help:
 	@echo "... src/LAB_Ammeter.o"
 	@echo "... src/LAB_Ammeter.i"
 	@echo "... src/LAB_Ammeter.s"
+	@echo "... src/LAB_Circuit_Checker.o"
+	@echo "... src/LAB_Circuit_Checker.i"
+	@echo "... src/LAB_Circuit_Checker.s"
 	@echo "... src/LAB_Core.o"
 	@echo "... src/LAB_Core.i"
 	@echo "... src/LAB_Core.s"
@@ -910,6 +1057,9 @@ help:
 	@echo "... src/LAB_Globals.o"
 	@echo "... src/LAB_Globals.i"
 	@echo "... src/LAB_Globals.s"
+	@echo "... src/LAB_Logic_Analyzer.o"
+	@echo "... src/LAB_Logic_Analyzer.i"
+	@echo "... src/LAB_Logic_Analyzer.s"
 	@echo "... src/LAB_Meter.o"
 	@echo "... src/LAB_Meter.i"
 	@echo "... src/LAB_Meter.s"

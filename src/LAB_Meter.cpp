@@ -1,10 +1,8 @@
 #include "LAB_Meter.h"
 
 LAB_Meter:: 
-LAB_Meter (LAB_Core *_LAB_Core)
+LAB_Meter () : LAB_Core ()
 {
-  m_LAB_Core = _LAB_Core;
-
   // initialize defaults
   m_value       = LAB_DEFAULTS_METER_VALUE;
   m_unit_scaler = LAB_DEFAULTS_METER_UNIT_SCALER;
