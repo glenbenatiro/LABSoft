@@ -113,7 +113,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_read_from_adc (MEM_MAP *mp,
 
   int n;
 
-  while (m_flag_is_oscilloscope_running)
+  while (m_is_oscilloscope_running)
     {
       // copy data from uncached mem to stream buff
       if ((n = LAB_Oscilloscope_stream_csv (mp, vals, maxlen, nsamp)) > 0)
@@ -187,7 +187,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_stream_csv (MEM_MAP *mp,
 void LAB_Oscilloscope::
 LAB_Oscilloscope_start ()
 {
-  if (!m_flag_is_oscilloscope_running)
+  if (!m_is_oscilloscope_running)
     {
       // ensure DMA channels are stopped
       LAB_Core_dma_stop(DMA_CHAN_A);
@@ -212,7 +212,7 @@ LAB_Oscilloscope_start ()
 
       printf ("DEBUG: start stream\n");
 
-      m_flag_is_oscilloscope_running = true;
+      m_is_oscilloscope_running = true;
 
       m_thread_ADC_streaming 
       = new std::thread (&LAB_Oscilloscope::LAB_Oscilloscope_read_from_adc,
@@ -249,7 +249,7 @@ LAB_Oscilloscope_write_to_fifo (float *vals, int maxvals)
   int i, n, nvals=0, done=0;
   char *s;
 
-  while (m_flag_is_oscilloscope_running)
+  while (m_is_oscilloscope_running)
     {
       while (!done && (n = read(m_fifo_read_fd, &txtbuff[fifo_in], sizeof(txtbuff)-fifo_in-1)) > 0)
       {
@@ -305,9 +305,9 @@ LAB_Oscilloscope_write_to_fifo (float *vals, int maxvals)
 void LAB_Oscilloscope::
 LAB_Oscilloscope_stop ()
 {
-  if (m_flag_is_oscilloscope_running)
+  if (m_is_oscilloscope_running)
     {
-      m_flag_is_oscilloscope_running = false;
+      m_is_oscilloscope_running = false;
       m_thread_ADC_streaming->join ();
       m_thread_ADC_reading->join ();
 

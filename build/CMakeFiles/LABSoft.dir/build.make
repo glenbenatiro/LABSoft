@@ -440,22 +440,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.s
 
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o: CMakeFiles/LABSoft.dir/flags.make
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o: ../src/LABSoft_Function_Generator_Display.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Function_Generator_Display.cpp
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Function_Generator_Display.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Function_Generator_Display.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s
-
 CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o: ../src/ChannelSignals.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o -c /home/glen/Desktop/LABSoft/src/ChannelSignals.cpp
 
 CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.i: cmake_force
@@ -468,7 +455,7 @@ CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.s: cmake_force
 
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: ../src/pugixml.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/pugixml.cpp.o -c /home/glen/Desktop/LABSoft/src/pugixml.cpp
 
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.i: cmake_force
@@ -509,7 +496,6 @@ LABSoft_OBJECTS = \
 "CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
 
@@ -544,13 +530,12 @@ LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
-LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/pugixml.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/build.make
 LABSoft: /usr/lib/arm-linux-gnueabihf/libfltk.so
 LABSoft: CMakeFiles/LABSoft.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Linking CXX executable LABSoft"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Linking CXX executable LABSoft"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LABSoft.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

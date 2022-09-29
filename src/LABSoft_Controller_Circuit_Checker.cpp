@@ -53,12 +53,12 @@ LABSoft_Controller_Circuit_Checker_parse_xml_file ()
   if (xml_parse_result)
     {
       LABSoft_Controller_Circuit_Checker_log ("Selected circuit checker file OK.");
-      m_flag_is_file_valid = true;
+      m_is_file_valid = true;
       m_LABSoft_GUI->circuit_checker_fl_output_selected_circuit_checker_file->value (m_circuit_checker_filename);
     }
   else
     {
-      m_flag_is_file_valid = false;
+      m_is_file_valid = false;
       LABSoft_Controller_Circuit_Checker_log ("Invalid circuit checker file. Please select another file.");
       m_LABSoft_GUI->circuit_checker_fl_output_selected_circuit_checker_file->value ("Invalid file.");
 
@@ -133,7 +133,7 @@ void LABSoft_Controller_Circuit_Checker::
 LABSoft_Controller_Circuit_Checker_cb_fl_button_choose_circuit_checker_file (Fl_Button *w,
                                                                              void      *data)
 {
-  if (!m_flag_is_circuit_checker_running)
+  if (!m_is_circuit_checker_running)
     {
       // show file chooser open
       m_file_chooser->show ();
@@ -158,15 +158,15 @@ void LABSoft_Controller_Circuit_Checker::
  LABSoft_Controller_Circuit_Checker_cb_fl_button_start_circuit_checking (Fl_Button *w, 
                                                                          void      *data)
 {
-  if (!m_flag_is_circuit_checker_running)
+  if (!m_is_circuit_checker_running)
     {
-      if (m_flag_is_file_valid)
+      if (m_is_file_valid)
         {
-          m_flag_is_circuit_checker_running = true;
+          m_is_circuit_checker_running = true;
           LABSoft_Controller_Circuit_Checker_log ("Circuit checking started.");
           LABSoft_Controller_Circuit_Checker_start_circuit_checking ();
 
-          m_flag_is_circuit_checker_running = false;
+          m_is_circuit_checker_running = false;
           LABSoft_Controller_Circuit_Checker_log ("Circuit checking ended.");
         }
       else 

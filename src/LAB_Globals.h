@@ -53,16 +53,23 @@ enum WaveType {SINE,
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS     LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_SAMPLES  LAB_OSCILLOSCOPE_MAX_NUMBER_OF_SAMPLES
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS 10
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION     1
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION     1.0 // 1.0 volts/div
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_TIME_PER_DIVISION      1.0 // 1.0 sec/dov
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_ENABLE_SAMPLE_SHARING  false
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL 0  
+extern  int LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS[LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS];
 
-
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE     1.0 // in volts
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY     1.0 // in hz
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE         0.0 // in degrees
+#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET      0.0 // in volts
 
 // int g_channel_color[10] = {
 //   0x00000003,
 //   0x00000006
 // };
 
-// WARNING - SHOULD BE SIMILAR WITH LABSOFT_DEFAULTS_FUNCTION_GENERATOR!
+// WARNING - SHOULD BE SIMILAR WITH #define LABSOFT_DEFAULTS_FUNCTION_GENERATOR!
 #define LAB_DEFAULTS_FUNCTION_GENERATOR_WAVE_TYPE   SINE
 #define LAB_DEFAULTS_FUNCTION_GENERATOR_FREQUENCY   1.0
 #define LAB_DEFAULTS_FUNCTION_GENERATOR_PERIOD      1.0
@@ -268,18 +275,18 @@ typedef struct {
 // Videocore mailbox memory allocation flags, see:
 // https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
 typedef enum {
-  MEM_FLAG_DISCARDABLE      = 1 << 0,                               // can be resized to 0 at any time. Use for cached data
-  MEM_FLAG_NORMAL           = 0 << 2,                               // normal allocating alias. Don't use from ARM
-  MEM_FLAG_DIRECT           = 1 << 2,                               // 0xC alias uncached
-  MEM_FLAG_COHERENT         = 2 << 2,                               // 0x8 alias. Non-allocating in L2 but coherent
-  MEM_FLAG_ZERO             = 1 << 4,                               // initialise buffer to all zeros
-  MEM_FLAG_NO_INIT          = 1 << 5,                               // don't initialise (default is initialise to all ones)
-  MEM_FLAG_HINT_PERMALOCK   = 1 << 6,                               // Likely to be locked for long periods of time
-  MEM_FLAG_L1_NONALLOCATING = (MEM_FLAG_DIRECT | MEM_FLAG_COHERENT) // Allocating in L2
+  MEm_DISCARDABLE      = 1 << 0,                               // can be resized to 0 at any time. Use for cached data
+  MEm_NORMAL           = 0 << 2,                               // normal allocating alias. Don't use from ARM
+  MEm_DIRECT           = 1 << 2,                               // 0xC alias uncached
+  MEm_COHERENT         = 2 << 2,                               // 0x8 alias. Non-allocating in L2 but coherent
+  MEm_ZERO             = 1 << 4,                               // initialise buffer to all zeros
+  MEm_NO_INIT          = 1 << 5,                               // don't initialise (default is initialise to all ones)
+  MEm_HINT_PERMALOCK   = 1 << 6,                               // Likely to be locked for long periods of time
+  MEm_L1_NONALLOCATING = (MEm_DIRECT | MEm_COHERENT) // Allocating in L2
 } VC_ALLOC_FLAGS;
 
 // VC flags for unchached DMA memory
-#define DMA_MEM_FLAGS static_cast<VC_ALLOC_FLAGS>((MEM_FLAG_COHERENT | MEM_FLAG_ZERO))
+#define DMA_MEM_FLAGS static_cast<VC_ALLOC_FLAGS>((MEm_COHERENT | MEm_ZERO))
 
 
 

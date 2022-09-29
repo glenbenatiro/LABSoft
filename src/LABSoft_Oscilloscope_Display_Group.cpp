@@ -1,7 +1,15 @@
 #include "LABSoft_Oscilloscope_Display_Group.h"
 
 LABSoft_Oscilloscope_Display_Group::
-LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H) : Fl_Group (X, Y, W, H, 0)
+LABSoft_Oscilloscope_Display_Group (int X, 
+                                    int Y, 
+                                    int W, 
+                                    int H,
+                                    const char *label) : Fl_Group (X, 
+                                                                       Y, 
+                                                                       W, 
+                                                                       H, 
+                                                                       label)
 {
   // load defaults
   m_upper_padding     = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_UPPER_PADDING;
@@ -20,7 +28,8 @@ LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H) : Fl_Group (X, Y
   m_display = new LABSoft_Oscilloscope_Display (X + m_left_padding, 
                                                 Y + m_upper_padding, 
                                                 W - m_left_padding - m_right_padding,
-                                                H - m_upper_padding - m_lower_padding);
+                                                H - m_upper_padding - m_lower_padding,
+                                                0);
 
   // override number of rows and columns in osc disp widget
   m_display->rows_columns (m_number_of_rows, m_number_of_columns);
@@ -95,8 +104,8 @@ display ()
 
 // setters
 void LABSoft_Oscilloscope_Display_Group:: 
-m_rows_columns (int rows, 
-                int columns)
+rows_columns (int rows, 
+              int columns)
 {
  m_number_of_rows = rows;
  m_number_of_columns = columns;

@@ -21,8 +21,8 @@ class LAB_Meter : public LAB_Core
     float m_value,
           m_unit_scaler;
     
-    bool m_flag_is_meter_running = false;
-    bool m_flag_is_generate_random_values_running = false;
+    bool m_is_meter_running = false;
+    bool m_is_generate_random_values_running = false;
 
     // functions  
     LAB_Meter ();

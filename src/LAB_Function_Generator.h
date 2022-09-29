@@ -26,7 +26,7 @@ class LAB_Function_Generator : public LAB_Core
 
     WaveType m_wave_type;
 
-    bool m_flag_is_running = false;
+    bool m_is_running = false;
   
     LAB_Function_Generator ();
 };

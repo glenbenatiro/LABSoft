@@ -61,7 +61,7 @@ class LAB_Oscilloscope : public LAB_Core
              m_sample_rate,
              fifo_in;
     
-    bool     m_flag_is_oscilloscope_running = false;
+    bool     m_is_oscilloscope_running = false;
 
     int fifo_write_fd = 0,
         fifo_read_fd  = 0;
@@ -74,7 +74,7 @@ class LAB_Oscilloscope : public LAB_Core
     float fifo_vals[MAX_SAMPS];
 
 
-    bool m_flag_is_generate_random_values_running = false;
+    bool m_is_generate_random_values_running = false;
 
     std::thread *m_thread_ADC_streaming,
                 *m_thread_ADC_reading;

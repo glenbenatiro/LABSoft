@@ -38,7 +38,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     std::vector<std::vector<Fl_Box*>> m_y_labels;  // label for y axes
     
     // functions
-          LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H);
+          LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char *label = 0);
     void  draw ();
     void  update_x_axis_labels ();
 
@@ -46,7 +46,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     LABSoft_Oscilloscope_Display* display ();
 
     // setters
-    void  m_rows_columns (int rows, int columns);
+    void  rows_columns (int rows, int columns);
 };
 
 #endif

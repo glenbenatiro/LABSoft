@@ -316,41 +316,11 @@ FL/Fl_Box.H
 LABSoft_Oscilloscope_Display.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Ammeter.cpp
-LAB_Ammeter.h
-/home/glen/Desktop/LABSoft/src/LAB_Ammeter.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Ammeter.h
 LAB_Meter.h
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.cpp
-LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
-LAB_Core.h
-/home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Core.cpp
-iostream
--
-fcntl.h
--
-sys/mman.h
--
-stdio.h
--
-unistd.h
--
-sys/ioctl.h
--
-sys/stat.h
--
-errno.h
--
-poll.h
--
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
@@ -386,10 +356,6 @@ LABSoft_Oscilloscope_Display.h
 LABSoft_Oscilloscope_Display_Group.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Globals.cpp
-LAB_Globals.h
-/home/glen/Desktop/LABSoft/src/LAB_Globals.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Globals.h
 string.h
 -
@@ -398,17 +364,9 @@ stdint.h
 cstdlib
 -
 
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
-LAB_Logic_Analyzer.h
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Meter.cpp
-LAB_Meter.h
-/home/glen/Desktop/LABSoft/src/LAB_Meter.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
 cstdio
@@ -428,17 +386,9 @@ LAB_Globals.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.cpp
-LAB_Ohmmeter.h
-/home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.h
 LAB_Meter.h
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
-LAB_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
 thread
@@ -481,10 +431,6 @@ ChannelSignals.h
 /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.h
 iostream
 -
-
-/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp
-LAB_Voltmeter.h
-/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 LAB_Meter.h

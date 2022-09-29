@@ -43,8 +43,8 @@ class LABSoft_Controller_Circuit_Checker
     Fl_Text_Display *m_text_display;
     Fl_File_Chooser *m_file_chooser;
     const char      *m_circuit_checker_filename;
-    bool            m_flag_is_circuit_checker_running = false,
-                    m_flag_is_file_valid = false;
+    bool            m_is_circuit_checker_running = false,
+                    m_is_file_valid = false;
     SignalChain     m_signal_chain;
 
     pugi::xml_document m_xml_document;

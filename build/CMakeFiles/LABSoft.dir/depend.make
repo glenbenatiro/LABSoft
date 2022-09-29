@@ -279,8 +279,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Oscill
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Power_Supply.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Voltmeter.h
 
-CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o: ../src/LABSoft_Function_Generator_Display.cpp
-
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/ChannelSignals.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller.h

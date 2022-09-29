@@ -74,7 +74,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
       draw_box (FL_FLAT_BOX, m_background_color);
       draw_grid ();
       
-      // if (m_flag_is_display_enabled)
+      // if (m_is_display_enabled)
       //   draw_channel_signals ();
     }
 

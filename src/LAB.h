@@ -26,7 +26,7 @@ class LAB
     LAB_Voltmeter          *m_LAB_Voltmeter;
     LAB_Ammeter            *m_LAB_Ammeter;
     LAB_Ohmmeter           *m_LAB_Ohmmeter;
-    LAB_Function_Generator *m_LAB_Function_Generator;
+    LAB_Function_Generator *m_Function_Generator;
     LAB_Logic_Analyzer     *m_LAB_Logic_Analyzer;
     LAB_Power_Supply       *m_LAB_Power_Supply;
     LAB_Circuit_Checker    *m_LAB_Circuit_Checker;   

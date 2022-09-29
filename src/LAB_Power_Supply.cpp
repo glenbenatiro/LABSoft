@@ -3,7 +3,7 @@
 void LAB_Power_Supply:: 
 LAB_Power_Supply_update_power_channels ()
 {
-  if (!m_flag_is_power_supply_enabled)
+  if (!m_is_power_supply_enabled)
     {
       m_positive_12_volt_channel  = 0;
       m_negative_12_volt_channel  = 0;
@@ -11,17 +11,17 @@ LAB_Power_Supply_update_power_channels ()
     }
   else 
   {
-    if (m_flag_is_positive_12_volts_enabled)
+    if (m_is_positive_12_volts_enabled)
       m_positive_12_volt_channel = 1;
     else 
       m_positive_12_volt_channel = 0;
 
-    if (m_flag_is_negative_12_volts_enabled)
+    if (m_is_negative_12_volts_enabled)
       m_negative_12_volt_channel = 1;
     else 
       m_negative_12_volt_channel = 0;
 
-    if (m_flag_is_positive_5_volts_enabled)
+    if (m_is_positive_5_volts_enabled)
       m_positive_5_volt_channel = 1;
     else 
       m_positive_5_volt_channel = 0;

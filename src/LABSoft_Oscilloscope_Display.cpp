@@ -4,21 +4,36 @@ LABSoft_Oscilloscope_Display::
 LABSoft_Oscilloscope_Display (int X,
                               int Y,
                               int W,
-                              int H) : Fl_Widget (X,                                        
-                                                              Y,
-                                                              W,
-                                                              H,
-                                                              0)
+                              int H,
+                              const char *label = 0) : Fl_Widget (X,                                        
+                                                                  Y,
+                                                                  W,
+                                                                  H,
+                                                                  label)
 { 
   // load defaults
-  m_number_of_rows          = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS;
-  m_number_of_columns       = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS;
-  m_grid_color              = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR;
-  m_background_color        = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR;
-  m_default_color           = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR;
-  m_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS; 
-  m_max_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
-  m_volts_per_division      = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION;
+  m_number_of_rows              = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS;
+  m_number_of_columns           = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS;
+  m_grid_color                  = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR;
+  m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR;
+  m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR;
+  m_number_of_channels          = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS; 
+  m_volts_per_division          = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION;
+  m_time_per_division           = LABSOFT_OSCILLOSCOPE_DISPLAY_TIME_PER_DIVISION;
+  m_enable_sample_sharing       = LABSOFT_OSCILLOSCOPE_DISPLAY_ENABLE_SAMPLE_SHARING;
+  m_max_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
+  m_max_number_of_samples       = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_SAMPLES;
+  m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL;
+  m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
+
+  m_function_amplitude          = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE;
+  m_function_frequency          = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY;
+  m_function_phase              = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE;
+  m_function_y_offset           = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET;
+
+  m_channel_signals = new ChannelSignals (m_number_of_channels,
+                                          m_max_number_of_samples,
+                                          m_enable_sample_sharing);
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -27,7 +42,7 @@ draw ()
   draw_box (FL_FLAT_BOX, m_background_color);
   draw_grid ();
   
-  if (m_flag_is_display_enabled)
+  if (m_is_display_enabled)
     draw_channel_signals ();
 }
 
@@ -74,43 +89,67 @@ draw_grid ()
 }
 
 void LABSoft_Oscilloscope_Display:: 
-draw_channel_signals ()
+draw_channel_signals () const
 {
-  // for (int a = 0; a < m_channel_signals.size (); a++)
-  //   {
-  //     if (m_channel_signal[a].m_flag_is_enabled)
-  //       {
-  //         std::vector<std::vector<int>> *p = &(m_channel_signal[a].m_pixel_points);
+  if (m_is_display_enabled)
+    {
+      for (int a = 0; a < m_channel_signals->number_of_channels (); a++)  
+        {
+          ChannelSignal *chan = &((*(m_channel_signals->channel_signal_vector ()))[a]);
 
-  //         for (int b = 0; b < (p->size ()); b++)
-  //           {
-  //             fl_line ((*p)[b][0], (*p)[b][1], (*p)[b + 1][0], (*p)[b + 1][1]);
-  //           }
-  //       }
-  //   }
+          if (chan->is_enabled ())
+            {
+              std::vector<std::vector<int>> *pp = chan->pixel_points ();
+
+              for (int b = 0; b < (w () - 1); b++)
+                fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
+            }
+        } 
+    }
 }
 
 void LABSoft_Oscilloscope_Display:: 
 normalize_channel_signals ()
 {
-  // for (int a = 0; a < m_channel_signals.size (); a++)
-  // {
-  //   if (m_channel_signal[a].m_flag_is_enabled)
-  //     {
-  //       std::vector<std::vector<int>> *p = &(m_channel_signal[a].m_pixel_points);
+  if (m_is_display_enabled)
+    {
+      for (int a = 0; a < m_channel_signals->number_of_channels (); a++)  
+        {
+          // pointer to specific ChannelSignal (chan 1, chan 2, chan 3...)
+          ChannelSignal *chan = &((*(m_channel_signals->channel_signal_vector ()))[a]);
 
-  //       for (int b = 0; b < (p->size ()); b++)
-  //         {
-  //           fl_line ((*p)[b][0], (*p)[b][1], (*p)[b + 1][0], (*p)[b + 1][1]);
-  //         }
-  //     }
-  }
+          if (chan->is_enabled ())
+            {
+              // pointer to the specific ChannelSignal's pixel points
+              std::vector<std::vector<int>>* pp = chan->pixel_points ();
+
+              // pointer to the specific ChannelSignal's sample values
+              std::vector<float> *val = chan->samples ();
+              
+              // calculate y mid pixel, for zero
+              float y_mid_pixel =  y () + ((float)h () / 2.0);
+              float scaled_max_amplitude = m_number_of_rows * m_volts_per_division;
+
+              for (int b = 0; (b < chan->samples ()->size ()) && (b < pp->size ()); b++)
+                {
+                  (*pp)[b][0] = b;
+
+                  if ((*val)[b] == 0.0)
+                    (*pp)[b][1] = y_mid_pixel;
+                  else
+                    (*pp)[b][1] = y_mid_pixel - ((*val)[b] * (((float)h () / 2.0) / scaled_max_amplitude));
+                }
+            }
+        } 
+    }
+}
+
 
 // setters
 void LABSoft_Oscilloscope_Display:: 
-flag_is_display_enabled (bool value)
+is_display_enabled (bool value)
 {
-  m_flag_is_display_enabled = value;
+  m_is_display_enabled = value;
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -133,4 +172,160 @@ rows_columns (int number_of_rows,
   m_number_of_columns = number_of_columns;
 }
 
+// --- FUNCTION GENERATOR SECTION --- 
+
+void LABSoft_Oscilloscope_Display:: 
+enable_function_generator_mode ()
+{
+  // change number of channels to 1
+  number_of_channels (1);
+
+  // already default set to use channel 1
+
+  // update channel signals
+  m_channel_signals->number_of_channels_all (1);
+}
+
+int LABSoft_Oscilloscope_Display:: 
+generate_waveform (WaveType wave_type, int channel)
+{
+  std::vector<float>  values;  
+  float               x_scaler = 1 / (static_cast<float>(w ()) /
+                        static_cast<float>(m_number_of_columns));
+
+  // error out if channel argument is greater than number of channels
+  if (channel > m_channel_signals->number_of_channels ())
+    return -1;
+  else
+    ChannelSignal *channel_signal = &((*(m_channel_signals->channel_signal_vector ()))[channel]);
+  
+  for (int a = 0; a < w (); a++)
+    {
+      switch (m_wave_type)
+        {
+          case (SINE):
+            values[a] = (m_function_amplitude / m_function_volts_per_division) * 
+              sin ((2 * m_pi * m_function_frequency * a * m_time_per_division * x_scaler) 
+                + (m_function_phase * m_pi / 180.0)) + m_function_y_offset;
+            break;
+
+          case (SQUARE):
+            values[a] = copysign ((m_function_amplitude / m_function_volts_per_division), sin ((2 * m_pi * m_function_frequency * 
+              a * m_time_per_division * x_scaler) + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;
+            break;
+
+          case (TRIANGLE):
+            values[a] = ((2 * (m_function_amplitude / m_function_volts_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
+              (1.0 / m_function_frequency)) * a * x_scaler + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;        
+            break;
+
+          case (DC):
+            values[a] = (m_function_amplitude / m_function_volts_per_division) + m_function_y_offset;
+            break;
+
+          default:
+            values[a] = 0.0;
+            break;
+        } 
+    }  
+  
+  return 1;
+}
+
+void LABSoft_Oscilloscope_Display:: 
+regendraw ()
+{
+  if (m_is_display_enabled)  
+    {
+      normalize_channel_signals ();
+    }
+}
+
+// setters
+void LABSoft_Oscilloscope_Display::
+function_wave_type (WaveType wave_type)
+{
+  m_wave_type = wave_type;
+}
+
+void LABSoft_Oscilloscope_Display::
+function_amplitude (float amplitude)
+{
+  m_function_amplitude = amplitude;
+}
+
+void LABSoft_Oscilloscope_Display::
+function_frequency (float frequency)
+{
+  m_function_frequency = frequency;
+}
+
+void LABSoft_Oscilloscope_Display::
+function_phase (float phase)
+{
+  m_function_phase = phase;
+}
+
+void LABSoft_Oscilloscope_Display::
+function_y_offset (float y_offset)
+{
+  m_function_y_offset = y_offset;
+}
+
+void LABSoft_Oscilloscope_Display::
+function_time_per_division (float time_per_division)
+{
+  m_time_per_division = time_per_division;
+}
+
+void LABSoft_Oscilloscope_Display::
+function_volts_per_division (float volts_per_division)
+{
+  m_volts_per_division = volts_per_division;
+}
+
+// getters
+WaveType LABSoft_Oscilloscope_Display::
+function_wave_type ()
+{
+  return m_wave_type;
+}
+
+float LABSoft_Oscilloscope_Display::
+function_amplitude ()
+{
+  return m_function_amplitude;
+}
+
+float LABSoft_Oscilloscope_Display::
+function_frequency ()
+{
+  return m_function_frequency;
+}
+
+float LABSoft_Oscilloscope_Display::
+function_phase ()
+{
+  return m_function_phase;
+}
+
+float LABSoft_Oscilloscope_Display::
+function_y_offset ()
+{
+  return m_function_y_offset;
+}
+
+float LABSoft_Oscilloscope_Display::
+function_time_per_division ()
+{
+  return m_time_per_division;
+}
+
+float LABSoft_Oscilloscope_Display::
+function_volts_per_division ()
+{
+  return m_volts_per_division;
+}
+
+// EOF
 

@@ -520,33 +520,6 @@ src/LABSoft_Controller_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.s
 .PHONY : src/LABSoft_Controller_Voltmeter.cpp.s
 
-src/LABSoft_Function_Generator_Display.o: src/LABSoft_Function_Generator_Display.cpp.o
-
-.PHONY : src/LABSoft_Function_Generator_Display.o
-
-# target to build an object file
-src/LABSoft_Function_Generator_Display.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.o
-.PHONY : src/LABSoft_Function_Generator_Display.cpp.o
-
-src/LABSoft_Function_Generator_Display.i: src/LABSoft_Function_Generator_Display.cpp.i
-
-.PHONY : src/LABSoft_Function_Generator_Display.i
-
-# target to preprocess a source file
-src/LABSoft_Function_Generator_Display.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.i
-.PHONY : src/LABSoft_Function_Generator_Display.cpp.i
-
-src/LABSoft_Function_Generator_Display.s: src/LABSoft_Function_Generator_Display.cpp.s
-
-.PHONY : src/LABSoft_Function_Generator_Display.s
-
-# target to generate assembly for a file
-src/LABSoft_Function_Generator_Display.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Function_Generator_Display.cpp.s
-.PHONY : src/LABSoft_Function_Generator_Display.cpp.s
-
 src/LABSoft_GUI.o: src/LABSoft_GUI.cpp.o
 
 .PHONY : src/LABSoft_GUI.o
@@ -1030,9 +1003,6 @@ help:
 	@echo "... src/LABSoft_Controller_Voltmeter.o"
 	@echo "... src/LABSoft_Controller_Voltmeter.i"
 	@echo "... src/LABSoft_Controller_Voltmeter.s"
-	@echo "... src/LABSoft_Function_Generator_Display.o"
-	@echo "... src/LABSoft_Function_Generator_Display.i"
-	@echo "... src/LABSoft_Function_Generator_Display.s"
 	@echo "... src/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI.s"

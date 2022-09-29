@@ -94,17 +94,9 @@ public:
   LABSoft_Oscilloscope_Display_Group *function_generator_labsoft_oscilloscope_display_group_display;
   Fl_Group *function_generator_fl_group_horizontal;
   Fl_Input_Choice *function_generator_fl_input_choice_horizontal_position;
-private:
-  inline void cb_function_generator_fl_input_choice_horizontal_position_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_horizontal_position(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_horizontal_position[];
-public:
   Fl_Input_Choice *function_generator_fl_input_choice_time_per_division;
-private:
-  inline void cb_function_generator_fl_input_choice_time_per_division_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_time_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_time_per_division[];
-public:
   Fl_Group *function_generator_fl_group_vertical;
   Fl_Input_Choice *function_generator_fl_input_choice_vertical_offset;
   static Fl_Menu_Item menu_function_generator_fl_input_choice_vertical_offset[];

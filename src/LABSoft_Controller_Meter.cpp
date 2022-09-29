@@ -19,7 +19,7 @@ LABSoft_Controller_Meter_update_meter_value ()
   float value  = m_LAB_Meter->m_value * m_LAB_Meter->m_unit_scaler,
         scaler = m_LAB_Meter->m_unit_scaler;
 
-  while (m_LAB_Meter->m_flag_is_meter_running)
+  while (m_LAB_Meter->m_is_meter_running)
     {
       sprintf (s, "%f", value);
       m_Fl_Output->value (s);
@@ -78,7 +78,7 @@ LABSoft_Controller_Meter_cb_fl_light_button_run_stop (Fl_Light_Button *w,
 {
   if (w->value () == 0)
     {
-      m_LAB_Meter->m_flag_is_meter_running = false;
+      m_LAB_Meter->m_is_meter_running = false;
 
       thread2->join ();
 
@@ -86,7 +86,7 @@ LABSoft_Controller_Meter_cb_fl_light_button_run_stop (Fl_Light_Button *w,
     }
   else 
     {
-      m_LAB_Meter->m_flag_is_meter_running = true;
+      m_LAB_Meter->m_is_meter_running = true;
 
       thread2 = new std::thread (&LABSoft_Controller_Meter::LABSoft_Controller_Meter_update_meter_value,
         this);
@@ -101,7 +101,7 @@ LABSoft_Controller_Meter_cb_fl_light_button_generate_random_values (Fl_Light_But
 {
   if (w->value () == 0)
     {
-      m_LAB_Meter->m_flag_is_generate_random_values_running = false;
+      m_LAB_Meter->m_is_generate_random_values_running = false;
 
       thread1->join();
 
@@ -109,7 +109,7 @@ LABSoft_Controller_Meter_cb_fl_light_button_generate_random_values (Fl_Light_But
     }
   else 
     {
-      m_LAB_Meter->m_flag_is_generate_random_values_running = true;
+      m_LAB_Meter->m_is_generate_random_values_running = true;
 
       thread1 = new std::thread (&LAB_Meter::LAB_Meter_random_values_generator, m_LAB_Meter);
 
