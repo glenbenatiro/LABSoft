@@ -10,9 +10,10 @@
 
 class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 {
-  public:
-    LABSoft_Oscilloscope_Display *m_disp;
-    
+  private:
+    bool m_is_enabled = false;
+    LABSoft_Oscilloscope_Display  *m_display;
+
     // for core oscilloscope display operation
     int m_number_of_rows,
         m_number_of_columns,
@@ -33,20 +34,24 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
         m_background_color;
 
     // widgets
-    LABSoft_Oscilloscope_Display     *m_display;
-    std::vector<Fl_Box*>              m_x_labels;   // label for x axis
-    std::vector<std::vector<Fl_Box*>> m_y_labels;  // label for y axes
     
+    std::vector<Fl_Box*>              m_x_labels;  // label for x axis
+    std::vector<std::vector<Fl_Box*>> m_y_labels;  // label for y axes
+
+  public:
     // functions
           LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char *label = 0);
     void  draw ();
     void  update_x_axis_labels ();
-
-    // getters
-    LABSoft_Oscilloscope_Display* display ();
+    void  update_y_axis_labels ();
 
     // setters
     void  rows_columns (int rows, int columns);
+    void  is_enabled (bool value);
+
+    // getters
+    LABSoft_Oscilloscope_Display* display ();
+    bool  is_enabled ();    
 };
 
 #endif

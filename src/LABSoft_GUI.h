@@ -4,6 +4,7 @@
 #define LABSoft_GUI_h
 #include <FL/Fl.H>
 #include "LAB.h"
+#include "Defaults.h"
 #include "LAB_Globals.h"
 class LABSoft_Controller;
 #include <FL/Fl_Double_Window.H>
@@ -70,8 +71,16 @@ private:
 public:
   Fl_Output *ammeter_fl_output_value;
   Fl_Choice *ammeter_fl_choice_unit;
+private:
+  inline void cb_ammeter_fl_choice_unit_i(Fl_Choice*, void*);
+  static void cb_ammeter_fl_choice_unit(Fl_Choice*, void*);
   static Fl_Menu_Item menu_ammeter_fl_choice_unit[];
+public:
   Fl_Light_Button *ammeter_fl_light_button_run_stop;
+private:
+  inline void cb_ammeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_ammeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
   Fl_Light_Button *ammeter_fl_light_button_generate_random_values;
 private:
   inline void cb_ammeter_fl_light_button_generate_random_values_i(Fl_Light_Button*, void*);
@@ -79,17 +88,25 @@ private:
 public:
   Fl_Output *ohmmeter_fl_output_value;
   Fl_Choice *ohmmeter_fl_choice_unit;
+private:
+  inline void cb_ohmmeter_fl_choice_unit_i(Fl_Choice*, void*);
+  static void cb_ohmmeter_fl_choice_unit(Fl_Choice*, void*);
   static Fl_Menu_Item menu_ohmmeter_fl_choice_unit[];
+public:
   Fl_Light_Button *ohmmeter_fl_light_button_run_stop;
+private:
+  inline void cb_ohmmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_ohmmeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
   Fl_Light_Button *ohmmeter_fl_light_button_generate_random_values;
 private:
   inline void cb_ohmmeter_fl_light_button_generate_random_values_i(Fl_Light_Button*, void*);
   static void cb_ohmmeter_fl_light_button_generate_random_values(Fl_Light_Button*, void*);
 public:
-  Fl_Light_Button *function_generator_fl_light_button_start_stop;
+  Fl_Light_Button *function_generator_fl_light_button_run_stop;
 private:
-  inline void cb_function_generator_fl_light_button_start_stop_i(Fl_Light_Button*, void*);
-  static void cb_function_generator_fl_light_button_start_stop(Fl_Light_Button*, void*);
+  inline void cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
   LABSoft_Oscilloscope_Display_Group *function_generator_labsoft_oscilloscope_display_group_display;
   Fl_Group *function_generator_fl_group_horizontal;

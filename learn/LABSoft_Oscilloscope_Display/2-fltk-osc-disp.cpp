@@ -19,7 +19,7 @@
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_BOXTYPE            FL_FLAT_BOX
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS
 
-class ChannelSignal
+class Channel_Signal
 {
   public:
     std::vector<float> values;
@@ -27,12 +27,12 @@ class ChannelSignal
     int y_offset = 0,
         x_offset = 0;
     
-    ChannelSignal (int length)
+    Channel_Signal (int length)
     {
       values.resize (length, 0.0); // initialize to zero
     }
 
-    void ChannelSignal_resize (int length)
+    void Channel_Signal_resize (int length)
     {
       values.resize (length, 0.0);
     }
@@ -50,7 +50,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
                 m_number_of_channels = 2, // default to 2
                 ;
     
-    std::vector<ChannelSignal> m_channel_signals;
+    std::vector<Channel_Signal> m_channel_signals;
 
     Fl_Boxtype  m_boxtype;  
 

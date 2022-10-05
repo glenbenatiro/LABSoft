@@ -142,32 +142,59 @@ LABSoft/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/build
 .PHONY : LABSoft/fast
 
-src/ChannelSignals.o: src/ChannelSignals.cpp.o
+src/Auxiliary.o: src/Auxiliary.cpp.o
 
-.PHONY : src/ChannelSignals.o
+.PHONY : src/Auxiliary.o
 
 # target to build an object file
-src/ChannelSignals.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.o
-.PHONY : src/ChannelSignals.cpp.o
+src/Auxiliary.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o
+.PHONY : src/Auxiliary.cpp.o
 
-src/ChannelSignals.i: src/ChannelSignals.cpp.i
+src/Auxiliary.i: src/Auxiliary.cpp.i
 
-.PHONY : src/ChannelSignals.i
+.PHONY : src/Auxiliary.i
 
 # target to preprocess a source file
-src/ChannelSignals.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.i
-.PHONY : src/ChannelSignals.cpp.i
+src/Auxiliary.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.i
+.PHONY : src/Auxiliary.cpp.i
 
-src/ChannelSignals.s: src/ChannelSignals.cpp.s
+src/Auxiliary.s: src/Auxiliary.cpp.s
 
-.PHONY : src/ChannelSignals.s
+.PHONY : src/Auxiliary.s
 
 # target to generate assembly for a file
-src/ChannelSignals.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ChannelSignals.cpp.s
-.PHONY : src/ChannelSignals.cpp.s
+src/Auxiliary.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.s
+.PHONY : src/Auxiliary.cpp.s
+
+src/Channel_Signals.o: src/Channel_Signals.cpp.o
+
+.PHONY : src/Channel_Signals.o
+
+# target to build an object file
+src/Channel_Signals.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o
+.PHONY : src/Channel_Signals.cpp.o
+
+src/Channel_Signals.i: src/Channel_Signals.cpp.i
+
+.PHONY : src/Channel_Signals.i
+
+# target to preprocess a source file
+src/Channel_Signals.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.i
+.PHONY : src/Channel_Signals.cpp.i
+
+src/Channel_Signals.s: src/Channel_Signals.cpp.s
+
+.PHONY : src/Channel_Signals.s
+
+# target to generate assembly for a file
+src/Channel_Signals.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.s
+.PHONY : src/Channel_Signals.cpp.s
 
 src/LAB.o: src/LAB.cpp.o
 
@@ -961,9 +988,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LABSoft"
-	@echo "... src/ChannelSignals.o"
-	@echo "... src/ChannelSignals.i"
-	@echo "... src/ChannelSignals.s"
+	@echo "... src/Auxiliary.o"
+	@echo "... src/Auxiliary.i"
+	@echo "... src/Auxiliary.s"
+	@echo "... src/Channel_Signals.o"
+	@echo "... src/Channel_Signals.i"
+	@echo "... src/Channel_Signals.s"
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"

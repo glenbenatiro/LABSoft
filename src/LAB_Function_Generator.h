@@ -1,34 +1,30 @@
 #ifndef LAB_FUNCTION_GENERATOR
 #define LAB_FUNCTION_GENERATOR
 
-#include <vector>
-#include <cstdlib>
-#include <cmath>
-#include <cstring>
-
-#include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Light_Button.H>
-
-#include "LAB_Globals.h"
 #include "LAB_Core.h"
-#include "LABSoft_Oscilloscope_Display.h"
-#include "LABSoft_Oscilloscope_Display_Group.h"
+
+#include "Channel_Signals.h"
 
 class LAB_Function_Generator : public LAB_Core
 {
+  private:
+    bool  m_is_running = false;
+    int   m_number_of_channels;
+
+    Channel_Signals *m_channel_signals;
+
   public:
-    float m_frequency,
-          m_period,
-          m_amplitude,
-          m_y_offset, 
-          m_duty_cycle,
-          m_phase;
+    // --- functions ---
+          LAB_Function_Generator ();
+    void  update ();
 
-    WaveType m_wave_type;
+    // getters
+    bool  is_running ();
+    
+    Channel_Signals* channel_signals ();
 
-    bool m_is_running = false;
-  
-    LAB_Function_Generator ();
+    // setters
+    void  is_running (bool value);
 };
 
 #endif

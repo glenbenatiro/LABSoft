@@ -2,41 +2,30 @@
 #ifndef LAB_METER
 #define LAB_METER
 
-#include <cstdio>
-#include <cstdlib>
-#include <thread>
-
-#include <FL/Fl_Choice.H>
-#include <FL/Fl_Light_Button.H>
-#include <FL/Fl_Output.H>
-
-#include "LAB_Globals.h"
 #include "LAB_Core.h"
 
 class LAB_Meter : public LAB_Core
 {
+  private:
+    bool  m_is_running = false,
+          m_is_random_value_generator_running = false;
+
+    float m_value;
+
   public:
-    LAB_Core *m_LAB_Core;
-
-    float m_value,
-          m_unit_scaler;
-    
-    bool m_is_meter_running = false;
-    bool m_is_generate_random_values_running = false;
-
     // functions  
-    LAB_Meter ();
+          LAB_Meter ();
+    void  random_value_generator ();
 
-    //
-    void LAB_Meter_update_value (Fl_Output *w);
+    // getters
+    bool  is_running ();
+    bool  is_random_value_generator_running ();
+    float value ();
 
-    // callback functions
-    void LAB_Meter_cb_fl_light_button_run_stop (Fl_Light_Button *w, void *data);
-    void LAB_Meter_cb_fl_choice_unit             (Fl_Choice       *w, void *data);
-
-    // test function
-    void LAB_Meter_DEBUG_cb_meter_fl_light_button_generate_random_values (Fl_Light_Button *w, void *data);
-    void LAB_Meter_random_values_generator ();
+    // setters
+    void  is_running (bool value);
+    void  is_random_value_generator_running (bool value);
+    void  value (float value);
 };
 
 #endif

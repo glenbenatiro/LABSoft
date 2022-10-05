@@ -31,7 +31,7 @@ LABSoft_Oscilloscope_Display (int X,
   m_function_phase              = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE;
   m_function_y_offset           = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET;
 
-  m_channel_signals = new ChannelSignals (m_number_of_channels,
+  m_channel_signals = new Channel_Signals (m_number_of_channels,
                                           m_max_number_of_samples,
                                           m_enable_sample_sharing);
 }
@@ -42,7 +42,7 @@ draw ()
   draw_box (FL_FLAT_BOX, m_background_color);
   draw_grid ();
   
-  if (m_is_display_enabled)
+  if (m_is_enabled)
     draw_channel_signals ();
 }
 
@@ -91,11 +91,11 @@ draw_grid ()
 void LABSoft_Oscilloscope_Display:: 
 draw_channel_signals () const
 {
-  if (m_is_display_enabled)
+  if (m_is_enabled)
     {
       for (int a = 0; a < m_channel_signals->number_of_channels (); a++)  
         {
-          ChannelSignal *chan = &((*(m_channel_signals->channel_signal_vector ()))[a]);
+          Channel_Signal *chan = m_channel_signals->channel_signal_vector (a);
 
           if (chan->is_enabled ())
             {
@@ -111,19 +111,19 @@ draw_channel_signals () const
 void LABSoft_Oscilloscope_Display:: 
 normalize_channel_signals ()
 {
-  if (m_is_display_enabled)
+  if (m_is_enabled)
     {
       for (int a = 0; a < m_channel_signals->number_of_channels (); a++)  
         {
-          // pointer to specific ChannelSignal (chan 1, chan 2, chan 3...)
-          ChannelSignal *chan = &((*(m_channel_signals->channel_signal_vector ()))[a]);
+          // pointer to specific Channel_Signal (chan 1, chan 2, chan 3...)
+          Channel_Signal *chan = m_channel_signals->channel_signal_vector (a);
 
           if (chan->is_enabled ())
             {
-              // pointer to the specific ChannelSignal's pixel points
+              // pointer to the specific Channel_Signal's pixel points
               std::vector<std::vector<int>>* pp = chan->pixel_points ();
 
-              // pointer to the specific ChannelSignal's sample values
+              // pointer to the specific Channel_Signal's sample values
               std::vector<float> *val = chan->samples ();
               
               // calculate y mid pixel, for zero
@@ -144,12 +144,18 @@ normalize_channel_signals ()
     }
 }
 
+// getters
+Channel_Signals* LABSoft_Oscilloscope_Display:: 
+channel_signals ()
+{
+  return m_channel_signals;
+}
 
 // setters
 void LABSoft_Oscilloscope_Display:: 
-is_display_enabled (bool value)
+is_enabled (bool value)
 {
-  m_is_display_enabled = value;
+  m_is_enabled = value;
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -172,6 +178,19 @@ rows_columns (int number_of_rows,
   m_number_of_columns = number_of_columns;
 }
 
+void LABSoft_Oscilloscope_Display:: 
+update ()
+{
+  if (m_is_function_generator_mode)
+    {
+      // // generate waveforms of all channels
+      // for (int a = 0; a < m_channel_signals; a++) 
+      //   {
+      //     ;
+      //   }
+    }
+}
+
 // --- FUNCTION GENERATOR SECTION --- 
 
 void LABSoft_Oscilloscope_Display:: 
@@ -183,7 +202,7 @@ enable_function_generator_mode ()
   // already default set to use channel 1
 
   // update channel signals
-  m_channel_signals->number_of_channels_all (1);
+  //m_channel_signals->number_of_channels_all (1);
 }
 
 int LABSoft_Oscilloscope_Display:: 
@@ -197,7 +216,8 @@ generate_waveform (WaveType wave_type, int channel)
   if (channel > m_channel_signals->number_of_channels ())
     return -1;
   else
-    ChannelSignal *channel_signal = &((*(m_channel_signals->channel_signal_vector ()))[channel]);
+    Channel_Signal *channel_signal = m_channel_signals->channel_signal_vector 
+      (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER);
   
   for (int a = 0; a < w (); a++)
     {
@@ -235,7 +255,7 @@ generate_waveform (WaveType wave_type, int channel)
 void LABSoft_Oscilloscope_Display:: 
 regendraw ()
 {
-  if (m_is_display_enabled)  
+  if (m_is_enabled)  
     {
       normalize_channel_signals ();
     }
@@ -243,7 +263,7 @@ regendraw ()
 
 // setters
 void LABSoft_Oscilloscope_Display::
-function_wave_type (WaveType wave_type)
+function_wave_type (WaveType wave_type, int channel)
 {
   m_wave_type = wave_type;
 }

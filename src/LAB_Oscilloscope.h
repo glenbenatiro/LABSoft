@@ -21,7 +21,7 @@
 #include "LAB_Core.h"
 #include "LAB_Globals.h"
 
-#include "ChannelSignals.h"
+#include "Channel_Signals.h"
 
 class LAB_Oscilloscope : public LAB_Core
 {
@@ -79,7 +79,7 @@ class LAB_Oscilloscope : public LAB_Core
     std::thread *m_thread_ADC_streaming,
                 *m_thread_ADC_reading;
 
-    ChannelSignals *m_channel_signals;
+    Channel_Signals *m_channel_signals;
 
 
     // functions

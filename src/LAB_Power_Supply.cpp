@@ -1,7 +1,9 @@
 #include "LAB_Power_Supply.h"
 
+#include <iostream>
+
 void LAB_Power_Supply:: 
-LAB_Power_Supply_update_power_channels ()
+update_power_channels ()
 {
   if (!m_is_power_supply_enabled)
     {

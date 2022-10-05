@@ -1,8 +1,6 @@
 #ifndef LAB_POWER_SUPPLY
 #define LAB_POWER_SUPPLY
 
-#include <iostream>
-
 class LAB_Power_Supply
 {
   public:
@@ -16,9 +14,9 @@ class LAB_Power_Supply
          m_is_power_supply_enabled      = false;
 
     // functions
-    void LAB_Power_Supply_update_power_channels ();
+    void update_power_channels ();
 };
 
-
-
 #endif
+
+// EOF

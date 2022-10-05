@@ -9,13 +9,14 @@
 #include <FL/fl_draw.H>
 
 #include "LAB_Globals.h"
-#include "ChannelSignals.h"
+#include "Channel_Signals.h"
 
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
   protected:
-    bool  m_is_display_enabled = false,
-          m_enable_sample_sharing;
+    bool  m_is_enabled = false,
+          m_enable_sample_sharing = false,
+          m_is_function_generator_mode = false;
 
     int   m_number_of_rows,
           m_number_of_columns,
@@ -46,7 +47,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     
     WaveType m_wave_type;
       
-    ChannelSignals *m_channel_signals;
+    Channel_Signals *m_channel_signals;
 
 
     //std::vector<std::vector<int>> m_channel_pixel_point_buffer (m_number_of_channels, 
@@ -64,19 +65,23 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     void  regendraw ();    
 
     // setters
-    void is_display_enabled (bool value);
+    void is_enabled (bool value);
     void number_of_channels (int value);
     void max_number_of_samples (int value);
     void rows_columns (int number_of_rows, int number_of_columns);
 
     // getters
+    Channel_Signals* channel_signals ();
+
+
+    void update ();
 
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);
     void enable_function_generator_mode ();
-
+    
     // setters
-    void function_wave_type           (WaveType wave_type);
+    void function_wave_type           (WaveType wave_type, int channel);
     void function_amplitude           (float    amplitude);
     void function_frequency           (float    frequency);
     void function_phase               (float    phase);

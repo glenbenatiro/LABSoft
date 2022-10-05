@@ -1,66 +1,65 @@
 #include "LAB_Meter.h"
 
+#include <thread>
+#include <chrono>
+
+#include "Defaults.h"
+
+
 LAB_Meter:: 
 LAB_Meter () : LAB_Core ()
 {
-  // initialize defaults
-  m_value       = LAB_DEFAULTS_METER_VALUE;
-  m_unit_scaler = LAB_DEFAULTS_METER_UNIT_SCALER;
+  m_value = LAB_METER_VALUE;
 }
 
 void LAB_Meter:: 
-LAB_Meter_update_value (Fl_Output *w)
+random_value_generator ()
 {
-  while (m_is_meter_running)
+  while (m_is_random_value_generator_running)
     {
-      char s[5]; // store up to max 9.999
-      snprintf (s, 6, "%f", m_value);
+      m_value = 1.500 + ((rand () % 100) / 1000.0);
 
-      w->value (s);
+      // std::this_thread::sleep_for (std::chrono::milliseconds (RANDOM_VALUE_GENERATOR_WAIT_MS));
     }
 }
 
-// callback functions
-void LAB_Meter:: 
-LAB_Meter_cb_fl_light_button_run_stop (Fl_Light_Button *w, 
-                                       void            *data)
+// getters
+bool LAB_Meter::
+is_running ()
 {
-  if (w->value () == 0)
-    {
-      m_is_meter_running = false;
+  return m_is_running;
+}
 
-      w->label ("Run");
-    }
-  else 
-    {
-      m_is_meter_running = true;
+bool LAB_Meter:: 
+is_random_value_generator_running ()
+{
+  return m_is_random_value_generator_running;
+}
 
-      std::thread thread1;
+float LAB_Meter::
+value ()
+{
+  return m_value;
+}
 
-      w->label ("Stop");
-    }
+// setters
+void LAB_Meter::
+is_running (bool value)
+{
+  m_is_running = value;
+
+  // reset value every start
+  LAB_Meter::value (0.0);
 }
 
 void LAB_Meter:: 
-LAB_Meter_cb_fl_choice_unit (Fl_Choice *w,
-                             void      *data)
+is_random_value_generator_running (bool value)
 {
- 
-
+  m_is_random_value_generator_running = value;
 }
 
 void LAB_Meter:: 
-LAB_Meter_DEBUG_cb_meter_fl_light_button_generate_random_values (Fl_Light_Button *w,
-                                                                 void            *data)
+value (float value)
 {
-  m_is_generate_random_values_running = (w->value () == 0) ? false : true;
-}
-
-void LAB_Meter:: 
-LAB_Meter_random_values_generator ()
-{
-  while (m_is_generate_random_values_running)
-    {
-      m_value = ((rand () % 501) + 3000) / 1000.0;
-    }
+  m_value = value; 
 }

@@ -14,6 +14,9 @@ LABSoft (int    argc,
   // show main window
   m_LABSoft_GUI->main_fl_window->show ();
 
+  // important for multithreading!
+  Fl::lock ();
+
   // run main fltk loop
   Fl::run();
 }
