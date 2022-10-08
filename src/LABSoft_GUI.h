@@ -162,7 +162,18 @@ private:
   static void cb_function_generator_fl_input_choice_phase(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
-  LABSoft_Oscilloscope_Display_Group *function_generator_labsoft_oscilloscope_dsplay_group_display;
+  Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
+  LABSoft_Oscilloscope_Display_Group *logic_analyzer_oscilloscope_display_group_display;
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_memory_depth;
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_memory_depth[];
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_sample_rate;
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sample_rate[];
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_samples_per_division;
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_samples_per_division[];
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_time_per_division;
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_time_per_division[];
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_x_offset;
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_x_offset[];
   Fl_Light_Button *power_supply_fl_light_button_positive_12_volts_enable_disable;
 private:
   inline void cb_power_supply_fl_light_button_positive_12_volts_enable_disable_i(Fl_Light_Button*, void*);

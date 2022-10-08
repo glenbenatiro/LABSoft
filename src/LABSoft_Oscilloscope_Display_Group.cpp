@@ -1,5 +1,7 @@
 #include "LABSoft_Oscilloscope_Display_Group.h"
 
+#include "Defaults.h"
+
 LABSoft_Oscilloscope_Display_Group::
 LABSoft_Oscilloscope_Display_Group (int X, 
                                     int Y, 
@@ -71,7 +73,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                     Y + m_upper_padding + y_coord,
                                     0,
                                     0,
-                                    ".");
+                                    "0 v");
 
           lbl->labelcolor (m_label_color);
           m_y_labels[a].push_back (lbl);
@@ -109,6 +111,23 @@ void LABSoft_Oscilloscope_Display_Group::
 update_y_axis_labels ()
 {
 
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+enable_function_generator_mode ()
+{
+  m_is_function_generator_mode_enabled = true;
+  m_display->enable_function_generator_mode ();
+}
+
+void LABSoft_Oscilloscope_Display_Group::
+update ()
+{
+  // if (m_is_function_generator_mode_enabled)
+  //   // {
+  //   //   // 
+  //   //   for (int a = 0)
+  //   // }
 }
 
 // setters

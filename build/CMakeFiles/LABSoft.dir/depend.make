@@ -10,7 +10,6 @@ CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/LAB_Globals.h
 
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/Channel_Signals.h
-CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB.cpp
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Ammeter.h
@@ -362,7 +361,6 @@ CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Ohmmeter.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Ohmmeter.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Channel_Signals.h
-CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Globals.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.cpp

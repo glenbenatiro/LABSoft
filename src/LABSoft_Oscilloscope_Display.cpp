@@ -1,5 +1,12 @@
 #include "LABSoft_Oscilloscope_Display.h"
 
+#include <vector>
+#include <cmath>
+
+#include <FL/Enumerations.H>
+
+#include "Defaults.h"
+
 LABSoft_Oscilloscope_Display::
 LABSoft_Oscilloscope_Display (int X,
                               int Y,
@@ -12,28 +19,38 @@ LABSoft_Oscilloscope_Display (int X,
                                                                   label)
 { 
   // load defaults
+  // for oscilloscope core
   m_number_of_rows              = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS;
   m_number_of_columns           = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS;
-  m_grid_color                  = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR;
-  m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR;
-  m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR;
-  m_number_of_channels          = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS; 
-  m_volts_per_division          = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION;
-  m_time_per_division           = LABSOFT_OSCILLOSCOPE_DISPLAY_TIME_PER_DIVISION;
-  m_enable_sample_sharing       = LABSOFT_OSCILLOSCOPE_DISPLAY_ENABLE_SAMPLE_SHARING;
-  m_max_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
-  m_max_number_of_samples       = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_SAMPLES;
-  m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL;
-  m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
+  m_number_of_channels          = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS;
 
+  // for 
+
+  // for function generator functionality
   m_function_amplitude          = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE;
   m_function_frequency          = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY;
   m_function_phase              = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE;
   m_function_y_offset           = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET;
 
+  
+  m_grid_color                  = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR;
+  m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR;
+  m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR;
+  m_max_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
+  m_max_number_of_samples       = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_SAMPLES;
+  m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER;
+  m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
+
   m_channel_signals = new Channel_Signals (m_number_of_channels,
-                                          m_max_number_of_samples,
-                                          m_enable_sample_sharing);
+                                        m_max_number_of_samples,
+                                        m_enable_sample_sharing);
+
+}
+
+LABSoft_Oscilloscope_Display:: 
+~LABSoft_Oscilloscope_Display ()
+{
+
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -161,7 +178,11 @@ is_enabled (bool value)
 void LABSoft_Oscilloscope_Display:: 
 number_of_channels (int value)
 {
+  // change internal number of channels count
   m_number_of_channels = value;
+  
+  // change actual number of channels in channel_signals vector
+  // for (int a = 0; a < m_channel_signals)
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -200,6 +221,14 @@ enable_function_generator_mode ()
   number_of_channels (1);
 
   // already default set to use channel 1
+  
+  // change pixel buffer size to widget width
+  for (int a = 0; a < m_channel_signals->number_of_channels (); a++)
+    {
+      m_channel_signals->channel_signal_vector (a)->pixel_points ()->
+        resize (w (), std::vector<int> (2));
+    }
+
 
   // update channel signals
   //m_channel_signals->number_of_channels_all (1);

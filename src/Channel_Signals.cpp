@@ -1,16 +1,20 @@
 #include "Channel_Signals.h"
 
+#include "Defaults.h"
+
 // Channel_Signal
 Channel_Signal:: 
 Channel_Signal (int number_of_samples)
 {
   // defaults
-  m_function_wave_type  = Channel_Signal_FUNCTION_WAVE_TYPE;
-  m_function_amplitude  = Channel_Signal_FUNCTION_AMPLITUDE;
-  m_function_frequency  = Channel_Signal_FUNCTION_FREQUENCY;
-  m_function_phase      = Channel_Signal_FUNCTION_PHASE; 
-  m_function_y_offset   = Channel_Signal_FUNCTION_Y_OFFSET; 
-  m_function_duty_cycle = Channel_Signal_FUNCTION_DUTY_CYCLE; 
+  m_function_wave_type  = CHANNEL_SIGNAL_FUNCTION_WAVE_TYPE;
+  m_function_amplitude  = CHANNEL_SIGNAL_FUNCTION_AMPLITUDE;
+  m_function_frequency  = CHANNEL_SIGNAL_FUNCTION_FREQUENCY;
+  m_function_phase      = CHANNEL_SIGNAL_FUNCTION_PHASE; 
+  m_function_y_offset   = CHANNEL_SIGNAL_FUNCTION_Y_OFFSET; 
+  m_function_duty_cycle = CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE; 
+  m_volts_per_division  = CHANNEL_SIGNAL_VOLTS_PER_DIVISION;
+  m_time_per_division   = CHANNEL_SIGNAL_TIME_PER_DIVISION;
 
   // for oscilloscope display
   m_number_of_samples_to_use = number_of_samples;

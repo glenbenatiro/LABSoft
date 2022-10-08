@@ -27,7 +27,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {2209 123 1366 768} type Double visible
+      xywh {2231 131 1366 749} type Double visible
     } {
       Fl_Tabs {} {open
         xywh {0 0 1366 768}
@@ -62,7 +62,7 @@ class LABSoft_GUI {open
               xywh {69 125 720 540} box FLAT_BOX color 79 selection_color 95 hide deactivate
             }
           }
-          Fl_Group oscilloscope_fl_group_vertical_channel_1 {
+          Fl_Group oscilloscope_fl_group_vertical_channel_1 {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -76,7 +76,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_volts_per_division {
               label {Volts per Division}
               xywh {865 215 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_CHANNEL_1_VOLTS_PER_DIVISION);}
+              code0 {oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTS_PER_DIVISION);}
             } {
               MenuItem {} {
                 label {5 V/div}
@@ -106,7 +106,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_vertical_offset {
               label {Vertical Offset}
               xywh {865 285 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_channel_1_vertical_offset->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_CHANNEL_1_Y_OFFSET);}
+              code0 {oscilloscope_fl_input_choice_channel_1_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_Y_OFFSET);}
             } {
               MenuItem {} {
                 label {25 V}
@@ -240,7 +240,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_2_volts_per_division {
               label {Volts per Division}
               xywh {1035 215 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_CHANNEL_2_VOLTS_PER_DIVISION);}
+              code0 {oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTS_PER_DIVISION);}
             } {
               MenuItem {} {
                 label {5 V/div}
@@ -270,7 +270,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_2_vertical_offset {
               label {Vertical Offset}
               xywh {1035 285 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_channel_2_vertical_offset->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_CHANNEL_2_Y_OFFSET);}
+              code0 {oscilloscope_fl_input_choice_channel_2_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_Y_OFFSET);}
             } {
               MenuItem {} {
                 label {25 V}
@@ -400,12 +400,12 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division} open
               xywh {865 400 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_TIME_PER_DIVISION);}
+              code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION);}
             } {}
             Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
               label {Horizontal Offset} open
               xywh {865 465 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_horizontal_offset->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_X_OFFSET);}
+              code0 {oscilloscope_fl_input_choice_horizontal_offset->value (LABSOFT_OSCILLOSCOPE_X_OFFSET);}
             } {}
             Fl_Button {} {
               label Menu
@@ -422,7 +422,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
               label Level open
               xywh {1035 400 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_DEFAULTS_OSCILLOSCOPE_TRIGGER_LEVEL);}
+              code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_TRIGGER_LEVEL);}
             } {}
             Fl_Button {} {
               label Auto
@@ -474,7 +474,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Voltmeter open
+          label Voltmeter
           xywh {0 35 1366 768} hide
         } {
           Fl_Output voltmeter_fl_output_value {
@@ -507,7 +507,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Ammeter open
+          label Ammeter
           xywh {0 35 1366 768} hide
         } {
           Fl_Output ammeter_fl_output_value {
@@ -540,8 +540,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Ohmmeter open
-          xywh {0 35 1366 768}
+          label Ohmmeter
+          xywh {0 35 1366 768} hide
         } {
           Fl_Output ohmmeter_fl_output_value {
             xywh {323 245 320 120} textsize 94
@@ -571,7 +571,7 @@ class LABSoft_GUI {open
           }
           Fl_Light_Button ohmmeter_fl_light_button_run_stop {
             label Stopped
-            callback {m_LABSoft_Controller->m_Ohmmeter->cb_run_stop (o, v);} selected
+            callback {m_LABSoft_Controller->m_Ohmmeter->cb_run_stop (o, v);}
             xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
           }
           Fl_Light_Button ohmmeter_fl_light_button_generate_random_values {
@@ -599,7 +599,7 @@ class LABSoft_GUI {open
               xywh {64 120 720 540} box FLAT_BOX color 79 selection_color 95 hide deactivate
             }
           }
-          Fl_Group function_generator_fl_group_horizontal {
+          Fl_Group function_generator_fl_group_horizontal {open
             xywh {0 0 1366 768} hide deactivate
           } {
             Fl_Box {} {
@@ -609,7 +609,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice function_generator_fl_input_choice_horizontal_position {
               label Position
               xywh {1135 575 150 25} align 1
-              code0 {function_generator_fl_input_choice_horizontal_position->value (LABSOFT_DEFAULTS_FUNCTION_GENERATOR_HORIZONTAL_POSITION);}
+              code0 {function_generator_fl_input_choice_horizontal_position->value (LABSOFT_FUNCTION_GENERATOR_HORIZONTAL_POSITION);}
             } {
               MenuItem {} {
                 label {5 s}
@@ -643,7 +643,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice function_generator_fl_input_choice_time_per_division {
               label {Time per Division}
               xywh {1135 638 150 25} align 1 when 1
-              code0 {function_generator_fl_input_choice_time_per_division->value (LABSOFT_DEFAULTS_FUNCTION_GENERATOR_TIME_PER_DIVISION);}
+              code0 {function_generator_fl_input_choice_time_per_division->value (LABSOFT_FUNCTION_GENERATOR_TIME_PER_DIVISION);}
             } {
               MenuItem {} {
                 label {50 s/div}
@@ -717,7 +717,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice function_generator_fl_input_choice_vertical_offset {
               label Offset
               xywh {1135 380 150 25} align 1
-              code0 {function_generator_fl_input_choice_vertical_offset->value (LABSOFT_DEFAULTS_FUNCTION_GENERATOR_VERTICAL_OFFSET);}
+              code0 {function_generator_fl_input_choice_vertical_offset->value (LABSOFT_FUNCTION_GENERATOR_VERTICAL_OFFSET);}
             } {
               MenuItem {} {
                 label {5 s}
@@ -775,7 +775,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group function_generator_fl_group_parameters {open
+          Fl_Group function_generator_fl_group_parameters {
             xywh {0 0 1366 768}
           } {
             Fl_Input_Choice function_generator_fl_input_choice_wave_type {
@@ -1166,16 +1166,169 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer}
-          xywh {0 35 1366 768} hide
+          label {Logic Analyzer} open
+          xywh {0 35 1366 768}
         } {
-          Fl_Group function_generator_labsoft_oscilloscope_dsplay_group_display {
+          Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
+            label Run
+            xywh {1205 80 120 60} align 16
+          }
+          Fl_Button {} {
+            label Single
+            xywh {1205 160 120 60}
+          }
+          Fl_Group logic_analyzer_oscilloscope_display_group_display {
             xywh {24 60 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
           } {
             Fl_Box {} {
               xywh {79 135 720 540} box FLAT_BOX color 79 selection_color 95 hide deactivate
+            }
+          }
+          Fl_Input_Choice logic_analyzer_fl_input_choice_memory_depth {
+            label {Memory Depth}
+            xywh {1205 260 120 30} align 1
+          } {
+            MenuItem {} {
+              label {5 V/div}
+              xywh {10 10 36 21}
+            }
+            MenuItem {} {
+              label {2 V/div}
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label {1 V/div}
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label {500 mV/div}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {200 mV/div}
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label {100 mV/div}
+              xywh {30 30 36 21}
+            }
+          }
+          Fl_Input_Choice logic_analyzer_fl_input_choice_sample_rate {
+            label Sample_Rate
+            xywh {1205 330 120 30} align 1
+          } {
+            MenuItem {} {
+              label {5 V/div}
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label {2 V/div}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {1 V/div}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {500 mV/div}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {200 mV/div}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {100 mV/div}
+              xywh {40 40 36 21}
+            }
+          }
+          Fl_Input_Choice logic_analyzer_fl_input_choice_samples_per_division {
+            label {Samples per Division}
+            xywh {1205 400 120 30} align 1
+          } {
+            MenuItem {} {
+              label {5 V/div}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {2 V/div}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {1 V/div}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {500 mV/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {200 mV/div}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {100 mV/div}
+              xywh {50 50 36 21}
+            }
+          }
+          Fl_Input_Choice logic_analyzer_fl_input_choice_time_per_division {
+            label {Time per DIvision}
+            xywh {1205 470 120 30} align 1
+          } {
+            MenuItem {} {
+              label {5 V/div}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {2 V/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {1 V/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {500 mV/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {200 mV/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {100 mV/div}
+              xywh {60 60 36 21}
+            }
+          }
+          Fl_Input_Choice logic_analyzer_fl_input_choice_x_offset {
+            label {Horizontal Offset}
+            xywh {1205 540 120 30} align 1
+          } {
+            MenuItem {} {
+              label {5 V/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {2 V/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {1 V/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {500 mV/div}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {200 mV/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {100 mV/div}
+              xywh {70 70 36 21}
             }
           }
         }

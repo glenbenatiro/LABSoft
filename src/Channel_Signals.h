@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "LAB_Globals.h"
-#include "Defaults.h"
 
 class Channel_Signal
 {
@@ -15,7 +14,9 @@ class Channel_Signal
 
     // for oscilloscope display
     int   m_number_of_samples_to_use;
-    float m_sample_rate;   
+    float m_sample_rate,
+          m_volts_per_division,
+          m_time_per_division;
 
     std::vector<float>            m_samples;
     std::vector<std::vector<int>> m_pixel_points;

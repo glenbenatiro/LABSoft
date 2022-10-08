@@ -69,9 +69,7 @@ cb_wave_type (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->display ()->
     channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
       function_wave_type (wave_type);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -89,9 +87,7 @@ cb_frequency (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->display ()->
     channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
       function_frequency (value);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -109,9 +105,7 @@ cb_period (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
     display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
       function_frequency (1.0 / value);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -129,9 +123,7 @@ cb_amplitude (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
     display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
     function_amplitude (value);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -149,9 +141,7 @@ cb_y_offset (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
     display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
       function_y_offset (value);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -169,9 +159,7 @@ cb_duty_cycle (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
     display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
     function_duty_cycle (value);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -189,9 +177,7 @@ cb_phase (Fl_Input_Choice *w,
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
     display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
     function_phase (value);
-
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
 }
 
 // EOF

@@ -1,11 +1,7 @@
 #ifndef LABSOFT_OSCILLOSCOPE_DISPLAY_H
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_H
 
-#include <vector>
-#include <cmath>
-
 #include <FL/Fl_Widget.H>
-#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
 
 #include "LAB_Globals.h"
@@ -49,14 +45,11 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
       
     Channel_Signals *m_channel_signals;
 
-
-    //std::vector<std::vector<int>> m_channel_pixel_point_buffer (m_number_of_channels, 
-    //  std::vector<int>(m_max_number_of_samples / m_number_of_channels, 0));
-
   public:
     // --- OSCILLOSCOPE SECTION ---
     // functions
           LABSoft_Oscilloscope_Display (int X, int Y, int W, int H, const char *label);
+         ~LABSoft_Oscilloscope_Display ();
 
     void  draw ();
     void  draw_grid ();
@@ -71,7 +64,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     void rows_columns (int number_of_rows, int number_of_columns);
 
     // getters
-    Channel_Signals* channel_signals ();
+    Channel_Signals *channel_signals ();
 
 
     void update ();

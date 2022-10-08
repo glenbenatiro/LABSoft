@@ -1,12 +1,7 @@
 #include "LAB_Globals.h"
 
-int LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS[LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS] = 
-{
-  0x00000003,
-  0x00000006,
-  0x00000002,
-  0x00000001,
-};
+#include <cstring>
+#include <cstdlib>
 
 float LAB_Globals_label_to_scaled_value (const char *label)
 {

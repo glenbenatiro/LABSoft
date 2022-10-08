@@ -11,7 +11,8 @@
 class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 {
   private:
-    bool m_is_enabled = false;
+    bool  m_is_enabled = false,
+          m_is_function_generator_mode_enabled = false;
     LABSoft_Oscilloscope_Display  *m_display;
 
     // for core oscilloscope display operation
@@ -44,6 +45,8 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  draw ();
     void  update_x_axis_labels ();
     void  update_y_axis_labels ();
+    void  enable_function_generator_mode ();
+    void  update ();
 
     // setters
     void  rows_columns (int rows, int columns);
