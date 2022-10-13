@@ -11,7 +11,7 @@
 
 LABSoft_Controller_Ohmmeter:: 
 LABSoft_Controller_Ohmmeter (LAB         *_LAB, 
-                             LABSoft_GUI *_LABSoft_GUI)
+                              LABSoft_GUI *_LABSoft_GUI)
 {
   m_LAB = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
@@ -20,13 +20,13 @@ LABSoft_Controller_Ohmmeter (LAB         *_LAB,
 void LABSoft_Controller_Ohmmeter:: 
 update_loop ()
 {
-  while (m_LAB->m_Ohmmeter->is_running ())
+  while (m_LAB->m_Ohmmeter.m_is_running)
     {
       // assemble text
       char display[50];
       int unit_power = aux_unit_label_to_unit_power
         (m_LABSoft_GUI->ohmmeter_fl_choice_unit->text ());
-      double scaled_value = m_LAB->m_Ohmmeter->value () * pow (10, (-3 * unit_power));
+      double scaled_value = (m_LAB->m_Ohmmeter.m_value) * (pow (10, (-3 * unit_power)));
 
       if (unit_power >= 0)
         sprintf (display, "%4.3lf", scaled_value);
@@ -62,7 +62,7 @@ cb_run_stop (Fl_Light_Button *w,
   if (w->value () == 1)
     {
       // backend
-      m_LAB->m_Ohmmeter->is_running (true);
+      m_LAB->m_Ohmmeter.m_is_running = true;
 
       // controller
       m_thread_run_stop = new std::thread 
@@ -71,7 +71,7 @@ cb_run_stop (Fl_Light_Button *w,
   else 
     {
       // backend 
-      m_LAB->m_Ohmmeter->is_running (false);
+      m_LAB->m_Ohmmeter.m_is_running = false;
 
       // reset values
       m_LABSoft_GUI->ohmmeter_fl_output_value->value ("0.000");
@@ -86,7 +86,7 @@ cb_generate_random_values (Fl_Light_Button *w,
 {
   if (w->value () == 1)
     {
-      m_LAB->m_Ohmmeter->is_random_value_generator_running (true);
+      m_LAB->m_Ohmmeter.m_is_random_value_generator_running = true;
 
       // backend random value generator
       m_thread_random_value_generator = new std::thread 
@@ -94,7 +94,7 @@ cb_generate_random_values (Fl_Light_Button *w,
     } 
   else 
     {
-      m_LAB->m_Ohmmeter->is_random_value_generator_running (false);
+      m_LAB->m_Ohmmeter.m_is_random_value_generator_running = false;
       
       // m_thread_random_value_generator->join ();
     }

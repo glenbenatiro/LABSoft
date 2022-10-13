@@ -7,24 +7,14 @@
 
 class LAB_Function_Generator : public LAB_Core
 {
-  private:
-    bool  m_is_running = false;
-    int   m_number_of_channels;
-
-    Channel_Signals *m_channel_signals;
-
   public:
+    bool  m_is_running = false;
+
+    Channel_Signals m_channel_signals;
+
     // --- functions ---
           LAB_Function_Generator ();
     void  update ();
-
-    // getters
-    bool  is_running ();
-    
-    Channel_Signals* channel_signals ();
-
-    // setters
-    void  is_running (bool value);
 };
 
 #endif

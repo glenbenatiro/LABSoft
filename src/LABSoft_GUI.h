@@ -3,9 +3,7 @@
 #ifndef LABSoft_GUI_h
 #define LABSoft_GUI_h
 #include <FL/Fl.H>
-#include "LAB.h"
 #include "Defaults.h"
-#include "LAB_Globals.h"
 class LABSoft_Controller;
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Tabs.H>
@@ -21,37 +19,62 @@ class LABSoft_Controller;
 
 class LABSoft_GUI {
 public:
-  LAB *m_LAB; 
   LABSoft_Controller *m_LABSoft_Controller; 
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
   Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
+  Fl_Button *oscilloscope_fl_button_single;
+private:
+  inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
+public:
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_1;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_1_enable;
+private:
+  inline void cb_oscilloscope_fl_light_button_channel_1_enable_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_channel_1_enable(Fl_Light_Button*, void*);
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_volts_per_division;
+private:
+  inline void cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_channel_1_volts_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_volts_per_division[];
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_vertical_offset;
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[];
   Fl_Group *oscilloscope_fl_group_vertical_channel_2;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_2_enable;
+private:
+  inline void cb_oscilloscope_fl_light_button_channel_2_enable_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_channel_2_enable(Fl_Light_Button*, void*);
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_volts_per_division;
+private:
+  inline void cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_channel_2_volts_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_volts_per_division[];
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_vertical_offset;
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_vertical_offset[];
   Fl_Group *oscilloscope_fl_group_horizontal;
   Fl_Input_Choice *oscilloscope_fl_input_choice_time_per_division;
+private:
+  inline void cb_oscilloscope_fl_input_choice_time_per_division_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_time_per_division(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_time_per_division[];
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;
+private:
+  inline void cb_oscilloscope_fl_input_choice_horizontal_offset_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_horizontal_offset(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_horizontal_offset[];
+public:
   Fl_Group *oscilloscope_fl_group_trigger;
   Fl_Input_Choice *oscilloscope_fl_input_choice_trigger_level;
   Fl_Group *oscilloscope_fl_group_display;
   Fl_Input_Choice *oscilloscope_fl_input_choice_display_mode;
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_display_mode[];
-  Fl_Light_Button *oscilloscope_fl_light_button_generate_sine_wave;
-private:
-  inline void cb_oscilloscope_fl_light_button_generate_sine_wave_i(Fl_Light_Button*, void*);
-  static void cb_oscilloscope_fl_light_button_generate_sine_wave(Fl_Light_Button*, void*);
-public:
   Fl_Output *voltmeter_fl_output_value;
   Fl_Choice *voltmeter_fl_choice_unit;
 private:

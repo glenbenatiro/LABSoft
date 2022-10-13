@@ -20,12 +20,12 @@ LABSoft_Controller_Circuit_Checker (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   m_LABSoft_GUI->circuit_checker_fl_output_selected_circuit_checker_file->value ("No file selected.");
   m_LABSoft_GUI->circuit_checker_fl_output_similarity_score->value ("--");
   
-  LABSoft_Controller_Circuit_Checker_log ("Circuit checker tool ready.");
-  LABSoft_Controller_Circuit_Checker_log ("Connect input and outputs to your circuit and select a circuit checker file");  
+  log ("Circuit checker tool ready.");
+  log ("Connect input and outputs to your circuit and select a circuit checker file");  
 }
 
 void LABSoft_Controller_Circuit_Checker:: 
-LABSoft_Controller_Circuit_Checker_log (const char *text)
+log (const char *text)
 {
   char a[50], b[100];
   std::time_t time = std::time (nullptr);
@@ -38,13 +38,13 @@ LABSoft_Controller_Circuit_Checker_log (const char *text)
 
  
 void LABSoft_Controller_Circuit_Checker:: 
-LABSoft_Controller_Circuit_Checker_parse_xml_file ()
+parse_xml_file ()
 {
   char s[100];
   sprintf (s, "Selected file %s", m_circuit_checker_filename);
 
-  LABSoft_Controller_Circuit_Checker_log (s);
-  LABSoft_Controller_Circuit_Checker_log ("Checking circuit checker file integrity...");
+  log (s);
+  log ("Checking circuit checker file integrity...");
 
 
   // load circuit checker file to xml parser
@@ -52,14 +52,14 @@ LABSoft_Controller_Circuit_Checker_parse_xml_file ()
   
   if (xml_parse_result)
     {
-      LABSoft_Controller_Circuit_Checker_log ("Selected circuit checker file OK.");
+      log ("Selected circuit checker file OK.");
       m_is_file_valid = true;
       m_LABSoft_GUI->circuit_checker_fl_output_selected_circuit_checker_file->value (m_circuit_checker_filename);
     }
   else
     {
       m_is_file_valid = false;
-      LABSoft_Controller_Circuit_Checker_log ("Invalid circuit checker file. Please select another file.");
+      log ("Invalid circuit checker file. Please select another file.");
       m_LABSoft_GUI->circuit_checker_fl_output_selected_circuit_checker_file->value ("Invalid file.");
 
       return;
@@ -90,47 +90,47 @@ LABSoft_Controller_Circuit_Checker_parse_xml_file ()
 }
 
 void LABSoft_Controller_Circuit_Checker:: 
-LABSoft_Controller_Circuit_Checker_log_all_signals ()
+log_all_signals ()
 {
   for (int i = 0; i < m_signal_chain.signal_pairs.size (); i++)
     {
       char text[100];
 
       sprintf (text, "Signal Pair %d", i + 1);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Duration:  %f", m_signal_chain.signal_pairs[i].duration);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
 
       sprintf (text, "Input Signal");
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Type: %s", m_signal_chain.signal_pairs[i].input.type);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Amplitude: %f", m_signal_chain.signal_pairs[i].input.amplitude);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Frequency: %f", m_signal_chain.signal_pairs[i].input.frequency);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
 
       sprintf (text, "Expected Output Signal");
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Type: %s", m_signal_chain.signal_pairs[i].output.type);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Amplitude: %f", m_signal_chain.signal_pairs[i].output.amplitude);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
       sprintf (text, "Frequency: %f", m_signal_chain.signal_pairs[i].output.frequency);
-      LABSoft_Controller_Circuit_Checker_log (text);
+      log (text);
     }
 }
 
 void LABSoft_Controller_Circuit_Checker:: 
-LABSoft_Controller_Circuit_Checker_start_circuit_checking ()
+start_circuit_checking ()
 {
   // do circuit checking operations here
-  LABSoft_Controller_Circuit_Checker_log_all_signals ();  
+  log_all_signals ();  
 }
 
 // callback functions
 void LABSoft_Controller_Circuit_Checker:: 
-LABSoft_Controller_Circuit_Checker_cb_fl_button_choose_circuit_checker_file (Fl_Button *w,
+cb_fl_button_choose_circuit_checker_file (Fl_Button *w,
                                                                              void      *data)
 {
   if (!m_is_circuit_checker_running)
@@ -146,16 +146,16 @@ LABSoft_Controller_Circuit_Checker_cb_fl_button_choose_circuit_checker_file (Fl_
         return;
       
       m_circuit_checker_filename = m_file_chooser->value ();
-      LABSoft_Controller_Circuit_Checker_parse_xml_file ();    
+      parse_xml_file ();    
     }
   else  
     {
-      LABSoft_Controller_Circuit_Checker_log ("Cannot select new file. Wait for checking operation to finish.");
+      log ("Cannot select new file. Wait for checking operation to finish.");
     }
 }
 
 void LABSoft_Controller_Circuit_Checker:: 
- LABSoft_Controller_Circuit_Checker_cb_fl_button_start_circuit_checking (Fl_Button *w, 
+ cb_fl_button_start_circuit_checking (Fl_Button *w, 
                                                                          void      *data)
 {
   if (!m_is_circuit_checker_running)
@@ -163,15 +163,15 @@ void LABSoft_Controller_Circuit_Checker::
       if (m_is_file_valid)
         {
           m_is_circuit_checker_running = true;
-          LABSoft_Controller_Circuit_Checker_log ("Circuit checking started.");
-          LABSoft_Controller_Circuit_Checker_start_circuit_checking ();
+          log ("Circuit checking started.");
+          start_circuit_checking ();
 
           m_is_circuit_checker_running = false;
-          LABSoft_Controller_Circuit_Checker_log ("Circuit checking ended.");
+          log ("Circuit checking ended.");
         }
       else 
         {
-          LABSoft_Controller_Circuit_Checker_log ("Cannot start circuit checking. Select a valid circuit checker file.");
+          log ("Cannot start circuit checking. Select a valid circuit checker file.");
         }
     }
 }

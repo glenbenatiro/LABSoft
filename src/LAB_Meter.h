@@ -6,13 +6,13 @@
 
 class LAB_Meter : public LAB_Core
 {
-  private:
+  public:
     bool  m_is_running = false,
           m_is_random_value_generator_running = false;
 
     float m_value;
 
-  public:
+  
     // functions  
           LAB_Meter ();
     void  random_value_generator ();

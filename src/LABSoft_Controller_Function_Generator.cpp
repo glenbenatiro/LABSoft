@@ -16,26 +16,28 @@ void LABSoft_Controller_Function_Generator::
 cb_run_stop (Fl_Light_Button *w, 
              void            *data)
 {
-  Channel_Signal *a = m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER);
+  Channel_Signal *chn = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->
+    m_display->m_channel_signals.m_channel_signal_vector
+      [LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
 
   if (w->value () == 0)
     {
       // backend
-      m_LAB->m_Function_Generator->is_running (false);
+      m_LAB->m_Function_Generator.m_is_running = false;
 
       // frontend
-      a->is_enabled (false);
+      chn->m_is_enabled = false;
 
       w->label ("Run");
     }
   else 
     {
       // backend
-      m_LAB->m_Function_Generator->is_running (true);
+      m_LAB->m_Function_Generator.m_is_running = true;
 
       // frontend
-      a->is_enabled (true);
+      chn->m_is_enabled = true;
 
       w->label ("Stop");
     }
@@ -60,124 +62,172 @@ cb_wave_type (Fl_Input_Choice *w,
     wave_type = SINE;
 
   // backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-      function_wave_type (wave_type);
-  m_LAB->m_Function_Generator->update ();
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_wave_type = chn_f->m_function_wave_type = wave_type;
 
-  // front end
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->display ()->
-    channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-      function_wave_type (wave_type);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+  // update
+  m_LAB->m_Function_Generator.update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
+    update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_frequency (Fl_Input_Choice *w, 
               void            *data)
 {
-  float value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->function_frequency (value);
-  m_LAB->m_Function_Generator->update ();
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_frequency = chn_f->m_function_frequency = value;
 
-  // front end
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->display ()->
-    channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-      function_frequency (value);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+  // update
+  m_LAB->m_Function_Generator.update ();
+  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
+    update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_period (Fl_Input_Choice *w, 
            void            *data)
 {
-  float value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = LAB_Globals_label_to_scaled_value (w->value ());
 
-  //backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->function_amplitude (1.0 / value);
-  m_LAB->m_Function_Generator->update ();
+  // backend
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_frequency = chn_f->m_function_frequency = (1.0 / value);
 
-  // front end
+  // update
+  m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-      function_frequency (1.0 / value);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+    update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_amplitude (Fl_Input_Choice *w, 
               void            *data)
 {
-  float value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = LAB_Globals_label_to_scaled_value (w->value ());
 
   // backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->function_amplitude (value);
-  m_LAB->m_Function_Generator->update ();
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_amplitude = chn_f->m_function_amplitude = value;
 
-  // front end
+  // update
+  m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-    function_amplitude (value);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+    update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_y_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  float value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = LAB_Globals_label_to_scaled_value (w->value ());
 
-  // change in backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->function_y_offset (value);
-  m_LAB->m_Function_Generator->update ();
+  // backend
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_y_offset = chn_f->m_function_y_offset = value;
 
-  // front end
+  // update
+  m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-      function_y_offset (value);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+    update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_duty_cycle (Fl_Input_Choice *w, 
                void            *data)
 {
-  float value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = LAB_Globals_label_to_scaled_value (w->value ());
 
-  // change in backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->function_duty_cycle (value);
-  m_LAB->m_Function_Generator->update ();
+  // backend
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_duty_cycle = chn_f->m_function_duty_cycle = value;
 
-  // front end
+  // update
+  m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-    function_duty_cycle (value);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+    update ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_phase (Fl_Input_Choice *w, 
           void            *data)
 {
-  float value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = LAB_Globals_label_to_scaled_value (w->value ());
 
-  // change in backend
-  m_LAB->m_Function_Generator->channel_signals ()->channel_signal_vector
-     (LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->function_phase (value);
-  m_LAB->m_Function_Generator->update ();
+  // backend
+  Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
+    m_channel_signal_vector[LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // frontend 
+  Channel_Signal* chn_f = &(m_LABSoft_GUI->
+    function_generator_labsoft_oscilloscope_display_group_display->m_display->
+      m_channel_signals.
+        m_channel_signal_vector[LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER]);
+  
+  // set value
+  chn_b->m_function_phase = chn_f->m_function_phase = value;
 
-  // front end
+  // update
+  m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    display ()->channel_signals ()->channel_signal_vector (LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER)->
-    function_phase (value);
-  m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->update ();
+    update ();
 }
 
 // EOF

@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o"
+  "CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
   "CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
+  "CMakeFiles/LABSoft.dir/src/Globals.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o"

@@ -1,7 +1,9 @@
 #ifndef LAB_POWER_SUPPLY
 #define LAB_POWER_SUPPLY
 
-class LAB_Power_Supply
+#include "LAB_Core.h"
+
+class LAB_Power_Supply : public LAB_Core
 {
   public:
     int m_positive_12_volt_channel,
@@ -14,6 +16,8 @@ class LAB_Power_Supply
          m_is_power_supply_enabled      = false;
 
     // functions
+    LAB_Power_Supply ();
+    
     void update_power_channels ();
 };
 

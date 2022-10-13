@@ -1,22 +1,22 @@
 Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_17805/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_17805.dir/build.make CMakeFiles/cmTC_17805.dir/build
+Run Build Command(s):/usr/bin/gmake cmTC_5ba01/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5ba01.dir/build.make CMakeFiles/cmTC_5ba01.dir/build
 gmake[1]: Entering directory '/home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_17805.dir/src.cxx.o
-/usr/bin/c++   -DCMAKE_HAVE_LIBC_PTHREAD -o CMakeFiles/cmTC_17805.dir/src.cxx.o -c /home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_17805
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_17805.dir/link.txt --verbose=1
-/usr/bin/c++  -DCMAKE_HAVE_LIBC_PTHREAD CMakeFiles/cmTC_17805.dir/src.cxx.o -o cmTC_17805 
-/usr/bin/ld: CMakeFiles/cmTC_17805.dir/src.cxx.o: in function `main':
+Building CXX object CMakeFiles/cmTC_5ba01.dir/src.cxx.o
+/usr/bin/c++   -DCMAKE_HAVE_LIBC_PTHREAD -o CMakeFiles/cmTC_5ba01.dir/src.cxx.o -c /home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_5ba01
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ba01.dir/link.txt --verbose=1
+/usr/bin/c++  -DCMAKE_HAVE_LIBC_PTHREAD CMakeFiles/cmTC_5ba01.dir/src.cxx.o -o cmTC_5ba01 
+/usr/bin/ld: CMakeFiles/cmTC_5ba01.dir/src.cxx.o: in function `main':
 src.cxx:(.text+0x40): undefined reference to `pthread_create'
 /usr/bin/ld: src.cxx:(.text+0x4c): undefined reference to `pthread_detach'
 /usr/bin/ld: src.cxx:(.text+0x58): undefined reference to `pthread_cancel'
 /usr/bin/ld: src.cxx:(.text+0x68): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-gmake[1]: *** [CMakeFiles/cmTC_17805.dir/build.make:106: cmTC_17805] Error 1
+gmake[1]: *** [CMakeFiles/cmTC_5ba01.dir/build.make:106: cmTC_5ba01] Error 1
 gmake[1]: Leaving directory '/home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp'
-gmake: *** [Makefile:140: cmTC_17805/fast] Error 2
+gmake: *** [Makefile:140: cmTC_5ba01/fast] Error 2
 
 
 Source file was:
@@ -43,18 +43,18 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_e7486/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_e7486.dir/build.make CMakeFiles/cmTC_e7486.dir/build
+Run Build Command(s):/usr/bin/gmake cmTC_da273/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_da273.dir/build.make CMakeFiles/cmTC_da273.dir/build
 gmake[1]: Entering directory '/home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_e7486.dir/CheckFunctionExists.cxx.o
-/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_e7486.dir/CheckFunctionExists.cxx.o -c /home/glen/Desktop/LABSoft/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
-Linking CXX executable cmTC_e7486
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7486.dir/link.txt --verbose=1
-/usr/bin/c++  -DCHECK_FUNCTION_EXISTS=pthread_create CMakeFiles/cmTC_e7486.dir/CheckFunctionExists.cxx.o -o cmTC_e7486  -lpthreads 
+Building CXX object CMakeFiles/cmTC_da273.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_da273.dir/CheckFunctionExists.cxx.o -c /home/glen/Desktop/LABSoft/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_da273
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_da273.dir/link.txt --verbose=1
+/usr/bin/c++  -DCHECK_FUNCTION_EXISTS=pthread_create CMakeFiles/cmTC_da273.dir/CheckFunctionExists.cxx.o -o cmTC_da273  -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-gmake[1]: *** [CMakeFiles/cmTC_e7486.dir/build.make:106: cmTC_e7486] Error 1
+gmake[1]: *** [CMakeFiles/cmTC_da273.dir/build.make:106: cmTC_da273] Error 1
 gmake[1]: Leaving directory '/home/glen/Desktop/LABSoft/build/CMakeFiles/CMakeTmp'
-gmake: *** [Makefile:140: cmTC_e7486/fast] Error 2
+gmake: *** [Makefile:140: cmTC_da273/fast] Error 2
 
 
 

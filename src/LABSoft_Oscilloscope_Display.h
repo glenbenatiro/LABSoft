@@ -9,43 +9,39 @@
 
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
-  protected:
+  public:
     bool  m_is_enabled = false,
           m_enable_sample_sharing = false,
           m_is_function_generator_mode = false;
 
-    int   m_number_of_rows,
-          m_number_of_columns,
-          m_background_color,
-          m_grid_color,
-          m_graph_color,
-          m_default_color,
-          m_number_of_channels,
-          m_max_number_of_channels,
-          m_max_number_of_samples;
-      
-    int  *m_channel_colors;
-      
+    int   m_grid_color                  = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR,
+          m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR,
+          m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR,
+          m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER;
+     // int     m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
+
+    int   m_number_of_rows     = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS,
+          m_number_of_columns  = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS,
+          m_number_of_channels = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS;    
 
     float m_time_per_division,
           m_volts_per_division;
 
     // --- FUNCTION GENERATOR SECTION ---
-    int   m_function_generator_channel;
     const double m_pi = 3.1415926535897932384626433832795028841971693993751058209;
 
-    float m_function_amplitude,
-          m_function_frequency,
-          m_function_phase,
-          m_function_y_offset,
-          m_function_time_per_division,
+    float m_function_time_per_division,
           m_function_volts_per_division;
+
+    double  m_function_amplitude = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE,
+            m_function_frequency = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY,
+            m_function_phase     = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE,
+            m_function_y_offset  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET;
     
     WaveType m_wave_type;
       
-    Channel_Signals *m_channel_signals;
+    Channel_Signals m_channel_signals;
 
-  public:
     // --- OSCILLOSCOPE SECTION ---
     // functions
           LABSoft_Oscilloscope_Display (int X, int Y, int W, int H, const char *label);
@@ -53,18 +49,9 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 
     void  draw ();
     void  draw_grid ();
-    void  draw_channel_signals () const;
+    void  draw_channel_signals ();
     void  normalize_channel_signals ();
     void  regendraw ();    
-
-    // setters
-    void is_enabled (bool value);
-    void number_of_channels (int value);
-    void max_number_of_samples (int value);
-    void rows_columns (int number_of_rows, int number_of_columns);
-
-    // getters
-    Channel_Signals *channel_signals ();
 
 
     void update ();
@@ -72,24 +59,6 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);
     void enable_function_generator_mode ();
-    
-    // setters
-    void function_wave_type           (WaveType wave_type, int channel);
-    void function_amplitude           (float    amplitude);
-    void function_frequency           (float    frequency);
-    void function_phase               (float    phase);
-    void function_y_offset            (float    y_offset);
-    void function_time_per_division   (float    time_per_division);
-    void function_volts_per_division  (float    volts_per_division);
-
-    // getters
-    WaveType  function_wave_type          ();
-    float     function_amplitude          ();
-    float     function_frequency          ();
-    float     function_phase              ();
-    float     function_y_offset           ();
-    float     function_time_per_division  ();
-    float     function_volts_per_division ();
 };
 
 #endif

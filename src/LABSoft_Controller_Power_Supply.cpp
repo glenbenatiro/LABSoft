@@ -22,15 +22,15 @@ cb_fl_light_button_run_stop_power_channel (Fl_Light_Button *w,
   // get power channel 
   if (std::strcmp (label, "+12V") == 0)
     {
-      flag = &(m_LAB->m_Power_Supply->m_is_positive_12_volts_enabled);
+      flag = &(m_LAB->m_Power_Supply.m_is_positive_12_volts_enabled);
     }
   else if (std::strcmp (label, "-12V") == 0)
     {
-      flag = &(m_LAB->m_Power_Supply->m_is_negative_12_volts_enabled);
+      flag = &(m_LAB->m_Power_Supply.m_is_negative_12_volts_enabled);
     }
   else if (std::strcmp (label, "+5V") == 0)
     {
-      flag = &(m_LAB->m_Power_Supply->m_is_positive_5_volts_enabled);
+      flag = &(m_LAB->m_Power_Supply.m_is_positive_5_volts_enabled);
     }
 
   if (w->value () == 0)
@@ -47,7 +47,7 @@ cb_fl_light_button_run_stop_power_channel (Fl_Light_Button *w,
     }
   
   // call power supply backend
-  m_LAB->m_Power_Supply->update_power_channels ();
+  m_LAB->m_Power_Supply.update_power_channels ();
 }
 
 void LABSoft_Controller_Power_Supply::
@@ -56,17 +56,17 @@ cb_fl_light_button_master_run_stop (Fl_Light_Button *w,
 {
   if (w->value () == 0)
     {
-      m_LAB->m_Power_Supply->m_is_power_supply_enabled = false;
+      m_LAB->m_Power_Supply.m_is_power_supply_enabled = false;
       printf ("DEBUG: power supply disabled\n");
     }
   else 
     {
-      m_LAB->m_Power_Supply->m_is_power_supply_enabled = true;
+      m_LAB->m_Power_Supply.m_is_power_supply_enabled = true;
       printf ("DEBUG: power supply enabled\n");
     }
   
   // call power supply backend
-  m_LAB->m_Power_Supply->update_power_channels ();
+  m_LAB->m_Power_Supply.update_power_channels ();
 }
 
 // EOF

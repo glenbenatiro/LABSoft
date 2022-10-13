@@ -9,12 +9,11 @@
 
 class LABSoft_Controller_Function_Generator
 {
-  private:
+  public:
     LAB         *m_LAB;
     LABSoft_GUI *m_LABSoft_GUI;
 
-  public:
-          LABSoft_Controller_Function_Generator (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    LABSoft_Controller_Function_Generator (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
     // callback functions
     void  cb_run_stop    (Fl_Light_Button *w, void *data);

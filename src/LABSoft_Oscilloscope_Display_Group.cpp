@@ -1,5 +1,8 @@
 #include "LABSoft_Oscilloscope_Display_Group.h"
 
+#include <cmath>
+
+#include "Globals.h"
 #include "Defaults.h"
 
 LABSoft_Oscilloscope_Display_Group::
@@ -8,29 +11,13 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                     int W, 
                                     int H,
                                     const char *label) : Fl_Group (X, 
-                                                                       Y, 
-                                                                       W, 
-                                                                       H, 
-                                                                       label)
+                                                                   Y, 
+                                                                   W, 
+                                                                   H, 
+                                                                   label)
 {
-  // load defaults
-  m_upper_padding       = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_UPPER_PADDING;
-  m_lower_padding       = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LOWER_PADDING;
-  m_left_padding        = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LEFT_PADDING;
-  m_right_padding       = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_RIGHT_PADDING;
-  m_x_label_padding     = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_PADDING;
-  m_y_label_padding     = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING;
-  m_label_size          = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LABEL_SIZE;
-  m_label_color         = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LABEL_COLOR;
-  m_x_offset            = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_OFFSET;
-  m_time_per_div        = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION;
-  m_background_color    = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR;
-  m_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_CHANNELS;
-  m_number_of_rows      = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS;  
-  m_number_of_columns   = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS;
-
-  // resize y labels
-  m_y_labels.resize (m_number_of_rows, std::vector<Fl_Box*> (m_number_of_channels));
+  m_y_labels.resize ((m_number_of_rows + 1), std::vector<Fl_Box*> 
+    (m_number_of_channels));
   
   // create new labsoft oscilloscope display instance, with paddings
   m_display = new LABSoft_Oscilloscope_Display (X + m_left_padding, 
@@ -40,7 +27,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                                 0);
 
   // override number of rows and columns in osc disp widget
-  m_display->rows_columns (m_number_of_rows, m_number_of_columns);
+  // m_display->rows_columns (m_number_of_rows, m_number_of_columns);
 
   // dynamically add x axis labels
   for (int a = 0; a < m_number_of_columns + 1; a++)
@@ -56,6 +43,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
                               0,
                               ".");
     lbl->labelcolor (m_label_color);
+    lbl->align (FL_ALIGN_TEXT_OVER_IMAGE);
     m_x_labels.push_back (lbl);
   }
 
@@ -73,16 +61,18 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                     Y + m_upper_padding + y_coord,
                                     0,
                                     0,
-                                    "0 v");
+                                    ".");
 
           lbl->labelcolor (m_label_color);
-          m_y_labels[a].push_back (lbl);
+          lbl->align (FL_ALIGN_TEXT_OVER_IMAGE);
+          m_y_labels[a][b] = lbl;
         }
     }      
   
   end ();
 
   update_x_axis_labels ();
+  update_y_axis_labels ();
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -96,21 +86,44 @@ draw ()
 void LABSoft_Oscilloscope_Display_Group:: 
 update_x_axis_labels ()
 {
-  char s[50];
+  char label[10];
+  for (int a = 0; a < (m_number_of_columns + 1); a++)
+    {
+      float label_value = (((a - (m_number_of_columns / 2)) * m_time_per_division) + 
+      m_x_offset) * pow (10, (m_time_per_division_unit_scaler * -1));
 
-  // update x labels
-  for (int a = 0; a < m_number_of_columns + 1; a++) 
-  { 
-    sprintf(s, "%.1f s", ((a + m_x_offset - ((float)m_number_of_columns / 2.0)) * m_time_per_div));
-    m_x_labels[a]->copy_label (s);
-    m_x_labels[a]->labelcolor (m_label_color);
-  }
+      sprintf (label, "%3.4g %cs", label_value, globals_get_unit_prefix 
+      (m_time_per_division_unit_scaler));
+
+      m_x_labels[a]->copy_label (label);
+    }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
 update_y_axis_labels ()
 {
+  char label[15];
 
+  for (int a = 0; a < m_number_of_channels; a++)
+    {
+      for (int b = 0; b < (m_number_of_rows + 1); b++)
+        {
+          Channel_Signal *chn = &(m_display->m_channel_signals.
+            m_channel_signal_vector[a]);
+
+          int power_scaler          = chn->m_volts_per_division_unit_scaler;
+          double volts_per_division = chn->m_volts_per_division;
+          double y_offset           = chn->m_y_offset;
+
+          float label_value = (((a - (m_number_of_rows / 2)) * volts_per_division) + 
+          y_offset) * pow (10, (power_scaler * -1));
+
+          sprintf (label, "%3.4g %cV", label_value, globals_get_unit_prefix 
+          (power_scaler));
+
+          m_y_labels[a][b]->copy_label (label);
+        }
+    }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -123,40 +136,37 @@ enable_function_generator_mode ()
 void LABSoft_Oscilloscope_Display_Group::
 update ()
 {
-  // if (m_is_function_generator_mode_enabled)
-  //   // {
-  //   //   // 
-  //   //   for (int a = 0)
-  //   // }
-}
-
-// setters
-void LABSoft_Oscilloscope_Display_Group:: 
-rows_columns (int rows, 
-              int columns)
-{
- m_number_of_rows = rows;
- m_number_of_columns = columns;
+  printf ("DEBUG: display updated\n");
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
-is_enabled (bool value)
+update_time_per_division (double time_per_division,
+                          int    time_per_division_unit_prefix_power_scaler)
 {
-  m_is_enabled = value;
-  m_display->is_enabled (value);
+  m_time_per_division = time_per_division;
+
+  m_time_per_division_unit_scaler = 
+    time_per_division_unit_prefix_power_scaler;
+  
+  update_x_axis_labels ();
+  update ();
 }
 
-// getters
-LABSoft_Oscilloscope_Display* LABSoft_Oscilloscope_Display_Group::
-display ()
+void LABSoft_Oscilloscope_Display_Group:: 
+update_volts_per_division (double volts_per_division,
+                          int    volts_per_division_unit_scaler,
+                          int    channel)
 {
-  return m_display;
-}
+  Channel_Signal *chn = &(m_display->m_channel_signals.
+    m_channel_signal_vector[channel]);
 
-bool LABSoft_Oscilloscope_Display_Group:: 
-is_enabled ()
-{
-  return m_is_enabled;
+  chn->m_volts_per_division = volts_per_division;
+  chn->m_volts_per_division_unit_scaler = volts_per_division_unit_scaler;
+  
+  update_y_axis_labels ();
+  update ();
 }
+                        
+
 
 // EOF

@@ -10,9 +10,9 @@
 class LABSoft 
 {
   private:
-    LAB                *m_LAB;
-    LABSoft_GUI        *m_LABSoft_GUI;
-    LABSoft_Controller *m_LABSoft_Controller;
+    LAB                m_LAB;
+    LABSoft_GUI        m_LABSoft_GUI;
+    LABSoft_Controller m_LABSoft_Controller;
     
   public:
     LABSoft (int argc, char** argv);

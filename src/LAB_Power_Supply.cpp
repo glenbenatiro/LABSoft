@@ -2,6 +2,12 @@
 
 #include <iostream>
 
+LAB_Power_Supply:: 
+LAB_Power_Supply () : LAB_Core ()
+{
+
+}
+
 void LAB_Power_Supply:: 
 update_power_channels ()
 {

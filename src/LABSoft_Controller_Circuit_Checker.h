@@ -53,14 +53,14 @@ class LABSoft_Controller_Circuit_Checker
     LABSoft_Controller_Circuit_Checker (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
     // functions
-    void LABSoft_Controller_Circuit_Checker_log (const char *text);
-    void LABSoft_Controller_Circuit_Checker_parse_xml_file ();
-    void LABSoft_Controller_Circuit_Checker_start_circuit_checking ();
-    void LABSoft_Controller_Circuit_Checker_log_all_signals ();
+    void log (const char *text);
+    void parse_xml_file ();
+    void start_circuit_checking ();
+    void log_all_signals ();
 
     // callback functions
-    void LABSoft_Controller_Circuit_Checker_cb_fl_button_choose_circuit_checker_file (Fl_Button *w, void *data);
-    void LABSoft_Controller_Circuit_Checker_cb_fl_button_start_circuit_checking (Fl_Button *w, void *data);
+    void cb_fl_button_choose_circuit_checker_file (Fl_Button *w, void *data);
+    void cb_fl_button_start_circuit_checking (Fl_Button *w, void *data);
 };
 
 #endif

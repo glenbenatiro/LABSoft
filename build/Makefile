@@ -169,6 +169,33 @@ src/Auxiliary.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.s
 .PHONY : src/Auxiliary.cpp.s
 
+src/Channel_Signal.o: src/Channel_Signal.cpp.o
+
+.PHONY : src/Channel_Signal.o
+
+# target to build an object file
+src/Channel_Signal.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o
+.PHONY : src/Channel_Signal.cpp.o
+
+src/Channel_Signal.i: src/Channel_Signal.cpp.i
+
+.PHONY : src/Channel_Signal.i
+
+# target to preprocess a source file
+src/Channel_Signal.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.i
+.PHONY : src/Channel_Signal.cpp.i
+
+src/Channel_Signal.s: src/Channel_Signal.cpp.s
+
+.PHONY : src/Channel_Signal.s
+
+# target to generate assembly for a file
+src/Channel_Signal.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s
+.PHONY : src/Channel_Signal.cpp.s
+
 src/Channel_Signals.o: src/Channel_Signals.cpp.o
 
 .PHONY : src/Channel_Signals.o
@@ -195,6 +222,33 @@ src/Channel_Signals.s: src/Channel_Signals.cpp.s
 src/Channel_Signals.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.s
 .PHONY : src/Channel_Signals.cpp.s
+
+src/Globals.o: src/Globals.cpp.o
+
+.PHONY : src/Globals.o
+
+# target to build an object file
+src/Globals.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Globals.cpp.o
+.PHONY : src/Globals.cpp.o
+
+src/Globals.i: src/Globals.cpp.i
+
+.PHONY : src/Globals.i
+
+# target to preprocess a source file
+src/Globals.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Globals.cpp.i
+.PHONY : src/Globals.cpp.i
+
+src/Globals.s: src/Globals.cpp.s
+
+.PHONY : src/Globals.s
+
+# target to generate assembly for a file
+src/Globals.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Globals.cpp.s
+.PHONY : src/Globals.cpp.s
 
 src/LAB.o: src/LAB.cpp.o
 
@@ -991,9 +1045,15 @@ help:
 	@echo "... src/Auxiliary.o"
 	@echo "... src/Auxiliary.i"
 	@echo "... src/Auxiliary.s"
+	@echo "... src/Channel_Signal.o"
+	@echo "... src/Channel_Signal.i"
+	@echo "... src/Channel_Signal.s"
 	@echo "... src/Channel_Signals.o"
 	@echo "... src/Channel_Signals.i"
 	@echo "... src/Channel_Signals.s"
+	@echo "... src/Globals.o"
+	@echo "... src/Globals.i"
+	@echo "... src/Globals.s"
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"

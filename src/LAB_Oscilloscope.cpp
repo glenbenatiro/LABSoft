@@ -1,7 +1,13 @@
 #include "LAB_Oscilloscope.h"
 
+#include "Defaults.h"
+
 LAB_Oscilloscope::
-LAB_Oscilloscope () : LAB_Core ()
+LAB_Oscilloscope () 
+  : LAB_Core (),
+    m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
+                       LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
+                       0)
 {
 
   m_verbose        = VERBOSE;
@@ -345,6 +351,13 @@ void LAB_Oscilloscope::
 LAB_Oscilloscope_generate_sine_wave ()
 {
 
+}
+
+// getters
+Channel_Signals* LAB_Oscilloscope:: 
+channel_signals ()
+{
+  return &(m_channel_signals);
 }
 
 

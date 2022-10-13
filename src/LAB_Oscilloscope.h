@@ -79,7 +79,7 @@ class LAB_Oscilloscope : public LAB_Core
     std::thread *m_thread_ADC_streaming,
                 *m_thread_ADC_reading;
 
-    Channel_Signals *m_channel_signals;
+    Channel_Signals m_channel_signals;
 
 
     // functions
@@ -110,6 +110,9 @@ class LAB_Oscilloscope : public LAB_Core
 
     // callback functions
     void LAB_Oscilloscope_cb_oscilloscope_fl_light_button_enable_disable (Fl_Light_Button *w, void *data);
+
+    // getters
+    Channel_Signals* channel_signals ();
 };
 
 #endif

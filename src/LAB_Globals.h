@@ -4,13 +4,7 @@
 #include <cstdint>
 
 
-enum WaveType {SINE, 
-               SQUARE, 
-               TRIANGLE, 
-               DC,
-               SAWTOOTH,
-               NOISE,
-               OTHER};
+
 
 
 // extern  int LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS[LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS];

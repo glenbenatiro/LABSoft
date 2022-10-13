@@ -49,7 +49,9 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Oscilloscope_Display.cpp
 
   src/Auxiliary.cpp
+  src/Globals.cpp
   src/Channel_Signals.cpp
+  src/Channel_Signal.cpp
   src/pugixml.cpp
 )
 

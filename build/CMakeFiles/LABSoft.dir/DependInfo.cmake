@@ -5,7 +5,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/Auxiliary.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/Channel_Signal.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Channel_Signals.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/Globals.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Globals.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o"
