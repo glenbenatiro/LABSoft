@@ -17,6 +17,7 @@ class LABSoft_GUI {open
   }
   Function {LABSoft_GUI()} {open
   } {
+    code {printf("DEBUG: LABSoft_GUI Start\\n");} {}
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
       xywh {2110 216 1365 765} type Double visible
@@ -1770,6 +1771,6 @@ class LABSoft_GUI {open
         }
       }
     }
-    code {printf("Hello, World!\\n");} {}
+    code {printf("DEBUG: LABSoft_GUI Constructor OK\\n");} {}
   }
 }

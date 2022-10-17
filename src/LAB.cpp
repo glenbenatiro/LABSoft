@@ -4,7 +4,7 @@
 
 LAB::LAB ()
 {
-  std::cout << "OK LAB CONSTRUCTOR\n";
+  printf ("DEBUG: LAB Constructor OK\n");
 }
 
 LAB::~LAB ()

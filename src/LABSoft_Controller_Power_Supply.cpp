@@ -8,6 +8,8 @@ LABSoft_Controller_Power_Supply (LAB         *_LAB,
 {
   m_LAB = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
+
+  printf ("DEBUG: PS OK\n");
 }
 
 // callback functions

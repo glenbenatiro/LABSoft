@@ -1,5 +1,6 @@
 #include "LABSoft_Oscilloscope_Display_Group.h"
 
+#include <iostream>
 #include <cmath>
 
 #include "Globals.h"
@@ -16,9 +17,6 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                                                    H, 
                                                                    label)
 {
-  m_y_labels.resize ((m_number_of_rows + 1), std::vector<Fl_Box*> 
-    (m_number_of_channels));
-  
   // create new labsoft oscilloscope display instance, with paddings
   m_display = new LABSoft_Oscilloscope_Display (X + m_left_padding, 
                                                 Y + m_upper_padding, 
@@ -47,6 +45,9 @@ LABSoft_Oscilloscope_Display_Group (int X,
     m_x_labels.push_back (lbl);
   }
 
+  // resize y labels to accommodate num of chans
+  m_y_labels.resize (m_number_of_channels, std::vector<Fl_Box*> (0));
+
   // dynamically add y axis labels per channel
   for (int a = 0; a < m_number_of_channels; a++) 
     {
@@ -65,7 +66,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
 
           lbl->labelcolor (m_label_color);
           lbl->align (FL_ALIGN_TEXT_OVER_IMAGE);
-          m_y_labels[a][b] = lbl;
+          m_y_labels[a].emplace_back (lbl);
         }
     }      
   

@@ -6,8 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/glen/Desktop/LABSoft/src/Auxiliary.h
-
 /home/glen/Desktop/LABSoft/src/Channel_Signal.h
 vector
 -
@@ -30,12 +28,6 @@ Globals.h
 
 /home/glen/Desktop/LABSoft/src/Globals.h
 
-/home/glen/Desktop/LABSoft/src/LAB.cpp
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB.h
-iostream
--
-
 /home/glen/Desktop/LABSoft/src/LAB.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -57,22 +49,6 @@ LAB_Power_Supply.h
 /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.h
 LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft.cpp
-LABSoft.h
-/home/glen/Desktop/LABSoft/src/LABSoft.h
-iostream
--
-
-/home/glen/Desktop/LABSoft/src/LABSoft.h
-FL/Fl.H
--
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB.h
-LABSoft_GUI.h
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp
 LABSoft_Controller.h
@@ -107,22 +83,6 @@ LABSoft_Controller_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.h
 LABSoft_Controller_Main.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ammeter.cpp
-LABSoft_Controller_Ammeter.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ammeter.h
-cstdio
--
-chrono
--
-cmath
--
-FL/Fl.H
--
-Auxiliary.h
-/home/glen/Desktop/LABSoft/src/Auxiliary.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ammeter.h
 thread
@@ -166,14 +126,6 @@ LAB_Globals.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.cpp
-LABSoft_Controller_Function_Generator.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.h
-cstring
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.h
 FL/Fl_Light_Button.H
 -
@@ -184,19 +136,11 @@ LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Logic_Analyzer.cpp
-LABSoft_Controller_Logic_Analyzer.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Logic_Analyzer.h
-
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Logic_Analyzer.h
 LAB.h
 /home/glen/Desktop/LABSoft/src/LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.cpp
-LABSoft_Controller_Main.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.h
 iostream
@@ -209,22 +153,6 @@ LAB.h
 /home/glen/Desktop/LABSoft/src/LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ohmmeter.cpp
-LABSoft_Controller_Ohmmeter.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ohmmeter.h
-cstdio
--
-chrono
--
-cmath
--
-FL/Fl.H
--
-Auxiliary.h
-/home/glen/Desktop/LABSoft/src/Auxiliary.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Ohmmeter.h
 thread
@@ -239,14 +167,6 @@ LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 LAB_Globals.h
 /home/glen/Desktop/LABSoft/src/LAB_Globals.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.cpp
-LABSoft_Controller_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
-iostream
--
-Globals.h
-/home/glen/Desktop/LABSoft/src/Globals.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
 FL/Fl_Light_Button.H
@@ -258,33 +178,11 @@ LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Power_Supply.cpp
-LABSoft_Controller_Power_Supply.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Power_Supply.h
-cstring
--
-
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Power_Supply.h
 LAB.h
 /home/glen/Desktop/LABSoft/src/LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp
-LABSoft_Controller_Voltmeter.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.h
-cstdio
--
-chrono
--
-cmath
--
-FL/Fl.H
--
-Auxiliary.h
-/home/glen/Desktop/LABSoft/src/Auxiliary.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.h
 thread
@@ -299,12 +197,6 @@ LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 LAB_Globals.h
 /home/glen/Desktop/LABSoft/src/LAB_Globals.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp
-LABSoft_GUI.h
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 FL/Fl.H
@@ -437,10 +329,6 @@ LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 LAB_Meter.h
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
-
-/home/glen/Desktop/LABSoft/src/main.cpp
-LABSoft.h
-/home/glen/Desktop/LABSoft/src/LABSoft.h
 
 /home/glen/Desktop/LABSoft/src/pugiconfig.hpp
 

@@ -638,6 +638,7 @@ void LABSoft_GUI::cb_circuit_checker_fl_button_start_circuit_checking(Fl_Button*
 }
 
 LABSoft_GUI::LABSoft_GUI() {
+  printf("DEBUG: LABSoft_GUI Start\n");
   { main_fl_window = new Fl_Double_Window(1365, 765, "LABSoft v0.1a");
     main_fl_window->user_data((void*)(this));
     { Fl_Tabs* o = new Fl_Tabs(0, 0, 1366, 768);
@@ -1096,5 +1097,5 @@ LABSoft_GUI::LABSoft_GUI() {
     } // Fl_Group* alignment_guides
     main_fl_window->end();
   } // Fl_Double_Window* main_fl_window
-  printf("Hello, World!\n");
+  printf("DEBUG: LABSoft_GUI Constructor OK\n");
 }

@@ -10,8 +10,6 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 {
   m_LAB = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
-
-  std::cout << "done oscilloscope\n";
 }
 
 void LABSoft_Controller_Oscilloscope::
