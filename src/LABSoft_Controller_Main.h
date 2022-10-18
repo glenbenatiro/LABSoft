@@ -5,7 +5,7 @@
 
 #include <FL/Fl.H>
 
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
 #include "LAB.h"
 #include "LABSoft_GUI.h"
 

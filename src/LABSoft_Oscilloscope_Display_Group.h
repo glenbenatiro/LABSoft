@@ -48,6 +48,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  update_y_axis_labels ();
     void  enable_function_generator_mode ();
     void  update ();
+    void  update_fg ();
 
     void  update_time_per_division (double time_per_division, 
       int time_per_division_unit_prefix_power_scaler);

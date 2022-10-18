@@ -1,6 +1,7 @@
 #include "LAB_Function_Generator.h"
 
 #include "Defaults.h"
+#include "Globals.h"
 
 LAB_Function_Generator::
 LAB_Function_Generator () 

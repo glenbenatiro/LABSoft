@@ -78,14 +78,14 @@ cb_wave_type (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_frequency (Fl_Input_Choice *w, 
               void            *data)
 {
-  double value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -103,14 +103,14 @@ cb_frequency (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_period (Fl_Input_Choice *w, 
            void            *data)
 {
-  double value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -128,14 +128,14 @@ cb_period (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_amplitude (Fl_Input_Choice *w, 
               void            *data)
 {
-  double value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -153,14 +153,14 @@ cb_amplitude (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_y_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  double value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -178,14 +178,14 @@ cb_y_offset (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_duty_cycle (Fl_Input_Choice *w, 
                void            *data)
 {
-  double value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -203,14 +203,14 @@ cb_duty_cycle (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
 cb_phase (Fl_Input_Choice *w, 
           void            *data)
 {
-  double value = LAB_Globals_label_to_scaled_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -228,7 +228,7 @@ cb_phase (Fl_Input_Choice *w,
   // update
   m_LAB->m_Function_Generator.update ();
   m_LABSoft_GUI->function_generator_labsoft_oscilloscope_display_group_display->
-    update ();
+    update_fg ();
 }
 
 // EOF

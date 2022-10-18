@@ -19,15 +19,15 @@
 #include <FL/Fl_Light_Button.H>
 
 #include "LAB_Core.h"
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
 
 #include "Channel_Signals.h"
 
-class LAB_Oscilloscope : public LAB_Core
+class LAB_Oscilloscope 
 {
-  private:   
-
   public:
+    LAB_Core *m_LAB_Core;
+
     int         m_fifo_read_fd,
                 m_fifo_write_fd,
                 m_number_of_channels;
@@ -83,7 +83,7 @@ class LAB_Oscilloscope : public LAB_Core
 
 
     // functions
-    LAB_Oscilloscope                     ();
+    LAB_Oscilloscope                     (LAB_Core *_LAB_Core);
    ~LAB_Oscilloscope                     ();
 
     void LAB_Oscilloscope_init           ();

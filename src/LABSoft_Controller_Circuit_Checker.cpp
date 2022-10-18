@@ -13,9 +13,7 @@ LABSoft_Controller_Circuit_Checker (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   m_file_chooser->preview (0);
   m_text_buffer = new Fl_Text_Buffer ();
   
-  printf ("DEBUG: CS OK\n");
   m_text_display = m_LABSoft_GUI->circuit_checker_fl_text_display_logger;
-  printf ("DEBUG: CS OK\n");
   m_text_display->buffer (m_text_buffer);
 
   m_LABSoft_GUI->circuit_checker_fl_output_selected_circuit_checker_file->value ("No file selected.");

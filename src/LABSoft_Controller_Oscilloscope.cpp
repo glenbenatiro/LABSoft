@@ -48,7 +48,7 @@ void LABSoft_Controller_Oscilloscope::
 cb_time_per_division (Fl_Input_Choice *w, 
                       void            *data)
 {
-  double value    = globals_get_actual_value (w->value ());
+  double value    = globals_get_actual_value_from_label (w->value ());
   int unit_scaler = globals_get_unit_prefix_power_scaler (w->value ());
 
   printf ("value: %f, unit_scaler: %d\n", value, unit_scaler);
@@ -61,7 +61,7 @@ void LABSoft_Controller_Oscilloscope::
 cb_x_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  double value = globals_get_actual_value (w->value ());
+  double value = globals_get_actual_value_from_label (w->value ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     m_x_offset = value;
@@ -75,7 +75,7 @@ cb_volts_per_division (Fl_Input_Choice *w,
                             void            *data)
 {
   int channel = *((int*)data);
-  double value    = globals_get_actual_value (w->value ());
+  double value    = globals_get_actual_value_from_label (w->value ());
   int unit_scaler = globals_get_unit_prefix_power_scaler (w->value ());
 
   printf ("value: %f, unit_scaler: %d\n", value, unit_scaler);

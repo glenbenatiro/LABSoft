@@ -12,7 +12,7 @@
 #include <FL/Fl_Text_Display.H>
 
 #include "LAB.h"
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
 #include "LABSoft_GUI.h"
 
 struct Signal

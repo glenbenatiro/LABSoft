@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 
-double globals_get_actual_value (const char *label)
+double globals_get_actual_value_from_label (const char *label)
 {
   double  value              = atof (strtok (strdup (label), " "));
   char    unit_prefix        = strtok (NULL, "/")[0];

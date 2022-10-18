@@ -790,33 +790,6 @@ src/LAB_Function_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.s
 .PHONY : src/LAB_Function_Generator.cpp.s
 
-src/LAB_Globals.o: src/LAB_Globals.cpp.o
-
-.PHONY : src/LAB_Globals.o
-
-# target to build an object file
-src/LAB_Globals.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o
-.PHONY : src/LAB_Globals.cpp.o
-
-src/LAB_Globals.i: src/LAB_Globals.cpp.i
-
-.PHONY : src/LAB_Globals.i
-
-# target to preprocess a source file
-src/LAB_Globals.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.i
-.PHONY : src/LAB_Globals.cpp.i
-
-src/LAB_Globals.s: src/LAB_Globals.cpp.s
-
-.PHONY : src/LAB_Globals.s
-
-# target to generate assembly for a file
-src/LAB_Globals.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.s
-.PHONY : src/LAB_Globals.cpp.s
-
 src/LAB_Logic_Analyzer.o: src/LAB_Logic_Analyzer.cpp.o
 
 .PHONY : src/LAB_Logic_Analyzer.o
@@ -1114,9 +1087,6 @@ help:
 	@echo "... src/LAB_Function_Generator.o"
 	@echo "... src/LAB_Function_Generator.i"
 	@echo "... src/LAB_Function_Generator.s"
-	@echo "... src/LAB_Globals.o"
-	@echo "... src/LAB_Globals.i"
-	@echo "... src/LAB_Globals.s"
 	@echo "... src/LAB_Logic_Analyzer.o"
 	@echo "... src/LAB_Logic_Analyzer.i"
 	@echo "... src/LAB_Logic_Analyzer.s"

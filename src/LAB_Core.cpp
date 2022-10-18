@@ -10,6 +10,8 @@
 #include <poll.h>
 
 #include "LAB_Core.h"
+#include "Auxiliary.h"
+#include "Defaults.h"
 
 // declare static data members
 MEM_MAP LAB_Core::m_gpio_regs,
@@ -23,8 +25,6 @@ MEM_MAP LAB_Core::m_vc_mem;
 
 LAB_Core::LAB_Core ()
 {
-  m_spi_frequency = SPI_FREQ;
-
   LAB_Core_init ();
 }
 
@@ -39,7 +39,7 @@ LAB_Core::LAB_Core_init ()
   LAB_Core_map_devices ();
   LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
 
-  LAB_Core_spi_init (m_spi_frequency);
+  spi_init ();
 }
 
 // Allocate uncached memory, get bus & phys addresses
@@ -379,7 +379,7 @@ LAB_Core::LAB_Core_terminate (int sig)
 {
   printf("Closing\n");
   
-  LAB_Core_spi_disable();
+  spi_disable();
   //dma_stop(DMA_CHAN_A);
   //dma_stop(DMA_CHAN_B);
   //dma_stop(DMA_CHAN_C);
@@ -402,35 +402,32 @@ LAB_Core::LAB_Core_terminate (int sig)
 
 // // --- SPI ---
 // Initialise SPI0, given desired clock freq; return actual value
-int 
-LAB_Core::LAB_Core_spi_init (int hz)
+float LAB_Core::
+spi_init ()
 {
-  int f, div = (SPI_CLOCK_HZ / hz + 1) & ~1;
+  // initialize spi gpio pins on rpi
+  gpio_set (SPI0_CE0_PIN,  GPIO_ALT0, GPIO_NOPULL);
+  gpio_set (SPI0_CE1_PIN,  GPIO_ALT0, GPIO_NOPULL);
+  gpio_set (SPI0_MISO_PIN, GPIO_ALT0, GPIO_PULLUP);
+  gpio_set (SPI0_MOSI_PIN, GPIO_ALT0, GPIO_NOPULL);
+  gpio_set (SPI0_SCLK_PIN, GPIO_ALT0, GPIO_NOPULL);
 
-  LAB_Core_gpio_set (SPI0_CE0_PIN,  GPIO_ALT0, GPIO_NOPULL);
-  LAB_Core_gpio_set (SPI0_CE1_PIN,  GPIO_ALT0, GPIO_NOPULL);
-  LAB_Core_gpio_set (SPI0_MISO_PIN, GPIO_ALT0, GPIO_PULLUP);
-  LAB_Core_gpio_set (SPI0_MOSI_PIN, GPIO_ALT0, GPIO_NOPULL);
-  LAB_Core_gpio_set (SPI0_SCLK_PIN, GPIO_ALT0, GPIO_NOPULL);
- 
-  while (div == 0 || (f = SPI_CLOCK_HZ / div) > MAX_SPI_FREQ)
-    div += 2;
-      
-  *REG32(m_spi_regs, SPI_CS)  = 0x30;
-  *REG32(m_spi_regs, SPI_CLK) = div;  
-  return (f);
+  // clear tx and rx fifo. one shot operation
+  spi_clear_rxtx_fifo ();
+  
+  return (spi_set_clock_rate (m_spi_frequency));
 }
 
-// Clear SPI FIFOs
-void 
-LAB_Core::LAB_Core_spi_clear (void)
+void LAB_Core:: 
+spi_clear_rxtx_fifo ()
 {
-  *REG32(m_spi_regs, SPI_CS) = SPI_FIFO_CLR;
+  // *REG32 (m_spi_regs, SPI_CS) = SPI_FIFO_CLR;
+  *REG32 (m_spi_regs, SPI_CS) = 0x30;
 }
 
 // Set / clear SPI chip select
 void 
-LAB_Core::LAB_Core_spi_cs (int set)
+LAB_Core::spi_cs (int set)
 {
   uint32_t csval = *REG32(m_spi_regs, SPI_CS);
 
@@ -438,15 +435,16 @@ LAB_Core::LAB_Core_spi_cs (int set)
 }
 
 // Transfer SPI bytes
-void 
-LAB_Core::LAB_Core_spi_xfer (uint8_t *txd, 
-                               uint8_t *rxd, 
-                               int      len)
+void LAB_Core::
+spi_xfer (uint8_t *txd, 
+          uint8_t *rxd, 
+          int      length)
 {
-  while (len--)
+  while (length--)
     {
       *REG8(m_spi_regs, SPI_FIFO) = *txd++;
       
+      // wait for rx fifo to contain AT LEAST 1 byte
       while ((*REG32(m_spi_regs, SPI_CS) & (1<<17)) == 0);
       
       *rxd++ = *REG32(m_spi_regs, SPI_FIFO);
@@ -455,15 +453,15 @@ LAB_Core::LAB_Core_spi_xfer (uint8_t *txd,
 
 // Disable SPI
 void 
-LAB_Core::LAB_Core_spi_disable (void)
+LAB_Core::spi_disable (void)
 {
     *REG32(m_spi_regs, SPI_CS) = SPI_FIFO_CLR;
     *REG32(m_spi_regs, SPI_CS) = 0;
 }
 
 // Display SPI registers
-void 
-LAB_Core::LAB_Core_spi_disp (void)
+void LAB_Core::
+spi_disp ()
 {
   // SPI register strings
   const char *m_spi_regstrs[] = {"CS", 
@@ -483,12 +481,25 @@ LAB_Core::LAB_Core_spi_disp (void)
   printf("\n");
 }
 
+// page 156
+float LAB_Core:: 
+spi_set_clock_rate (float value)
+{
+  uint16_t divider = 0;
 
+  if (value <= SPI_CLOCK_HZ)
+    uint16_t divider = SPI_CLOCK_HZ / value;
+  
+  // set spi frequency as rounded off clock
+  *REG32 (m_spi_regs, SPI_CLK) = divider;
+
+  return (SPI_CLOCK_HZ / divider);
+}
 
 // --- GPIO ---
 // Set input or output with pullups
 void 
-LAB_Core::LAB_Core_gpio_set (int pin, 
+LAB_Core::gpio_set (int pin, 
                              int mode, 
                              int pull)
 {

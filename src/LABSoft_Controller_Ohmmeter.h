@@ -8,7 +8,7 @@
 
 #include "LAB.h"
 #include "LABSoft_GUI.h"
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
 
 class LABSoft_Controller_Ohmmeter 
 {

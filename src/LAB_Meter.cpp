@@ -8,7 +8,7 @@
 
 
 LAB_Meter:: 
-LAB_Meter () : LAB_Core ()
+LAB_Meter () 
 {
   m_value = LAB_METER_VALUE;
 }

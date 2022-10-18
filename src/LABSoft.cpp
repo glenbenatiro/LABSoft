@@ -7,7 +7,6 @@ LABSoft (int    argc,
          char **argv) 
   : m_LABSoft_Controller (&m_LAB, &m_LABSoft_GUI)
 {
-  std::cout << "hello?\n";
   // link
   m_LABSoft_GUI.m_LABSoft_Controller = &m_LABSoft_Controller;
 

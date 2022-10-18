@@ -93,7 +93,7 @@ update_x_axis_labels ()
       float label_value = (((a - (m_number_of_columns / 2)) * m_time_per_division) + 
       m_x_offset) * pow (10, (m_time_per_division_unit_scaler * -1));
 
-      sprintf (label, "%3.4g %cs", label_value, globals_get_unit_prefix 
+      sprintf (label, "%3.4f %cs", label_value, globals_get_unit_prefix 
       (m_time_per_division_unit_scaler));
 
       m_x_labels[a]->copy_label (label);
@@ -145,12 +145,19 @@ update_time_per_division (double time_per_division,
                           int    time_per_division_unit_prefix_power_scaler)
 {
   m_time_per_division = time_per_division;
-
-  m_time_per_division_unit_scaler = 
-    time_per_division_unit_prefix_power_scaler;
+  m_time_per_division_unit_scaler = time_per_division_unit_prefix_power_scaler;
   
   update_x_axis_labels ();
   update ();
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_fg ()
+{
+  // regenerate wave
+  m_display->regendraw ();
+  // normalize to display
+  // draw
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 

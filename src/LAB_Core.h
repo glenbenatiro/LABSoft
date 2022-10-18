@@ -3,14 +3,13 @@
 
 #include <cstdio>
 
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
+#include "Defaults.h"
 
 class LAB_Core
 {
-  private:  
-
-  protected:
-    uint32_t m_spi_frequency;
+  public:
+    float m_spi_frequency = LAB_SPI_FREQUENCY;
 
     static MEM_MAP m_gpio_regs,
                    m_dma_regs, 
@@ -68,16 +67,17 @@ class LAB_Core
     void     LAB_Core_gpio_out         (int pin, int val);
     void     LAB_Core_gpio_mode        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
-    void     LAB_Core_gpio_set         (int pin, int mode, int pull);
+    void     gpio_set         (int pin, int mode, int pull);
     uint8_t  LAB_Core_gpio_in          (int pin);
     
     // --- SPI ---
-    int      LAB_Core_spi_init         (int hz);
-    void     LAB_Core_spi_disp         (void);
-    void     LAB_Core_spi_disable      (void);
-    void     LAB_Core_spi_xfer         (uint8_t *txd, uint8_t *rxd, int len);
-    void     LAB_Core_spi_cs           (int set);
-    void     LAB_Core_spi_clear        (void);
+    float     spi_init            ();
+    void      spi_clear_rxtx_fifo ();
+    void      spi_disp            ();
+    void      spi_disable         ();
+    void      spi_xfer            (uint8_t *txd, uint8_t *rxd, int length);
+    void      spi_cs              (int set);
+    float     spi_set_clock_rate  (float value);
 
     // --- PWM ---
     void     LAB_Core_pwm_init         (int freq, int range, int val);

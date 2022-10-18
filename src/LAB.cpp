@@ -3,8 +3,9 @@
 #include <iostream>
 
 LAB::LAB ()
+: m_Oscilloscope (&m_LAB_Core)
 {
-  printf ("DEBUG: LAB Constructor OK\n");
+
 }
 
 LAB::~LAB ()

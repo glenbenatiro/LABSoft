@@ -23,7 +23,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
-  "CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o"

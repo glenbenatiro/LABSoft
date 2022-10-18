@@ -4,7 +4,7 @@
 #include <FL/Fl_Widget.H>
 #include <FL/fl_draw.H>
 
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
 #include "Channel_Signals.h"
 
 class LABSoft_Oscilloscope_Display : public Fl_Widget
@@ -27,11 +27,13 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     float m_time_per_division,
           m_volts_per_division;
 
-    // --- FUNCTION GENERATOR SECTION ---
-    const double m_pi = 3.1415926535897932384626433832795028841971693993751058209;
-
     float m_function_time_per_division,
           m_function_volts_per_division;
+
+    DisplayMode m_display_mode = LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE;
+
+    // --- FUNCTION GENERATOR SECTION ---
+    const double m_pi = 3.1415926535897932384626433832795028841971693993751058209;
 
     double  m_function_amplitude = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE,
             m_function_frequency = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY,
@@ -39,6 +41,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
             m_function_y_offset  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET;
     
     WaveType m_wave_type;
+    
       
     Channel_Signals m_channel_signals;
 
@@ -52,6 +55,8 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     void  draw_channel_signals ();
     void  normalize_channel_signals ();
     void  regendraw ();    
+
+    void  generate_sample_sine_wave ();
 
 
     void update ();

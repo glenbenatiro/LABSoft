@@ -6,7 +6,7 @@
 
 #include <FL/Fl.H>
 
-#include "LAB_Globals.h"
+#include "Auxiliary.h"
 #include "LABSoft_Controller_Oscilloscope.h"
 #include "LABSoft_Controller_Voltmeter.h"
 #include "LABSoft_Controller_Ammeter.h"

@@ -6,6 +6,4 @@ LABSoft_Controller_Logic_Analyzer (LAB         *_LAB,
 {
   m_LAB = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
-
-  printf ("DEBUG: LA OK\n");
 }

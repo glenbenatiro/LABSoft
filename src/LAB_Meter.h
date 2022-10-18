@@ -4,7 +4,7 @@
 
 #include "LAB_Core.h"
 
-class LAB_Meter : public LAB_Core
+class LAB_Meter 
 {
   public:
     bool  m_is_running = false,

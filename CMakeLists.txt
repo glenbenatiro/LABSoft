@@ -30,7 +30,6 @@ ADD_EXECUTABLE(LABSoft
   src/LAB_Logic_Analyzer.cpp
   src/LAB_Power_Supply.cpp
   src/LAB_Circuit_Checker.cpp
-  src/LAB_Globals.cpp
 
   src/LABSoft_Controller.cpp
   src/LABSoft_Controller_Oscilloscope.cpp

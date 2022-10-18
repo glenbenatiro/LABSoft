@@ -170,6 +170,52 @@ enable_function_generator_mode ()
   //m_channel_signals->number_of_channels_all (1);
 }
 
+// int LABSoft_Oscilloscope_Display:: 
+// generate_waveform (WaveType wave_type, int channel)
+// {
+//   std::vector<float>  values;  
+//   float               x_scaler = 1 / (static_cast<float>(w ()) /
+//                         static_cast<float>(m_number_of_columns));
+
+//   // error out if channel argument is greater than number of channels
+//   if (channel > m_channel_signals.size ())
+//     return -1;
+//   else
+//     Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[channel]);
+  
+//   for (int a = 0; a < w (); a++)
+//     {
+//       switch (m_wave_type)
+//         {
+//           case (SINE):
+//             values[a] = (m_function_amplitude / m_function_volts_per_division) * 
+//               sin ((2 * m_pi * m_function_frequency * a * m_time_per_division * x_scaler) 
+//                 + (m_function_phase * m_pi / 180.0)) + m_function_y_offset;
+//             break;
+
+//           case (SQUARE):
+//             values[a] = copysign ((m_function_amplitude / m_function_volts_per_division), sin ((2 * m_pi * m_function_frequency * 
+//               a * m_time_per_division * x_scaler) + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;
+//             break;
+
+//           case (TRIANGLE):
+//             values[a] = ((2 * (m_function_amplitude / m_function_volts_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
+//               (1.0 / m_function_frequency)) * a * x_scaler + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;        
+//             break;
+
+//           case (DC):
+//             values[a] = (m_function_amplitude / m_function_volts_per_division) + m_function_y_offset;
+//             break;
+
+//           default:
+//             values[a] = 0.0;
+//             break;
+//         } 
+//     }  
+  
+//   return 1;
+// }
+
 int LABSoft_Oscilloscope_Display:: 
 generate_waveform (WaveType wave_type, int channel)
 {
@@ -223,6 +269,14 @@ regendraw ()
     {
       normalize_channel_signals ();
     }
+}
+
+// this handy function is to create a default sine wave in channel 0 values
+// buff, not in pixel points buff
+void LABSoft_Oscilloscope_Display:: 
+generate_sample_sine_wave ()
+{
+
 }
 
 // EOF

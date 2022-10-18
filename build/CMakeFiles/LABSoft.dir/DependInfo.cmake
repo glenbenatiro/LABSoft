@@ -28,7 +28,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Core.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
-  "/home/glen/Desktop/LABSoft/src/LAB_Globals.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Globals.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Meter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o"
