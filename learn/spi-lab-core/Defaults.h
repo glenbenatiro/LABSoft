@@ -3,7 +3,11 @@
 
 #include <FL/Enumerations.H>
 
-#include "Globals.h"
+// General LAB
+#define RANDOM_VALUE_GENERATOR_WAIT_MS  5
+#define PRE_FL_AWAKE_SLEEP_MS  10
+
+constexpr int LAB_SPI_FREQUENCY = 1'600'000; // in hz
 
 enum WaveType 
 { 
@@ -22,12 +26,6 @@ enum DisplayMode
   SHIFT,
   SCREEN
 };
-
-// General LAB
-#define RANDOM_VALUE_GENERATOR_WAIT_MS  5
-#define PRE_FL_AWAKE_SLEEP_MS  10
-
-constexpr float LAB_SPI_FREQUENCY = 1'600'000.0; // in hz
 
 
 // LAB Oscilloscope

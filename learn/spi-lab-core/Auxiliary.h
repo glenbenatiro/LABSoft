@@ -48,13 +48,12 @@ double aux_unit_label_to_unit_power (const char *label);
 #elif RPI_VERSION == 2 || RPI_VERSION == 3
   #define PHYS_REG_BASE PI_23_REG_BASE
   #define CLOCK_HZ	  250000000
-  constexpr float SPI_CLOCK_HZ = 250'000'000.0;
+  constexpr int SPI_CLOCK_HZ = 250'000'000;
 #elif RPI_VERSION == 4
   #define PHYS_REG_BASE PI_4_REG_BASE
   #define CLOCK_HZ	  375000000
   #define SPI_CLOCK_HZ  200000000
 #endif
-
 
 // Location of peripheral registers in physical memory
 #define PI_01_REG_BASE 0x20000000 // Pi Zero or 1

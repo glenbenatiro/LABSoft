@@ -40,6 +40,8 @@ LAB_Core::LAB_Core_init ()
   LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
 
   spi_init ();
+
+  
 }
 
 // Allocate uncached memory, get bus & phys addresses
@@ -402,7 +404,7 @@ LAB_Core::LAB_Core_terminate (int sig)
 
 // // --- SPI ---
 // Initialise SPI0, given desired clock freq; return actual value
-float LAB_Core::
+int LAB_Core::
 spi_init ()
 {
   // initialize spi gpio pins on rpi
@@ -482,16 +484,27 @@ spi_disp ()
 }
 
 // page 156
-float LAB_Core:: 
-spi_set_clock_rate (float value)
+int LAB_Core:: 
+spi_set_clock_rate (int value)
 {
-  uint16_t divider = 0;
+  uint32_t divider = 1;
 
   if (value <= SPI_CLOCK_HZ)
-    uint16_t divider = SPI_CLOCK_HZ / value;
-  
+    divider = SPI_CLOCK_HZ / value;
+    
+
+  if (divider > 65535 || divider < 0)
+    divider = 65535;
+
+   
   // set spi frequency as rounded off clock
   *REG32 (m_spi_regs, SPI_CLK) = divider;
+
+  printf ("spiclockhz: %d, value: %d, divider: %d\n\n", SPI_CLOCK_HZ,
+    value, divider);
+
+    int act = SPI_CLOCK_HZ / divider;
+  printf ("actual SPI freq: %d\n", act);
 
   return (SPI_CLOCK_HZ / divider);
 }

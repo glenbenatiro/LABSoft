@@ -9,7 +9,7 @@
 class LAB_Core
 {
   public:
-    float m_spi_frequency = LAB_SPI_FREQUENCY;
+    int m_spi_frequency = LAB_SPI_FREQUENCY;
 
     static MEM_MAP m_gpio_regs,
                    m_dma_regs, 
@@ -71,13 +71,13 @@ class LAB_Core
     uint8_t  LAB_Core_gpio_in          (int pin);
     
     // --- SPI ---
-    float     spi_init            ();
+    int     spi_init            ();
     void      spi_clear_rxtx_fifo ();
     void      spi_disp            ();
     void      spi_disable         ();
     void      spi_xfer            (uint8_t *txd, uint8_t *rxd, int length);
     void      spi_cs              (int set);
-    float     spi_set_clock_rate  (float value);
+    int       spi_set_clock_rate  (int value);
 
     // --- PWM ---
     void     LAB_Core_pwm_init         (int freq, int range, int val);
