@@ -4,6 +4,9 @@
 #include <cstdint>
 #include <FL/Enumerations.H>
 
+// General LABSoft
+constexpr double DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
+
 // General LAB
 #define RANDOM_VALUE_GENERATOR_WAIT_MS  5
 #define PRE_FL_AWAKE_SLEEP_MS  10

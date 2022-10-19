@@ -9,10 +9,10 @@ class LAB_Oscilloscope
   public:
     LAB_Core *m_LAB_Core;
 
-    bool  m_is_oscilloscope_running = false;
+    bool m_is_running = false;
 
     int   m_number_of_channels  = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
-          m_sample_count        = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL,
+          m_number_of_samples_per_channel   = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL,
           m_sample_rate         = LAB_OSCILLOSCOPE_SAMPLE_RATE;
 
     uint32_t  m_pwm_range,

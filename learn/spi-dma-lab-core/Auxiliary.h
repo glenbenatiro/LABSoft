@@ -23,7 +23,7 @@ double aux_unit_label_to_unit_power (const char *label);
 
 #define DATA_FORMAT  0
 
-#define DISPLAY_UPDATE_RATE 0.04 // 25 Hz/FPS
+
 
 // if non-zero, print debug info
 #define DEBUG       0

@@ -59,10 +59,18 @@ LABSoft_Controller_Oscilloscope.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
 iostream
 -
+chrono
+-
+FL/Fl.H
+-
 Globals.h
 /home/glen/Desktop/LABSoft/src/Globals.h
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
+thread
+-
 FL/Fl_Light_Button.H
 -
 FL/Fl_Button.H

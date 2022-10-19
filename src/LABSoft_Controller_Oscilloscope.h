@@ -1,6 +1,8 @@
 #ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
+#include <thread>
+
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Button.H>
 
@@ -13,22 +15,19 @@ class LABSoft_Controller_Oscilloscope
     LAB         *m_LAB;
     LABSoft_GUI *m_LABSoft_GUI;
 
+    std::thread *m_thread_update_display;
+
     LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    void update_display ();
     
     // callback functions
     void cb_run_stop (Fl_Light_Button *w, void *data);
-
-
     void LABSoft_Controller_Oscilloscope_cb_fl_light_button_generate_sine_wave (Fl_Light_Button *w, void *data);
     void cb_single (Fl_Button *w, void *data);
     void cb_channel_enable_disable (Fl_Light_Button *w, void *data);
-    
     void cb_x_offset (Fl_Input_Choice *w, void *data);
     void cb_volts_per_division (Fl_Input_Choice *w, void *data);
-
     void cb_time_per_division (Fl_Input_Choice *w, void *data);
-
-
 };
 
 #endif

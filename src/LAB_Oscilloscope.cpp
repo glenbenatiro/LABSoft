@@ -25,10 +25,10 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
     .cbs = {
       // Rx input: read data from usec clock and SPI, into 2 ping-pong buffers
       {SPI_RX_TI, REG(m_LAB_Core->m_usec_regs, USEC_TIME), MEM(mp, &dp->usecs[0]),                         4, 0, CBS(1), 0}, // 0
-      {SPI_RX_TI, REG(m_LAB_Core->m_spi_regs,  SPI_FIFO),  MEM(mp, dp->rxd1), static_cast<uint32_t>(m_sample_count*4), 0, CBS(2), 0}, // 1
+      {SPI_RX_TI, REG(m_LAB_Core->m_spi_regs,  SPI_FIFO),  MEM(mp, dp->rxd1), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(2), 0}, // 1
       {SPI_RX_TI, REG(m_LAB_Core->m_spi_regs,  SPI_CS),    MEM(mp, &dp->states[0]),                        4, 0, CBS(3), 0}, // 2
       {SPI_RX_TI, REG(m_LAB_Core->m_usec_regs, USEC_TIME), MEM(mp, &dp->usecs[1]),                         4, 0, CBS(4), 0}, // 3
-      {SPI_RX_TI, REG(m_LAB_Core->m_spi_regs,  SPI_FIFO),  MEM(mp, dp->rxd2), static_cast<uint32_t>(m_sample_count*4), 0, CBS(5), 0}, // 4
+      {SPI_RX_TI, REG(m_LAB_Core->m_spi_regs,  SPI_FIFO),  MEM(mp, dp->rxd2), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(5), 0}, // 4
       {SPI_RX_TI, REG(m_LAB_Core->m_spi_regs,  SPI_CS),    MEM(mp, &dp->states[1]),                        4, 0, CBS(0), 0}, // 5
 
       // Tx output: 2 data writes to SPI for chan 0 & 1, or both chan 0
@@ -95,8 +95,8 @@ LAB_Oscilloscope::stream_values ()
     {
       if (dp->states[n])
       {
-          //m_samp_total += m_sample_count;
-          // memcpy (m_rx_buff, n ? (void *)dp->rxd2 : (void *)dp->rxd1, m_sample_count * 4);
+          //m_samp_total += m_number_of_samples_per_channel;
+          // memcpy (m_rx_buff, n ? (void *)dp->rxd2 : (void *)dp->rxd1, m_number_of_samples_per_channel * 4);
           // usec = dp->usecs[n];
 
           // if (dp->states[n^1])
@@ -112,7 +112,7 @@ LAB_Oscilloscope::stream_values ()
           //   m_usec_start = usec;
 
     
-          // for (int i=0; i<m_sample_count*4; i++)
+          // for (int i=0; i<m_number_of_samples_per_channel*4; i++)
           //   printf("%02X ", *(((uint8_t *)m_rx_buff)+i));
               
           // printf("\n");
