@@ -21,7 +21,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   LAB_Oscilloscope_dma_init (&(m_LAB_Core->m_vc_mem), m_sample_count, 0);
   // m_LAB_Core->LAB_Core_fifo_create(m_fifo_name);
 
-  LAB_Oscilloscope_init ();
+  LAB_Oscilloscope_init (); 
 }
 
 LAB_Oscilloscope::~LAB_Oscilloscope ()
@@ -175,10 +175,10 @@ LAB_Oscilloscope::LAB_Oscilloscope_stream_csv ()
             m_usec_start = usec;
 
     
-          for (int i=0; i<m_sample_count*4; i++)
-            printf("%02X ", *(((uint8_t *)m_rx_buff)+i));
+          // for (int i=0; i<m_sample_count*4; i++)
+          //   printf("%02X ", *(((uint8_t *)m_rx_buff)+i));
               
-          printf("\n");
+          // printf("\n");
           
       
 

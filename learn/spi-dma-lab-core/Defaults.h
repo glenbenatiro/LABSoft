@@ -8,7 +8,7 @@
 #define RANDOM_VALUE_GENERATOR_WAIT_MS  5
 #define PRE_FL_AWAKE_SLEEP_MS  10
 
-constexpr int LAB_SPI_FREQUENCY = 1'600'000; // in hz
+constexpr int LAB_SPI_FREQUENCY = 5'000'000; // in hz
 
 enum WaveType 
 { 
@@ -33,9 +33,9 @@ enum DisplayMode
 
 // LAB Oscilloscope
 constexpr int LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS   = 1;
-constexpr int LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES    = 10; // 8192; // 2^14
+constexpr int LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL    = 3200; // 8192; // 2^14 per channel
 constexpr int LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
-constexpr int LAB_OSCILLOSCOPE_SAMPLE_RATE = 1000; // default sample rate, in hz
+constexpr int LAB_OSCILLOSCOPE_SAMPLE_RATE = 800'000; // default sample rate, in hz
 
 // --- Non-cached memory size ---
 // --- Memory ---
@@ -56,7 +56,7 @@ typedef struct {
 // Size of memory page
 #define PAGE_SIZE      0x1000
 
-constexpr int MAX_SAMPS   = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
+constexpr int MAX_SAMPS   = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL;
 constexpr int MAX_BUFFS   = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
 constexpr int SAMP_SIZE   = 4; // size of each sample (4 bytes, 32 bits)
 constexpr int BUFF_LEN    = (MAX_SAMPS * SAMP_SIZE); // in bytes

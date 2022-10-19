@@ -57,7 +57,7 @@ class LAB_Oscilloscope
     int      m_lockstep,
              m_verbose,
              m_data_format = 0,
-             m_sample_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
+             m_sample_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL,
              m_sample_rate= LAB_OSCILLOSCOPE_SAMPLE_RATE,
              fifo_in;
     
