@@ -20,7 +20,9 @@ class LAB
    ~LAB ();
 
     LAB_Core               m_LAB_Core;
-    LAB_Oscilloscope       m_Oscilloscope;
+
+    LAB_Oscilloscope       *m_Oscilloscope;
+    
     LAB_Voltmeter          m_Voltmeter;
     LAB_Ammeter            m_Ammeter;
     LAB_Ohmmeter           m_Ohmmeter;

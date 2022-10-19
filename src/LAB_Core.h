@@ -71,7 +71,7 @@ class LAB_Core
     uint8_t  LAB_Core_gpio_in          (int pin);
     
     // --- SPI ---
-    int     spi_init            ();
+    int       spi_init            ();
     void      spi_clear_rxtx_fifo ();
     void      spi_disp            ();
     void      spi_disable         ();

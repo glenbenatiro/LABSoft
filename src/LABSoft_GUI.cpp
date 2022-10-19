@@ -3,6 +3,13 @@
 #include "LABSoft_GUI.h"
 #include "LABSoft_Controller.h"
 
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_run_stop_i(o,v);
+}
+
 void LABSoft_GUI::cb_oscilloscope_fl_button_single_i(Fl_Button* o, void* v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);
 }
@@ -652,6 +659,7 @@ LABSoft_GUI::LABSoft_GUI() {
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 35, 1366, 768, "Oscilloscope");
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 80, 120, 60, "Run");
+          oscilloscope_fl_light_button_run_stop->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_run_stop);
           oscilloscope_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
         } // Fl_Light_Button* oscilloscope_fl_light_button_run_stop
         { oscilloscope_fl_button_single = new Fl_Button(1205, 160, 120, 60, "Single");

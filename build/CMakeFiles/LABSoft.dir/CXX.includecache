@@ -25,10 +25,10 @@ Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/Defaults.h
+cstdint
+-
 FL/Enumerations.H
 -
-Globals.h
-/home/glen/Desktop/LABSoft/src/Globals.h
 
 /home/glen/Desktop/LABSoft/src/Globals.h
 
@@ -54,20 +54,18 @@ LAB_Power_Supply.h
 LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.cpp
-LABSoft_Controller_Function_Generator.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.cpp
+LABSoft_Controller_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
 iostream
 -
-cstring
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
+Globals.h
+/home/glen/Desktop/LABSoft/src/Globals.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
 FL/Fl_Light_Button.H
 -
-FL/Fl_Input_Choice.H
+FL/Fl_Button.H
 -
 LAB.h
 /home/glen/Desktop/LABSoft/src/LAB.h
@@ -140,14 +138,6 @@ Auxiliary.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
-LAB_Function_Generator.h
-/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-Globals.h
-/home/glen/Desktop/LABSoft/src/Globals.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -167,40 +157,8 @@ LAB_Meter.h
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
-thread
--
-iostream
--
-string.h
--
-unistd.h
--
-string.h
--
-stdio.h
--
-stdlib.h
--
-math.h
--
-string.h
--
-fcntl.h
--
-sys/ioctl.h
--
-sys/stat.h
--
-unistd.h
--
-ctype.h
--
-FL/Fl_Light_Button.H
--
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-Auxiliary.h
-/home/glen/Desktop/LABSoft/src/Auxiliary.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 

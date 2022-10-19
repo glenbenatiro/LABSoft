@@ -3,9 +3,8 @@
 #include <iostream>
 
 LAB::LAB ()
-: m_Oscilloscope (&m_LAB_Core)
 {
-
+  m_Oscilloscope = new LAB_Oscilloscope (&(m_LAB_Core));
 }
 
 LAB::~LAB ()

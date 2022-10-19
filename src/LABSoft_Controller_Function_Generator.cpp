@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "Defaults.h"
+#include "Globals.h"
 
 LABSoft_Controller_Function_Generator::
 LABSoft_Controller_Function_Generator (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)

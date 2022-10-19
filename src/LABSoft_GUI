@@ -20,9 +20,9 @@ class LABSoft_GUI {open
     code {printf("DEBUG: LABSoft_GUI Start\\n");} {}
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {2110 216 1365 765} type Double visible
+      xywh {2190 121 1365 765} type Double visible
     } {
-      Fl_Tabs {} {
+      Fl_Tabs {} {open
         xywh {0 0 1366 768}
       } {
         Fl_Group {} {
@@ -35,11 +35,12 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
+          label Oscilloscope open
           xywh {0 35 1366 768}
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
+            callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
             xywh {1205 80 120 60} align 16
           }
           Fl_Button oscilloscope_fl_button_single {
@@ -834,7 +835,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Light_Button {} {
-            label {DEBUG:}
+            label {DEBUG:} selected
             xywh {1076 658 240 60} labelsize 11 align 16
           }
         }

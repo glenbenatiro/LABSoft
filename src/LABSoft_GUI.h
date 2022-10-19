@@ -23,6 +23,10 @@ public:
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
   Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
+private:
+  inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
   Fl_Button *oscilloscope_fl_button_single;
 private:
   inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);

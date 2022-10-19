@@ -25,7 +25,10 @@ MEM_MAP LAB_Core::m_vc_mem;
 
 LAB_Core::LAB_Core ()
 {
-  LAB_Core_init ();
+  LAB_Core_map_devices ();
+  LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
+
+  spi_init ();
 }
 
 LAB_Core::~LAB_Core ()
@@ -36,11 +39,6 @@ LAB_Core::~LAB_Core ()
 void
 LAB_Core::LAB_Core_init ()
 {
-  LAB_Core_map_devices ();
-  LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
-
-  spi_init ();
-
   
 }
 
@@ -608,6 +606,7 @@ void
 LAB_Core::LAB_Core_pwm_start ()
 {
   *REG32(m_pwm_regs, PWM_CTL) = PWM_CTL_USEF1 | PWM_ENAB;
+  usleep(100);
 }
 
 // Stop PWM operation

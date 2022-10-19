@@ -21,7 +21,7 @@ double aux_unit_label_to_unit_power (const char *label);
 #define VERBOSE      0
 #define LOCKSTEP     0
 
-#define DATA_FORMAT  1
+#define DATA_FORMAT  0
 
 #define DISPLAY_UPDATE_RATE 0.04 // 25 Hz/FPS
 
@@ -113,53 +113,20 @@ constexpr int SPI_DC    = 0x14;
 
 // Definitions for 2 bytes per ADC sample (11-bit)
 #define ADC_REQUEST(c)  {0xc0 | (c)<<5, 0x00}
-#define ADC_VOLTAGE(n)  (((n) * 5.0) / 4096.0)
+#define ADC_VOLTAGE(n)  (((n) * 3.3) / 2048.0)
 #define ADC_MILLIVOLTS(n) ((int)((((n) * 3300) + 1024) / 2048))
 #define ADC_RAW_VAL(d) (((uint16_t)(d) & 0x003f) << 6) | (((uint16_t)(d) & 0xfc00) >> 10)
 
 
 
-// --- Helper Macros for Register Access ---
-// Get virtual 8 and 32-bit pointers to register
-#define REG8(m, x)          ((volatile uint8_t *)  ((uint32_t)(m.virt) + (uint32_t)(x)))
-#define REG32(m, x)         ((volatile uint32_t *) ((uint32_t)(m.virt) + (uint32_t)(x)))
-
-// Get bus address of register
-#define REG_BUS_ADDR(m, x)  ((uint32_t)(m.bus)  + (uint32_t)(x))
-
-// Convert uncached memory virtual address to bus address
-#define MEM_BUS_ADDR(mp, a) ((uint32_t)a - (uint32_t)mp->virt + (uint32_t)mp->bus)
-
-// Convert bus address to physical address (for mmap)
-#define BUS_PHYS_ADDR(a)    ((void *)((uint32_t)(a) & ~0xC0000000))
 
 
 
-// --- Non-cached memory size ---
-#define MAX_SAMPS   16384 // number of unique samples
-#define SAMP_SIZE   4 // size of each unique sample in bytes (32 bits)
-#define BUFF_LEN    (MAX_SAMPS * SAMP_SIZE) // in bytes
-#define MAX_BUFFS   2
-#define VC_MEM_SIZE (PAGE_SIZE + (BUFF_LEN * MAX_BUFFS)) // in bytes
 
 
-// --- Memory ---
-// Structure for mapped peripheral or memory
-typedef struct {
-  int fd,     // File descriptor
-      h,      // Memory handle
-      size;   // Memory size in bytes
-    
-  void *bus,  // Bus address
-       *virt, // Virtual address
-       *phys; // Physical address
-} MEM_MAP;
 
-// Round up to nearest page
-#define PAGE_ROUNDUP(n) ((n) % PAGE_SIZE == 0 ? (n) : ((n) + PAGE_SIZE) & ~(PAGE_SIZE - 1))
 
-// Size of memory page
-#define PAGE_SIZE      0x1000
+
 
 
 
@@ -193,84 +160,13 @@ typedef enum {
 
 
 
-// --- DMA ---
-// DMA transfer information for PWM and SPI
-#define PWM_TI          (DMA_DEST_DREQ | (DMA_PWM_DREQ << 16) | DMA_WAIT_RESP)
-#define SPI_RX_TI       (DMA_SRCE_DREQ | (DMA_SPI_RX_DREQ << 16) | DMA_WAIT_RESP | DMA_CB_DEST_INC)
-#define SPI_TX_TI       (DMA_DEST_DREQ | (DMA_SPI_TX_DREQ << 16) | DMA_WAIT_RESP | DMA_CB_SRCE_INC)
-
-// DMA control block macros
-#define NUM_CBS         10
-#define REG(r, a)       REG_BUS_ADDR(r, a)
-#define MEM(m, a)       MEM_BUS_ADDR(m, a)
-#define CBS(n)          MEM_BUS_ADDR(mp, &dp->cbs[(n)])
-
-// DMA channels and data requests
-#define DMA_CHAN_A      7
-#define DMA_CHAN_B      8
-#define DMA_CHAN_C      9
-#define DMA_PWM_DREQ    5
-#define DMA_SPI_TX_DREQ 6
-#define DMA_SPI_RX_DREQ 7
-#define DMA_BASE        (PHYS_REG_BASE + 0x007000)
-
-// DMA register addresses offset by 0x100 * chan_num
-#define DMA_CS          0x00
-#define DMA_CONBLK_AD   0x04
-#define DMA_TI          0x08
-#define DMA_SRCE_AD     0x0c
-#define DMA_DEST_AD     0x10
-#define DMA_TXFR_LEN    0x14
-#define DMA_STRIDE      0x18
-#define DMA_NEXTCONBK   0x1c
-#define DMA_DEBUG       0x20
-#define DMA_REG(ch, r)  ((r) == DMA_ENABLE ? DMA_ENABLE : (ch) * 0x100 + (r))
-#define DMA_ENABLE      0xff0
-
-// DMA register values
-#define DMA_WAIT_RESP   (1 << 3)
-#define DMA_CB_DEST_INC (1 << 4)
-#define DMA_DEST_DREQ   (1 << 6)
-#define DMA_CB_SRCE_INC (1 << 8)
-#define DMA_SRCE_DREQ   (1 << 10)
-#define DMA_PRIORITY(n) ((n) << 16)
-
-// DMA control block (must be 32-byte aligned)
-// https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
-// 4.2.1.1 Control Block Data Structure, page 40
-typedef struct {
-  uint32_t ti,      // Transfer info
-           srce_ad, // Source address
-           dest_ad, // Destination address
-           tfr_len, // Transfer length in bytes
-           stride,  // Transfer stride
-           next_cb, // Next control block
-           debug,   // Debug register, zero in control block
-           unused;
-} DMA_CB __attribute__ ((aligned(32)));
-
-typedef struct {
-  DMA_CB cbs[NUM_CBS];
-
-  uint32_t samp_size, 
-           pwm_val, 
-           adc_csd, 
-           txd[2];
-
-  volatile uint32_t 
-           usecs[2], 
-           states[2], 
-           rxd1[MAX_SAMPS], 
-           rxd2[MAX_SAMPS];
-} 
-ADC_DMA_DATA;
 
 
 
 
 // --- PWM ---
 // PWM definitions: divisor, and reload value
-#define PWM_FREQ      1000000
+constexpr int PWM_FREQ      = 5'000'000;
 #define PWM_VALUE     2
 
 // If non-zero, set PWM clock using VideoCore mailbox
