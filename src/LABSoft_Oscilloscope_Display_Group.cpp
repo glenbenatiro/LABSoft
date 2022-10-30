@@ -155,7 +155,7 @@ void LABSoft_Oscilloscope_Display_Group::
 update_fg ()
 {
   // regenerate wave
-  m_display->regendraw ();
+  //m_display->regendraw ();
   // normalize to display
   // draw
 }

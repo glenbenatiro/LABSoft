@@ -5,8 +5,7 @@
 
 LAB_Function_Generator::
 LAB_Function_Generator () 
-  : LAB_Core (),
-    m_channel_signals (LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS)
+  : m_channel_signals (LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS)
 {
 
 }

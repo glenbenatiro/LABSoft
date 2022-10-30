@@ -3,7 +3,7 @@
 #include <iostream>
 
 LAB_Power_Supply:: 
-LAB_Power_Supply () : LAB_Core ()
+LAB_Power_Supply ()
 {
 
 }

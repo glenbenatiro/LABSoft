@@ -3,7 +3,9 @@
 #include <vector>
 #include <cmath>
 
+#include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
+#include <FL/Fl.H>
 
 #include "Defaults.h"
 
@@ -12,11 +14,11 @@ LABSoft_Oscilloscope_Display (int X,
                               int Y,
                               int W,
                               int H,
-                              const char *label = 0) : Fl_Widget (X,                                        
-                                                                  Y,
-                                                                  W,
-                                                                  H,
-                                                                  label)
+                              const char *label = 0) 
+  : Fl_Widget (X, Y, W, H, label),
+    m_channel_signals (m_number_of_channels,
+                       m_number_of_samples,
+                       w ())                                                            
 { 
 
 }
@@ -34,7 +36,7 @@ draw ()
   draw_grid ();
   
   if (m_is_enabled)
-    draw_channel_signals ();
+    draw_channels_signals ();
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -79,61 +81,6 @@ draw_grid ()
   fl_color (m_default_color);
 }
 
-void LABSoft_Oscilloscope_Display:: 
-draw_channel_signals () 
-{
-  if (m_is_enabled)
-    {
-      for (int a = 0; a < m_channel_signals.size (); a++)  
-        {
-          Channel_Signal *chan = &(m_channel_signals.m_channel_signal_vector[a]);
-
-          if (chan->m_is_enabled)
-            {
-               std::vector<std::vector<int>> *pp = &(chan->m_pixel_points);
-
-              for (int b = 0; b < (w () - 1); b++)
-                fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
-            }
-        } 
-    }
-}
-
-void LABSoft_Oscilloscope_Display:: 
-normalize_channel_signals ()
-{
-  if (m_is_enabled)
-    {
-      for (int a = 0; a < m_channel_signals.size (); a++)  
-        {
-          // pointer to specific Channel_Signal (chan 1, chan 2, chan 3...)
-          Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
-
-          if (chn->m_is_enabled)
-            {
-              // pointer to the specific Channel_Signal's pixel points
-              std::vector<std::vector<int>>* pp = &(chn->m_pixel_points);
-
-              // pointer to the specific Channel_Signal's sample values
-              std::vector<double> *val = &(chn->m_values);
-              
-              // calculate y mid pixel, for zero
-              float y_mid_pixel =  y () + ((float)h () / 2.0);
-              float scaled_max_amplitude = m_number_of_rows * m_volts_per_division;
-
-              for (int b = 0; (b < chn->m_values.size()) && (b < pp->size ()); b++)
-                {
-                  (*pp)[b][0] = b;
-
-                  if ((*val)[b] == 0.0)
-                    (*pp)[b][1] = y_mid_pixel;
-                  else
-                    (*pp)[b][1] = y_mid_pixel - ((*val)[b] * (((float)h () / 2.0) / scaled_max_amplitude));
-                }
-            }
-        } 
-    }
-}
 
 void LABSoft_Oscilloscope_Display:: 
 update ()
@@ -146,6 +93,105 @@ update ()
       //     ;
       //   }
     }
+}
+
+void LABSoft_Oscilloscope_Display:: 
+normalize_channels_raw_data ()
+{
+  float scaler = m_adc_reference_voltage / static_cast<float>(m_adc_resolution);
+
+  for (int a = 0; a < m_channel_signals.size (); a++) 
+  {
+    Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
+    
+
+    if (chn->m_is_enabled) 
+    {
+      for (int b = 0; b < (chn->m_values.size ()); b++) 
+      {
+        uint16_t temp;
+        uint16_t actual_raw_val;
+
+        // lower 16 bits of raw value is for oscilloscope channel 0
+        if (a == 0) 
+        {
+          temp = chn->m_raw_values[b] & (0x0000FFFF);
+
+        }
+        // higher 16 bits of raw value is for oscilloscope channel 1
+        else if (a == 1)
+        {
+          temp = chn->m_raw_values[b] * (0xFFFF0000);
+        }
+        // add code here soon if lab in a box can accommodate more than 2 chans
+        else 
+        {
+
+        }
+
+        chn->m_values[b] = static_cast<float>(actual_raw_val) * scaler;
+        // printf ("m_values[b]: %f\n", chn->m_values[b]);
+        //printf (BYTE_TO_BINARY_PATTERN " " BYTE_TO_BINARY_PATTERN "\n",
+        //  BYTE_TO_BINARY (temp >> 8), BYTE_TO_BINARY (temp));
+      }
+    }
+  }
+}
+
+
+
+void LABSoft_Oscilloscope_Display:: 
+normalize_channels_data_to_display ()
+{
+  if (m_is_enabled) {
+    for (int a = 0; a < m_channel_signals.size (); a++ ) {
+      Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
+      if (chn->m_is_enabled) {
+        // calculate sample skip interval
+        float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
+
+        for (int b = 0; b < w (); b++) {
+          // pixel point x coord
+          chn->m_pixel_points[b][0] = x () + b;
+
+          // pixel point y coord
+          float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
+          float scaled_max_amplitude = m_number_of_rows * m_volts_per_division;
+          int index = static_cast<int>(b * skip_interval);
+          double sample_value = chn->m_values[index];
+
+          if (sample_value == 0.0) {
+            chn->m_pixel_points[b][1] = y_mid_pixel;
+          } else {
+            chn->m_pixel_points[b][1] = 
+              y_mid_pixel - (sample_value * ((static_cast<float>(h ()) / 2.0) / 
+                scaled_max_amplitude));
+            
+          //printf ("y: %d\n",chn->m_pixel_points[b][1]);
+          }
+        }
+      }
+    }
+  }
+}
+
+void LABSoft_Oscilloscope_Display:: 
+draw_channels_signals () 
+{
+  for (int a = 0; a < m_channel_signals.size (); a++) {
+    Channel_Signal *chan = &(m_channel_signals.m_channel_signal_vector[a]);
+    if (chan->m_is_enabled) {
+
+      std::vector<std::vector<int>> *pp = &(chan->m_pixel_points);
+
+      
+      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_GRAPH_COLORS[a]);
+
+      for (int b = 0; b < (w () - 1); b++) {
+        fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
+      }
+    }
+  }
 }
 
 // --- FUNCTION GENERATOR SECTION --- 
@@ -260,23 +306,6 @@ generate_waveform (WaveType wave_type, int channel)
     }  
   
   return 1;
-}
-
-void LABSoft_Oscilloscope_Display:: 
-regendraw ()
-{
-  if (m_is_enabled)  
-    {
-      normalize_channel_signals ();
-    }
-}
-
-// this handy function is to create a default sine wave in channel 0 values
-// buff, not in pixel points buff
-void LABSoft_Oscilloscope_Display:: 
-generate_sample_sine_wave ()
-{
-
 }
 
 // EOF

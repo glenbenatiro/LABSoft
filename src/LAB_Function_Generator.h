@@ -5,7 +5,7 @@
 
 #include "Channel_Signals.h"
 
-class LAB_Function_Generator : public LAB_Core
+class LAB_Function_Generator 
 {
   public:
     bool  m_is_running = false;

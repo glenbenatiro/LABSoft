@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <stdio.h>
@@ -13,22 +12,13 @@
 #include "Auxiliary.h"
 #include "Defaults.h"
 
-// declare static data members
-MEM_MAP LAB_Core::m_gpio_regs,
-        LAB_Core::m_dma_regs, 
-        LAB_Core::m_clk_regs, 
-        LAB_Core::m_pwm_regs, 
-        LAB_Core::m_spi_regs, 
-        LAB_Core::m_usec_regs;
-
-MEM_MAP LAB_Core::m_vc_mem;
-
 LAB_Core::LAB_Core ()
 {
   LAB_Core_map_devices ();
   LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
-
   spi_init ();
+
+  printf ("LAB_Core setup OK\n");
 }
 
 LAB_Core::~LAB_Core ()
@@ -36,16 +26,10 @@ LAB_Core::~LAB_Core ()
 	
 }
 
-void
-LAB_Core::LAB_Core_init ()
-{
-  
-}
-
 // Allocate uncached memory, get bus & phys addresses
 void*
 LAB_Core::LAB_Core_map_uncached_mem (MEM_MAP *mp,
-                                       int      size)
+                                     int      size)
 {
   void *ret;
   
@@ -583,19 +567,43 @@ LAB_Core::LAB_Core_pwm_init (int freq,
   #if USE_VC_CLOCK_SET
     set_vc_clock(mbox_fd, PWM_CLOCK_ID, freq);
   #else
+    // see the BCM2385 Audio Clocks datasheet PDF for reference.
+    // this is how to change PWM clock speed
     int divi = CLOCK_HZ / freq;
 
+    // CLK_PASSWD is "5a" as written on datasheet
+    // https://www.scribd.com/doc/127599939/BCM2835-Audio-clocks#download
+
+    // max PWM operating frequency is 25MHz as written on datasheet
+
+    // 1 << 5 = KILL: kill the clock generator
+    // this line stops the clock generator
     *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | (1 << 5);
 
+    // 1 << 7 = BUSY: Clock generator is running
+    // this line waits for BUSY to 0, or for clock generator to stop
     while (*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) ;
+
+    // divi << 12 = DIVI: Integer part of divisor
+    // assign divisor to DIVI field
     *REG32(m_clk_regs, CLK_PWM_DIV) = CLK_PASSWD | (divi << 12);
+
+    // 1 << 4 = ENAB: Enable the clock generator
+    // this line asserts ENAB to enable the clock generator
     *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | 6 | (1 << 4);
+
+    // // 1 << 7 = BUSY: Clock generator is running
+    // this line waits until BUSY is 1, this means clock generator is running
     while ((*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) == 0) ;
   #endif
-    usleep(100);
-    *REG32(m_pwm_regs, PWM_RNG1) = range;
-    *REG32(m_pwm_regs, PWM_FIF1) = val;
-    usleep(100);
+
+
+  usleep(100);
+  *REG32(m_pwm_regs, PWM_RNG1) = range;
+  *REG32(m_pwm_regs, PWM_FIF1) = val;
+  usleep(100);
+
+
   #if PWM_OUT
     gpio_mode(PWM_PIN, GPIO_ALT5);
   #endif

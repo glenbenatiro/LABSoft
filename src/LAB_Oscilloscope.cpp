@@ -17,9 +17,11 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_pwm_range = (PWM_FREQ * 2) / m_sample_rate;
   printf ("m_pwm_range: %d\n", m_pwm_range);
 
+  // MEM_MAP *mp = &(m_LAB_Core->m_vc_mem);
+  // ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
 
+  ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB_Core->m_vc_mem.virt);
   MEM_MAP *mp = &(m_LAB_Core->m_vc_mem);
-  ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
 
   ADC_DMA_DATA dma_data = {
     .cbs = {
@@ -48,18 +50,11 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
     .rxd1      = {0}, 
     .rxd2      = {0},
   };
-  
-  printf ("oscilloscope 2!\n");
-
+ 
   //if (single)                                 // If single-shot, stop after first Rx block
     //dma_data.cbs[2].next_cb = 0;
 
-  printf ("size of dma data: %d, size samps mp: %\n", sizeof (dma_data), mp->size);
-  printf ("add of virt: %p\n", dp);
-
-  memcpy (dp, &dma_data, sizeof(dma_data));    // Copy DMA data into uncached memory
-
-  printf ("oscilloscope 2!\n");
+  memcpy(dp, &dma_data, sizeof(dma_data));
 
   m_LAB_Core->LAB_Core_pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
@@ -91,7 +86,7 @@ LAB_Oscilloscope::stream_values ()
   //ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB_Core->m_vc_mem.virt);
   ADC_DMA_DATA *dp = (ADC_DMA_DATA*)(m_LAB_Core->m_vc_mem.virt);
   
-  for (n = 0; n < 2 && slen == 0; n++)
+  for (n = 0; n < 2; n++)
     {
       if (dp->states[n])
       {
@@ -127,12 +122,14 @@ void LAB_Oscilloscope::
 run ()
 {
   m_LAB_Core->LAB_Core_pwm_start ();
+  m_is_running = true;
 }
 
 void LAB_Oscilloscope::
 stop ()
 {
   m_LAB_Core->LAB_Core_pwm_stop ();
+  m_is_running = false;
 }
 
 // EOF

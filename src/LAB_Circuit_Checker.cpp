@@ -1,7 +1,7 @@
 #include "LAB_Circuit_Checker.h"
 
 LAB_Circuit_Checker:: 
-LAB_Circuit_Checker() : LAB_Core ()
+LAB_Circuit_Checker()
 {
 
 }

@@ -3,7 +3,7 @@
 
 #include "LAB_Core.h"
 
-class LAB_Circuit_Checker : public LAB_Core
+class LAB_Circuit_Checker
 {
   public:
     LAB_Circuit_Checker ();

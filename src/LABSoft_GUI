@@ -20,7 +20,7 @@ class LABSoft_GUI {open
     code {printf("DEBUG: LABSoft_GUI Start\\n");} {}
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {2190 121 1365 765} type Double visible
+      xywh {0 0 1365 765} type Double hide
     } {
       Fl_Tabs {} {open
         xywh {0 0 1366 768}
@@ -48,16 +48,12 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);}
             xywh {1205 160 120 60}
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open selected
             xywh {24 60 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
-          } {
-            Fl_Box {} {
-              xywh {69 125 720 540} box FLAT_BOX color 79 selection_color 95 hide deactivate
-            }
-          }
-          Fl_Group oscilloscope_fl_group_vertical_channel_1 {
+          } {}
+          Fl_Group oscilloscope_fl_group_vertical_channel_1 {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -66,7 +62,8 @@ class LABSoft_GUI {open
             }
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
               label {Ch. 1 Enable}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_channel_enable_disable (o, (void*)0);}
+              user_data 0 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_channel_enable_disable (o, v);}
               xywh {865 115 120 60} align 16
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_volts_per_division {
@@ -271,7 +268,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_vertical_channel_2 {
+          Fl_Group oscilloscope_fl_group_vertical_channel_2 {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -280,7 +277,8 @@ class LABSoft_GUI {open
             }
             Fl_Light_Button oscilloscope_fl_light_button_channel_2_enable {
               label {Ch. 2 Enable}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_channel_enable_disable (o, (void*)1);}
+              user_data 1 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_channel_enable_disable (o, v);}
               xywh {1035 115 120 60} align 16
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_2_volts_per_division {
@@ -835,7 +833,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Light_Button {} {
-            label {DEBUG:} selected
+            label {DEBUG:}
             xywh {1076 658 240 60} labelsize 11 align 16
           }
         }

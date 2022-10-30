@@ -49,7 +49,6 @@ class LABSoft_Controller_Circuit_Checker
 
     pugi::xml_document m_xml_document;
 
-
     LABSoft_Controller_Circuit_Checker (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
     // functions

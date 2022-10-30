@@ -3,7 +3,7 @@
 
 #include "LAB_Core.h"
 
-class LAB_Power_Supply : public LAB_Core
+class LAB_Power_Supply 
 {
   public:
     int m_positive_12_volt_channel,

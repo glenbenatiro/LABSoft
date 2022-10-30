@@ -7,6 +7,17 @@
 double aux_unit_label_to_unit_scaler (const char *label);
 double aux_unit_label_to_unit_power (const char *label);
 
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0') 
+
 
 // --- most likely variables to change --- 
 #define SAMPLE_RATE  200000
@@ -164,7 +175,7 @@ typedef enum {
 
 // --- PWM ---
 // PWM definitions: divisor, and reload value
-constexpr int PWM_FREQ      = 5'000'000;
+constexpr int PWM_FREQ      = 5'000'000; // this is to be extracted from 25MHz master clk
 #define PWM_VALUE     2
 
 // If non-zero, set PWM clock using VideoCore mailbox

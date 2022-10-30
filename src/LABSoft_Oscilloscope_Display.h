@@ -2,7 +2,6 @@
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_H
 
 #include <FL/Fl_Widget.H>
-#include <FL/fl_draw.H>
 
 #include "Auxiliary.h"
 #include "Channel_Signals.h"
@@ -17,15 +16,25 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     int   m_grid_color                  = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR,
           m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR,
           m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR,
-          m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER;
+          m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER,
+          m_adc_resolution              = LAB_ADC_RESOLUTION;
+          
      // int     m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
 
-    int   m_number_of_rows     = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS,
-          m_number_of_columns  = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS,
-          m_number_of_channels = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS;    
+    int m_max_number_of_channels = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
+
+    int   m_number_of_rows      = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS,
+          m_number_of_columns   = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS,
+          m_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS,
+          m_number_of_samples   = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_SAMPLES;
+    
+    // int m_graph_channel_colors [m_max_number_of_channels] = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_GRAPH_COLORS;
 
     float m_time_per_division,
-          m_volts_per_division;
+          m_volts_per_division  = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION,
+          m_max_voltage,
+          m_adc_reference_voltage       = LAB_ADC_REFERENCE_VOLTAGE;
+      
 
     float m_function_time_per_division,
           m_function_volts_per_division;
@@ -52,14 +61,12 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 
     void  draw ();
     void  draw_grid ();
-    void  draw_channel_signals ();
-    void  normalize_channel_signals ();
-    void  regendraw ();    
-
-    void  generate_sample_sine_wave ();
-
-
+    
     void update ();
+
+    void  normalize_channels_raw_data ();
+    void  normalize_channels_data_to_display ();
+    void  draw_channels_signals ();
 
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);
@@ -67,3 +74,5 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 };
 
 #endif
+
+// EOF

@@ -36,8 +36,8 @@ public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_1;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_1_enable;
 private:
-  inline void cb_oscilloscope_fl_light_button_channel_1_enable_i(Fl_Light_Button*, void*);
-  static void cb_oscilloscope_fl_light_button_channel_1_enable(Fl_Light_Button*, void*);
+  inline void cb_oscilloscope_fl_light_button_channel_1_enable_i(Fl_Light_Button*, long);
+  static void cb_oscilloscope_fl_light_button_channel_1_enable(Fl_Light_Button*, long);
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_volts_per_division;
 private:
@@ -50,8 +50,8 @@ public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_2;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_2_enable;
 private:
-  inline void cb_oscilloscope_fl_light_button_channel_2_enable_i(Fl_Light_Button*, void*);
-  static void cb_oscilloscope_fl_light_button_channel_2_enable(Fl_Light_Button*, void*);
+  inline void cb_oscilloscope_fl_light_button_channel_2_enable_i(Fl_Light_Button*, long);
+  static void cb_oscilloscope_fl_light_button_channel_2_enable(Fl_Light_Button*, long);
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_volts_per_division;
 private:

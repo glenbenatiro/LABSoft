@@ -11,14 +11,14 @@ class LAB_Core
   public:
     int m_spi_frequency = LAB_SPI_FREQUENCY;
 
-    static MEM_MAP m_gpio_regs,
+    MEM_MAP m_gpio_regs,
                    m_dma_regs, 
                    m_clk_regs, 
                    m_pwm_regs, 
                    m_spi_regs, 
                    m_usec_regs;
 
-    static MEM_MAP m_vc_mem;
+    MEM_MAP m_vc_mem;
        
   public:
     int   m_fifo_fd = 0;
@@ -53,7 +53,6 @@ class LAB_Core
     // --- Aux ---
     void     LAB_Core_fail             (const char *s);
     void     LAB_Core_terminate        (int sig);
-    void     LAB_Core_init             ();
         
     // --- DMA ---
     void     LAB_Core_dma_enable       (int chan);

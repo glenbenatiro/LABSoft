@@ -3,7 +3,7 @@
 
 #include "LAB_Core.h"
 
-class LAB_Logic_Analyzer : public LAB_Core
+class LAB_Logic_Analyzer
 {
   public:
     LAB_Logic_Analyzer ();
