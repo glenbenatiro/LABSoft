@@ -4,7 +4,7 @@
 #include <cstring>
 
 #include "Defaults.h"
-#include "Globals.h"
+#include "Auxiliary.h"
 
 LABSoft_Controller_Function_Generator::
 LABSoft_Controller_Function_Generator (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
@@ -86,7 +86,7 @@ void LABSoft_Controller_Function_Generator::
 cb_frequency (Fl_Input_Choice *w, 
               void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -111,7 +111,7 @@ void LABSoft_Controller_Function_Generator::
 cb_period (Fl_Input_Choice *w, 
            void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -136,7 +136,7 @@ void LABSoft_Controller_Function_Generator::
 cb_amplitude (Fl_Input_Choice *w, 
               void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -161,7 +161,7 @@ void LABSoft_Controller_Function_Generator::
 cb_y_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -186,7 +186,7 @@ void LABSoft_Controller_Function_Generator::
 cb_duty_cycle (Fl_Input_Choice *w, 
                void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.
@@ -211,7 +211,7 @@ void LABSoft_Controller_Function_Generator::
 cb_phase (Fl_Input_Choice *w, 
           void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   // backend
   Channel_Signal* chn_b = &(m_LAB->m_Function_Generator.m_channel_signals.

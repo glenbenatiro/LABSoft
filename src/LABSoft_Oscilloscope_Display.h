@@ -71,6 +71,12 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);
     void enable_function_generator_mode ();
+
+    // getter
+    double volts_per_division (int channel);
+
+    // setters
+    void volts_per_division (int channel, double value);
 };
 
 #endif

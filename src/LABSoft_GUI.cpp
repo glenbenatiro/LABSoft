@@ -24,10 +24,10 @@ void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_1_enable(Fl_Light_Butt
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_channel_1_enable_i(o,v);
 }
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(Fl_Input_Choice* o, void*) {
-  m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, (void*)0);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(Fl_Input_Choice* o, long v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_volts_per_division(Fl_Input_Choice* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_volts_per_division(Fl_Input_Choice* o, long v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(o,v);
 }
 
@@ -93,10 +93,10 @@ void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_2_enable(Fl_Light_Butt
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_channel_2_enable_i(o,v);
 }
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(Fl_Input_Choice* o, void*) {
-  m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, (void*)1);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(Fl_Input_Choice* o, long v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_volts_per_division(Fl_Input_Choice* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_volts_per_division(Fl_Input_Choice* o, long v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(o,v);
 }
 
@@ -675,13 +675,6 @@ LABSoft_GUI::LABSoft_GUI() {
           oscilloscope_labsoft_oscilloscope_display_group_display->labelcolor(FL_FOREGROUND_COLOR);
           oscilloscope_labsoft_oscilloscope_display_group_display->align(Fl_Align(FL_ALIGN_TOP));
           oscilloscope_labsoft_oscilloscope_display_group_display->when(FL_WHEN_RELEASE);
-          { Fl_Box* o = new Fl_Box(69, 125, 720, 540);
-            o->box(FL_FLAT_BOX);
-            o->color((Fl_Color)79);
-            o->selection_color(FL_YELLOW);
-            o->hide();
-            o->deactivate();
-          } // Fl_Box* o
           oscilloscope_labsoft_oscilloscope_display_group_display->end();
         } // LABSoft_Oscilloscope_Display_Group* oscilloscope_labsoft_oscilloscope_display_group_display
         { oscilloscope_fl_group_vertical_channel_1 = new Fl_Group(0, 0, 1366, 768);
@@ -694,7 +687,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_light_button_channel_1_enable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
           } // Fl_Light_Button* oscilloscope_fl_light_button_channel_1_enable
           { oscilloscope_fl_input_choice_channel_1_volts_per_division = new Fl_Input_Choice(865, 215, 120, 30, "Volts per Division");
-            oscilloscope_fl_input_choice_channel_1_volts_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_1_volts_per_division);
+            oscilloscope_fl_input_choice_channel_1_volts_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_1_volts_per_division, (void*)(0));
             oscilloscope_fl_input_choice_channel_1_volts_per_division->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_input_choice_channel_1_volts_per_division->menu(menu_oscilloscope_fl_input_choice_channel_1_volts_per_division);
             oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTS_PER_DIVISION);
@@ -716,7 +709,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_light_button_channel_2_enable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
           } // Fl_Light_Button* oscilloscope_fl_light_button_channel_2_enable
           { oscilloscope_fl_input_choice_channel_2_volts_per_division = new Fl_Input_Choice(1035, 215, 120, 30, "Volts per Division");
-            oscilloscope_fl_input_choice_channel_2_volts_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_2_volts_per_division);
+            oscilloscope_fl_input_choice_channel_2_volts_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_2_volts_per_division, (void*)(1));
             oscilloscope_fl_input_choice_channel_2_volts_per_division->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_input_choice_channel_2_volts_per_division->menu(menu_oscilloscope_fl_input_choice_channel_2_volts_per_division);
             oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTS_PER_DIVISION);

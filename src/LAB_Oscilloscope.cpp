@@ -1,5 +1,6 @@
 #include "LAB_Oscilloscope.h"
 
+#include <cstdio>
 #include <cstring>
 
 #include "Defaults.h"
@@ -56,7 +57,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
 
   memcpy(dp, &dma_data, sizeof(dma_data));
 
-  m_LAB_Core->LAB_Core_pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
+  m_LAB_Core->pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
   *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
   *REG32(m_LAB_Core->m_spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
@@ -74,61 +75,17 @@ LAB_Oscilloscope::~LAB_Oscilloscope ()
   
 }
 
-int 
-LAB_Oscilloscope::stream_values ()
-
-{
-  uint32_t  i, 
-            n, 
-            usec, 
-            slen = 0;
-
-  //ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB_Core->m_vc_mem.virt);
-  ADC_DMA_DATA *dp = (ADC_DMA_DATA*)(m_LAB_Core->m_vc_mem.virt);
-  
-  for (n = 0; n < 2; n++)
-    {
-      if (dp->states[n])
-      {
-          //m_samp_total += m_number_of_samples_per_channel;
-          // memcpy (m_rx_buff, n ? (void *)dp->rxd2 : (void *)dp->rxd1, m_number_of_samples_per_channel * 4);
-          // usec = dp->usecs[n];
-
-          // if (dp->states[n^1])
-          //   {
-          //     dp->states[0] = dp->states[1] = 0;
-          //     m_overrun_total++;
-          //     break;
-          //   }
-            
-          // dp->states[n] = 0;
-
-          // if (m_usec_start == 0)
-          //   m_usec_start = usec;
-
-    
-          // for (int i=0; i<m_number_of_samples_per_channel*4; i++)
-          //   printf("%02X ", *(((uint8_t *)m_rx_buff)+i));
-              
-          // printf("\n");
-          
-        }
-    }
-
-  return 0;
-}
-
 void LAB_Oscilloscope::
 run ()
 {
-  m_LAB_Core->LAB_Core_pwm_start ();
+  m_LAB_Core->pwm_start ();
   m_is_running = true;
 }
 
 void LAB_Oscilloscope::
 stop ()
 {
-  m_LAB_Core->LAB_Core_pwm_stop ();
+  m_LAB_Core->pwm_stop ();
   m_is_running = false;
 }
 

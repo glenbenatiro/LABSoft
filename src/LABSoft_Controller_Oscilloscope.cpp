@@ -5,7 +5,7 @@
 
 #include <FL/Fl.H>
 
-#include "Globals.h"
+#include "Auxiliary.h"
 #include "Defaults.h"
 
 LABSoft_Controller_Oscilloscope::
@@ -56,7 +56,7 @@ cb_single (Fl_Button *w,
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_channel_enable_disable (Fl_Light_Button *w,
-                           long            data)
+                           long             data)
 {
   int channel = static_cast<int>(data);
   bool value = w->value ();
@@ -72,24 +72,15 @@ cb_channel_enable_disable (Fl_Light_Button *w,
 }
 
 
-void LABSoft_Controller_Oscilloscope::
-cb_time_per_division (Fl_Input_Choice *w, 
-                      void            *data)
-{
-  double value    = globals_get_actual_value_from_label (w->value ());
-  int unit_scaler = globals_get_unit_prefix_power_scaler (w->value ());
 
-  printf ("value: %f, unit_scaler: %d\n", value, unit_scaler);
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_time_per_division (value, unit_scaler);
-}
+
 
 void LABSoft_Controller_Oscilloscope::
 cb_x_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  double value = globals_get_actual_value_from_label (w->value ());
+  double value = g_get_actual_value_from_label (w->value ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     m_x_offset = value;
@@ -98,19 +89,7 @@ cb_x_offset (Fl_Input_Choice *w,
     update_x_axis_labels ();
 }
 
-void LABSoft_Controller_Oscilloscope::
-cb_volts_per_division (Fl_Input_Choice *w, 
-                            void            *data)
-{
-  int channel = *((int*)data);
-  double value    = globals_get_actual_value_from_label (w->value ());
-  int unit_scaler = globals_get_unit_prefix_power_scaler (w->value ());
 
-  printf ("value: %f, unit_scaler: %d\n", value, unit_scaler);
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_volts_per_division (value, unit_scaler, channel);
-}
 
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -125,7 +104,8 @@ update_display ()
   ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB->m_LAB_Core.m_vc_mem.virt);
 
   // 1. get block from backend
-  while (m_LAB->m_Oscilloscope->m_is_running) {
+  while (m_LAB->m_Oscilloscope->m_is_running) 
+  {
     // to iterate over ping pong channels
     // WARNING! wala pana implement ang other channels
     // this is from single channel code
@@ -155,17 +135,18 @@ update_display ()
     }
     
 
-  LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
-    oscilloscope_labsoft_oscilloscope_display_group_display->m_display;
+    LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
+      oscilloscope_labsoft_oscilloscope_display_group_display->m_display;
 
-  // normalize raw ADC data: m_raw_values -> m_values
-  display->normalize_channels_raw_data ();
+    // normalize raw ADC data: m_raw_values -> m_values
+    display->normalize_channels_raw_data ();
 
-  // sample skip to get samples to display: m_values -> m_pixel_points
-  //display->normalize_channels_data_to_display ();
+    // sample skip to get samples to display: m_values -> m_pixel_points
+    display->normalize_channels_data_to_display ();
 
-  // draw signals
-  // display->redraw ();
+    // draw signals
+    display->redraw ();
+    Fl::awake ();
 
     int duration = (DISPLAY_UPDATE_RATE * 1000);
     std::this_thread::sleep_for
@@ -173,3 +154,20 @@ update_display ()
   }
 }
 
+void LABSoft_Controller_Oscilloscope::
+cb_volts_per_division (Fl_Input_Choice *w, 
+                       long             data)
+{
+  int channel = static_cast<int>(data);
+  ValueStruct _ValueStruct (w->value ());
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_volts_per_division (channel, _ValueStruct);
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_time_per_division (Fl_Input_Choice *w,
+                      void            *data)
+{
+
+}

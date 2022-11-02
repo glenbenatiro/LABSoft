@@ -34,9 +34,7 @@ draw ()
 {
   draw_box (FL_FLAT_BOX, m_background_color);
   draw_grid ();
-  
-  if (m_is_enabled)
-    draw_channels_signals ();
+  draw_channels_signals ();
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -103,71 +101,72 @@ normalize_channels_raw_data ()
   for (int a = 0; a < m_channel_signals.size (); a++) 
   {
     Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
-    
 
-    if (chn->m_is_enabled) 
+    if (chn->m_is_enabled)
     {
-      for (int b = 0; b < (chn->m_values.size ()); b++) 
+      for (int b = 0; b < (chn->m_values.size ()); b++)
       {
         uint16_t temp;
-        uint16_t actual_raw_val;
+        uint16_t data;
 
-        // lower 16 bits of raw value is for oscilloscope channel 0
-        if (a == 0) 
+        if (a == 0)
         {
-          temp = chn->m_raw_values[b] & (0x0000FFFF);
-
+          temp = chn->m_raw_values[b] & 0x0000FFFF;
         }
-        // higher 16 bits of raw value is for oscilloscope channel 1
         else if (a == 1)
         {
-          temp = chn->m_raw_values[b] * (0xFFFF0000);
+          temp = (chn->m_raw_values[b] & 0xFFFF0000) >> 16;
         }
-        // add code here soon if lab in a box can accommodate more than 2 chans
         else 
         {
 
         }
 
-        chn->m_values[b] = static_cast<float>(actual_raw_val) * scaler;
-        // printf ("m_values[b]: %f\n", chn->m_values[b]);
-        //printf (BYTE_TO_BINARY_PATTERN " " BYTE_TO_BINARY_PATTERN "\n",
-        //  BYTE_TO_BINARY (temp >> 8), BYTE_TO_BINARY (temp));
+        data = ((temp << 6) | (temp >> 10)) & 0x0FFF;
+        chn->m_values[b] = static_cast<float>(data) * scaler;
+
+        // printf ("m_values[b]: %f - ", chn->m_values[b]);
+        // printf (BYTE_TO_BINARY_PATTERN " " BYTE_TO_BINARY_PATTERN "\n",
+        //   BYTE_TO_BINARY (data >> 8), BYTE_TO_BINARY (data));
       }
     }
   }
 }
 
-
-
 void LABSoft_Oscilloscope_Display:: 
 normalize_channels_data_to_display ()
 {
-  if (m_is_enabled) {
-    for (int a = 0; a < m_channel_signals.size (); a++ ) {
+  if (m_is_enabled) 
+  {
+    for (int a = 0; a < m_channel_signals.size (); a++ ) 
+    {
       Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
-      if (chn->m_is_enabled) {
+
+      if (chn->m_is_enabled) 
+      {
         // calculate sample skip interval
         float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
+        float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
+        float scaled_max_amplitude = m_number_of_rows * m_volts_per_division;
 
-        for (int b = 0; b < w (); b++) {
+        for (int b = 0; b < w (); b++) 
+        {
           // pixel point x coord
           chn->m_pixel_points[b][0] = x () + b;
-
-          // pixel point y coord
-          float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
-          float scaled_max_amplitude = m_number_of_rows * m_volts_per_division;
+      
           int index = static_cast<int>(b * skip_interval);
           double sample_value = chn->m_values[index];
 
-          if (sample_value == 0.0) {
+          if (sample_value == 0.0) 
+          {
             chn->m_pixel_points[b][1] = y_mid_pixel;
-          } else {
+          } else 
+          {
             chn->m_pixel_points[b][1] = 
               y_mid_pixel - (sample_value * ((static_cast<float>(h ()) / 2.0) / 
                 scaled_max_amplitude));
             
-          //printf ("y: %d\n",chn->m_pixel_points[b][1]);
+            //printf ("y: %d\n",chn->m_pixel_points[b][1]);
           }
         }
       }
@@ -180,10 +179,10 @@ draw_channels_signals ()
 {
   for (int a = 0; a < m_channel_signals.size (); a++) {
     Channel_Signal *chan = &(m_channel_signals.m_channel_signal_vector[a]);
-    if (chan->m_is_enabled) {
 
+    if (chan->m_is_enabled) 
+    {
       std::vector<std::vector<int>> *pp = &(chan->m_pixel_points);
-
       
       fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_GRAPH_COLORS[a]);
 
@@ -308,5 +307,18 @@ generate_waveform (WaveType wave_type, int channel)
   return 1;
 }
 
+// getter
+double LABSoft_Oscilloscope_Display:: 
+volts_per_division (int channel)
+{
+  return (m_channel_signals.m_channel_signal_vector[channel].m_volts_per_division);
+}
+
+// setter
+void LABSoft_Oscilloscope_Display:: 
+volts_per_division (int channel, double value)
+{
+  m_channel_signals.m_channel_signal_vector[channel].m_volts_per_division = value;
+}
 // EOF
 

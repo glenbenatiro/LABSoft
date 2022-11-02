@@ -74,7 +74,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_dma_init (MEM_MAP *mp, int nsamp, int single)
 
   memcpy (dp, &dma_data, sizeof(dma_data));    // Copy DMA data into uncached memory
 
-  m_LAB_Core->LAB_Core_pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
+  m_LAB_Core->pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
   *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
   *REG32(m_LAB_Core->m_spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
@@ -88,7 +88,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_dma_init (MEM_MAP *mp, int nsamp, int single)
 void 
 LAB_Oscilloscope::LAB_Oscilloscope_stream_start ()
 {
-  m_LAB_Core->LAB_Core_pwm_start ();
+  m_LAB_Core->pwm_start ();
 }
 
 void 
@@ -100,7 +100,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_stream_wait ()
 void 
 LAB_Oscilloscope::LAB_Oscilloscope_stream_stop ()  
 {
-  m_LAB_Core->LAB_Core_pwm_stop ();
+  m_LAB_Core->pwm_stop ();
 }
 
 void 
@@ -234,7 +234,7 @@ LAB_Oscilloscope_start ()
       m_LAB_Core->LAB_Core_dma_start(mp, DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 
       // start pwm
-      m_LAB_Core->LAB_Core_pwm_start ();
+      m_LAB_Core->pwm_start ();
 
       printf ("DEBUG: start stream\n");
 
@@ -337,7 +337,7 @@ LAB_Oscilloscope_stop ()
       m_thread_ADC_streaming->join ();
       m_thread_ADC_reading->join ();
 
-      m_LAB_Core->LAB_Core_pwm_stop ();
+      m_LAB_Core->pwm_stop ();
 
       m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_A);
       m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_B);

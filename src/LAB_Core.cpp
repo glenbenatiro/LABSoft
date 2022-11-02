@@ -498,11 +498,14 @@ LAB_Core::gpio_set (int pin,
                              int mode, 
                              int pull)
 {
-  LAB_Core_gpio_mode (pin, mode);
+  gpio_mode (pin, mode);
   LAB_Core_gpio_pull (pin, pull);
 }
 
 // Set I/P pullup or pulldown
+// pull = 0 disable pull up or down
+// pull = 1 for enable pull down
+// pull = 2 for enable pull up
 void
 LAB_Core::LAB_Core_gpio_pull (int pin,
                                 int pull)
@@ -519,9 +522,9 @@ LAB_Core::LAB_Core_gpio_pull (int pin,
   *reg = 0;
 }
 
-// Set input or output
+
 void 
-LAB_Core::LAB_Core_gpio_mode (int pin, 
+LAB_Core::gpio_mode (int pin, 
                                 int mode)
 {
   volatile uint32_t *reg   = REG32(m_gpio_regs, GPIO_MODE0) + pin / 10, 
@@ -551,11 +554,11 @@ LAB_Core::LAB_Core_gpio_in (int pin)
 // --- PWM ---
 // Initialise PWM
 void 
-LAB_Core::LAB_Core_pwm_init (int freq, 
+LAB_Core::pwm_init (int freq, 
                                int range, 
                                int val)
 {
-  LAB_Core_pwm_stop();
+  pwm_stop();
 
   // check channel 1 state
   if (*REG32(m_pwm_regs, PWM_STA) & 0x100)
@@ -607,11 +610,13 @@ LAB_Core::LAB_Core_pwm_init (int freq,
   #if PWM_OUT
     gpio_mode(PWM_PIN, GPIO_ALT5);
   #endif
+
+  //gpio_set(PWM_PIN, GPIO_ALT5, 1);
 }
 
 // Start PWM operation
 void 
-LAB_Core::LAB_Core_pwm_start ()
+LAB_Core::pwm_start ()
 {
   *REG32(m_pwm_regs, PWM_CTL) = PWM_CTL_USEF1 | PWM_ENAB;
   usleep(100);
@@ -619,7 +624,7 @@ LAB_Core::LAB_Core_pwm_start ()
 
 // Stop PWM operation
 void 
-LAB_Core::LAB_Core_pwm_stop ()
+LAB_Core::pwm_stop ()
 {
   if (m_pwm_regs.virt)
 
@@ -628,6 +633,13 @@ LAB_Core::LAB_Core_pwm_stop ()
     usleep(100);
   }
 }
+
+void
+LAB_Core::pwm_set_frequency (float frequency)
+{
+
+}
+
 
 // --- FIFO ---
 int      

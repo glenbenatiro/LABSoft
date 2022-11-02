@@ -223,33 +223,6 @@ src/Channel_Signals.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.s
 .PHONY : src/Channel_Signals.cpp.s
 
-src/Globals.o: src/Globals.cpp.o
-
-.PHONY : src/Globals.o
-
-# target to build an object file
-src/Globals.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Globals.cpp.o
-.PHONY : src/Globals.cpp.o
-
-src/Globals.i: src/Globals.cpp.i
-
-.PHONY : src/Globals.i
-
-# target to preprocess a source file
-src/Globals.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Globals.cpp.i
-.PHONY : src/Globals.cpp.i
-
-src/Globals.s: src/Globals.cpp.s
-
-.PHONY : src/Globals.s
-
-# target to generate assembly for a file
-src/Globals.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Globals.cpp.s
-.PHONY : src/Globals.cpp.s
-
 src/LAB.o: src/LAB.cpp.o
 
 .PHONY : src/LAB.o
@@ -952,6 +925,33 @@ src/LAB_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.s
 .PHONY : src/LAB_Voltmeter.cpp.s
 
+src/ValueStruct.o: src/ValueStruct.cpp.o
+
+.PHONY : src/ValueStruct.o
+
+# target to build an object file
+src/ValueStruct.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o
+.PHONY : src/ValueStruct.cpp.o
+
+src/ValueStruct.i: src/ValueStruct.cpp.i
+
+.PHONY : src/ValueStruct.i
+
+# target to preprocess a source file
+src/ValueStruct.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i
+.PHONY : src/ValueStruct.cpp.i
+
+src/ValueStruct.s: src/ValueStruct.cpp.s
+
+.PHONY : src/ValueStruct.s
+
+# target to generate assembly for a file
+src/ValueStruct.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s
+.PHONY : src/ValueStruct.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -1024,9 +1024,6 @@ help:
 	@echo "... src/Channel_Signals.o"
 	@echo "... src/Channel_Signals.i"
 	@echo "... src/Channel_Signals.s"
-	@echo "... src/Globals.o"
-	@echo "... src/Globals.i"
-	@echo "... src/Globals.s"
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"
@@ -1105,6 +1102,9 @@ help:
 	@echo "... src/LAB_Voltmeter.o"
 	@echo "... src/LAB_Voltmeter.i"
 	@echo "... src/LAB_Voltmeter.s"
+	@echo "... src/ValueStruct.o"
+	@echo "... src/ValueStruct.i"
+	@echo "... src/ValueStruct.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

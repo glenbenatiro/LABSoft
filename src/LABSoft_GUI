@@ -48,7 +48,7 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);}
             xywh {1205 160 120 60}
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open selected
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
             xywh {24 60 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
@@ -68,7 +68,8 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_volts_per_division {
               label {Volts per Division}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, (void*)0);}
+              user_data 0 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);}
               xywh {865 215 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTS_PER_DIVISION);}
             } {
@@ -283,7 +284,8 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_2_volts_per_division {
               label {Volts per Division}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, (void*)1);}
+              user_data 1 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);}
               xywh {1035 215 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTS_PER_DIVISION);}
             } {
@@ -483,7 +485,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {
+          Fl_Group oscilloscope_fl_group_horizontal {selected
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {

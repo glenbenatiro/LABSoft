@@ -26,7 +26,6 @@ class LAB_Oscilloscope
 
     void  run ();
     void  stop ();    
-    int   stream_values ();
 };
 
 #endif

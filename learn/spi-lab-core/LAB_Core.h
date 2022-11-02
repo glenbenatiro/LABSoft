@@ -65,7 +65,7 @@ class LAB_Core
     
     // --- GPIO ---
     void     LAB_Core_gpio_out         (int pin, int val);
-    void     LAB_Core_gpio_mode        (int pin, int mode);
+    void     gpio_mode        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
     void     gpio_set         (int pin, int mode, int pull);
     uint8_t  LAB_Core_gpio_in          (int pin);
@@ -80,9 +80,9 @@ class LAB_Core
     int       spi_set_clock_rate  (int value);
 
     // --- PWM ---
-    void     LAB_Core_pwm_init         (int freq, int range, int val);
-    void     LAB_Core_pwm_start        ();
-    void     LAB_Core_pwm_stop         ();
+    void     pwm_init         (int freq, int range, int val);
+    void     pwm_start        ();
+    void     pwm_stop         ();
 
     // --- FIFO ---
     int      LAB_Core_fifo_create      (const char *fifo_name);

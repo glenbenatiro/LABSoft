@@ -35,6 +35,11 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
             m_label_color         = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LABEL_COLOR,
             m_background_color    = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR;
 
+
+    double m_volts_per_division = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_VOLTS_PER_DIVISION;
+
+
+
     // widgets 
     std::vector<Fl_Box*>              m_x_labels; 
     std::vector<std::vector<Fl_Box*>> m_y_labels;  
@@ -50,10 +55,14 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  update ();
     void  update_fg ();
 
-    void  update_time_per_division (double time_per_division, 
-      int time_per_division_unit_prefix_power_scaler);
-    void  update_volts_per_division (double volts_per_division, 
-      int volts_per_division_unit_prefix_power_scaler, int channel);
+    // void  update_time_per_division (double time_per_division, 
+    //   int time_per_division_unit_prefix_power_scaler);
+
+    
+    void update_volts_per_division (int channel, ValueStruct _ValueStruct);
+
+    // setters
+    void volts_per_division (double value);
 };
 
 #endif

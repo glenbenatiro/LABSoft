@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "Globals.h"
+#include "Auxiliary.h"
 #include "Defaults.h"
 
 LABSoft_Oscilloscope_Display_Group::
@@ -41,6 +41,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
                               0,
                               ".");
     lbl->labelcolor (m_label_color);
+    lbl->labelsize (m_label_size);
     lbl->align (FL_ALIGN_TEXT_OVER_IMAGE);
     m_x_labels.push_back (lbl);
   }
@@ -65,9 +66,11 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                     ".");
 
           lbl->labelcolor (m_label_color);
+          lbl->labelsize (m_label_size);
           lbl->align (FL_ALIGN_TEXT_OVER_IMAGE);
           m_y_labels[a].emplace_back (lbl);
         }
+      
     }      
   
   end ();
@@ -93,7 +96,7 @@ update_x_axis_labels ()
       float label_value = (((a - (m_number_of_columns / 2)) * m_time_per_division) + 
       m_x_offset) * pow (10, (m_time_per_division_unit_scaler * -1));
 
-      sprintf (label, "%3.4f %cs", label_value, globals_get_unit_prefix 
+      sprintf (label, "%3.4f %cs", label_value, g_get_unit_prefix 
       (m_time_per_division_unit_scaler));
 
       m_x_labels[a]->copy_label (label);
@@ -119,7 +122,7 @@ update_y_axis_labels ()
           float label_value = (((a - (m_number_of_rows / 2)) * volts_per_division) + 
           y_offset) * pow (10, (power_scaler * -1));
 
-          sprintf (label, "%3.4g %cV", label_value, globals_get_unit_prefix 
+          sprintf (label, "%3.3f %cV", label_value, g_get_unit_prefix 
           (power_scaler));
 
           m_y_labels[a][b]->copy_label (label);
@@ -140,16 +143,7 @@ update ()
   printf ("DEBUG: display updated\n");
 }
 
-void LABSoft_Oscilloscope_Display_Group:: 
-update_time_per_division (double time_per_division,
-                          int    time_per_division_unit_prefix_power_scaler)
-{
-  m_time_per_division = time_per_division;
-  m_time_per_division_unit_scaler = time_per_division_unit_prefix_power_scaler;
-  
-  update_x_axis_labels ();
-  update ();
-}
+
 
 void LABSoft_Oscilloscope_Display_Group:: 
 update_fg ()
@@ -160,21 +154,48 @@ update_fg ()
   // draw
 }
 
-void LABSoft_Oscilloscope_Display_Group:: 
-update_volts_per_division (double volts_per_division,
-                          int    volts_per_division_unit_scaler,
-                          int    channel)
-{
-  Channel_Signal *chn = &(m_display->m_channel_signals.
-    m_channel_signal_vector[channel]);
+// void LABSoft_Oscilloscope_Display_Group:: 
+// update_volts_per_division (double volts_per_division,
+//                           int    volts_per_division_unit_scaler,
+//                           int    channel)
+// {
+//   Channel_Signal *chn = &(m_display->m_channel_signals.
+//     m_channel_signal_vector[channel]);
 
-  chn->m_volts_per_division = volts_per_division;
-  chn->m_volts_per_division_unit_scaler = volts_per_division_unit_scaler;
+//   chn->m_volts_per_division = volts_per_division;
+//   chn->m_volts_per_division_unit_scaler = volts_per_division_unit_scaler;
   
-  update_y_axis_labels ();
-  update ();
-}
+//   update_y_axis_labels ();
+//   update ();
+// }
                         
 
+
+
+
+// setters
+void LABSoft_Oscilloscope_Display_Group:: 
+volts_per_division (double value)
+{
+  m_volts_per_division = value; 
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_volts_per_division (int channel, ValueStruct _ValueStruct)
+{
+  char label[15];
+
+  m_display->volts_per_division (channel, _ValueStruct.get_actual_value ());
+
+  for (int a = 0; a < (m_number_of_rows + 1); a++)
+  {
+    int value_label = ((a + ((m_number_of_rows / 2) * -1)) * -1) * 
+      _ValueStruct.m_short_value;
+    
+    sprintf (label, "%3d %cV", value_label, _ValueStruct.m_unit_prefix);
+
+    m_y_labels[channel][a]->copy_label (label);
+  }
+}
 
 // EOF

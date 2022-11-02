@@ -440,22 +440,9 @@ CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/Auxiliary.cpp -o CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.s
 
-CMakeFiles/LABSoft.dir/src/Globals.cpp.o: CMakeFiles/LABSoft.dir/flags.make
-CMakeFiles/LABSoft.dir/src/Globals.cpp.o: ../src/Globals.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/LABSoft.dir/src/Globals.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/Globals.cpp.o -c /home/glen/Desktop/LABSoft/src/Globals.cpp
-
-CMakeFiles/LABSoft.dir/src/Globals.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/Globals.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/Globals.cpp > CMakeFiles/LABSoft.dir/src/Globals.cpp.i
-
-CMakeFiles/LABSoft.dir/src/Globals.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/Globals.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/Globals.cpp -o CMakeFiles/LABSoft.dir/src/Globals.cpp.s
-
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Channel_Signals.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o -c /home/glen/Desktop/LABSoft/src/Channel_Signals.cpp
 
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.i: cmake_force
@@ -468,7 +455,7 @@ CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.s: cmake_force
 
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: ../src/Channel_Signal.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o -c /home/glen/Desktop/LABSoft/src/Channel_Signal.cpp
 
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.i: cmake_force
@@ -478,6 +465,19 @@ CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.i: cmake_force
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/Channel_Signal.cpp -o CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s
+
+CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o: ../src/ValueStruct.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o -c /home/glen/Desktop/LABSoft/src/ValueStruct.cpp
+
+CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/ValueStruct.cpp > CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i
+
+CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/ValueStruct.cpp -o CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s
 
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: ../src/pugixml.cpp
@@ -522,9 +522,9 @@ LABSoft_OBJECTS = \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/Globals.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
 
 # External object files for target LABSoft
@@ -558,9 +558,9 @@ LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o
-LABSoft: CMakeFiles/LABSoft.dir/src/Globals.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/pugixml.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/build.make
 LABSoft: /usr/lib/arm-linux-gnueabihf/libfltk.so

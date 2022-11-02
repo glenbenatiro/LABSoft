@@ -3,16 +3,6 @@
 
 #include <cstdint>
 
-#include "ValueStruct.h"
-
-
-
-double  g_get_unit_prefix_scaler          (char unit_prefix);
-int     g_get_unit_prefix_power_exponent  (char unit_prefix);
-char    g_get_unit_prefix                 (int power_scaler);
-char    g_get_label_unit_prefix           (const char* label);
-
-double g_get_actual_value_from_label (const char *label);
 
 double aux_unit_label_to_unit_scaler (const char *label);
 double aux_unit_label_to_unit_power (const char *label);

@@ -41,8 +41,8 @@ private:
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_volts_per_division;
 private:
-  inline void cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(Fl_Input_Choice*, void*);
-  static void cb_oscilloscope_fl_input_choice_channel_1_volts_per_division(Fl_Input_Choice*, void*);
+  inline void cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(Fl_Input_Choice*, long);
+  static void cb_oscilloscope_fl_input_choice_channel_1_volts_per_division(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_volts_per_division[];
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_vertical_offset;
@@ -55,8 +55,8 @@ private:
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_volts_per_division;
 private:
-  inline void cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(Fl_Input_Choice*, void*);
-  static void cb_oscilloscope_fl_input_choice_channel_2_volts_per_division(Fl_Input_Choice*, void*);
+  inline void cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(Fl_Input_Choice*, long);
+  static void cb_oscilloscope_fl_input_choice_channel_2_volts_per_division(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_volts_per_division[];
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_vertical_offset;

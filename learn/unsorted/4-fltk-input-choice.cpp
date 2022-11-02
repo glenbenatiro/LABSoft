@@ -63,7 +63,7 @@ void cb_time_per_div (Fl_Input_Choice *w, void *data)
     printf ("callback. last key pressed: %d, %s\n", Fl::event_key(), Fl::event_text());
 }
 
-float globals_get_actual_value_from_label (const char *label)
+float g_get_actual_value_from_label (const char *label)
 {
   float scaler = 1.0;
   float value = atof (strtok (strdup (label),  " "));
