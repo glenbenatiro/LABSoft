@@ -3,17 +3,30 @@
 
 class ValueStruct
 {
-  public:
-    char m_unit_prefix;
-    int m_exponent;
-    int m_short_value;
-
-            ValueStruct                     (const char *label);
-    char    get_unit_prefix                 (char unit_prefix);
-    int     get_unit_prefix_power_exponent  ();
-    double  get_actual_value                ();
+  private:
+    int     m_exponent;
+    float   m_coefficient;
     
+    char    m_unit_prefix;
+
+    double  m_actual_value;
+
+  public:
+    ValueStruct (const char *label);
+    ValueStruct (double value);
+
     static const char* parse_for_label (int value, char unit_prefix);
+    
+    int     exponent    ();
+    int     exponent    (char m_unit_prefix);
+
+    char    unit_prefix ();
+    char    unit_prefix (char unit_prefix);
+    char    unit_prefix (int exponent);
+
+    float   coefficient ();
+    
+    double  actual_value                ();
 };
 
 #endif

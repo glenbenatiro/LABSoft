@@ -1,9 +1,12 @@
 #ifndef LABSOFT_OSCILLOSCOPE_DISPLAY_H
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_H
 
+#include <array>
+
 #include <FL/Fl_Widget.H>
 
 #include "Auxiliary.h"
+#include "Defaults.h"
 #include "Channel_Signals.h"
 
 class LABSoft_Oscilloscope_Display : public Fl_Widget
@@ -17,29 +20,36 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
           m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR,
           m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR,
           m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER,
-          m_adc_resolution              = LAB_ADC_RESOLUTION;
+          m_adc_resolution_in_bits      = LAB_ADC_RESOLUTION_IN_BITS,
+          m_adc_resolution_in_integer   = LAB_ADC_RESOLUTION_IN_INTEGER;
+          
           
      // int     m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
 
-    int m_max_number_of_channels = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
 
-    int   m_number_of_rows      = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS,
-          m_number_of_columns   = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS,
-          m_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS,
-          m_number_of_samples   = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_SAMPLES;
+    int   m_number_of_rows          = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS,
+          m_number_of_columns       = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS,
+          m_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS,
+          m_number_of_samples       = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_SAMPLES,
+          m_max_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
     
-    // int m_graph_channel_colors [m_max_number_of_channels] = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_GRAPH_COLORS;
 
     float m_time_per_division,
           m_volts_per_division  = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION,
           m_max_voltage,
           m_adc_reference_voltage       = LAB_ADC_REFERENCE_VOLTAGE;
+    
+
       
 
     float m_function_time_per_division,
           m_function_volts_per_division;
 
     DisplayMode m_display_mode = LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE;
+
+    // for display css-ish
+    std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS> m_channels_graph_color = 
+      LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNELS_GRAPH_COLOR;
 
     // --- FUNCTION GENERATOR SECTION ---
     const double m_pi = 3.1415926535897932384626433832795028841971693993751058209;
@@ -64,7 +74,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     
     void update ();
 
-    void  normalize_channels_raw_data ();
+    void  normalize_all_channels_raw_data ();
     void  normalize_channels_data_to_display ();
     void  draw_channels_signals ();
 
@@ -77,6 +87,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 
     // setters
     void volts_per_division (int channel, double value);
+    void vertical_offset (int channel, double value);
 };
 
 #endif

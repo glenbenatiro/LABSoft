@@ -53,6 +53,13 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_1_volts_per_
  {0,0,0,0,0,0,0,0,0}
 };
 
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_vertical_offset_i(Fl_Input_Choice* o, long v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_vertical_offset (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_vertical_offset(Fl_Input_Choice* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_1_vertical_offset_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[] = {
  {"25 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"10 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -121,6 +128,13 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_2_volts_per_
  {"100 uV", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
+
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_vertical_offset_i(Fl_Input_Choice* o, long v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_vertical_offset (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_vertical_offset(Fl_Input_Choice* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_2_vertical_offset_i(o,v);
+}
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_2_vertical_offset[] = {
  {"25 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -693,6 +707,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTS_PER_DIVISION);
           } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_1_volts_per_division
           { oscilloscope_fl_input_choice_channel_1_vertical_offset = new Fl_Input_Choice(865, 285, 120, 30, "Vertical Offset");
+            oscilloscope_fl_input_choice_channel_1_vertical_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_1_vertical_offset, (void*)(0));
             oscilloscope_fl_input_choice_channel_1_vertical_offset->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_input_choice_channel_1_vertical_offset->menu(menu_oscilloscope_fl_input_choice_channel_1_vertical_offset);
             oscilloscope_fl_input_choice_channel_1_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_Y_OFFSET);
@@ -715,6 +730,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTS_PER_DIVISION);
           } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_2_volts_per_division
           { oscilloscope_fl_input_choice_channel_2_vertical_offset = new Fl_Input_Choice(1035, 285, 120, 30, "Vertical Offset");
+            oscilloscope_fl_input_choice_channel_2_vertical_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_2_vertical_offset, (void*)(1));
             oscilloscope_fl_input_choice_channel_2_vertical_offset->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_input_choice_channel_2_vertical_offset->menu(menu_oscilloscope_fl_input_choice_channel_2_vertical_offset);
             oscilloscope_fl_input_choice_channel_2_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_Y_OFFSET);

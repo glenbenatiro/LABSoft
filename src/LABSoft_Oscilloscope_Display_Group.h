@@ -12,17 +12,19 @@
 class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 {
   public:    
-    // for display
+    // for display operation
     bool    m_is_enabled = false,
             m_is_function_generator_mode_enabled = false;
 
-    int     m_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_CHANNELS,
-            m_number_of_rows      = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS,  
-            m_number_of_columns   = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS,
+    int     m_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_CHANNELS,
+            m_max_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_MAX_NUMBER_OF_CHANNELS,
+            m_number_of_rows          = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS,  
+            m_number_of_columns       = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS,
             m_time_per_division_unit_scaler = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION_UNIT_SCALER;
 
     double  m_x_offset            = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_OFFSET,
-            m_time_per_division   = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION;
+            m_time_per_division   = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION,
+            m_volts_per_division  = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_VOLTS_PER_DIVISION;
 
     // for display (CSS-ish)
     int     m_upper_padding       = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_UPPER_PADDING,
@@ -34,11 +36,9 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
             m_label_size          = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LABEL_SIZE,
             m_label_color         = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LABEL_COLOR,
             m_background_color    = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR;
-
-
-    double m_volts_per_division = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_VOLTS_PER_DIVISION;
-
-
+    
+    std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_MAX_NUMBER_OF_CHANNELS> m_channels_graph_color = 
+      LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNELS_GRAPH_COLOR;
 
     // widgets 
     std::vector<Fl_Box*>              m_x_labels; 
@@ -57,12 +57,10 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 
     // void  update_time_per_division (double time_per_division, 
     //   int time_per_division_unit_prefix_power_scaler);
-
-    
+ 
+    void update_volts_per_division ();
     void update_volts_per_division (int channel, ValueStruct _ValueStruct);
-
-    // setters
-    void volts_per_division (double value);
+    void vertical_offset (int channel, ValueStruct _ValueStruct);
 };
 
 #endif

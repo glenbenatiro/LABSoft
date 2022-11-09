@@ -94,9 +94,10 @@ update ()
 }
 
 void LABSoft_Oscilloscope_Display:: 
-normalize_channels_raw_data ()
+normalize_all_channels_raw_data ()
 {
-  float scaler = m_adc_reference_voltage / static_cast<float>(m_adc_resolution);
+  float scaler = m_adc_reference_voltage / (m_adc_resolution_in_integer >> 1);
+  int16_t ref_half = m_adc_resolution_in_integer >> 1;
 
   for (int a = 0; a < m_channel_signals.size (); a++) 
   {
@@ -123,10 +124,9 @@ normalize_channels_raw_data ()
         }
 
         data = ((temp << 6) | (temp >> 10)) & 0x0FFF;
-        chn->m_values[b] = static_cast<float>(data) * scaler;
+        chn->m_values[b] = (static_cast<int16_t>(data) - ref_half) * (scaler);
 
-        // printf ("m_values[b]: %f - ", chn->m_values[b]);
-        // printf (BYTE_TO_BINARY_PATTERN " " BYTE_TO_BINARY_PATTERN "\n",
+        //printf (BYTE_TO_BINARY_PATTERN " " BYTE_TO_BINARY_PATTERN "\n",
         //   BYTE_TO_BINARY (data >> 8), BYTE_TO_BINARY (data));
       }
     }
@@ -147,7 +147,7 @@ normalize_channels_data_to_display ()
         // calculate sample skip interval
         float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
         float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
-        float scaled_max_amplitude = m_number_of_rows * m_volts_per_division;
+        float scaled_max_amplitude = m_number_of_rows * chn->m_volts_per_division;
 
         for (int b = 0; b < w (); b++) 
         {
@@ -155,7 +155,7 @@ normalize_channels_data_to_display ()
           chn->m_pixel_points[b][0] = x () + b;
       
           int index = static_cast<int>(b * skip_interval);
-          double sample_value = chn->m_values[index];
+          double sample_value = chn->m_values[index] + (chn->m_vertical_offset * 2);
 
           if (sample_value == 0.0) 
           {
@@ -184,7 +184,7 @@ draw_channels_signals ()
     {
       std::vector<std::vector<int>> *pp = &(chan->m_pixel_points);
       
-      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_GRAPH_COLORS[a]);
+      fl_color (m_channels_graph_color[a]);
 
       for (int b = 0; b < (w () - 1); b++) {
         fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
@@ -314,11 +314,17 @@ volts_per_division (int channel)
   return (m_channel_signals.m_channel_signal_vector[channel].m_volts_per_division);
 }
 
-// setter
+// setters
 void LABSoft_Oscilloscope_Display:: 
 volts_per_division (int channel, double value)
 {
   m_channel_signals.m_channel_signal_vector[channel].m_volts_per_division = value;
+}
+
+void LABSoft_Oscilloscope_Display:: 
+vertical_offset (int channel, double value)
+{
+  m_channel_signals.m_channel_signal_vector[channel].m_vertical_offset = value;
 }
 // EOF
 

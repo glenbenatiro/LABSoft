@@ -46,7 +46,11 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_volts_per_division[];
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_vertical_offset;
+private:
+  inline void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset_i(Fl_Input_Choice*, long);
+  static void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[];
+public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_2;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_2_enable;
 private:
@@ -60,7 +64,11 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_volts_per_division[];
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_2_vertical_offset;
+private:
+  inline void cb_oscilloscope_fl_input_choice_channel_2_vertical_offset_i(Fl_Input_Choice*, long);
+  static void cb_oscilloscope_fl_input_choice_channel_2_vertical_offset(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_vertical_offset[];
+public:
   Fl_Group *oscilloscope_fl_group_horizontal;
   Fl_Input_Choice *oscilloscope_fl_input_choice_time_per_division;
 private:

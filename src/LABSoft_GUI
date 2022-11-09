@@ -20,7 +20,7 @@ class LABSoft_GUI {open
     code {printf("DEBUG: LABSoft_GUI Start\\n");} {}
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {0 0 1365 765} type Double hide
+      xywh {2084 187 1365 765} type Double visible
     } {
       Fl_Tabs {} {open
         xywh {0 0 1366 768}
@@ -148,6 +148,8 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_vertical_offset {
               label {Vertical Offset}
+              user_data 0 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_vertical_offset (o, v);}
               xywh {865 285 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_1_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_Y_OFFSET);}
             } {
@@ -364,6 +366,8 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_2_vertical_offset {
               label {Vertical Offset}
+              user_data 1 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_vertical_offset (o, v);}
               xywh {1035 285 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_2_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_Y_OFFSET);}
             } {
@@ -485,7 +489,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {selected
+          Fl_Group oscilloscope_fl_group_horizontal {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -835,7 +839,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Light_Button {} {
-            label {DEBUG:}
+            label {DEBUG:} selected
             xywh {1076 658 240 60} labelsize 11 align 16
           }
         }

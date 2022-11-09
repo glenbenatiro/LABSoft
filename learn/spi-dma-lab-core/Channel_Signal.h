@@ -16,7 +16,7 @@ class Channel_Signal
 
     double  m_sample_rate         = CHANNEL_SIGNAL_SAMPLE_RATE,
             m_volts_per_division  = CHANNEL_SIGNAL_VOLTS_PER_DIVISION,
-            m_y_offset            = CHANNEL_SIGNAL_Y_OFFSET;
+            m_vertical_offset            = CHANNEL_SIGNAL_VERTICAL_OFFSET;
 
     uint32_t m_values[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL];
     //std::vector<double>           m_values;

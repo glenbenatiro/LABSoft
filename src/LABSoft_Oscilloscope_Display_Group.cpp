@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cmath>
 
+#include <FL/fl_draw.H>
+
 #include "Auxiliary.h"
 #include "Defaults.h"
 
@@ -76,7 +78,8 @@ LABSoft_Oscilloscope_Display_Group (int X,
   end ();
 
   update_x_axis_labels ();
-  update_y_axis_labels ();
+ 
+  update_volts_per_division ();
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -117,7 +120,7 @@ update_y_axis_labels ()
 
           int power_scaler          = chn->m_volts_per_division_unit_scaler;
           double volts_per_division = chn->m_volts_per_division;
-          double y_offset           = chn->m_y_offset;
+          double y_offset           = chn->m_vertical_offset;
 
           float label_value = (((a - (m_number_of_rows / 2)) * volts_per_division) + 
           y_offset) * pow (10, (power_scaler * -1));
@@ -175,9 +178,15 @@ update_fg ()
 
 // setters
 void LABSoft_Oscilloscope_Display_Group:: 
-volts_per_division (double value)
+update_volts_per_division ()
 {
-  m_volts_per_division = value; 
+  for (int a = 0; a < m_number_of_channels; a++) 
+  {
+    ValueStruct _ValueStruct (m_display->m_channel_signals.
+      m_channel_signal_vector[a].m_volts_per_division);
+
+    update_volts_per_division (a, _ValueStruct);
+  }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -185,17 +194,25 @@ update_volts_per_division (int channel, ValueStruct _ValueStruct)
 {
   char label[15];
 
-  m_display->volts_per_division (channel, _ValueStruct.get_actual_value ());
+  m_display->volts_per_division (channel, _ValueStruct.actual_value ());
 
   for (int a = 0; a < (m_number_of_rows + 1); a++)
   {
     int value_label = ((a + ((m_number_of_rows / 2) * -1)) * -1) * 
-      _ValueStruct.m_short_value;
-    
-    sprintf (label, "%3d %cV", value_label, _ValueStruct.m_unit_prefix);
+      _ValueStruct.coefficient ();
+        
+    sprintf (label, "%3d %cV", value_label, _ValueStruct.unit_prefix ());
 
     m_y_labels[channel][a]->copy_label (label);
+    m_y_labels[channel][a]->labelcolor(m_channels_graph_color[channel]);
   }
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+vertical_offset  (int         channel,
+                  ValueStruct _ValueStruct)
+{
+  m_display->vertical_offset (channel, _ValueStruct.actual_value ());
 }
 
 // EOF

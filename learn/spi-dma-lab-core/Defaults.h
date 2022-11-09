@@ -142,7 +142,7 @@ ADC_DMA_DATA;
 constexpr double CHANNEL_SIGNAL_VOLTS_PER_DIVISION  = 1.0; // volts/div
 constexpr int    CHANNEL_SIGNAL_VOLTS_PER_DIVISION_UNIT_SCALER  = 0; // 1 is 10 to the power of 0
 constexpr double CHANNEL_SIGNAL_SAMPLE_RATE = 1.0; // hz
-constexpr double CHANNEL_SIGNAL_Y_OFFSET = 0.0; // volts
+constexpr double CHANNEL_SIGNAL_VERTICAL_OFFSET = 0.0; // volts
 
 constexpr double    CHANNEL_SIGNAL_FUNCTION_AMPLITUDE   = 1.0;  // volts
 constexpr double    CHANNEL_SIGNAL_FUNCTION_FREQUENCY   = 1.0;  // hz

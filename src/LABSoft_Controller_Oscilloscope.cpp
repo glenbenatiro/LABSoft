@@ -71,11 +71,6 @@ cb_channel_enable_disable (Fl_Light_Button *w,
       m_is_enabled = value;
 }
 
-
-
-
-
-
 void LABSoft_Controller_Oscilloscope::
 cb_x_offset (Fl_Input_Choice *w, 
              void            *data)
@@ -110,9 +105,12 @@ update_display ()
     // WARNING! wala pana implement ang other channels
     // this is from single channel code
       
-    for (int a = 0; a < (m_LAB->m_Oscilloscope->m_number_of_channels); a++)  {
-      for (int b = 0; b < 2; b++) {
-        if (dp->states[b]) {
+    for (int a = 0; a < (m_LAB->m_Oscilloscope->m_number_of_channels); a++)  
+    {
+      for (int b = 0; b < 2; b++) 
+      {
+        if (dp->states[b]) 
+        {
           // copy values from uncached mem to memory on channel 1
           // WARNING! wala pana implement ang sa other channels.
           // assumed pa ni nga this for loop will only run 1 time bc a < 1
@@ -121,25 +119,27 @@ update_display ()
           memcpy (&((*chns)[a].m_raw_values), (b ? (void *)dp->rxd2 : (void *)dp->rxd1),
             (m_LAB->m_Oscilloscope->m_number_of_samples_per_channel * 4));
 
-
           usec = dp->usecs[b];
-            if (dp->states[b^1])
-            {
-                dp->states[0] = dp->states[1] = 0;
-                //overrun_total++;
-                break;
-            }
-            dp->states[b] = 0; 
+
+          if (dp->states[b^1])
+          {
+              dp->states[0] = dp->states[1] = 0;
+              //overrun_total++;
+              break;
+          }
+
+          dp->states[b] = 0; 
         }
       }
     }
+    
     
 
     LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
       oscilloscope_labsoft_oscilloscope_display_group_display->m_display;
 
     // normalize raw ADC data: m_raw_values -> m_values
-    display->normalize_channels_raw_data ();
+    display->normalize_all_channels_raw_data ();
 
     // sample skip to get samples to display: m_values -> m_pixel_points
     display->normalize_channels_data_to_display ();
@@ -161,9 +161,23 @@ cb_volts_per_division (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   ValueStruct _ValueStruct (w->value ());
 
+  // backend
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_volts_per_division (channel, _ValueStruct);
 }
+
+void LABSoft_Controller_Oscilloscope::
+cb_vertical_offset (Fl_Input_Choice *w, 
+                    long             data)
+{
+  int channel = static_cast<int>(data);
+  ValueStruct _ValueStruct (w->value ());
+
+  // backend
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    vertical_offset (channel, _ValueStruct);
+}
+
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_time_per_division (Fl_Input_Choice *w,
