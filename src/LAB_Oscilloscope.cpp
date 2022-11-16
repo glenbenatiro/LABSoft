@@ -16,7 +16,6 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_C);
 
   m_pwm_range = (PWM_FREQ * 2) / m_sample_rate;
-  printf ("m_pwm_range: %d\n", m_pwm_range);
 
   // MEM_MAP *mp = &(m_LAB_Core->m_vc_mem);
   // ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
@@ -87,6 +86,15 @@ stop ()
 {
   m_LAB_Core->pwm_stop ();
   m_is_running = false;
+}
+
+
+// this changes PWM speed on board!! 
+// verify no other are affected
+void LAB_Oscilloscope:: 
+sample_rate (double value)
+{
+  m_LAB_Core->pwm_set_frequency (value);
 }
 
 // EOF

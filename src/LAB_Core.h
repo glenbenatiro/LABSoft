@@ -6,6 +6,11 @@
 
 class LAB_Core
 {
+  private: 
+
+    int m_pwm_frequency   = 5'000'000,
+        m_pwm_value       = 2;
+
   public:
     int m_spi_frequency = LAB_SPI_FREQUENCY;
 
@@ -77,9 +82,9 @@ class LAB_Core
     int       spi_set_clock_rate  (int value);
 
     // --- PWM ---
-    void     pwm_init         (int freq, int range, int val);
-    void     pwm_start        ();
-    void     pwm_stop         ();
+    void      pwm_init         (int freq, int range, int val);
+    void      pwm_start        ();
+    void      pwm_stop         ();
     void      pwm_set_frequency (float frequency);
 
     // --- FIFO ---

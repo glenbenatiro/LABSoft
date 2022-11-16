@@ -25,6 +25,7 @@ class ValueStruct
     char    unit_prefix (int exponent);
 
     float   coefficient ();
+    float   short_value ();
     
     double  actual_value                ();
 };

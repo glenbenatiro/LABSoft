@@ -25,7 +25,11 @@ class LAB_Oscilloscope
    ~LAB_Oscilloscope  ();
 
     void  run ();
-    void  stop ();    
+    void  stop ();   
+
+    // this changes PWM speed on board!! 
+    // verify no other are affected
+    void  sample_rate (double value); 
 };
 
 #endif

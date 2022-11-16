@@ -11,12 +11,14 @@ class Channel_Signal
     // --- variables ---
     bool    m_is_enabled = false;
 
-    int     m_volts_per_division_unit_scaler = 
-              CHANNEL_SIGNAL_VOLTS_PER_DIVISION_UNIT_SCALER;
+    int     m_voltage_per_division_unit_scaler = 
+              CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION_UNIT_SCALER;
 
     double  m_sample_rate         = CHANNEL_SIGNAL_SAMPLE_RATE,
-            m_volts_per_division  = CHANNEL_SIGNAL_VOLTS_PER_DIVISION,
-            m_vertical_offset     = CHANNEL_SIGNAL_VERTICAL_OFFSET;
+            m_voltage_per_division  = CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION,
+            m_time_per_division   = CHANNEL_SIGNAL_TIME_PER_DIVISION,
+            m_vertical_offset     = CHANNEL_SIGNAL_VERTICAL_OFFSET,
+            m_horizontal_offset   = CHANNEL_SIGNAL_HORIZONTAL_OFFSET;
 
     uint32_t m_raw_values[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL] = { 0 };
     std::vector<float>           m_values;

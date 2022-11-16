@@ -619,7 +619,7 @@ void
 LAB_Core::pwm_start ()
 {
   *REG32(m_pwm_regs, PWM_CTL) = PWM_CTL_USEF1 | PWM_ENAB;
-  usleep(100);
+  usleep(1000);
 }
 
 // Stop PWM operation
@@ -630,14 +630,59 @@ LAB_Core::pwm_stop ()
 
   {
     *REG32(m_pwm_regs, PWM_CTL) = 0;
-    usleep(100);
+    usleep(1000);
   }
 }
 
 void
 LAB_Core::pwm_set_frequency (float frequency)
 {
+  pwm_stop();
 
+  uint32_t range = (m_pwm_frequency * 2) / (frequency * 4);
+
+  // check channel 1 state
+  if (*REG32(m_pwm_regs, PWM_STA) & 0x100)
+    {
+      printf("PWM bus error\n");
+      *REG32(m_pwm_regs, PWM_STA) = 0x100;
+    }
+
+  // see the BCM2385 Audio Clocks datasheet PDF for reference.
+  // this is how to change PWM clock speed
+  int divi = CLOCK_HZ / m_pwm_frequency;
+
+  // CLK_PASSWD is "5a" as written on datasheet
+  // https://www.scribd.com/doc/127599939/BCM2835-Audio-clocks#download
+
+  // max PWM operating frequency is 25MHz as written on datasheet
+
+  // 1 << 5 = KILL: kill the clock generator
+  // this line stops the clock generator
+  *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | (1 << 5);
+
+  // 1 << 7 = BUSY: Clock generator is running
+  // this line waits for BUSY to 0, or for clock generator to stop
+  while (*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) ;
+
+  // divi << 12 = DIVI: Integer part of divisor
+  // assign divisor to DIVI field
+  *REG32(m_clk_regs, CLK_PWM_DIV) = CLK_PASSWD | (divi << 12);
+
+  // 1 << 4 = ENAB: Enable the clock generator
+  // this line asserts ENAB to enable the clock generator
+  *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | 6 | (1 << 4);
+
+  // // 1 << 7 = BUSY: Clock generator is running
+  // this line waits until BUSY is 1, this means clock generator is running
+  while ((*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) == 0) ;
+
+  usleep(1000);
+  *REG32(m_pwm_regs, PWM_RNG1) = range;
+  *REG32(m_pwm_regs, PWM_FIF1) = m_pwm_value;
+  usleep(1000);
+
+  pwm_start ();
 }
 
 

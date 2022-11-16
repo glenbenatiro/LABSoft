@@ -35,7 +35,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     
 
     float m_time_per_division,
-          m_volts_per_division  = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTS_PER_DIVISION,
+          m_voltage_per_division  = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTAGE_PER_DIVISION,
           m_max_voltage,
           m_adc_reference_voltage       = LAB_ADC_REFERENCE_VOLTAGE;
     
@@ -88,6 +88,8 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     // setters
     void volts_per_division (int channel, double value);
     void vertical_offset (int channel, double value);
+
+    void time_per_division (int channel, double value);    
 };
 
 #endif

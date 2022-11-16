@@ -147,7 +147,7 @@ normalize_channels_data_to_display ()
         // calculate sample skip interval
         float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
         float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
-        float scaled_max_amplitude = m_number_of_rows * chn->m_volts_per_division;
+        float scaled_max_amplitude = m_number_of_rows * chn->m_voltage_per_division;
 
         for (int b = 0; b < w (); b++) 
         {
@@ -311,20 +311,26 @@ generate_waveform (WaveType wave_type, int channel)
 double LABSoft_Oscilloscope_Display:: 
 volts_per_division (int channel)
 {
-  return (m_channel_signals.m_channel_signal_vector[channel].m_volts_per_division);
+  return (m_channel_signals.m_channel_signal_vector[channel].m_voltage_per_division);
 }
 
 // setters
 void LABSoft_Oscilloscope_Display:: 
 volts_per_division (int channel, double value)
 {
-  m_channel_signals.m_channel_signal_vector[channel].m_volts_per_division = value;
+  m_channel_signals.m_channel_signal_vector[channel].m_voltage_per_division = value;
 }
 
 void LABSoft_Oscilloscope_Display:: 
 vertical_offset (int channel, double value)
 {
   m_channel_signals.m_channel_signal_vector[channel].m_vertical_offset = value;
+}
+
+void LABSoft_Oscilloscope_Display:: 
+time_per_division (int channel, double value)
+{
+  m_channel_signals.m_channel_signal_vector[channel].m_time_per_division = value;
 }
 // EOF
 

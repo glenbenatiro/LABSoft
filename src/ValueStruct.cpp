@@ -38,6 +38,12 @@ coefficient ()
   return m_coefficient;
 }
 
+float ValueStruct:: 
+short_value ()
+{
+  return (m_coefficient * pow (10, m_exponent % 3));
+}
+
 char ValueStruct:: 
 unit_prefix ()
 {

@@ -26,10 +26,12 @@ class LABSoft_Controller_Oscilloscope
     void cb_single (Fl_Button *w, void *data);
     void cb_channel_enable_disable (Fl_Light_Button *w, long data);
     void cb_x_offset (Fl_Input_Choice *w, void *data);
-    void cb_time_per_division (Fl_Input_Choice *w, void *data);
+    
 
     void cb_volts_per_division  (Fl_Input_Choice *w, long data);
     void cb_vertical_offset     (Fl_Input_Choice *w, long data);
+
+    void cb_time_per_division   (Fl_Input_Choice *w, long data);
 };
 
 #endif

@@ -185,7 +185,7 @@ typedef enum {
 
 // --- PWM ---
 // PWM definitions: divisor, and reload value
-constexpr int PWM_FREQ      = 5'000'000; // this is to be extracted from 25MHz master clk
+constexpr int PWM_FREQ      = 15'000'000; // this is to be extracted from 25MHz master clk
 #define PWM_VALUE     2
 
 // If non-zero, set PWM clock using VideoCore mailbox

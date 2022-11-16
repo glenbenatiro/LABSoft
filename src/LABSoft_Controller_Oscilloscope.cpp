@@ -69,6 +69,9 @@ cb_channel_enable_disable (Fl_Light_Button *w,
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     m_display->m_channel_signals.m_channel_signal_vector[channel].
       m_is_enabled = value;
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_volts_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -161,9 +164,11 @@ cb_volts_per_division (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   ValueStruct _ValueStruct (w->value ());
 
-  // backend
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_volts_per_division (channel, _ValueStruct);
+    volts_per_division (channel, _ValueStruct.actual_value ());
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_volts_per_division_labels (channel);
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -173,15 +178,34 @@ cb_vertical_offset (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   ValueStruct _ValueStruct (w->value ());
 
-  // backend
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     vertical_offset (channel, _ValueStruct);
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_volts_per_division_labels (channel);
 }
 
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_time_per_division (Fl_Input_Choice *w,
-                      void            *data)
+                      long             data)
 {
+  int channel = static_cast<int>(data);
+  ValueStruct _ValueStruct (w->value ());
 
+  // frontnend stuff
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    time_per_division (channel, _ValueStruct.actual_value ());
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_time_per_division_labels ();
+
+  // backend
+  float freq = (m_LAB->m_Oscilloscope->m_number_of_samples_per_channel / 
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      m_number_of_columns) / (_ValueStruct.actual_value ());
+  
+  m_LAB->m_Oscilloscope->sample_rate (freq);
 }
+
+// EOF
