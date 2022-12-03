@@ -154,18 +154,18 @@ typedef struct {
 // Videocore mailbox memory allocation flags, see:
 // https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
 typedef enum {
-  MEm_DISCARDABLE      = 1 << 0,                               // can be resized to 0 at any time. Use for cached data
-  MEm_NORMAL           = 0 << 2,                               // normal allocating alias. Don't use from ARM
-  MEm_DIRECT           = 1 << 2,                               // 0xC alias uncached
-  MEm_COHERENT         = 2 << 2,                               // 0x8 alias. Non-allocating in L2 but coherent
-  MEm_ZERO             = 1 << 4,                               // initialise buffer to all zeros
-  MEm_NO_INIT          = 1 << 5,                               // don't initialise (default is initialise to all ones)
-  MEm_HINT_PERMALOCK   = 1 << 6,                               // Likely to be locked for long periods of time
-  MEm_L1_NONALLOCATING = (MEm_DIRECT | MEm_COHERENT) // Allocating in L2
+  MEM_DISCARDABLE      = 1 << 0,                               // can be resized to 0 at any time. Use for cached data
+  MEM_NORMAL           = 0 << 2,                               // normal allocating alias. Don't use from ARM
+  MEM_DIRECT           = 1 << 2,                               // 0xC alias uncached
+  MEM_COHERENT         = 2 << 2,                               // 0x8 alias. Non-allocating in L2 but coherent
+  MEM_ZERO             = 1 << 4,                               // initialise buffer to all zeros
+  MEM_NO_INIT          = 1 << 5,                               // don't initialise (default is initialise to all ones)
+  MEM_HINT_PERMALOCK   = 1 << 6,                               // Likely to be locked for long periods of time
+  MEM_L1_NONALLOCATING = (MEM_DIRECT | MEM_COHERENT) // Allocating in L2
 } VC_ALLOC_FLAGS;
 
 // VC flags for unchached DMA memory
-#define DMA_MEM_FLAGS static_cast<VC_ALLOC_FLAGS>((MEm_COHERENT | MEm_ZERO))
+#define DMA_MEM_FLAGS static_cast<VC_ALLOC_FLAGS>((MEM_COHERENT | MEM_ZERO))
 
 
 
@@ -175,7 +175,7 @@ typedef enum {
 
 // --- PWM ---
 // PWM definitions: divisor, and reload value
-constexpr int PWM_FREQ      = 5'000'000; // this is to be extracted from 25MHz master clk
+constexpr int LAB_PWM_FREQUENCY      = 5'000'000; // this is to be extracted from 25MHz master clk
 #define PWM_VALUE     2
 
 // If non-zero, set PWM clock using VideoCore mailbox

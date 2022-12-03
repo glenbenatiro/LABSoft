@@ -5,14 +5,18 @@ CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o: ../src/Auxiliary.cpp
 CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o: ../src/ValueStruct.h
 
+CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: ../src/Channel_Signal.cpp
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: ../src/Channel_Signal.h
 CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: ../src/Defaults.h
+CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o: ../src/ValueStruct.h
 
+CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Channel_Signal.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Channel_Signals.cpp
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Defaults.h
+CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/ValueStruct.h
 
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/Channel_Signal.h
@@ -23,6 +27,7 @@ CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Meter.h
@@ -55,6 +60,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Oscilloscope_Display_Gr
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Meter.h
@@ -88,6 +94,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Oscilloscope
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Meter.h
@@ -112,6 +119,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LABSoft_Osci
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ammeter.cpp.o: ../src/LAB_Meter.h
@@ -134,6 +142,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABS
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Meter.h
@@ -158,6 +167,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/L
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Meter.h
@@ -180,6 +190,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSo
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Meter.h
@@ -202,6 +213,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Oscillo
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Meter.h
@@ -226,6 +238,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LABSoft_Osc
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Ohmmeter.cpp.o: ../src/LAB_Meter.h
@@ -248,6 +261,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Meter.h
@@ -270,6 +284,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LABSoft
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o: ../src/LAB_Meter.h
@@ -292,6 +307,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Os
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Meter.h
@@ -323,6 +339,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Oscilloscope_Displa
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Meter.h
@@ -356,6 +373,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/LAB_Ammeter.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/LAB_Meter.h
 CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o: ../src/ValueStruct.h
 
@@ -364,19 +382,21 @@ CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/ValueStruct.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/ValueStruct.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/Channel_Signal.h
-CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Function_Generator.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/ValueStruct.h
@@ -384,6 +404,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/ValueStruct.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/ValueStruct.h
@@ -391,6 +412,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/ValueStruct.h
 CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/LAB_Meter.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/LAB_Meter.h
 CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/ValueStruct.h
@@ -398,6 +420,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Meter.cpp.o: ../src/ValueStruct.h
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Meter.h
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Ohmmeter.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Ohmmeter.cpp.o: ../src/LAB_Ohmmeter.h
@@ -408,6 +431,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Channel_Signal.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/ValueStruct.h
@@ -415,6 +439,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/ValueStruct.h
 CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/LAB_Power_Supply.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/LAB_Power_Supply.h
 CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/ValueStruct.h
@@ -422,6 +447,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o: ../src/ValueStruct.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/Auxiliary.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Meter.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.h
@@ -452,6 +478,7 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Oscilloscope_Display_Group
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Ammeter.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Core_Defs.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Meter.h

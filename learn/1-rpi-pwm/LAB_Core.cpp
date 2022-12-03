@@ -28,7 +28,7 @@ LAB_Core::~LAB_Core ()
 
 // Allocate uncached memory, get bus & phys addresses
 void*
-LAB_Core::LAB_Core_map_uncached_mem (MEM_MAP *mp,
+LAB_Core::LAB_Core_map_uncached_mem (MemoryMap *mp,
                                      int      size)
 {
   void *ret;
@@ -60,7 +60,7 @@ LAB_Core::LAB_Core_map_devices ()
 // --- Memory ---
 // use mmap to obtain virtual address, given physical
 void
-LAB_Core::LAB_Core_map_periph (MEM_MAP *mp, void *phys, int size)
+LAB_Core::LAB_Core_map_periph (MemoryMap *mp, void *phys, int size)
 {
   mp->phys = phys;
   mp->size = PAGE_ROUNDUP(size);
@@ -70,7 +70,7 @@ LAB_Core::LAB_Core_map_periph (MEM_MAP *mp, void *phys, int size)
 
 // Free mapped peripheral or memory
 void 
-LAB_Core::LAB_Core_unmap_periph_mem (MEM_MAP *mp)
+LAB_Core::LAB_Core_unmap_periph_mem (MemoryMap *mp)
 {
   if (mp)
     {
@@ -138,7 +138,7 @@ LAB_Core::LAB_Core_dma_enable (int chan)
 
 // Start DMA, given first control block
 void 
-LAB_Core::LAB_Core_dma_start (MEM_MAP *mp, 
+LAB_Core::LAB_Core_dma_start (MemoryMap *mp, 
                                 int      chan, 
                                 DMA_CB  *cbp, 
                                 uint32_t csval)

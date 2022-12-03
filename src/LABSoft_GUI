@@ -20,7 +20,7 @@ class LABSoft_GUI {open
     code {printf("DEBUG: LABSoft_GUI Start\\n");} {}
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {2084 187 1365 765} type Double visible
+      xywh {180 162 1365 765} type Double visible
     } {
       Fl_Tabs {} {open
         xywh {0 -4 1366 807}
@@ -35,8 +35,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope open
-          xywh {0 35 1366 768}
+          label Oscilloscope
+          xywh {0 35 1366 768} hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
@@ -532,7 +532,7 @@ class LABSoft_GUI {open
                 xywh {70 70 36 21}
               }
               MenuItem {} {
-                label {5 ms} selected
+                label {5 ms}
                 xywh {60 60 36 21}
               }
               MenuItem {} {
@@ -888,8 +888,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Function Generator}
-          xywh {0 35 1366 768} hide
+          label {Function Generator} open
+          xywh {0 35 1366 768}
         } {
           Fl_Light_Button function_generator_fl_light_button_run_stop {
             label Run
@@ -1086,7 +1086,7 @@ class LABSoft_GUI {open
           } {
             Fl_Input_Choice function_generator_fl_input_choice_wave_type {
               label {Wave Type}
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);}
+              callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);} selected
               xywh {880 90 120 40} align 1
               code0 {function_generator_fl_input_choice_wave_type->value (LABSOFT_FUNCTION_GENERATOR_WAVE_TYPE);}
             } {

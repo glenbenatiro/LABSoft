@@ -7,6 +7,9 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <poll.h>
+#include <chrono>
+#include <thread>
+#include <bitset>
 
 #include "LAB_Core.h"
 #include "Auxiliary.h"
@@ -16,9 +19,9 @@ LAB_Core::LAB_Core ()
 {
   LAB_Core_map_devices ();
   LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
+ 
   spi_init ();
-
-  printf ("LAB_Core setup OK\n");
+  aux_spi0_init ();
 }
 
 LAB_Core::~LAB_Core ()
@@ -28,7 +31,7 @@ LAB_Core::~LAB_Core ()
 
 // Allocate uncached memory, get bus & phys addresses
 void*
-LAB_Core::LAB_Core_map_uncached_mem (MEM_MAP *mp,
+LAB_Core::LAB_Core_map_uncached_mem (MemoryMap *mp,
                                      int      size)
 {
   void *ret;
@@ -49,6 +52,7 @@ LAB_Core::LAB_Core_map_uncached_mem (MEM_MAP *mp,
 void
 LAB_Core::LAB_Core_map_devices ()
 {
+  LAB_Core_map_periph (&m_aux_regs,  (void *) AUX_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_gpio_regs, (void *) GPIO_BASE, PAGE_SIZE);
   LAB_Core_map_periph (&m_dma_regs,  (void *) DMA_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_spi_regs,  (void *) SPI0_BASE, PAGE_SIZE);
@@ -60,7 +64,7 @@ LAB_Core::LAB_Core_map_devices ()
 // --- Memory ---
 // use mmap to obtain virtual address, given physical
 void
-LAB_Core::LAB_Core_map_periph (MEM_MAP *mp, void *phys, int size)
+LAB_Core::LAB_Core_map_periph (MemoryMap *mp, void *phys, int size)
 {
   mp->phys = phys;
   mp->size = PAGE_ROUNDUP(size);
@@ -70,7 +74,7 @@ LAB_Core::LAB_Core_map_periph (MEM_MAP *mp, void *phys, int size)
 
 // Free mapped peripheral or memory
 void 
-LAB_Core::LAB_Core_unmap_periph_mem (MEM_MAP *mp)
+LAB_Core::LAB_Core_unmap_periph_mem (MemoryMap *mp)
 {
   if (mp)
     {
@@ -138,7 +142,7 @@ LAB_Core::LAB_Core_dma_enable (int chan)
 
 // Start DMA, given first control block
 void 
-LAB_Core::LAB_Core_dma_start (MEM_MAP *mp, 
+LAB_Core::LAB_Core_dma_start (MemoryMap *mp, 
                                 int      chan, 
                                 DMA_CB  *cbp, 
                                 uint32_t csval)
@@ -474,21 +478,193 @@ spi_set_clock_rate (int value)
   if (value <= SPI_CLOCK_HZ)
     divider = SPI_CLOCK_HZ / value;
     
-
   if (divider > 65535 || divider < 0)
     divider = 65535;
 
-   
   // set spi frequency as rounded off clock
-  *REG32 (m_spi_regs, SPI_CLK) = divider;
+  *REG32 (m_spi_regs, SPI_CLK) = divider; 
 
-  printf ("spiclockhz: %d, value: %d, divider: %d\n\n", SPI_CLOCK_HZ,
-    value, divider);
+  return (SPI_CLOCK_HZ / divider);  
+}
 
-    int act = SPI_CLOCK_HZ / divider;
-  printf ("actual SPI freq: %d\n", act);
 
-  return (SPI_CLOCK_HZ / divider);
+
+// --- Auxiliary Peripherals ---
+void LAB_Core:: 
+aux_spi1_master_enable ()
+{
+  g_reg_write (g_reg32 (m_aux_regs, AUX_ENABLES), 1, 1, 1);
+}
+    
+void LAB_Core:: 
+aux_spi1_master_disable ()
+{
+  g_reg_write (g_reg32 (m_aux_regs, AUX_ENABLES), 0, 1, 1);
+}
+
+
+
+// --- Auxiliary SPI ---
+void LAB_Core:: 
+aux_spi0_init ()
+{
+  gpio_set (SPI1_SCLK_PIN,  GPIO_ALT4, GPIO_NOPULL);
+  gpio_set (SPI1_MOSI_PIN,  GPIO_ALT4, GPIO_NOPULL);
+  gpio_set (SPI1_MISO_PIN,  GPIO_ALT4, GPIO_PULLUP);
+  gpio_set (SPI1_CE2_PIN,   GPIO_ALT4, GPIO_NOPULL);
+
+  aux_spi1_master_enable ();
+  aux_spi0_enable ();
+
+  aux_spi0_frequency (100'000);
+  aux_spi0_chip_selects (1, 1, 1);
+  aux_spi0_mode (0);
+  aux_spi0_shift_length (8);
+  aux_spi0_shift_MS_first (1);
+  aux_spi0_clear_fifos ();
+
+  printf ("spi init OK \n");
+}
+
+void LAB_Core:: 
+aux_spi0_enable ()
+{
+  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), 1, 1, 11);
+}
+
+void LAB_Core::
+aux_spi0_disable ()
+{
+  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), 0, 1, 11);
+}
+
+void LAB_Core:: 
+aux_spi0_frequency (double frequency)
+{
+  /// frequency field is only 12 bit in register! 
+  uint16_t divider = (static_cast<uint16_t>(((static_cast<double>(CLOCK_HZ)) / 
+    (2.0 * frequency)) - 1.0)) & 0x0FFF;
+
+  // volatile uint32_t *reg = g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG);
+  // *reg = (*reg & ~(0xFFF << 20)) | (divider << 20);
+
+  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), divider, 0xFFF, 20);
+}
+
+void LAB_Core::
+aux_spi0_chip_selects (bool CE2, 
+                      bool CE1, 
+                      bool CE0)
+{
+  uint8_t chip_selects = (CE2 << 2) | (CE1 << 1) | CE0;
+
+  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), chip_selects, 
+    0x03, 17);
+}
+
+void LAB_Core:: 
+aux_spi0_clear_fifos ()
+{
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 1, 9);
+
+  // maybe a small delay is required? 
+  std::this_thread::sleep_for (std::chrono::milliseconds (5));
+
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 0, 1, 9);
+}
+
+void LAB_Core::
+aux_spi0_mode (uint8_t mode)
+{
+  switch (mode)
+  {
+    case 0:
+      aux_spi0_clock_polarity (0);
+      aux_spi0_in_rising (1);
+      aux_spi0_out_rising (0);
+      break;
+    case 1:
+      aux_spi0_clock_polarity (0);
+      aux_spi0_in_rising (0);
+      aux_spi0_out_rising (1);
+      break;
+    case 2:
+      aux_spi0_clock_polarity (1);
+      aux_spi0_in_rising (1);
+      aux_spi0_out_rising (0);
+      break;
+    case 3:
+      aux_spi0_clock_polarity (1);
+      aux_spi0_in_rising (0);
+      aux_spi0_out_rising (1);
+      break;
+    default: // default is mode 0
+      aux_spi0_clock_polarity (0);
+      aux_spi0_in_rising (1);
+      aux_spi0_out_rising (0);
+      break;
+  }
+}
+
+void LAB_Core:: 
+aux_spi0_clock_polarity (bool polarity)
+{
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, polarity, 1, 7);
+}
+
+void LAB_Core::
+aux_spi0_in_rising (bool value)
+{
+  // if 1, data is clocked in on the rising edge of the SPI clock
+  // if 0, data is clocked in on the falling edge of the SPI clock
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 10);
+}
+
+void LAB_Core::
+aux_spi0_out_rising (bool value)
+{
+  // if 1, data is clocked out on the rising edge of the SPI clock
+  // if 0, data is clocked out on the falling edge of the SPI clock
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 8);
+}
+
+// specifies the number of bits to shift
+void LAB_Core::
+aux_spi0_shift_length (uint8_t value)
+{
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 6, 0);
+}
+
+void LAB_Core::
+aux_spi0_shift_MS_first (bool value)
+{
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 6);
+}
+
+void LAB_Core::
+aux_spi0_write (char         *buf, 
+               unsigned int  length)
+{
+  char dump[length];
+
+  aux_spi0_read (buf, dump, length);
+}
+
+void LAB_Core:: 
+aux_spi0_read (char        *txbuf, 
+              char         *rxbuf, 
+              unsigned int  length)
+{
+  while (length--)
+  {
+    *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = *txbuf++;
+
+    // indicates the module is busy transferring data (?)
+    // or should you use bit count? rx fifo level?
+    while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG)) & (1 << 6)) != 0);
+
+    *rxbuf++ = *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG));
+  }
 }
 
 // --- GPIO ---
@@ -522,15 +698,15 @@ LAB_Core::LAB_Core_gpio_pull (int pin,
   *reg = 0;
 }
 
-
-void 
-LAB_Core::gpio_mode (int pin, 
-                                int mode)
+// select the alternative function of the GPIO pin
+void LAB_Core::
+gpio_mode (int pin, 
+           int mode)
 {
   volatile uint32_t *reg   = REG32(m_gpio_regs, GPIO_MODE0) + pin / 10, 
                      shift = (pin % 10) * 3;
 
-  *reg = (*reg & ~(7 << shift)) | (mode << shift);
+  g_reg_write ((g_reg32 (m_gpio_regs, GPIO_MODE0)) + pin / 10, mode, 7, shift);
 }
 
 // Set an O/P pin

@@ -104,7 +104,7 @@ update_display ()
   // 1. get block from backend
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
-    // to iterate over ping pong channels
+   // to iterate over ping pong channels
     // WARNING! wala pana implement ang other channels
     // this is from single channel code
       
@@ -153,7 +153,11 @@ update_display ()
 
     int duration = (DISPLAY_UPDATE_RATE * 1000);
     std::this_thread::sleep_for
-      (std::chrono::milliseconds(duration));
+      (std::chrono::milliseconds(33));
+
+
+
+//   printf ("hehe\n");
   }
 }
 

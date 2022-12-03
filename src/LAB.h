@@ -22,11 +22,12 @@ class LAB
     LAB_Core               m_LAB_Core;
 
     LAB_Oscilloscope       *m_Oscilloscope;
+    LAB_Function_Generator *m_Function_Generator;
     
     LAB_Voltmeter          m_Voltmeter;
     LAB_Ammeter            m_Ammeter;
     LAB_Ohmmeter           m_Ohmmeter;
-    LAB_Function_Generator m_Function_Generator;
+    
     LAB_Logic_Analyzer     m_LAB_Logic_Analyzer;
     LAB_Power_Supply       m_Power_Supply;
     LAB_Circuit_Checker    m_LAB_Circuit_Checker;   

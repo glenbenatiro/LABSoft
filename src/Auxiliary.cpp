@@ -4,6 +4,36 @@
 #include <cstring>
 #include <cmath>
 
+// get virtual 32-bit pointer to a register
+volatile uint32_t*
+g_reg32 (MemoryMap  mem_map, 
+         uint32_t   offset)
+{
+  return (static_cast<volatile uint32_t *>(static_cast<uint32_t *>(mem_map.virt) +
+    static_cast<uint32_t>(offset)));
+}
+
+void 
+g_reg_write (volatile uint32_t *reg,
+             uint32_t  value, 
+             uint32_t  mask, 
+             int       shift)
+{
+  *reg = (*reg & ~(mask << shift)) | (value << shift);
+}
+
+void 
+g_reg_write (MemoryMap mem_map,
+             uint32_t  offset,
+             uint32_t  value, 
+             uint32_t  mask, 
+             int       shift)
+{
+  volatile uint32_t* reg = g_reg32 (mem_map, offset);
+
+  *reg = (*reg & ~(mask << shift)) | (value << shift);
+}
+
 
 char g_get_label_unit_prefix (const char *label)
 {
@@ -193,3 +223,4 @@ double aux_unit_label_to_unit_power (const char *label)
   
   return a;
 }
+

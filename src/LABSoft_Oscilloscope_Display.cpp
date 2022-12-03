@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 #include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
@@ -27,6 +28,11 @@ LABSoft_Oscilloscope_Display::
 ~LABSoft_Oscilloscope_Display ()
 {
 
+}
+
+double LABSoft_Oscilloscope_Display::clockToMilliseconds(clock_t ticks){
+    // units/(units/time) => time (seconds) * 1000 = milliseconds
+    return (ticks/(double)CLOCKS_PER_SEC)*1000.0;
 }
 
 void LABSoft_Oscilloscope_Display:: 

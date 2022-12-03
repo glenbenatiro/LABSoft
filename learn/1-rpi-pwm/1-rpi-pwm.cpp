@@ -11,7 +11,7 @@ int main ()
   LAB_Core m_LAB_Core;
 
   int m_sample_rate = 800'000;
-  uint32_t m_pwm_range = (PWM_FREQ * 2) / m_sample_rate;
+  uint32_t m_pwm_range = (LAB_PWM_FREQUENCY * 2) / m_sample_rate;
 
   printf ("Hello world!\n");
 

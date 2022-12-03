@@ -8,10 +8,17 @@
 #include "Auxiliary.h"
 #include "Defaults.h"
 #include "Channel_Signals.h"
+#include "time.h"
 
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
   public:
+  clock_t deltaTime = 0;
+unsigned int frames = 0;
+double  frameRate = 30;
+double  averageFrameTimeMilliseconds = 33.333;
+double clockToMilliseconds(clock_t ticks);
+
     bool  m_is_enabled = false,
           m_enable_sample_sharing = false,
           m_is_function_generator_mode = false;

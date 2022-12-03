@@ -87,18 +87,18 @@ class LAB_Oscilloscope
    ~LAB_Oscilloscope                     ();
 
     void LAB_Oscilloscope_init           ();
-    void LAB_Oscilloscope_dma_init       (MEM_MAP *mp, int nsamp, int single);
+    void LAB_Oscilloscope_dma_init       (MemoryMap *mp, int nsamp, int single);
 
     void LAB_Oscilloscope_stream_start   ();
     void LAB_Oscilloscope_stream_wait    ();
     void LAB_Oscilloscope_stream_stop    ();
     int_fast16_t LAB_Oscilloscope_stream_csv     ();
     
-    // int  LAB_Oscilloscope_stream_csv     (MEM_MAP *mp, char *vals, int maxlen, int nsamp);
+    // int  LAB_Oscilloscope_stream_csv     (MemoryMap *mp, char *vals, int maxlen, int nsamp);
 
     void LAB_Oscilloscope_start ();
     void LAB_Oscilloscope_stop ();
-    void LAB_Oscilloscope_read_from_adc   (MEM_MAP *mp, char *vals, int maxlen, int nsamp);
+    void LAB_Oscilloscope_read_from_adc   (MemoryMap *mp, char *vals, int maxlen, int nsamp);
 
     int LAB_Oscilloscope_write_to_fifo (float *vals, int maxvals);
 

@@ -15,13 +15,13 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_B);
   m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_C);
 
-  m_pwm_range = (PWM_FREQ * 2) / m_sample_rate;
+  m_pwm_range = (LAB_PWM_FREQUENCY * 2) / m_sample_rate;
 
-  // MEM_MAP *mp = &(m_LAB_Core->m_vc_mem);
+  // MemoryMap *mp = &(m_LAB_Core->m_vc_mem);
   // ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
 
   ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB_Core->m_vc_mem.virt);
-  MEM_MAP *mp = &(m_LAB_Core->m_vc_mem);
+  MemoryMap *mp = &(m_LAB_Core->m_vc_mem);
 
   ADC_DMA_DATA dma_data = {
     .cbs = {
@@ -56,9 +56,11 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
 
   memcpy(dp, &dma_data, sizeof(dma_data));
 
-  m_LAB_Core->pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
+  m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
-  *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
+  //*REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
+  *(g_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
+
   *REG32(m_LAB_Core->m_spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
   *REG32(m_LAB_Core->m_spi_regs, SPI_CS) = SPI_FIFO_CLR;                    // Clear SPI FIFOs
 

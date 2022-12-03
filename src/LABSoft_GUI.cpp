@@ -656,6 +656,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 35, 1366, 768, "Oscilloscope");
+        o->hide();
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 80, 120, 60, "Run");
           oscilloscope_fl_light_button_run_stop->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_run_stop);
           oscilloscope_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
@@ -859,7 +860,6 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 35, 1366, 768, "Function Generator");
-        o->hide();
         { function_generator_fl_light_button_run_stop = new Fl_Light_Button(1205, 80, 120, 60, "Run");
           function_generator_fl_light_button_run_stop->callback((Fl_Callback*)cb_function_generator_fl_light_button_run_stop);
           function_generator_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));

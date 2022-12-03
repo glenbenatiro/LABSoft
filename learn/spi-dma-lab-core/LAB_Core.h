@@ -11,14 +11,14 @@ class LAB_Core
   public:
     int m_spi_frequency = LAB_SPI_FREQUENCY;
 
-    static MEM_MAP m_gpio_regs,
+    static MemoryMap m_gpio_regs,
                    m_dma_regs, 
                    m_clk_regs, 
                    m_pwm_regs, 
                    m_spi_regs, 
                    m_usec_regs;
 
-    static MEM_MAP m_vc_mem;
+    static MemoryMap m_vc_mem;
        
   public:
     int   m_fifo_fd = 0;
@@ -31,12 +31,12 @@ class LAB_Core
    ~LAB_Core ();
 
     // --- Memory ---
-    void     LAB_Core_map_periph       (MEM_MAP *mp, void *phys, int size);    
+    void     LAB_Core_map_periph       (MemoryMap *mp, void *phys, int size);    
     void     LAB_Core_map_devices      ();
     void*    LAB_Core_map_segment      (void *addr, int size);
     void     LAB_Core_unmap_segment    ();
-    void*    LAB_Core_map_uncached_mem (MEM_MAP *mp, int size);
-    void     LAB_Core_unmap_periph_mem (MEM_MAP *mp);
+    void*    LAB_Core_map_uncached_mem (MemoryMap *mp, int size);
+    void     LAB_Core_unmap_periph_mem (MemoryMap *mp);
     
     // --- Videocore Mailbox ---
     int  	   LAB_Core_open_mbox        (void);
@@ -57,7 +57,7 @@ class LAB_Core
         
     // --- DMA ---
     void     LAB_Core_dma_enable       (int chan);
-    void     LAB_Core_dma_start        (MEM_MAP *mp, int chan, DMA_CB *cbp, uint32_t csval);
+    void     LAB_Core_dma_start        (MemoryMap *mp, int chan, DMA_CB *cbp, uint32_t csval);
     void     LAB_Core_dma_disp         (int chan);
     void     LAB_Core_dma_stop         (int chan);
     void     LAB_Core_dma_wait         (int chan);

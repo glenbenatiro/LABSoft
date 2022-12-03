@@ -48,7 +48,7 @@ typedef struct {
   void *bus,  // Bus address
        *virt, // Virtual address
        *phys; // Physical address
-} MEM_MAP;
+} MemoryMap;
 
 // Round up to nearest page
 #define PAGE_ROUNDUP(n) ((n) % PAGE_SIZE == 0 ? (n) : ((n) + PAGE_SIZE) & ~(PAGE_SIZE - 1))

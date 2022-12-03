@@ -15,7 +15,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_B);
   m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_C);
 
-  m_pwm_range = (PWM_FREQ * 2) / m_sample_rate;
+  m_pwm_range = (LAB_PWM_FREQUENCY * 2) / m_sample_rate;
   printf ("m_pwm_range: %d\n", m_pwm_range);
 
   LAB_Oscilloscope_dma_init (&(m_LAB_Core->m_vc_mem), m_sample_count, 0);
@@ -35,7 +35,7 @@ void LAB_Oscilloscope::LAB_Oscilloscope_init ()
 }
 
 void
-LAB_Oscilloscope::LAB_Oscilloscope_dma_init (MEM_MAP *mp, int nsamp, int single)
+LAB_Oscilloscope::LAB_Oscilloscope_dma_init (MemoryMap *mp, int nsamp, int single)
 {    
   ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
 
@@ -74,7 +74,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_dma_init (MEM_MAP *mp, int nsamp, int single)
 
   memcpy (dp, &dma_data, sizeof(dma_data));    // Copy DMA data into uncached memory
 
-  m_LAB_Core->pwm_init (PWM_FREQ, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
+  m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
   *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
   *REG32(m_LAB_Core->m_spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
@@ -104,7 +104,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_stream_stop ()
 }
 
 void 
-LAB_Oscilloscope::LAB_Oscilloscope_read_from_adc (MEM_MAP *mp, 
+LAB_Oscilloscope::LAB_Oscilloscope_read_from_adc (MemoryMap *mp, 
                                                              char    *vals, 
                                                              int      maxlen, 
                                                              int      nsamp)  
@@ -137,7 +137,7 @@ LAB_Oscilloscope::LAB_Oscilloscope_read_from_adc (MEM_MAP *mp,
 // Fetch samples from ADC buffer, return comma-delimited integer values
 // If in lockstep mode, discard new data if FIFO isn't empty
 // int 
-// LAB_Oscilloscope::LAB_Oscilloscope_stream_csv (MEM_MAP *mp, 
+// LAB_Oscilloscope::LAB_Oscilloscope_stream_csv (MemoryMap *mp, 
 //                                                            char    *vals, 
 //                                                            int      maxlen, 
 //                                                            int      nsamp)
@@ -223,7 +223,7 @@ LAB_Oscilloscope_start ()
       // pause for a 10 milliseconds
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
-      MEM_MAP *mp      = &(m_LAB_Core->m_vc_mem);
+      MemoryMap *mp      = &(m_LAB_Core->m_vc_mem);
 
       //printf ("VALUE OF M_VC_MEM: %p\n", &m_vc_mem);
       ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(mp->virt);
