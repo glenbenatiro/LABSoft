@@ -93,6 +93,7 @@ cb_x_offset (Fl_Input_Choice *w,
 void LABSoft_Controller_Oscilloscope:: 
 update_display ()
 {
+  
   int x = 0;
 
   uint32_t usec;
@@ -104,6 +105,9 @@ update_display ()
   // 1. get block from backend
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
+    std::chrono::time_point<std::chrono::high_resolution_clock> start = 
+      std::chrono::high_resolution_clock::now ();
+
    // to iterate over ping pong channels
     // WARNING! wala pana implement ang other channels
     // this is from single channel code
@@ -152,8 +156,22 @@ update_display ()
     Fl::awake ();
 
     int duration = (DISPLAY_UPDATE_RATE * 1000);
+
+    
+
+    
+    
     std::this_thread::sleep_for
-      (std::chrono::milliseconds(33));
+      (std::chrono::milliseconds(31));
+
+      std::chrono::time_point<std::chrono::high_resolution_clock> end = 
+      std::chrono::high_resolution_clock::now ();
+
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+
+    std::cout << "Elapsed: " << std::fixed << elapsed.count () << " ms\n";
+
+    
 
 
 

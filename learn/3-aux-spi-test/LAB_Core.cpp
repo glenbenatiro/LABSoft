@@ -516,15 +516,15 @@ aux_spi0_init ()
   gpio_set (SPI1_CE2_PIN,   GPIO_ALT4, GPIO_NOPULL);
 
   aux_spi1_master_enable ();
-  aux_spi0_enable ();
   aux_spi0_frequency (100'000);
-  aux_spi0_chip_selects (1, 1, 1);
+  aux_spi0_chip_selects (0,0,0);
   aux_spi0_mode (0);
   aux_spi0_clock_polarity (0);
   aux_spi0_shift_length (8);
   aux_spi0_shift_MS_first (1);
   aux_spi0_clear_fifos ();
 
+  g_reg32_peek (m_aux_regs, AUX_SPI0_CNTL0_REG);
   g_reg32_peek ("aux enables", m_aux_regs, AUX_ENABLES);
   g_reg32_peek ("cntl 0", m_aux_regs, AUX_SPI0_CNTL0_REG);
 }
@@ -548,7 +548,10 @@ aux_spi0_frequency (double frequency)
   uint16_t divider = (static_cast<uint16_t>(((static_cast<double>(CLOCK_HZ)) / 
     (2.0 * frequency)) - 1.0)) & 0x0FFF;
 
-  printf ("divider: %d\n", divider);
+  printf ("divider: %x\n", divider);
+
+  double actual = static_cast<double>(CLOCK_HZ) / (2 * (divider + 1));
+  printf ("actual frequency: %f\n", actual);
 
   // volatile uint32_t *reg = g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG);
   // *reg = (*reg & ~(0xFFF << 20)) | (divider << 20);
@@ -666,15 +669,19 @@ aux_spi0_read (char        *txbuf,
 {
   while (length--)
   {
+    
     *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = *txbuf++;
+    aux_spi0_enable ();
+  
 
     // indicates the module is busy transferring data (?)
     // or should you use bit count? rx fifo level?
     // while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG)) & (1 << 6)) != 0);
 
-    while (((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) >> 7) & 0x01) == 1;
+    while (((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) >> 7) & 0x01);
 
     *rxbuf++ = *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG));
+    aux_spi0_disable ();
   }
 }
 
