@@ -157,19 +157,15 @@ update_display ()
 
     int duration = (DISPLAY_UPDATE_RATE * 1000);
 
-    
+        
+    std::chrono::time_point<std::chrono::high_resolution_clock> end = 
+    std::chrono::high_resolution_clock::now ();
 
-    
-    
-    std::this_thread::sleep_for
-      (std::chrono::milliseconds(31));
+    std::chrono::duration<int, std::nano> elapsed = end - start;
 
-      std::chrono::time_point<std::chrono::high_resolution_clock> end = 
-      std::chrono::high_resolution_clock::now ();
+    std::cout << std::fixed << elapsed.count () << "\n";
 
-    std::chrono::duration<double, std::milli> elapsed = end - start;
-
-    std::cout << "Elapsed: " << std::fixed << elapsed.count () << " ms\n";
+    std::this_thread::sleep_for (std::chrono::nanoseconds (40'000'000));
 
     
 

@@ -31,7 +31,7 @@ g_reg_write (MemoryMap mem_map,
 {
   volatile uint32_t* reg = g_reg32 (mem_map, offset);
 
-  *reg = (*reg & ~(mask << shift)) | (value << shift);
+  g_reg_write (reg, value, mask, shift);
 }
 
 // print the contents of the 32-bit register
@@ -41,7 +41,7 @@ void g_reg32_peek (char const *name, MemoryMap mem_map, uint32_t offset)
 
   printf ("\n");
   printf ("**********\n");
-  printf ("%s", name);
+  printf ("%s\n", name);
   printf ("reg: %08X\n", reg);
 
   printf ("bin: " BYTE_TO_BINARY_PATTERN " " 

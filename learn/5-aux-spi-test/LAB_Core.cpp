@@ -495,7 +495,7 @@ spi_set_clock_rate (int value)
 void LAB_Core:: 
 aux_spi1_master_enable ()
 {
-  g_reg_write (g_reg32 (m_aux_regs, AUX_ENABLES), 1, 1, 1);
+  g_reg_write (m_aux_regs, AUX_ENABLES, 1, 1, 1);
 }
     
 void LAB_Core:: 
@@ -503,7 +503,6 @@ aux_spi1_master_disable ()
 {
   g_reg_write (g_reg32 (m_aux_regs, AUX_ENABLES), 0, 1, 1);
 }
-
 
 
 // --- Auxiliary SPI ---
@@ -523,10 +522,11 @@ aux_spi0_init ()
   aux_spi0_shift_length (8);
   aux_spi0_shift_MS_first (1);
   aux_spi0_clear_fifos ();
+  aux_spi0_enable ();
 
-  g_reg32_peek (m_aux_regs, AUX_SPI0_CNTL0_REG);
-  g_reg32_peek ("aux enables", m_aux_regs, AUX_ENABLES);
-  g_reg32_peek ("cntl 0", m_aux_regs, AUX_SPI0_CNTL0_REG);
+  //g_reg32_peek (m_aux_regs, AUX_SPI0_CNTL0_REG);
+  //g_reg32_peek ("aux enables", m_aux_regs, AUX_ENABLES);
+  //g_reg32_peek ("cntl 0", m_aux_regs, AUX_SPI0_CNTL0_REG);
 }
 
 void LAB_Core:: 
@@ -548,10 +548,10 @@ aux_spi0_frequency (double frequency)
   uint16_t divider = (static_cast<uint16_t>(((static_cast<double>(CLOCK_HZ)) / 
     (2.0 * frequency)) - 1.0)) & 0x0FFF;
 
-  printf ("divider: %x\n", divider);
+  // printf ("divider: %x\n", divider);
 
-  double actual = static_cast<double>(CLOCK_HZ) / (2 * (divider + 1));
-  printf ("actual frequency: %f\n", actual);
+  // double actual = static_cast<double>(CLOCK_HZ) / (2 * (divider + 1));
+  // printf ("actual frequency: %f\n", actual);
 
   // volatile uint32_t *reg = g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG);
   // *reg = (*reg & ~(0xFFF << 20)) | (divider << 20);
@@ -564,12 +564,14 @@ aux_spi0_chip_selects (bool CE2,
                       bool CE1, 
                       bool CE0)
 {
-  uint8_t chip_selects = (CE2 << 2) | (CE1 << 1) | CE0;
+  uint32_t chip_selects = (CE2 << 2) | (CE1 << 1) | CE0;
 
   printf ("chip selects: %d\n", chip_selects);
 
-  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), chip_selects, 
-    0x03, 17);
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, chip_selects, 
+    3, 17);
+  
+  g_reg32_peek ("for chip selects", m_aux_regs, AUX_SPI0_CNTL0_REG);
 }
 
 void LAB_Core:: 
@@ -614,8 +616,6 @@ aux_spi0_mode (uint8_t mode)
       aux_spi0_out_rising (0);
       break;
   }
-
-  
 }
 
 void LAB_Core:: 
@@ -669,9 +669,11 @@ aux_spi0_read (char        *txbuf,
 {
   while (length--)
   {
-    
+    //printf ("hai\n");
     *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = *txbuf++;
-    aux_spi0_enable ();
+    g_reg32_peek (m_aux_regs, AUX_SPI0_IO_REG);
+    //aux_spi0_disable ();
+    //aux_spi0_enable ();
   
 
     // indicates the module is busy transferring data (?)
@@ -681,7 +683,8 @@ aux_spi0_read (char        *txbuf,
     while (((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) >> 7) & 0x01);
 
     *rxbuf++ = *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG));
-    aux_spi0_disable ();
+    g_reg32_peek (m_aux_regs, AUX_SPI0_IO_REG);
+    //aux_spi0_disable ();
   }
 }
 
