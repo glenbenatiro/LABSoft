@@ -5,6 +5,8 @@
 #include "Defaults.h"
 #include "LAB_Core_Defs.h"
 
+#include <cstdint>
+
 class LAB_Core
 {
   private: 
@@ -101,11 +103,16 @@ class LAB_Core
     void aux_spi0_in_rising (bool value);
     void aux_spi0_out_rising (bool value);
     void aux_spi0_shift_length (uint8_t value);
-    void aux_spi0_shift_MS_first (bool value);
+    void aux_spi0_shift_out_MS_first (bool value);
+    void aux_spi0_shift_in_MS_first (bool value);
     
 
     void aux_spi0_write (char *buf, unsigned int length);
     void aux_spi0_read (char *txbuf, char *rxbuf, unsigned int length); 
+    
+    void aux_spi_xfer   (uint8_t channel, char *txbuff, char *rxbuff, uint8_t count);
+    void aux_spi_write  (uint8_t channel, char *txbuff,               uint8_t count);
+
 
     // --- PWM ---
     void      pwm_init         (int freq, int range, int val);

@@ -10,3 +10,23 @@ Channel_Signal (int number_of_samples,
 {
  
 }
+
+void Channel_Signal:: 
+enable ()
+{
+  m_is_enabled = true;
+}
+
+void Channel_Signal:: 
+disable ()
+{
+  m_is_enabled = false;
+}
+
+bool Channel_Signal:: 
+is_enabled ()
+{
+  return m_is_enabled;
+}
+
+// eof

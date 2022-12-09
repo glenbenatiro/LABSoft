@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#include "ValueStruct.h"
+#include "LabelValue.h"
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \

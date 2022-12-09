@@ -3,15 +3,16 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
+#include <iostream>
 
 // get virtual 32-bit pointer to a register
 volatile uint32_t*
 g_reg32 (MemoryMap  mem_map, 
          uint32_t   offset)
 {
-  return (static_cast<volatile uint32_t *>(static_cast<uint32_t *>(mem_map.virt) +
-    static_cast<uint32_t>(offset)));
+  return (volatile uint32_t *)((uint32_t)(mem_map.virt) + (uint32_t)(offset));
 }
+
 
 void 
 g_reg_write (volatile uint32_t *reg,
@@ -33,6 +34,40 @@ g_reg_write (MemoryMap mem_map,
 
   *reg = (*reg & ~(mask << shift)) | (value << shift);
 }
+
+uint32_t 
+g_reg_read (MemoryMap mem_map, uint32_t offset, uint32_t mask, int shift)
+{
+  uint32_t value = ((*(g_reg32 (mem_map, offset))) >> shift) & mask;
+
+  return value;
+}
+
+// print the contents of the 32-bit register
+void g_reg32_peek (char const *name, MemoryMap mem_map, uint32_t offset)
+{
+  uint32_t reg = *(g_reg32 (mem_map, offset));
+
+  printf ("\n");
+  printf ("**********\n");
+  printf ("%s\n", name);
+  printf ("reg: %08X\n", reg);
+
+  printf ("bin: " BYTE_TO_BINARY_PATTERN " " 
+  BYTE_TO_BINARY_PATTERN " " 
+  BYTE_TO_BINARY_PATTERN " " 
+  BYTE_TO_BINARY_PATTERN "\n",
+  BYTE_TO_BINARY(reg >> 24), BYTE_TO_BINARY(reg >> 16), 
+  BYTE_TO_BINARY(reg >> 8), BYTE_TO_BINARY(reg));
+
+  printf ("**********\n\n");
+}
+
+void g_reg32_peek (MemoryMap mem_map, uint32_t offset)
+{
+  g_reg32_peek ("no name given", mem_map, offset);
+}
+
 
 
 char g_get_label_unit_prefix (const char *label)

@@ -1,7 +1,7 @@
-#ifndef VALUESTRUCT_H
-#define VALUESTRUCT_H
+#ifndef LabelValue_H
+#define LabelValue_H
 
-class ValueStruct
+class LabelValue
 {
   private:
     int     m_exponent;
@@ -12,8 +12,8 @@ class ValueStruct
     double  m_actual_value;
 
   public:
-    ValueStruct (const char *label);
-    ValueStruct (double value);
+    LabelValue (const char *label);
+    LabelValue (double value);
 
     static const char* parse_for_label (int value, char unit_prefix);
     

@@ -7,6 +7,8 @@
 
 class Channel_Signal
 {
+  private:
+
   public:
     // --- variables ---
     bool    m_is_enabled = false;
@@ -36,6 +38,13 @@ class Channel_Signal
     // --- functions ---
     Channel_Signal (int number_of_samples = 0, 
                     int display_width = 0);
+    
+    // setter
+    void enable ();
+    void disable ();
+
+    // getter
+    bool is_enabled ();
 };
 
 #endif

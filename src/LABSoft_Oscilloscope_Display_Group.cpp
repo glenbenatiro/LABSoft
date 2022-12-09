@@ -197,8 +197,8 @@ update_volts_per_division_labels (int channel)
       
       if (a == 0)
       {
-        ValueStruct _ValueStruct (value_label);
-        sprintf (label, "%cV", _ValueStruct.unit_prefix ());
+        LabelValue _LabelValue (value_label);
+        sprintf (label, "%cV", _LabelValue.unit_prefix ());
         m_y_label_units[channel]->copy_label (label);
       }
                 
@@ -222,9 +222,9 @@ update_volts_per_division_labels (int channel)
 
 void LABSoft_Oscilloscope_Display_Group:: 
 vertical_offset  (int         channel,
-                  ValueStruct _ValueStruct)
+                  LabelValue _LabelValue)
 {
-  m_display->vertical_offset (channel, _ValueStruct.actual_value ());
+  m_display->vertical_offset (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -256,14 +256,14 @@ update_time_per_division_labels (int channel)
   Channel_Signal *chn = &(m_display->m_channel_signals.
     m_channel_signal_vector[0]);
 
-  ValueStruct _ValueStruct (chn->m_time_per_division + chn->m_horizontal_offset);
+  LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
 
   for (int a = 0; a < (m_number_of_columns + 1); a++)
   {
     int value_label = (a + ((m_number_of_rows / 2) * -1)) * 
-      _ValueStruct.coefficient ();
+      _LabelValue.coefficient ();
         
-    sprintf (label, "%3d %cs", value_label, _ValueStruct.unit_prefix ());
+    sprintf (label, "%3d %cs", value_label, _LabelValue.unit_prefix ());
 
     m_x_labels[a]->copy_label (label);
     m_x_labels[a]->labelcolor(m_default_label_color);

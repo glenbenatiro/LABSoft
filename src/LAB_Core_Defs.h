@@ -88,6 +88,7 @@ constexpr int AUX_SPI0_CNTL1_REG  = 0x84;
 constexpr int AUX_SPI0_STAT_REG   = 0x88;
 constexpr int AUX_SPI0_IO_REG     = 0xA0;
 constexpr int AUX_SPI0_PEEK_REG   = 0x8C;
+constexpr int AUX_SPI0_TXHOLD_REG = 0xB0;
 
 constexpr int AUX_SPI1_ENABLE     = (1 << 1); 
 

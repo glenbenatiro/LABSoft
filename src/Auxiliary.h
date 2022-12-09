@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#include "ValueStruct.h"
+#include "LabelValue.h"
 
 typedef struct 
 {
@@ -37,6 +37,10 @@ enum DisplayMode
 volatile uint32_t* g_reg32 (MemoryMap mem_map, uint32_t offset);
 void g_reg_write (volatile uint32_t *reg, uint32_t value, uint32_t mask, int shift);
 void g_reg_write (MemoryMap mem_map, uint32_t offset, uint32_t value, uint32_t mask, int shift);
+uint32_t g_reg_read (MemoryMap mem_map, uint32_t offset, uint32_t mask, int shift);
+
+void g_reg32_peek (MemoryMap mem_map, uint32_t offset);
+void g_reg32_peek (char const *name, MemoryMap mem_map, uint32_t offset);
 
 double  g_get_unit_prefix_scaler          (char unit_prefix);
 int     g_get_unit_prefix_power_exponent  (char unit_prefix);

@@ -20,7 +20,7 @@ LAB_Core::LAB_Core ()
   LAB_Core_map_devices ();
   LAB_Core_map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
  
-  spi_init ();
+  //spi_init ();
   aux_spi0_init ();
 }
 
@@ -516,11 +516,11 @@ aux_spi0_init ()
   aux_spi1_master_enable ();
   aux_spi0_enable ();
 
-  aux_spi0_frequency (100'000);
-  aux_spi0_chip_selects (1, 1, 1);
-  aux_spi0_mode (0);
   aux_spi0_shift_length (8);
-  aux_spi0_shift_MS_first (1);
+  aux_spi0_shift_out_MS_first (1);
+  aux_spi0_mode (0);
+  aux_spi0_chip_selects (1, 1, 1);
+  aux_spi0_frequency (100'000);    
   aux_spi0_clear_fifos ();
 
   printf ("spi init OK \n");
@@ -542,11 +542,8 @@ void LAB_Core::
 aux_spi0_frequency (double frequency)
 {
   /// frequency field is only 12 bit in register! 
-  uint16_t divider = (static_cast<uint16_t>(((static_cast<double>(CLOCK_HZ)) / 
-    (2.0 * frequency)) - 1.0)) & 0x0FFF;
-
-  // volatile uint32_t *reg = g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG);
-  // *reg = (*reg & ~(0xFFF << 20)) | (divider << 20);
+  uint16_t divider = (static_cast<uint16_t>((static_cast<double>(CLOCK_HZ) /
+    (2.0 * frequency)) - 1)) & 0x0FFF;
 
   g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), divider, 0xFFF, 20);
 }
@@ -568,40 +565,41 @@ aux_spi0_clear_fifos ()
   g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 1, 9);
 
   // maybe a small delay is required? 
-  std::this_thread::sleep_for (std::chrono::milliseconds (5));
+  std::this_thread::sleep_for (std::chrono::milliseconds (10));
 
   g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 0, 1, 9);
 }
 
+// https://www.allaboutcircuits.com/technical-articles/spi-serial-peripheral-interface/
 void LAB_Core::
 aux_spi0_mode (uint8_t mode)
 {
+  // SPI Mode: CPOL, CPHA
+
   switch (mode)
   {
-    case 0:
+    case 0: // CPOL = 0, CPHA = 0
       aux_spi0_clock_polarity (0);
       aux_spi0_in_rising (1);
       aux_spi0_out_rising (0);
       break;
-    case 1:
+    case 1: // CPOL = 0, CPHA = 1
       aux_spi0_clock_polarity (0);
       aux_spi0_in_rising (0);
       aux_spi0_out_rising (1);
-      break;
-    case 2:
-      aux_spi0_clock_polarity (1);
-      aux_spi0_in_rising (1);
-      aux_spi0_out_rising (0);
-      break;
-    case 3:
+      break; 
+    case 2: // CPOL = 1, CPHA = 0
       aux_spi0_clock_polarity (1);
       aux_spi0_in_rising (0);
       aux_spi0_out_rising (1);
+      break;
+    case 3: // CPOL = 1, CPHA = 1
+      aux_spi0_clock_polarity (1);
+      aux_spi0_in_rising (1);
+      aux_spi0_out_rising (0);
       break;
     default: // default is mode 0
-      aux_spi0_clock_polarity (0);
-      aux_spi0_in_rising (1);
-      aux_spi0_out_rising (0);
+      aux_spi0_mode (0);
       break;
   }
 }
@@ -636,9 +634,16 @@ aux_spi0_shift_length (uint8_t value)
 }
 
 void LAB_Core::
-aux_spi0_shift_MS_first (bool value)
+aux_spi0_shift_in_MS_first (bool value)
+{
+  g_reg_write (m_aux_regs, AUX_SPI0_CNTL1_REG, value, 1, 1);
+}
+
+void LAB_Core::
+aux_spi0_shift_out_MS_first (bool value)
 {
   g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 6);
+  aux_spi0_shift_in_MS_first (value);
 }
 
 void LAB_Core::
@@ -657,15 +662,83 @@ aux_spi0_read (char        *txbuf,
 {
   while (length--)
   {
-    *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = *txbuf++;
+
+
+
+
+
+
+    uint32_t data = 0 | ((*txbuf++) << 24);
+    printf ("data to write: %08X\n", data);
+
+
+    uint32_t val = g_reg_read (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 6);
+    printf ("val is: %d\n", val);
+
+
+    // write to AUXSPI0_IO Register
+    *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = data;
+
+
+    //g_reg32_peek (m_aux_regs, AUX_SPI0_IO_REG);
+    printf ("ok\n");
+
+
+
 
     // indicates the module is busy transferring data (?)
     // or should you use bit count? rx fifo level?
-    while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG)) & (1 << 6)) != 0);
+    while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) & (1 << 6))
+    printf ("ok\n");
 
-    *rxbuf++ = *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG));
+    *rxbuf++ = *(g_reg32 (m_aux_regs, AUX_SPI0_PEEK_REG));
+    printf ("ok\n");
   }
+
+  printf ("%x %x\n", rxbuf[0], rxbuf[1]);
 }
+
+void LAB_Core::
+aux_spi_xfer (uint8_t  channel, 
+              char    *txbuff, 
+              char    *rxbuff, 
+              uint8_t  count)
+{
+  // assert CE pin
+
+  while (count--)
+  {
+    uint32_t data = 0 | ((*txbuff++) << 24);
+
+    // printf ("data to write: %08X\n", data);
+    // uint32_t val = g_reg_read (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 6);
+    // printf ("val is: %d\n", val);
+
+    *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = data;
+
+
+    // indicates the module is busy transferring data (?)
+    // or should you use bit count? rx fifo level?
+    while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) & (1 << 6))
+
+    *rxbuff++ = *(g_reg32 (m_aux_regs, AUX_SPI0_PEEK_REG));
+  }
+
+  // deaasert CE pin
+}
+
+void LAB_Core:: 
+aux_spi_write (uint8_t  channel,
+               char    *txbuff,
+               uint8_t  count)
+{
+  // for dump
+  char rxbuff[count];
+
+  aux_spi_xfer (channel, txbuff, rxbuff, count);
+}
+
+
 
 // --- GPIO ---
 // Set input or output with pullups

@@ -925,32 +925,59 @@ src/LAB_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.s
 .PHONY : src/LAB_Voltmeter.cpp.s
 
-src/ValueStruct.o: src/ValueStruct.cpp.o
+src/LabelValue.o: src/LabelValue.cpp.o
 
-.PHONY : src/ValueStruct.o
+.PHONY : src/LabelValue.o
 
 # target to build an object file
-src/ValueStruct.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o
-.PHONY : src/ValueStruct.cpp.o
+src/LabelValue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o
+.PHONY : src/LabelValue.cpp.o
 
-src/ValueStruct.i: src/ValueStruct.cpp.i
+src/LabelValue.i: src/LabelValue.cpp.i
 
-.PHONY : src/ValueStruct.i
+.PHONY : src/LabelValue.i
 
 # target to preprocess a source file
-src/ValueStruct.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i
-.PHONY : src/ValueStruct.cpp.i
+src/LabelValue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LabelValue.cpp.i
+.PHONY : src/LabelValue.cpp.i
 
-src/ValueStruct.s: src/ValueStruct.cpp.s
+src/LabelValue.s: src/LabelValue.cpp.s
 
-.PHONY : src/ValueStruct.s
+.PHONY : src/LabelValue.s
 
 # target to generate assembly for a file
-src/ValueStruct.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s
-.PHONY : src/ValueStruct.cpp.s
+src/LabelValue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s
+.PHONY : src/LabelValue.cpp.s
+
+src/jesspi.o: src/jesspi.cpp.o
+
+.PHONY : src/jesspi.o
+
+# target to build an object file
+src/jesspi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/jesspi.cpp.o
+.PHONY : src/jesspi.cpp.o
+
+src/jesspi.i: src/jesspi.cpp.i
+
+.PHONY : src/jesspi.i
+
+# target to preprocess a source file
+src/jesspi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/jesspi.cpp.i
+.PHONY : src/jesspi.cpp.i
+
+src/jesspi.s: src/jesspi.cpp.s
+
+.PHONY : src/jesspi.s
+
+# target to generate assembly for a file
+src/jesspi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/jesspi.cpp.s
+.PHONY : src/jesspi.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -1102,9 +1129,12 @@ help:
 	@echo "... src/LAB_Voltmeter.o"
 	@echo "... src/LAB_Voltmeter.i"
 	@echo "... src/LAB_Voltmeter.s"
-	@echo "... src/ValueStruct.o"
-	@echo "... src/ValueStruct.i"
-	@echo "... src/ValueStruct.s"
+	@echo "... src/LabelValue.o"
+	@echo "... src/LabelValue.i"
+	@echo "... src/LabelValue.s"
+	@echo "... src/jesspi.o"
+	@echo "... src/jesspi.i"
+	@echo "... src/jesspi.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

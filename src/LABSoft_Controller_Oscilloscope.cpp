@@ -180,10 +180,10 @@ cb_volts_per_division (Fl_Input_Choice *w,
                        long             data)
 {
   int channel = static_cast<int>(data);
-  ValueStruct _ValueStruct (w->value ());
+  LabelValue _LabelValue (w->value ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    volts_per_division (channel, _ValueStruct.actual_value ());
+    volts_per_division (channel, _LabelValue.actual_value ());
   
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_volts_per_division_labels (channel);
@@ -194,10 +194,10 @@ cb_vertical_offset (Fl_Input_Choice *w,
                     long             data)
 {
   int channel = static_cast<int>(data);
-  ValueStruct _ValueStruct (w->value ());
+  LabelValue _LabelValue (w->value ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    vertical_offset (channel, _ValueStruct);
+    vertical_offset (channel, _LabelValue);
   
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_volts_per_division_labels (channel);
@@ -209,11 +209,11 @@ cb_time_per_division (Fl_Input_Choice *w,
                       long             data)
 {
   int channel = static_cast<int>(data);
-  ValueStruct _ValueStruct (w->value ());
+  LabelValue _LabelValue (w->value ());
 
   // frontnend stuff
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    time_per_division (channel, _ValueStruct.actual_value ());
+    time_per_division (channel, _LabelValue.actual_value ());
   
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_time_per_division_labels ();
@@ -221,7 +221,7 @@ cb_time_per_division (Fl_Input_Choice *w,
   // backend
   float freq = (m_LAB->m_Oscilloscope->m_number_of_samples_per_channel / 
     m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      m_number_of_columns) / (_ValueStruct.actual_value ());
+      m_number_of_columns) / (_LabelValue.actual_value ());
   
   m_LAB->m_Oscilloscope->sample_rate (freq);
 }

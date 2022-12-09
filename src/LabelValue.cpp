@@ -1,20 +1,20 @@
-#include "ValueStruct.h"
+#include "LabelValue.h"
 
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
 #include <cstdio>
 
-ValueStruct::
-ValueStruct (const char *label)
+LabelValue::
+LabelValue (const char *label)
 {
   m_coefficient = atof (strtok (strdup (label), " "));
   m_unit_prefix = unit_prefix (strtok (NULL, "/")[0]);
   m_exponent    = exponent (m_unit_prefix);
 }   
 
-ValueStruct:: 
-ValueStruct (double value)
+LabelValue:: 
+LabelValue (double value)
 {
   char value_char [20];
 
@@ -26,31 +26,31 @@ ValueStruct (double value)
 }
 
 // getters
-int ValueStruct:: 
+int LabelValue:: 
 exponent ()
 {
   return m_exponent;
 }
 
-float ValueStruct:: 
+float LabelValue:: 
 coefficient ()
 {
   return m_coefficient;
 }
 
-float ValueStruct:: 
+float LabelValue:: 
 short_value ()
 {
   return (m_coefficient * pow (10, m_exponent % 3));
 }
 
-char ValueStruct:: 
+char LabelValue:: 
 unit_prefix ()
 {
   return m_unit_prefix;
 }
 
-char ValueStruct::
+char LabelValue::
 unit_prefix (char unit_prefix)
 {
   switch (unit_prefix)
@@ -79,7 +79,7 @@ unit_prefix (char unit_prefix)
   }
 }
 
-char ValueStruct::
+char LabelValue::
 unit_prefix (int exponent)
 {
   switch (exponent)
@@ -120,7 +120,7 @@ unit_prefix (int exponent)
   }
 }
 
-int ValueStruct:: 
+int LabelValue:: 
 exponent (char m_unit_prefix)
 {
   switch (m_unit_prefix)
@@ -142,7 +142,7 @@ exponent (char m_unit_prefix)
   }
 }
 
-double ValueStruct::
+double LabelValue::
 actual_value ()
 {
   return (m_coefficient * std::pow (10, m_exponent));

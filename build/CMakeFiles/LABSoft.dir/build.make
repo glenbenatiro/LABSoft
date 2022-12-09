@@ -466,18 +466,18 @@ CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/Channel_Signal.cpp -o CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.s
 
-CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o: CMakeFiles/LABSoft.dir/flags.make
-CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o: ../src/ValueStruct.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o -c /home/glen/Desktop/LABSoft/src/ValueStruct.cpp
+CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/LabelValue.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o -c /home/glen/Desktop/LABSoft/src/LabelValue.cpp
 
-CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/ValueStruct.cpp > CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.i
+CMakeFiles/LABSoft.dir/src/LabelValue.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LabelValue.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LabelValue.cpp > CMakeFiles/LABSoft.dir/src/LabelValue.cpp.i
 
-CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/ValueStruct.cpp -o CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.s
+CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LabelValue.cpp -o CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s
 
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: ../src/pugixml.cpp
@@ -491,6 +491,19 @@ CMakeFiles/LABSoft.dir/src/pugixml.cpp.i: cmake_force
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/pugixml.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/pugixml.cpp -o CMakeFiles/LABSoft.dir/src/pugixml.cpp.s
+
+CMakeFiles/LABSoft.dir/src/jesspi.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/jesspi.cpp.o: ../src/jesspi.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/LABSoft.dir/src/jesspi.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/jesspi.cpp.o -c /home/glen/Desktop/LABSoft/src/jesspi.cpp
+
+CMakeFiles/LABSoft.dir/src/jesspi.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/jesspi.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/jesspi.cpp > CMakeFiles/LABSoft.dir/src/jesspi.cpp.i
+
+CMakeFiles/LABSoft.dir/src/jesspi.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/jesspi.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/jesspi.cpp -o CMakeFiles/LABSoft.dir/src/jesspi.cpp.s
 
 # Object files for target LABSoft
 LABSoft_OBJECTS = \
@@ -524,8 +537,9 @@ LABSoft_OBJECTS = \
 "CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
+"CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/pugixml.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/jesspi.cpp.o"
 
 # External object files for target LABSoft
 LABSoft_EXTERNAL_OBJECTS =
@@ -560,12 +574,13 @@ LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o
-LABSoft: CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/pugixml.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/jesspi.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/build.make
 LABSoft: /usr/lib/arm-linux-gnueabihf/libfltk.so
 LABSoft: CMakeFiles/LABSoft.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Linking CXX executable LABSoft"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking CXX executable LABSoft"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LABSoft.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

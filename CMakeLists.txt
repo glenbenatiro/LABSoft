@@ -50,8 +50,9 @@ ADD_EXECUTABLE(LABSoft
   src/Auxiliary.cpp
   src/Channel_Signals.cpp
   src/Channel_Signal.cpp
-  src/ValueStruct.cpp
+  src/LabelValue.cpp
   src/pugixml.cpp
+  src/jesspi.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

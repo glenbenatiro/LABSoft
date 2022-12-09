@@ -33,7 +33,8 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
-  "/home/glen/Desktop/LABSoft/src/ValueStruct.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/ValueStruct.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LabelValue.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/jesspi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/jesspi.cpp.o"
   "/home/glen/Desktop/LABSoft/src/main.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/main.cpp.o"
   "/home/glen/Desktop/LABSoft/src/pugixml.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
   )

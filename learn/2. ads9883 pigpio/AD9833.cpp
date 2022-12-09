@@ -65,17 +65,7 @@ class AD9833_pigpio
       printf ("AD9833_pigpio terminated\n");
     }
 
-    void init ()
-    {
-      // set initial values
-      stop ();
-
-      set_wavetype (SINE);
-      set_frequency (500);
-      // set_write_mode (1);
-
-      start ();
-    }
+    
 
     void spiW ()
     {
