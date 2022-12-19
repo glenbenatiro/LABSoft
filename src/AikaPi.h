@@ -158,11 +158,11 @@ class AikaPi
     uint32_t dma_transfer_len (int chan);
     
     // --- GPIO ---
-    void      gpio_pull   (int pin, int pull);
     void      gpio_set    (int pin, int mode, int pull);
-    bool      gpio_read   (int pin);
-    void      gpio_write  (unsigned pin, bool value);
     void      gpio_mode   (int pin, int mode);
+    void      gpio_pull   (int pin, int pull);
+    bool      gpio_read   (int pin);
+    void      gpio_write  (unsigned pin, bool value); 
     uint32_t  gpio_mode   (unsigned pin);
     
     // --- SPI ---

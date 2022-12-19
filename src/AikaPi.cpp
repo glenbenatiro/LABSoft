@@ -21,6 +21,8 @@ AikaPi::AikaPi ()
  
   spi_init ();
   // aux_spi0_init ();
+
+  printf ("AikaPi init OK\n");
 }
 
 AikaPi::~AikaPi ()
@@ -512,6 +514,8 @@ bb_spi_open (unsigned CS,
   m_pin_info [CS].spi.spi_flags = spi_flags;
 
   // set CS: active high or active low
+  gpio_mode (CS, GPIO_MODE_OUTPUT);
+
   if (Utility::get_bits (spi_flags, 2, 1)) 
     gpio_write (CS, 1);
   else                                    
@@ -547,7 +551,7 @@ bb_spi_xfer (unsigned  CS,
 {
   // for dump only
   char rxbuff[count];
-  
+
   return (bb_spi_xfer (CS, txbuff, rxbuff, count));
 }
 
@@ -566,7 +570,7 @@ bb_spi_xfer (unsigned  CS,
   m_pin_info[SCLK].spi.delay     = m_pin_info[CS].spi.delay;
   m_pin_info[SCLK].spi.spi_flags = m_pin_info[CS].spi.spi_flags;
 
-  Pin_Info *info;
+  Pin_Info *info = &(m_pin_info[SCLK]);
 
   bb_spi_start (info);
 
@@ -977,13 +981,23 @@ aux_spi_write (uint8_t  channel,
 
 // --- GPIO ---
 // Set input or output with pullups
-void 
-AikaPi::gpio_set (int pin, 
-                             int mode, 
-                             int pull)
+void AikaPi::
+gpio_set (int pin, 
+          int mode, 
+          int pull)
 {
   gpio_mode (pin, mode);
   gpio_pull (pin, pull);
+}
+
+void AikaPi::
+gpio_mode (int pin, 
+           int mode)
+{
+  volatile uint32_t *reg = Utility::get_reg32 (m_gpio_regs, GPFSEL0) + (pin / 10);
+  unsigned shift = (pin % 10) * 3;
+
+  Utility::reg_write (reg, mode, 0x7, shift);
 }
 
 // Set I/P pullup or pulldown
@@ -1004,17 +1018,6 @@ AikaPi::gpio_pull (int pin,
   *REG32(m_gpio_regs, GPIO_GPPUD) = 0;
 
   *reg = 0;
-}
-
-// select the alternative function of the GPIO pin
-void AikaPi::
-gpio_mode (int pin, 
-           int mode)
-{
-  volatile uint32_t *reg = Utility::get_reg32 (m_gpio_regs, GPFSEL0) + (pin / 10);
-  unsigned shift = (pin % 10) * 3;
-
-  Utility::reg_write (reg, mode, 0x7, shift);
 }
 
 void AikaPi::

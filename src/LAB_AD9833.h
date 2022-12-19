@@ -3,11 +3,6 @@
 
 #include "LAB_Core.h"
 
-constexpr double AD9833_MAX_FREQUENCY = 12'500'000; // Hz
-constexpr double AD9833_MIN_FREQUENCY = 0.1;        // Hz
-constexpr int    AD9833_REF_CLK_HZ    = 25'000'000; 
-constexpr int    AD9833_2_POW_28      = 268'435'456;
-
 class LAB_AD9833
 {
   private: 
@@ -17,6 +12,11 @@ class LAB_AD9833
               m_MISO,
               m_SCLK,
               m_CS;
+    
+    const double AD9833_MAX_FREQUENCY = 12'500'000; // Hz
+    const double AD9833_MIN_FREQUENCY = 0.1;        // Hz
+    const int    AD9833_REF_CLK_HZ    = 25'000'000; 
+    const int    AD9833_2_POW_28      = 268'435'456;
 
     // AD9833 Control Register
     uint16_t  m_B28     = 0,

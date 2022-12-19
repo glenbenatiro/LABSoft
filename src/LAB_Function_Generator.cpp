@@ -126,7 +126,7 @@ duty_cycle (int    channel,
       // add more code here regarding channel selection in the future if
       // Lab in a Box will have more than 1 function generator channel
 
-      m_func_gen_ic.duty_cycle (duty_cycle);
+      // m_func_gen_ic.duty_cycle (duty_cycle);
     }
   }
 }
