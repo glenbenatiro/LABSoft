@@ -5,7 +5,7 @@
 
 #include <FL/fl_draw.H>
 
-#include "Auxiliary.h"
+#include "Utility.h"
 #include "Defaults.h"
 
 LABSoft_Oscilloscope_Display_Group::

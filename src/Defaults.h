@@ -7,7 +7,7 @@
 
 #include <FL/Enumerations.H>
 
-#include "Auxiliary.h"
+#include "Utility.h"
 
 constexpr int LAB_PWM_FREQUENCY     = 15'000'000; // this is to be extracted from 25MHz master clk
 constexpr int LAB_SPI_FREQUENCY     = 15'000'000; // in hz
@@ -152,7 +152,7 @@ constexpr double    CHANNEL_SIGNAL_FUNCTION_FREQUENCY   = 1.0;  // hz
 constexpr double    CHANNEL_SIGNAL_FUNCTION_PHASE       = 0.0;  // degrees
 constexpr double    CHANNEL_SIGNAL_FUNCTION_Y_OFFSET    = 0.0;  // volts
 constexpr double    CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
-constexpr WaveType  CHANNEL_SIGNAL_FUNCTION_WAVE_TYPE   = SINE;
+// constexpr WaveType  CHANNEL_SIGNAL_FUNCTION_WAVE_TYPE   = SINE;
 
 
 // LABSoft Oscilloscope
@@ -258,6 +258,14 @@ constexpr int LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS = 1;
 #define LAB_FUNCTION_GENERATOR_DUTY_CYCLE  50.0
 #define LAB_FUNCTION_GENERATOR_PHASE       0.0
 
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_MOSI   = 2;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_MISO   = 3;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_SCLK   = 4;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_CS     = 14;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_BAUD   = 100'000;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_FLAGS  = 0;
+
+
 // constexpr int AD9833_CE_PIN = 
 
 // LABSoft Function Generator
@@ -272,5 +280,7 @@ constexpr int LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS = 1;
 #define LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE "50%"
 #define LABSOFT_FUNCTION_GENERATOR_PHASE      "0 deg"
 #define LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER 0
+
+
 
 #endif

@@ -12,7 +12,7 @@
 #include <bitset>
 
 #include "LAB_Core.h"
-#include "Auxiliary.h"
+#include "Utility.h"
 #include "Defaults.h"
 
 LAB_Core::LAB_Core ()
@@ -491,7 +491,7 @@ spi_set_clock_rate (int value)
 
 
 
-// --- Auxiliary Peripherals ---
+// --- Utility Peripherals ---
 void LAB_Core:: 
 aux_spi1_master_enable ()
 {
@@ -505,7 +505,7 @@ aux_spi1_master_disable ()
 }
 
 
-// --- Auxiliary SPI ---
+// --- Utility SPI ---
 void LAB_Core:: 
 aux_spi0_init ()
 {
@@ -732,15 +732,15 @@ gpio_mode (int pin,
 
 // Set an O/P pin
 void 
-LAB_Core::LAB_Core_gpio_out(int pin, int val)
+LAB_Core::gpio_write(unsigned pin, unsigned value)
 {
-    volatile uint32_t *reg = REG32(m_gpio_regs, val ? GPIO_SET0 : GPIO_CLR0) + pin/32;
+    volatile uint32_t *reg = REG32(m_gpio_regs, val ? GPSET0 : GPCLR0) + pin/32;
     *reg = 1 << (pin % 32);
 }
 
 // Get an I/P pin value
 uint8_t 
-LAB_Core::LAB_Core_gpio_in (int pin)
+LAB_Core::gpio_read (int pin)
 {
   volatile uint32_t *reg = REG32(m_gpio_regs, GPIO_LEV0) + pin/32;
   return (((*reg) >> (pin % 32)) & 1);

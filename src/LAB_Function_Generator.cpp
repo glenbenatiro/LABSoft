@@ -1,12 +1,11 @@
 #include "LAB_Function_Generator.h"
 
-#include <cstdio>
-
-#include "Defaults.h"
-#include "Auxiliary.h"
+#include <iostream>
 
 LAB_Function_Generator::
-LAB_Function_Generator (LAB_Core *_LAB_Core) 
+LAB_Function_Generator (LAB_Core *_LAB_Core) :
+  m_LAB_Core (_LAB_Core),
+  m_func_gen_ic (_LAB_Core)
 {
   m_LAB_Core = _LAB_Core;
   init ();
@@ -33,64 +32,36 @@ stop (int channel)
 void LAB_Function_Generator:: 
 init ()
 {
-  stop ();
-
-  set_wavetype (SINE);
-  set_frequency (500);
-  // set_write_mode (1);
-
-  start ();
+  
 }
 
-void LAB_Function_Generator:: 
-update ()
+void LAB_Function_Generator::
+wave_type  (int channel, WaveType _WaveType)
 {
-  m_txbuff[0] = 0x00 | (m_B28 << 5) | (m_HLB << 4) | (m_FSELECT << 3) |
-    (m_PSELECT << 2) | m_Reset;
-        
-  m_txbuff[1] = 0x00 | (m_SLEEP1 << 7) | (m_SLEEP12 << 6) | 
-    (m_OPBITEN << 5) | (m_DIV2 << 3) | (m_Mode << 1);
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  {
+    if (m_channel_signal[channel].is_enabled ())
+    {
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
 
-  m_LAB_Core->aux_spi_write (SIG_GEN_CE_PIN, m_txbuff, 2);
+      m_func_gen_ic.wave_type (_WaveType);
+    }
+  }
 }
 
 void LAB_Function_Generator::
 frequency (int    channel, 
            double frequency)
 {
-  if (m_channel_signal[channel].is_enabled ())
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
   {
-    if ((frequency <= SIG_GEN_MAX_FREQ) && (frequency >= SIG_GEN_MIN_FREQ))
+    if (m_channel_signal[channel].is_enabled ())
     {
-      uint32_t divider = ((frequency * SIG_GEN_2_POW_28) / 
-      static_cast<double>(SIG_GEN_REF_CLOCK_HZ)) & 0x0FFFFFFF;
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
 
-      if (m_B28 == 1)
-      {
-        m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
-        m_txbuff[1] = divider & 0xFF;
-        update ();
-
-        divider >>= 14;
-
-        m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
-        m_txbuff[1] = divider & 0xFF;
-        update ();
-      } 
-      else if (m_B28 == 0)
-      {
-        set_HLB (0);
-        m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
-        m_txbuff[1] = divider & 0xFF;
-        update ();
-
-        divider >>= 14;
-
-        set_HLB (1);
-        m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
-        m_txbuff[1] = divider & 0xFF;
-        update ();
-      }
+      m_func_gen_ic.frequency (frequency);
     }
   }
 }
@@ -98,92 +69,82 @@ frequency (int    channel,
 void LAB_Function_Generator::
 period (int channel, double period)
 {
-  frequency (channel, (1.0 / period));
-}
-
-void LAB_Function_Generator::
-wave_type  (int channel, WaveType _WaveType)
-{
-  switch (_WaveType)
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
   {
-    case SINE:
-      m_OPBITEN = 0;
-      m_DIV2 = 0;
-      m_Mode = 0;
-      break;
-    case TRIANGLE:
-      m_OPBITEN = 0;
-      m_DIV2 = 0;
-      m_Mode = 1;
-      break;
-    case SQUARE_FULL:
-      m_OPBITEN = 1;
-      m_DIV2 = 1;
-      m_Mode = 0;
-      break;
-    case SQUARE_HALF:
-      m_OPBITEN = 1;
-      m_DIV2 = 0;
-      m_Mode = 0;
-      break;
-    default:
-      set_wavetype (SINE);
-      break;
-  }
+    if (m_channel_signal[channel].is_enabled ())
+    {
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
 
-  update ();
+      double frequency = (1.0 / period);
+
+      m_func_gen_ic.frequency (frequency);
+    }
+  }
 }
 
 void LAB_Function_Generator::
 amplitude  (int    channel,
             double amplitude)
 {
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  {
+    if (m_channel_signal[channel].is_enabled ())
+    {
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
 
+      // add code here for amplitude setting
+    }
+  }
 }
 
 void LAB_Function_Generator::
-offset (int    channel, 
-        double offset)
+offset  (int    channel,
+         double offset)
 {
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  {
+    if (m_channel_signal[channel].is_enabled ())
+    {
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
 
+      // add code here for offset setting
+    }
+  }
 }
 
-void LAB_Function_Generator:: 
-phase (int    channel,
+void LAB_Function_Generator::
+duty_cycle (int    channel, 
+            double duty_cycle)
+{
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  {
+    if (m_channel_signal[channel].is_enabled ())
+    {
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
+
+      m_func_gen_ic.duty_cycle (duty_cycle);
+    }
+  }
+}
+
+void LAB_Function_Generator::
+phase (int    channel, 
        double phase)
 {
+  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  {
+    if (m_channel_signal[channel].is_enabled ())
+    {
+      // add more code here regarding channel selection in the future if
+      // Lab in a Box will have more than 1 function generator channel
 
+      m_func_gen_ic.phase (phase);
+    }
+  }
 }
 
-
-
-// --- utility --- 
-void LAB_Function_Generator::
-sel_freq_reg (bool value)
-{
-  m_FSELECT = value;
-  update ();
-}
-
-void LAB_Function_Generator::
-sel_phase_reg (bool value)
-{
-  m_PSELECT = value;
-  update ();
-}
-
-void set_HLB (bool value)
-{
-  m_HLB = value;
-  update ();
-}
-
-void set_write_mode (bool value)
-{
-  // 1 = complete write through 2 consecutive writes
-  // 0 = freq reg is split into MSB and LSB
-  m_B28 = value;
-  update ();
-}
-
-// EOFs
+// EOF

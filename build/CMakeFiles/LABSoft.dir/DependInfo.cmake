@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/glen/Desktop/LABSoft/src/Auxiliary.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/AikaPi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/AikaPi.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Channel_Signal.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Channel_Signals.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
@@ -23,6 +23,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LAB_AD9833.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Ammeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Ammeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Core.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
@@ -34,7 +35,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LabelValue.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"
-  "/home/glen/Desktop/LABSoft/src/jesspi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/jesspi.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/Utility.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Utility.cpp.o"
   "/home/glen/Desktop/LABSoft/src/main.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/main.cpp.o"
   "/home/glen/Desktop/LABSoft/src/pugixml.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
   )

@@ -290,7 +290,7 @@ generate_waveform (WaveType wave_type, int channel)
                 + (m_function_phase * m_pi / 180.0)) + m_function_y_offset;
             break;
 
-          case (SQUARE):
+          case (SQUARE_FULL):
             values[a] = copysign ((m_function_amplitude / m_function_volts_per_division), sin ((2 * m_pi * m_function_frequency * 
               a * m_time_per_division * x_scaler) + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;
             break;

@@ -33,7 +33,7 @@ class Channel_Signal
             m_function_y_offset     = CHANNEL_SIGNAL_FUNCTION_Y_OFFSET, 
             m_function_duty_cycle   = CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE;
 
-    WaveType  m_function_wave_type  = CHANNEL_SIGNAL_FUNCTION_WAVE_TYPE;
+    WaveType  m_function_wave_type;
 
     // --- functions ---
     Channel_Signal (int number_of_samples = 0, 

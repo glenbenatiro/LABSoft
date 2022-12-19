@@ -19,7 +19,7 @@ class LAB
     LAB ();
    ~LAB ();
 
-    LAB_Core               m_LAB_Core;
+    LAB_Core                m_LAB_Core;
 
     LAB_Oscilloscope       *m_Oscilloscope;
     LAB_Function_Generator *m_Function_Generator;

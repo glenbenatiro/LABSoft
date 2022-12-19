@@ -5,7 +5,7 @@
 
 #include <FL/Fl_Widget.H>
 
-#include "Auxiliary.h"
+#include "Utility.h"
 #include "Defaults.h"
 #include "Channel_Signals.h"
 #include "time.h"
@@ -26,7 +26,7 @@ double clockToMilliseconds(clock_t ticks);
     int   m_grid_color                  = LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR,
           m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR,
           m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR,
-          m_function_generator_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER,
+          m_func_gen_ic_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER,
           m_adc_resolution_in_bits      = LAB_ADC_RESOLUTION_IN_BITS,
           m_adc_resolution_in_integer   = LAB_ADC_RESOLUTION_IN_INTEGER;
           

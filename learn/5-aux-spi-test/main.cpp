@@ -5,7 +5,7 @@
 #include "LAB_Core.h"
 
 // compile with
-// g++ main.cpp Auxiliary.cpp LAB_Core.cpp LabelValue.cpp -o 3-aux-spi-test
+// g++ main.cpp Utility.cpp LAB_Core.cpp LabelValue.cpp -o 3-aux-spi-test
 
 int main ()
 {

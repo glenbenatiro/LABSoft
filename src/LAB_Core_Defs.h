@@ -32,6 +32,9 @@
 // Location of peripheral registers in bus memory
 #define BUS_REG_BASE   0x7E000000
 
+// --- General Raspberry Pi ---
+constexpr int PI_MAX_USER_GPIO  = 31;
+
 
 
 // --- ADC ---
@@ -97,14 +100,14 @@ constexpr int AUX_SPI1_ENABLE     = (1 << 1);
 // --- GPIO --- 
 constexpr int GPIO_BASE       = (PHYS_REG_BASE + 0x200000);
 constexpr int GPIO_MODE0      = 0x00;
-constexpr int GPIO_SET0       = 0x1c;
-constexpr int GPIO_CLR0       = 0x28;
+constexpr int GPSET0          = 0x1C;
+constexpr int GPCLR0          = 0x28;
 constexpr int GPIO_LEV0       = 0x34;
 constexpr int GPIO_GPPUD      = 0x94;
 constexpr int GPIO_GPPUDCLK0  = 0x98;
 
 constexpr int GPIO_IN     = 0;
-constexpr int GPIO_OUT    = 1;
+constexpr int gpio_write    = 1;
 constexpr int GPIO_ALT0   = 4;
 constexpr int GPIO_ALT1   = 5;
 constexpr int GPIO_ALT2   = 6;

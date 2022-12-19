@@ -1,7 +1,7 @@
 #ifndef LAB_CORE_H
 #define LAB_CORE_H
 
-#include "Auxiliary.h"
+#include "Utility.h"
 #include "Defaults.h"
 #include "LAB_Core_Defs.h"
 
@@ -68,11 +68,11 @@ class LAB_Core
     uint32_t LAB_Core_dma_transfer_len (int chan);
     
     // --- GPIO ---
-    void     LAB_Core_gpio_out         (int pin, int val);
+    void     gpio_write         (unsigned pin, unsigned value);
     void     gpio_mode        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
     void     gpio_set         (int pin, int mode, int pull);
-    uint8_t  LAB_Core_gpio_in          (int pin);
+    uint8_t  gpio_read          (int pin);
     
     // --- SPI ---
     int       spi_init            ();
@@ -83,11 +83,11 @@ class LAB_Core
     void      spi_cs              (int set);
     int       spi_set_clock_rate  (int value);
 
-    // --- Auxiliary Peripherals ---
+    // --- Utility Peripherals ---
     void aux_spi1_master_enable ();
     void aux_spi1_master_disable ();
 
-    // --- Auxiliary SPI ---
+    // --- Utility SPI ---
     // NOTE THAT THE FOLLOWING ARE ACTUALLY SPI1, NOT SPI0. 
     // THIS IS A MISNOMER. PLEASE SEE ERRATA DOCUMENT.
     void aux_spi0_init ();

@@ -1,8 +1,6 @@
 #ifndef LABSOFT_H
 #define LABSOFT_H
 
-#include <FL/Fl.H>
-
 #include "LAB.h"
 #include "LABSoft_GUI.h"
 #include "LABSoft_Controller.h"

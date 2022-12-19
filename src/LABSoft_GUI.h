@@ -140,61 +140,49 @@ private:
 public:
   Fl_Light_Button *function_generator_fl_light_button_run_stop;
 private:
-  inline void cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, void*);
+  inline void cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button*, long);
+  static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, long);
 public:
-  LABSoft_Oscilloscope_Display_Group *function_generator_labsoft_oscilloscope_display_group_display;
-  Fl_Group *function_generator_fl_group_horizontal;
-  Fl_Input_Choice *function_generator_fl_input_choice_horizontal_position;
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_horizontal_position[];
-  Fl_Input_Choice *function_generator_fl_input_choice_time_per_division;
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_time_per_division[];
-  Fl_Group *function_generator_fl_group_vertical;
-  Fl_Input_Choice *function_generator_fl_input_choice_vertical_offset;
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_vertical_offset[];
-  Fl_Input_Choice *function_generator_fl_input_choice_volts_per_division;
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_volts_per_division[];
-  Fl_Group *function_generator_fl_group_parameters;
   Fl_Input_Choice *function_generator_fl_input_choice_wave_type;
 private:
-  inline void cb_function_generator_fl_input_choice_wave_type_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_wave_type(Fl_Input_Choice*, void*);
+  inline void cb_function_generator_fl_input_choice_wave_type_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_wave_type(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_wave_type[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_frequency;
 private:
-  inline void cb_function_generator_fl_input_choice_frequency_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_frequency(Fl_Input_Choice*, void*);
+  inline void cb_function_generator_fl_input_choice_frequency_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_frequency(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_frequency[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_period;
 private:
-  inline void cb_function_generator_fl_input_choice_period_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_period(Fl_Input_Choice*, void*);
+  inline void cb_function_generator_fl_input_choice_period_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_period(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_period[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_amplitude;
 private:
-  inline void cb_function_generator_fl_input_choice_amplitude_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_amplitude(Fl_Input_Choice*, void*);
+  inline void cb_function_generator_fl_input_choice_amplitude_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_amplitude(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_amplitude[];
 public:
-  Fl_Input_Choice *function_generator_fl_input_choice_y_offset;
+  Fl_Input_Choice *function_generator_fl_input_choice_offset;
 private:
-  inline void cb_function_generator_fl_input_choice_y_offset_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_y_offset(Fl_Input_Choice*, void*);
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_y_offset[];
+  inline void cb_function_generator_fl_input_choice_offset_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_offset(Fl_Input_Choice*, long);
+  static Fl_Menu_Item menu_function_generator_fl_input_choice_offset[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_duty_cycle;
 private:
-  inline void cb_function_generator_fl_input_choice_duty_cycle_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_duty_cycle(Fl_Input_Choice*, void*);
+  inline void cb_function_generator_fl_input_choice_duty_cycle_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_duty_cycle(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_duty_cycle[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_phase;
 private:
-  inline void cb_function_generator_fl_input_choice_phase_i(Fl_Input_Choice*, void*);
-  static void cb_function_generator_fl_input_choice_phase(Fl_Input_Choice*, void*);
+  inline void cb_function_generator_fl_input_choice_phase_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_phase(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
   Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;

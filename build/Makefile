@@ -142,32 +142,32 @@ LABSoft/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/build
 .PHONY : LABSoft/fast
 
-src/Auxiliary.o: src/Auxiliary.cpp.o
+src/AikaPi.o: src/AikaPi.cpp.o
 
-.PHONY : src/Auxiliary.o
+.PHONY : src/AikaPi.o
 
 # target to build an object file
-src/Auxiliary.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.o
-.PHONY : src/Auxiliary.cpp.o
+src/AikaPi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/AikaPi.cpp.o
+.PHONY : src/AikaPi.cpp.o
 
-src/Auxiliary.i: src/Auxiliary.cpp.i
+src/AikaPi.i: src/AikaPi.cpp.i
 
-.PHONY : src/Auxiliary.i
+.PHONY : src/AikaPi.i
 
 # target to preprocess a source file
-src/Auxiliary.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.i
-.PHONY : src/Auxiliary.cpp.i
+src/AikaPi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/AikaPi.cpp.i
+.PHONY : src/AikaPi.cpp.i
 
-src/Auxiliary.s: src/Auxiliary.cpp.s
+src/AikaPi.s: src/AikaPi.cpp.s
 
-.PHONY : src/Auxiliary.s
+.PHONY : src/AikaPi.s
 
 # target to generate assembly for a file
-src/Auxiliary.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Auxiliary.cpp.s
-.PHONY : src/Auxiliary.cpp.s
+src/AikaPi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/AikaPi.cpp.s
+.PHONY : src/AikaPi.cpp.s
 
 src/Channel_Signal.o: src/Channel_Signal.cpp.o
 
@@ -655,6 +655,33 @@ src/LABSoft_Oscilloscope_Display_Group.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.s
 .PHONY : src/LABSoft_Oscilloscope_Display_Group.cpp.s
 
+src/LAB_AD9833.o: src/LAB_AD9833.cpp.o
+
+.PHONY : src/LAB_AD9833.o
+
+# target to build an object file
+src/LAB_AD9833.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o
+.PHONY : src/LAB_AD9833.cpp.o
+
+src/LAB_AD9833.i: src/LAB_AD9833.cpp.i
+
+.PHONY : src/LAB_AD9833.i
+
+# target to preprocess a source file
+src/LAB_AD9833.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.i
+.PHONY : src/LAB_AD9833.cpp.i
+
+src/LAB_AD9833.s: src/LAB_AD9833.cpp.s
+
+.PHONY : src/LAB_AD9833.s
+
+# target to generate assembly for a file
+src/LAB_AD9833.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.s
+.PHONY : src/LAB_AD9833.cpp.s
+
 src/LAB_Ammeter.o: src/LAB_Ammeter.cpp.o
 
 .PHONY : src/LAB_Ammeter.o
@@ -952,32 +979,32 @@ src/LabelValue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s
 .PHONY : src/LabelValue.cpp.s
 
-src/jesspi.o: src/jesspi.cpp.o
+src/Utility.o: src/Utility.cpp.o
 
-.PHONY : src/jesspi.o
+.PHONY : src/Utility.o
 
 # target to build an object file
-src/jesspi.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/jesspi.cpp.o
-.PHONY : src/jesspi.cpp.o
+src/Utility.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility.cpp.o
+.PHONY : src/Utility.cpp.o
 
-src/jesspi.i: src/jesspi.cpp.i
+src/Utility.i: src/Utility.cpp.i
 
-.PHONY : src/jesspi.i
+.PHONY : src/Utility.i
 
 # target to preprocess a source file
-src/jesspi.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/jesspi.cpp.i
-.PHONY : src/jesspi.cpp.i
+src/Utility.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility.cpp.i
+.PHONY : src/Utility.cpp.i
 
-src/jesspi.s: src/jesspi.cpp.s
+src/Utility.s: src/Utility.cpp.s
 
-.PHONY : src/jesspi.s
+.PHONY : src/Utility.s
 
 # target to generate assembly for a file
-src/jesspi.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/jesspi.cpp.s
-.PHONY : src/jesspi.cpp.s
+src/Utility.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility.cpp.s
+.PHONY : src/Utility.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -1042,9 +1069,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LABSoft"
-	@echo "... src/Auxiliary.o"
-	@echo "... src/Auxiliary.i"
-	@echo "... src/Auxiliary.s"
+	@echo "... src/AikaPi.o"
+	@echo "... src/AikaPi.i"
+	@echo "... src/AikaPi.s"
 	@echo "... src/Channel_Signal.o"
 	@echo "... src/Channel_Signal.i"
 	@echo "... src/Channel_Signal.s"
@@ -1099,6 +1126,9 @@ help:
 	@echo "... src/LABSoft_Oscilloscope_Display_Group.o"
 	@echo "... src/LABSoft_Oscilloscope_Display_Group.i"
 	@echo "... src/LABSoft_Oscilloscope_Display_Group.s"
+	@echo "... src/LAB_AD9833.o"
+	@echo "... src/LAB_AD9833.i"
+	@echo "... src/LAB_AD9833.s"
 	@echo "... src/LAB_Ammeter.o"
 	@echo "... src/LAB_Ammeter.i"
 	@echo "... src/LAB_Ammeter.s"
@@ -1132,9 +1162,9 @@ help:
 	@echo "... src/LabelValue.o"
 	@echo "... src/LabelValue.i"
 	@echo "... src/LabelValue.s"
-	@echo "... src/jesspi.o"
-	@echo "... src/jesspi.i"
-	@echo "... src/jesspi.s"
+	@echo "... src/Utility.o"
+	@echo "... src/Utility.i"
+	@echo "... src/Utility.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

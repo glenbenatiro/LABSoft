@@ -1,5 +1,5 @@
 // compile with
-// g++ -o 1-rpi-pwm 1-rpi-pwm.cpp LAB_Core.cpp Auxiliary.cpp
+// g++ -o 1-rpi-pwm 1-rpi-pwm.cpp LAB_Core.cpp Utility.cpp
 
 #include <iostream>
 #include <unistd.h>

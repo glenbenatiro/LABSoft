@@ -20,6 +20,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft.cpp
   src/LAB.cpp
 
+  src/AikaPi.cpp
   src/LAB_Core.cpp
   src/LAB_Oscilloscope.cpp
   src/LAB_Meter.cpp
@@ -47,12 +48,12 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Oscilloscope_Display_Group.cpp
   src/LABSoft_Oscilloscope_Display.cpp
 
-  src/Auxiliary.cpp
+  src/Utility.cpp
   src/Channel_Signals.cpp
   src/Channel_Signal.cpp
   src/LabelValue.cpp
   src/pugixml.cpp
-  src/jesspi.cpp
+  src/LAB_AD9833.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

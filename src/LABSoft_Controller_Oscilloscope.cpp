@@ -5,7 +5,7 @@
 
 #include <FL/Fl.H>
 
-#include "Auxiliary.h"
+#include "Utility.h"
 #include "Defaults.h"
 
 LABSoft_Controller_Oscilloscope::
@@ -105,8 +105,8 @@ update_display ()
   // 1. get block from backend
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
-    std::chrono::time_point<std::chrono::high_resolution_clock> start = 
-      std::chrono::high_resolution_clock::now ();
+    // std::chrono::time_point<std::chrono::high_resolution_clock> start = 
+    //   std::chrono::high_resolution_clock::now ();
 
    // to iterate over ping pong channels
     // WARNING! wala pana implement ang other channels
@@ -158,20 +158,14 @@ update_display ()
     int duration = (DISPLAY_UPDATE_RATE * 1000);
 
         
-    std::chrono::time_point<std::chrono::high_resolution_clock> end = 
-    std::chrono::high_resolution_clock::now ();
+    // std::chrono::time_point<std::chrono::high_resolution_clock> end = 
+    // std::chrono::high_resolution_clock::now ();
 
-    std::chrono::duration<int, std::nano> elapsed = end - start;
+    // std::chrono::duration<int, std::nano> elapsed = end - start;
 
-    std::cout << std::fixed << elapsed.count () << "\n";
+    // std::cout << std::fixed << elapsed.count () << "\n";
 
-    std::this_thread::sleep_for (std::chrono::nanoseconds (40'000'000));
-
-    
-
-
-
-//   printf ("hehe\n");
+    // std::this_thread::sleep_for (std::chrono::nanoseconds (40'000'000));
   }
 }
 

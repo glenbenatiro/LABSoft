@@ -889,585 +889,404 @@ class LABSoft_GUI {open
         }
         Fl_Group {} {
           label {Function Generator} open
-          xywh {0 35 1366 768}
+          xywh {0 35 1366 768} hide
         } {
           Fl_Light_Button function_generator_fl_light_button_run_stop {
             label Run
-            callback {m_LABSoft_Controller->m_Function_Generator.cb_run_stop (o, v);}
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_run_stop (o, v);}
             xywh {1205 80 120 60} align 16
           }
-          Fl_Group function_generator_labsoft_oscilloscope_display_group_display {
-            xywh {24 60 800 660} box FLAT_BOX color 0
-            code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
-            class LABSoft_Oscilloscope_Display_Group
+          Fl_Input_Choice function_generator_fl_input_choice_wave_type {
+            label {Wave Type}
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_wave_type (o, v);}
+            xywh {885 95 120 40} align 1
+            code0 {function_generator_fl_input_choice_wave_type->value (LABSOFT_FUNCTION_GENERATOR_WAVE_TYPE);}
           } {
-            Fl_Box {} {
-              xywh {64 120 720 540} box FLAT_BOX color 79 selection_color 95 hide deactivate
+            MenuItem {} {
+              label Sine
+              xywh {10 10 36 21}
+            }
+            MenuItem {} {
+              label Square
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label Triangle
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label DC
+              xywh {40 40 36 21}
             }
           }
-          Fl_Group function_generator_fl_group_horizontal {
-            xywh {0 0 1366 768} hide deactivate
+          Fl_Input_Choice function_generator_fl_input_choice_frequency {
+            label Frequency
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_frequency (o, v);}
+            xywh {1035 95 120 40} align 1
+            code0 {function_generator_fl_input_choice_frequency->value (LABSOFT_FUNCTION_GENERATOR_FREQUENCY);}
           } {
-            Fl_Box {} {
-              label Horizontal
-              xywh {1110 542 200 150} box ROUNDED_BOX align 1
+            MenuItem {} {
+              label {1 MHz}
+              xywh {35 35 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_horizontal_position {
-              label Position
-              xywh {1135 575 150 25} align 1
-              code0 {function_generator_fl_input_choice_horizontal_position->value (LABSOFT_FUNCTION_GENERATOR_HORIZONTAL_POSITION);}
-            } {
-              MenuItem {} {
-                label {5 s}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {2 s}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {1 s}
-                xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {0 s}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {-1 s}
-                xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {-2 s}
-                xywh {60 60 36 21}
-              }
-              MenuItem {} {
-                label {-5 s}
-                xywh {70 70 36 21}
-              }
+            MenuItem {} {
+              label {500 kHz}
+              xywh {5 5 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_time_per_division {
-              label {Time per Division}
-              xywh {1135 638 150 25} align 1 when 1
-              code0 {function_generator_fl_input_choice_time_per_division->value (LABSOFT_FUNCTION_GENERATOR_TIME_PER_DIVISION);}
-            } {
-              MenuItem {} {
-                label {50 s/div}
-                xywh {20 20 36 21}
-              }
-              MenuItem {} {
-                label {10 s/div}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {5 s/div}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {2 s/div}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {1 s/div}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {1 s/div}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {500 ms/div}
-                xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {200 ms/div}
-                xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {100 ms/div}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {50 ms/div}
-                xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {20 ms/div}
-                xywh {60 60 36 21}
-              }
-              MenuItem {} {
-                label {10 ms/div}
-                xywh {60 60 36 21}
-              }
-              MenuItem {} {
-                label {500 us/div}
-                xywh {60 60 36 21}
-              }
-              MenuItem {} {
-                label {200 us/div}
-                xywh {70 70 36 21}
-              }
-              MenuItem {} {
-                label {100 us/div}
-                xywh {70 70 36 21}
-              }
+            MenuItem {} {
+              label {200 kHz}
+              xywh {15 15 36 21}
+            }
+            MenuItem {} {
+              label {100 kHz}
+              xywh {45 45 36 21}
+            }
+            MenuItem {} {
+              label {50 kHz}
+              xywh {15 15 36 21}
+            }
+            MenuItem {} {
+              label {20 kHz}
+              xywh {25 25 36 21}
+            }
+            MenuItem {} {
+              label {10 kHz}
+              xywh {45 45 36 21}
+            }
+            MenuItem {} {
+              label {5 kHz}
+              xywh {15 15 36 21}
+            }
+            MenuItem {} {
+              label {2 kHz}
+              xywh {25 25 36 21}
+            }
+            MenuItem {} {
+              label {1 kHz}
+              xywh {55 55 36 21}
+            }
+            MenuItem {} {
+              label {500 Hz}
+              xywh {25 25 36 21}
+            }
+            MenuItem {} {
+              label {200 Hz}
+              xywh {35 35 36 21}
+            }
+            MenuItem {} {
+              label {100 Hz}
+              xywh {25 25 36 21}
+            }
+            MenuItem {} {
+              label {50 Hz}
+              xywh {35 35 36 21}
+            }
+            MenuItem {} {
+              label {20 Hz}
+              xywh {65 65 36 21}
+            }
+            MenuItem {} {
+              label {10 Hz}
+              xywh {35 35 36 21}
+            }
+            MenuItem {} {
+              label {5 Hz}
+              xywh {45 45 36 21}
+            }
+            MenuItem {} {
+              label {2 Hz}
+              xywh {75 75 36 21}
+            }
+            MenuItem {} {
+              label {1 Hz}
+              xywh {45 45 36 21}
+            }
+            MenuItem {} {
+              label {500 mHz}
+              xywh {55 55 36 21}
             }
           }
-          Fl_Group function_generator_fl_group_vertical {
-            xywh {0 0 1366 768} hide deactivate
+          Fl_Input_Choice function_generator_fl_input_choice_period {
+            label Period
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_period (o, v);}
+            xywh {885 205 120 40} align 1 deactivate
+            code0 {function_generator_fl_input_choice_period->value (LABSOFT_FUNCTION_GENERATOR_PERIOD);}
           } {
-            Fl_Box {} {
-              label Vertical
-              xywh {1110 347 200 150} box ROUNDED_BOX align 1
+            MenuItem {} {
+              label {5 s}
+              xywh {30 30 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_vertical_offset {
-              label Offset
-              xywh {1135 380 150 25} align 1
-              code0 {function_generator_fl_input_choice_vertical_offset->value (LABSOFT_FUNCTION_GENERATOR_VERTICAL_OFFSET);}
-            } {
-              MenuItem {} {
-                label {5 s}
-                xywh {35 35 36 21}
-              }
-              MenuItem {} {
-                label {2 s}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {1 s}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {0 s}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {-1 s}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {-2 s}
-                xywh {65 65 36 21}
-              }
-              MenuItem {} {
-                label {-5 s}
-                xywh {75 75 36 21}
-              }
+            MenuItem {} {
+              label {2 s}
+              xywh {40 40 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_volts_per_division {
-              label {Volts per Division}
-              xywh {1135 443 150 25} align 1
-              code0 {function_generator_fl_input_choice_volts_per_division->value ("1 V/div");}
-            } {
-              MenuItem {} {
-                label {5 V/div}
-                xywh {35 35 36 21}
-              }
-              MenuItem {} {
-                label {2 V/div}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {1 V/div}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {500 mV/div}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {200 mV/div}
-                xywh {45 45 36 21}
-              }
+            MenuItem {} {
+              label {1 s}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {500 ms}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {200 ms}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {100 ms}
+              xywh {80 80 36 21}
+            }
+            MenuItem {} {
+              label {50 ms}
+              xywh {90 90 36 21}
+            }
+            MenuItem {} {
+              label {20 ms}
+              xywh {100 100 36 21}
+            }
+            MenuItem {} {
+              label {10 ms}
+              xywh {110 110 36 21}
+            }
+            MenuItem {} {
+              label {5 ms}
+              xywh {120 120 36 21}
+            }
+            MenuItem {} {
+              label {2 ms}
+              xywh {130 130 36 21}
+            }
+            MenuItem {} {
+              label {1 ms}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {500 us}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {200 us}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {100 us}
+              xywh {80 80 36 21}
             }
           }
-          Fl_Group function_generator_fl_group_parameters {open
-            xywh {0 0 1366 768}
+          Fl_Input_Choice function_generator_fl_input_choice_amplitude {
+            label Amplitude
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_amplitude (o, v);}
+            xywh {1035 205 120 40} align 1
+            code0 {function_generator_fl_input_choice_amplitude->value (LABSOFT_FUNCTION_GENERATOR_AMPLITUDE);}
           } {
-            Fl_Input_Choice function_generator_fl_input_choice_wave_type {
-              label {Wave Type}
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);} selected
-              xywh {880 90 120 40} align 1
-              code0 {function_generator_fl_input_choice_wave_type->value (LABSOFT_FUNCTION_GENERATOR_WAVE_TYPE);}
-            } {
-              MenuItem {} {
-                label Sine
-                xywh {5 5 36 21}
-              }
-              MenuItem {} {
-                label Square
-                xywh {15 15 36 21}
-              }
-              MenuItem {} {
-                label Triangle
-                xywh {25 25 36 21}
-              }
-              MenuItem {} {
-                label DC
-                xywh {35 35 36 21}
-              }
+            MenuItem {} {
+              label {5 V}
+              xywh {10 10 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_frequency {
-              label Frequency
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_frequency (o, v);}
-              xywh {1030 90 120 40} align 1
-              code0 {function_generator_fl_input_choice_frequency->value (LABSOFT_FUNCTION_GENERATOR_FREQUENCY);}
-            } {
-              MenuItem {} {
-                label {1 MHz}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {500 kHz}
-                xywh {0 0 36 21}
-              }
-              MenuItem {} {
-                label {200 kHz}
-                xywh {10 10 36 21}
-              }
-              MenuItem {} {
-                label {100 kHz}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {50 kHz}
-                xywh {10 10 36 21}
-              }
-              MenuItem {} {
-                label {20 kHz}
-                xywh {20 20 36 21}
-              }
-              MenuItem {} {
-                label {10 kHz}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {5 kHz}
-                xywh {10 10 36 21}
-              }
-              MenuItem {} {
-                label {2 kHz}
-                xywh {20 20 36 21}
-              }
-              MenuItem {} {
-                label {1 kHz}
-                xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {500 Hz}
-                xywh {20 20 36 21}
-              }
-              MenuItem {} {
-                label {200 Hz}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {100 Hz}
-                xywh {20 20 36 21}
-              }
-              MenuItem {} {
-                label {50 Hz}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {20 Hz}
-                xywh {60 60 36 21}
-              }
-              MenuItem {} {
-                label {10 Hz}
-                xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {5 Hz}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {2 Hz}
-                xywh {70 70 36 21}
-              }
-              MenuItem {} {
-                label {1 Hz}
-                xywh {40 40 36 21}
-              }
-              MenuItem {} {
-                label {500 mHz}
-                xywh {50 50 36 21}
-              }
+            MenuItem {} {
+              label {4 V}
+              xywh {20 20 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_period {
-              label Period
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_period (o, v);}
-              xywh {880 200 120 40} align 1 deactivate
-              code0 {function_generator_fl_input_choice_period->value (LABSOFT_FUNCTION_GENERATOR_PERIOD);}
-            } {
-              MenuItem {} {
-                label {5 s}
-                xywh {25 25 36 21}
-              }
-              MenuItem {} {
-                label {2 s}
-                xywh {35 35 36 21}
-              }
-              MenuItem {} {
-                label {1 s}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {500 ms}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {200 ms}
-                xywh {65 65 36 21}
-              }
-              MenuItem {} {
-                label {100 ms}
-                xywh {75 75 36 21}
-              }
-              MenuItem {} {
-                label {50 ms}
-                xywh {85 85 36 21}
-              }
-              MenuItem {} {
-                label {20 ms}
-                xywh {95 95 36 21}
-              }
-              MenuItem {} {
-                label {10 ms}
-                xywh {105 105 36 21}
-              }
-              MenuItem {} {
-                label {5 ms}
-                xywh {115 115 36 21}
-              }
-              MenuItem {} {
-                label {2 ms}
-                xywh {125 125 36 21}
-              }
-              MenuItem {} {
-                label {1 ms}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {500 us}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {200 us}
-                xywh {65 65 36 21}
-              }
-              MenuItem {} {
-                label {100 us}
-                xywh {75 75 36 21}
-              }
+            MenuItem {} {
+              label {3 V}
+              xywh {30 30 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_amplitude {
-              label Amplitude
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_amplitude (o, v);}
-              xywh {1030 200 120 40} align 1
-              code0 {function_generator_fl_input_choice_amplitude->value (LABSOFT_FUNCTION_GENERATOR_AMPLITUDE);}
-            } {
-              MenuItem {} {
-                label {5 V}
-                xywh {5 5 36 21}
-              }
-              MenuItem {} {
-                label {4 V}
-                xywh {15 15 36 21}
-              }
-              MenuItem {} {
-                label {3 V}
-                xywh {25 25 36 21}
-              }
-              MenuItem {} {
-                label {2 V}
-                xywh {35 35 36 21}
-              }
-              MenuItem {} {
-                label {1 V}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {0 V}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {-1 V}
-                xywh {65 65 36 21}
-              }
-              MenuItem {} {
-                label {-2 V}
-                xywh {75 75 36 21}
-              }
-              MenuItem {} {
-                label {-3 V}
-                xywh {85 85 36 21}
-              }
-              MenuItem {} {
-                label {-4 V}
-                xywh {95 95 36 21}
-              }
-              MenuItem {} {
-                label {-5 V}
-                xywh {105 105 36 21}
-              }
+            MenuItem {} {
+              label {2 V}
+              xywh {40 40 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_y_offset {
-              label {Vertical Offset}
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_y_offset (o, v);}
-              xywh {880 300 120 40} align 1
-              code0 {function_generator_fl_input_choice_y_offset->value (LABSOFT_FUNCTION_GENERATOR_Y_OFFSET);}
-            } {
-              MenuItem {} {
-                label {5 V}
-                xywh {15 15 36 21}
-              }
-              MenuItem {} {
-                label {4 V}
-                xywh {25 25 36 21}
-              }
-              MenuItem {} {
-                label {3 V}
-                xywh {35 35 36 21}
-              }
-              MenuItem {} {
-                label {2 V}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {1 V}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {0 V}
-                xywh {65 65 36 21}
-              }
-              MenuItem {} {
-                label {-1 V}
-                xywh {75 75 36 21}
-              }
-              MenuItem {} {
-                label {-2 V}
-                xywh {85 85 36 21}
-              }
-              MenuItem {} {
-                label {-3 V}
-                xywh {95 95 36 21}
-              }
-              MenuItem {} {
-                label {-4 V}
-                xywh {105 105 36 21}
-              }
-              MenuItem {} {
-                label {-5 V}
-                xywh {115 115 36 21}
-              }
+            MenuItem {} {
+              label {1 V}
+              xywh {50 50 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_duty_cycle {
-              label {Duty Cycle}
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_duty_cycle (o, v);}
-              xywh {1030 300 120 40} align 1 deactivate
-              code0 {function_generator_fl_input_choice_duty_cycle->value (LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE);}
-            } {
-              MenuItem {} {
-                label {5 V}
-                xywh {25 25 36 21}
-              }
-              MenuItem {} {
-                label {4 V}
-                xywh {35 35 36 21}
-              }
-              MenuItem {} {
-                label {3 V}
-                xywh {45 45 36 21}
-              }
-              MenuItem {} {
-                label {2 V}
-                xywh {55 55 36 21}
-              }
-              MenuItem {} {
-                label {1 V}
-                xywh {65 65 36 21}
-              }
-              MenuItem {} {
-                label {0 V}
-                xywh {75 75 36 21}
-              }
-              MenuItem {} {
-                label {-1 V}
-                xywh {85 85 36 21}
-              }
-              MenuItem {} {
-                label {-2 V}
-                xywh {95 95 36 21}
-              }
-              MenuItem {} {
-                label {-3 V}
-                xywh {105 105 36 21}
-              }
-              MenuItem {} {
-                label {-4 V}
-                xywh {115 115 36 21}
-              }
-              MenuItem {} {
-                label {-5 V}
-                xywh {125 125 36 21}
-              }
+            MenuItem {} {
+              label {0 V}
+              xywh {60 60 36 21}
             }
-            Fl_Input_Choice function_generator_fl_input_choice_phase {
-              label Phase
-              callback {m_LABSoft_Controller->m_Function_Generator.cb_phase (o, v);}
-              xywh {880 400 120 40} align 1
-              code0 {function_generator_fl_input_choice_phase->value (LABSOFT_FUNCTION_GENERATOR_PHASE);}
-            } {
-              MenuItem {} {
-                label {-360 deg}
-                xywh {95 95 36 21}
-              }
-              MenuItem {} {
-                label {-180 deg}
-                xywh {105 105 36 21}
-              }
-              MenuItem {} {
-                label {-90 deg}
-                xywh {115 115 36 21}
-              }
-              MenuItem {} {
-                label {-45 deg}
-                xywh {125 125 36 21}
-              }
-              MenuItem {} {
-                label {-30 deg}
-                xywh {105 105 36 21}
-              }
-              MenuItem {} {
-                label {0 deg}
-                xywh {115 115 36 21}
-              }
-              MenuItem {} {
-                label {+30 deg}
-                xywh {100 100 36 21}
-              }
-              MenuItem {} {
-                label {+45 deg}
-                xywh {110 110 36 21}
-              }
-              MenuItem {} {
-                label {+60 deg}
-                xywh {120 120 36 21}
-              }
-              MenuItem {} {
-                label {+90 deg}
-                xywh {130 130 36 21}
-              }
-              MenuItem {} {
-                label {+180 deg}
-                xywh {110 110 36 21}
-              }
-              MenuItem {} {
-                label {+360 deg}
-                xywh {120 120 36 21}
-              }
+            MenuItem {} {
+              label {-1 V}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {-2 V}
+              xywh {80 80 36 21}
+            }
+            MenuItem {} {
+              label {-3 V}
+              xywh {90 90 36 21}
+            }
+            MenuItem {} {
+              label {-4 V}
+              xywh {100 100 36 21}
+            }
+            MenuItem {} {
+              label {-5 V}
+              xywh {110 110 36 21}
+            }
+          }
+          Fl_Input_Choice function_generator_fl_input_choice_offset {
+            label {Vertical Offset}
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_offset (o, v);}
+            xywh {885 305 120 40} align 1
+            code0 {function_generator_fl_input_choice_offset->value (LABSOFT_FUNCTION_GENERATOR_Y_OFFSET);}
+          } {
+            MenuItem {} {
+              label {5 V}
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label {4 V}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {3 V}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {2 V}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {1 V}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {0 V}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {-1 V}
+              xywh {80 80 36 21}
+            }
+            MenuItem {} {
+              label {-2 V}
+              xywh {90 90 36 21}
+            }
+            MenuItem {} {
+              label {-3 V}
+              xywh {100 100 36 21}
+            }
+            MenuItem {} {
+              label {-4 V}
+              xywh {110 110 36 21}
+            }
+            MenuItem {} {
+              label {-5 V}
+              xywh {120 120 36 21}
+            }
+          }
+          Fl_Input_Choice function_generator_fl_input_choice_duty_cycle {
+            label {Duty Cycle}
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_duty_cycle (o, v);}
+            xywh {1035 305 120 40} align 1 deactivate
+            code0 {function_generator_fl_input_choice_duty_cycle->value (LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE);}
+          } {
+            MenuItem {} {
+              label {5 V}
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label {4 V}
+              xywh {40 40 36 21}
+            }
+            MenuItem {} {
+              label {3 V}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {2 V}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {1 V}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {0 V}
+              xywh {80 80 36 21}
+            }
+            MenuItem {} {
+              label {-1 V}
+              xywh {90 90 36 21}
+            }
+            MenuItem {} {
+              label {-2 V}
+              xywh {100 100 36 21}
+            }
+            MenuItem {} {
+              label {-3 V}
+              xywh {110 110 36 21}
+            }
+            MenuItem {} {
+              label {-4 V}
+              xywh {120 120 36 21}
+            }
+            MenuItem {} {
+              label {-5 V}
+              xywh {130 130 36 21}
+            }
+          }
+          Fl_Input_Choice function_generator_fl_input_choice_phase {
+            label Phase
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_func_gen_ic.cb_phase (o, v);}
+            xywh {885 405 120 40} align 1
+            code0 {function_generator_fl_input_choice_phase->value (LABSOFT_FUNCTION_GENERATOR_PHASE);}
+          } {
+            MenuItem {} {
+              label {-360 deg}
+              xywh {100 100 36 21}
+            }
+            MenuItem {} {
+              label {-180 deg}
+              xywh {110 110 36 21}
+            }
+            MenuItem {} {
+              label {-90 deg}
+              xywh {120 120 36 21}
+            }
+            MenuItem {} {
+              label {-45 deg}
+              xywh {130 130 36 21}
+            }
+            MenuItem {} {
+              label {-30 deg}
+              xywh {110 110 36 21}
+            }
+            MenuItem {} {
+              label {0 deg}
+              xywh {120 120 36 21}
+            }
+            MenuItem {} {
+              label {+30 deg}
+              xywh {105 105 36 21}
+            }
+            MenuItem {} {
+              label {+45 deg}
+              xywh {115 115 36 21}
+            }
+            MenuItem {} {
+              label {+60 deg}
+              xywh {125 125 36 21}
+            }
+            MenuItem {} {
+              label {+90 deg}
+              xywh {135 135 36 21}
+            }
+            MenuItem {} {
+              label {+180 deg}
+              xywh {115 115 36 21}
+            }
+            MenuItem {} {
+              label {+360 deg}
+              xywh {125 125 36 21}
             }
           }
         }
@@ -1639,8 +1458,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Power Supply}
-          xywh {0 35 1366 768} hide
+          label {Power Supply} selected
+          xywh {0 35 1366 768}
         } {
           Fl_Light_Button power_supply_fl_light_button_positive_12_volts_enable_disable {
             label {+12V}

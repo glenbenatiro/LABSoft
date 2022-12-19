@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <FL/Fl.H>
+
 LABSoft::
 LABSoft (int    argc,
          char **argv) 

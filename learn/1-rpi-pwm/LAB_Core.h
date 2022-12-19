@@ -1,7 +1,7 @@
 #ifndef LAB_CORE_H
 #define LAB_CORE_H
 
-#include "Auxiliary.h"
+#include "Utility.h"
 #include "Defaults.h"
 
 class LAB_Core
@@ -61,11 +61,11 @@ class LAB_Core
     uint32_t LAB_Core_dma_transfer_len (int chan);
     
     // --- GPIO ---
-    void     LAB_Core_gpio_out         (int pin, int val);
+    void     gpio_write         (unsigned pin, unsigned value);
     void     gpio_mode        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
     void     gpio_set         (int pin, int mode, int pull);
-    uint8_t  LAB_Core_gpio_in          (int pin);
+    uint8_t  gpio_read          (int pin);
     
     // --- SPI ---
     int       spi_init            ();

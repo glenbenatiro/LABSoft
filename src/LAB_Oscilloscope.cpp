@@ -11,9 +11,9 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
     m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS, 0, 0)
 {
   // refresh from last. this is a RESET DMA command
-  m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_A);
-  m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_B);
-  m_LAB_Core->LAB_Core_dma_stop(DMA_CHAN_C);
+  m_LAB_Core->dma_stop(DMA_CHAN_A);
+  m_LAB_Core->dma_stop(DMA_CHAN_B);
+  m_LAB_Core->dma_stop(DMA_CHAN_C);
 
   m_pwm_range = (LAB_PWM_FREQUENCY * 2) / m_sample_rate;
 
@@ -58,15 +58,15 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
 
   m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
-  //*REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
+  // *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
   *(g_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
 
   *REG32(m_LAB_Core->m_spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
   *REG32(m_LAB_Core->m_spi_regs, SPI_CS) = SPI_FIFO_CLR;                    // Clear SPI FIFOs
 
-  m_LAB_Core->LAB_Core_dma_start(mp, DMA_CHAN_C, &dp->cbs[6], 0);  // Start SPI Tx DMA
-  m_LAB_Core->LAB_Core_dma_start(mp, DMA_CHAN_B, &dp->cbs[0], 0);  // Start SPI Rx DMA
-  m_LAB_Core->LAB_Core_dma_start(mp, DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
+  m_LAB_Core->dma_start(mp, DMA_CHAN_C, &dp->cbs[6], 0);  // Start SPI Tx DMA
+  m_LAB_Core->dma_start(mp, DMA_CHAN_B, &dp->cbs[0], 0);  // Start SPI Rx DMA
+  m_LAB_Core->dma_start(mp, DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 
   printf ("oscilloscope ok!\n");
 }
