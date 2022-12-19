@@ -3,10 +3,19 @@
 
 #include "LAB_Core.h"
 
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_MOSI   = 2;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_MISO   = 3;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_SCLK   = 4;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_CS     = 14;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_BAUD   = 10'000;
+constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_FLAGS  = 2;
+
 class LAB_AD9833
 {
   private: 
     LAB_Core *m_LAB_Core;
+
+    int       DEBUG = 1;
 
     unsigned  m_MOSI,
               m_MISO,
@@ -40,7 +49,8 @@ class LAB_AD9833
     void  init ();
     void  start ();
     void  stop ();
-    void  update ();
+    void  update_ctrl_reg ();
+    void  write_reg ();
 
     void  wave_type   (WaveType _WaveType);
     void  frequency   (double frequency);

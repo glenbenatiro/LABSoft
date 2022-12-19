@@ -8,7 +8,6 @@ LAB_Function_Generator (LAB_Core *_LAB_Core) :
   m_func_gen_ic (_LAB_Core)
 {
   m_LAB_Core = _LAB_Core;
-  init ();
 }
 
 void LAB_Function_Generator:: 
@@ -17,6 +16,8 @@ start (int channel)
   if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
   {
     m_channel_signal[channel].enable ();
+
+    m_func_gen_ic.start ();
   }
 }
 
@@ -26,13 +27,9 @@ stop (int channel)
   if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
   {
     m_channel_signal[channel].disable ();
-  }
-}
 
-void LAB_Function_Generator:: 
-init ()
-{
-  
+    m_func_gen_ic.stop ();
+  }
 }
 
 void LAB_Function_Generator::
@@ -60,6 +57,7 @@ frequency (int    channel,
     {
       // add more code here regarding channel selection in the future if
       // Lab in a Box will have more than 1 function generator channel
+      printf ("lab function generator freq: %f\n", frequency);
 
       m_func_gen_ic.frequency (frequency);
     }

@@ -28,7 +28,7 @@ class LABSoft_Controller
     LABSoft_Controller_Voltmeter          m_Voltmeter;
     LABSoft_Controller_Ammeter            m_Ammeter;
     LABSoft_Controller_Ohmmeter           m_Ohmmeter;
-    LABSoft_Controller_Function_Generator m_func_gen_ic;
+    LABSoft_Controller_Function_Generator m_Function_Generator;
     LABSoft_Controller_Logic_Analyzer     m_Logic_Analyzer;
     LABSoft_Controller_Power_Supply       m_Power_Supply;
     LABSoft_Controller_Circuit_Checker    m_Circuit_Checker;

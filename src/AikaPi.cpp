@@ -512,14 +512,6 @@ bb_spi_open (unsigned CS,
   m_pin_info [CS].spi.CS_mode   = gpio_mode (CS);
   m_pin_info [CS].spi.delay     = (500'000 / baud) - 1;
   m_pin_info [CS].spi.spi_flags = spi_flags;
-
-  // set CS: active high or active low
-  gpio_mode (CS, GPIO_MODE_OUTPUT);
-
-  if (Utility::get_bits (spi_flags, 2, 1)) 
-    gpio_write (CS, 1);
-  else                                    
-    gpio_write (CS, 0);
   
   // the SCLK pin info field is used to store full information
 
@@ -536,9 +528,19 @@ bb_spi_open (unsigned CS,
   m_pin_info[SCLK].mode = PIN_INFO_MODE_SPI_SCLK;
   m_pin_info[MISO].mode = PIN_INFO_MODE_SPI_MISO;
   m_pin_info[MOSI].mode = PIN_INFO_MODE_SPI_MOSI;
+  
+  // set modes of the pins
+  gpio_mode (CS,    GPIO_MODE_OUTPUT);
+  gpio_mode (MOSI,  GPIO_MODE_OUTPUT);
+  gpio_mode (MISO,  GPIO_MODE_INPUT);
+  gpio_mode (SCLK,  GPIO_MODE_OUTPUT);
 
-  gpio_mode (MISO, GPIO_MODE_INPUT);
-  gpio_mode (SCLK, GPIO_MODE_OUTPUT);
+  // set CS mode: idle high or low
+  if (Utility::get_bits (spi_flags, BB_SPI_FLAG_CSPOL, 1)) 
+    gpio_write (CS, 0); // active high
+  else                                    
+    gpio_write (CS, 1); // active low
+
   gpio_write (MOSI, 0);
 
   return 0;
@@ -705,13 +707,13 @@ bb_spi_delay (Pin_Info *pi)
 void AikaPi::
 bb_spi_set_CS (Pin_Info *pi)
 {
-  gpio_write (pi->spi.CS, Utility::get_bits (pi->spi.spi_flags, BB_SPI_FLAG_CS, 1));
+  gpio_write (pi->spi.CS, Utility::get_bits (pi->spi.spi_flags, BB_SPI_FLAG_CSPOL, 1));
 }
 
 void AikaPi::
 bb_spi_clear_CS    (Pin_Info *pi)
 {
-  gpio_write (pi->spi.CS, !(Utility::get_bits (pi->spi.spi_flags, BB_SPI_FLAG_CS, 1)));
+  gpio_write (pi->spi.CS, !(Utility::get_bits (pi->spi.spi_flags, BB_SPI_FLAG_CSPOL, 1)));
 }
 
 void AikaPi:: 

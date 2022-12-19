@@ -29,11 +29,10 @@ init ()
   // initialize actual chip
   stop ();
 
-  wave_type (SINE);
-  frequency (500);
-  // write_mode (1);
+  wave_type (TRIANGLE);
+  frequency (250);
 
-  start ();
+  // start ();
 }
 
 void LAB_AD9833:: 
@@ -72,12 +71,14 @@ wave_type (WaveType _WaveType)
       break;
   }
 
-  update ();
+  update_ctrl_reg ();
 }
 
 void LAB_AD9833:: 
 frequency (double frequency)
 {
+  printf ("freq labad9833: %f\n", frequency);
+
   if ((frequency <= AD9833_MAX_FREQUENCY) && (frequency >= AD9833_MIN_FREQUENCY))
   {
     uint32_t divider = ((frequency * AD9833_2_POW_28) / 
@@ -88,27 +89,27 @@ frequency (double frequency)
     {
       m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
       m_txbuff[1] = divider & 0xFF;
-      update ();
+      write_reg ();
 
       divider >>= 14;
 
       m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
       m_txbuff[1] = divider & 0xFF;
-      update ();
+      write_reg ();
     } 
     else if (m_B28 == 0)
     {
       set_HLB (0);
       m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
       m_txbuff[1] = divider & 0xFF;
-      update ();
+      write_reg ();
 
       divider >>= 14;
 
       set_HLB (1);
       m_txbuff[0] = 0x00 | ((m_FSELECT + 1) << 6) | ((divider >> 8) & 0x3F);
       m_txbuff[1] = divider & 0xFF;
-      update ();
+      write_reg ();
     }
   }
 }
@@ -132,19 +133,19 @@ phase (double phase)
 void LAB_AD9833:: 
 start ()
 {
-  m_Reset = 1;
-  update ();
+  m_Reset = 0;
+  update_ctrl_reg ();
 }
 
 void LAB_AD9833:: 
 stop () 
 {
-  m_Reset = 0;
-  update ();
+  m_Reset = 1;
+  update_ctrl_reg ();
 }
 
 void LAB_AD9833:: 
-update ()
+update_ctrl_reg ()
 {
   m_txbuff[0] = 0x00 | (m_B28 << 5) | (m_HLB << 4) | (m_FSELECT << 3) |
     (m_PSELECT << 2) | m_Reset;
@@ -152,32 +153,40 @@ update ()
   m_txbuff[1] = 0x00 | (m_SLEEP1 << 7) | (m_SLEEP12 << 6) | 
     (m_OPBITEN << 5) | (m_DIV2 << 3) | (m_Mode << 1);
 
+  write_reg ();
+}
+
+void LAB_AD9833:: 
+write_reg ()
+{
+  if (DEBUG)
+    printf ("txbuff[0] txbuff[1]: %02x %02x\n", m_txbuff[0], m_txbuff[1]);
+
   m_LAB_Core->bb_spi_xfer (m_CS, m_txbuff, 2);
 }
 
 //
-
 
 // --- utility --- 
 void LAB_AD9833::
 sel_freq_reg (bool value)
 {
   m_FSELECT = value;
-  update ();
+  update_ctrl_reg ();
 }
 
 void LAB_AD9833::
 sel_phase_reg (bool value)
 {
   m_PSELECT = value;
-  update ();
+  update_ctrl_reg ();
 }
 
 void LAB_AD9833::
 set_HLB (bool value)
 {
   m_HLB = value;
-  update ();
+  update_ctrl_reg ();
 }
 
 void LAB_AD9833::
@@ -186,5 +195,5 @@ set_write_mode (bool value)
   // 1 = complete write through 2 consecutive writes
   // 0 = freq reg is split into MSB and LSB
   m_B28 = value;
-  update ();
+  update_ctrl_reg ();
 }

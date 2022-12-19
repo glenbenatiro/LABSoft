@@ -40,7 +40,7 @@ enum BB_SPI_FLAG
 {
   BB_SPI_FLAG_CPHA    = 0,
   BB_SPI_FLAG_CPOL    = 1,
-  BB_SPI_FLAG_CS      = 2,
+  BB_SPI_FLAG_CSPOL   = 2,
   BB_SPI_FLAG_TX_LSB  = 14,
   BB_SPI_FLAG_RX_LSB  = 15
 };

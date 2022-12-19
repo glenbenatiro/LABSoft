@@ -19,11 +19,11 @@ constexpr int SPI1_CEx = 2;
 constexpr double SOURCE_CLOCK = 25'000'000.0;
 constexpr bool DEBUG = 1;
 
-constexpr int SPI_BB_CE0 = 5;
-constexpr int SPI_BB_MOSI = 15;
-constexpr int SPI_BB_MISO = 26;
-constexpr int SPI_BB_CLK = 14;
-constexpr int SPI_BB_FREQ = 5'000;
+constexpr int SPI_BB_CE0 = 14;
+constexpr int SPI_BB_MOSI = 2;
+constexpr int SPI_BB_MISO = 3;
+constexpr int SPI_BB_CLK = 4;
+constexpr int SPI_BB_FREQ = 10'000;
 
 class AD9833_pigpio
 {
@@ -222,34 +222,34 @@ int main()
   int x = 1;
   int time = 1;
 
-  while (x--)
-  {
-    dev.set_wavetype (SINE);
-    dev.set_frequency (250);
-    sleep (time);
+  // while (x--)
+  // {
+  //   dev.set_wavetype (SINE);
+  //   dev.set_frequency (250);
+  //   sleep (time);
 
-    dev.set_wavetype (TRIANGLE);
-    //dev.set_frequency (250);
-    sleep (time);
+  //   dev.set_wavetype (TRIANGLE);
+  //   //dev.set_frequency (250);
+  //   sleep (time);
 
-    dev.set_wavetype (SQUARE_FULL);
-    //dev.set_frequency (250);
-    sleep (time);
+  //   dev.set_wavetype (SQUARE_FULL);
+  //   //dev.set_frequency (250);
+  //   sleep (time);
 
-    dev.set_wavetype (SQUARE_HALF);
-    //dev.set_frequency (250);
-    sleep (time);
+  //   dev.set_wavetype (SQUARE_HALF);
+  //   //dev.set_frequency (250);
+  //   sleep (time);
 
-    dev.set_wavetype (SINE);
-    dev.set_frequency (100);
-    sleep (time);
+  //   dev.set_wavetype (SINE);
+  //   dev.set_frequency (100);
+  //   sleep (time);
 
-    dev.set_frequency (500);
-    sleep (time);
+  //   dev.set_frequency (500);
+  //   sleep (time);
 
-    dev.set_frequency (1000);
-    sleep (time);
-  }
+  //   dev.set_frequency (1000);
+  //   sleep (time);
+  // }
 
   dev.stop ();
   printf ("program done\n");

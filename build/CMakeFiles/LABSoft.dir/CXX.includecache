@@ -6,28 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/glen/Desktop/LABSoft/src/AikaPi.cpp
-AikaPi.h
-/home/glen/Desktop/LABSoft/src/AikaPi.h
-fcntl.h
--
-unistd.h
--
-poll.h
--
-sys/mman.h
--
-sys/ioctl.h
--
-sys/stat.h
--
-thread
--
-chrono
--
-cstdio
--
-
 /home/glen/Desktop/LABSoft/src/AikaPi.h
 cstdint
 -
@@ -49,6 +27,20 @@ FL/Enumerations.H
 -
 Utility.h
 /home/glen/Desktop/LABSoft/src/Utility.h
+
+/home/glen/Desktop/LABSoft/src/LAB_AD9833.cpp
+LAB_AD9833.h
+/home/glen/Desktop/LABSoft/src/LAB_AD9833.h
+cstdio
+-
+
+/home/glen/Desktop/LABSoft/src/LAB_AD9833.h
+LAB_Core.h
+/home/glen/Desktop/LABSoft/src/LAB_Core.h
+
+/home/glen/Desktop/LABSoft/src/LAB_Core.h
+AikaPi.h
+/home/glen/Desktop/LABSoft/src/AikaPi.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Core_Defs.h
 
