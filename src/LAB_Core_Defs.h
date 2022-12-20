@@ -4,7 +4,7 @@
 // Link to the BCM2385 datasheet:
 // // https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
 
-#define RPI_VERSION  3
+#define RPI_VERSION  0
 
 #if RPI_VERSION == 0
   #define PHYS_REG_BASE PI_01_REG_BASE
