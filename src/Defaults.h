@@ -16,10 +16,7 @@ constexpr int LAB_PWM_FREQUENCY     = 20'000'000; // this is to be extracted fro
 constexpr int LAB_SPI_FREQUENCY     = 8'000'000; // in hz
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
-constexpr int   LAB_ADC_RESOLUTION            = 4096;
-constexpr int   LAB_ADC_RESOLUTION_IN_BITS    = 12;
-constexpr int   LAB_ADC_RESOLUTION_IN_INTEGER = pow (2, LAB_ADC_RESOLUTION_IN_BITS);
-constexpr float LAB_ADC_REFERENCE_VOLTAGE     = 5.0;
+
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 30.0); // in seconds, 25fps
 
@@ -77,6 +74,11 @@ constexpr int     LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
 constexpr double  LAB_OSCILLOSCOPE_SAMPLE_RATE            = 200'000; 
 constexpr double  LAB_OSCILLOSCOPE_SAMPLE_PERIOD          = (1.0 / LAB_OSCILLOSCOPE_SAMPLE_RATE);
 constexpr int     LAB_OSCILLOSCOPE_ADC_CE                 = 0; // CE0 or CE1
+
+constexpr int     LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS      = 12;
+constexpr int     LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT       = std::pow (2, LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS);
+constexpr double  LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE    = 5.0;
+constexpr double  LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT  = LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE / ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
 
 // LABSoft Oscilloscope
 #define LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTAGE_PER_DIVISION "1 V/div"

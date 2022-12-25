@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/glen/Desktop/LABSoft/src/AikaPi.h
-cstdint
--
-Utility.h
-/home/glen/Desktop/LABSoft/src/Utility.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-LAB_Core_Defs.h
-/home/glen/Desktop/LABSoft/src/LAB_Core_Defs.h
-
 /home/glen/Desktop/LABSoft/src/Channel_Signal.h
 vector
 -
@@ -75,28 +65,6 @@ Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 time.h
 /home/glen/Desktop/LABSoft/src/time.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Core.h
-AikaPi.h
-/home/glen/Desktop/LABSoft/src/AikaPi.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Core_Defs.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
-LAB_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
-cstdio
--
-cstring
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
-LAB_Core.h
-/home/glen/Desktop/LABSoft/src/LAB_Core.h
-Channel_Signals.h
-/home/glen/Desktop/LABSoft/src/Channel_Signals.h
 
 /home/glen/Desktop/LABSoft/src/LabelValue.h
 string

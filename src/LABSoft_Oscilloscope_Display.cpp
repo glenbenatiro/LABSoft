@@ -129,9 +129,24 @@ normalize_all_channels_raw_data ()
 
         }
 
+        // rearrange bits to correct order
         data = ((temp << 6) | (temp >> 10)) & 0x0FFF;
-  
-        chn->m_values[b] = (static_cast<float>(data) * 5.0 / 4095.0);
+
+        // get MSB to determine sign
+        bool sign = data >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
+
+        // mask data to mask out MSB sign bit
+        data = data & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+
+        if (sign)
+        {
+          chn->m_values[b] = data * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
+        }
+        else
+        {
+          chn->m_values[b] = (data * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) - 
+            LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
+        }
       }
     }
   }

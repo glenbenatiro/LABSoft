@@ -27,8 +27,8 @@ double clockToMilliseconds(clock_t ticks);
           m_background_color            = LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR,
           m_default_color               = LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR,
           m_func_gen_ic_channel  = LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER,
-          m_adc_resolution_in_bits      = LAB_ADC_RESOLUTION_IN_BITS,
-          m_adc_resolution_in_integer   = LAB_ADC_RESOLUTION_IN_INTEGER;
+          m_adc_resolution_in_bits      = LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS,
+          m_adc_resolution_in_integer   = LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT;
           
           
      // int     m_channel_colors              = LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNEL_COLORS;
@@ -44,7 +44,7 @@ double clockToMilliseconds(clock_t ticks);
     float m_time_per_division,
           m_voltage_per_division  = LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTAGE_PER_DIVISION,
           m_max_voltage,
-          m_adc_reference_voltage       = LAB_ADC_REFERENCE_VOLTAGE;
+          m_adc_reference_voltage       = LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
     
 
       
