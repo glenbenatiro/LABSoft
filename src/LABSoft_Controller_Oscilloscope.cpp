@@ -212,12 +212,8 @@ cb_time_per_division (Fl_Input_Choice *w,
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_time_per_division_labels ();
 
-  // backend
-  float freq = (m_LAB->m_Oscilloscope->m_number_of_samples_per_channel / 
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      m_number_of_columns) / (_LabelValue.actual_value ());
   
-  m_LAB->m_Oscilloscope->sample_rate (freq);
+  m_LAB->m_Oscilloscope->sample_rate (LabelValue (w->value ()).actual_value ());
 }
 
 // EOF

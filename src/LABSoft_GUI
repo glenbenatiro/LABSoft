@@ -20,7 +20,7 @@ class LABSoft_GUI {open
     code {printf("DEBUG: LABSoft_GUI Start\\n");} {}
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {0 0 1365 765} type Double visible
+      xywh {2006 109 1365 765} type Double visible
     } {
       Fl_Tabs {} {open
         xywh {0 -4 1366 807}
@@ -35,7 +35,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
+          label Oscilloscope open
           xywh {0 35 1366 768} hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
@@ -53,7 +53,7 @@ class LABSoft_GUI {open
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
           } {}
-          Fl_Group oscilloscope_fl_group_vertical_channel_1 {open
+          Fl_Group oscilloscope_fl_group_vertical_channel_1 {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -263,7 +263,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_vertical_channel_2 {open
+          Fl_Group oscilloscope_fl_group_vertical_channel_2 {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -483,7 +483,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
               xywh {865 400 120 30} align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION);}
             } {
@@ -888,8 +888,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Function Generator} open
-          xywh {0 35 1366 768}
+          label {Function Generator}
+          xywh {0 35 1366 768} hide
         } {
           Fl_Light_Button function_generator_fl_light_button_run_stop {
             label Run
@@ -1458,8 +1458,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Power Supply}
-          xywh {0 35 1366 768} hide
+          label {Power Supply} selected
+          xywh {0 35 1366 768}
         } {
           Fl_Light_Button power_supply_fl_light_button_positive_12_volts_enable_disable {
             label {+12V}

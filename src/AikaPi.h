@@ -10,6 +10,29 @@
 // --- GPIO Registers ---
 constexpr int GPFSEL0 = 0x0;
 
+// --- PWM ---
+constexpr int PWM_VALUE = 2;
+
+constexpr int PWM_BASE  = (PHYS_REG_BASE + 0x20C000);
+constexpr int PWM_CTL   = 0x00;   // Control
+constexpr int PWM_STA   = 0x04;   // Status
+constexpr int PWM_DMAC  = 0x08;   // DMA control
+constexpr int PWM_RNG1  = 0x10;   // Channel 1 range
+constexpr int PWM_DAT1  = 0x14;   // Channel 1 data
+constexpr int PWM_FIF1  = 0x18;   // Channel 1 fifo
+constexpr int PWM_RNG2  = 0x20;   // Channel 2 range
+constexpr int PWM_DAT2  = 0x24;   // Channel 2 data
+
+// PWM register values
+constexpr int PWM_CTL_RPTL1 = (1 << 2);  // Chan 1: repeat last data when FIFO empty
+constexpr int PWM_CTL_USEF1 = (1 << 5);  // Chan 1: use FIFO
+constexpr int PWM_DMAC_ENAB = (1 << 31); // Start PWM DMA
+constexpr int PWM_ENAB      = 1;         // Enable PWM
+constexpr int PWM_PIN       = 18;        // GPIO pin for PWM output
+
+// If non-zero, set PWM clock using VideoCore mailbox
+constexpr int USE_VC_CLOCK_SET = 0;
+
 // --- Enums ---
 
 enum PIN_INFO_MODE

@@ -40,6 +40,30 @@ reg_write (volatile uint32_t *reg,
   *reg = (*reg & ~(mask << shift)) | (value << shift);
 }
 
+void Utility:: 
+print_bits (int      bits,
+            unsigned size)
+{
+  #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+  
+  #define BYTE_TO_BINARY(byte)  \
+    (byte & 0x80 ? '1' : '0'), \
+    (byte & 0x40 ? '1' : '0'), \
+    (byte & 0x20 ? '1' : '0'), \
+    (byte & 0x10 ? '1' : '0'), \
+    (byte & 0x08 ? '1' : '0'), \
+    (byte & 0x04 ? '1' : '0'), \
+    (byte & 0x02 ? '1' : '0'), \
+    (byte & 0x01 ? '1' : '0') 
+
+  for (int a = 0; a < size && a < sizeof (bits); a++)
+  {
+    printf (BYTE_TO_BINARY_PATTERN " ", BYTE_TO_BINARY (bits >> (8 * (size - 1 - a))));
+  }
+
+  printf ("\n");
+}
+
 // 
 void 
 g_reg_write (MemoryMap mem_map,

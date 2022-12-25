@@ -11,9 +11,9 @@ class LAB_Oscilloscope
 
     bool m_is_running = false;
 
-    int   m_number_of_channels  = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
-          m_number_of_samples_per_channel   = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL,
-          m_sample_rate         = LAB_OSCILLOSCOPE_SAMPLE_RATE;
+    int   m_number_of_channels            = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
+          m_number_of_samples_per_channel = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
+          m_sample_rate                   = LAB_OSCILLOSCOPE_SAMPLE_RATE;
 
     uint32_t  m_pwm_range,
               m_usec_start;
@@ -30,6 +30,8 @@ class LAB_Oscilloscope
     // this changes PWM speed on board!! 
     // verify no other are affected
     void  sample_rate (double value); 
+
+    
 };
 
 #endif

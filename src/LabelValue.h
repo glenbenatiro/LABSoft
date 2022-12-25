@@ -1,6 +1,14 @@
 #ifndef LabelValue_H
 #define LabelValue_H
 
+#include <string>
+
+enum LABEL_TYPE
+{
+  VOLTS_PER_DIVISION = 0,
+  TIME_PER_DIVISION  = 1
+};
+
 class LabelValue
 {
   private:
@@ -10,6 +18,8 @@ class LabelValue
     char    m_unit_prefix;
 
     double  m_actual_value;
+
+    
 
   public:
     LabelValue (const char *label);
@@ -28,6 +38,8 @@ class LabelValue
     float   short_value ();
     
     double  actual_value                ();
+
+     char* label (LABEL_TYPE _LABEL_TYPE);    
 };
 
 #endif

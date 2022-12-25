@@ -148,4 +148,20 @@ actual_value ()
   return (m_coefficient * std::pow (10, m_exponent));
 }
 
+char* LabelValue::
+label (LABEL_TYPE _LABEL_TYPE)
+{
+  char label[20];
+
+  switch (_LABEL_TYPE)
+  {
+    case TIME_PER_DIVISION:
+      sprintf (label, "%d %cs/div", m_coefficient, m_unit_prefix);
+      break;
+    default:
+      break;
+  }
+
+  return label;
+}
 

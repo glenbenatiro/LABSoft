@@ -97,12 +97,12 @@ constexpr int SPI_DLEN  = 0x0c;
 constexpr int SPI_LTOH  = 0x10;
 constexpr int SPI_DC    = 0x14;
 
-#define SPI_FIFO_CLR    (3 << 4)
+#define SPI_CS_CLEAR    (3 << 4)
 #define SPI_RX_FIFO_CLR (2 << 4)
 #define SPI_TX_FIFO_CLR (1 << 4)
-#define SPI_TFR_ACT     (1 << 7)
-#define SPI_DMA_EN      (1 << 8)
-#define SPI_AUTO_CS     (1 << 11)
+#define SPI_CS_TA     (1 << 7)
+#define SPI_CS_DMAEN      (1 << 8)
+#define SPI_CS_ADCS     (1 << 11)
 #define SPI_RXD         (1 << 17)
 #define SPI_CE0         0
 #define SPI_CE1         1
@@ -117,7 +117,7 @@ constexpr int SPI_DC    = 0x14;
 
 // --- ADC ---
 // ADC and DAC chip-enables
-#define ADC_CE_NUM      0
+#define SPI_CS_CS      0
 #define DAC_CE_NUM      1
 
 // Definitions for 2 bytes per ADC sample (11-bit)

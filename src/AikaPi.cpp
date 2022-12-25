@@ -417,7 +417,7 @@ spi_init ()
 void AikaPi:: 
 spi_clear_rxtx_fifo ()
 {
-  // *REG32 (m_spi_regs, SPI_CS) = SPI_FIFO_CLR;
+  // *REG32 (m_spi_regs, SPI_CS) = SPI_CS_CLEAR;
   *REG32 (m_spi_regs, SPI_CS) = 0x30;
 }
 
@@ -451,7 +451,7 @@ spi_xfer (uint8_t *txd,
 void 
 AikaPi::spi_disable (void)
 {
-    *REG32(m_spi_regs, SPI_CS) = SPI_FIFO_CLR;
+    *REG32(m_spi_regs, SPI_CS) = SPI_CS_CLEAR;
     *REG32(m_spi_regs, SPI_CS) = 0;
 }
 

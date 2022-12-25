@@ -105,17 +105,17 @@ normalize_all_channels_raw_data ()
   float scaler = m_adc_reference_voltage / (m_adc_resolution_in_integer >> 1);
   int16_t ref_half = m_adc_resolution_in_integer >> 1;
 
+  uint16_t temp;
+  uint16_t data;
+
   for (int a = 0; a < m_channel_signals.size (); a++) 
   {
     Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
 
-    if (chn->m_is_enabled)
+    if (chn->is_enabled ())
     {
       for (int b = 0; b < (chn->m_values.size ()); b++)
       {
-        uint16_t temp;
-        uint16_t data;
-
         if (a == 0)
         {
           temp = chn->m_raw_values[b] & 0x0000FFFF;
@@ -130,10 +130,8 @@ normalize_all_channels_raw_data ()
         }
 
         data = ((temp << 6) | (temp >> 10)) & 0x0FFF;
-        chn->m_values[b] = (static_cast<int16_t>(data) - ref_half) * (scaler);
-
-        //printf (BYTE_TO_BINARY_PATTERN " " BYTE_TO_BINARY_PATTERN "\n",
-        //   BYTE_TO_BINARY (data >> 8), BYTE_TO_BINARY (data));
+  
+        chn->m_values[b] = (static_cast<float>(data) * 5.0 / 4095.0);
       }
     }
   }

@@ -42,6 +42,8 @@ class Utility
 
               static void      reg_write  (MemoryMap mem_map, uint32_t offset, uint32_t value, uint32_t mask, unsigned shift);
               static void      reg_write  (volatile uint32_t *reg, uint32_t value, uint32_t mask, unsigned shift);
+
+              static void      print_bits (int bits, unsigned size = 1);
 };
 
 volatile uint32_t* g_reg32 (MemoryMap mem_map, uint32_t offset);

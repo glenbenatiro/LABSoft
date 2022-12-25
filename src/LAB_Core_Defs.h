@@ -39,18 +39,13 @@ constexpr int PI_MAX_USER_GPIO  = 31;
 
 // --- ADC ---
 // ADC and DAC chip-enables
-constexpr int ADC_CE_NUM = 0;
+constexpr int SPI_CS_CS = 0;
 constexpr int DAC_CE_NUM = 1;
 
 
 
 // --- SPI ---
 // Page 148
-
-// SPI clock frequency
-#define MIN_SPI_FREQ    10000
-#define MAX_SPI_FREQ    32000000
-#define SPI_FREQ        32000000
 
 // SPI 0 pin definitions
 #define SPI0_CE0_PIN    8
@@ -68,15 +63,15 @@ constexpr int SPI_DLEN  = 0x0c;
 constexpr int SPI_LTOH  = 0x10;
 constexpr int SPI_DC    = 0x14;
 
-#define SPI_FIFO_CLR    (3 << 4)
-#define SPI_RX_FIFO_CLR (2 << 4)
-#define SPI_TX_FIFO_CLR (1 << 4)
-#define SPI_TFR_ACT     (1 << 7)
-#define SPI_DMA_EN      (1 << 8)
-#define SPI_AUTO_CS     (1 << 11)
-#define SPI_RXD         (1 << 17)
-#define SPI_CE0         0
-#define SPI_CE1         1
+constexpr uint32_t SPI_CS_CLEAR     = (3 << 4);
+constexpr uint32_t SPI_RX_FIFO_CLR  = (2 << 4);
+constexpr uint32_t SPI_TX_FIFO_CLR  = (1 << 4);
+constexpr uint32_t SPI_CS_TA        = (1 << 7);
+constexpr uint32_t SPI_CS_DMAEN     = (1 << 8);
+constexpr uint32_t SPI_CS_ADCS      = (1 << 11);
+constexpr uint32_t SPI_RXD          = (1 << 17);
+constexpr uint32_t SPI_CE0          = 0;
+constexpr uint32_t SPI_CE1          = 1;
 
 // --- Auxiliaries---
 constexpr int SPI1_SCLK_PIN = 21;
@@ -132,30 +127,6 @@ constexpr int PWM_CLOCK_ID  = 0xa;
 constexpr int USEC_BASE = (PHYS_REG_BASE + 0x3000);
 constexpr int USEC_TIME = 0x04;
 
-
-
-// --- PWM ---
-constexpr int PWM_VALUE = 2;
-
-constexpr int PWM_BASE  = (PHYS_REG_BASE + 0x20C000);
-constexpr int PWM_CTL   = 0x00;   // Control
-constexpr int PWM_STA   = 0x04;   // Status
-constexpr int PWM_DMAC  = 0x08;   // DMA control
-constexpr int PWM_RNG1  = 0x10;   // Channel 1 range
-constexpr int PWM_DAT1  = 0x14;   // Channel 1 data
-constexpr int PWM_FIF1  = 0x18;   // Channel 1 fifo
-constexpr int PWM_RNG2  = 0x20;   // Channel 2 range
-constexpr int PWM_DAT2  = 0x24;   // Channel 2 data
-
-// PWM register values
-constexpr int PWM_CTL_RPTL1 = (1 << 2);  // Chan 1: repeat last data when FIFO empty
-constexpr int PWM_CTL_USEF1 = (1 << 5);  // Chan 1: use FIFO
-constexpr int PWM_DMAC_ENAB = (1 << 31); // Start PWM DMA
-constexpr int PWM_ENAB      = 1;         // Enable PWM
-constexpr int PWM_PIN       = 18;        // GPIO pin for PWM output
-
-// If non-zero, set PWM clock using VideoCore mailbox
-constexpr int USE_VC_CLOCK_SET = 0;
 
 
 
