@@ -6,6 +6,7 @@
 #include "Defaults.h"
 class LABSoft_Controller;
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
@@ -15,6 +16,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Choice.H>
+#include "LABSoft_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>
 
 class LABSoft_GUI {
@@ -22,6 +24,7 @@ public:
   LABSoft_Controller *m_LABSoft_Controller; 
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
+  static Fl_Menu_Item menu_[];
   Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
 private:
   inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
@@ -186,7 +189,6 @@ private:
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
   Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
-  LABSoft_Oscilloscope_Display_Group *logic_analyzer_oscilloscope_display_group_display;
   Fl_Input_Choice *logic_analyzer_fl_input_choice_memory_depth;
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_memory_depth[];
   Fl_Input_Choice *logic_analyzer_fl_input_choice_sample_rate;
@@ -195,8 +197,8 @@ public:
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_samples_per_division[];
   Fl_Input_Choice *logic_analyzer_fl_input_choice_time_per_division;
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_time_per_division[];
-  Fl_Input_Choice *logic_analyzer_fl_input_choice_x_offset;
-  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_x_offset[];
+  LABSoft_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
+  static Fl_Menu_Item menu_1[];
   Fl_Light_Button *power_supply_fl_light_button_positive_12_volts_enable_disable;
 private:
   inline void cb_power_supply_fl_light_button_positive_12_volts_enable_disable_i(Fl_Light_Button*, void*);

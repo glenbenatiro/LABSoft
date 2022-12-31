@@ -6,29 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/glen/Desktop/LABSoft/lib/AikaPi.cpp
-AikaPi.h
-/home/glen/Desktop/LABSoft/lib/AikaPi.h
-fcntl.h
--
-unistd.h
--
-poll.h
--
-sys/mman.h
--
-sys/ioctl.h
--
-sys/stat.h
--
-thread
--
-chrono
--
-cstdio
--
-
-/home/glen/Desktop/LABSoft/lib/AikaPi.h
+/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
 cstdint
 -
 
@@ -53,10 +31,6 @@ cmath
 -
 array
 -
-
-/home/glen/Desktop/LABSoft/src/LAB.cpp
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB.h
 
 /home/glen/Desktop/LABSoft/src/LAB.h
 LAB_Core.h
@@ -341,7 +315,19 @@ FL/Fl_Output.H
 -
 FL/Fl_Choice.H
 -
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+FL/Fl_Menu_Button.H
+-
 FL/Fl_Text_Display.H
+-
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+FL/Fl_Group.H
 -
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
@@ -370,47 +356,23 @@ LABSoft_Oscilloscope_Display.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 
-/home/glen/Desktop/LABSoft/src/LAB_AD9833.cpp
-LAB_AD9833.h
-/home/glen/Desktop/LABSoft/src/LAB_AD9833.h
-cstdio
--
-
 /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Ammeter.cpp
-LAB_Ammeter.h
-/home/glen/Desktop/LABSoft/src/LAB_Ammeter.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Ammeter.h
 LAB_Meter.h
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.cpp
-LAB_Circuit_Checker.h
-/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Core.cpp
-LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Core.h
-../lib/AikaPi.h
-/home/glen/Desktop/LABSoft/lib/AikaPi.h
+../lib/AikaPi/AikaPi.h
+/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
-LAB_Function_Generator.h
-/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
-iostream
--
 
 /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
 LAB_Core.h
@@ -422,47 +384,17 @@ Defaults.h
 LAB_AD9833.h
 /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
-LAB_Logic_Analyzer.h
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Meter.cpp
-LAB_Meter.h
-/home/glen/Desktop/LABSoft/src/LAB_Meter.h
-thread
--
-chrono
--
-cstdlib
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.cpp
-LAB_Ohmmeter.h
-/home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.h
-
 /home/glen/Desktop/LABSoft/src/LAB_Ohmmeter.h
 LAB_Meter.h
 /home/glen/Desktop/LABSoft/src/LAB_Meter.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
-LAB_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
-cstdio
--
-cstring
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
 LAB_Core.h
@@ -470,19 +402,9 @@ LAB_Core.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Power_Supply.cpp
-LAB_Power_Supply.h
-/home/glen/Desktop/LABSoft/src/LAB_Power_Supply.h
-iostream
--
-
 /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp
-LAB_Voltmeter.h
-/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 LAB_Meter.h

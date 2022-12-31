@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/glen/Desktop/LABSoft/lib/AikaPi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.o"
+  "/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Channel_Signal.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Channel_Signals.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
@@ -21,6 +21,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Power_Supply.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_AD9833.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o"

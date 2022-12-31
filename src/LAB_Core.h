@@ -1,7 +1,7 @@
 #ifndef LAB_CORE_H
 #define LAB_CORE_H
 
-#include "../lib/AikaPi.h"
+#include "../lib/AikaPi/AikaPi.h"
 
 #include "Defaults.h"
 

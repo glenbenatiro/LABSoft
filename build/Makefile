@@ -142,32 +142,32 @@ LABSoft/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/build
 .PHONY : LABSoft/fast
 
-lib/AikaPi.o: lib/AikaPi.cpp.o
+lib/AikaPi/AikaPi.o: lib/AikaPi/AikaPi.cpp.o
 
-.PHONY : lib/AikaPi.o
+.PHONY : lib/AikaPi/AikaPi.o
 
 # target to build an object file
-lib/AikaPi.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.o
-.PHONY : lib/AikaPi.cpp.o
+lib/AikaPi/AikaPi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o
+.PHONY : lib/AikaPi/AikaPi.cpp.o
 
-lib/AikaPi.i: lib/AikaPi.cpp.i
+lib/AikaPi/AikaPi.i: lib/AikaPi/AikaPi.cpp.i
 
-.PHONY : lib/AikaPi.i
+.PHONY : lib/AikaPi/AikaPi.i
 
 # target to preprocess a source file
-lib/AikaPi.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.i
-.PHONY : lib/AikaPi.cpp.i
+lib/AikaPi/AikaPi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.i
+.PHONY : lib/AikaPi/AikaPi.cpp.i
 
-lib/AikaPi.s: lib/AikaPi.cpp.s
+lib/AikaPi/AikaPi.s: lib/AikaPi/AikaPi.cpp.s
 
-.PHONY : lib/AikaPi.s
+.PHONY : lib/AikaPi/AikaPi.s
 
 # target to generate assembly for a file
-lib/AikaPi.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.s
-.PHONY : lib/AikaPi.cpp.s
+lib/AikaPi/AikaPi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.s
+.PHONY : lib/AikaPi/AikaPi.cpp.s
 
 src/Channel_Signal.o: src/Channel_Signal.cpp.o
 
@@ -600,6 +600,33 @@ src/LABSoft_GUI.s: src/LABSoft_GUI.cpp.s
 src/LABSoft_GUI.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.s
 .PHONY : src/LABSoft_GUI.cpp.s
+
+src/LABSoft_Logic_Analyzer_Display_Group.o: src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
+
+.PHONY : src/LABSoft_Logic_Analyzer_Display_Group.o
+
+# target to build an object file
+src/LABSoft_Logic_Analyzer_Display_Group.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
+.PHONY : src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
+
+src/LABSoft_Logic_Analyzer_Display_Group.i: src/LABSoft_Logic_Analyzer_Display_Group.cpp.i
+
+.PHONY : src/LABSoft_Logic_Analyzer_Display_Group.i
+
+# target to preprocess a source file
+src/LABSoft_Logic_Analyzer_Display_Group.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.i
+.PHONY : src/LABSoft_Logic_Analyzer_Display_Group.cpp.i
+
+src/LABSoft_Logic_Analyzer_Display_Group.s: src/LABSoft_Logic_Analyzer_Display_Group.cpp.s
+
+.PHONY : src/LABSoft_Logic_Analyzer_Display_Group.s
+
+# target to generate assembly for a file
+src/LABSoft_Logic_Analyzer_Display_Group.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.s
+.PHONY : src/LABSoft_Logic_Analyzer_Display_Group.cpp.s
 
 src/LABSoft_Oscilloscope_Display.o: src/LABSoft_Oscilloscope_Display.cpp.o
 
@@ -1042,9 +1069,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LABSoft"
-	@echo "... lib/AikaPi.o"
-	@echo "... lib/AikaPi.i"
-	@echo "... lib/AikaPi.s"
+	@echo "... lib/AikaPi/AikaPi.o"
+	@echo "... lib/AikaPi/AikaPi.i"
+	@echo "... lib/AikaPi/AikaPi.s"
 	@echo "... src/Channel_Signal.o"
 	@echo "... src/Channel_Signal.i"
 	@echo "... src/Channel_Signal.s"
@@ -1093,6 +1120,9 @@ help:
 	@echo "... src/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI.s"
+	@echo "... src/LABSoft_Logic_Analyzer_Display_Group.o"
+	@echo "... src/LABSoft_Logic_Analyzer_Display_Group.i"
+	@echo "... src/LABSoft_Logic_Analyzer_Display_Group.s"
 	@echo "... src/LABSoft_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_Oscilloscope_Display.s"

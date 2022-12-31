@@ -20,7 +20,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft.cpp
   src/LAB.cpp
 
-  lib/AikaPi.cpp
+  lib/AikaPi/AikaPi.cpp
   src/LAB_Core.cpp
   src/LAB_Oscilloscope.cpp
   src/LAB_Meter.cpp
@@ -47,6 +47,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_GUI.cpp
   src/LABSoft_Oscilloscope_Display_Group.cpp
   src/LABSoft_Oscilloscope_Display.cpp
+  src/LABSoft_Logic_Analyzer_Display_Group.cpp
 
   src/Channel_Signals.cpp
   src/Channel_Signal.cpp
