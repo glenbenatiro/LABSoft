@@ -1,0 +1,3 @@
+[submodule "lib/AikaPi"]
+	path = lib/AikaPi
+	url = https://github.com/glenbenatiro/AikaPi
