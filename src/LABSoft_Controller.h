@@ -7,9 +7,7 @@
 #include <FL/Fl.H>
 
 #include "LABSoft_Controller_Oscilloscope.h"
-#include "LABSoft_Controller_Voltmeter.h"
-#include "LABSoft_Controller_Ammeter.h"
-#include "LABSoft_Controller_Ohmmeter.h"
+#include "LABSoft_Controller_Multimeter.h"
 #include "LABSoft_Controller_Function_Generator.h"
 #include "LABSoft_Controller_Logic_Analyzer.h"
 #include "LABSoft_Controller_Power_Supply.h"
@@ -24,10 +22,7 @@ class LABSoft_Controller
     LABSoft_GUI                           *m_LABSoft_GUI;
     
     LABSoft_Controller_Oscilloscope       m_Oscilloscope;             
-    LABSoft_Controller_Voltmeter          m_Voltmeter;
-    LABSoft_Controller_Ammeter            m_Ammeter;
-    LABSoft_Controller_Ohmmeter           m_Ohmmeter;
-    LABSoft_Controller_Function_Generator m_Function_Generator;
+    LABSoft_Controller_Multimeter         m_Multimeter;
     LABSoft_Controller_Logic_Analyzer     m_Logic_Analyzer;
     LABSoft_Controller_Power_Supply       m_Power_Supply;
     LABSoft_Controller_Circuit_Checker    m_Circuit_Checker;

@@ -34,10 +34,7 @@ ADD_EXECUTABLE(LABSoft
 
   src/LABSoft_Controller.cpp
   src/LABSoft_Controller_Oscilloscope.cpp
-  src/LABSoft_Controller_Meter.cpp
-  src/LABSoft_Controller_Voltmeter.cpp
-  src/LABSoft_Controller_Ammeter.cpp
-  src/LABSoft_Controller_Ohmmeter.cpp
+  src/LABSoft_Controller_Multimeter.cpp
   src/LABSoft_Controller_Function_Generator.cpp
   src/LABSoft_Controller_Logic_Analyzer.cpp
   src/LABSoft_Controller_Power_Supply.cpp
