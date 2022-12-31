@@ -5,7 +5,6 @@
 
 #include <FL/Fl.H>
 
-#include "Utility.h"
 #include "LAB.h"
 #include "LABSoft_GUI.h"
 

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/LABSoft.dir/src/AikaPi.cpp.o"
+  "CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.o"
   "CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
   "CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
@@ -30,7 +30,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"
-  "CMakeFiles/LABSoft.dir/src/Utility.cpp.o"
   "CMakeFiles/LABSoft.dir/src/main.cpp.o"
   "CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
   "LABSoft"

@@ -9,7 +9,7 @@
 #include <poll.h>
 
 #include "LAB_Core.h"
-#include "Utility.h"
+
 #include "Defaults.h"
 
 LAB_Core::LAB_Core ()
@@ -34,7 +34,7 @@ LAB_Core::LAB_Core_map_uncached_mem (MemoryMap *mp,
   void *ret;
   
   mp->size = PAGE_ROUNDUP(size);
-  mp->fd   = LAB_Core_open_mbox ();
+  mp->fd   = LAB_Core_mailbox_open ();
   
   ret = (mp->h    = LAB_Core_alloc_vc_mem (mp->fd, mp->size, DMA_MEM_FLAGS))   > 0 &&
         (mp->bus  = LAB_Core_lock_vc_mem  (mp->fd, mp->h))                    != 0 &&
@@ -79,7 +79,7 @@ LAB_Core::LAB_Core_unmap_periph_mem (MemoryMap *mp)
           LAB_Core_unmap_segment (mp->virt, mp->size);
           LAB_Core_unlock_vc_mem (mp->fd, mp->h);
           LAB_Core_free_vc_mem   (mp->fd, mp->h);
-          LAB_Core_close_mbox    (mp->fd);
+          LAB_Core_mailbox_close    (mp->fd);
         }
       else
         {
@@ -208,7 +208,7 @@ LAB_Core::LAB_Core_dma_disp (int chan)
 // --- Videocore Mailbox ---
 // Open mailbox interface, return file descriptor
 int 
-LAB_Core::LAB_Core_open_mbox (void)
+LAB_Core::LAB_Core_mailbox_open (void)
 {
   int fd;
 
@@ -220,7 +220,7 @@ LAB_Core::LAB_Core_open_mbox (void)
 
 // Close mailbox interface
 void 
-LAB_Core::LAB_Core_close_mbox (int fd)
+LAB_Core::LAB_Core_mailbox_close (int fd)
 {
   if (fd >= 0)
     close (fd);
@@ -259,7 +259,7 @@ LAB_Core::LAB_Core_msg_mbox (int     fd,
 uint32_t 
 LAB_Core::LAB_Core_alloc_vc_mem (int            fd, 
                                    uint32_t       size,
-                                   VC_ALLOC_FLAGS flags)
+                                   MAILBOX_ALLOCATE_MEMORY_FLAGS flags)
 {
   VC_MSG msg = {.tag   = 0x3000c, 
                 .blen  = 12,

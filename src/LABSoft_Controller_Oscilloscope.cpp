@@ -5,7 +5,7 @@
 
 #include <FL/Fl.H>
 
-#include "Utility.h"
+
 #include "Defaults.h"
 
 LABSoft_Controller_Oscilloscope::
@@ -21,7 +21,10 @@ cb_run_stop (Fl_Light_Button *w,
 {
   if (w->value () == 0)
     {
+      // backend
       m_LAB->m_Oscilloscope->stop ();
+
+      // frontend
       m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
         m_display->m_is_enabled = false;
 
@@ -78,7 +81,7 @@ void LABSoft_Controller_Oscilloscope::
 cb_x_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  double value = g_get_actual_value_from_label (w->value ());
+  double value = LabelValue (w->value ()).actual_value ();
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     m_x_offset = value;
@@ -176,6 +179,9 @@ cb_volts_per_division (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    volts_per_division (channel, _LabelValue.actual_value ());
+
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     volts_per_division (channel, _LabelValue.actual_value ());
   
@@ -212,8 +218,7 @@ cb_time_per_division (Fl_Input_Choice *w,
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_time_per_division_labels ();
 
-  
-  m_LAB->m_Oscilloscope->sample_rate (LabelValue (w->value ()).actual_value ());
+  m_LAB->m_Oscilloscope->sample_rate (channel, LabelValue (w->value ()).actual_value ());
 }
 
-// EOF
+// EOFs

@@ -6,7 +6,7 @@
 
 #include <FL/Fl.H>
 
-#include "Utility.h"
+
 #include "Defaults.h"
 
 LABSoft_Controller_Voltmeter:: 
@@ -24,8 +24,10 @@ update_loop ()
     {
       // assemble text
       char display[50];
-      int unit_power = aux_unit_label_to_unit_power
-        (m_LABSoft_GUI->voltmeter_fl_choice_unit->text ());
+      // int unit_power = aux_unit_label_to_unit_power
+      //   (m_LABSoft_GUI->voltmeter_fl_choice_unit->text ());
+
+      int unit_power = 0;
       double scaled_value = (m_LAB->m_Voltmeter.m_value) * (pow (10, (-3 * unit_power)));
 
       if (unit_power >= 0)

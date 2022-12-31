@@ -71,7 +71,9 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
   // *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
-  *(g_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
+  //*(g_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
+
+  *(Utility::get_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
 
   *REG32(m_LAB_Core->m_spi_regs, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
   *REG32(m_LAB_Core->m_spi_regs, SPI_CS) = SPI_CS_CLEAR;                    // Clear SPI FIFOs
@@ -108,8 +110,9 @@ stop ()
 // this changes PWM speed on board!! 
 // verify no other are affected
 void LAB_Oscilloscope:: 
-sample_rate (double value)
+sample_rate (int channel, double value)
 {
+
   printf ("new sample rate: %f\n", value);
   m_LAB_Core->pwm_set_frequency (value);
 }

@@ -6,6 +6,7 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
 
+#include "LabelValue.h"
 #include "LABSoft_Oscilloscope_Display.h"
 #include "Defaults.h"
 

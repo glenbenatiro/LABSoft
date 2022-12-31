@@ -1,7 +1,7 @@
 #ifndef LAB_CORE_H
 #define LAB_CORE_H
 
-#include "Utility.h"
+
 #include "Defaults.h"
 
 class LAB_Core
@@ -37,16 +37,16 @@ class LAB_Core
     void     LAB_Core_unmap_periph_mem (MemoryMap *mp);
     
     // --- Videocore Mailbox ---
-    int  	   LAB_Core_open_mbox        (void);
+    int  	   LAB_Core_mailbox_open        (void);
     void     LAB_Core_disp_vc_msg      (VC_MSG *msgp);
-    void 	   LAB_Core_close_mbox       (int fd);
+    void 	   LAB_Core_mailbox_close       (int fd);
     void     LAB_Core_unmap_segment    (void *mem, int  size);
     void*    LAB_Core_lock_vc_mem      (int fd, int h);
     uint32_t LAB_Core_msg_mbox         (int fd, VC_MSG *msgp);
     uint32_t LAB_Core_fset_vc_clock    (int fd, int id, uint32_t freq);
     uint32_t LAB_Core_free_vc_mem      (int fd, int h);
     uint32_t LAB_Core_unlock_vc_mem    (int fd, int h);
-    uint32_t LAB_Core_alloc_vc_mem     (int fd, uint32_t size, VC_ALLOC_FLAGS flags);
+    uint32_t LAB_Core_alloc_vc_mem     (int fd, uint32_t size, MAILBOX_ALLOCATE_MEMORY_FLAGS flags);
   
     // --- Aux ---
     void     LAB_Core_fail             (const char *s);

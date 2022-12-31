@@ -5,7 +5,7 @@
 
 #include <FL/fl_draw.H>
 
-#include "Utility.h"
+
 #include "Defaults.h"
 
 LABSoft_Oscilloscope_Display_Group::
@@ -115,8 +115,8 @@ update_x_axis_labels ()
       float label_value = (((a - (m_number_of_columns / 2)) * m_time_per_division) + 
       m_x_offset) * pow (10, (m_time_per_division_unit_scaler * -1));
 
-      sprintf (label, "%3.4f %cs", label_value, g_get_unit_prefix 
-      (m_time_per_division_unit_scaler));
+      // sprintf (label, "%3.4f %cs", label_value, g_get_unit_prefix 
+      // (m_time_per_division_unit_scaler));
 
       m_x_labels[a]->copy_label (label);
     }

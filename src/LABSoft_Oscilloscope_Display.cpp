@@ -102,9 +102,6 @@ update ()
 void LABSoft_Oscilloscope_Display:: 
 normalize_all_channels_raw_data ()
 {
-  float scaler = m_adc_reference_voltage / (m_adc_resolution_in_integer >> 1);
-  int16_t ref_half = m_adc_resolution_in_integer >> 1;
-
   uint16_t temp;
   uint16_t data;
 
@@ -152,6 +149,15 @@ normalize_all_channels_raw_data ()
   }
 }
 
+// void LABSoft_Oscilloscope_Display:: 
+// normalize_samples_to_display () 
+// {
+//   if (m_is_enabled)
+//   {
+    
+//   }
+// }
+
 void LABSoft_Oscilloscope_Display:: 
 normalize_channels_data_to_display ()
 {
@@ -161,7 +167,7 @@ normalize_channels_data_to_display ()
     {
       Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
 
-      if (chn->m_is_enabled) 
+      if (chn->is_enabled ())
       {
         // calculate sample skip interval
         float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());

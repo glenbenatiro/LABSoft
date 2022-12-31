@@ -11,18 +11,15 @@
 #include <chrono>
 #include <cstdio>
 
-// #include "Utility.h"
+// 
 // #include "Defaults.h"
 
 AikaPi::AikaPi ()
 {
   map_devices ();
-  map_uncached_mem (&m_vc_mem, VC_MEM_SIZE);
  
-  spi_init ();
+  spi_init (SPI_FREQUENCY);
   // aux_spi0_init ();
-
-  printf ("AikaPi init OK\n");
 }
 
 AikaPi::~AikaPi ()
@@ -45,7 +42,7 @@ AikaPi::map_uncached_mem (MemoryMap *mp,
   void *ret;
   
   mp->size = PAGE_ROUNDUP(size);
-  mp->fd   = open_mbox ();
+  mp->fd   = mailbox_open ();
   
   ret = (mp->h    = alloc_vc_mem (mp->fd, mp->size, DMA_MEM_FLAGS))   > 0 &&
         (mp->bus  = lock_vc_mem  (mp->fd, mp->h))                    != 0 &&
@@ -91,7 +88,7 @@ AikaPi::unmap_periph_mem (MemoryMap *mp)
           unmap_segment (mp->virt, mp->size);
           unlock_vc_mem (mp->fd, mp->h);
           free_vc_mem   (mp->fd, mp->h);
-          close_mbox    (mp->fd);
+          mailbox_close    (mp->fd);
         }
       else
         {
@@ -218,24 +215,24 @@ AikaPi::dma_disp (int chan)
 
 
 // --- Videocore Mailbox ---
-// Open mailbox interface, return file descriptor
+// https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
+
 int 
-AikaPi::open_mbox (void)
+AikaPi::mailbox_open (void)
 {
   int fd;
 
   if ((fd = open ("/dev/vcio", 0)) < 0)
-    fail("Error: can't open VC mailbox\n");
+    fail ("Error: Can't open VC mailbox.\n");
      
-  return(fd);
+  return (fd);
 }
 
 // Close mailbox interface
 void 
-AikaPi::close_mbox (int fd)
+AikaPi::mailbox_close (int fd)
 {
-  if (fd >= 0)
-    close (fd);
+  close (fd);
 }
 
 // Send message to mailbox, return first response int, 0 if error
@@ -271,9 +268,11 @@ AikaPi::msg_mbox (int     fd,
 uint32_t 
 AikaPi::alloc_vc_mem (int            fd, 
                                    uint32_t       size,
-                                   VC_ALLOC_FLAGS flags)
+                                   MAILBOX_ALLOCATE_MEMORY_FLAGS flags)
 {
-  VC_MSG msg = {.tag   = 0x3000c, 
+  // https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface#allocate-memory
+
+  VC_MSG msg = {.tag   = MAILBOX_TAG_ALLOCATE_MEMORY,
                 .blen  = 12,
                 .dlen  = 12,
                 .uints = {PAGE_ROUNDUP(size), 
@@ -399,7 +398,7 @@ AikaPi::terminate (int sig)
 // // --- SPI ---
 // Initialise SPI0, given desired clock freq; return actual value
 int AikaPi::
-spi_init ()
+spi_init (double frequency)
 {
   // initialize spi gpio pins on rpi
   gpio_set (SPI0_CE0_PIN,  GPIO_ALT0, GPIO_NOPULL);
@@ -411,7 +410,7 @@ spi_init ()
   // clear tx and rx fifo. one shot operation
   spi_clear_rxtx_fifo ();
   
-  return (spi_set_clock_rate (m_spi_frequency));
+  return (spi_set_clock_rate (frequency));
 }
 
 void AikaPi:: 
@@ -734,13 +733,13 @@ bb_spi_clear_SCLK  (Pin_Info *pi)
 void AikaPi:: 
 aux_spi1_master_enable ()
 {
-  g_reg_write (g_reg32 (m_aux_regs, AUX_ENABLES), 1, 1, 1);
+  Utility::reg_write (Utility::get_reg32 (m_aux_regs, AUX_ENABLES), 1, 1, 1);
 }
     
 void AikaPi:: 
 aux_spi1_master_disable ()
 {
-  g_reg_write (g_reg32 (m_aux_regs, AUX_ENABLES), 0, 1, 1);
+  Utility::reg_write (Utility::get_reg32 (m_aux_regs, AUX_ENABLES), 0, 1, 1);
 }
 
 
@@ -770,13 +769,13 @@ aux_spi0_init ()
 void AikaPi:: 
 aux_spi0_enable ()
 {
-  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), 1, 1, 11);
+  Utility::reg_write (Utility::get_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), 1, 1, 11);
 }
 
 void AikaPi::
 aux_spi0_disable ()
 {
-  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), 0, 1, 11);
+  Utility::reg_write (Utility::get_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), 0, 1, 11);
 }
 
 void AikaPi:: 
@@ -786,7 +785,7 @@ aux_spi0_frequency (double frequency)
   uint16_t divider = (static_cast<uint16_t>((static_cast<double>(CLOCK_HZ) /
     (2.0 * frequency)) - 1)) & 0x0FFF;
 
-  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), divider, 0xFFF, 20);
+  Utility::reg_write (Utility::get_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), divider, 0xFFF, 20);
 }
 
 void AikaPi::
@@ -796,19 +795,19 @@ aux_spi0_chip_selects (bool CE2,
 {
   uint8_t chip_selects = (CE2 << 2) | (CE1 << 1) | CE0;
 
-  g_reg_write (g_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), chip_selects, 
+  Utility::reg_write (Utility::get_reg32 (m_aux_regs, AUX_SPI0_CNTL0_REG), chip_selects, 
     0x03, 17);
 }
 
 void AikaPi:: 
 aux_spi0_clear_fifos ()
 {
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 1, 9);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 1, 9);
 
   // maybe a small delay is required? 
   std::this_thread::sleep_for (std::chrono::milliseconds (10));
 
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 0, 1, 9);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, 0, 1, 9);
 }
 
 // https://www.allaboutcircuits.com/technical-articles/spi-serial-peripheral-interface/
@@ -848,7 +847,7 @@ aux_spi0_mode (uint8_t mode)
 void AikaPi:: 
 aux_spi0_clock_polarity (bool polarity)
 {
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, polarity, 1, 7);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, polarity, 1, 7);
 }
 
 void AikaPi::
@@ -856,7 +855,7 @@ aux_spi0_in_rising (bool value)
 {
   // if 1, data is clocked in on the rising edge of the SPI clock
   // if 0, data is clocked in on the falling edge of the SPI clock
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 10);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 10);
 }
 
 void AikaPi::
@@ -864,26 +863,26 @@ aux_spi0_out_rising (bool value)
 {
   // if 1, data is clocked out on the rising edge of the SPI clock
   // if 0, data is clocked out on the falling edge of the SPI clock
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 8);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 8);
 }
 
 // specifies the number of bits to shift
 void AikaPi::
 aux_spi0_shift_length (uint8_t value)
 {
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 6, 0);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 6, 0);
 }
 
 void AikaPi::
 aux_spi0_shift_in_MS_first (bool value)
 {
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL1_REG, value, 1, 1);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL1_REG, value, 1, 1);
 }
 
 void AikaPi::
 aux_spi0_shift_out_MS_first (bool value)
 {
-  g_reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 6);
+  Utility::reg_write (m_aux_regs, AUX_SPI0_CNTL0_REG, value, 1, 6);
   aux_spi0_shift_in_MS_first (value);
 }
 
@@ -903,22 +902,18 @@ aux_spi0_read (char        *txbuf,
 {
   while (length--)
   {
-
-
-
-
-
-
     uint32_t data = 0 | ((*txbuf++) << 24);
     printf ("data to write: %08X\n", data);
 
 
-    uint32_t val = g_reg_read (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 6);
+    uint32_t val = Utility::get_bits (*(Utility::get_reg32 
+      (m_aux_regs, AUX_SPI0_CNTL0_REG)), 6, 1);
+
     printf ("val is: %d\n", val);
 
 
     // write to AUXSPI0_IO Register
-    *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = data;
+    *(Utility::get_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = data;
 
 
     //g_reg32_peek (m_aux_regs, AUX_SPI0_IO_REG);
@@ -929,10 +924,10 @@ aux_spi0_read (char        *txbuf,
 
     // indicates the module is busy transferring data (?)
     // or should you use bit count? rx fifo level?
-    while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) & (1 << 6))
+    while ((*(Utility::get_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) & (1 << 6))
     printf ("ok\n");
 
-    *rxbuf++ = *(g_reg32 (m_aux_regs, AUX_SPI0_PEEK_REG));
+    *rxbuf++ = *(Utility::get_reg32 (m_aux_regs, AUX_SPI0_PEEK_REG));
     printf ("ok\n");
   }
 
@@ -955,14 +950,14 @@ aux_spi_xfer (uint8_t  channel,
     // uint32_t val = g_reg_read (m_aux_regs, AUX_SPI0_CNTL0_REG, 1, 6);
     // printf ("val is: %d\n", val);
 
-    *(g_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = data;
+    *(Utility::get_reg32 (m_aux_regs, AUX_SPI0_IO_REG)) = data;
 
 
     // indicates the module is busy transferring data (?)
     // or should you use bit count? rx fifo level?
-    while ((*(g_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) & (1 << 6))
+    while ((*(Utility::get_reg32 (m_aux_regs, AUX_SPI0_STAT_REG))) & (1 << 6))
 
-    *rxbuff++ = *(g_reg32 (m_aux_regs, AUX_SPI0_PEEK_REG));
+    *rxbuff++ = *(Utility::get_reg32 (m_aux_regs, AUX_SPI0_PEEK_REG));
   }
 
   // deaasert CE pin
@@ -1035,7 +1030,7 @@ gpio_write (unsigned pin,
 bool 
 AikaPi::gpio_read (int pin)
 {
-  volatile uint32_t *reg = g_reg32 (m_gpio_regs, GPIO_LEV0) + (pin / 32);
+  volatile uint32_t *reg = Utility::get_reg32 (m_gpio_regs, GPIO_LEV0) + (pin / 32);
 
   return (((*reg) >> (pin % 32)) & 1);
 }
@@ -1267,5 +1262,65 @@ sleep_nano (int nano)
 //   return 0;
 // }
 
+// --- Utility Class ---
+
+uint32_t Utility:: 
+get_bits (uint32_t input, unsigned shift, uint32_t mask)
+{
+  return ((input >> shift) & mask);
+}
+
+volatile uint32_t* Utility:: 
+get_reg32 (MemoryMap mem_map, 
+           uint32_t  offset)
+{
+  return (volatile uint32_t *)((uint32_t)(mem_map.virt) + (uint32_t)(offset));
+}
+
+void Utility:: 
+reg_write (MemoryMap mem_map, 
+           uint32_t  offset, 
+           uint32_t  value, 
+           uint32_t  mask, 
+           unsigned  shift)
+{
+  reg_write (Utility::get_reg32 (mem_map, offset),
+             value,
+             mask,
+             shift);
+}
+
+void Utility:: 
+reg_write (volatile uint32_t *reg,
+                    uint32_t value,
+                    uint32_t mask,
+                    unsigned shift)
+{
+  *reg = (*reg & ~(mask << shift)) | (value << shift);
+}
+
+void Utility:: 
+print_bits (int      bits,
+            unsigned size)
+{
+  #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+  
+  #define BYTE_TO_BINARY(byte)  \
+    (byte & 0x80 ? '1' : '0'), \
+    (byte & 0x40 ? '1' : '0'), \
+    (byte & 0x20 ? '1' : '0'), \
+    (byte & 0x10 ? '1' : '0'), \
+    (byte & 0x08 ? '1' : '0'), \
+    (byte & 0x04 ? '1' : '0'), \
+    (byte & 0x02 ? '1' : '0'), \
+    (byte & 0x01 ? '1' : '0') 
+
+  for (int a = 0; a < size && a < sizeof (bits); a++)
+  {
+    printf (BYTE_TO_BINARY_PATTERN " ", BYTE_TO_BINARY (bits >> (8 * (size - 1 - a))));
+  }
+
+  printf ("\n");
+}
 
 // EOF

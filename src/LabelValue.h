@@ -19,8 +19,6 @@ class LabelValue
 
     double  m_actual_value;
 
-    
-
   public:
     LabelValue (const char *label);
     LabelValue (double value);

@@ -162,10 +162,10 @@ typedef enum {
   MEM_NO_INIT          = 1 << 5,                               // don't initialise (default is initialise to all ones)
   MEM_HINT_PERMALOCK   = 1 << 6,                               // Likely to be locked for long periods of time
   MEM_L1_NONALLOCATING = (MEM_DIRECT | MEM_COHERENT) // Allocating in L2
-} VC_ALLOC_FLAGS;
+} MAILBOX_ALLOCATE_MEMORY_FLAGS;
 
 // VC flags for unchached DMA memory
-#define DMA_MEM_FLAGS static_cast<VC_ALLOC_FLAGS>((MEM_COHERENT | MEM_ZERO))
+#define DMA_MEM_FLAGS static_cast<MAILBOX_ALLOCATE_MEMORY_FLAGS>((MEM_COHERENT | MEM_ZERO))
 
 
 

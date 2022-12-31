@@ -142,32 +142,32 @@ LABSoft/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/build
 .PHONY : LABSoft/fast
 
-src/AikaPi.o: src/AikaPi.cpp.o
+lib/AikaPi.o: lib/AikaPi.cpp.o
 
-.PHONY : src/AikaPi.o
+.PHONY : lib/AikaPi.o
 
 # target to build an object file
-src/AikaPi.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/AikaPi.cpp.o
-.PHONY : src/AikaPi.cpp.o
+lib/AikaPi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.o
+.PHONY : lib/AikaPi.cpp.o
 
-src/AikaPi.i: src/AikaPi.cpp.i
+lib/AikaPi.i: lib/AikaPi.cpp.i
 
-.PHONY : src/AikaPi.i
+.PHONY : lib/AikaPi.i
 
 # target to preprocess a source file
-src/AikaPi.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/AikaPi.cpp.i
-.PHONY : src/AikaPi.cpp.i
+lib/AikaPi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.i
+.PHONY : lib/AikaPi.cpp.i
 
-src/AikaPi.s: src/AikaPi.cpp.s
+lib/AikaPi.s: lib/AikaPi.cpp.s
 
-.PHONY : src/AikaPi.s
+.PHONY : lib/AikaPi.s
 
 # target to generate assembly for a file
-src/AikaPi.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/AikaPi.cpp.s
-.PHONY : src/AikaPi.cpp.s
+lib/AikaPi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi.cpp.s
+.PHONY : lib/AikaPi.cpp.s
 
 src/Channel_Signal.o: src/Channel_Signal.cpp.o
 
@@ -979,33 +979,6 @@ src/LabelValue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s
 .PHONY : src/LabelValue.cpp.s
 
-src/Utility.o: src/Utility.cpp.o
-
-.PHONY : src/Utility.o
-
-# target to build an object file
-src/Utility.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility.cpp.o
-.PHONY : src/Utility.cpp.o
-
-src/Utility.i: src/Utility.cpp.i
-
-.PHONY : src/Utility.i
-
-# target to preprocess a source file
-src/Utility.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility.cpp.i
-.PHONY : src/Utility.cpp.i
-
-src/Utility.s: src/Utility.cpp.s
-
-.PHONY : src/Utility.s
-
-# target to generate assembly for a file
-src/Utility.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility.cpp.s
-.PHONY : src/Utility.cpp.s
-
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -1069,9 +1042,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LABSoft"
-	@echo "... src/AikaPi.o"
-	@echo "... src/AikaPi.i"
-	@echo "... src/AikaPi.s"
+	@echo "... lib/AikaPi.o"
+	@echo "... lib/AikaPi.i"
+	@echo "... lib/AikaPi.s"
 	@echo "... src/Channel_Signal.o"
 	@echo "... src/Channel_Signal.i"
 	@echo "... src/Channel_Signal.s"
@@ -1162,9 +1135,6 @@ help:
 	@echo "... src/LabelValue.o"
 	@echo "... src/LabelValue.i"
 	@echo "... src/LabelValue.s"
-	@echo "... src/Utility.o"
-	@echo "... src/Utility.i"
-	@echo "... src/Utility.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

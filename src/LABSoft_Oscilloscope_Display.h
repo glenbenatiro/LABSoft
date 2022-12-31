@@ -5,7 +5,6 @@
 
 #include <FL/Fl_Widget.H>
 
-#include "Utility.h"
 #include "Defaults.h"
 #include "Channel_Signals.h"
 #include "time.h"

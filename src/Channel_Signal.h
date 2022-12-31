@@ -2,6 +2,7 @@
 #define CHANNEL_SIGNAL_H
 
 #include <vector>
+#include <cstdint>
 
 #include "Defaults.h"
 
