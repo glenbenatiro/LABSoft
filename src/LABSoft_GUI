@@ -19,9 +19,9 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v0.1a} open
-      xywh {2216 135 1366 768} type Double visible
+      xywh {338 101 1366 768} type Double visible
     } {
-      Fl_Menu_Bar {} {open
+      Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
       } {
         Submenu {} {
@@ -61,7 +61,7 @@ class LABSoft_GUI {open
             xywh {1205 160 120 60}
           }
           Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
-            xywh {24 60 800 660} box FLAT_BOX color 0
+            xywh {24 84 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
           } {}
@@ -789,17 +789,15 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Voltmeter
+          label Multimeter open
           xywh {0 60 1366 708}
         } {
-          Fl_Output voltmeter_fl_output_value {
+          Fl_Output multimeter_fl_output_value {
             xywh {323 245 320 120} textsize 94
-            code0 {voltmeter_fl_output_value->value ("0.000");}
           }
-          Fl_Choice voltmeter_fl_choice_unit {
-            callback {m_LABSoft_Controller->m_Voltmeter.cb_unit (o, v);}
+          Fl_Choice multimeter_fl_choice_unit {
+            callback {m_LABSoft_Controller->m_Multimeter.cb_unit (o, v);}
             xywh {723 245 320 120} down_box BORDER_BOX textsize 100
-            code0 {voltmeter_fl_choice_unit->value (LABSOFT_VOLTMETER_UNIT);}
           } {
             MenuItem {} {
               label V
@@ -810,93 +808,34 @@ class LABSoft_GUI {open
               xywh {10 10 36 21} labelsize 72
             }
           }
-          Fl_Light_Button voltmeter_fl_light_button_run_stop {
+          Fl_Light_Button multimeter_fl_light_button_run_stop {
             label Run
-            callback {m_LABSoft_Controller->m_Voltmeter.cb_run_stop (o, v);}
+            callback {m_LABSoft_Controller->m_Multimeter.cb_run_stop (o, v);}
             xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
           }
-          Fl_Light_Button voltmeter_fl_light_button_generate_random_values {
+          Fl_Light_Button multimeter_fl_light_button_generate_random_values {
             label {DEBUG: Generate Random Values}
-            callback {m_LABSoft_Controller->m_Voltmeter.cb_generate_random_values (o, v);}
+            callback {m_LABSoft_Controller->m_Multimeter.cb_generate_random_values (o, v);}
             xywh {1076 658 240 60} labelsize 11 align 16
           }
-          Fl_Input_Choice {} {
-            label {Multimeter Mode} open
-            xywh {587 152 190 60} align 1
-          } {}
-        }
-        Fl_Group {} {
-          label Ammeter
-          xywh {0 60 1366 708} hide
-        } {
-          Fl_Output ammeter_fl_output_value {
-            xywh {323 245 320 120} textsize 94
-            code0 {ammeter_fl_output_value->value ("0.000");}
-          }
-          Fl_Choice ammeter_fl_choice_unit {
-            callback {m_LABSoft_Controller->m_Ammeter.cb_unit (o, v);}
-            xywh {723 245 320 120} down_box BORDER_BOX textsize 100
-            code0 {ammeter_fl_choice_unit->value (LABSOFT_AMMETER_UNIT);}
+          Fl_Choice multimeter_fl_choice_mode {
+            label Mode
+            callback {m_LABSoft_Controller->m_Multimeter.cb_mode (o, v);}
+            comment {				} open
+            xywh {623 150 120 60} down_box BORDER_BOX align 1
           } {
             MenuItem {} {
-              label A
-              xywh {5 5 36 21} labelsize 72
+              label Voltmeter
+              xywh {0 0 36 21}
             }
             MenuItem {} {
-              label mA
-              xywh {15 15 36 21} labelsize 72
-            }
-          }
-          Fl_Light_Button ammeter_fl_light_button_run_stop {
-            label Stop
-            callback {m_LABSoft_Controller->m_Ammeter.cb_run_stop (o, v);}
-            xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
-          }
-          Fl_Light_Button ammeter_fl_light_button_generate_random_values {
-            label {DEBUG: Generate Random Values}
-            callback {m_LABSoft_Controller->m_Ammeter.cb_generate_random_values (o, v);}
-            xywh {1076 658 240 60} labelsize 11 align 16
-          }
-        }
-        Fl_Group {} {
-          label Ohmmeter
-          xywh {0 60 1366 708} hide
-        } {
-          Fl_Output ohmmeter_fl_output_value {
-            xywh {323 245 320 120} textsize 94
-            code0 {ohmmeter_fl_output_value->value ("0.000");}
-          }
-          Fl_Choice ohmmeter_fl_choice_unit {
-            callback {m_LABSoft_Controller->m_Ohmmeter.cb_unit (o, v);}
-            xywh {723 245 320 120} down_box BORDER_BOX textsize 100
-            code0 {ohmmeter_fl_choice_unit->value (LABSOFT_OHMMETER_UNIT);}
-          } {
-            MenuItem {} {
-              label {MΩ}
-              xywh {5 5 36 21} labelsize 72
+              label Ammeter
+              xywh {10 10 36 21}
             }
             MenuItem {} {
-              label {kΩ}
-              xywh {15 15 36 21} labelsize 72
+              label Ohmmeter
+              xywh {20 20 36 21}
             }
-            MenuItem {} {
-              label {Ω}
-              xywh {15 15 36 21} labelsize 72
-            }
-            MenuItem {} {
-              label {mΩ}
-              xywh {25 25 36 21} labelsize 72
-            }
-          }
-          Fl_Light_Button ohmmeter_fl_light_button_run_stop {
-            label Stopped
-            callback {m_LABSoft_Controller->m_Ohmmeter.cb_run_stop (o, v);}
-            xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
-          }
-          Fl_Light_Button ohmmeter_fl_light_button_generate_random_values {
-            label {DEBUG: Generate Random Values}
-            callback {m_LABSoft_Controller->m_Ohmmeter.cb_generate_random_values (o, v);}
-            xywh {1076 658 240 60} labelsize 11 align 16
           }
         }
         Fl_Group {} {

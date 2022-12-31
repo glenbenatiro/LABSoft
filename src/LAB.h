@@ -3,10 +3,7 @@
 
 #include "LAB_Core.h"
 #include "LAB_Oscilloscope.h"
-#include "LAB_Meter.h"
-#include "LAB_Voltmeter.h"
-#include "LAB_Ammeter.h"
-#include "LAB_Ohmmeter.h"
+#include "LAB_Multimeter.h"
 #include "LAB_Function_Generator.h"
 #include "LAB_Logic_Analyzer.h"
 #include "LAB_Power_Supply.h"
@@ -23,10 +20,7 @@ class LAB
 
     LAB_Oscilloscope       *m_Oscilloscope;
     LAB_Function_Generator *m_Function_Generator;
-    
-    LAB_Voltmeter          m_Voltmeter;
-    LAB_Ammeter            m_Ammeter;
-    LAB_Ohmmeter           m_Ohmmeter;
+    LAB_Multimeter         *m_Multimeter;
     
     LAB_Logic_Analyzer     m_LAB_Logic_Analyzer;
     LAB_Power_Supply       m_Power_Supply;

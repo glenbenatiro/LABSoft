@@ -23,6 +23,7 @@ class LABSoft_Controller
     
     LABSoft_Controller_Oscilloscope       m_Oscilloscope;             
     LABSoft_Controller_Multimeter         m_Multimeter;
+    LABSoft_Controller_Function_Generator m_Function_Generator;
     LABSoft_Controller_Logic_Analyzer     m_Logic_Analyzer;
     LABSoft_Controller_Power_Supply       m_Power_Supply;
     LABSoft_Controller_Circuit_Checker    m_Circuit_Checker;

@@ -6,9 +6,15 @@
 
 #include "Defaults.h"
 
+struct multimeter
+{
+  unsigned adc_value;
+};
+
 class Channel_Signal
 {
   private:
+
 
   public:
     // --- variables ---
@@ -23,7 +29,11 @@ class Channel_Signal
             m_vertical_offset       = CHANNEL_SIGNAL_VERTICAL_OFFSET,
             m_horizontal_offset     = CHANNEL_SIGNAL_HORIZONTAL_OFFSET;
 
-
+    union data
+    {
+      multimeter m;
+    };
+    
     // m_raw_values will hold the raw bits read from the ADC
     uint32_t m_raw_values[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES] = { 0 };
 

@@ -23,10 +23,7 @@ ADD_EXECUTABLE(LABSoft
   lib/AikaPi/AikaPi.cpp
   src/LAB_Core.cpp
   src/LAB_Oscilloscope.cpp
-  src/LAB_Meter.cpp
-  src/LAB_Voltmeter.cpp
-  src/LAB_Ammeter.cpp
-  src/LAB_Ohmmeter.cpp
+  src/LAB_Multimeter.cpp
   src/LAB_Function_Generator.cpp
   src/LAB_Logic_Analyzer.cpp
   src/LAB_Power_Supply.cpp
