@@ -255,6 +255,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LabelValue.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/Defaults.h

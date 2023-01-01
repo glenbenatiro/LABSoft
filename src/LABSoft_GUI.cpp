@@ -503,22 +503,51 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_sample_rate[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
+void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_time_per_division_i(Fl_Input_Choice* o, void* v) {
+  m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);
+}
+void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_time_per_division(Fl_Input_Choice* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_input_choice_time_per_division_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[] = {
+ {"20 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"10 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"5 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"2 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"500 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"200 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"100 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"50 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"20 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"10 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"2 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
+void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_position_i(Fl_Input_Choice* o, void* v) {
+  m_LABSoft_Controller->m_Logic_Analyzer.cb_position (o, v);
+}
+void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_position(Fl_Input_Choice* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_input_choice_position_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_position[] = {
- {"5 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"2 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"1 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"500 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"200 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"100 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"5 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"2 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"500 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"200 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"100 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"50 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"0", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"-500 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"-200 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"-100 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"-50 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -806,11 +835,13 @@ LABSoft_GUI::LABSoft_GUI() {
           logic_analyzer_fl_input_choice_sample_rate->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_sample_rate->menu(menu_logic_analyzer_fl_input_choice_sample_rate);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_sample_rate
-        { logic_analyzer_fl_input_choice_time_per_division = new Fl_Input_Choice(650, 94, 120, 30, "Time per DIvision");
+        { logic_analyzer_fl_input_choice_time_per_division = new Fl_Input_Choice(650, 94, 120, 30, "Time per Division");
+          logic_analyzer_fl_input_choice_time_per_division->callback((Fl_Callback*)cb_logic_analyzer_fl_input_choice_time_per_division);
           logic_analyzer_fl_input_choice_time_per_division->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_time_per_division->menu(menu_logic_analyzer_fl_input_choice_time_per_division);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_time_per_division
         { logic_analyzer_fl_input_choice_position = new Fl_Input_Choice(800, 94, 120, 30, "Position");
+          logic_analyzer_fl_input_choice_position->callback((Fl_Callback*)cb_logic_analyzer_fl_input_choice_position);
           logic_analyzer_fl_input_choice_position->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_position->menu(menu_logic_analyzer_fl_input_choice_position);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_position

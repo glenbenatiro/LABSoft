@@ -174,9 +174,17 @@ public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_sample_rate;
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sample_rate[];
   Fl_Input_Choice *logic_analyzer_fl_input_choice_time_per_division;
+private:
+  inline void cb_logic_analyzer_fl_input_choice_time_per_division_i(Fl_Input_Choice*, void*);
+  static void cb_logic_analyzer_fl_input_choice_time_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_time_per_division[];
+public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_position;
+private:
+  inline void cb_logic_analyzer_fl_input_choice_position_i(Fl_Input_Choice*, void*);
+  static void cb_logic_analyzer_fl_input_choice_position(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_position[];
+public:
   LABSoft_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
   Fl_Choice *logic_analyzer_fl_choice_display_mode;
   static Fl_Menu_Item menu_logic_analyzer_fl_choice_display_mode[];

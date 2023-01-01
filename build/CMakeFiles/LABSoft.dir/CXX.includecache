@@ -147,6 +147,8 @@ LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.cpp
 LABSoft_Controller_Main.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.h
+iostream
+-
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Main.h
 iostream
@@ -250,6 +252,20 @@ LABSoft_Logic_Analyzer_Display_Group.h
 FL/Fl_Text_Display.H
 -
 
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
+
 /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
 vector
 -
@@ -273,18 +289,6 @@ Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
-LABSoft_Oscilloscope_Display_Group.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
-iostream
--
-cmath
--
-FL/fl_draw.H
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
 vector
@@ -345,18 +349,6 @@ Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LabelValue.cpp
-LabelValue.h
-/home/glen/Desktop/LABSoft/src/LabelValue.h
-cstdlib
--
-cstring
--
-cstdio
--
-cmath
--
 
 /home/glen/Desktop/LABSoft/src/LabelValue.h
 string

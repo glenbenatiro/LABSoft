@@ -22,8 +22,6 @@ class LabelValue
   public:
     LabelValue (const char *label);
     LabelValue (double value);
-
-    static const char* parse_for_label (int value, char unit_prefix);
     
     int     exponent    ();
     int     exponent    (char m_unit_prefix);
@@ -37,7 +35,7 @@ class LabelValue
     
     double  actual_value                ();
 
-    // char* label (LABEL_TYPE _LABEL_TYPE);    
+    static std::string label_text (double value, LABEL_TYPE _LABEL_TYPE);
 };
 
 #endif

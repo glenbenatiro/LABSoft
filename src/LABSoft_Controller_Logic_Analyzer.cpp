@@ -59,3 +59,26 @@ cb_memory_depth (Fl_Input_Choice *w,
   // change time per div setting
 
 }
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_time_per_division (Fl_Input_Choice *w,
+                      void            *data)
+{
+  LabelValue _LabelValue (w->value ());
+
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+    update_time_per_division_labels (_LabelValue.actual_value ());
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_position (Fl_Input_Choice *w,
+             void            *data)
+{
+  LabelValue _LabelValue (w->value ());
+
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+    position (_LabelValue.actual_value ());
+
+    m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+    update_time_per_division_labels ();
+}

@@ -4,6 +4,9 @@
 
 #include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
+#include <FL/Fl.H>
+
+#include "LabelValue.h"
 
 LABSoft_Logic_Analyzer_Display_Group::
 LABSoft_Logic_Analyzer_Display_Group 
@@ -45,18 +48,24 @@ LABSoft_Logic_Analyzer_Display_Group
     char label[20];
     sprintf (label, "%d", a + 1);
 
-    Fl_Box *temp = new Fl_Box (X + (m_channel_menu_button_width + (a * column_width)),
-                               Y + H - m_x_label_strip_height + m_x_label_top_padding,
-                               0,
-                               0,
-                               0);              
+    Fl_Box *box = new Fl_Box 
+      (X + (m_channel_menu_button_width + (a * column_width)) - 
+        ((a == m_graph_number_of_columns) ? m_x_label_last_offset : 0),
+       Y + H - m_x_label_strip_height + m_x_label_top_padding,
+       0,
+       0,
+       0);              
 
-    temp->copy_label (label);
+    box->copy_label (label);
+    box->align (FL_ALIGN_TEXT_OVER_IMAGE);
+    box->labelsize (m_x_label_size);
 
-    m_x_labels.emplace_back (temp);
+    m_x_labels.emplace_back (box);
   }
 
   end ();
+
+  update_time_per_division_labels ();
 }
 
 void LABSoft_Logic_Analyzer_Display_Group::
@@ -77,12 +86,12 @@ draw_grid ()
   fl_line_style (FL_DOT);
 
   // draw columns
-  for (int col = 1; col < m_graph_number_of_columns; col++)
+  for (int col = 1; col <= m_graph_number_of_columns; col++)
   {
     fl_line (x () + (m_channel_menu_button_width + (col * column_width)),
              y (),
              x () + (m_channel_menu_button_width + (col * column_width)),
-             (y () + h ()) - m_x_label_strip_height);
+             y () + h () - m_x_label_strip_height);
   }
 
   // draw rows
@@ -95,3 +104,36 @@ draw_grid ()
   }
 }
 
+void LABSoft_Logic_Analyzer_Display_Group:: 
+time_per_division (double value)
+{
+  m_time_per_division = value;
+}
+
+void LABSoft_Logic_Analyzer_Display_Group:: 
+update_time_per_division_labels ()
+{
+  for (int a = 0; a <= m_x_labels.size (); a++)
+  {
+    double temp = m_position + (m_time_per_division * (a - (m_graph_number_of_columns / 2)));
+    printf ("temp: %f\n", temp);
+    printf ("a is %d\n",a);
+
+    m_x_labels[a]->copy_label ((LabelValue::label_text (temp, TIME_PER_DIVISION)).c_str());
+  }
+}
+
+void LABSoft_Logic_Analyzer_Display_Group:: 
+update_time_per_division_labels (double value)
+{
+  time_per_division (value);
+  update_time_per_division_labels ();
+}
+
+void LABSoft_Logic_Analyzer_Display_Group:: 
+position (double value)
+{
+  m_position = value;
+}
+
+// eof

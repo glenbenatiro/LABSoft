@@ -21,7 +21,7 @@ class LABSoft_GUI {open
       label {LABSoft v1.0 Build 1} open
       xywh {162 212 1366 768} type Double visible
     } {
-      Fl_Menu_Bar {} {open
+      Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
       } {
         Submenu {} {
@@ -38,7 +38,7 @@ class LABSoft_GUI {open
           xywh {0 0 70 21}
         } {}
       }
-      Fl_Tabs {} {
+      Fl_Tabs {} {open
         xywh {0 30 1366 738} box UP_BOX
       } {
         Fl_Group {} {
@@ -1246,7 +1246,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer}
+          label {Logic Analyzer} open
           xywh {0 60 1366 708}
         } {
           Fl_Button {} {
@@ -1326,16 +1326,49 @@ class LABSoft_GUI {open
             }
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_time_per_division {
-            label {Time per DIvision}
+            label {Time per Division}
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);} open
             xywh {650 94 120 30} align 1
           } {
             MenuItem {} {
-              label {50 ms/div}
+              label {20 s/div}
               xywh {40 40 36 21}
             }
             MenuItem {} {
-              label {20 ms/div}
+              label {10 s/div}
               xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {5 s/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {2 s/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {1 s/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {500 ms/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {200 ms/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {100 ms/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {50 ms/div}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {20 ms/div}
+              xywh {60 60 36 21}
             }
             MenuItem {} {
               label {10 ms/div}
@@ -1346,37 +1379,66 @@ class LABSoft_GUI {open
               xywh {60 60 36 21}
             }
             MenuItem {} {
+              label {2 ms/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
               label {1 ms/div}
-              xywh {50 50 36 21}
+              xywh {60 60 36 21}
             }
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_position {
             label Position
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_position (o, v);} open
             xywh {800 94 120 30} align 1
           } {
             MenuItem {} {
-              label {5 V/div}
+              label {5 s} selected
               xywh {50 50 36 21}
             }
             MenuItem {} {
-              label {2 V/div}
+              label {2 s}
               xywh {60 60 36 21}
             }
             MenuItem {} {
-              label {1 V/div}
+              label {1 s}
               xywh {60 60 36 21}
             }
             MenuItem {} {
-              label {500 mV/div}
+              label {500 ms}
               xywh {70 70 36 21}
             }
             MenuItem {} {
-              label {200 mV/div}
+              label {200 ms}
               xywh {60 60 36 21}
             }
             MenuItem {} {
-              label {100 mV/div}
+              label {100 ms}
               xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {50 ms}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label 0
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {-500 ms}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {-200 ms}
+              xywh {80 80 36 21}
+            }
+            MenuItem {} {
+              label {-100 ms}
+              xywh {70 70 36 21}
+            }
+            MenuItem {} {
+              label {-50 ms}
+              xywh {80 80 36 21}
             }
           }
           Fl_Group logic_analyzer_labsoft_logic_analyzer_display_group_display {open

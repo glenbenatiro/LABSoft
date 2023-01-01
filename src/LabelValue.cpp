@@ -30,6 +30,9 @@ LabelValue (double value)
   m_coefficient   = atof (strtok (strdup (value_char), "e"));
   m_exponent      = atof (strtok (NULL, "/"));
   m_unit_prefix   = unit_prefix (m_exponent);
+
+  // printf ("input: %f\ncoefficient: %f\nexponent: %d\nunit_prefix: %c\n\n", value, m_coefficient,
+  //   m_exponent, m_unit_prefix);
 }
 
 // getters
@@ -48,7 +51,16 @@ coefficient ()
 float LabelValue:: 
 short_value ()
 {
-  return (m_coefficient * pow (10, m_exponent % 3));
+  if (m_exponent < 0)
+  {
+    int exp = 3 - (std::abs (m_exponent) % 3);
+
+    return (m_coefficient * pow (10, exp % 3));
+  }
+  else 
+  {
+    return (m_coefficient * pow (10, m_exponent % 3));
+  }
 }
 
 char LabelValue:: 
@@ -155,18 +167,34 @@ actual_value ()
   return (m_coefficient * std::pow (10, m_exponent));
 }
 
-// void LabelValue::
-// label (LABEL_TYPE _LABEL_TYPE)
-// {
-//   char label[20];
 
-//   switch (_LABEL_TYPE)
-//   {
-//     case TIME_PER_DIVISION:
-//       sprintf (label, "%d %cs/div", m_coefficient, m_unit_prefix);
-//       break;
-//     default:
-//       break;
-//   }
-// }
+std::string LabelValue:: 
+label_text (double value, LABEL_TYPE _LABEL_TYPE)
+{
+  char label[20];
+  LabelValue _LabelValue (value);
 
+  bool int_check = (((int)(_LabelValue.short_value ())) == _LabelValue.short_value ()) ? 
+    true : false;
+    
+  switch (_LABEL_TYPE)
+  {
+    case TIME_PER_DIVISION:
+      if (int_check)
+      {
+        sprintf (label, "%.0f %cs", _LabelValue.short_value (), _LabelValue.unit_prefix ());
+      }
+      else 
+      {
+        sprintf (label, "%.2f %cs", _LabelValue.short_value (), _LabelValue.unit_prefix ());
+      }
+      break;
+    default:
+      label_text (value, TIME_PER_DIVISION);
+      break;
+  }
+
+  std::string string_label (label);
+
+  return (string_label);
+}
