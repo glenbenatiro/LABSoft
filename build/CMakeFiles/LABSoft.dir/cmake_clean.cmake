@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o"
-  "CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o"
   "CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"

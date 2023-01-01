@@ -2,12 +2,12 @@
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_H
 
 #include <array>
+#include "time.h"
 
 #include <FL/Fl_Widget.H>
 
 #include "Defaults.h"
 #include "Channel_Signals.h"
-#include "time.h"
 
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 

@@ -4,18 +4,12 @@
 CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.cpp
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/Channel_Signal.cpp.o
- /home/glen/Desktop/LABSoft/src/Channel_Signal.cpp
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
- /home/glen/Desktop/LABSoft/src/Defaults.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.cpp
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.cpp
@@ -30,7 +24,6 @@ CMakeFiles/LABSoft.dir/src/LAB.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Power_Supply.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -61,7 +54,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -91,7 +83,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -114,7 +105,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -135,7 +125,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -156,7 +145,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -177,7 +165,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -198,7 +185,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -219,7 +205,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -240,7 +225,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -269,16 +253,15 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/src/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
+ /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
@@ -304,7 +287,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
+ /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -312,13 +295,13 @@ CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -326,7 +309,6 @@ CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -343,7 +325,6 @@ CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Channel_Signal.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h

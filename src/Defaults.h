@@ -21,6 +21,9 @@ enum WaveType
   DC
 };
 
+// General Raspberry Pi
+constexpr unsigned PI_MAX_GPIO_PINS = 32; 
+
 constexpr int DEBUG = 1;
 
 constexpr int LAB_PWM_FREQUENCY     = 20'000'000; // this is to be extracted from 25MHz master clk
@@ -183,5 +186,24 @@ constexpr int LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS = 1;
 #define LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE "50%"
 #define LABSOFT_FUNCTION_GENERATOR_PHASE      "0 deg"
 #define LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER 0
+
+// LAB Logic Analyzer
+constexpr unsigned LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS = 8;
+constexpr unsigned LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES = 4096;
+constexpr unsigned LAB_LOGIC_ANALYZER_MEMORY_DEPTH = 4096;
+constexpr unsigned LAB_LOGIC_ANALYZER_CHANNEL_GPIO_PINS
+  [LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS] = {2, 3, 4, 27, 22, 0, 5, 6};
+
+// LABSoft Logic Analyzer Display Group
+constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_NUMBER_OF_CHANNELS = LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS;
+// constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_BACKGROUND_COLOR = 0xFFFFFF00; // white
+// constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_NUMBER_OF_COLUMNS = 10;
+// constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_GRID_COLOR = 0x000000FF; // kinda light gray
+// constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_X_LABEL_STRIP_HEIGHT= 30; // kinda light gray
+
+constexpr const char* LABSOFT_LOGIC_ANALYZER_MEMORY_DEPTH     = "4096";
+constexpr const char* LABSOFT_LOGIC_ANALYZER_SAMPLE_RATE      = "1 kHz";
+constexpr const char* LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON = "1 ms/div";
+constexpr const char* LABSOFT_LOGIC_ANALYZER_POSITION         = " 0 s";
 
 #endif

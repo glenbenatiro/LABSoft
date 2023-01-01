@@ -7,6 +7,8 @@ Fl_Menu_Item LABSoft_GUI::menu_[] = {
  {"File", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Exit", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
+ {"Settings", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -465,37 +467,52 @@ Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_phase[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
+void LABSoft_GUI::cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Controller->m_Logic_Analyzer.cb_master_run_stop (o, v);
+}
+void LABSoft_GUI::cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_light_button_run_stop_i(o,v);
+}
+
+void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_memory_depth_i(Fl_Input_Choice* o, void* v) {
+  m_LABSoft_Controller->m_Logic_Analyzer.cb_memory_depth (o, v);
+}
+void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_memory_depth(Fl_Input_Choice* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_input_choice_memory_depth_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_memory_depth[] = {
- {"5 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"2 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"1 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"500 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"200 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"100 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"4096", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"2048", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1024", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"512", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"256", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"128", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"64", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"32", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_sample_rate[] = {
- {"5 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"2 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"1 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"500 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"200 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"100 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {0,0,0,0,0,0,0,0,0}
-};
-
-Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_samples_per_division[] = {
- {"5 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"2 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"1 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"500 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"200 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"100 mV/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"50 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"20 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"10 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"5 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"2 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[] = {
+ {"50 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"20 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"10 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"5 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0}
+};
+
+Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_position[] = {
  {"5 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -505,8 +522,8 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[
  {0,0,0,0,0,0,0,0,0}
 };
 
-Fl_Menu_Item LABSoft_GUI::menu_1[] = {
- {"asdasd", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_choice_display_mode[] = {
+ {"item", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -553,7 +570,7 @@ void LABSoft_GUI::cb_circuit_checker_fl_button_start_circuit_checking(Fl_Button*
 }
 
 LABSoft_GUI::LABSoft_GUI() {
-  { main_fl_window = new Fl_Double_Window(1366, 768, "LABSoft v0.1a");
+  { main_fl_window = new Fl_Double_Window(1366, 768, "LABSoft v1.0 Build 1");
     main_fl_window->user_data((void*)(this));
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 1366, 30);
       o->menu(menu_);
@@ -691,6 +708,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Multimeter");
+        o->hide();
         { multimeter_fl_output_value = new Fl_Output(323, 245, 320, 120);
           multimeter_fl_output_value->textsize(94);
         } // Fl_Output* multimeter_fl_output_value
@@ -773,31 +791,32 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Logic Analyzer");
-        o->hide();
-        { logic_analyzer_fl_light_button_run_stop = new Fl_Light_Button(200, 60, 120, 60, "Run");
+        { new Fl_Button(50, 84, 120, 60, "Single");
+        } // Fl_Button* o
+        { logic_analyzer_fl_light_button_run_stop = new Fl_Light_Button(200, 84, 120, 60, "Run");
+          logic_analyzer_fl_light_button_run_stop->callback((Fl_Callback*)cb_logic_analyzer_fl_light_button_run_stop);
           logic_analyzer_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
         } // Fl_Light_Button* logic_analyzer_fl_light_button_run_stop
-        { new Fl_Button(50, 60, 120, 60, "Single");
-        } // Fl_Button* o
-        { logic_analyzer_fl_input_choice_memory_depth = new Fl_Input_Choice(350, 80, 120, 30, "Memory Depth");
+        { logic_analyzer_fl_input_choice_memory_depth = new Fl_Input_Choice(350, 94, 120, 30, "Memory Depth");
+          logic_analyzer_fl_input_choice_memory_depth->callback((Fl_Callback*)cb_logic_analyzer_fl_input_choice_memory_depth);
           logic_analyzer_fl_input_choice_memory_depth->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_memory_depth->menu(menu_logic_analyzer_fl_input_choice_memory_depth);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_memory_depth
-        { logic_analyzer_fl_input_choice_sample_rate = new Fl_Input_Choice(500, 80, 120, 30, "Sample_Rate");
+        { logic_analyzer_fl_input_choice_sample_rate = new Fl_Input_Choice(500, 94, 120, 30, "Sample Rate");
           logic_analyzer_fl_input_choice_sample_rate->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_sample_rate->menu(menu_logic_analyzer_fl_input_choice_sample_rate);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_sample_rate
-        { logic_analyzer_fl_input_choice_samples_per_division = new Fl_Input_Choice(650, 80, 120, 30, "Samples per Division");
-          logic_analyzer_fl_input_choice_samples_per_division->align(Fl_Align(FL_ALIGN_TOP));
-          logic_analyzer_fl_input_choice_samples_per_division->menu(menu_logic_analyzer_fl_input_choice_samples_per_division);
-        } // Fl_Input_Choice* logic_analyzer_fl_input_choice_samples_per_division
-        { logic_analyzer_fl_input_choice_time_per_division = new Fl_Input_Choice(800, 80, 120, 30, "Time per DIvision");
+        { logic_analyzer_fl_input_choice_time_per_division = new Fl_Input_Choice(650, 94, 120, 30, "Time per DIvision");
           logic_analyzer_fl_input_choice_time_per_division->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_time_per_division->menu(menu_logic_analyzer_fl_input_choice_time_per_division);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_time_per_division
-        { logic_analyzer_labsoft_logic_analyzer_display_group_display = new LABSoft_Logic_Analyzer_Display_Group(43, 135, 1280, 600);
+        { logic_analyzer_fl_input_choice_position = new Fl_Input_Choice(800, 94, 120, 30, "Position");
+          logic_analyzer_fl_input_choice_position->align(Fl_Align(FL_ALIGN_TOP));
+          logic_analyzer_fl_input_choice_position->menu(menu_logic_analyzer_fl_input_choice_position);
+        } // Fl_Input_Choice* logic_analyzer_fl_input_choice_position
+        { logic_analyzer_labsoft_logic_analyzer_display_group_display = new LABSoft_Logic_Analyzer_Display_Group(43, 180, 1280, 540);
           logic_analyzer_labsoft_logic_analyzer_display_group_display->box(FL_DOWN_BOX);
-          logic_analyzer_labsoft_logic_analyzer_display_group_display->color((Fl_Color)133);
+          logic_analyzer_labsoft_logic_analyzer_display_group_display->color(FL_BACKGROUND2_COLOR);
           logic_analyzer_labsoft_logic_analyzer_display_group_display->selection_color(FL_BACKGROUND_COLOR);
           logic_analyzer_labsoft_logic_analyzer_display_group_display->labeltype(FL_NORMAL_LABEL);
           logic_analyzer_labsoft_logic_analyzer_display_group_display->labelfont(0);
@@ -807,21 +826,11 @@ LABSoft_GUI::LABSoft_GUI() {
           logic_analyzer_labsoft_logic_analyzer_display_group_display->when(FL_WHEN_RELEASE);
           logic_analyzer_labsoft_logic_analyzer_display_group_display->end();
         } // LABSoft_Logic_Analyzer_Display_Group* logic_analyzer_labsoft_logic_analyzer_display_group_display
-        { Fl_Choice* o = new Fl_Choice(204, 159, 120, 60, "Channel 1");
-          o->down_box(FL_BORDER_BOX);
-          o->color(FL_DARK_RED);
-          o->selection_color((Fl_Color)148);
-          o->labelcolor((Fl_Color)142);
-          o->textcolor((Fl_Color)173);
-        } // Fl_Choice* o
-        { Fl_Box* o = new Fl_Box(147, 159, 60, 60, "Ch. 1");
-          o->box(FL_DOWN_BOX);
-          o->color(FL_BACKGROUND2_COLOR);
-          o->hide();
-        } // Fl_Box* o
-        { Fl_Menu_Bar* o = new Fl_Menu_Bar(146, 295, 914, 20);
-          o->menu(menu_1);
-        } // Fl_Menu_Bar* o
+        { logic_analyzer_fl_choice_display_mode = new Fl_Choice(950, 94, 120, 30, "Display Mode");
+          logic_analyzer_fl_choice_display_mode->down_box(FL_BORDER_BOX);
+          logic_analyzer_fl_choice_display_mode->align(Fl_Align(FL_ALIGN_TOP));
+          logic_analyzer_fl_choice_display_mode->menu(menu_logic_analyzer_fl_choice_display_mode);
+        } // Fl_Choice* logic_analyzer_fl_choice_display_mode
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Power Supply");
@@ -871,15 +880,6 @@ LABSoft_GUI::LABSoft_GUI() {
         } // Fl_Output* circuit_checker_fl_output_similarity_score
         { circuit_checker_fl_text_display_logger = new Fl_Text_Display(203, 340, 960, 240);
         } // Fl_Text_Display* circuit_checker_fl_text_display_logger
-        o->end();
-      } // Fl_Group* o
-      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Settings");
-        o->hide();
-        { Fl_Group* o = new Fl_Group(35, 70, 300, 120, "Settings");
-          o->labelsize(48);
-          o->align(Fl_Align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE));
-          o->end();
-        } // Fl_Group* o
         o->end();
       } // Fl_Group* o
       o->end();

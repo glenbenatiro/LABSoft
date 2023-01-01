@@ -18,14 +18,14 @@ class LABSoft_GUI {open
   Function {LABSoft_GUI()} {open
   } {
     Fl_Window main_fl_window {
-      label {LABSoft v0.1a} open
-      xywh {338 101 1366 768} type Double visible
+      label {LABSoft v1.0 Build 1} open
+      xywh {162 212 1366 768} type Double visible
     } {
-      Fl_Menu_Bar {} {
+      Fl_Menu_Bar {} {open
         xywh {0 0 1366 30}
       } {
         Submenu {} {
-          label File open
+          label File
           xywh {0 0 70 21}
         } {
           MenuItem {} {
@@ -33,8 +33,12 @@ class LABSoft_GUI {open
             xywh {0 0 36 21}
           }
         }
+        Submenu {} {
+          label Settings open
+          xywh {0 0 70 21}
+        } {}
       }
-      Fl_Tabs {} {open
+      Fl_Tabs {} {
         xywh {0 30 1366 738} box UP_BOX
       } {
         Fl_Group {} {
@@ -789,8 +793,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Multimeter open
-          xywh {0 60 1366 708}
+          label Multimeter
+          xywh {0 60 1366 708} hide
         } {
           Fl_Output multimeter_fl_output_value {
             xywh {323 245 320 120} textsize 94
@@ -1243,150 +1247,149 @@ class LABSoft_GUI {open
         }
         Fl_Group {} {
           label {Logic Analyzer}
-          xywh {0 60 1366 708} hide
+          xywh {0 60 1366 708}
         } {
-          Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
-            label Run
-            xywh {200 60 120 60} align 16
-          }
           Fl_Button {} {
             label Single
-            xywh {50 60 120 60}
+            xywh {50 84 120 60}
+          }
+          Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
+            label Run
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_master_run_stop (o, v);}
+            xywh {200 84 120 60} align 16
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_memory_depth {
             label {Memory Depth}
-            xywh {350 80 120 30} align 1
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_memory_depth (o, v);}
+            xywh {350 94 120 30} align 1
           } {
             MenuItem {} {
-              label {5 V/div}
+              label 4096
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label 2048
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label 1024
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label 512
+              xywh {20 20 36 21}
+            }
+            MenuItem {} {
+              label 256
+              xywh {30 30 36 21}
+            }
+            MenuItem {} {
+              label 128
+              xywh {5 5 36 21}
+            }
+            MenuItem {} {
+              label 64
               xywh {10 10 36 21}
             }
             MenuItem {} {
-              label {2 V/div}
+              label 32
               xywh {20 20 36 21}
-            }
-            MenuItem {} {
-              label {1 V/div}
-              xywh {20 20 36 21}
-            }
-            MenuItem {} {
-              label {500 mV/div}
-              xywh {30 30 36 21}
-            }
-            MenuItem {} {
-              label {200 mV/div}
-              xywh {20 20 36 21}
-            }
-            MenuItem {} {
-              label {100 mV/div}
-              xywh {30 30 36 21}
             }
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_sample_rate {
-            label Sample_Rate
-            xywh {500 80 120 30} align 1
+            label {Sample Rate}
+            xywh {500 94 120 30} align 1
           } {
             MenuItem {} {
-              label {5 V/div}
+              label {50 kHz}
               xywh {20 20 36 21}
             }
             MenuItem {} {
-              label {2 V/div}
+              label {20 kHz}
               xywh {30 30 36 21}
             }
             MenuItem {} {
-              label {1 V/div}
+              label {10 kHz}
               xywh {30 30 36 21}
             }
             MenuItem {} {
-              label {500 mV/div}
+              label {5 kHz}
               xywh {40 40 36 21}
             }
             MenuItem {} {
-              label {200 mV/div}
+              label {2 kHz}
               xywh {30 30 36 21}
             }
             MenuItem {} {
-              label {100 mV/div}
+              label {1 kHz}
               xywh {40 40 36 21}
-            }
-          }
-          Fl_Input_Choice logic_analyzer_fl_input_choice_samples_per_division {
-            label {Samples per Division}
-            xywh {650 80 120 30} align 1
-          } {
-            MenuItem {} {
-              label {5 V/div}
-              xywh {30 30 36 21}
-            }
-            MenuItem {} {
-              label {2 V/div}
-              xywh {40 40 36 21}
-            }
-            MenuItem {} {
-              label {1 V/div}
-              xywh {40 40 36 21}
-            }
-            MenuItem {} {
-              label {500 mV/div}
-              xywh {50 50 36 21}
-            }
-            MenuItem {} {
-              label {200 mV/div}
-              xywh {40 40 36 21}
-            }
-            MenuItem {} {
-              label {100 mV/div}
-              xywh {50 50 36 21}
             }
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_time_per_division {
             label {Time per DIvision}
-            xywh {800 80 120 30} align 1
+            xywh {650 94 120 30} align 1
           } {
             MenuItem {} {
-              label {5 V/div}
+              label {50 ms/div}
               xywh {40 40 36 21}
             }
             MenuItem {} {
-              label {2 V/div}
+              label {20 ms/div}
               xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {10 ms/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {5 ms/div}
+              xywh {60 60 36 21}
+            }
+            MenuItem {} {
+              label {1 ms/div}
+              xywh {50 50 36 21}
+            }
+          }
+          Fl_Input_Choice logic_analyzer_fl_input_choice_position {
+            label Position
+            xywh {800 94 120 30} align 1
+          } {
+            MenuItem {} {
+              label {5 V/div}
+              xywh {50 50 36 21}
+            }
+            MenuItem {} {
+              label {2 V/div}
+              xywh {60 60 36 21}
             }
             MenuItem {} {
               label {1 V/div}
-              xywh {50 50 36 21}
+              xywh {60 60 36 21}
             }
             MenuItem {} {
               label {500 mV/div}
-              xywh {60 60 36 21}
+              xywh {70 70 36 21}
             }
             MenuItem {} {
               label {200 mV/div}
-              xywh {50 50 36 21}
+              xywh {60 60 36 21}
             }
             MenuItem {} {
               label {100 mV/div}
-              xywh {60 60 36 21}
+              xywh {70 70 36 21}
             }
           }
-          Fl_Group logic_analyzer_labsoft_logic_analyzer_display_group_display {
-            xywh {43 135 1280 600} box DOWN_BOX color 133
+          Fl_Group logic_analyzer_labsoft_logic_analyzer_display_group_display {open
+            xywh {43 180 1280 540} box DOWN_BOX color 7
             code0 {\#include "LABSoft_Logic_Analyzer_Display_Group.h"}
             class LABSoft_Logic_Analyzer_Display_Group
           } {}
-          Fl_Choice {} {
-            label {Channel 1}
-            xywh {204 159 120 60} down_box BORDER_BOX color 72 selection_color 148 labelcolor 142 textcolor 173
-          } {}
-          Fl_Box {} {
-            label {Ch. 1}
-            xywh {147 159 60 60} box DOWN_BOX color 7 hide
-          }
-          Fl_Menu_Bar {} {open
-            xywh {146 295 914 20}
+          Fl_Choice logic_analyzer_fl_choice_display_mode {
+            label {Display Mode} open
+            xywh {950 94 120 30} down_box BORDER_BOX align 1
           } {
             MenuItem {} {
-              label asdasd
+              label item
               xywh {0 0 36 21}
             }
           }
@@ -1441,15 +1444,6 @@ class LABSoft_GUI {open
           Fl_Text_Display circuit_checker_fl_text_display_logger {
             xywh {203 340 960 240}
           }
-        }
-        Fl_Group {} {
-          label Settings
-          xywh {0 60 1366 708} hide
-        } {
-          Fl_Group {} {
-            label Settings open
-            xywh {35 70 300 120} labelsize 48 align 21
-          } {}
         }
       }
       Fl_Group alignment_guides {

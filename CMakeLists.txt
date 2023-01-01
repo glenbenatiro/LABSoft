@@ -44,7 +44,6 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Logic_Analyzer_Display_Group.cpp
 
   src/Channel_Signals.cpp
-  src/Channel_Signal.cpp
   src/LabelValue.cpp
   src/pugixml.cpp
   src/LAB_AD9833.cpp

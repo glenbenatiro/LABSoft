@@ -2,15 +2,22 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <cmath>
 #include <cstdio>
+#include <cmath>
 
 LabelValue::
 LabelValue (const char *label)
 {
-  m_coefficient = atof (strtok (strdup (label), " "));
-  m_unit_prefix = unit_prefix (strtok (NULL, "/")[0]);
-  m_exponent    = exponent (m_unit_prefix);
+  char *label_copy = strdup (label);
+
+  m_coefficient = atof (strtok (label_copy, " "));
+
+  char *temp = strtok (NULL, "/");
+  m_unit_prefix = (temp == nullptr) ? ' ' : unit_prefix (*temp);
+
+  m_exponent  = exponent (m_unit_prefix);
+
+  free (label_copy);
 }   
 
 LabelValue:: 
@@ -148,20 +155,18 @@ actual_value ()
   return (m_coefficient * std::pow (10, m_exponent));
 }
 
-char* LabelValue::
-label (LABEL_TYPE _LABEL_TYPE)
-{
-  char label[20];
+// void LabelValue::
+// label (LABEL_TYPE _LABEL_TYPE)
+// {
+//   char label[20];
 
-  switch (_LABEL_TYPE)
-  {
-    case TIME_PER_DIVISION:
-      sprintf (label, "%d %cs/div", m_coefficient, m_unit_prefix);
-      break;
-    default:
-      break;
-  }
-
-  return label;
-}
+//   switch (_LABEL_TYPE)
+//   {
+//     case TIME_PER_DIVISION:
+//       sprintf (label, "%d %cs/div", m_coefficient, m_unit_prefix);
+//       break;
+//     default:
+//       break;
+//   }
+// }
 

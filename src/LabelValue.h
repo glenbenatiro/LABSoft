@@ -37,7 +37,7 @@ class LabelValue
     
     double  actual_value                ();
 
-     char* label (LABEL_TYPE _LABEL_TYPE);    
+    // char* label (LABEL_TYPE _LABEL_TYPE);    
 };
 
 #endif

@@ -2,7 +2,7 @@
 #define LAB_FUNCTION_GENERATOR
 
 #include "LAB_Core.h"
-#include "Channel_Signal.h"
+#include "Channel_Signals.h"
 #include "Defaults.h"
 #include "LAB_AD9833.h"
 

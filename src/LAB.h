@@ -9,6 +9,11 @@
 #include "LAB_Power_Supply.h"
 #include "LAB_Circuit_Checker.h"
 
+// 
+
+
+// 
+
 class LAB
 {
   public:
@@ -20,9 +25,9 @@ class LAB
 
     LAB_Oscilloscope       *m_Oscilloscope;
     LAB_Function_Generator *m_Function_Generator;
-    LAB_Multimeter         *m_Multimeter;
-    
-    LAB_Logic_Analyzer     m_LAB_Logic_Analyzer;
+    LAB_Multimeter         *m_Multimeter;   
+    LAB_Logic_Analyzer     *m_Logic_Analyzer;
+
     LAB_Power_Supply       m_Power_Supply;
     LAB_Circuit_Checker    m_LAB_Circuit_Checker;   
 };
