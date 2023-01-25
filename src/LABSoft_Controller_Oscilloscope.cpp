@@ -26,16 +26,17 @@ cb_run_stop (Fl_Light_Button *w,
       m_LAB->m_Oscilloscope->stop ();
 
       // frontend
-      m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-        m_display->m_is_enabled = false;
+      m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+        disable ();
 
       w->label ("Run");
     }
   else 
     {
       m_LAB->m_Oscilloscope->run ();
-      m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-        m_display->m_is_enabled = true;
+      
+      m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+        enable ();
 
       m_thread_update_display = new std::thread
         (&LABSoft_Controller_Oscilloscope::update_display, this);
@@ -95,84 +96,79 @@ void LABSoft_Controller_Oscilloscope::
 update_display ()
 {
   
-  int x = 0;
+  // int x = 0;
 
-  uint32_t usec;
-  std::vector<Channel_Signal> *chns = &(m_LABSoft_GUI->
-    oscilloscope_labsoft_oscilloscope_display_group_display->m_display->
-      m_channel_signals.m_chans);
-  ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB->m_LAB_Core.m_vc_mem.virt);
+  // uint32_t usec;
+  // std::vector<Channel_Signal> *chns = &(m_LABSoft_GUI->
+  //   oscilloscope_labsoft_oscilloscope_display_group_display->m_display->
+  //     m_channel_signals.m_chans);
+  // ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB->m_LAB_Core.m_vc_mem.virt);
 
   // 1. get block from backend
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
+    m_LAB->m_Oscilloscope->load_data_samples ();
+
+    LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
+      oscilloscope_labsoft_oscilloscope_display_group_display->display ();
+    
+    display->process_samples (&(m_LAB->m_Oscilloscope->m_channel_signals));
+
+    // sample skip to get samples to display: m_values -> m_pixel_points
+    //display->normalize_channels_data_to_display ();
+
+    // draw signals
+    display->redraw ();
+    Fl::awake ();
+
+    // normalize raw ADC data: m_raw_values -> m_values
+    //display->normalize_all_channels_raw_data ();
+
     // std::chrono::time_point<std::chrono::high_resolution_clock> start = 
     //   std::chrono::high_resolution_clock::now ();
 
    // to iterate over ping pong channels
     // WARNING! wala pana implement ang other channels
     // this is from single channel code
-
-    clock_gettime (CLOCK_MONOTONIC, &tp1);
+  
+    //clock_gettime (CLOCK_MONOTONIC, &tp1);
       
-    for (int a = 0; a < (m_LAB->m_Oscilloscope->m_number_of_channels); a++)  
-    {
-      for (int b = 0; b < 2; b++) 
-      {
-        if (dp->states[b]) 
-        {
-          // copy values from uncached mem to memory on channel 1
-          // WARNING! wala pana implement ang sa other channels.
-          // assumed pa ni nga this for loop will only run 1 time bc a < 1
+    // for (int a = 0; a < (m_LAB->m_Oscilloscope->m_number_of_channels); a++)  
+    // {
+    //   for (int b = 0; b < 2; b++) 
+    //   {
+    //     if (dp->states[b]) 
+    //     {
+    //       // copy values from uncached mem to memory on channel 1
+    //       // WARNING! wala pana implement ang sa other channels.
+    //       // assumed pa ni nga this for loop will only run 1 time bc a < 1
 
-          // copy a block of data from uncached mem right to oscilloscope display chn signals
-          memcpy (&((*chns)[a].m_raw_values), (b ? (void *)dp->rxd2 : (void *)dp->rxd1),
-            (m_LAB->m_Oscilloscope->m_number_of_samples_per_channel * 4));
+    //       // copy a block of data from uncached mem right to oscilloscope display chn signals
+    //       memcpy (&((*chns)[a].m_raw_values), (b ? (void *)dp->rxd2 : (void *)dp->rxd1),
+    //         (m_LAB->m_Oscilloscope->m_number_of_samples_per_channel * 4));
 
-          usec = dp->usecs[b];
+    //       usec = dp->usecs[b];
 
-          if (dp->states[b^1])
-          {
-              dp->states[0] = dp->states[1] = 0;
-              //overrun_total++;
-              break;
-          }
+    //       if (dp->states[b^1])
+    //       {
+    //           dp->states[0] = dp->states[1] = 0;
+    //           //overrun_total++;
+    //           break;
+    //       }
 
-          dp->states[b] = 0; 
-        }
-      }
-    }
+    //       dp->states[b] = 0; 
+    //     }
+    //   }
+    // }
     
-    
-
-    LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
-      oscilloscope_labsoft_oscilloscope_display_group_display->m_display;
-
-    // normalize raw ADC data: m_raw_values -> m_values
-    display->normalize_all_channels_raw_data ();
-
-    // sample skip to get samples to display: m_values -> m_pixel_points
-    display->normalize_channels_data_to_display ();
-
-    // draw signals
-    display->redraw ();
-    Fl::awake ();
-
     // int duration = (DISPLAY_UPDATE_RATE * 1000);
-
     // clock_gettime(CLOCK_MONOTONIC, &tp2);
-
     // struct timespec duration = diff (tp1, tp2);
     // printf ("fifload:%01ld %09ld,", duration.tv_sec, duration.tv_nsec);
-
-        
     // std::chrono::time_point<std::chrono::high_resolution_clock> end = 
     // std::chrono::high_resolution_clock::now ();
-
     // std::chrono::duration<int, std::nano> elapsed = end - start;
-
     // std::cout << std::fixed << elapsed.count () << "\n";
-
     // std::this_thread::sleep_for (std::chrono::nanoseconds (40'000'000));
   }
 }

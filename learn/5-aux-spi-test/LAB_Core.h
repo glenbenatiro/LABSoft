@@ -19,8 +19,8 @@ class LAB_Core
             m_dma_regs, 
             m_clk_regs, 
             m_pwm_regs, 
-            m_spi_regs, 
-            m_usec_regs,
+            m_regs_spi, 
+            m_regs_usec,
             m_aux_regs;
 
     MemoryMap m_vc_mem;

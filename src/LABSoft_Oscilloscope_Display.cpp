@@ -30,6 +30,18 @@ LABSoft_Oscilloscope_Display::
 
 }
 
+void LABSoft_Oscilloscope_Display:: 
+enable ()
+{
+  m_is_enabled = true;
+}
+
+void LABSoft_Oscilloscope_Display:: 
+disable ()
+{
+  m_is_enabled = false;
+}
+
 double LABSoft_Oscilloscope_Display::clockToMilliseconds(clock_t ticks){
     // units/(units/time) => time (seconds) * 1000 = milliseconds
     return (ticks/(double)CLOCKS_PER_SEC)*1000.0;
@@ -223,6 +235,18 @@ draw_channels_signals ()
       for (int b = 0; b < (w () - 1); b++) {
         fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
       }
+    }
+  }
+}
+
+void LABSoft_Oscilloscope_Display:: 
+process_samples (Channel_Signals *_Channel_Signals)
+{
+  if (m_is_enabled)
+  {
+    for (int channel = 0; channel < _Channel_Signals->m_chans.size (); channel++)
+    {
+
     }
   }
 }

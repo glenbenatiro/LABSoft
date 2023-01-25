@@ -75,6 +75,10 @@ double clockToMilliseconds(clock_t ticks);
           LABSoft_Oscilloscope_Display (int X, int Y, int W, int H, const char *label);
          ~LABSoft_Oscilloscope_Display ();
 
+    
+    void  enable ();
+    void  disable ();
+
     void  draw ();
     void  draw_grid ();
     
@@ -83,6 +87,7 @@ double clockToMilliseconds(clock_t ticks);
     void  normalize_all_channels_raw_data ();
     void  normalize_channels_data_to_display ();
     void  draw_channels_signals ();
+    void  process_samples (Channel_Signals *_Channel_Signals);
 
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);

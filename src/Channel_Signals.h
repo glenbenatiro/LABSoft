@@ -24,9 +24,9 @@ struct Channel_Signal_Logic_Analyzer
   bool m_converted_data[LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
 };
 
-struct Channel_Signal_Oscilloscope
+struct Channel_Signal_Oscilloscope 
 {
-  // std::vector <std::vector <int>> pixel_points;
+  uint32_t voltage_samples [LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
 };
 
 class Channel_Signal
@@ -36,6 +36,8 @@ class Channel_Signal
 
   public:
     // --- variables ---
+    Channel_Signal_Oscilloscope osc;
+
     bool    m_is_enabled = false;
 
     unsigned m_working_samples;
@@ -49,12 +51,6 @@ class Channel_Signal
             m_vertical_offset       = CHANNEL_SIGNAL_VERTICAL_OFFSET,
             m_horizontal_offset     = CHANNEL_SIGNAL_HORIZONTAL_OFFSET;
 
-    union 
-    {
-      multimeter m;
-      Channel_Signal_Logic_Analyzer logic_analyzer;
-      Channel_Signal_Oscilloscope   oscilloscope;
-    };
     
     // m_raw_values will hold the raw bits read from the ADC
     uint32_t m_raw_values[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES] = { 0 };
@@ -85,7 +81,11 @@ class Channel_Signal
     void vertical_offset (double value);
 
     // getter
-    bool is_enabled ();
+    bool is_enabled ()
+    {
+      return m_is_enabled;
+    }
+
     double voltage_per_division ();
     double vertical_offset ();
     double time_per_division ();

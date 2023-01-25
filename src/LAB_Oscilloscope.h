@@ -6,6 +6,10 @@
 
 class LAB_Oscilloscope 
 {
+  private:
+
+    MemoryMap m_uncached_dma_data;
+
   public:
     LAB_Core *m_LAB_Core;
 
@@ -20,6 +24,7 @@ class LAB_Oscilloscope
 
     Channel_Signals m_channel_signals;
 
+
     // --- functions --- 
     LAB_Oscilloscope  (LAB_Core *_LAB_Core);
    ~LAB_Oscilloscope  ();
@@ -33,6 +38,8 @@ class LAB_Oscilloscope
     void vertical_offset (unsigned channel, double value);
 
     void convert_samples (unsigned channel);
+
+    void load_data_samples ();
 
   // this changes PWM speed on board!! 
   // verify no other are affected

@@ -21,12 +21,6 @@ disable ()
   m_is_enabled = false;
 }
 
-bool Channel_Signal:: 
-is_enabled ()
-{
-  return m_is_enabled;
-}
-
 void Channel_Signal:: 
 volts_per_division (double value)
 {

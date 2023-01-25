@@ -51,10 +51,10 @@ LAB_Core::LAB_Core_map_devices ()
 {
   LAB_Core_map_periph (&m_gpio_regs, (void *) GPIO_BASE, PAGE_SIZE);
   LAB_Core_map_periph (&m_dma_regs,  (void *) DMA_BASE,  PAGE_SIZE);
-  LAB_Core_map_periph (&m_spi_regs,  (void *) SPI0_BASE, PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_spi,  (void *) SPI0_BASE, PAGE_SIZE);
   LAB_Core_map_periph (&m_clk_regs,  (void *) CLK_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_pwm_regs,  (void *) PWM_BASE,  PAGE_SIZE);
-  LAB_Core_map_periph (&m_usec_regs, (void *) USEC_BASE, PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_usec, (void *) USEC_BASE, PAGE_SIZE);
 }
 
 // --- Memory ---
@@ -369,10 +369,10 @@ LAB_Core::LAB_Core_terminate (int sig)
   //dma_stop(DMA_CHAN_C);
   
   LAB_Core_unmap_periph_mem (&m_vc_mem);
-  LAB_Core_unmap_periph_mem (&m_usec_regs);
+  LAB_Core_unmap_periph_mem (&m_regs_usec);
   LAB_Core_unmap_periph_mem (&m_pwm_regs);
   LAB_Core_unmap_periph_mem (&m_clk_regs);
-  LAB_Core_unmap_periph_mem (&m_spi_regs);
+  LAB_Core_unmap_periph_mem (&m_regs_spi);
   LAB_Core_unmap_periph_mem (&m_dma_regs);
   LAB_Core_unmap_periph_mem (&m_gpio_regs);
   
@@ -405,17 +405,17 @@ spi_init ()
 void LAB_Core:: 
 spi_clear_rxtx_fifo ()
 {
-  // *REG32 (m_spi_regs, SPI_CS) = SPI_CS_CLEAR;
-  *REG32 (m_spi_regs, SPI_CS) = 0x30;
+  // *REG32 (m_regs_spi, SPI_CS) = SPI_CS_CLEAR;
+  *REG32 (m_regs_spi, SPI_CS) = 0x30;
 }
 
 // Set / clear SPI chip select
 void 
 LAB_Core::spi_cs (int set)
 {
-  uint32_t csval = *REG32(m_spi_regs, SPI_CS);
+  uint32_t csval = *REG32(m_regs_spi, SPI_CS);
 
-  *REG32(m_spi_regs, SPI_CS) = set ? csval | 0x80 : csval & ~0x80;
+  *REG32(m_regs_spi, SPI_CS) = set ? csval | 0x80 : csval & ~0x80;
 }
 
 // Transfer SPI bytes
@@ -426,12 +426,12 @@ spi_xfer (uint8_t *txd,
 {
   while (length--)
     {
-      *REG8(m_spi_regs, SPI_FIFO) = *txd++;
+      *REG8(m_regs_spi, SPI_FIFO) = *txd++;
       
       // wait for rx fifo to contain AT LEAST 1 byte
-      while ((*REG32(m_spi_regs, SPI_CS) & (1<<17)) == 0);
+      while ((*REG32(m_regs_spi, SPI_CS) & (1<<17)) == 0);
       
-      *rxd++ = *REG32(m_spi_regs, SPI_FIFO);
+      *rxd++ = *REG32(m_regs_spi, SPI_FIFO);
     }
 }
 
@@ -439,8 +439,8 @@ spi_xfer (uint8_t *txd,
 void 
 LAB_Core::spi_disable (void)
 {
-    *REG32(m_spi_regs, SPI_CS) = SPI_CS_CLEAR;
-    *REG32(m_spi_regs, SPI_CS) = 0;
+    *REG32(m_regs_spi, SPI_CS) = SPI_CS_CLEAR;
+    *REG32(m_regs_spi, SPI_CS) = 0;
 }
 
 // Display SPI registers
@@ -448,7 +448,7 @@ void LAB_Core::
 spi_disp ()
 {
   // SPI register strings
-  const char *m_spi_regstrs[] = {"CS", 
+  const char *m_regs_spitrs[] = {"CS", 
                                "FIFO", 
                                "CLK", 
                                "DLEN", 
@@ -457,10 +457,10 @@ spi_disp ()
                                ""};
 
   int i = 0;
-  volatile uint32_t *p = REG32(m_spi_regs, SPI_CS);
+  volatile uint32_t *p = REG32(m_regs_spi, SPI_CS);
 
-  while (m_spi_regstrs[i][0])
-    printf("%-4s %08X ", m_spi_regstrs[i++], *p++);
+  while (m_regs_spitrs[i][0])
+    printf("%-4s %08X ", m_regs_spitrs[i++], *p++);
   
   printf("\n");
 }
@@ -480,7 +480,7 @@ spi_set_clock_rate (int value)
 
    
   // set spi frequency as rounded off clock
-  *REG32 (m_spi_regs, SPI_CLK) = divider;
+  *REG32 (m_regs_spi, SPI_CLK) = divider;
 
   printf ("spiclockhz: %d, value: %d, divider: %d\n\n", SPI_CLOCK_HZ,
     value, divider);

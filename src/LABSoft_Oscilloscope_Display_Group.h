@@ -52,6 +52,8 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     // --- functions --- 
           LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char *label = 0);
 
+    void  enable ();
+    void  disable ();
     void  draw ();
     void  update_x_axis_labels ();
     void  enable_function_generator_mode ();
@@ -69,6 +71,17 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void time_per_division (int channel, double value);
     void update_time_per_division_labels ();
     void update_time_per_division_labels (int channel);
+
+    LABSoft_Oscilloscope_Display* display ()
+    {
+      return m_display;
+    }
+
+    // forwarding functions to actual oscilloscope display
+    void process_samples (Channel_Signals *_Channel_Signals)
+    {
+      m_display->process_samples (_Channel_Signals);
+    }
 };
 
 #endif

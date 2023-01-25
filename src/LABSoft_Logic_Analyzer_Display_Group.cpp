@@ -108,25 +108,20 @@ draw_grid ()
 void LABSoft_Logic_Analyzer_Display_Group:: 
 draw_signals ()
 {
-  int graph_width = w () - m_channel_menu_button_width;
+  // int graph_width = w () - m_channel_menu_button_width;
 
-  if (m_channel_signals->m_working_samples >= graph_width)
-  {
+  // if (m_channel_signals->m_working_samples >= graph_width)
+  // {
     
-  }
+  // }
 
-
-
-
-  for (int a = 0; a < m_number_of_channels; a++)
-  {
-    for (int b = 0; b < m_channel_signals->m_working_samples; b++)
-    {
-      m_channel_signals->m_chans[a].logic_analyzer.m_converted_data[b];
-    }
-
-
-  }
+  // for (int a = 0; a < m_number_of_channels; a++)
+  // {
+  //   for (int b = 0; b < m_channel_signals->m_working_samples; b++)
+  //   {
+  //     m_channel_signals->m_chans[a].logic_analyzer.m_converted_data[b];
+  //   }
+  // }
 }
 
 void LABSoft_Logic_Analyzer_Display_Group:: 

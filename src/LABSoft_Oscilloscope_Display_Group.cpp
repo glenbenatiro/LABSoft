@@ -99,6 +99,18 @@ LABSoft_Oscilloscope_Display_Group (int X,
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
+enable ()
+{
+  m_display->enable ();
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+disable ()
+{
+  m_display->disable ();
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
 draw ()
 {
   draw_box (FL_FLAT_BOX, m_background_color);
