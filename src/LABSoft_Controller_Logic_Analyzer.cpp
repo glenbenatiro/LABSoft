@@ -18,6 +18,15 @@ LABSoft_Controller_Logic_Analyzer (LAB         *_LAB,
     value (LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON);
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_position->
     value (LABSOFT_LOGIC_ANALYZER_POSITION);
+
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
+    channel_signals (m_LAB->m_Logic_Analyzer->channel_signals ());
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+run_display ()
+{
+
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -48,16 +57,6 @@ cb_memory_depth (Fl_Input_Choice *w,
 
   // backend 
   m_LAB->m_Logic_Analyzer->memory_depth (_LabelValue.actual_value ());
-
-  // frontend
-
-  // calculate new time per division
-  // m_LAB->m_Logic_Analyzer
-
-
-
-  // change time per div setting
-
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -82,3 +81,4 @@ cb_position (Fl_Input_Choice *w,
     m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
     update_time_per_division_labels ();
 }
+

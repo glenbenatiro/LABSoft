@@ -8,16 +8,18 @@
 
 class LABSoft_Controller_Logic_Analyzer
 {
-  public:
+  private:
     LAB         *m_LAB;
     LABSoft_GUI *m_LABSoft_GUI;
 
+  public:
     LABSoft_Controller_Logic_Analyzer (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+
+    void run_display ();
 
     // callback functions
     void cb_master_run_stop (Fl_Light_Button *w, void *data);
     void cb_memory_depth (Fl_Input_Choice *w, void *data);
-
     void cb_time_per_division (Fl_Input_Choice *w, void *data);
     void cb_position (Fl_Input_Choice *w, void *data);
 };

@@ -253,6 +253,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/src/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
+ /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h

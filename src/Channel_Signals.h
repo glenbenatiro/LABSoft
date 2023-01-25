@@ -18,10 +18,15 @@ struct Channel_Signal_Logic_Analyzer
 
   // this contains the raw data from the GPLEV0 register.
   // 32 bits for the 32 pins of GPIO bank 0
-  uint32_t m_raw_data[LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
+  volatile uint32_t m_raw_data[LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
 
   // this contains the converted data from m_raw_data
-  bool m_converted_data[PI_MAX_GPIO_PINS][LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
+  bool m_converted_data[LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
+};
+
+struct Channel_Signal_Oscilloscope
+{
+  // std::vector <std::vector <int>> pixel_points;
 };
 
 class Channel_Signal
@@ -33,6 +38,8 @@ class Channel_Signal
     // --- variables ---
     bool    m_is_enabled = false;
 
+    unsigned m_working_samples;
+
     int     m_voltage_per_division_unit_scaler = 
               CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION_UNIT_SCALER;
 
@@ -42,10 +49,11 @@ class Channel_Signal
             m_vertical_offset       = CHANNEL_SIGNAL_VERTICAL_OFFSET,
             m_horizontal_offset     = CHANNEL_SIGNAL_HORIZONTAL_OFFSET;
 
-    union data
+    union 
     {
       multimeter m;
       Channel_Signal_Logic_Analyzer logic_analyzer;
+      Channel_Signal_Oscilloscope   oscilloscope;
     };
     
     // m_raw_values will hold the raw bits read from the ADC
@@ -67,28 +75,38 @@ class Channel_Signal
     WaveType  m_function_wave_type;
 
     // --- functions ---
-    Channel_Signal (int number_of_samples = 0, 
-                    int display_width = 0);
+    Channel_Signal (unsigned number_of_samples = 0, 
+                    unsigned display_width     = 0);
     
     // setter
     void enable ();
     void disable ();
+    void volts_per_division (double value);
+    void vertical_offset (double value);
 
     // getter
     bool is_enabled ();
+    double voltage_per_division ();
+    double vertical_offset ();
+    double time_per_division ();
+    double horizontal_offset ();
+    unsigned working_samples ();
 };
-
 
 
 // --- Channel_Signals ---
 class Channel_Signals
 {
   public:
-    std::vector<Channel_Signal> m_channel_signal_vector;
+    unsigned m_working_samples = 0;
 
-    Channel_Signals (int number_of_channels = 1,
-                     int number_of_samples  = 0,
-                     int display_width = 0);
+    std::vector<Channel_Signal> m_chans;
+
+    Channel_Signals (unsigned number_of_channels  = 1,
+                     unsigned number_of_samples   = 0,
+                     unsigned display_width       = 0);
+
+   ~Channel_Signals ();
     
     int size ();
 };

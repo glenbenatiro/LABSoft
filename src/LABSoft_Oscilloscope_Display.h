@@ -95,7 +95,7 @@ double clockToMilliseconds(clock_t ticks);
     void volts_per_division (int channel, double value);
     void vertical_offset (int channel, double value);
 
-    void time_per_division (int channel, double value);    
+    void time_per_division (int channel, double value);   
 };
 
 #endif

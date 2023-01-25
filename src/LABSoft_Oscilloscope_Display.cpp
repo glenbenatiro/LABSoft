@@ -107,7 +107,7 @@ normalize_all_channels_raw_data ()
 
   for (int a = 0; a < m_channel_signals.size (); a++) 
   {
-    Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
+    Channel_Signal *chn = &(m_channel_signals.m_chans[a]);
 
     if (chn->is_enabled ())
     {
@@ -165,10 +165,19 @@ normalize_channels_data_to_display ()
   {
     for (int a = 0; a < m_channel_signals.size (); a++ ) 
     {
-      Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[a]);
+      Channel_Signal *chn = &(m_channel_signals.m_chans[a]);
 
       if (chn->is_enabled ())
       {
+        Channel_Signal *curr_chan = &(m_channel_signals.m_chans[a]);
+
+        double voltage_per_division ;
+        double vertical_offset    ;
+        double time_per_division   ;
+        double horizontal_offset   ;
+        double sample_rate         ;
+        unsigned working_samples    ;
+        
         // calculate sample skip interval
         float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
         float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
@@ -203,9 +212,9 @@ void LABSoft_Oscilloscope_Display::
 draw_channels_signals () 
 {
   for (int a = 0; a < m_channel_signals.size (); a++) {
-    Channel_Signal *chan = &(m_channel_signals.m_channel_signal_vector[a]);
+    Channel_Signal *chan = &(m_channel_signals.m_chans[a]);
 
-    if (chan->m_is_enabled) 
+    if (chan->is_enabled ()) 
     {
       std::vector<std::vector<int>> *pp = &(chan->m_pixel_points);
       
@@ -231,7 +240,7 @@ enable_function_generator_mode ()
   // // change pixel buffer size to widget width
   // for (int a = 0; a < m_channel_signals.m_number_of_channels; a++)
   //   {
-  //     &(m_channel_signals.m_channel_signal_vector[a])->m_pixel_points.
+  //     &(m_channel_signals.m_chans[a])->m_pixel_points.
   //       resize (w (), std::vector<int> (2));
   //   }
 
@@ -251,7 +260,7 @@ enable_function_generator_mode ()
 //   if (channel > m_channel_signals.size ())
 //     return -1;
 //   else
-//     Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[channel]);
+//     Channel_Signal *chn = &(m_channel_signals.m_chans[channel]);
   
 //   for (int a = 0; a < w (); a++)
 //     {
@@ -297,7 +306,7 @@ generate_waveform (WaveType wave_type, int channel)
   if (channel > m_channel_signals.size ())
     return -1;
   else
-    Channel_Signal *chn = &(m_channel_signals.m_channel_signal_vector[channel]);
+    Channel_Signal *chn = &(m_channel_signals.m_chans[channel]);
   
   for (int a = 0; a < w (); a++)
     {
@@ -336,26 +345,26 @@ generate_waveform (WaveType wave_type, int channel)
 double LABSoft_Oscilloscope_Display:: 
 volts_per_division (int channel)
 {
-  return (m_channel_signals.m_channel_signal_vector[channel].m_voltage_per_division);
+  return (m_channel_signals.m_chans[channel].m_voltage_per_division);
 }
 
 // setters
 void LABSoft_Oscilloscope_Display:: 
 volts_per_division (int channel, double value)
 {
-  m_channel_signals.m_channel_signal_vector[channel].m_voltage_per_division = value;
+  m_channel_signals.m_chans[channel].m_voltage_per_division = value;
 }
 
 void LABSoft_Oscilloscope_Display:: 
 vertical_offset (int channel, double value)
 {
-  m_channel_signals.m_channel_signal_vector[channel].m_vertical_offset = value;
+  m_channel_signals.m_chans[channel].m_vertical_offset = value;
 }
 
 void LABSoft_Oscilloscope_Display:: 
 time_per_division (int channel, double value)
 {
-  m_channel_signals.m_channel_signal_vector[channel].m_time_per_division = value;
+  m_channel_signals.m_chans[channel].m_time_per_division = value;
 }
 // EOF
 

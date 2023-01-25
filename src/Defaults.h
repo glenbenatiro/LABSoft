@@ -30,7 +30,7 @@ constexpr int LAB_PWM_FREQUENCY     = 20'000'000; // this is to be extracted fro
 constexpr int LAB_SPI_FREQUENCY     = 8'000'000; // in hz
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
-constexpr float DISPLAY_UPDATE_RATE = (1.0 / 30.0); // in seconds, 25fps
+constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 // General LAB
 #define RANDOM_VALUE_GENERATOR_WAIT_MS  5

@@ -4,7 +4,7 @@ LAB_Multimeter::
 LAB_Multimeter (LAB_Core *_LAB_Core)
 {
   m_LAB_Core = _LAB_Core;
-  Channel_Signals m_channel_signals (1);
+  // Channel_Signals m_channel_signals (1);
 }
 
 void LAB_Multimeter:: 
@@ -46,7 +46,7 @@ stop_random_value_generator ()
 unsigned LAB_Multimeter:: 
 get_sample ()
 {
-
+  return 0;
 }
 
 

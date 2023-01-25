@@ -106,6 +106,36 @@ stop ()
   m_is_running = false;
 }
 
+void LAB_Oscilloscope:: 
+channel_enable (unsigned channel)
+{
+  m_channel_signals.m_chans[channel].enable ();
+}
+
+void LAB_Oscilloscope:: 
+channel_disable (unsigned channel)
+{
+  m_channel_signals.m_chans[channel].disable ();
+}
+
+void LAB_Oscilloscope:: 
+volts_per_division (unsigned channel, double value)
+{
+  m_channel_signals.m_chans[channel].volts_per_division (value);
+}
+
+void LAB_Oscilloscope:: 
+vertical_offset (unsigned channel, double value)
+{
+  m_channel_signals.m_chans[channel].vertical_offset (value);
+}
+
+void LAB_Oscilloscope:: 
+convert_samples (unsigned channel)
+{
+  // for (int chn = 0; chn < m_channel_signals.m_chans)
+}
+
 
 // this changes PWM speed on board!! 
 // verify no other are affected

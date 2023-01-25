@@ -151,7 +151,7 @@ update_fg ()
 //                           int    channel)
 // {
 //   Channel_Signal *chn = &(m_display->m_channel_signals.
-//     m_channel_signal_vector[channel]);
+//     m_chans[channel]);
 
 //   chn->m_voltage_per_division = volts_per_division;
 //   chn->m_voltage_per_division_unit_scaler = volts_per_division_unit_scaler;
@@ -185,8 +185,7 @@ update_volts_per_division_labels (int channel)
 {
   char label[15];
 
-  Channel_Signal *chn = &(m_display->m_channel_signals.
-    m_channel_signal_vector[channel]);
+  Channel_Signal *chn = &(m_display->m_channel_signals.m_chans[channel]);
 
   if (chn->m_is_enabled)
   {
@@ -254,7 +253,7 @@ update_time_per_division_labels (int channel)
   char label[15];
 
   Channel_Signal *chn = &(m_display->m_channel_signals.
-    m_channel_signal_vector[0]);
+    m_chans[0]);
 
   LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
 

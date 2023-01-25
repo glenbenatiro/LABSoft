@@ -3,6 +3,7 @@
 #include <iostream>
 #include <chrono>
 
+
 #include <FL/Fl.H>
 
 
@@ -63,18 +64,15 @@ cb_channel_enable_disable (Fl_Light_Button *w,
 {
   int channel = static_cast<int>(data);
   bool value = w->value ();
-  
-  // backend
-  m_LAB->m_Oscilloscope->m_channel_signals.m_channel_signal_vector[channel].
-    m_is_enabled = value;
 
-  // frontend
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    m_display->m_channel_signals.m_channel_signal_vector[channel].
-      m_is_enabled = value;
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_volts_per_division_labels ();
+  if (value)
+  {
+    m_LAB->m_Oscilloscope->channel_enable (channel);
+  }
+  else 
+  {
+    m_LAB->m_Oscilloscope->channel_disable (channel);
+  }
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -102,7 +100,7 @@ update_display ()
   uint32_t usec;
   std::vector<Channel_Signal> *chns = &(m_LABSoft_GUI->
     oscilloscope_labsoft_oscilloscope_display_group_display->m_display->
-      m_channel_signals.m_channel_signal_vector);
+      m_channel_signals.m_chans);
   ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA*>(m_LAB->m_LAB_Core.m_vc_mem.virt);
 
   // 1. get block from backend
@@ -114,6 +112,8 @@ update_display ()
    // to iterate over ping pong channels
     // WARNING! wala pana implement ang other channels
     // this is from single channel code
+
+    clock_gettime (CLOCK_MONOTONIC, &tp1);
       
     for (int a = 0; a < (m_LAB->m_Oscilloscope->m_number_of_channels); a++)  
     {
@@ -158,7 +158,12 @@ update_display ()
     display->redraw ();
     Fl::awake ();
 
-    int duration = (DISPLAY_UPDATE_RATE * 1000);
+    // int duration = (DISPLAY_UPDATE_RATE * 1000);
+
+    // clock_gettime(CLOCK_MONOTONIC, &tp2);
+
+    // struct timespec duration = diff (tp1, tp2);
+    // printf ("fifload:%01ld %09ld,", duration.tv_sec, duration.tv_nsec);
 
         
     // std::chrono::time_point<std::chrono::high_resolution_clock> end = 
@@ -176,15 +181,11 @@ void LABSoft_Controller_Oscilloscope::
 cb_volts_per_division (Fl_Input_Choice *w, 
                        long             data)
 {
-  int channel = static_cast<int>(data);
+  unsigned channel = static_cast<unsigned>(data);
   LabelValue _LabelValue (w->value ());
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    volts_per_division (channel, _LabelValue.actual_value ());
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    volts_per_division (channel, _LabelValue.actual_value ());
   
+  m_LAB->m_Oscilloscope->volts_per_division (channel, _LabelValue.actual_value ());
+
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_volts_per_division_labels (channel);
 }
@@ -193,14 +194,10 @@ void LABSoft_Controller_Oscilloscope::
 cb_vertical_offset (Fl_Input_Choice *w, 
                     long             data)
 {
-  int channel = static_cast<int>(data);
+  unsigned channel = static_cast<unsigned>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    vertical_offset (channel, _LabelValue);
-  
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_volts_per_division_labels (channel);
+  m_LAB->m_Oscilloscope->vertical_offset (channel, _LabelValue.actual_value ());
 }
 
 

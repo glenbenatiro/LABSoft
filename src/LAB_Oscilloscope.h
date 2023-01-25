@@ -27,6 +27,13 @@ class LAB_Oscilloscope
     void  run ();
     void  stop ();   
 
+    void channel_enable (unsigned channel);
+    void channel_disable (unsigned channel);
+    void volts_per_division (unsigned channel, double value);
+    void vertical_offset (unsigned channel, double value);
+
+    void convert_samples (unsigned channel);
+
   // this changes PWM speed on board!! 
   // verify no other are affected
   void sample_rate (int channel, double value);

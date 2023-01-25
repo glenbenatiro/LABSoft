@@ -2,8 +2,10 @@
 
 LAB_Logic_Analyzer::
 LAB_Logic_Analyzer (LAB_Core *_LAB_Core)
+  : m_channel_signals (LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS, LAB_LOGIC_ANALYZER_MEMORY_DEPTH)
 {
   m_LAB_Core = _LAB_Core;
+  // m_channel_signals (LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
 
   // Load default values
   m_number_of_channels  = LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS;
@@ -39,9 +41,12 @@ init_pins ()
 void LAB_Logic_Analyzer:: 
 memory_depth (unsigned value)
 {
-  m_memory_depth = value;
+  m_channel_signals.m_working_samples = value;
+}
 
-  // propagate values to channel signal array
-  
-  // m_channel_signals
+// getter
+Channel_Signals* LAB_Logic_Analyzer:: 
+channel_signals ()
+{
+  return (&m_channel_signals);
 }

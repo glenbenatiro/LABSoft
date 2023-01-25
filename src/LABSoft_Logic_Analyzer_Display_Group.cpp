@@ -74,6 +74,7 @@ draw ()
   draw_box (FL_FLAT_BOX, m_graph_background_color);
   draw_grid ();
   draw_children ();
+  draw_signals ();
 }
 
 void LABSoft_Logic_Analyzer_Display_Group::
@@ -105,6 +106,30 @@ draw_grid ()
 }
 
 void LABSoft_Logic_Analyzer_Display_Group:: 
+draw_signals ()
+{
+  int graph_width = w () - m_channel_menu_button_width;
+
+  if (m_channel_signals->m_working_samples >= graph_width)
+  {
+    
+  }
+
+
+
+
+  for (int a = 0; a < m_number_of_channels; a++)
+  {
+    for (int b = 0; b < m_channel_signals->m_working_samples; b++)
+    {
+      m_channel_signals->m_chans[a].logic_analyzer.m_converted_data[b];
+    }
+
+
+  }
+}
+
+void LABSoft_Logic_Analyzer_Display_Group:: 
 time_per_division (double value)
 {
   m_time_per_division = value;
@@ -116,9 +141,6 @@ update_time_per_division_labels ()
   for (int a = 0; a <= m_x_labels.size (); a++)
   {
     double temp = m_position + (m_time_per_division * (a - (m_graph_number_of_columns / 2)));
-    printf ("temp: %f\n", temp);
-    printf ("a is %d\n",a);
-
     m_x_labels[a]->copy_label ((LabelValue::label_text (temp, TIME_PER_DIVISION)).c_str());
   }
 }
@@ -134,6 +156,12 @@ void LABSoft_Logic_Analyzer_Display_Group::
 position (double value)
 {
   m_position = value;
+}
+
+void LABSoft_Logic_Analyzer_Display_Group:: 
+channel_signals (const Channel_Signals *_Channel_Signals)
+{
+  m_channel_signals = _Channel_Signals;
 }
 
 // eof

@@ -14,7 +14,7 @@ class LAB_Logic_Analyzer
 
     LAB_Core *m_LAB_Core;
 
-    Channel_Signal m_channel_signals [LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS];
+    Channel_Signals m_channel_signals;
 
   public:
     LAB_Logic_Analyzer (LAB_Core *_LAB_Core);
@@ -27,7 +27,7 @@ class LAB_Logic_Analyzer
 
     // getter
     void memory_depth (unsigned value);
-
+    Channel_Signals* channel_signals ();
 };
 
 #endif
