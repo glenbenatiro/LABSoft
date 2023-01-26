@@ -99,18 +99,6 @@ LABSoft_Oscilloscope_Display_Group (int X,
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
-enable ()
-{
-  m_display->enable ();
-}
-
-void LABSoft_Oscilloscope_Display_Group:: 
-disable ()
-{
-  m_display->disable ();
-}
-
-void LABSoft_Oscilloscope_Display_Group:: 
 draw ()
 {
   draw_box (FL_FLAT_BOX, m_background_color);
@@ -134,53 +122,10 @@ update_x_axis_labels ()
     }
 }
 
-
-void LABSoft_Oscilloscope_Display_Group:: 
-enable_function_generator_mode ()
-{
-  m_is_function_generator_mode_enabled = true;
-  m_display->enable_function_generator_mode ();
-}
-
 void LABSoft_Oscilloscope_Display_Group::
 update ()
 {
   printf ("DEBUG: display updated\n");
-}
-
-void LABSoft_Oscilloscope_Display_Group:: 
-update_fg ()
-{
-  // regenerate wave
-  //m_display->regendraw ();
-  // normalize to display
-  // draw
-}
-
-// void LABSoft_Oscilloscope_Display_Group:: 
-// update_volts_per_division (double volts_per_division,
-//                           int    volts_per_division_unit_scaler,
-//                           int    channel)
-// {
-//   Channel_Signal *chn = &(m_display->m_channel_signals.
-//     m_chans[channel]);
-
-//   chn->m_voltage_per_division = volts_per_division;
-//   chn->m_voltage_per_division_unit_scaler = volts_per_division_unit_scaler;
-  
-//   update_y_axis_labels ();
-//   update ();
-// }
-                        
-
-
-
-
-// setters
-void LABSoft_Oscilloscope_Display_Group:: 
-volts_per_division (int channel, double value)
-{
-  m_display->volts_per_division (channel, value);
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -231,24 +176,6 @@ update_volts_per_division_labels (int channel)
   }
 }
 
-void LABSoft_Oscilloscope_Display_Group:: 
-vertical_offset  (int         channel,
-                  LabelValue _LabelValue)
-{
-  m_display->vertical_offset (channel, _LabelValue.actual_value ());
-}
-
-void LABSoft_Oscilloscope_Display_Group:: 
-time_per_division (int channel, double value)
-{
-  // m_display->time_per_division (channel, value);
-
-  // update time per division for all channels as usa raman sila tanan
-  for (int a = 0; a < m_number_of_channels; a++)
-  {
-    m_display->time_per_division (a, value);
-  }
-}
 
 void LABSoft_Oscilloscope_Display_Group:: 
 update_time_per_division_labels ()

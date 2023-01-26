@@ -56,7 +56,6 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  disable ();
     void  draw ();
     void  update_x_axis_labels ();
-    void  enable_function_generator_mode ();
     void  update ();
     void  update_fg ();
 

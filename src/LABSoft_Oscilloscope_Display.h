@@ -101,11 +101,6 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     {
       return &m_channel_signals;
     }
-
-    // setters
-    void volts_per_division (int channel, double value);
-    void vertical_offset (int channel, double value);
-    void time_per_division (int channel, double value);   
 };
 
 #endif

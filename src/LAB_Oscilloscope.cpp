@@ -37,27 +37,20 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
       // Page 40
       // Trans. Info., Src. Ad., Dest. Ad., Trans. Length, 2D Stride, Next CB, Reserved
 
-      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[0]),                         4, 0, CBS(1), 0}, // 0
-      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd1), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(2), 0}, // 1
-      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[0]),                        4, 0, CBS(3), 0}, // 2
-      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[1]),                         4, 0, CBS(4), 0}, // 3
-      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd2), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(5), 0}, // 4
-      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[1]),                        4, 0, CBS(0), 0}, // 5
-
-      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[0]),  4,                                              0, CBS (1), 0}, // 0
-      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd1),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (2), 0}, // 1
-      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[0]), 4,                                              0, CBS (3), 0}, // 2
-      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[1]),  4,                                              0, CBS (4), 0}, // 3
-      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd2),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (5), 0}, // 4
-      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[1]), 4,                                              0, CBS (0), 0}, // 5
+      {DMA_CB_TI_SPI_RX, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[0]),  4,                                              0, CBS (1), 0}, // 0
+      {DMA_CB_TI_SPI_RX, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd1),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (2), 0}, // 1
+      {DMA_CB_TI_SPI_RX, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[0]), 4,                                              0, CBS (3), 0}, // 2
+      {DMA_CB_TI_SPI_RX, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[1]),  4,                                              0, CBS (4), 0}, // 3
+      {DMA_CB_TI_SPI_RX, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd2),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (5), 0}, // 4
+      {DMA_CB_TI_SPI_RX, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[1]), 4,                                              0, CBS (0), 0}, // 5
 
       // Tx output: 2 data writes to SPI for chan 0 & 1, or both chan 0
-      {DMA_CB_SPI_TX_TI,  MEM(mp, dp->txd),        REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 8, 0, CBS(6), 0}, // 6
+      {DMA_CB_TI_SPI_TX,  MEM(mp, dp->txd),        REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 8, 0, CBS(6), 0}, // 6
 
       // PWM ADC trigger: wait for PWM, set sample length, trigger SPI
-      {DMA_CB_PWM_TI, MEM(mp, &dp->pwm_val),   REG(m_LAB_Core->m_pwm_regs, PWM_FIF1), 4, 0, CBS(8), 0}, // 7
-      {DMA_CB_PWM_TI, MEM(mp, &dp->samp_size), REG(m_LAB_Core->m_regs_spi, SPI_DLEN), 4, 0, CBS(9), 0}, // 8
-      {DMA_CB_PWM_TI, MEM(mp, &dp->adc_csd),   REG(m_LAB_Core->m_regs_spi, SPI_CS),   4, 0, CBS(7), 0}, // 9
+      {DMA_CB_TI_PWM, MEM(mp, &dp->pwm_val),   REG(m_LAB_Core->m_pwm_regs, PWM_FIF1), 4, 0, CBS(8), 0}, // 7
+      {DMA_CB_TI_PWM, MEM(mp, &dp->samp_size), REG(m_LAB_Core->m_regs_spi, SPI_DLEN), 4, 0, CBS(9), 0}, // 8
+      {DMA_CB_TI_PWM, MEM(mp, &dp->adc_csd),   REG(m_LAB_Core->m_regs_spi, SPI_CS),   4, 0, CBS(7), 0}, // 9
     },
 
     .samp_size = 2, // in number of bytes
@@ -87,9 +80,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_LAB_Core->dma_start(mp, DMA_CHAN_B, &dp->cbs[0], 0);  // Start SPI Rx DMA
   m_LAB_Core->dma_start(mp, DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 
-  // m_LAB_Core->pwm_set_frequency (LAB_OSCILLOSCOPE_SAMPLE_RATE);
-
-  printf ("oscilloscope ok!\n");
+  m_LAB_Core->pwm_set_frequency (LAB_OSCILLOSCOPE_SAMPLE_RATE);
 }
 
 LAB_Oscilloscope::~LAB_Oscilloscope ()
@@ -134,6 +125,8 @@ load_data_samples ()
 
   for (int b = 0; b < 2; b++)
   {
+    printf ("oK!1\n");
+
     if (dp->states[b])
     {
       std::memcpy (raw_data_buffer, b ? (void *)(dp->rxd2) : (void *)(dp->rxd1), 
@@ -146,7 +139,17 @@ load_data_samples ()
       }
 
       dp->states[b] = 0;
+
+      if (usec_start == 0)
+      {
+        usec_start = dp->usecs[b];
+      }
+
+      // printf ("%d\n", dp->usecs[b] - usec_start);
+      printf ("usecs: %ld\n", dp->usecs[b]);
     }
+
+    printf ("oK!2\n");
   }
 
   if (condition2)

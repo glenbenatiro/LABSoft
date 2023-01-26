@@ -13,6 +13,7 @@ class LAB_Oscilloscope
 
   public:
     
+    double usec_start = 0;
 
     bool m_is_running = false;
 

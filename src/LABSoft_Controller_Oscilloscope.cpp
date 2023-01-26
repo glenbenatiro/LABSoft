@@ -24,8 +24,8 @@ cb_run_stop (Fl_Light_Button *w,
       m_LAB->m_Oscilloscope->stop ();
 
       // frontend
-      m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-        disable ();
+      // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      //   disable ();
 
       w->label ("Run");
     }
@@ -33,8 +33,8 @@ cb_run_stop (Fl_Light_Button *w,
     {
       m_LAB->m_Oscilloscope->run ();
       
-      m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-        enable ();
+      // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      //   enable ();
 
       m_thread_update_display = new std::thread
         (&LABSoft_Controller_Oscilloscope::update_display, this);
@@ -97,10 +97,10 @@ update_display ()
 
     m_LAB->m_Oscilloscope->load_data_samples ();
 
-    //LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
-    //  oscilloscope_labsoft_oscilloscope_display_group_display->display ();
+    LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
+      oscilloscope_labsoft_oscilloscope_display_group_display->display ();
     
-    // display->process_samples (&(m_LAB->m_Oscilloscope->m_channel_signals));
+    display->load_and_process_samples (&(m_LAB->m_Oscilloscope->m_channel_signals));
 
     // draw signals
     // display->redraw ();
@@ -123,10 +123,10 @@ cb_volts_per_division (Fl_Input_Choice *w,
   unsigned channel = static_cast<unsigned>(data);
   LabelValue _LabelValue (w->value ());
   
-  m_LAB->m_Oscilloscope->volts_per_division (channel, _LabelValue.actual_value ());
+  // m_LAB->m_Oscilloscope->volts_per_division (channel, _LabelValue.actual_value ());
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_volts_per_division_labels (channel);
+  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+  //   update_volts_per_division_labels (channel);
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -142,19 +142,19 @@ cb_vertical_offset (Fl_Input_Choice *w,
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_time_per_division (Fl_Input_Choice *w,
-                      long             data)
+                      long             channel)
 {
-  int channel = static_cast<int>(data);
+  // sint channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  // frontnend stuff
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    time_per_division (channel, _LabelValue.actual_value ());
+  // // frontnend stuff
+  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+  //   time_per_division (channel, _LabelValue.actual_value ());
   
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_time_per_division_labels ();
+  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+  //   update_time_per_division_labels ();
 
-  m_LAB->m_Oscilloscope->sample_rate (channel, LabelValue (w->value ()).actual_value ());
+  // m_LAB->m_Oscilloscope->sample_rate (channel, LabelValue (w->value ()).actual_value ());
 }
 
 // EOFs
