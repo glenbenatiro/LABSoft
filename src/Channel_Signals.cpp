@@ -1,14 +1,5 @@
 #include "Channel_Signals.h"
 
-Channel_Signal:: 
-Channel_Signal (unsigned number_of_samples, 
-                unsigned display_width)
-: m_values        (number_of_samples, 0.0),
-  m_pixel_points  (number_of_samples, std::vector<int> (display_width, 0))
-{
- 
-}
-
 void Channel_Signal:: 
 enable ()
 {
@@ -80,9 +71,4 @@ Channel_Signals::
 
 }
 
-int Channel_Signals:: 
-size ()
-{
-  return m_chans.size ();
-}
 

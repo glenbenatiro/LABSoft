@@ -14,6 +14,7 @@ LABSoft_Controller (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
     m_Circuit_Checker     (_LAB, _LABSoft_GUI),
     m_Main                (_LAB, _LABSoft_GUI)    
 {
+  printf ("controller ok!\n");
   // add timeout
   //Fl::add_timeout (DISPLAY_UPDATE_RATE, 
   //  m_LABSoft_Controller_Main->LABSoft_Controller_Main_cb_update_display, (void *)_LABSoft_GUI);

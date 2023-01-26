@@ -32,6 +32,8 @@ constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
+constexpr int DISPLAY_UPDATE_SLEEP_TIME_MS = 38; // in milliseconds. ideally 40, but 38 to make room for overhead
+
 // General LAB
 #define RANDOM_VALUE_GENERATOR_WAIT_MS  5
 #define PRE_FL_AWAKE_SLEEP_MS  10
@@ -57,7 +59,7 @@ constexpr double  CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
 
 // LAB Oscilloscope
 constexpr int     LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS     = 2;
-constexpr unsigned  LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 3200;
+constexpr int  LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 3200;
 constexpr int     LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
 constexpr double  LAB_OSCILLOSCOPE_SAMPLE_RATE            = 200'000; 
 constexpr double  LAB_OSCILLOSCOPE_SAMPLE_PERIOD          = (1.0 / LAB_OSCILLOSCOPE_SAMPLE_RATE);

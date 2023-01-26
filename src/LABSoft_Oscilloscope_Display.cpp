@@ -17,9 +17,9 @@ LABSoft_Oscilloscope_Display (int X,
                               int H,
                               const char *label = 0) 
   : Fl_Widget (X, Y, W, H, label),
-    m_channel_signals (m_number_of_channels,
-                       m_number_of_samples,
-                       w ())                                                            
+    m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
+                       LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
+                       w ())                                                    
 { 
 
 }
@@ -112,84 +112,30 @@ update ()
 }
 
 void LABSoft_Oscilloscope_Display:: 
-normalize_all_channels_raw_data ()
+load_and_process_samples (Channel_Signals *_Channel_Signals)
 {
-  uint16_t temp;
-  uint16_t data;
-
-  for (int a = 0; a < m_channel_signals.size (); a++) 
+  if (m_is_enabled)
   {
-    Channel_Signal *chn = &(m_channel_signals.m_chans[a]);
-
-    if (chn->is_enabled ())
+    for (int channel = 0; channel < _Channel_Signals->m_chans.size (); channel++)
     {
-      for (int b = 0; b < (chn->m_values.size ()); b++)
-      {
-        if (a == 0)
-        {
-          temp = chn->m_raw_values[b] & 0x0000FFFF;
-        }
-        else if (a == 1)
-        {
-          temp = (chn->m_raw_values[b] & 0xFFFF0000) >> 16;
-        }
-        else 
-        {
-
-        }
-
-        // rearrange bits to correct order
-        data = ((temp << 6) | (temp >> 10)) & 0x0FFF;
-
-        // get MSB to determine sign
-        bool sign = data >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
-
-        // mask data to mask out MSB sign bit
-        data = data & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
-
-        if (sign)
-        {
-          chn->m_values[b] = data * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
-        }
-        else
-        {
-          chn->m_values[b] = (data * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) - 
-            LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
-        }
-      }
-    }
-  }
-}
-
-// void LABSoft_Oscilloscope_Display:: 
-// normalize_samples_to_display () 
-// {
-//   if (m_is_enabled)
-//   {
-    
-//   }
-// }
-
-void LABSoft_Oscilloscope_Display:: 
-normalize_channels_data_to_display ()
-{
-  if (m_is_enabled) 
-  {
-    for (int a = 0; a < m_channel_signals.size (); a++ ) 
-    {
-      Channel_Signal *chn = &(m_channel_signals.m_chans[a]);
+      Channel_Signal *chn = &(_Channel_Signals->m_chans[channel]);
 
       if (chn->is_enabled ())
       {
-        Channel_Signal *curr_chan = &(m_channel_signals.m_chans[a]);
+        double time_per_division    = chn->osc.time_per_division;
+        double sampling_rate        = chn->osc.sampling_rate;
+        double sampling_rate_period = 1 / sampling_rate;
 
-        double voltage_per_division ;
-        double vertical_offset    ;
-        double time_per_division   ;
-        double horizontal_offset   ;
-        double sample_rate         ;
-        unsigned working_samples    ;
-        
+        if (time_per_division == sampling_rate_period)
+        {
+
+        }
+        else if (time_per_division < sampling_rate_period)
+        {
+
+        }
+
+
         // calculate sample skip interval
         float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
         float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
@@ -239,18 +185,6 @@ draw_channels_signals ()
   }
 }
 
-void LABSoft_Oscilloscope_Display:: 
-process_samples (Channel_Signals *_Channel_Signals)
-{
-  if (m_is_enabled)
-  {
-    for (int channel = 0; channel < _Channel_Signals->m_chans.size (); channel++)
-    {
-
-    }
-  }
-}
-
 // --- FUNCTION GENERATOR SECTION --- 
 
 void LABSoft_Oscilloscope_Display:: 
@@ -270,7 +204,7 @@ enable_function_generator_mode ()
 
 
   // update channel signals
-  //m_channel_signals->number_of_channels_all (1);
+  //m_channel_signals.number_of_channels_all (1);
 }
 
 // int LABSoft_Oscilloscope_Display:: 
@@ -327,7 +261,7 @@ generate_waveform (WaveType wave_type, int channel)
                         static_cast<float>(m_number_of_columns));
 
   // error out if channel argument is greater than number of channels
-  if (channel > m_channel_signals.size ())
+  if (channel > LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS)
     return -1;
   else
     Channel_Signal *chn = &(m_channel_signals.m_chans[channel]);

@@ -6,6 +6,12 @@
 
 #include "Defaults.h"
 
+// Number of pixels	7680×4320
+// True 8K pixel width = 7690
+
+constexpr int MAX_DISPLAY_WIDTH = 7680;
+
+
 struct multimeter
 {
   unsigned adc_value;
@@ -26,19 +32,20 @@ struct Channel_Signal_Logic_Analyzer
 
 struct Channel_Signal_Oscilloscope 
 {
-  uint32_t voltage_samples [LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
+  double sampling_rate;
+  double time_per_division;
+
+  std::vector<std::vector<int>> pixel_points;
+  std::vector<double>         voltage_samples;
 };
 
 class Channel_Signal
 {
-  private:
-
-
   public:
     // --- variables ---
+    bool m_is_enabled = false;
+    
     Channel_Signal_Oscilloscope osc;
-
-    bool    m_is_enabled = false;
 
     unsigned m_working_samples;
 
@@ -71,8 +78,14 @@ class Channel_Signal
     WaveType  m_function_wave_type;
 
     // --- functions ---
-    Channel_Signal (unsigned number_of_samples = 0, 
-                    unsigned display_width     = 0);
+    Channel_Signal (unsigned number_of_samples = 0, unsigned display_width = MAX_DISPLAY_WIDTH)
+    {
+      // oscilloscope 
+      osc.voltage_samples.resize (number_of_samples);
+      osc.pixel_points.resize (display_width, std::vector<int>(2));
+
+      //
+    }
     
     // setter
     void enable ();
@@ -97,6 +110,9 @@ class Channel_Signal
 // --- Channel_Signals ---
 class Channel_Signals
 {
+  private:
+
+
   public:
     unsigned m_working_samples = 0;
 
@@ -108,7 +124,10 @@ class Channel_Signals
 
    ~Channel_Signals ();
     
-    int size ();
+    int size ()
+    {
+      return m_chans.size ();
+    }
 };
 
 #endif

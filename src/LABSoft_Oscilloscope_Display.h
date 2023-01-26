@@ -12,11 +12,14 @@
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
   public:
-  clock_t deltaTime = 0;
-unsigned int frames = 0;
-double  frameRate = 30;
-double  averageFrameTimeMilliseconds = 33.333;
-double clockToMilliseconds(clock_t ticks);
+
+    Channel_Signals m_channel_signals;
+
+    clock_t deltaTime = 0;
+    unsigned int frames = 0;
+    double  frameRate = 30;
+    double  averageFrameTimeMilliseconds = 33.333;
+    double clockToMilliseconds(clock_t ticks);
 
     bool  m_is_enabled = false,
           m_enable_sample_sharing = false,
@@ -67,9 +70,7 @@ double clockToMilliseconds(clock_t ticks);
     
     WaveType m_wave_type;
     
-      
-    Channel_Signals m_channel_signals;
-
+    
     // --- OSCILLOSCOPE SECTION ---
     // functions
           LABSoft_Oscilloscope_Display (int X, int Y, int W, int H, const char *label);
@@ -86,9 +87,9 @@ double clockToMilliseconds(clock_t ticks);
 
     void  normalize_all_channels_raw_data ();
     void  normalize_channels_data_to_display ();
+    void  load_and_process_samples (Channel_Signals *_Channel_Signals);
     void  draw_channels_signals ();
-    void  process_samples (Channel_Signals *_Channel_Signals);
-
+    
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);
     void enable_function_generator_mode ();
@@ -96,10 +97,14 @@ double clockToMilliseconds(clock_t ticks);
     // getter
     double volts_per_division (int channel);
 
+    Channel_Signals* channel_signals ()
+    {
+      return &m_channel_signals;
+    }
+
     // setters
     void volts_per_division (int channel, double value);
     void vertical_offset (int channel, double value);
-
     void time_per_division (int channel, double value);   
 };
 

@@ -8,10 +8,11 @@ class LAB_Oscilloscope
 {
   private:
 
+    LAB_Core *m_LAB_Core;
     MemoryMap m_uncached_dma_data;
 
   public:
-    LAB_Core *m_LAB_Core;
+    
 
     bool m_is_running = false;
 
@@ -32,12 +33,18 @@ class LAB_Oscilloscope
     void  run ();
     void  stop ();   
 
-    void channel_enable (unsigned channel);
-    void channel_disable (unsigned channel);
+    void channel_enable (unsigned channel)
+    {
+      m_channel_signals.m_chans[channel].m_is_enabled = true;
+    }
+
+    void channel_disable (unsigned channel)
+    {
+      m_channel_signals.m_chans[channel].m_is_enabled = false;
+    }
+    
     void volts_per_division (unsigned channel, double value);
     void vertical_offset (unsigned channel, double value);
-
-    void convert_samples (unsigned channel);
 
     void load_data_samples ();
 

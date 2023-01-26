@@ -2,13 +2,15 @@
 
 #include <cstdio>
 #include <cstring>
+#include <bitset>
+#include <iostream>
 
 #include "Defaults.h"
 
 LAB_Oscilloscope::
 LAB_Oscilloscope (LAB_Core *_LAB_Core) 
   : m_LAB_Core (_LAB_Core),
-    m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS, 0, 0)
+    m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES, 0)
 {
   m_LAB_Core->map_uncached_mem (&m_uncached_dma_data, VC_MEM_SIZE);
 
@@ -35,19 +37,19 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
       // Page 40
       // Trans. Info., Src. Ad., Dest. Ad., Trans. Length, 2D Stride, Next CB, Reserved
 
-      // {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[0]),                         4, 0, CBS(1), 0}, // 0
-      // {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd1), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(2), 0}, // 1
-      // {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[0]),                        4, 0, CBS(3), 0}, // 2
-      // {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[1]),                         4, 0, CBS(4), 0}, // 3
-      // {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd2), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(5), 0}, // 4
-      // {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[1]),                        4, 0, CBS(0), 0}, // 5
+      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[0]),                         4, 0, CBS(1), 0}, // 0
+      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd1), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(2), 0}, // 1
+      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[0]),                        4, 0, CBS(3), 0}, // 2
+      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[1]),                         4, 0, CBS(4), 0}, // 3
+      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd2), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(5), 0}, // 4
+      {DMA_CB_SPI_RX_TI, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[1]),                        4, 0, CBS(0), 0}, // 5
 
-      {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[0]),  4,                                              0, CBS (1), 0}, // 0
-      {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd1),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (2), 0}, // 1
-      {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[0]), 4,                                              0, CBS (3), 0}, // 2
-      {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[1]),  4,                                              0, CBS (4), 0}, // 3
-      {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd2),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (5), 0}, // 4
-      {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[1]), 4,                                              0, CBS (0), 0}, // 5
+      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[0]),  4,                                              0, CBS (1), 0}, // 0
+      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd1),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (2), 0}, // 1
+      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[0]), 4,                                              0, CBS (3), 0}, // 2
+      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_usec), USEC_CLO),  Utility::mem_bus_addr (mp, &dp->usecs[1]),  4,                                              0, CBS (4), 0}, // 3
+      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  Utility::mem_bus_addr (mp, dp->rxd2),       (uint32_t)(m_number_of_samples_per_channel*4),  0, CBS (5), 0}, // 4
+      // {DMA_CB_SPI_RX_TI, Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    Utility::mem_bus_addr (mp, &dp->states[1]), 4,                                              0, CBS (0), 0}, // 5
 
       // Tx output: 2 data writes to SPI for chan 0 & 1, or both chan 0
       {DMA_CB_SPI_TX_TI,  MEM(mp, dp->txd),        REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 8, 0, CBS(6), 0}, // 6
@@ -109,17 +111,6 @@ stop ()
   m_is_running = false;
 }
 
-void LAB_Oscilloscope:: 
-channel_enable (unsigned channel)
-{
-  m_channel_signals.m_chans[channel].enable ();
-}
-
-void LAB_Oscilloscope:: 
-channel_disable (unsigned channel)
-{
-  m_channel_signals.m_chans[channel].disable ();
-}
 
 void LAB_Oscilloscope:: 
 volts_per_division (unsigned channel, double value)
@@ -131,12 +122,6 @@ void LAB_Oscilloscope::
 vertical_offset (unsigned channel, double value)
 {
   m_channel_signals.m_chans[channel].vertical_offset (value);
-}
-
-void LAB_Oscilloscope:: 
-convert_samples (unsigned channel)
-{
-  // for (int chn = 0; chn < m_channel_signals.m_chans)
 }
 
 void LAB_Oscilloscope:: 
@@ -171,7 +156,8 @@ load_data_samples ()
     if (m_channel_signals.m_chans[0].is_enabled () || 
       m_channel_signals.m_chans[1].is_enabled ())
     {
-      uint32_t temp, data;
+      double data;
+      uint32_t temp1, temp2;
       uint32_t shift_size = 32 / LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
 
       // go through all the samples in one go
@@ -182,29 +168,29 @@ load_data_samples ()
         {
           if (m_channel_signals.m_chans[chan].is_enabled ())
           {
-            temp = raw_data_buffer[samp] >> (shift_size * chan);
+            temp1 = (raw_data_buffer[samp]) >> (shift_size * chan);
 
             // rearrange bits to correct order
             // HARD CODED FOR 2 CHANNELS LAB
-            data = ((temp << 6) | (temp >> 10)) & 0x0FFF;
+            temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;
 
             // get MSB to determine sign
-            bool sign = data >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
+            bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
 
-            // mask data to mask out MSB sign bit
-            data = data & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+            // mask temp2 to mask out MSB sign bit
+            temp2 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
 
             if (sign)
             {
-              m_channel_signals.m_chans[chan].osc.voltage_samples[samp] = data *
-                LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
+              data = static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
             }
-            else
+            else 
             {
-              m_channel_signals.m_chans[chan].osc.voltage_samples[samp] = (data *
-                LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
+              data = (static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
                   LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
             }
+
+            m_channel_signals.m_chans[chan].osc.voltage_samples[samp] = data;
           }
         }
       }

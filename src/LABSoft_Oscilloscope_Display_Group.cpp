@@ -199,7 +199,7 @@ update_volts_per_division_labels (int channel)
 
   Channel_Signal *chn = &(m_display->m_channel_signals.m_chans[channel]);
 
-  if (chn->m_is_enabled)
+  if (chn->is_enabled ())
   {
     for (int a = 0; a < (m_number_of_columns + 1); a++)
     {
@@ -264,8 +264,7 @@ update_time_per_division_labels (int channel)
 {
   char label[15];
 
-  Channel_Signal *chn = &(m_display->m_channel_signals.
-    m_chans[0]);
+  Channel_Signal *chn = &(m_display->m_channel_signals.m_chans[0]);
 
   LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
 

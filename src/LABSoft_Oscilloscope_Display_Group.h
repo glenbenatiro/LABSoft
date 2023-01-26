@@ -78,9 +78,9 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     }
 
     // forwarding functions to actual oscilloscope display
-    void process_samples (Channel_Signals *_Channel_Signals)
+    void load_and_process_samples (Channel_Signals *_Channel_Signals)
     {
-      m_display->process_samples (_Channel_Signals);
+      m_display->load_and_process_samples (_Channel_Signals);
     }
 };
 
