@@ -50,10 +50,10 @@ void
 LAB_Core::LAB_Core_map_devices ()
 {
   LAB_Core_map_periph (&m_gpio_regs, (void *) GPIO_BASE, PAGE_SIZE);
-  LAB_Core_map_periph (&m_dma_regs,  (void *) DMA_BASE,  PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_dma,  (void *) DMA_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_spi,  (void *) SPI0_BASE, PAGE_SIZE);
   LAB_Core_map_periph (&m_clk_regs,  (void *) CLK_BASE,  PAGE_SIZE);
-  LAB_Core_map_periph (&m_pwm_regs,  (void *) PWM_BASE,  PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_pwm,  (void *) PWM_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_usec, (void *) USEC_BASE, PAGE_SIZE);
 }
 
@@ -132,8 +132,8 @@ LAB_Core::LAB_Core_unmap_segment (void *mem,
 void 
 LAB_Core::LAB_Core_dma_enable (int chan)
 {
-  *REG32(m_dma_regs, DMA_ENABLE) |= (1 << chan);
-  *REG32(m_dma_regs, DMA_REG(chan, DMA_CS)) = 1 << 31;
+  *REG32(m_regs_dma, DMA_ENABLE) |= (1 << chan);
+  *REG32(m_regs_dma, DMA_REG(chan, DMA_CS)) = 1 << 31;
 }
 
 // Start DMA, given first control block
@@ -143,25 +143,25 @@ LAB_Core::LAB_Core_dma_start (MemoryMap *mp,
                                 DMA_CB  *cbp, 
                                 uint32_t csval)
 {
-  *REG32(m_dma_regs, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
-  *REG32(m_dma_regs, DMA_REG(chan, DMA_CS))        = 2;         // Clear 'end' flag
-  *REG32(m_dma_regs, DMA_REG(chan, DMA_DEBUG))     = 7;         // Clear error bits
-  *REG32(m_dma_regs, DMA_REG(chan, DMA_CS))        = 1 | csval; // Start DMA
+  *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
+  *REG32(m_regs_dma, DMA_REG(chan, DMA_CS))        = 2;         // Clear 'end' flag
+  *REG32(m_regs_dma, DMA_REG(chan, DMA_DEBUG))     = 7;         // Clear error bits
+  *REG32(m_regs_dma, DMA_REG(chan, DMA_CS))        = 1 | csval; // Start DMA
 }
 
 // Return remaining transfer length
 uint32_t 
 LAB_Core::LAB_Core_dma_transfer_len (int chan)
 {
- return (*REG32(m_dma_regs, DMA_REG(chan, DMA_TXFR_LEN)));
+ return (*REG32(m_regs_dma, DMA_REG(chan, DMA_TXFR_LEN)));
 }
 
 // Halt current DMA operation by resetting controller
 void 
 LAB_Core::LAB_Core_dma_stop (int chan)
 {
-  if (m_dma_regs.virt)
-    *REG32(m_dma_regs, DMA_REG(chan, DMA_CS)) = 1 << 31;
+  if (m_regs_dma.virt)
+    *REG32(m_regs_dma, DMA_REG(chan, DMA_CS)) = 1 << 31;
 }
 
 void 
@@ -181,7 +181,7 @@ LAB_Core::LAB_Core_dma_wait(int chan)
 void 
 LAB_Core::LAB_Core_dma_disp (int chan)
 {
-  const char *m_dma_regstrs[] = {"DMA CS", 
+  const char *m_regs_dmatrs[] = {"DMA CS", 
                                  "CB_AD", 
                                  "TI", 
                                  "SRCE_AD", 
@@ -192,14 +192,14 @@ LAB_Core::LAB_Core_dma_disp (int chan)
                                  "DEBUG", 
                                  ""};
   int i = 0;
-  volatile uint32_t *p = REG32(m_dma_regs, DMA_REG(chan, DMA_CS));
+  volatile uint32_t *p = REG32(m_regs_dma, DMA_REG(chan, DMA_CS));
     
 
-  while (m_dma_regstrs[i][0])
+  while (m_regs_dmatrs[i][0])
     {
-      printf("%-7s %08X ", m_dma_regstrs[i++], *p++);
+      printf("%-7s %08X ", m_regs_dmatrs[i++], *p++);
       
-      if (i % 5 == 0 || m_dma_regstrs[i][0] == 0)
+      if (i % 5 == 0 || m_regs_dmatrs[i][0] == 0)
         printf("\n");
     }
 }
@@ -370,10 +370,10 @@ LAB_Core::LAB_Core_terminate (int sig)
   
   LAB_Core_unmap_periph_mem (&m_vc_mem);
   LAB_Core_unmap_periph_mem (&m_regs_usec);
-  LAB_Core_unmap_periph_mem (&m_pwm_regs);
+  LAB_Core_unmap_periph_mem (&m_regs_pwm);
   LAB_Core_unmap_periph_mem (&m_clk_regs);
   LAB_Core_unmap_periph_mem (&m_regs_spi);
-  LAB_Core_unmap_periph_mem (&m_dma_regs);
+  LAB_Core_unmap_periph_mem (&m_regs_dma);
   LAB_Core_unmap_periph_mem (&m_gpio_regs);
   
     //if (fifo_name)
@@ -397,13 +397,13 @@ spi_init ()
   gpio_set (SPI0_SCLK_PIN, GPIO_ALT0, GPIO_NOPULL);
 
   // clear tx and rx fifo. one shot operation
-  spi_clear_rxtx_fifo ();
+  spi_clear_fifo ();
   
   return (spi_set_clock_rate (m_spi_frequency));
 }
 
 void LAB_Core:: 
-spi_clear_rxtx_fifo ()
+spi_clear_fifo ()
 {
   // *REG32 (m_regs_spi, SPI_CS) = SPI_CS_CLEAR;
   *REG32 (m_regs_spi, SPI_CS) = 0x30;
@@ -561,10 +561,10 @@ LAB_Core::pwm_init (int freq,
   pwm_stop();
 
   // check channel 1 state
-  if (*REG32(m_pwm_regs, PWM_STA) & 0x100)
+  if (*REG32(m_regs_pwm, PWM_STA) & 0x100)
     {
       printf("PWM bus error\n");
-      *REG32(m_pwm_regs, PWM_STA) = 0x100;
+      *REG32(m_regs_pwm, PWM_STA) = 0x100;
     }
 
   #if USE_VC_CLOCK_SET
@@ -602,8 +602,8 @@ LAB_Core::pwm_init (int freq,
 
 
   usleep(100);
-  *REG32(m_pwm_regs, PWM_RNG1) = range;
-  *REG32(m_pwm_regs, PWM_FIF1) = val;
+  *REG32(m_regs_pwm, PWM_RNG1) = range;
+  *REG32(m_regs_pwm, PWM_FIF1) = val;
   usleep(100);
 
 
@@ -618,7 +618,7 @@ LAB_Core::pwm_init (int freq,
 void 
 LAB_Core::pwm_start ()
 {
-  *REG32(m_pwm_regs, PWM_CTL) = PWM_CTL_USEF1 | PWM_ENAB;
+  *REG32(m_regs_pwm, PWM_CTL) = PWM_CTL_USEF1 | PWM_ENAB;
   usleep(100);
 }
 
@@ -626,10 +626,10 @@ LAB_Core::pwm_start ()
 void 
 LAB_Core::pwm_stop ()
 {
-  if (m_pwm_regs.virt)
+  if (m_regs_pwm.virt)
 
   {
-    *REG32(m_pwm_regs, PWM_CTL) = 0;
+    *REG32(m_regs_pwm, PWM_CTL) = 0;
     usleep(100);
   }
 }

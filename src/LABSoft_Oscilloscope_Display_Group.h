@@ -77,10 +77,20 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     }
 
     // forwarding functions to actual oscilloscope display
-    void load_and_process_samples (Channel_Signals *_Channel_Signals)
+    void load_channel_signals (Channel_Signals *_Channel_Signals)
     {
-      m_display->load_and_process_samples (_Channel_Signals);
+      m_display->load_channel_signals (_Channel_Signals);
     }
+
+  void channel_enable (unsigned channel)
+  {
+    m_display->channel_enable (channel);
+  }
+
+  void channel_disable (unsigned channel)
+  {
+    m_display->channel_disable (channel);
+  }
 };
 
 #endif

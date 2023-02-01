@@ -51,8 +51,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
-          xywh {0 60 1366 708} hide
+          label Oscilloscope open
+          xywh {0 60 1366 708}
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
@@ -489,7 +489,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {
+          Fl_Group oscilloscope_fl_group_horizontal {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -499,7 +499,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);} open
               xywh {865 400 120 30} align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION);}
             } {
@@ -552,6 +552,10 @@ class LABSoft_GUI {open
                 xywh {60 60 36 21}
               }
               MenuItem {} {
+                label {4 ms}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
                 label {2 ms}
                 xywh {70 70 36 21}
               }
@@ -564,7 +568,7 @@ class LABSoft_GUI {open
                 xywh {30 30 36 21}
               }
               MenuItem {} {
-                label {200 us}
+                label {200 us} selected
                 xywh {30 30 36 21}
               }
               MenuItem {} {
@@ -1246,8 +1250,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer} open
-          xywh {0 60 1366 708}
+          label {Logic Analyzer}
+          xywh {0 60 1366 708} hide
         } {
           Fl_Button {} {
             label Single
@@ -1393,7 +1397,7 @@ class LABSoft_GUI {open
             xywh {800 94 120 30} align 1
           } {
             MenuItem {} {
-              label {5 s} selected
+              label {5 s}
               xywh {50 50 36 21}
             }
             MenuItem {} {

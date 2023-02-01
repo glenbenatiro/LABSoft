@@ -87,8 +87,8 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 
     void  normalize_all_channels_raw_data ();
     void  normalize_channels_data_to_display ();
-    void  load_and_process_samples (Channel_Signals *_Channel_Signals);
-    void  draw_channels_signals ();
+    void  load_channel_signals (Channel_Signals *_Channel_Signals);
+    void  draw_channels ();
     
     // -- FUNCTION GENERATOR SECTION ---
     int  generate_waveform (WaveType wave_type, int channel);
@@ -101,6 +101,16 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     {
       return &m_channel_signals;
     }
+  
+  void channel_enable (unsigned channel)
+  {
+    m_channel_signals.m_chans[channel].enable ();
+  }
+
+  void channel_disable (unsigned channel)
+  {
+    m_channel_signals.m_chans[channel].disable ();
+  }
 };
 
 #endif

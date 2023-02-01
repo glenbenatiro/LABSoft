@@ -32,8 +32,14 @@ struct Channel_Signal_Logic_Analyzer
 
 struct Channel_Signal_Oscilloscope 
 {
-  double sampling_rate;
-  double time_per_division;
+  double samples            = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
+  double sampling_rate      = LAB_OSCILLOSCOPE_SAMPLE_RATE;
+  double sampling_period    = 1.0 / LAB_OSCILLOSCOPE_SAMPLE_RATE;
+  double volts_per_division = CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION;
+  double time_per_division  = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / 
+    (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS * LAB_OSCILLOSCOPE_SAMPLE_RATE);
+
+  double  y_offset = 0.0;
 
   std::vector<std::vector<int>> pixel_points;
   std::vector<double>         voltage_samples;
@@ -81,8 +87,8 @@ class Channel_Signal
     Channel_Signal (unsigned number_of_samples = 0, unsigned display_width = MAX_DISPLAY_WIDTH)
     {
       // oscilloscope 
-      osc.voltage_samples.resize (number_of_samples);
-      osc.pixel_points.resize (display_width, std::vector<int>(2));
+      osc.voltage_samples.resize  (number_of_samples);
+      osc.pixel_points.resize     (display_width, std::vector<int>(2));
 
       //
     }
@@ -128,6 +134,7 @@ class Channel_Signals
     {
       return m_chans.size ();
     }
+
 };
 
 #endif

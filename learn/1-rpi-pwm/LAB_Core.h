@@ -10,9 +10,9 @@ class LAB_Core
     int m_spi_frequency = LAB_SPI_FREQUENCY;
 
     MemoryMap m_gpio_regs,
-                   m_dma_regs, 
+                   m_regs_dma, 
                    m_clk_regs, 
-                   m_pwm_regs, 
+                   m_regs_pwm, 
                    m_regs_spi, 
                    m_regs_usec;
 
@@ -69,7 +69,7 @@ class LAB_Core
     
     // --- SPI ---
     int       spi_init            ();
-    void      spi_clear_rxtx_fifo ();
+    void      spi_clear_fifo ();
     void      spi_disp            ();
     void      spi_disable         ();
     void      spi_xfer            (uint8_t *txd, uint8_t *rxd, int length);

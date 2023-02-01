@@ -21,16 +21,10 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   ADC_DMA_DATA *dp  = static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt);
   MemoryMap *mp     = &m_uncached_dma_data;
 
+  
+
   ADC_DMA_DATA dma_data = {
 
-    // Transfer Information
-    // Source Address
-    // Destination Address
-    // Transfer Length
-    // 2D Mode Stride
-    // Next Control Block Address
-    // Reserved - Set to 0
-    
     .cbs = {
 
       // DMA Control Blocks
@@ -48,7 +42,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
       {DMA_CB_TI_SPI_TX,  MEM(mp, dp->txd),        REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 8, 0, CBS(6), 0}, // 6
 
       // PWM ADC trigger: wait for PWM, set sample length, trigger SPI
-      {DMA_CB_TI_PWM, MEM(mp, &dp->pwm_val),   REG(m_LAB_Core->m_pwm_regs, PWM_FIF1), 4, 0, CBS(8), 0}, // 7
+      {DMA_CB_TI_PWM, MEM(mp, &dp->pwm_val),   REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 4, 0, CBS(8), 0}, // 7
       {DMA_CB_TI_PWM, MEM(mp, &dp->samp_size), REG(m_LAB_Core->m_regs_spi, SPI_DLEN), 4, 0, CBS(9), 0}, // 8
       {DMA_CB_TI_PWM, MEM(mp, &dp->adc_csd),   REG(m_LAB_Core->m_regs_spi, SPI_CS),   4, 0, CBS(7), 0}, // 9
     },
@@ -63,24 +57,53 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
     .rxd2      = {0},
   };
  
+  printf ("pwm range: %d\n", dma_data.pwm_val);
   std::memcpy (static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt), &dma_data, sizeof (dma_data));
   
   m_pwm_range       = (LAB_PWM_FREQUENCY * 2) / m_sample_rate;
+  
+  // m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
   m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
 
-  // *REG32(m_LAB_Core->m_pwm_regs, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
-  //*(g_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
+  // *REG32(m_LAB_Core->m_regs_pwm, PWM_DMAC) = PWM_DMAC_ENAB | PWM_ENAB;
+  //*(g_reg32 (m_LAB_Core->m_regs_pwm, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
 
-  *(Utility::get_reg32 (m_LAB_Core->m_pwm_regs, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
+  *(Utility::get_reg32 (m_LAB_Core->m_regs_pwm, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
 
-  *REG32(m_LAB_Core->m_regs_spi, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
-  *REG32(m_LAB_Core->m_regs_spi, SPI_CS) = SPI_CS_CLEAR;                    // Clear SPI FIFOs
 
-  m_LAB_Core->dma_start(mp, DMA_CHAN_C, &dp->cbs[6], 0);  // Start SPI Tx DMA
-  m_LAB_Core->dma_start(mp, DMA_CHAN_B, &dp->cbs[0], 0);  // Start SPI Rx DMA
-  m_LAB_Core->dma_start(mp, DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
+  // Configure SPI DC Register
+  *(Utility::get_reg32 (m_LAB_Core->m_regs_spi, SPI_DC)) = 
+    (8 << 24) | (1 << 16) | (8 << 8) | 1;
+
+  // Clear SPI FIFO
+  m_LAB_Core->spi_clear_fifo ();
+
+  // Start SPI TX DMA
+  m_LAB_Core->dma_start (DMA_CHAN_C, Utility::mem_bus_addr (mp, &(dp->cbs[6])));
+
+  // Start SPI RX DMA
+  m_LAB_Core->dma_start (DMA_CHAN_B, Utility::mem_bus_addr (mp, &(dp->cbs[0])));
+
+  // Start PWM DMA, for SPI trigger
+  m_LAB_Core->dma_start (DMA_CHAN_A, Utility::mem_bus_addr (mp, &(dp->cbs[7])));
 
   m_LAB_Core->pwm_set_frequency (LAB_OSCILLOSCOPE_SAMPLE_RATE);
+
+  // ---
+
+  // {DMA_CB_TI_SPI_RX, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[0]),                         4, 0, CBS(1), 0}, // 0
+  // {DMA_CB_TI_SPI_RX, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd1), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(2), 0}, // 1
+  // {DMA_CB_TI_SPI_RX, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[0]),                        4, 0, CBS(3), 0}, // 2
+  // {DMA_CB_TI_SPI_RX, REG(m_LAB_Core->m_regs_usec, USEC_TIME), MEM(mp, &dp->usecs[1]),                         4, 0, CBS(4), 0}, // 3
+  // {DMA_CB_TI_SPI_RX, REG(m_LAB_Core->m_regs_spi,  SPI_FIFO),  MEM(mp, dp->rxd2), static_cast<uint32_t>(m_number_of_samples_per_channel*4), 0, CBS(5), 0}, // 4
+  // {DMA_CB_TI_SPI_RX, REG(m_LAB_Core->m_regs_spi,  SPI_CS),    MEM(mp, &dp->states[1]),                        4, 0, CBS(0), 0}, // 5
+
+  // *REG32(m_LAB_Core->m_regs_spi, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
+  // *REG32(m_LAB_Core->m_regs_spi, SPI_CS) = SPI_CS_CLEAR;                    // Clear SPI FIFOs
+
+  // m_LAB_Core->dma_start(DMA_CHAN_C, &dp->cbs[6], 0);  // Start SPI Tx DMA
+  // m_LAB_Core->dma_start(DMA_CHAN_B, &dp->cbs[0], 0);  // Start SPI Rx DMA
+  // m_LAB_Core->dma_start(DMA_CHAN_A, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 }
 
 LAB_Oscilloscope::~LAB_Oscilloscope ()
@@ -118,6 +141,8 @@ vertical_offset (unsigned channel, double value)
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
+  // auto start = std::chrono::steady_clock::now ();
+
   bool condition2 = true; // fast sampling rates
 
   uint32_t raw_data_buffer [LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
@@ -125,31 +150,27 @@ load_data_samples ()
 
   for (int b = 0; b < 2; b++)
   {
-    printf ("oK!1\n");
-
     if (dp->states[b])
     {
+      // printf ("copy! : %d\n", b);
+
       std::memcpy (raw_data_buffer, b ? (void *)(dp->rxd2) : (void *)(dp->rxd1), 
         m_number_of_samples_per_channel * 4);
 
       if (dp->states[b ^ 1])
       {
         dp->states[0] = dp->states[1] = 0;
+        // overrun
         break;
       }
 
       dp->states[b] = 0;
 
-      if (usec_start == 0)
-      {
-        usec_start = dp->usecs[b];
-      }
-
-      // printf ("%d\n", dp->usecs[b] - usec_start);
-      printf ("usecs: %ld\n", dp->usecs[b]);
+      // if (usec_start == 0)
+      // {
+      //   usec_start = dp->usecs[b];
+      // }
     }
-
-    printf ("oK!2\n");
   }
 
   if (condition2)
@@ -171,11 +192,18 @@ load_data_samples ()
         {
           if (m_channel_signals.m_chans[chan].is_enabled ())
           {
-            temp1 = (raw_data_buffer[samp]) >> (shift_size * chan);
+            if (samp == 0)
+            {
+              // std::bitset<32> test (temp1)
+            std::cout << "raw_data_buffer[samp]: " << 
+              std::bitset<32> (raw_data_buffer[samp]) << "\n";
+            }
 
+            temp1 = (raw_data_buffer[samp]) >> (shift_size * chan);
+                      
             // rearrange bits to correct order
             // HARD CODED FOR 2 CHANNELS LAB
-            temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;
+            temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;          
 
             // get MSB to determine sign
             bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
@@ -199,16 +227,36 @@ load_data_samples ()
       }
     }
   }
+
+  // auto end = std::chrono::steady_clock::now ();
+  // std::chrono::duration<double, std::milli> elapsed = end - start;
+  // std::cout << "Duration: " << elapsed.count () << " ms\n";
 }
 
 // this changes PWM speed on board!! 
 // verify no other are affected
 void LAB_Oscilloscope:: 
-sample_rate (int channel, double value)
+sampling_rate (int channel, double value)
 {
+  // static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->pwm_val = 
+  //   (LAB_PWM_FREQUENCY * 2) / value;
 
-  printf ("new sample rate: %f\n", value);
   m_LAB_Core->pwm_set_frequency (value);
+}
+
+void LAB_Oscilloscope:: 
+time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
+{
+  Channel_Signal_Oscilloscope *osc = &(m_channel_signals.m_chans[channel].osc);
+
+  double new_sampling_rate = (osc->samples) / (value * osc_disp_num_cols);
+
+  osc->sampling_rate = new_sampling_rate;
+  osc->time_per_division = value;
+
+  printf ("new sampling rate: %9.9f\n", osc->sampling_rate);
+
+  sampling_rate (channel, new_sampling_rate);
 }
 
 // EOF

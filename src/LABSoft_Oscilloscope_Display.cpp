@@ -19,7 +19,7 @@ LABSoft_Oscilloscope_Display (int X,
   : Fl_Widget (X, Y, W, H, label),
     m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
                        LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
-                       w ())                                                    
+                       W)                                                    
 { 
 
 }
@@ -35,7 +35,7 @@ draw ()
 {
   draw_box (FL_FLAT_BOX, m_background_color);
   draw_grid ();
-  draw_channels_signals ();
+  draw_channels ();
 }
 
 void LABSoft_Oscilloscope_Display:: 
@@ -82,72 +82,61 @@ draw_grid ()
 
 
 void LABSoft_Oscilloscope_Display:: 
-load_and_process_samples (Channel_Signals *_Channel_Signals)
+load_channel_signals (Channel_Signals *_Channel_Signals)
 {
-  if (m_is_enabled)
+  double osc_disp_vert_half     = h () / 2;
+  double osc_disp_vert_midline  = y () + osc_disp_vert_half;
+  
+  for (int a = 0; a < _Channel_Signals->m_chans.size (); a++)
   {
-    for (int channel = 0; channel < _Channel_Signals->m_chans.size (); channel++)
+    if (_Channel_Signals->m_chans[a].is_enabled ())
     {
-      Channel_Signal *chn = &(_Channel_Signals->m_chans[channel]);
+      Channel_Signal_Oscilloscope *osc  = &(_Channel_Signals->m_chans[a].osc);
+      std::vector<std::vector<int>> *pp = &(m_channel_signals.m_chans[a].osc.
+        pixel_points);
 
-      if (chn->is_enabled ())
-      {
-        // double time_per_division    = chn->osc.time_per_division;
-        // double sampling_rate        = chn->osc.sampling_rate;
-        // double sampling_rate_period = 1 / sampling_rate;
-
-        // if (time_per_division == sampling_rate_period)
-        // {
-
-        // }
-        // else if (time_per_division < sampling_rate_period)
-        // {
-
-        // }
-
-
-        // // calculate sample skip interval
-        // float skip_interval = static_cast<float>(chn->m_values.size ()) / static_cast<float>(w ());
-        // float y_mid_pixel = y () + (static_cast<float>(h ()) / 2.0);
-        // float scaled_max_amplitude = m_number_of_rows * chn->m_voltage_per_division;
-
-        // for (int b = 0; b < w (); b++) 
-        // {
-        //   // pixel point x coord
-        //   chn->m_pixel_points[b][0] = x () + b;
-      
-        //   int index = static_cast<int>(b * skip_interval);
-        //   double sample_value = chn->m_values[index] + (chn->m_vertical_offset * 2);
-
-        //   if (sample_value == 0.0) 
-        //   {
-        //     chn->m_pixel_points[b][1] = y_mid_pixel;
-        //   } else 
-        //   {
-        //     chn->m_pixel_points[b][1] = 
-        //       y_mid_pixel - (sample_value * ((static_cast<float>(h ()) / 2.0) / 
-        //         scaled_max_amplitude));
+      double sample_skip = static_cast<double>(osc->voltage_samples.size ()) / 
+        static_cast<double>(w () - 1);
+      double vert_scaler = (osc_disp_vert_half) / 
+        (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS * osc->volts_per_division);
             
-        //     //printf ("y: %d\n",chn->m_pixel_points[b][1]);
-        //   }
+      for (int b = 0; b < w (); b++)
+      {
+        (*pp)[b][0] = x () + b;
+
+        double samp_value = (osc->voltage_samples[sample_skip * b]) + 
+          (osc->y_offset);
+        
+        // printf ("%9.9f\n", samp_value);
+
+        if (samp_value == 0.0)
+        {
+          (*pp)[b][1] = osc_disp_vert_midline;
+        }
+        else
+        {
+          (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+          // printf ("midline: %f, samp_val: %9.9f, vert_scaler: %f\n", osc_disp_vert_midline, samp_value, vert_scaler);
+        }
       }
     }
   }
 }
 
 void LABSoft_Oscilloscope_Display:: 
-draw_channels_signals () 
+draw_channels () 
 {
-  for (int a = 0; a < m_channel_signals.size (); a++) {
-    Channel_Signal *chan = &(m_channel_signals.m_chans[a]);
-
-    if (chan->is_enabled ()) 
+  for (int a = 0; a < m_channel_signals.m_chans.size (); a++)
+  {
+    if (m_channel_signals.m_chans[a].is_enabled ())
     {
-      std::vector<std::vector<int>> *pp = &(chan->m_pixel_points);
-      
+      std::vector<std::vector<int>> *pp = &(m_channel_signals.m_chans[a].
+        osc.pixel_points);
+
       fl_color (m_channels_graph_color[a]);
 
-      for (int b = 0; b < (w () - 1); b++) {
+      for (int b = 0; b < (w () - 1); b++)
+      {
         fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
       }
     }

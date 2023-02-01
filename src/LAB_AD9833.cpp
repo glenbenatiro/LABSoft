@@ -159,9 +159,6 @@ update_ctrl_reg ()
 void LAB_AD9833:: 
 write_reg ()
 {
-  if (DEBUG)
-    printf ("txbuff[0] txbuff[1]: %02x %02x\n", m_txbuff[0], m_txbuff[1]);
-
   m_LAB_Core->bb_spi_xfer (m_CS, m_txbuff, 2);
 }
 

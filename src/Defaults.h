@@ -27,7 +27,7 @@ constexpr unsigned PI_MAX_GPIO_PINS = 32;
 constexpr int DEBUG = 1;
 
 constexpr int LAB_PWM_FREQUENCY     = 20'000'000; // this is to be extracted from 25MHz master clk
-constexpr int LAB_SPI_FREQUENCY     = 8'000'000; // in hz
+constexpr int LAB_SPI_FREQUENCY     = 15'000'000; // in hz
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
@@ -59,9 +59,10 @@ constexpr double  CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
 
 // LAB Oscilloscope
 constexpr int     LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS     = 2;
-constexpr int  LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 3200;
+constexpr int     LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 8000;
 constexpr int     LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
 constexpr double  LAB_OSCILLOSCOPE_SAMPLE_RATE            = 200'000; 
+constexpr double  LAB_OSCILLOSCOPE_MAX_SAMPLE_RATE        = 200'000;
 constexpr double  LAB_OSCILLOSCOPE_SAMPLE_PERIOD          = (1.0 / LAB_OSCILLOSCOPE_SAMPLE_RATE);
 constexpr int     LAB_OSCILLOSCOPE_ADC_CE                 = 0; // CE0 or CE1
 

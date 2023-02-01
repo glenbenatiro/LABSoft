@@ -67,10 +67,14 @@ cb_channel_enable_disable (Fl_Light_Button *w,
   if (value)
   {
     m_LAB->m_Oscilloscope->channel_enable (channel);
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      channel_enable (channel);
   }
   else 
   {
     m_LAB->m_Oscilloscope->channel_disable (channel);
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      channel_disable (channel);
   }
 }
 
@@ -93,26 +97,25 @@ update_display ()
 {
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
-    auto start = std::chrono::steady_clock::now ();
+    // auto start = std::chrono::steady_clock::now ();
 
+    //
     m_LAB->m_Oscilloscope->load_data_samples ();
 
-    LABSoft_Oscilloscope_Display *display = m_LABSoft_GUI-> 
-      oscilloscope_labsoft_oscilloscope_display_group_display->display ();
-    
-    display->load_and_process_samples (&(m_LAB->m_Oscilloscope->m_channel_signals));
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
 
-    // draw signals
-    // display->redraw ();
-    // Fl::awake ();
+    // // draw signals
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
+    Fl::awake ();
 
     std::this_thread::sleep_for (std::chrono::milliseconds 
       (DISPLAY_UPDATE_SLEEP_TIME_MS));
 
-    auto end = std::chrono::steady_clock::now ();
+    // auto end = std::chrono::steady_clock::now ();
 
-    std::chrono::duration<double, std::milli> elapsed = end - start;
-    std::cout << "Duration: " << elapsed.count () << " ms\n";
+    // std::chrono::duration<double, std::milli> elapsed = end - start;
+    // std::cout << "Duration: " << elapsed.count () << " ms\n";
   }
 }
 
@@ -144,17 +147,10 @@ void LABSoft_Controller_Oscilloscope::
 cb_time_per_division (Fl_Input_Choice *w,
                       long             channel)
 {
-  // sint channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  // // frontnend stuff
-  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-  //   time_per_division (channel, _LabelValue.actual_value ());
-  
-  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-  //   update_time_per_division_labels ();
-
-  // m_LAB->m_Oscilloscope->sample_rate (channel, LabelValue (w->value ()).actual_value ());
+  m_LAB->m_Oscilloscope->time_per_division (channel, _LabelValue.actual_value (),
+    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 }
 
 // EOFs

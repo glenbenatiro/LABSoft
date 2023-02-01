@@ -194,6 +194,7 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] 
  {"20 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"10 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"4 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"500 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -615,7 +616,6 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
-        o->hide();
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 80, 120, 60, "Run");
           oscilloscope_fl_light_button_run_stop->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_run_stop);
           oscilloscope_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
@@ -820,6 +820,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Logic Analyzer");
+        o->hide();
         { new Fl_Button(50, 84, 120, 60, "Single");
         } // Fl_Button* o
         { logic_analyzer_fl_light_button_run_stop = new Fl_Light_Button(200, 84, 120, 60, "Run");
