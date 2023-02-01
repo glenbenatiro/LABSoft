@@ -192,18 +192,20 @@ load_data_samples ()
         {
           if (m_channel_signals.m_chans[chan].is_enabled ())
           {
-            if (samp == 0)
-            {
-              // std::bitset<32> test (temp1)
-            std::cout << "raw_data_buffer[samp]: " << 
-              std::bitset<32> (raw_data_buffer[samp]) << "\n";
-            }
-
             temp1 = (raw_data_buffer[samp]) >> (shift_size * chan);
                       
             // rearrange bits to correct order
             // HARD CODED FOR 2 CHANNELS LAB
-            temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;          
+            temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;    
+
+            if (samp == 0)
+            {
+              std::cout << "temp2: " << 
+              std::bitset<8> (temp2 >> 24) << " " <<
+              std::bitset<8> (temp2 >> 16) << " " <<
+              std::bitset<8> (temp2 >> 8) << " " << 
+              std::bitset<8> (temp2) << "\n";
+            }      
 
             // get MSB to determine sign
             bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
@@ -249,14 +251,15 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
 {
   Channel_Signal_Oscilloscope *osc = &(m_channel_signals.m_chans[channel].osc);
 
-  double new_sampling_rate = (osc->samples) / (value * osc_disp_num_cols);
+  if (value <= LAB_OSCILLOSCOPE_MAX_SAMPLE_PERIOD)
+  {
+    double new_sampling_rate = (osc->samples) / (value * osc_disp_num_cols);
 
-  osc->sampling_rate = new_sampling_rate;
-  osc->time_per_division = value;
+    osc->sampling_rate      = new_sampling_rate;
+    osc->time_per_division  = value;
 
-  printf ("new sampling rate: %9.9f\n", osc->sampling_rate);
-
-  sampling_rate (channel, new_sampling_rate);
+    sampling_rate (channel, new_sampling_rate);
+  }
 }
 
 // EOF
