@@ -104,7 +104,7 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
         double samp_value = (osc->voltage_samples[sample_skip * b]) + 
           (osc->vertical_offset);
 
-        //printf ("samp_value: %9.9f\n", samp_value);
+        //printf ("b: %d, samp_value: %9.9f\n", b, samp_value);
 
         if (samp_value == 0.0)
         {
@@ -137,6 +137,11 @@ draw_channels ()
         for (int b = 0; b < (w () - 1); b++)
         {
           fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
+
+          // if (b > 600)
+          // {
+          //   printf ("%d, %d, %d, %d\n", (*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
+          // }
         }
       }
     }

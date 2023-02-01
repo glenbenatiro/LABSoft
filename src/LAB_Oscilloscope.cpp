@@ -169,11 +169,13 @@ load_data_samples ()
   {
     if (dp->states[m_curr_screen_buffer])
     {
-      // detect overrun
-      if (dp->states[m_curr_screen_buffer ^ 1])
-      {
-        dp->states[0] = dp->states[1] = 0;
-      }
+      // std::memcpy (m_curr_screen_buffer ? (void *)(dp->rxd2) : (void *)(dp->rxd1), 
+      //   m_curr_screen_buffer ? (void *)(dp->rxd1) : (void *)(dp->rxd2), 
+      //     m_number_of_samples_per_channel * 4);
+
+      std::memcpy (raw_data_buffer, 
+        m_curr_screen_buffer ? (void *)(dp->rxd2) : (void *)(dp->rxd1), 
+          m_number_of_samples_per_channel * 4);
 
       dp->states[m_curr_screen_buffer] = 0;
       m_curr_screen_buffer ^= 1;
@@ -268,10 +270,10 @@ load_data_samples ()
 
           m_channel_signals.m_chans[chan].osc.voltage_samples[samp] = data;
 
-          // if (samp == 10)
-          // {
-          //   printf ("data: %.9f\n", data);
-          // }
+    
+          
+        printf ("samp: %d, data: %.9f\n", samp, data);
+          
         }
       }
     }
@@ -303,16 +305,13 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
   {
     display_mode (channel, SCREEN);
     
-
     // std::fill(static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd1, 
     //   (static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd1) + LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
-    //   0);
+    //   3);
 
     // std::fill(static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd2, 
     //   (static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd2) + LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
-    //   0);
-
-
+    //   3);
   }
   else 
   {
