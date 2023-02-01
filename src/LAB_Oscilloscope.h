@@ -19,7 +19,8 @@ class LAB_Oscilloscope
 
     int   m_number_of_channels            = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
           m_number_of_samples_per_channel = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
-          m_sample_rate                   = LAB_OSCILLOSCOPE_SAMPLE_RATE;
+          m_sample_rate                   = LAB_OSCILLOSCOPE_SAMPLE_RATE,
+          m_curr_screen_buffer = 0;
 
     uint32_t  m_pwm_range,
               m_usec_start;
@@ -54,6 +55,12 @@ class LAB_Oscilloscope
   void sampling_rate (int channel, double value);
 
   void time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
+
+  void display_mode (unsigned channel, int value)
+  {
+    //m_channel_signals.m_chans[channel].osc.
+    m_channel_signals.m_chans[channel].osc.osc_disp_mode = value;
+  }
 };
 
 #endif

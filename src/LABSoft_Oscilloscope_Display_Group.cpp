@@ -96,8 +96,8 @@ LABSoft_Oscilloscope_Display_Group (int X,
   
   end ();
  
-  //update_volts_per_division_labels ();
-  //update_time_per_division_labels ();
+  update_volts_per_division_labels ();
+  update_time_per_division_labels ();
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -133,47 +133,53 @@ update ()
 void LABSoft_Oscilloscope_Display_Group:: 
 update_volts_per_division_labels ()
 {
-  for (int a = 0; a < m_number_of_channels; a++)
+  if (m_channel_signals)
   {
-    update_volts_per_division_labels (a);
+    for (int a = 0; a < m_number_of_channels; a++)
+    {
+      update_volts_per_division_labels (a);
+    }
   }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
 update_volts_per_division_labels (int channel)
 {
-  char label[15];
-
-  Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[channel]);
-
-  if (chn->is_enabled ())
+  if (m_channel_signals)
   {
-    for (int a = 0; a < (m_number_of_columns + 1); a++)
+    char label[15];
+
+    Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[channel]);
+
+    if (chn->is_enabled ())
     {
-      float value_label = (-1 * chn->m_voltage_per_division) *
-        (a - (m_number_of_rows / 2)) - chn->m_vertical_offset;
-      
-      if (a == 0)
+      for (int a = 0; a < (m_number_of_columns + 1); a++)
       {
-        LabelValue _LabelValue (value_label);
-        sprintf (label, "%cV", _LabelValue.unit_prefix ());
-        m_y_label_units[channel]->copy_label (label);
+        float value_label = (-1 * chn->m_voltage_per_division) *
+          (a - (m_number_of_rows / 2)) - chn->m_vertical_offset;
+        
+        if (a == 0)
+        {
+          LabelValue _LabelValue (value_label);
+          sprintf (label, "%cV", _LabelValue.unit_prefix ());
+          m_y_label_units[channel]->copy_label (label);
+        }
+                  
+        sprintf (label, "%3.2f", value_label);
+
+        m_y_labels[channel][a]->copy_label (label);
+        m_y_labels[channel][a]->labelcolor(m_channels_graph_color[channel]);
       }
-                
-      sprintf (label, "%3.2f", value_label);
-
-      m_y_labels[channel][a]->copy_label (label);
-      m_y_labels[channel][a]->labelcolor(m_channels_graph_color[channel]);
     }
-  }
-  else 
-  {
-    sprintf (label, "");
-    m_y_label_units[channel]->copy_label (label);
-
-    for (int a = 0; a < (m_number_of_columns + 1); a++)
+    else 
     {
-      m_y_labels[channel][a]->copy_label (label);
+      sprintf (label, "");
+      m_y_label_units[channel]->copy_label (label);
+
+      for (int a = 0; a < (m_number_of_columns + 1); a++)
+      {
+        m_y_labels[channel][a]->copy_label (label);
+      }
     }
   }
 }
@@ -182,30 +188,36 @@ update_volts_per_division_labels (int channel)
 void LABSoft_Oscilloscope_Display_Group:: 
 update_time_per_division_labels ()
 {
-  for (int a = 0; a < m_number_of_channels; a++)
+  if (m_channel_signals)
   {
-    update_time_per_division_labels (a);
+    for (int a = 0; a < m_number_of_channels; a++)
+    {
+      update_time_per_division_labels (a);
+    }
   }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
 update_time_per_division_labels (int channel)
 {
-  char label[15];
-
-  Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[0]);
-
-  LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
-
-  for (int a = 0; a < (m_number_of_columns + 1); a++)
+  if (m_channel_signals)
   {
-    int value_label = (a + ((m_number_of_rows / 2) * -1)) * 
-      _LabelValue.coefficient ();
-        
-    sprintf (label, "%3d %cs", value_label, _LabelValue.unit_prefix ());
+    char label[15];
 
-    m_x_labels[a]->copy_label (label);
-    m_x_labels[a]->labelcolor(m_default_label_color);
+    Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[0]);
+
+    LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
+
+    for (int a = 0; a < (m_number_of_columns + 1); a++)
+    {
+      int value_label = (a + ((m_number_of_rows / 2) * -1)) * 
+        _LabelValue.coefficient ();
+          
+      sprintf (label, "%3d %cs", value_label, _LabelValue.unit_prefix ());
+
+      m_x_labels[a]->copy_label (label);
+      m_x_labels[a]->labelcolor(m_default_label_color);
+    }
   }
 }
 

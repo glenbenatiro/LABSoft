@@ -77,8 +77,6 @@ wave_type (WaveType _WaveType)
 void LAB_AD9833:: 
 frequency (double frequency)
 {
-  printf ("freq labad9833: %f\n", frequency);
-
   if ((frequency <= AD9833_MAX_FREQUENCY) && (frequency >= AD9833_MIN_FREQUENCY))
   {
     uint32_t divider = ((frequency * AD9833_2_POW_28) / 

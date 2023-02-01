@@ -4,6 +4,7 @@
 #include <cstring>
 #include <bitset>
 #include <iostream>
+#include <algorithm>
 
 #include "Defaults.h"
 
@@ -65,7 +66,6 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
     .rxd2      = {0},
   };
  
-  printf ("pwm range: %d\n", dma_data.pwm_val);
   std::memcpy (static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt), &dma_data, sizeof (dma_data));
   
   m_pwm_range       = (LAB_PWM_FREQUENCY * 2) / m_sample_rate;
@@ -162,107 +162,121 @@ load_data_samples ()
 {
   // auto start = std::chrono::steady_clock::now ();
 
-  bool condition2 = true; // fast sampling rates
-
   uint32_t raw_data_buffer [LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
   ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt);
 
-  for (int b = 0; b < 2; b++)
+  if (m_channel_signals.m_chans[0].osc.osc_disp_mode == SCREEN)
   {
-    if (dp->states[b])
+    if (dp->states[m_curr_screen_buffer])
     {
-      // printf ("copy! : %d\n", b);
-
-      std::memcpy (raw_data_buffer, b ? (void *)(dp->rxd2) : (void *)(dp->rxd1), 
-        m_number_of_samples_per_channel * 4);
-
-      if (dp->states[b ^ 1])
+      // detect overrun
+      if (dp->states[m_curr_screen_buffer ^ 1])
       {
         dp->states[0] = dp->states[1] = 0;
-        // overrun
-        break;
       }
 
-      dp->states[b] = 0;
+      dp->states[m_curr_screen_buffer] = 0;
+      m_curr_screen_buffer ^= 1;
+    }
+    
+    std::memcpy (raw_data_buffer, m_curr_screen_buffer ? (void *)(dp->rxd2) : 
+      (void *)(dp->rxd1), m_number_of_samples_per_channel * 4);
+  }
+  else if (m_channel_signals.m_chans[0].osc.osc_disp_mode == REPEATED)
+  {
+    for (int b = 0; b < 2; b++)
+    {
+      if (dp->states[b])
+      {
+        std::memcpy (raw_data_buffer, b ? (void *)(dp->rxd2) : (void *)(dp->rxd1), 
+          m_number_of_samples_per_channel * 4);
 
-      // if (usec_start == 0)
-      // {
-      //   usec_start = dp->usecs[b];
-      // }
+        if (dp->states[b ^ 1])
+        {
+          dp->states[0] = dp->states[1] = 0;
+          // overrun
+          break;
+        }
+
+        dp->states[b] = 0;
+
+        // if (usec_start == 0)
+        // {
+        //   usec_start = dp->usecs[b];
+        // }
+      }
     }
   }
 
-  if (condition2)
+  // skip processing of data if all channels are disabled
+  // HARD CODED FOR 2 CHANNELS LAB
+  if (m_channel_signals.m_chans[0].is_enabled () || 
+    m_channel_signals.m_chans[1].is_enabled ())
   {
-    // skip processing of data if all channels are disabled
-    // HARD CODED FOR 2 CHANNELS LAB
-    if (m_channel_signals.m_chans[0].is_enabled () || 
-      m_channel_signals.m_chans[1].is_enabled ())
+    double data;
+    uint32_t shift_size = 32 / LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
+
+    // go through all the samples in one go
+    for (int samp = 0; samp < LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; samp++)
     {
-      double data;
-      uint32_t shift_size = 32 / LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
-
-      // go through all the samples in one go
-      for (int samp = 0; samp < LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; samp++)
+      // distribute the actual samples to each channel from a 32 bit sample
+      for (int chan = 0; chan < LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS; chan++)
       {
-        // distribute the actual samples to each channel from a 32 bit sample
-        for (int chan = 0; chan < LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS; chan++)
+        if (m_channel_signals.m_chans[chan].is_enabled ())
         {
-          if (m_channel_signals.m_chans[chan].is_enabled ())
+          // START hard coded
+
+          uint16_t temp1 = (raw_data_buffer[samp]) >> (16 * chan);
+                    
+          uint16_t temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;  
+
+          // END hard coded
+
+          // if (samp == 0)
+          // {
+          //   std::cout << "temp1: " << 
+          //   std::bitset<8> (temp1 >> 24) << " " <<
+          //   std::bitset<8> (temp1 >> 16) << " " <<
+          //   std::bitset<8> (temp1 >> 8) << " " << 
+          //   std::bitset<8> (temp1) << "\n";
+          // }      
+
+          // if (samp == 0)
+          // {
+          //   std::cout << "temp2: " << 
+          //   std::bitset<8> (temp2 >> 24) << " " <<
+          //   std::bitset<8> (temp2 >> 16) << " " <<
+          //   std::bitset<8> (temp2 >> 8) << " " << 
+          //   std::bitset<8> (temp2) << "\n\n";
+          // }      
+
+          // get MSB to determine sign
+          bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
+
+          // mask temp2 to mask out MSB sign bit
+          temp2 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+      
+          if (sign)
           {
-            // START hard coded
-
-            uint16_t temp1 = (raw_data_buffer[samp]) >> (16 * chan);
-                      
-            uint16_t temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0x0FFF;  
-
-            // END hard coded
-
-            // if (samp == 0)
-            // {
-            //   std::cout << "temp1: " << 
-            //   std::bitset<8> (temp1 >> 24) << " " <<
-            //   std::bitset<8> (temp1 >> 16) << " " <<
-            //   std::bitset<8> (temp1 >> 8) << " " << 
-            //   std::bitset<8> (temp1) << "\n";
-            // }      
-
-            // if (samp == 0)
-            // {
-            //   std::cout << "temp2: " << 
-            //   std::bitset<8> (temp2 >> 24) << " " <<
-            //   std::bitset<8> (temp2 >> 16) << " " <<
-            //   std::bitset<8> (temp2 >> 8) << " " << 
-            //   std::bitset<8> (temp2) << "\n\n";
-            // }      
-
-            // get MSB to determine sign
-            bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
-
-            // mask temp2 to mask out MSB sign bit
-            temp2 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
-        
-            if (sign)
-            {
-              data = static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
-            }
-            else 
-            {
-             data = (static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
-                  LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
-            }
-
-            m_channel_signals.m_chans[chan].osc.voltage_samples[samp] = data;
-
-            if (samp == 10)
-            {
-              printf ("data: %.9f\n", data);
-            }
+            data = static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
           }
+          else 
+          {
+            data = (static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
+                LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
+          }
+
+          m_channel_signals.m_chans[chan].osc.voltage_samples[samp] = data;
+
+          // if (samp == 10)
+          // {
+          //   printf ("data: %.9f\n", data);
+          // }
         }
       }
     }
   }
+  
 
   // auto end = std::chrono::steady_clock::now ();
   // std::chrono::duration<double, std::milli> elapsed = end - start;
@@ -285,13 +299,32 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
 {
   Channel_Signal_Oscilloscope *osc = &(m_channel_signals.m_chans[channel].osc);
 
+  if (value >= LABSOFT_OSC_DISP_MIN_REPEATED_SAMP_PERIOD)
+  {
+    display_mode (channel, SCREEN);
+    
 
-    double new_sampling_rate = (osc->samples) / (value * osc_disp_num_cols);
+    // std::fill(static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd1, 
+    //   (static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd1) + LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
+    //   0);
 
-    osc->sampling_rate      = new_sampling_rate;
-    osc->time_per_division  = value;
+    // std::fill(static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd2, 
+    //   (static_cast<ADC_DMA_DATA *>(m_uncached_dma_data.virt)->rxd2) + LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
+    //   0);
 
-    sampling_rate (channel, new_sampling_rate);
+
+  }
+  else 
+  {
+    display_mode (channel, REPEATED);
+  }
+
+  double new_sampling_rate = (osc->samples) / (value * osc_disp_num_cols);
+
+  osc->sampling_rate      = new_sampling_rate;
+  osc->time_per_division  = value;
+
+  sampling_rate (channel, new_sampling_rate);
 }
 
 // EOF
