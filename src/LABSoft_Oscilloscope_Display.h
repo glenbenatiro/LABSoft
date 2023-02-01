@@ -13,7 +13,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
   public:
 
-    Channel_Signals m_channel_signals;
+    Channel_Signals *m_channel_signals;
 
     clock_t deltaTime = 0;
     unsigned int frames = 0;
@@ -49,7 +49,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
           m_adc_reference_voltage       = LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
     
 
-      
+    Channel_Signals *m_actual_channel_signals;
 
     float m_function_time_per_division,
           m_function_volts_per_division;
@@ -96,20 +96,15 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
 
     // getter
     double volts_per_division (int channel);
-
-    Channel_Signals* channel_signals ()
-    {
-      return &m_channel_signals;
-    }
   
   void channel_enable (unsigned channel)
   {
-    m_channel_signals.m_chans[channel].enable ();
+    m_channel_signals->m_chans[channel].enable ();
   }
 
   void channel_disable (unsigned channel)
   {
-    m_channel_signals.m_chans[channel].disable ();
+    m_channel_signals->m_chans[channel].disable ();
   }
 };
 

@@ -2,6 +2,7 @@
 #define CHANNEL_SIGNALS_H
 
 #include <vector>
+#include <iostream>
 #include <cstdint>
 
 #include "Defaults.h"
@@ -39,7 +40,7 @@ struct Channel_Signal_Oscilloscope
   double time_per_division  = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / 
     (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS * LAB_OSCILLOSCOPE_SAMPLE_RATE);
 
-  double  y_offset = 0.0;
+  double  vertical_offset = 0.0;
 
   std::vector<std::vector<int>> pixel_points;
   std::vector<double>         voltage_samples;
@@ -90,6 +91,8 @@ class Channel_Signal
       osc.voltage_samples.resize  (number_of_samples);
       osc.pixel_points.resize     (display_width, std::vector<int>(2));
 
+      std::cout << "pp size: " << osc.pixel_points.size () << "\n";
+
       //
     }
     
@@ -134,7 +137,8 @@ class Channel_Signals
     {
       return m_chans.size ();
     }
-
+  
+  void display_width (unsigned value);
 };
 
 #endif

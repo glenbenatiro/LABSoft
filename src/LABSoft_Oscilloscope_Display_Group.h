@@ -48,6 +48,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     std::vector<std::vector<Fl_Box*>> m_y_labels;  
     std::vector<Fl_Box*>              m_y_label_units;
     LABSoft_Oscilloscope_Display     *m_display;
+    Channel_Signals                   *m_channel_signals; // this is the Channel_Signals from LAB_Oscilloscope
 
     // --- functions --- 
           LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char *label = 0);
@@ -90,6 +91,11 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
   void channel_disable (unsigned channel)
   {
     m_display->channel_disable (channel);
+  }
+
+  void channel_signals (Channel_Signals *_Channel_Signals)
+  {
+    m_channel_signals = m_display->m_channel_signals = _Channel_Signals;
   }
 };
 

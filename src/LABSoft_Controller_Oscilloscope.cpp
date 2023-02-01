@@ -12,6 +12,13 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 {
   m_LAB         = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
+
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
+
+  m_LAB->m_Oscilloscope->m_channel_signals.display_width (m_LABSoft_GUI->
+    oscilloscope_labsoft_oscilloscope_display_group_display->display ()-> w ());
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -106,7 +113,7 @@ update_display ()
       load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
 
     // // draw signals
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();
     Fl::awake ();
 
     std::this_thread::sleep_for (std::chrono::milliseconds 
@@ -121,22 +128,22 @@ update_display ()
 
 void LABSoft_Controller_Oscilloscope::
 cb_volts_per_division (Fl_Input_Choice *w, 
-                       long             data)
+                       long             channel)
 {
-  unsigned channel = static_cast<unsigned>(data);
   LabelValue _LabelValue (w->value ());
   
-  m_LAB->m_Oscilloscope->volts_per_division (channel, _LabelValue.actual_value ());
+  m_LAB->m_Oscilloscope->volts_per_division (static_cast<unsigned>(channel),
+    _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Oscilloscope::
 cb_vertical_offset (Fl_Input_Choice *w, 
-                    long             data)
+                    long             channel)
 {
-  unsigned channel = static_cast<unsigned>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Oscilloscope->vertical_offset (channel, _LabelValue.actual_value ());
+  m_LAB->m_Oscilloscope->vertical_offset (static_cast<unsigned>(channel),
+    _LabelValue.actual_value ());
 }
 
 

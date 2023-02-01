@@ -25,6 +25,8 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                                 W - m_left_padding - m_right_padding,
                                                 H - m_upper_padding - m_lower_padding,
                                                 0);
+  
+  // m_display->m_channel_signals = m_channel_signals;
 
   // override number of rows and columns in osc disp widget
   // m_display->rows_columns (m_number_of_rows, m_number_of_columns);
@@ -94,8 +96,8 @@ LABSoft_Oscilloscope_Display_Group (int X,
   
   end ();
  
-  update_volts_per_division_labels ();
-  update_time_per_division_labels ();
+  //update_volts_per_division_labels ();
+  //update_time_per_division_labels ();
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -142,7 +144,7 @@ update_volts_per_division_labels (int channel)
 {
   char label[15];
 
-  Channel_Signal *chn = &(m_display->m_channel_signals.m_chans[channel]);
+  Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[channel]);
 
   if (chn->is_enabled ())
   {
@@ -191,7 +193,7 @@ update_time_per_division_labels (int channel)
 {
   char label[15];
 
-  Channel_Signal *chn = &(m_display->m_channel_signals.m_chans[0]);
+  Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[0]);
 
   LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
 

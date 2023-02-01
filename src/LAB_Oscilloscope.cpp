@@ -144,13 +144,13 @@ stop ()
 void LAB_Oscilloscope:: 
 volts_per_division (unsigned channel, double value)
 {
-  m_channel_signals.m_chans[channel].volts_per_division (value);
+  m_channel_signals.m_chans[channel].osc.volts_per_division = value;
 }
 
 void LAB_Oscilloscope:: 
 vertical_offset (unsigned channel, double value)
 {
-  m_channel_signals.m_chans[channel].vertical_offset (value);
+  m_channel_signals.m_chans[channel].osc.vertical_offset = value;
 }
 
 void LAB_Oscilloscope:: 
@@ -215,11 +215,11 @@ load_data_samples ()
 
             if (samp == 0)
             {
-              std::cout << "temp2: " << 
-              std::bitset<8> (temp2 >> 24) << " " <<
-              std::bitset<8> (temp2 >> 16) << " " <<
-              std::bitset<8> (temp2 >> 8) << " " << 
-              std::bitset<8> (temp2) << "\n";
+              std::cout << "temp1: " << 
+              std::bitset<8> (temp1 >> 24) << " " <<
+              std::bitset<8> (temp1 >> 16) << " " <<
+              std::bitset<8> (temp1 >> 8) << " " << 
+              std::bitset<8> (temp1) << "\n";
             }      
 
             // get MSB to determine sign
@@ -227,14 +227,14 @@ load_data_samples ()
 
             // mask temp2 to mask out MSB sign bit
             temp2 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
-
+        
             if (sign)
             {
               data = static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
             }
             else 
             {
-              data = (static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
+             data = (static_cast<double>(temp2) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
                   LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
             }
 

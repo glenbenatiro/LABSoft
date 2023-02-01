@@ -71,4 +71,13 @@ Channel_Signals::
 
 }
 
+void Channel_Signals:: 
+display_width (unsigned value)
+{
+  for (int a = 0; a < m_chans.size (); a++)
+  {
+    m_chans[a].osc.pixel_points.resize (value, std::vector<int>(2));
+  }
+}
+
 
