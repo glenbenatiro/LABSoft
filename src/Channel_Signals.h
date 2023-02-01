@@ -85,15 +85,11 @@ class Channel_Signal
     WaveType  m_function_wave_type;
 
     // --- functions ---
-    Channel_Signal (unsigned number_of_samples = 0, unsigned display_width = MAX_DISPLAY_WIDTH)
+    Channel_Signal (unsigned number_of_samples = 0, unsigned display_width = 0)
     {
       // oscilloscope 
       osc.voltage_samples.resize  (number_of_samples);
       osc.pixel_points.resize     (display_width, std::vector<int>(2));
-
-      std::cout << "pp size: " << osc.pixel_points.size () << "\n";
-
-      //
     }
     
     // setter

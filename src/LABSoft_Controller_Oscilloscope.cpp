@@ -110,9 +110,9 @@ update_display ()
     m_LAB->m_Oscilloscope->load_data_samples ();
 
     m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
+     load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
 
-    // // draw signals
+    // draw signals
     m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();
     Fl::awake ();
 
@@ -153,8 +153,8 @@ cb_time_per_division (Fl_Input_Choice *w,
 {
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Oscilloscope->time_per_division (channel, _LabelValue.actual_value (),
-    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+  m_LAB->m_Oscilloscope->time_per_division (static_cast<unsigned>(channel),
+    _LabelValue.actual_value (), LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 }
 
 // EOFs

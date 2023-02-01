@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
-cstdint
--
-mutex
--
-
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 vector
 -
@@ -28,29 +22,33 @@ cmath
 array
 -
 
-/home/glen/Desktop/LABSoft/src/LAB_Core.h
-../lib/AikaPi/AikaPi.h
-/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
-LAB_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
-cstdio
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp
+LABSoft_Oscilloscope_Display.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
+vector
 -
-cstring
--
-bitset
+cmath
 -
 iostream
 -
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
-LAB_Core.h
-/home/glen/Desktop/LABSoft/src/LAB_Core.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
+array
+-
+time.h
+/home/glen/Desktop/LABSoft/src/time.h
+FL/Fl_Widget.H
+-
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 
