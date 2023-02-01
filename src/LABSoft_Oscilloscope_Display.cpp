@@ -95,7 +95,7 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
       std::vector<std::vector<int>> *pp = &(m_channel_signals.m_chans[a].osc.
         pixel_points);
 
-      double sample_skip = static_cast<double>(osc->voltage_samples.size ()) / 
+      double sample_skip = static_cast<double>(osc->voltage_samples.size () - 1) / 
         static_cast<double>(w () - 1);
       double vert_scaler = (osc_disp_vert_half) / 
         (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS * osc->volts_per_division);

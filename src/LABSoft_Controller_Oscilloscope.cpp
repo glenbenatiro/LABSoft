@@ -126,10 +126,7 @@ cb_volts_per_division (Fl_Input_Choice *w,
   unsigned channel = static_cast<unsigned>(data);
   LabelValue _LabelValue (w->value ());
   
-  // m_LAB->m_Oscilloscope->volts_per_division (channel, _LabelValue.actual_value ());
-
-  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-  //   update_volts_per_division_labels (channel);
+  m_LAB->m_Oscilloscope->volts_per_division (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Oscilloscope::
