@@ -157,4 +157,20 @@ cb_time_per_division (Fl_Input_Choice *w,
     _LabelValue.actual_value (), LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 }
 
+void LABSoft_Controller_Oscilloscope::
+cb_test (Fl_Light_Button *w,
+         void            *data)
+{
+  printf ("test!\n");
+
+  if (w->value () == 1)
+  {
+    m_LAB->m_LAB_Core.dma_pause (DMA_CHAN_PWM_PACING);
+  }
+  else 
+  {
+    m_LAB->m_LAB_Core.dma_play (DMA_CHAN_PWM_PACING);
+  }
+}
+
 // EOFs

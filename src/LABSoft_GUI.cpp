@@ -26,6 +26,13 @@ void LABSoft_GUI::cb_oscilloscope_fl_button_single(Fl_Button* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_button_single_i(o,v);
 }
 
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_test_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_test (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_test(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_test_i(o,v);
+}
+
 void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_1_enable_i(Fl_Light_Button* o, long v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_channel_enable_disable (o, v);
 }
@@ -468,20 +475,6 @@ Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_phase[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Logic_Analyzer.cb_master_run_stop (o, v);
-}
-void LABSoft_GUI::cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_light_button_run_stop_i(o,v);
-}
-
-void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_memory_depth_i(Fl_Input_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Logic_Analyzer.cb_memory_depth (o, v);
-}
-void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_memory_depth(Fl_Input_Choice* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_input_choice_memory_depth_i(o,v);
-}
-
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_memory_depth[] = {
  {"4096", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2048", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -504,13 +497,6 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_sample_rate[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_time_per_division_i(Fl_Input_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);
-}
-void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_time_per_division(Fl_Input_Choice* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_input_choice_time_per_division_i(o,v);
-}
-
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[] = {
  {"20 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"10 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -528,13 +514,6 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[
  {"1 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
-
-void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_position_i(Fl_Input_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Logic_Analyzer.cb_position (o, v);
-}
-void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_position(Fl_Input_Choice* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_input_choice_position_i(o,v);
-}
 
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_position[] = {
  {"5 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -623,6 +602,10 @@ LABSoft_GUI::LABSoft_GUI() {
         { oscilloscope_fl_button_single = new Fl_Button(1205, 160, 120, 60, "Single");
           oscilloscope_fl_button_single->callback((Fl_Callback*)cb_oscilloscope_fl_button_single);
         } // Fl_Button* oscilloscope_fl_button_single
+        { oscilloscope_fl_light_button_test = new Fl_Light_Button(1205, 240, 120, 60, "Run");
+          oscilloscope_fl_light_button_test->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_test);
+          oscilloscope_fl_light_button_test->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+        } // Fl_Light_Button* oscilloscope_fl_light_button_test
         { oscilloscope_labsoft_oscilloscope_display_group_display = new LABSoft_Oscilloscope_Display_Group(24, 84, 800, 660);
           oscilloscope_labsoft_oscilloscope_display_group_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_oscilloscope_display_group_display->color(FL_FOREGROUND_COLOR);
@@ -824,11 +807,9 @@ LABSoft_GUI::LABSoft_GUI() {
         { new Fl_Button(50, 84, 120, 60, "Single");
         } // Fl_Button* o
         { logic_analyzer_fl_light_button_run_stop = new Fl_Light_Button(200, 84, 120, 60, "Run");
-          logic_analyzer_fl_light_button_run_stop->callback((Fl_Callback*)cb_logic_analyzer_fl_light_button_run_stop);
           logic_analyzer_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
         } // Fl_Light_Button* logic_analyzer_fl_light_button_run_stop
         { logic_analyzer_fl_input_choice_memory_depth = new Fl_Input_Choice(350, 94, 120, 30, "Memory Depth");
-          logic_analyzer_fl_input_choice_memory_depth->callback((Fl_Callback*)cb_logic_analyzer_fl_input_choice_memory_depth);
           logic_analyzer_fl_input_choice_memory_depth->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_memory_depth->menu(menu_logic_analyzer_fl_input_choice_memory_depth);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_memory_depth
@@ -837,12 +818,10 @@ LABSoft_GUI::LABSoft_GUI() {
           logic_analyzer_fl_input_choice_sample_rate->menu(menu_logic_analyzer_fl_input_choice_sample_rate);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_sample_rate
         { logic_analyzer_fl_input_choice_time_per_division = new Fl_Input_Choice(650, 94, 120, 30, "Time per Division");
-          logic_analyzer_fl_input_choice_time_per_division->callback((Fl_Callback*)cb_logic_analyzer_fl_input_choice_time_per_division);
           logic_analyzer_fl_input_choice_time_per_division->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_time_per_division->menu(menu_logic_analyzer_fl_input_choice_time_per_division);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_time_per_division
         { logic_analyzer_fl_input_choice_position = new Fl_Input_Choice(800, 94, 120, 30, "Position");
-          logic_analyzer_fl_input_choice_position->callback((Fl_Callback*)cb_logic_analyzer_fl_input_choice_position);
           logic_analyzer_fl_input_choice_position->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_position->menu(menu_logic_analyzer_fl_input_choice_position);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_position

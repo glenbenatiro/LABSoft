@@ -28,9 +28,9 @@ enum WaveType
 
 enum DisplayMode 
 {
-  REPEATED,
+  OSC_DISP_MODE_REPEATED,
   SHIFT,
-  SCREEN
+  OSC_DISP_MODE_SCREEN
 };
 
 // --- Helper Macros for Register Access ---
@@ -94,9 +94,9 @@ constexpr int VC_MEM_SIZE = (PAGE_SIZE + (BUFF_LEN * MAX_BUFFS * PING_PONG_BUFF_
 #define CBS(n)          MEM_BUS_ADDR(mp, &dp->cbs[(n)])
 
 // DMA channels and data requests
-#define DMA_CHAN_A      7
-#define DMA_CHAN_B      8
-#define DMA_CHAN_C      9
+#define DMA_CHAN_PWM_PACING      7
+#define DMA_CHAN_SPI_RX      8
+#define DMA_CHAN_SPI_TX      9
 #define DMA_PWM_DREQ    5
 #define DMA_SPI_TX_DREQ 6
 #define DMA_SPI_RX_DREQ 7
@@ -147,8 +147,8 @@ typedef struct {
 
   volatile uint32_t usecs[2], 
                     states[2], 
-                    rxd1[MAX_SAMPS], 
-                    rxd2[MAX_SAMPS];
+                    rxd0[MAX_SAMPS], 
+                    rxd1[MAX_SAMPS];
 } 
 ADC_DMA_DATA;
 
@@ -216,7 +216,7 @@ constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTAGE_PER_DIVISION = 1.0;
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET  0.0 // volts
 #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER 0
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION_UNIT_SCALER = 0;
-constexpr DisplayMode LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE = SCREEN;
+constexpr DisplayMode LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE = OSC_DISP_MODE_SCREEN;
 
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS = LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS;
 

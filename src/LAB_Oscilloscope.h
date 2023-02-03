@@ -11,6 +11,12 @@ class LAB_Oscilloscope
     LAB_Core *m_LAB_Core;
     MemoryMap m_uncached_dma_data;
 
+    MemoryMap     m_mp_dma_single_buffer;
+    MemoryMap     m_mp_dma_dual_buffer;
+
+    ADC_DMA_DATA m_dma_data_dual_buffer;
+    ADC_DMA_DATA m_dma_data_single_buffer;
+
   public:
     
     double usec_start = 0;
@@ -35,6 +41,8 @@ class LAB_Oscilloscope
     void  run ();
     void  stop ();   
 
+    
+
     void channel_enable (unsigned channel)
     {
       m_channel_signals.m_chans[channel].m_is_enabled = true;
@@ -53,14 +61,17 @@ class LAB_Oscilloscope
   // this changes PWM speed on board!! 
   // verify no other are affected
   void sampling_rate (int channel, double value);
+  void sampling_rate (double value);
 
-  void time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
+  double time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
 
   void display_mode (unsigned channel, int value)
   {
     //m_channel_signals.m_chans[channel].osc.
     m_channel_signals.m_chans[channel].osc.osc_disp_mode = value;
   }
+
+  void update_dma_data (int osc_disp_mode);
 };
 
 #endif

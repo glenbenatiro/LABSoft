@@ -34,6 +34,8 @@ class LABSoft_Controller_Oscilloscope
 
     void cb_time_per_division   (Fl_Input_Choice *w, long channel);
     void cb_x_offset (Fl_Input_Choice *w, void *data);
+
+    void cb_test (Fl_Light_Button *w, void *data);
 };
 
 #endif

@@ -125,6 +125,8 @@ draw_channels ()
 {
   if (m_channel_signals)
   {
+    fl_push_clip (x (), y (), w (), h ());
+
     for (int a = 0; a < m_channel_signals->m_chans.size (); a++)
     {
       if (m_channel_signals->m_chans[a].is_enabled ())
@@ -145,6 +147,8 @@ draw_channels ()
         }
       }
     }
+
+    fl_pop_clip();
   }
 }
 

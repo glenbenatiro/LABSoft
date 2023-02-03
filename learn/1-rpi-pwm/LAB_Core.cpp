@@ -364,9 +364,9 @@ LAB_Core::LAB_Core_terminate (int sig)
   printf("Closing\n");
   
   spi_disable();
-  //dma_stop(DMA_CHAN_A);
-  //dma_stop(DMA_CHAN_B);
-  //dma_stop(DMA_CHAN_C);
+  //dma_stop(DMA_CHAN_PWM_PACING);
+  //dma_stop(DMA_CHAN_SPI_RX);
+  //dma_stop(DMA_CHAN_SPI_TX);
   
   LAB_Core_unmap_periph_mem (&m_vc_mem);
   LAB_Core_unmap_periph_mem (&m_regs_usec);

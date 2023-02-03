@@ -40,9 +40,9 @@ enum WaveType
 
 enum DisplayMode 
 {
-  REPEATED,
+  OSC_DISP_MODE_REPEATED,
   SHIFT,
-  SCREEN
+  OSC_DISP_MODE_SCREEN
 };
 
 volatile uint32_t* g_reg32 (MemoryMap mem_map, uint32_t offset);

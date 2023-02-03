@@ -35,6 +35,11 @@ private:
   inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);
   static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
 public:
+  Fl_Light_Button *oscilloscope_fl_light_button_test;
+private:
+  inline void cb_oscilloscope_fl_light_button_test_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_test(Fl_Light_Button*, void*);
+public:
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_1;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_1_enable;
@@ -161,30 +166,14 @@ private:
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
   Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
-private:
-  inline void cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button*, void*);
-public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_memory_depth;
-private:
-  inline void cb_logic_analyzer_fl_input_choice_memory_depth_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_memory_depth(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_memory_depth[];
-public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_sample_rate;
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sample_rate[];
   Fl_Input_Choice *logic_analyzer_fl_input_choice_time_per_division;
-private:
-  inline void cb_logic_analyzer_fl_input_choice_time_per_division_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_time_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_time_per_division[];
-public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_position;
-private:
-  inline void cb_logic_analyzer_fl_input_choice_position_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_position(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_position[];
-public:
   LABSoft_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
   Fl_Choice *logic_analyzer_fl_choice_display_mode;
   static Fl_Menu_Item menu_logic_analyzer_fl_choice_display_mode[];

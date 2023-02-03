@@ -64,6 +64,11 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);}
             xywh {1205 160 120 60}
           }
+          Fl_Light_Button oscilloscope_fl_light_button_test {
+            label Run
+            callback {m_LABSoft_Controller->m_Oscilloscope.cb_test (o, v);}
+            xywh {1205 240 120 60} align 16
+          }
           Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
             xywh {24 84 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
@@ -85,7 +90,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_volts_per_division {
               label {Volts per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);} open
               xywh {865 215 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTAGE_PER_DIVISION);}
             } {
@@ -489,7 +494,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {open
+          Fl_Group oscilloscope_fl_group_horizontal {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -499,7 +504,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
               xywh {865 400 120 30} align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION);}
             } {
@@ -568,7 +573,7 @@ class LABSoft_GUI {open
                 xywh {30 30 36 21}
               }
               MenuItem {} {
-                label {200 us} selected
+                label {200 us}
                 xywh {30 30 36 21}
               }
               MenuItem {} {
@@ -1259,12 +1264,10 @@ class LABSoft_GUI {open
           }
           Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
             label Run
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_master_run_stop (o, v);}
             xywh {200 84 120 60} align 16
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_memory_depth {
             label {Memory Depth}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_memory_depth (o, v);}
             xywh {350 94 120 30} align 1
           } {
             MenuItem {} {
@@ -1331,7 +1334,6 @@ class LABSoft_GUI {open
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_time_per_division {
             label {Time per Division}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);} open
             xywh {650 94 120 30} align 1
           } {
             MenuItem {} {
@@ -1393,7 +1395,6 @@ class LABSoft_GUI {open
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_position {
             label Position
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_position (o, v);} open
             xywh {800 94 120 30} align 1
           } {
             MenuItem {} {
@@ -1451,7 +1452,7 @@ class LABSoft_GUI {open
             class LABSoft_Logic_Analyzer_Display_Group
           } {}
           Fl_Choice logic_analyzer_fl_choice_display_mode {
-            label {Display Mode} open
+            label {Display Mode}
             xywh {950 94 120 30} down_box BORDER_BOX align 1
           } {
             MenuItem {} {

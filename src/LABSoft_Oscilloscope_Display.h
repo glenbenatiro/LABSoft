@@ -39,7 +39,6 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     int   m_number_of_rows          = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS,
           m_number_of_columns       = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS,
           m_number_of_channels      = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS,
-          m_number_of_samples       = LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_SAMPLES,
           m_max_number_of_channels  = LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS;
     
 

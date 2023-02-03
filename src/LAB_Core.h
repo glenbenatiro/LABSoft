@@ -20,8 +20,8 @@ typedef struct {
 
   volatile uint32_t usecs[2], 
                     states[2], 
-                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES], 
-                    rxd2[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
+                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES], 
+                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
 } ADC_DMA_DATA;
 
 class LAB_Core : public AikaPi

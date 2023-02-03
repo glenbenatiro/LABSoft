@@ -45,7 +45,7 @@ struct Channel_Signal_Oscilloscope
   std::vector<std::vector<int>> pixel_points;
   std::vector<double>         voltage_samples;
 
-  int osc_disp_mode = REPEATED;
+  int osc_disp_mode = OSC_DISP_MODE_REPEATED;
 };
 
 class Channel_Signal
