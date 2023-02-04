@@ -55,22 +55,26 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 
     void  enable ();
     void  disable ();
-    void  draw ();
-    void  update_x_axis_labels ();
+    
     void  update ();
     void  update_fg ();
 
-    // void  update_time_per_division (double time_per_division, 
-    //   int time_per_division_unit_prefix_power_scaler);
+    // draw functions
+    void  draw ();
+    void  draw_axes_labels ();
+    void  update_volts_per_division_labels ();
+    void  update_volts_per_division_labels (int channel);
+    void  update_time_per_division_labels ();
+    void  hide_volts_per_division_labels (unsigned channel);
+    void  show_volts_per_division_labels (unsigned channel);
+
  
     void volts_per_division (int channel, double value);
-    void update_volts_per_division_labels (int channel);
-    void update_volts_per_division_labels ();
+    
     void vertical_offset (int channel, LabelValue _LabelValue);
 
     void time_per_division (int channel, double value);
-    void update_time_per_division_labels ();
-    void update_time_per_division_labels (int channel);
+    
 
     LABSoft_Oscilloscope_Display* display ()
     {
@@ -85,12 +89,12 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 
   void channel_enable (unsigned channel)
   {
-    m_display->channel_enable (channel);
+    update_volts_per_division_labels ();
   }
 
   void channel_disable (unsigned channel)
   {
-    m_display->channel_disable (channel);
+    update_volts_per_division_labels ();
   }
 
   void channel_signals (Channel_Signals *_Channel_Signals)

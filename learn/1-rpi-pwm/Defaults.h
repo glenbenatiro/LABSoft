@@ -52,7 +52,7 @@ enum DisplayMode
 constexpr int LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS   = 1;
 constexpr int LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES_PER_CHANNEL    = 3200; // 8192; // 2^14 per channel
 constexpr int LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
-constexpr int LAB_OSCILLOSCOPE_SAMPLE_RATE = 200'000 * 4; // default sample rate, in hz
+constexpr int LAB_OSCILLOSCOPE_SAMPLING_RATE = 200'000 * 4; // default sample rate, in hz
 
 // --- Non-cached memory size ---
 // --- Memory ---

@@ -34,13 +34,14 @@ struct Channel_Signal_Logic_Analyzer
 struct Channel_Signal_Oscilloscope 
 {
   double samples            = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
-  double sampling_rate      = LAB_OSCILLOSCOPE_SAMPLE_RATE;
-  double sampling_period    = 1.0 / LAB_OSCILLOSCOPE_SAMPLE_RATE;
+  double sampling_rate      = LAB_OSCILLOSCOPE_SAMPLING_RATE;
+  double sampling_period    = 1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE;
   double volts_per_division = CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION;
   double time_per_division  = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / 
-    (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS * LAB_OSCILLOSCOPE_SAMPLE_RATE);
+    (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS * LAB_OSCILLOSCOPE_SAMPLING_RATE);
 
-  double  vertical_offset = 0.0;
+  double  vertical_offset   = 0.0;
+  double  horizontal_offset = 0.0;
 
   std::vector<std::vector<int>> pixel_points;
   std::vector<double>         voltage_samples;

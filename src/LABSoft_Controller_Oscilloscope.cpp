@@ -13,12 +13,17 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   m_LAB         = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
 
-
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
 
   m_LAB->m_Oscilloscope->m_channel_signals.display_width (m_LABSoft_GUI->
     oscilloscope_labsoft_oscilloscope_display_group_display->display ()-> w ());
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_time_per_division_labels ();
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_volts_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -95,7 +100,7 @@ cb_x_offset (Fl_Input_Choice *w,
     m_x_offset = value;
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    update_x_axis_labels ();
+    update_time_per_division_labels ();
 }
 
 
@@ -104,9 +109,8 @@ update_display ()
 {
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
-    // auto start = std::chrono::steady_clock::now ();
+    auto start = std::chrono::steady_clock::now ();
 
-    //
     m_LAB->m_Oscilloscope->load_data_samples ();
 
     m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
@@ -119,10 +123,10 @@ update_display ()
     std::this_thread::sleep_for (std::chrono::milliseconds 
       (DISPLAY_UPDATE_SLEEP_TIME_MS));
 
-    // auto end = std::chrono::steady_clock::now ();
+    auto end = std::chrono::steady_clock::now ();
 
-    // std::chrono::duration<double, std::milli> elapsed = end - start;
-    // std::cout << "Duration: " << elapsed.count () << " ms\n";
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    std::cout << "Duration: " << elapsed.count () << " ms\n";
   }
 }
 
@@ -134,6 +138,9 @@ cb_volts_per_division (Fl_Input_Choice *w,
   
   m_LAB->m_Oscilloscope->volts_per_division (static_cast<unsigned>(channel),
     _LabelValue.actual_value ());
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_volts_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -155,6 +162,9 @@ cb_time_per_division (Fl_Input_Choice *w,
 
   m_LAB->m_Oscilloscope->time_per_division (static_cast<unsigned>(channel),
     _LabelValue.actual_value (), LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::

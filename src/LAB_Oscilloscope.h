@@ -9,13 +9,7 @@ class LAB_Oscilloscope
   private:
 
     LAB_Core *m_LAB_Core;
-    MemoryMap m_uncached_dma_data;
-
-    MemoryMap     m_mp_dma_single_buffer;
-    MemoryMap     m_mp_dma_dual_buffer;
-
-    ADC_DMA_DATA m_dma_data_dual_buffer;
-    ADC_DMA_DATA m_dma_data_single_buffer;
+    MemoryMap m_uncached_adc_dma_data;
 
   public:
     
@@ -25,7 +19,7 @@ class LAB_Oscilloscope
 
     int   m_number_of_channels            = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
           m_number_of_samples_per_channel = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
-          m_sample_rate                   = LAB_OSCILLOSCOPE_SAMPLE_RATE,
+          m_sample_rate                   = LAB_OSCILLOSCOPE_SAMPLING_RATE,
           m_curr_screen_buffer = 0;
 
     uint32_t  m_pwm_range,
@@ -41,7 +35,13 @@ class LAB_Oscilloscope
     void  run ();
     void  stop ();   
 
-    
+    double time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
+
+    // this changes PWM speed on board!! 
+  // verify no other are affected
+  void sampling_rate (int channel, double value);
+  void sampling_rate (double value);
+
 
     void channel_enable (unsigned channel)
     {
@@ -58,12 +58,9 @@ class LAB_Oscilloscope
 
     void load_data_samples ();
 
-  // this changes PWM speed on board!! 
-  // verify no other are affected
-  void sampling_rate (int channel, double value);
-  void sampling_rate (double value);
+  
 
-  double time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
+  
 
   void display_mode (unsigned channel, int value)
   {

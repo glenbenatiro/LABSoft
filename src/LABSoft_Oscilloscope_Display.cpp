@@ -91,29 +91,121 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
       Channel_Signal_Oscilloscope *osc  = &(_Channel_Signals->m_chans[a].osc);
       std::vector<std::vector<int>> *pp = &(_Channel_Signals->m_chans[a].osc.
         pixel_points);
-
-      double sample_skip = static_cast<double>(osc->voltage_samples.size () - 1) / 
-        static_cast<double>(w () - 1);
+      
       double vert_scaler = (osc_disp_vert_half) / 
-        ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) * osc->volts_per_division);
-              
-      for (int b = 0; b < w (); b++)
+        ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
+          osc->volts_per_division);
+
+      printf ("hello!");
+
+      if (osc->time_per_division < LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
       {
-        (*pp)[b][0] = x () + b;
+        double volt_samp_x_off = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES -
+          osc->samples) / 2;
 
-        double samp_value = (osc->voltage_samples[sample_skip * b]) + 
-          (osc->vertical_offset);
-
-        //printf ("b: %d, samp_value: %9.9f\n", b, samp_value);
-
-        if (samp_value == 0.0)
+        if (osc->samples > w ())
         {
-          (*pp)[b][1] = osc_disp_vert_midline;
+          // if (pp->size () != w ())
+          // {
+          //   pp->resize (w (), std::vector<int>(2));
+          // }
+
+          double sample_skip = static_cast<double>(osc->samples - 1) / 
+          static_cast<double>(w () - 1);
+                  
+          for (int b = 0; b < w (); b++)
+          {
+            (*pp)[b][0] = x () + b;
+
+            double samp_value = (osc->voltage_samples[volt_samp_x_off + 
+              (sample_skip * b)]) + (osc->vertical_offset);
+
+            if (samp_value == 0.0)
+            {
+              (*pp)[b][1] = osc_disp_vert_midline;
+            }
+            else
+            {
+              (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+            }
+          }
         }
-        else
+        else if (osc->samples == w ())
         {
-          (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
-          // printf ("midline: %f, samp_val: %9.9f, vert_scaler: %f\n", osc_disp_vert_midline, samp_value, vert_scaler);
+          // if (pp->size () != w ())
+          // {
+          //   pp->resize (w (), std::vector<int>(2));
+          // }
+
+          for (int b = 0; b < w (); b++)
+          {
+            (*pp)[b][0] = x () + b;
+
+            double samp_value = (osc->voltage_samples[volt_samp_x_off + b]) +
+              (osc->vertical_offset);
+
+            if (samp_value == 0.0)
+            {
+              (*pp)[b][1] = osc_disp_vert_midline;
+            }
+            else
+            {
+              (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+            }
+          }
+        }
+        else // osc->samples < w ()
+        { 
+          // if (pp->size () != osc->samples)
+          // {
+          //   pp->resize (osc->samples, std::vector<int>(2));
+          // }
+
+          double x_pixel_scaler = ((w () - 1) / (osc->samples -1 ));
+
+          for (int b = 0; b < osc->samples; b++)
+          {
+            (*pp)[b][0] = x () + (b * x_pixel_scaler);
+
+            double samp_value = (osc->voltage_samples[volt_samp_x_off + b]) +
+              (osc->vertical_offset);
+            
+            if (samp_value == 0.0)
+            {
+              (*pp)[b][1] = osc_disp_vert_midline;
+            }
+            else
+            {
+              (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+            }
+          }
+        }
+      }
+      else 
+      {
+        // if (pp->size () != w ())
+        // {
+        //   pp->resize (w (), std::vector<int>(2));
+        // }
+
+        double sample_skip = static_cast<double>(osc->voltage_samples.size () - 1) / 
+        static_cast<double>(w () - 1);
+                
+        for (int b = 0; b < w (); b++)
+        {
+          (*pp)[b][0] = x () + b;
+
+          double samp_value = (osc->voltage_samples[sample_skip * b]) + 
+            (osc->vertical_offset);
+
+          if (samp_value == 0.0)
+          {
+            (*pp)[b][1] = osc_disp_vert_midline;
+          }
+          else
+          {
+            (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+          }
         }
       }
     }
@@ -139,11 +231,6 @@ draw_channels ()
         for (int b = 0; b < (w () - 1); b++)
         {
           fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
-
-          // if (b > 600)
-          // {
-          //   printf ("%d, %d, %d, %d\n", (*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
-          // }
         }
       }
     }

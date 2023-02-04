@@ -107,21 +107,10 @@ draw ()
   draw_children ();
 }
 
-
 void LABSoft_Oscilloscope_Display_Group:: 
-update_x_axis_labels ()
+draw_axes_labels ()
 {
-  char label[10];
-  for (int a = 0; a < (m_number_of_columns + 1); a++)
-    {
-      float label_value = (((a - (m_number_of_columns / 2)) * m_time_per_division) + 
-      m_x_offset) * pow (10, (m_time_per_division_unit_scaler * -1));
 
-      // sprintf (label, "%3.4f %cs", label_value, g_get_unit_prefix 
-      // (m_time_per_division_unit_scaler));
-
-      m_x_labels[a]->copy_label (label);
-    }
 }
 
 void LABSoft_Oscilloscope_Display_Group::
@@ -147,16 +136,15 @@ update_volts_per_division_labels (int channel)
 {
   if (m_channel_signals)
   {
-    char label[15];
-
-    Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[channel]);
-
-    if (chn->is_enabled ())
+    if (m_channel_signals->m_chans[channel].is_enabled ())
     {
-      for (int a = 0; a < (m_number_of_columns + 1); a++)
+      char label[15];
+      Channel_Signal *chn = &(m_channel_signals->m_chans[channel]);
+
+      for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS + 1); a++)
       {
-        float value_label = (-1 * chn->m_voltage_per_division) *
-          (a - (m_number_of_rows / 2)) - chn->m_vertical_offset;
+        float value_label = (-1 * chn->osc.volts_per_division) *
+          (a - (m_number_of_rows / 2)) - chn->osc.vertical_offset;
         
         if (a == 0)
         {
@@ -169,44 +157,29 @@ update_volts_per_division_labels (int channel)
 
         m_y_labels[channel][a]->copy_label (label);
         m_y_labels[channel][a]->labelcolor(m_channels_graph_color[channel]);
+        m_y_labels[channel][a]->show ();
       }
     }
     else 
     {
-      sprintf (label, "");
-      m_y_label_units[channel]->copy_label (label);
-
-      for (int a = 0; a < (m_number_of_columns + 1); a++)
+      for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS + 1); a++)
       {
-        m_y_labels[channel][a]->copy_label (label);
+        m_y_labels[channel][a]->hide ();
       }
     }
   }
 }
-
 
 void LABSoft_Oscilloscope_Display_Group:: 
 update_time_per_division_labels ()
 {
   if (m_channel_signals)
   {
-    for (int a = 0; a < m_number_of_channels; a++)
-    {
-      update_time_per_division_labels (a);
-    }
-  }
-}
-
-void LABSoft_Oscilloscope_Display_Group:: 
-update_time_per_division_labels (int channel)
-{
-  if (m_channel_signals)
-  {
     char label[15];
 
-    Channel_Signal *chn = &(m_display->m_channel_signals->m_chans[0]);
+    Channel_Signal *chn = &(m_channel_signals->m_chans[0]);
 
-    LabelValue _LabelValue (chn->m_time_per_division + chn->m_horizontal_offset);
+    LabelValue _LabelValue (chn->osc.time_per_division + chn->osc.horizontal_offset);
 
     for (int a = 0; a < (m_number_of_columns + 1); a++)
     {
@@ -218,6 +191,24 @@ update_time_per_division_labels (int channel)
       m_x_labels[a]->copy_label (label);
       m_x_labels[a]->labelcolor(m_default_label_color);
     }
+  }
+}
+
+void LABSoft_Oscilloscope_Display_Group::  
+hide_volts_per_division_labels (unsigned channel)
+{
+  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS + 1); a++)
+  {
+    m_y_labels[channel][a]->hide ();
+  }
+}
+
+void LABSoft_Oscilloscope_Display_Group::  
+show_volts_per_division_labels (unsigned channel)
+{
+  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS + 1); a++)
+  {
+    m_y_labels[channel][a]->show ();
   }
 }
 
