@@ -109,7 +109,7 @@ update_display ()
 {
   while (m_LAB->m_Oscilloscope->m_is_running) 
   {
-    auto start = std::chrono::steady_clock::now ();
+    // auto start = std::chrono::steady_clock::now ();
 
     m_LAB->m_Oscilloscope->load_data_samples ();
 
@@ -123,10 +123,10 @@ update_display ()
     std::this_thread::sleep_for (std::chrono::milliseconds 
       (DISPLAY_UPDATE_SLEEP_TIME_MS));
 
-    auto end = std::chrono::steady_clock::now ();
+    // auto end = std::chrono::steady_clock::now ();
 
-    std::chrono::duration<double, std::milli> elapsed = end - start;
-    std::cout << "Duration: " << elapsed.count () << " ms\n";
+    // std::chrono::duration<double, std::milli> elapsed = end - start;
+    // std::cout << "Duration: " << elapsed.count () << " ms\n";
   }
 }
 

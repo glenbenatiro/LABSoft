@@ -361,6 +361,9 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
     // 4. Set new values
     osc->time_per_division  = value;
     osc->samples            = new_samples;
+
+    printf ("new samples: %9.9f\n", new_samples);
+    printf ("osc->samples: %d\n", osc->samples);
     
     if (osc->sampling_rate != new_sampling_rate)
     {

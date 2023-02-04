@@ -96,20 +96,15 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
         ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
           osc->volts_per_division);
 
-      printf ("hello!");
-
       if (osc->time_per_division < LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
       {
-        double volt_samp_x_off = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES -
-          osc->samples) / 2;
+        // double volt_samp_x_off = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES -
+        //   osc->samples) / 2;
+      
+        double volt_samp_x_off = 0;
 
         if (osc->samples > w ())
         {
-          // if (pp->size () != w ())
-          // {
-          //   pp->resize (w (), std::vector<int>(2));
-          // }
-
           double sample_skip = static_cast<double>(osc->samples - 1) / 
           static_cast<double>(w () - 1);
                   
@@ -132,11 +127,6 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
         }
         else if (osc->samples == w ())
         {
-          // if (pp->size () != w ())
-          // {
-          //   pp->resize (w (), std::vector<int>(2));
-          // }
-
           for (int b = 0; b < w (); b++)
           {
             (*pp)[b][0] = x () + b;
@@ -156,12 +146,10 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
         }
         else // osc->samples < w ()
         { 
-          // if (pp->size () != osc->samples)
-          // {
-          //   pp->resize (osc->samples, std::vector<int>(2));
-          // }
+          double x_pixel_scaler = ((static_cast<double>(w ()) - 1.0) / 
+            (static_cast<double>(osc->samples) - 1.0));
 
-          double x_pixel_scaler = ((w () - 1) / (osc->samples -1 ));
+          // printf ("x_pixel_scaler: %9.9f\n", x_pixel_scaler);
 
           for (int b = 0; b < osc->samples; b++)
           {
@@ -183,11 +171,6 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
       }
       else 
       {
-        // if (pp->size () != w ())
-        // {
-        //   pp->resize (w (), std::vector<int>(2));
-        // }
-
         double sample_skip = static_cast<double>(osc->voltage_samples.size () - 1) / 
         static_cast<double>(w () - 1);
                 
@@ -223,12 +206,14 @@ draw_channels ()
     {
       if (m_channel_signals->m_chans[a].is_enabled ())
       {
-        std::vector<std::vector<int>> *pp = &(m_channel_signals->m_chans[a].
-          osc.pixel_points);
+        Channel_Signal_Oscilloscope *osc = &(m_channel_signals->m_chans[a].
+          osc);
+
+        std::vector<std::vector<int>> *pp = &(osc->pixel_points);
 
         fl_color (m_channels_graph_color[a]);
 
-        for (int b = 0; b < (w () - 1); b++)
+        for (int b = 0; b < ((osc->samples < w() ? osc->samples : w ()) - 1); b++)
         {
           fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
         }
