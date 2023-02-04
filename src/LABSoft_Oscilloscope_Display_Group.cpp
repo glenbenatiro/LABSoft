@@ -93,6 +93,20 @@ LABSoft_Oscilloscope_Display_Group (int X,
 
     m_y_label_units.emplace_back (lbl);
   }
+
+  // create widget for m_upper_osc_disp_info
+  m_upper_osc_disp_info = new Fl_Box 
+  ( 
+    X + m_left_padding + 10,
+    Y + m_upper_padding - m_y_label_unit_padding,
+    0,
+    0,
+    "2000 samples at 200 kHz"
+  );
+
+  m_upper_osc_disp_info->align      (FL_ALIGN_RIGHT);
+  m_upper_osc_disp_info->labelsize  (m_label_size);
+  m_upper_osc_disp_info->labelcolor (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_COLOR_WHITE);
   
   end ();
  
@@ -210,6 +224,12 @@ show_volts_per_division_labels (unsigned channel)
   {
     m_y_labels[channel][a]->show ();
   }
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_upper_osc_disp_info (const char *text)
+{
+  m_upper_osc_disp_info->copy_label (text);
 }
 
 

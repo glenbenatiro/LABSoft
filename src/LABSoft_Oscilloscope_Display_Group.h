@@ -44,6 +44,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
       LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNELS_GRAPH_COLOR;
 
     // widgets 
+    Fl_Box* m_upper_osc_disp_info;
     std::vector<Fl_Box*>              m_x_labels; 
     std::vector<std::vector<Fl_Box*>> m_y_labels;  
     std::vector<Fl_Box*>              m_y_label_units;
@@ -67,6 +68,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  update_time_per_division_labels ();
     void  hide_volts_per_division_labels (unsigned channel);
     void  show_volts_per_division_labels (unsigned channel);
+    void  update_upper_osc_disp_info (const char *text);
 
  
     void volts_per_division (int channel, double value);

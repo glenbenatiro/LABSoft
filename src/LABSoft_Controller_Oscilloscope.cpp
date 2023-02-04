@@ -165,6 +165,14 @@ cb_time_per_division (Fl_Input_Choice *w,
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
+
+  char text[50];
+  sprintf (text, "%d samples at %9.9f Hz", m_LAB->m_Oscilloscope->
+    m_channel_signals.m_chans[0].osc.samples, m_LAB->m_Oscilloscope->
+    m_channel_signals.m_chans[0].osc.sampling_rate);
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_upper_osc_disp_info (text);
 }
 
 void LABSoft_Controller_Oscilloscope::
