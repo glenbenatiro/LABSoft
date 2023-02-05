@@ -319,6 +319,8 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
 
   if (osc->time_per_division != value)
   {
+    m_LAB_Core->dma_pause (DMA_CHAN_PWM_PACING);
+
     bool    flag = false;
     double  new_samples;
     double  new_sampling_rate;
@@ -334,20 +336,7 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
         value;
     }    
 
-    // 2. Set the screen display mode and DMA states
-    if (value >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_SCREEN_MODE)
-    {
-      osc->osc_disp_mode = OSC_DISP_MODE_SCREEN;
-
-      static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt)->states[0] = 0;
-      static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt)->states[1] = 0;
-    }
-    else
-    {
-      osc->osc_disp_mode = OSC_DISP_MODE_REPEATED; 
-    }
-
-    // 3. Calculate the new sampling rate
+    // 2. Calculate the new sampling rate
     if (value <= LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
     {
       new_sampling_rate = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE;
@@ -358,15 +347,34 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
         ((new_samples) / (value * osc_disp_num_cols));
     }
     
-    // 4. Set new values
+    // 3. Set new values
     osc->time_per_division  = value;
     osc->samples            = new_samples;
+
+    if (value >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_SCREEN_MODE)
+    {
+      if (osc->osc_disp_mode != OSC_DISP_MODE_SCREEN)
+      {
+        osc->osc_disp_mode = OSC_DISP_MODE_SCREEN;
+        buffer_switch (SINGLE_BUFFER);
+      }
+    }
+    else
+    {
+      if (osc->osc_disp_mode != OSC_DISP_MODE_REPEATED)
+      {
+        osc->osc_disp_mode = OSC_DISP_MODE_REPEATED; 
+        buffer_switch (DOUBLE_BUFFER);
+      }
+    }
     
     if (osc->sampling_rate != new_sampling_rate)
     {
       osc->sampling_rate = new_sampling_rate;
       sampling_rate (channel, new_sampling_rate); 
     }
+
+    m_LAB_Core->dma_play (DMA_CHAN_PWM_PACING);
   }
 
   return (osc->time_per_division);
@@ -388,6 +396,45 @@ update_dma_data (int osc_disp_mode)
   // *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
 
   // m_LAB_Core->dma_play (DMA_CHAN_PWM_PACING);
+}
+
+void LAB_Oscilloscope:: 
+buffer_switch (int buffer)
+{
+  bool flag = false;
+
+  if (!(m_LAB_Core->is_dma_paused (DMA_CHAN_PWM_PACING)))
+  {
+    flag = true;
+    m_LAB_Core->dma_pause (DMA_CHAN_PWM_PACING);
+  }
+
+  // load the next cb depending on buffer
+  ADC_DMA_DATA *dp = static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt);
+  
+  volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
+    DMA_REG (DMA_CHAN_SPI_RX, DMA_NEXTCONBK));
+
+  if (buffer == SINGLE_BUFFER)
+  {
+    *reg = Utility::mem_bus_addr (&m_uncached_adc_dma_data, &(dp->cbs[4]));
+  }
+  else // (buffer == DOUBLE_BUFFER)
+  {
+    *reg = Utility::mem_bus_addr (&m_uncached_adc_dma_data, &(dp->cbs[0]));
+  }
+
+  // abort current DMA control block
+  m_LAB_Core->dma_abort (DMA_CHAN_SPI_RX);
+
+  // clear buffer states
+  static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt)->states[0] = 0;
+  static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt)->states[1] = 0;
+
+  if (flag)
+  {
+    m_LAB_Core->dma_play (DMA_CHAN_PWM_PACING);
+  }
 }
 
 // EOF

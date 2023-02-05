@@ -4,6 +4,12 @@
 #include <cmath>
 #include <array>
 
+enum BUFFER_SWITCH
+{
+  SINGLE_BUFFER,
+  DOUBLE_BUFFER
+};
+
 enum DisplayMode 
 {
   OSC_DISP_MODE_REPEATED,

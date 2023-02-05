@@ -38,9 +38,11 @@ class LAB_Oscilloscope
     double time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
 
     // this changes PWM speed on board!! 
-  // verify no other are affected
-  void sampling_rate (int channel, double value);
-  void sampling_rate (double value);
+    // verify no other are affected
+    void sampling_rate (int channel, double value);
+    void sampling_rate (double value);
+
+    void buffer_switch (int buffer);
 
 
     void channel_enable (unsigned channel)
