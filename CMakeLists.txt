@@ -26,7 +26,6 @@ ADD_EXECUTABLE(LABSoft
   src/LAB_Multimeter.cpp
   src/LAB_Function_Generator.cpp
   src/LAB_Logic_Analyzer.cpp
-  src/LAB_Power_Supply.cpp
   src/LAB_Circuit_Checker.cpp
 
   src/LABSoft_Controller.cpp
@@ -34,7 +33,6 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Controller_Multimeter.cpp
   src/LABSoft_Controller_Function_Generator.cpp
   src/LABSoft_Controller_Logic_Analyzer.cpp
-  src/LABSoft_Controller_Power_Supply.cpp
   src/LABSoft_Controller_Circuit_Checker.cpp
   src/LABSoft_Controller_Main.cpp
 

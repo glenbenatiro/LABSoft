@@ -10,7 +10,6 @@ LABSoft_Controller (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
     m_Multimeter          (_LAB, _LABSoft_GUI),
     m_Function_Generator  (_LAB, _LABSoft_GUI),
     m_Logic_Analyzer      (_LAB, _LABSoft_GUI),
-    m_Power_Supply        (_LAB, _LABSoft_GUI),
     m_Circuit_Checker     (_LAB, _LABSoft_GUI),
     m_Main                (_LAB, _LABSoft_GUI)    
 {

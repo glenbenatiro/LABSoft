@@ -52,7 +52,7 @@ class LABSoft_GUI {open
         }
         Fl_Group {} {
           label Oscilloscope open
-          xywh {0 60 1366 708}
+          xywh {0 60 1366 708} hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
@@ -1462,33 +1462,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Power Supply}
-          xywh {0 60 1366 708} hide
-        } {
-          Fl_Light_Button power_supply_fl_light_button_positive_12_volts_enable_disable {
-            label {+12V}
-            callback {m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_run_stop_power_channel (o, v);}
-            xywh {273 240 240 120} selection_color 79 labelsize 48 align 16
-          }
-          Fl_Light_Button power_supply_fl_light_button_negative_12_volts_enable_disable {
-            label {-12V}
-            callback {m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_run_stop_power_channel (o, v);}
-            xywh {563 240 240 120} selection_color 79 labelsize 48 align 16
-          }
-          Fl_Light_Button power_supply_fl_light_button_positive_5_volts_enable_disable {
-            label {+5V}
-            callback {m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_run_stop_power_channel (o, v);}
-            xywh {853 240 240 120} selection_color 79 labelsize 48 align 16
-          }
-          Fl_Light_Button power_supply_fl_light_button_master_enable_disable {
-            label {Master Enable}
-            callback {m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_master_run_stop (o, v);}
-            xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
-          }
-        }
-        Fl_Group {} {
           label {Circuit Checker}
-          xywh {0 60 1366 708} hide
+          xywh {0 60 1366 708}
         } {
           Fl_Button circuit_checker_fl_button_choose_circuit_checker_file {
             label {Choose Circuit   Checker File}

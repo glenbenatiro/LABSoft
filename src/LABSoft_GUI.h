@@ -177,26 +177,6 @@ public:
   LABSoft_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
   Fl_Choice *logic_analyzer_fl_choice_display_mode;
   static Fl_Menu_Item menu_logic_analyzer_fl_choice_display_mode[];
-  Fl_Light_Button *power_supply_fl_light_button_positive_12_volts_enable_disable;
-private:
-  inline void cb_power_supply_fl_light_button_positive_12_volts_enable_disable_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_positive_12_volts_enable_disable(Fl_Light_Button*, void*);
-public:
-  Fl_Light_Button *power_supply_fl_light_button_negative_12_volts_enable_disable;
-private:
-  inline void cb_power_supply_fl_light_button_negative_12_volts_enable_disable_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_negative_12_volts_enable_disable(Fl_Light_Button*, void*);
-public:
-  Fl_Light_Button *power_supply_fl_light_button_positive_5_volts_enable_disable;
-private:
-  inline void cb_power_supply_fl_light_button_positive_5_volts_enable_disable_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_positive_5_volts_enable_disable(Fl_Light_Button*, void*);
-public:
-  Fl_Light_Button *power_supply_fl_light_button_master_enable_disable;
-private:
-  inline void cb_power_supply_fl_light_button_master_enable_disable_i(Fl_Light_Button*, void*);
-  static void cb_power_supply_fl_light_button_master_enable_disable(Fl_Light_Button*, void*);
-public:
   Fl_Button *circuit_checker_fl_button_choose_circuit_checker_file;
 private:
   inline void cb_circuit_checker_fl_button_choose_circuit_checker_file_i(Fl_Button*, void*);

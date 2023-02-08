@@ -10,7 +10,6 @@
 #include "LABSoft_Controller_Multimeter.h"
 #include "LABSoft_Controller_Function_Generator.h"
 #include "LABSoft_Controller_Logic_Analyzer.h"
-#include "LABSoft_Controller_Power_Supply.h"
 #include "LABSoft_Controller_Circuit_Checker.h"
 #include "LABSoft_Controller_Main.h"
 
@@ -25,7 +24,6 @@ class LABSoft_Controller
     LABSoft_Controller_Multimeter         m_Multimeter;
     LABSoft_Controller_Function_Generator m_Function_Generator;
     LABSoft_Controller_Logic_Analyzer     m_Logic_Analyzer;
-    LABSoft_Controller_Power_Supply       m_Power_Supply;
     LABSoft_Controller_Circuit_Checker    m_Circuit_Checker;
     LABSoft_Controller_Main               m_Main;
 

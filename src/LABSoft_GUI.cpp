@@ -536,34 +536,6 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_choice_display_mode[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_power_supply_fl_light_button_positive_12_volts_enable_disable_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_run_stop_power_channel (o, v);
-}
-void LABSoft_GUI::cb_power_supply_fl_light_button_positive_12_volts_enable_disable(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_power_supply_fl_light_button_positive_12_volts_enable_disable_i(o,v);
-}
-
-void LABSoft_GUI::cb_power_supply_fl_light_button_negative_12_volts_enable_disable_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_run_stop_power_channel (o, v);
-}
-void LABSoft_GUI::cb_power_supply_fl_light_button_negative_12_volts_enable_disable(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_power_supply_fl_light_button_negative_12_volts_enable_disable_i(o,v);
-}
-
-void LABSoft_GUI::cb_power_supply_fl_light_button_positive_5_volts_enable_disable_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_run_stop_power_channel (o, v);
-}
-void LABSoft_GUI::cb_power_supply_fl_light_button_positive_5_volts_enable_disable(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_power_supply_fl_light_button_positive_5_volts_enable_disable_i(o,v);
-}
-
-void LABSoft_GUI::cb_power_supply_fl_light_button_master_enable_disable_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Power_Supply.cb_fl_light_button_master_run_stop (o, v);
-}
-void LABSoft_GUI::cb_power_supply_fl_light_button_master_enable_disable(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_power_supply_fl_light_button_master_enable_disable_i(o,v);
-}
-
 void LABSoft_GUI::cb_circuit_checker_fl_button_choose_circuit_checker_file_i(Fl_Button* o, void* v) {
   m_LABSoft_Controller->m_Circuit_Checker.cb_fl_button_choose_circuit_checker_file (o, v);
 }
@@ -595,6 +567,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
+        o->hide();
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 80, 120, 60, "Run");
           oscilloscope_fl_light_button_run_stop->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_run_stop);
           oscilloscope_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
@@ -844,36 +817,7 @@ LABSoft_GUI::LABSoft_GUI() {
         } // Fl_Choice* logic_analyzer_fl_choice_display_mode
         o->end();
       } // Fl_Group* o
-      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Power Supply");
-        o->hide();
-        { power_supply_fl_light_button_positive_12_volts_enable_disable = new Fl_Light_Button(273, 240, 240, 120, "+12V");
-          power_supply_fl_light_button_positive_12_volts_enable_disable->selection_color((Fl_Color)79);
-          power_supply_fl_light_button_positive_12_volts_enable_disable->labelsize(48);
-          power_supply_fl_light_button_positive_12_volts_enable_disable->callback((Fl_Callback*)cb_power_supply_fl_light_button_positive_12_volts_enable_disable);
-          power_supply_fl_light_button_positive_12_volts_enable_disable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* power_supply_fl_light_button_positive_12_volts_enable_disable
-        { power_supply_fl_light_button_negative_12_volts_enable_disable = new Fl_Light_Button(563, 240, 240, 120, "-12V");
-          power_supply_fl_light_button_negative_12_volts_enable_disable->selection_color((Fl_Color)79);
-          power_supply_fl_light_button_negative_12_volts_enable_disable->labelsize(48);
-          power_supply_fl_light_button_negative_12_volts_enable_disable->callback((Fl_Callback*)cb_power_supply_fl_light_button_negative_12_volts_enable_disable);
-          power_supply_fl_light_button_negative_12_volts_enable_disable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* power_supply_fl_light_button_negative_12_volts_enable_disable
-        { power_supply_fl_light_button_positive_5_volts_enable_disable = new Fl_Light_Button(853, 240, 240, 120, "+5V");
-          power_supply_fl_light_button_positive_5_volts_enable_disable->selection_color((Fl_Color)79);
-          power_supply_fl_light_button_positive_5_volts_enable_disable->labelsize(48);
-          power_supply_fl_light_button_positive_5_volts_enable_disable->callback((Fl_Callback*)cb_power_supply_fl_light_button_positive_5_volts_enable_disable);
-          power_supply_fl_light_button_positive_5_volts_enable_disable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* power_supply_fl_light_button_positive_5_volts_enable_disable
-        { power_supply_fl_light_button_master_enable_disable = new Fl_Light_Button(383, 400, 600, 60, "Master Enable");
-          power_supply_fl_light_button_master_enable_disable->selection_color((Fl_Color)79);
-          power_supply_fl_light_button_master_enable_disable->labelsize(24);
-          power_supply_fl_light_button_master_enable_disable->callback((Fl_Callback*)cb_power_supply_fl_light_button_master_enable_disable);
-          power_supply_fl_light_button_master_enable_disable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* power_supply_fl_light_button_master_enable_disable
-        o->end();
-      } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Circuit Checker");
-        o->hide();
         { circuit_checker_fl_button_choose_circuit_checker_file = new Fl_Button(203, 180, 300, 120, "Choose Circuit   Checker File");
           circuit_checker_fl_button_choose_circuit_checker_file->labelsize(24);
           circuit_checker_fl_button_choose_circuit_checker_file->callback((Fl_Callback*)cb_circuit_checker_fl_button_choose_circuit_checker_file);

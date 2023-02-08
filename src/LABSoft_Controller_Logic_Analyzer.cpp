@@ -19,8 +19,6 @@ LABSoft_Controller_Logic_Analyzer (LAB         *_LAB,
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_position->
     value (LABSOFT_LOGIC_ANALYZER_POSITION);
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-    channel_signals (m_LAB->m_Logic_Analyzer->channel_signals ());
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -54,9 +52,6 @@ cb_memory_depth (Fl_Input_Choice *w,
                  void            *data)
 {
   LabelValue _LabelValue (w->value ());
-
-  // backend 
-  m_LAB->m_Logic_Analyzer->memory_depth (_LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

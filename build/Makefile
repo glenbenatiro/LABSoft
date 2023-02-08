@@ -439,33 +439,6 @@ src/LABSoft_Controller_Oscilloscope.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.s
 .PHONY : src/LABSoft_Controller_Oscilloscope.cpp.s
 
-src/LABSoft_Controller_Power_Supply.o: src/LABSoft_Controller_Power_Supply.cpp.o
-
-.PHONY : src/LABSoft_Controller_Power_Supply.o
-
-# target to build an object file
-src/LABSoft_Controller_Power_Supply.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.o
-.PHONY : src/LABSoft_Controller_Power_Supply.cpp.o
-
-src/LABSoft_Controller_Power_Supply.i: src/LABSoft_Controller_Power_Supply.cpp.i
-
-.PHONY : src/LABSoft_Controller_Power_Supply.i
-
-# target to preprocess a source file
-src/LABSoft_Controller_Power_Supply.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.i
-.PHONY : src/LABSoft_Controller_Power_Supply.cpp.i
-
-src/LABSoft_Controller_Power_Supply.s: src/LABSoft_Controller_Power_Supply.cpp.s
-
-.PHONY : src/LABSoft_Controller_Power_Supply.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller_Power_Supply.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Power_Supply.cpp.s
-.PHONY : src/LABSoft_Controller_Power_Supply.cpp.s
-
 src/LABSoft_GUI.o: src/LABSoft_GUI.cpp.o
 
 .PHONY : src/LABSoft_GUI.o
@@ -763,33 +736,6 @@ src/LAB_Oscilloscope.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.s
 .PHONY : src/LAB_Oscilloscope.cpp.s
 
-src/LAB_Power_Supply.o: src/LAB_Power_Supply.cpp.o
-
-.PHONY : src/LAB_Power_Supply.o
-
-# target to build an object file
-src/LAB_Power_Supply.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.o
-.PHONY : src/LAB_Power_Supply.cpp.o
-
-src/LAB_Power_Supply.i: src/LAB_Power_Supply.cpp.i
-
-.PHONY : src/LAB_Power_Supply.i
-
-# target to preprocess a source file
-src/LAB_Power_Supply.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.i
-.PHONY : src/LAB_Power_Supply.cpp.i
-
-src/LAB_Power_Supply.s: src/LAB_Power_Supply.cpp.s
-
-.PHONY : src/LAB_Power_Supply.s
-
-# target to generate assembly for a file
-src/LAB_Power_Supply.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Power_Supply.cpp.s
-.PHONY : src/LAB_Power_Supply.cpp.s
-
 src/LabelValue.o: src/LabelValue.cpp.o
 
 .PHONY : src/LabelValue.o
@@ -913,9 +859,6 @@ help:
 	@echo "... src/LABSoft_Controller_Oscilloscope.o"
 	@echo "... src/LABSoft_Controller_Oscilloscope.i"
 	@echo "... src/LABSoft_Controller_Oscilloscope.s"
-	@echo "... src/LABSoft_Controller_Power_Supply.o"
-	@echo "... src/LABSoft_Controller_Power_Supply.i"
-	@echo "... src/LABSoft_Controller_Power_Supply.s"
 	@echo "... src/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI.s"
@@ -949,9 +892,6 @@ help:
 	@echo "... src/LAB_Oscilloscope.o"
 	@echo "... src/LAB_Oscilloscope.i"
 	@echo "... src/LAB_Oscilloscope.s"
-	@echo "... src/LAB_Power_Supply.o"
-	@echo "... src/LAB_Power_Supply.i"
-	@echo "... src/LAB_Power_Supply.s"
 	@echo "... src/LabelValue.o"
 	@echo "... src/LabelValue.i"
 	@echo "... src/LabelValue.s"
