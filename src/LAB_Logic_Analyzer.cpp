@@ -11,20 +11,20 @@ LAB_Logic_Analyzer (LAB_Core *_LAB_Core)
 void LAB_Logic_Analyzer:: 
 init_uncached_dma_data ()
 {
-
+  
 
 
 
   //   m_LAB_Core->map_uncached_mem (&m_uncached_adc_dma_data, VC_MEM_SIZE);
 
-  // m_LAB_Core->dma_stop(DMA_CHAN_PWM_PACING);
-  // m_LAB_Core->dma_stop(DMA_CHAN_SPI_RX);
-  // m_LAB_Core->dma_stop(DMA_CHAN_SPI_TX);
+  // m_LAB_Core->dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  // m_LAB_Core->dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX);
+  // m_LAB_Core->dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
 
-  // ADC_DMA_DATA *dp  = static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt);
+  // LAB_OSCILLOSCOPE_DMA_DATA *dp  = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt);
   // MemoryMap *mp     = &m_uncached_adc_dma_data;
 
-  // ADC_DMA_DATA adc_dma_data = 
+  // LAB_OSCILLOSCOPE_DMA_DATA adc_dma_data = 
   // {
   //   .cbs = 
   //   {
@@ -141,7 +141,7 @@ init_uncached_dma_data ()
   // };
 
  
-  // std::memcpy (static_cast<ADC_DMA_DATA *>(m_uncached_adc_dma_data.virt), &adc_dma_data, sizeof (adc_dma_data));
+  // std::memcpy (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt), &adc_dma_data, sizeof (adc_dma_data));
 
   // m_pwm_range       = (LAB_PWM_FREQUENCY * 2) / LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE;
   // m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
@@ -154,13 +154,13 @@ init_uncached_dma_data ()
   // // Clear SPI FIFO
   // m_LAB_Core->spi_clear_fifo ();
 
-  // m_LAB_Core->dma_start(mp, DMA_CHAN_SPI_TX, &dp->cbs[6], 0);  // Start SPI Tx DMA
-  // m_LAB_Core->dma_start(mp, DMA_CHAN_SPI_RX, &dp->cbs[0], 0);  // Start SPI Rx DMA
-  // m_LAB_Core->dma_start(mp, DMA_CHAN_PWM_PACING, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
+  // m_LAB_Core->dma_start(mp, LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX, &dp->cbs[6], 0);  // Start SPI Tx DMA
+  // m_LAB_Core->dma_start(mp, LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX, &dp->cbs[0], 0);  // Start SPI Rx DMA
+  // m_LAB_Core->dma_start(mp, LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 
-  // // m_LAB_Core->dma_start(DMA_CHAN_SPI_TX, &dp->cbs[6], 0);  // Start SPI Tx DMA
-  // // m_LAB_Core->dma_start(DMA_CHAN_SPI_RX, &dp->cbs[0], 0);  // Start SPI Rx DMA
-  // // m_LAB_Core->dma_start(DMA_CHAN_PWM_PACING, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
+  // // m_LAB_Core->dma_start(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX, &dp->cbs[6], 0);  // Start SPI Tx DMA
+  // // m_LAB_Core->dma_start(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX, &dp->cbs[0], 0);  // Start SPI Rx DMA
+  // // m_LAB_Core->dma_start(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING, &dp->cbs[7], 0);  // Start PWM DMA, for SPI trigger
 }
 
 void LAB_Logic_Analyzer:: 

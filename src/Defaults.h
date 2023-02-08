@@ -71,6 +71,10 @@ constexpr double  CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
 
 
 // LAB Oscilloscope
+// dma channels in use after reboot 3b plus = 2 3 4 6
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING    = 7;
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX        = 8;
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX        = 9;
 constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS     = 2;
 constexpr int       LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
 constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 2000;
@@ -82,21 +86,20 @@ constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES    = LAB_OSCILLOSCOPE_N
 constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_COUNT           = 2;
 constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE            = PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS);
 
+struct LAB_OSCILLOSCOPE_DMA_DATA
+{
+  DMA_CB cbs[10];
 
-typedef struct {
-  DMA_CB cbs[NUM_CBS];
+  uint32_t  samp_size,
+            pwm_val, 
+            adc_csd,
+            txd[2];
 
-  uint32_t samp_size, 
-           pwm_val, 
-           adc_csd, 
-           txd[2];
-
-  volatile uint32_t usecs[2], 
-                    states[2], 
-                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES], 
+  volatile uint32_t usecs[2],
+                    states[2],
+                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
                     rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
-} ADC_DMA_DATA;
-
+};
 
 // LABSoft Oscilloscope Display Group
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_CHANNELS     = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;

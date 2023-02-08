@@ -6,11 +6,41 @@
 
 #IncludeRegexTransform: 
 
+/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.cpp
+AikaPi.h
+/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+fcntl.h
+-
+unistd.h
+-
+poll.h
+-
+sys/mman.h
+-
+sys/ioctl.h
+-
+sys/stat.h
+-
+iostream
+-
+bitset
+-
+thread
+-
+chrono
+-
+cstdio
+-
+
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
 cstdint
 -
 mutex
 -
+
+/home/glen/Desktop/LABSoft/src/Channel_Signals.cpp
+Channel_Signals.h
+/home/glen/Desktop/LABSoft/src/Channel_Signals.h
 
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 vector
@@ -246,6 +276,20 @@ LABSoft_Logic_Analyzer_Display_Group.h
 FL/Fl_Text_Display.H
 -
 
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
+
 /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
 vector
 -
@@ -260,6 +304,24 @@ Defaults.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp
+LABSoft_Oscilloscope_Display.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
+vector
+-
+cmath
+-
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
+
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
 array
 -
@@ -271,6 +333,18 @@ Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
+LABSoft_Oscilloscope_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
+iostream
+-
+cmath
+-
+FL/fl_draw.H
+-
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
 vector
@@ -298,7 +372,15 @@ Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.cpp
+LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
+
+/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
+LAB_Core.h
+/home/glen/Desktop/LABSoft/src/LAB_Core.h
+
+/home/glen/Desktop/LABSoft/src/LAB_Core.cpp
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
@@ -322,6 +404,10 @@ Defaults.h
 LAB_AD9833.h
 /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
+LAB_Logic_Analyzer.h
+/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+
 /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
@@ -330,11 +416,31 @@ LAB_Core.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Multimeter.cpp
+LAB_Multimeter.h
+/home/glen/Desktop/LABSoft/src/LAB_Multimeter.h
+
 /home/glen/Desktop/LABSoft/src/LAB_Multimeter.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 Channel_Signals.h
 /home/glen/Desktop/LABSoft/src/Channel_Signals.h
+
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
+LAB_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
+cstdio
+-
+cstring
+-
+bitset
+-
+iostream
+-
+algorithm
+-
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
 LAB_Core.h
