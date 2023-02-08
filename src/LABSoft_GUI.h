@@ -165,7 +165,11 @@ private:
   static void cb_function_generator_fl_input_choice_phase(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
-  Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
+  Fl_Light_Button *logic_analyzer_fl_light_button_master_run_stop;
+private:
+  inline void cb_logic_analyzer_fl_light_button_master_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_logic_analyzer_fl_light_button_master_run_stop(Fl_Light_Button*, void*);
+public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_memory_depth;
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_memory_depth[];
   Fl_Input_Choice *logic_analyzer_fl_input_choice_sample_rate;

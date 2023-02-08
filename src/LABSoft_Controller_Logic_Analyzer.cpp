@@ -33,17 +33,11 @@ cb_master_run_stop (Fl_Light_Button *w,
 {
   if (w->value () == 1)
   {
-    // backend
     m_LAB->m_Logic_Analyzer->master_run ();
-
-    // frontend
   }
   else 
   {
-    // backend
     m_LAB->m_Logic_Analyzer->master_stop ();
-
-    // frontend
   }
 }
 

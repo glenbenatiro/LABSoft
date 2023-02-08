@@ -4,6 +4,7 @@
 CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o: ../lib/AikaPi/AikaPi.cpp
 CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o: ../lib/AikaPi/AikaPi.h
 
+CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Channel_Signals.cpp
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o: ../src/Defaults.h
@@ -219,17 +220,20 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/pugixml.hpp
 
+CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LabelValue.h
 
+CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/LABSoft_Oscilloscope_Display.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
 
+CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
@@ -244,13 +248,11 @@ CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_Core.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Core.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core.h
 

@@ -1,6 +1,7 @@
 #ifndef LAB_AD9833_H
 #define LAB_AD9833_H
 
+#include "Defaults.h"
 #include "LAB_Core.h"
 
 constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_MOSI   = 2;

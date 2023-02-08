@@ -51,7 +51,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope open
+          label Oscilloscope
           xywh {0 60 1366 708} hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
@@ -1255,15 +1255,16 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer}
-          xywh {0 60 1366 708} hide
+          label {Logic Analyzer} open
+          xywh {0 60 1366 708}
         } {
           Fl_Button {} {
             label Single
             xywh {50 84 120 60}
           }
-          Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
+          Fl_Light_Button logic_analyzer_fl_light_button_master_run_stop {
             label Run
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_master_run_stop (o, v);}
             xywh {200 84 120 60} align 16
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_memory_depth {
@@ -1463,7 +1464,7 @@ class LABSoft_GUI {open
         }
         Fl_Group {} {
           label {Circuit Checker}
-          xywh {0 60 1366 708}
+          xywh {0 60 1366 708} hide
         } {
           Fl_Button circuit_checker_fl_button_choose_circuit_checker_file {
             label {Choose Circuit   Checker File}

@@ -8,11 +8,6 @@
 #include "LAB_Logic_Analyzer.h"
 #include "LAB_Circuit_Checker.h"
 
-// 
-
-
-// 
-
 class LAB
 {
   public:

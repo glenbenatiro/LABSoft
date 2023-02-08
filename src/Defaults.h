@@ -1,6 +1,8 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
+#include "../lib/AikaPi/AikaPi.h"
+
 #include <cmath>
 #include <array>
 
@@ -39,6 +41,9 @@ constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 constexpr int DISPLAY_UPDATE_SLEEP_TIME_MS = 38; // in milliseconds. ideally 40, but 38 to make room for overhead
 
+// DMA Channels
+
+
 // General LAB
 #define RANDOM_VALUE_GENERATOR_WAIT_MS  5
 #define PRE_FL_AWAKE_SLEEP_MS  10
@@ -66,12 +71,31 @@ constexpr double  CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
 
 
 // LAB Oscilloscope
-constexpr int     LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS     = 2;
-constexpr int     LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
-constexpr int     LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 2000;
-constexpr double  LAB_OSCILLOSCOPE_SAMPLING_RATE            = 200'000; 
-constexpr double  LAB_OSCILLOSCOPE_SAMPLE_PERIOD          = (1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE);
-constexpr double  LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE      = 200'000;
+constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS     = 2;
+constexpr int       LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
+constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 2000;
+constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE          = 200'000; 
+constexpr double    LAB_OSCILLOSCOPE_SAMPLE_PERIOD          = (1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE);
+constexpr double    LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE      = 200'000;
+constexpr unsigned  LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES      = 4;  // 4 bytes per sample = 32 bits
+constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES    = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES;
+constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_COUNT           = 2;
+constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE            = PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS);
+
+
+typedef struct {
+  DMA_CB cbs[NUM_CBS];
+
+  uint32_t samp_size, 
+           pwm_val, 
+           adc_csd, 
+           txd[2];
+
+  volatile uint32_t usecs[2], 
+                    states[2], 
+                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES], 
+                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
+} ADC_DMA_DATA;
 
 
 // LABSoft Oscilloscope Display Group
@@ -220,11 +244,20 @@ constexpr int LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS = 1;
 #define LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER 0
 
 // LAB Logic Analyzer
+struct Channel_Data_Logic_Analyzer
+{
+
+};
+
 constexpr unsigned LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS = 8;
+constexpr unsigned LAB_LOGIC_ANALYZER_CHANNELS_GPIO_PINS [LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS] = {2, 3, 4, 27, 22, 0, 5, 6};
+
+
+
+
 constexpr unsigned LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES = 4096;
 constexpr unsigned LAB_LOGIC_ANALYZER_MEMORY_DEPTH = 4096;
-constexpr unsigned LAB_LOGIC_ANALYZER_CHANNEL_GPIO_PINS
-  [LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS] = {2, 3, 4, 27, 22, 0, 5, 6};
+
 
 // LABSoft Logic Analyzer Display Group
 constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_NUMBER_OF_CHANNELS = LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS;
@@ -237,5 +270,7 @@ constexpr const char* LABSOFT_LOGIC_ANALYZER_MEMORY_DEPTH     = "4096";
 constexpr const char* LABSOFT_LOGIC_ANALYZER_SAMPLE_RATE      = "1 kHz";
 constexpr const char* LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON = "1 ms/div";
 constexpr const char* LABSOFT_LOGIC_ANALYZER_POSITION         = " 0 s";
+
+
 
 #endif

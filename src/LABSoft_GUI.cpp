@@ -475,6 +475,13 @@ Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_phase[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
+void LABSoft_GUI::cb_logic_analyzer_fl_light_button_master_run_stop_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Controller->m_Logic_Analyzer.cb_master_run_stop (o, v);
+}
+void LABSoft_GUI::cb_logic_analyzer_fl_light_button_master_run_stop(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_light_button_master_run_stop_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_memory_depth[] = {
  {"4096", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2048", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -776,12 +783,12 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Logic Analyzer");
-        o->hide();
         { new Fl_Button(50, 84, 120, 60, "Single");
         } // Fl_Button* o
-        { logic_analyzer_fl_light_button_run_stop = new Fl_Light_Button(200, 84, 120, 60, "Run");
-          logic_analyzer_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* logic_analyzer_fl_light_button_run_stop
+        { logic_analyzer_fl_light_button_master_run_stop = new Fl_Light_Button(200, 84, 120, 60, "Run");
+          logic_analyzer_fl_light_button_master_run_stop->callback((Fl_Callback*)cb_logic_analyzer_fl_light_button_master_run_stop);
+          logic_analyzer_fl_light_button_master_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+        } // Fl_Light_Button* logic_analyzer_fl_light_button_master_run_stop
         { logic_analyzer_fl_input_choice_memory_depth = new Fl_Input_Choice(350, 94, 120, 30, "Memory Depth");
           logic_analyzer_fl_input_choice_memory_depth->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_memory_depth->menu(menu_logic_analyzer_fl_input_choice_memory_depth);
@@ -818,6 +825,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Circuit Checker");
+        o->hide();
         { circuit_checker_fl_button_choose_circuit_checker_file = new Fl_Button(203, 180, 300, 120, "Choose Circuit   Checker File");
           circuit_checker_fl_button_choose_circuit_checker_file->labelsize(24);
           circuit_checker_fl_button_choose_circuit_checker_file->callback((Fl_Callback*)cb_circuit_checker_fl_button_choose_circuit_checker_file);
