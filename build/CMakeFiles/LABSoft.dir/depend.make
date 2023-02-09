@@ -265,7 +265,6 @@ CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Function_Gen
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o: ../src/LAB_Function_Generator.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.cpp

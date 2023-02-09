@@ -3,7 +3,6 @@
 
 #include "Defaults.h"
 #include "LAB_Core.h"
-#include "Channel_Signals.h"
 
 class LAB_Logic_Analyzer
 {

@@ -18,22 +18,9 @@ struct multimeter
   unsigned adc_value;
 };
 
-struct Channel_Signal_Logic_Analyzer
-{
-  // the current working sample size
-  unsigned m_sample_size = LAB_LOGIC_ANALYZER_MEMORY_DEPTH;
-
-  // this contains the raw data from the GPLEV0 register.
-  // 32 bits for the 32 pins of GPIO bank 0
-  volatile uint32_t m_raw_data[LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
-
-  // this contains the converted data from m_raw_data
-  bool m_converted_data[LAB_LOGIC_ANALYZER_MAX_NUMBER_OF_SAMPLES];
-};
-
 struct Channel_Signal_Oscilloscope 
 {
-  int_fast16_t samples          = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
+  int_fast16_t samples      = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
   double sampling_rate      = LAB_OSCILLOSCOPE_SAMPLING_RATE;
   double sampling_period    = 1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE;
   double volts_per_division = CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION;
