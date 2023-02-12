@@ -17,12 +17,22 @@ class LAB_Logic_Analyzer
     MemoryMap m_uncached_dma_data;
 
   public:
+    const uint32_t m_dma_one = 0x1;
+    
     LAB_Logic_Analyzer (LAB_Core *_LAB_Core);
 
     void  init_uncached_dma_data ();
+    void  sampling_rate (double value);
+    void  load_data_samples ();
     
     void  master_run   ();
     void  master_stop  ();
+
+    // getter
+    bool is_running ()
+    {
+      return m_is_running;
+    }
 };
 
 #endif

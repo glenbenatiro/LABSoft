@@ -149,7 +149,7 @@ typedef struct {
            dlen,        // Data length (bytes)
            uints[32-5]; // Data (108 bytes maximum)
   
-} VC_MSG __attribute__ ((aligned (16)));
+} AP_VC_MSG __attribute__ ((aligned (16)));
 
 // Videocore mailbox memory allocation flags, see:
 // https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
@@ -228,10 +228,10 @@ constexpr int LAB_PWM_FREQUENCY      = 5'000'000; // this is to be extracted fro
 
 // --- Clock ---
 // Clock registers and values
-#define CLK_BASE     (PHYS_REG_BASE + 0x101000)
-#define CLK_PWM_CTL  0xa0
-#define CLK_PWM_DIV  0xa4
-#define CLK_PASSWD   0x5a000000
+#define CM_BASE     (PHYS_REG_BASE + 0x101000)
+#define CM_PWMCTL  0xa0
+#define CM_PWMDIV  0xa4
+#define CM_PASSWD   0x5a000000
 #define PWM_CLOCK_ID 0xa
 
 

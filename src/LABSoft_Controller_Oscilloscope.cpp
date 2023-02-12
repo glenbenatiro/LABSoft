@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <chrono>
+#include <bitset>
 
 #include <FL/Fl.H>
 

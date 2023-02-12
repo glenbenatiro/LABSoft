@@ -12,6 +12,16 @@ cstdint
 mutex
 -
 
+/home/glen/Desktop/LABSoft/src/Channel_Signals.h
+vector
+-
+iostream
+-
+cstdint
+-
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
+
 /home/glen/Desktop/LABSoft/src/Defaults.h
 ../lib/AikaPi/AikaPi.h
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
@@ -24,13 +34,25 @@ array
 ../lib/AikaPi/AikaPi.h
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
 
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
-LAB_Logic_Analyzer.h
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
-
-/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
+LAB_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
+cstdio
+-
+cstring
+-
+bitset
+-
+iostream
+-
+algorithm
+-
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
+
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
+Channel_Signals.h
+/home/glen/Desktop/LABSoft/src/Channel_Signals.h
 

@@ -21,7 +21,7 @@ class LAB_Function_Generator
 
     void start  (int channel);
     void stop   (int channel);
-  
+      
     // setters
     void wave_type  (int channel, WaveType _WaveType);
     void frequency  (int channel, double frequency);

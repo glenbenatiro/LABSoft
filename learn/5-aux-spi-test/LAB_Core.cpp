@@ -52,10 +52,10 @@ void
 LAB_Core::LAB_Core_map_devices ()
 {
   LAB_Core_map_periph (&m_aux_regs,  (void *) AUX_BASE,  PAGE_SIZE);
-  LAB_Core_map_periph (&m_gpio_regs, (void *) GPIO_BASE, PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_gpio, (void *) GPIO_BASE, PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_dma,  (void *) DMA_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_spi,  (void *) SPI0_BASE, PAGE_SIZE);
-  LAB_Core_map_periph (&m_clk_regs,  (void *) CLK_BASE,  PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_clk,  (void *) CM_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_pwm,  (void *) PWM_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_usec, (void *) USEC_BASE, PAGE_SIZE);
 }
@@ -232,7 +232,7 @@ LAB_Core::LAB_Core_mailbox_close (int fd)
 // Send message to mailbox, return first response int, 0 if error
 uint32_t 
 LAB_Core::LAB_Core_msg_mbox (int     fd, 
-                               VC_MSG *msgp)
+                               AP_VC_MSG *msgp)
 {
   uint32_t ret = 0, i;
 
@@ -264,7 +264,7 @@ LAB_Core::LAB_Core_alloc_vc_mem (int            fd,
                                    uint32_t       size,
                                    MAILBOX_ALLOCATE_MEMORY_FLAGS flags)
 {
-  VC_MSG msg = {.tag   = 0x3000c, 
+  AP_VC_MSG msg = {.tag   = 0x3000c, 
                 .blen  = 12,
                 .dlen  = 12,
                 .uints = {PAGE_ROUNDUP(size), 
@@ -278,7 +278,7 @@ void*
 LAB_Core::LAB_Core_lock_vc_mem (int fd, 
                                   int h)
 {
-  VC_MSG msg = {.tag   = 0x3000d, 
+  AP_VC_MSG msg = {.tag   = 0x3000d, 
                 .blen  = 4, 
                 .dlen  = 4, 
                 .uints = {static_cast<uint32_t>(h)}};
@@ -291,7 +291,7 @@ uint32_t
 LAB_Core::LAB_Core_unlock_vc_mem (int fd, 
                                     int h)
 {
-  VC_MSG msg = {.tag   = 0x3000e, 
+  AP_VC_MSG msg = {.tag   = 0x3000e, 
                 .blen  = 4, 
                 .dlen  = 4, 
                 .uints = {static_cast<uint32_t>(h)}};
@@ -304,7 +304,7 @@ uint32_t
 LAB_Core::LAB_Core_free_vc_mem (int fd, 
                                   int h)
 {
-  VC_MSG msg={.tag     = 0x3000f, 
+  AP_VC_MSG msg={.tag     = 0x3000f, 
               .blen    = 4,
               .dlen    = 4, 
               .uints   = {static_cast<uint32_t>(h)}};
@@ -317,12 +317,12 @@ LAB_Core::LAB_Core_fset_vc_clock (int      fd,
                                     int      id, 
                                     uint32_t freq)
 {
-  VC_MSG msg1 = {.tag   = 0x38001, 
+  AP_VC_MSG msg1 = {.tag   = 0x38001, 
                  .blen  = 8, 
                  .dlen  = 8, 
                  .uints = {static_cast<uint32_t>(id), 1}};
                  
-  VC_MSG msg2 = {.tag   = 0x38002, 
+  AP_VC_MSG msg2 = {.tag   = 0x38002, 
                  .blen  = 12,
                  .dlen  = 12,
                  .uints = {static_cast<uint32_t>(id), freq, 0}};
@@ -338,7 +338,7 @@ LAB_Core::LAB_Core_fset_vc_clock (int      fd,
 
 // Display mailbox message
 void 
-LAB_Core::LAB_Core_disp_vc_msg(VC_MSG *msgp)
+LAB_Core::LAB_Core_disp_vc_msg(AP_VC_MSG *msgp)
 {
     int i;
 
@@ -367,17 +367,17 @@ LAB_Core::LAB_Core_terminate (int sig)
   printf("Closing\n");
   
   spi_disable();
-  //dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
-  //dma_stop(DMA_CHAN_SPI_RX);
-  //dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
+  //dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  //dma_reset(DMA_CHAN_SPI_RX);
+  //dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
   
   LAB_Core_unmap_periph_mem (&m_vc_mem);
   LAB_Core_unmap_periph_mem (&m_regs_usec);
   LAB_Core_unmap_periph_mem (&m_regs_pwm);
-  LAB_Core_unmap_periph_mem (&m_clk_regs);
+  LAB_Core_unmap_periph_mem (&m_regs_clk);
   LAB_Core_unmap_periph_mem (&m_regs_spi);
   LAB_Core_unmap_periph_mem (&m_regs_dma);
-  LAB_Core_unmap_periph_mem (&m_gpio_regs);
+  LAB_Core_unmap_periph_mem (&m_regs_gpio);
   
     //if (fifo_name)
         //destroy_fifo(fifo_name, fifo_fd);
@@ -707,14 +707,14 @@ void
 LAB_Core::LAB_Core_gpio_pull (int pin,
                                 int pull)
 {
-  volatile uint32_t *reg = REG32(m_gpio_regs, GPIO_GPPUDCLK0) + pin / 32;
-  *REG32(m_gpio_regs, GPIO_GPPUD) = pull;
+  volatile uint32_t *reg = REG32(m_regs_gpio, GPIO_GPPUDCLK0) + pin / 32;
+  *REG32(m_regs_gpio, GPIO_GPPUD) = pull;
   usleep(2);
   
   *reg = pin << (pin % 32);
   usleep(2);
     
-  *REG32(m_gpio_regs, GPIO_GPPUD) = 0;
+  *REG32(m_regs_gpio, GPIO_GPPUD) = 0;
 
   *reg = 0;
 }
@@ -724,17 +724,17 @@ void LAB_Core::
 gpio_mode (int pin, 
            int mode)
 {
-  volatile uint32_t *reg   = REG32(m_gpio_regs, GPIO_MODE0) + pin / 10, 
+  volatile uint32_t *reg   = REG32(m_regs_gpio, GPIO_MODE0) + pin / 10, 
                      shift = (pin % 10) * 3;
 
-  g_reg_write ((g_reg32 (m_gpio_regs, GPIO_MODE0)) + pin / 10, mode, 7, shift);
+  g_reg_write ((g_reg32 (m_regs_gpio, GPIO_MODE0)) + pin / 10, mode, 7, shift);
 }
 
 // Set an O/P pin
 void 
 LAB_Core::gpio_write(unsigned pin, unsigned value)
 {
-    volatile uint32_t *reg = REG32(m_gpio_regs, val ? GPSET0 : GPCLR0) + pin/32;
+    volatile uint32_t *reg = REG32(m_regs_gpio, val ? GPSET0 : GPCLR0) + pin/32;
     *reg = 1 << (pin % 32);
 }
 
@@ -742,7 +742,7 @@ LAB_Core::gpio_write(unsigned pin, unsigned value)
 uint8_t 
 LAB_Core::gpio_read (int pin)
 {
-  volatile uint32_t *reg = REG32(m_gpio_regs, GPIO_LEV0) + pin/32;
+  volatile uint32_t *reg = REG32(m_regs_gpio, GPIO_LEV0) + pin/32;
   return (((*reg) >> (pin % 32)) & 1);
 }
 
@@ -771,30 +771,30 @@ LAB_Core::pwm_init (int freq,
     // this is how to change PWM clock speed
     int divi = CLOCK_HZ / freq;
 
-    // CLK_PASSWD is "5a" as written on datasheet
+    // CM_PASSWD is "5a" as written on datasheet
     // https://www.scribd.com/doc/127599939/BCM2835-Audio-clocks#download
 
     // max PWM operating frequency is 25MHz as written on datasheet
 
     // 1 << 5 = KILL: kill the clock generator
     // this line stops the clock generator
-    *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | (1 << 5);
+    *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | (1 << 5);
 
     // 1 << 7 = BUSY: Clock generator is running
     // this line waits for BUSY to 0, or for clock generator to stop
-    while (*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) ;
+    while (*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) ;
 
     // divi << 12 = DIVI: Integer part of divisor
     // assign divisor to DIVI field
-    *REG32(m_clk_regs, CLK_PWM_DIV) = CLK_PASSWD | (divi << 12);
+    *REG32(m_regs_clk, CM_PWMDIV) = CM_PASSWD | (divi << 12);
 
     // 1 << 4 = ENAB: Enable the clock generator
     // this line asserts ENAB to enable the clock generator
-    *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | 6 | (1 << 4);
+    *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | 6 | (1 << 4);
 
     // // 1 << 7 = BUSY: Clock generator is running
     // this line waits until BUSY is 1, this means clock generator is running
-    while ((*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) == 0) ;
+    while ((*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) == 0) ;
   #endif
 
 
@@ -832,7 +832,7 @@ LAB_Core::pwm_stop ()
 }
 
 void
-LAB_Core::pwm_set_frequency (float frequency)
+LAB_Core::pwm_frequency (float frequency)
 {
   pwm_stop();
 
@@ -849,30 +849,30 @@ LAB_Core::pwm_set_frequency (float frequency)
   // this is how to change PWM clock speed
   int divi = CLOCK_HZ / m_pwm_frequency;
 
-  // CLK_PASSWD is "5a" as written on datasheet
+  // CM_PASSWD is "5a" as written on datasheet
   // https://www.scribd.com/doc/127599939/BCM2835-Audio-clocks#download
 
   // max PWM operating frequency is 25MHz as written on datasheet
 
   // 1 << 5 = KILL: kill the clock generator
   // this line stops the clock generator
-  *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | (1 << 5);
+  *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | (1 << 5);
 
   // 1 << 7 = BUSY: Clock generator is running
   // this line waits for BUSY to 0, or for clock generator to stop
-  while (*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) ;
+  while (*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) ;
 
   // divi << 12 = DIVI: Integer part of divisor
   // assign divisor to DIVI field
-  *REG32(m_clk_regs, CLK_PWM_DIV) = CLK_PASSWD | (divi << 12);
+  *REG32(m_regs_clk, CM_PWMDIV) = CM_PASSWD | (divi << 12);
 
   // 1 << 4 = ENAB: Enable the clock generator
   // this line asserts ENAB to enable the clock generator
-  *REG32(m_clk_regs, CLK_PWM_CTL) = CLK_PASSWD | 6 | (1 << 4);
+  *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | 6 | (1 << 4);
 
   // // 1 << 7 = BUSY: Clock generator is running
   // this line waits until BUSY is 1, this means clock generator is running
-  while ((*REG32(m_clk_regs, CLK_PWM_CTL) & (1 << 7)) == 0) ;
+  while ((*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) == 0) ;
 
   usleep(1000);
   *REG32(m_regs_pwm, PWM_RNG1) = range;

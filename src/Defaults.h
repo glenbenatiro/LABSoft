@@ -29,6 +29,10 @@ enum WaveType
 };
 
 // General Raspberry Pi
+
+// DMA Channel Use
+constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
+
 constexpr unsigned PI_MAX_GPIO_PINS = 32; 
 
 constexpr int DEBUG = 1;
@@ -252,12 +256,11 @@ struct Channel_Data_Logic_Analyzer
 
 };
 
-constexpr uint32_t  LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE = DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
+constexpr uint32_t  LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
 constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES    = 2000;
 constexpr unsigned  LAB_LOGIC_ANALYZER_SAMPLING_RATE        = 200'000;
 constexpr unsigned  LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE    = 200'000;
 constexpr double    LAB_LOGIC_ANALYZER_SAMPLE_PERIOD        = (1.0 / LAB_LOGIC_ANALYZER_SAMPLING_RATE);
-constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
 constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS   = 8;
 constexpr unsigned  LAB_LOGIC_ANALYZER_SAMPLE_SIZE_BYTES    = 4;  // 4 bytes per sample = 32 bits
 constexpr unsigned  LAB_LOGIC_ANALYZER_BUFFER_LENGTH_BYTES  = LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * LAB_LOGIC_ANALYZER_SAMPLE_SIZE_BYTES;
@@ -268,6 +271,8 @@ constexpr unsigned  LAB_LOGIC_ANALYZER_CHANNELS_GPIO_PINS [LAB_LOGIC_ANALYZER_NU
 
 struct LAB_LOGIC_ANALYZER_DMA_DATA
 {
+  DMA_CB cbs[15];
+  
   uint32_t  samp_size,
             pwm_val;
 

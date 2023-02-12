@@ -15,9 +15,9 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
 {
   m_LAB_Core->map_uncached_mem (&m_uncached_adc_dma_data, LAB_OSCILLOSCOPE_VC_MEM_SIZE);
 
-  m_LAB_Core->dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
-  m_LAB_Core->dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX);
-  m_LAB_Core->dma_stop(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
+  m_LAB_Core->dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  m_LAB_Core->dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX);
+  m_LAB_Core->dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
 
   LAB_OSCILLOSCOPE_DMA_DATA *dp  = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt);
   MemoryMap *mp     = &m_uncached_adc_dma_data;
@@ -29,11 +29,11 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
       // control blocks for SPI_RX dual buffer
       { // CB 0
         DMA_CB_TI_SPI_RX,
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),  
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),  
         Utility::mem_bus_addr (mp, dp->rxd0),       
         (uint32_t)(m_number_of_samples_per_channel*4),  
         0, 
-        CBS (1),
+        Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
       },
       { // CB 1
@@ -42,7 +42,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         Utility::mem_bus_addr (mp, &dp->states[0]),
         4,
         0,
-        CBS (2),
+        Utility::mem_bus_addr (mp, &dp->cbs[2]),
         0
       }, 
       { // CB 2
@@ -51,7 +51,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         Utility::mem_bus_addr (mp, dp->rxd1),       
         (uint32_t)(m_number_of_samples_per_channel*4),  
         0, 
-        CBS (3), 
+        Utility::mem_bus_addr (mp, &dp->cbs[3]), 
         0
       }, 
       { // CB 3
@@ -60,7 +60,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         Utility::mem_bus_addr (mp, &dp->states[1]), 
         4,                                              
         0, 
-        CBS (0), 
+        Utility::mem_bus_addr (mp, &dp->cbs[0]), 
         0
       }, 
 
@@ -72,7 +72,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         Utility::mem_bus_addr (mp, dp->rxd0),       
         (uint32_t)(m_number_of_samples_per_channel*4),  
         0, 
-        CBS (5), 
+        Utility::mem_bus_addr (mp, &dp->cbs[5]), 
         0
       },  
       { // CB 5
@@ -81,7 +81,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         Utility::mem_bus_addr (mp, &dp->states[1]), 
         4,                                              
         0, 
-        CBS (4), 
+        Utility::mem_bus_addr (mp, &dp->cbs[4]), 
         0
       },  
 
@@ -93,7 +93,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 
         8, 
         0, 
-        CBS(6), 
+        Utility::mem_bus_addr (mp, &dp->cbs[6]), 
         0
       }, 
 
@@ -105,7 +105,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
-        CBS(8), 
+        Utility::mem_bus_addr (mp, &dp->cbs[8]), 
         0
       }, 
       { // CB 8
@@ -114,7 +114,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         REG(m_LAB_Core->m_regs_spi, SPI_DLEN), 
         4, 
         0, 
-        CBS(9), 
+        Utility::mem_bus_addr (mp, &dp->cbs[9]), 
         0
       },
       { // CB 9
@@ -123,7 +123,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
         REG(m_LAB_Core->m_regs_spi, SPI_CS),   
         4, 
         0, 
-        CBS(7), 
+        Utility::mem_bus_addr (mp, &dp->cbs[7]), 
         0
       }, 
     },
@@ -300,7 +300,9 @@ sampling_rate (int channel, double value)
   // static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt)->pwm_val = 
   //   (LAB_PWM_FREQUENCY * 2) / value;
 
-  m_LAB_Core->pwm_set_frequency (value);
+  double actual_freq = m_LAB_Core->pwm_frequency (value);
+
+  printf ("actual freq is: %9.9f\n", actual_freq);
 }
 
 void LAB_Oscilloscope:: 

@@ -116,10 +116,10 @@ constexpr int GPIO_PULLUP = 2;
 
 
 // --- Clock ---
-constexpr int CLK_BASE      = (PHYS_REG_BASE + 0x101000);
-constexpr int CLK_PWM_CTL   = 0xa0;
-constexpr int CLK_PWM_DIV   = 0xa4;
-constexpr int CLK_PASSWD    = 0x5a000000;
+constexpr int CM_BASE      = (PHYS_REG_BASE + 0x101000);
+constexpr int CM_PWMCTL   = 0xa0;
+constexpr int CM_PWMDIV   = 0xa4;
+constexpr int CM_PASSWD    = 0x5a000000;
 constexpr int PWM_CLOCK_ID  = 0xa;
 
 
@@ -165,7 +165,7 @@ typedef struct
            blen,        // Buffer length (bytes)
            dlen,        // Data length (bytes)
            uints[32-5]; // Data (108 bytes maximum)
-} VC_MSG __attribute__ ((aligned (16)));
+} AP_VC_MSG __attribute__ ((aligned (16)));
 
 // Videocore mailbox memory allocation flags, see:
 // https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface

@@ -9,9 +9,9 @@ class LAB_Core
   public:
     int m_spi_frequency = LAB_SPI_FREQUENCY;
 
-    MemoryMap m_gpio_regs,
+    MemoryMap m_regs_gpio,
                    m_regs_dma, 
-                   m_clk_regs, 
+                   m_regs_clk, 
                    m_regs_pwm, 
                    m_regs_spi, 
                    m_regs_usec;
@@ -38,11 +38,11 @@ class LAB_Core
     
     // --- Videocore Mailbox ---
     int  	   LAB_Core_mailbox_open        (void);
-    void     LAB_Core_disp_vc_msg      (VC_MSG *msgp);
+    void     LAB_Core_disp_vc_msg      (AP_VC_MSG *msgp);
     void 	   LAB_Core_mailbox_close       (int fd);
     void     LAB_Core_unmap_segment    (void *mem, int  size);
     void*    LAB_Core_lock_vc_mem      (int fd, int h);
-    uint32_t LAB_Core_msg_mbox         (int fd, VC_MSG *msgp);
+    uint32_t LAB_Core_msg_mbox         (int fd, AP_VC_MSG *msgp);
     uint32_t LAB_Core_fset_vc_clock    (int fd, int id, uint32_t freq);
     uint32_t LAB_Core_free_vc_mem      (int fd, int h);
     uint32_t LAB_Core_unlock_vc_mem    (int fd, int h);
@@ -80,7 +80,7 @@ class LAB_Core
     void     pwm_init         (int freq, int range, int val);
     void     pwm_start        ();
     void     pwm_stop         ();
-    void      pwm_set_frequency (float frequency);
+    void      pwm_frequency (float frequency);
 
     // --- FIFO ---
     int      LAB_Core_fifo_create      (const char *fifo_name);
