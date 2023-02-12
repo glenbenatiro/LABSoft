@@ -29,6 +29,7 @@ enum WaveType
 };
 
 // General Raspberry Pi
+constexpr int PWM_CHAN = 1;
 
 // DMA Channel Use
 constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
@@ -37,7 +38,7 @@ constexpr unsigned PI_MAX_GPIO_PINS = 32;
 
 constexpr int DEBUG = 1;
 
-constexpr int LAB_PWM_FREQUENCY     = 20'000'000; // this is to be extracted from 25MHz master clk
+constexpr double LAB_PWM_FREQUENCY  = 20'000'000; // this is to be extracted from 25MHz master clk
 constexpr int LAB_SPI_FREQUENCY     = 1'000'000; // in hz
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 

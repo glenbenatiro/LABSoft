@@ -118,7 +118,6 @@ init_uncached_dma_data ()
 
   std::memcpy (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_dma_data.virt), &dma_data, sizeof (dma_data));
 
-  m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
   *(Utility::get_reg32 (m_LAB_Core->m_regs_pwm, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
 
   sampling_rate (LAB_OSCILLOSCOPE_SAMPLING_RATE);

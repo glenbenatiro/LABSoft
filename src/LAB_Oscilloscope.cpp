@@ -137,20 +137,22 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
     .rxd0      = {0}, 
     .rxd1      = {0},
   };
-
  
   std::memcpy (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt), &adc_dma_data, sizeof (adc_dma_data));
 
-  m_pwm_range       = (LAB_PWM_FREQUENCY * 2) / LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE;
-  m_LAB_Core->pwm_init (LAB_PWM_FREQUENCY, m_pwm_range, PWM_VALUE);   // Initialise PWM, with DMA
+
+
+
   *(Utility::get_reg32 (m_LAB_Core->m_regs_pwm, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB;
   *REG32(m_LAB_Core->m_regs_spi, SPI_DC) = (8<<24) | (1<<16) | (8<<8) | 1;  // Set DMA priorities
   *REG32(m_LAB_Core->m_regs_spi, SPI_CS) = SPI_CS_CLEAR;                    // Clear SPI FIFOs
 
-  sampling_rate (LAB_OSCILLOSCOPE_SAMPLING_RATE);
+  // sampling_rate (LAB_OSCILLOSCOPE_SAMPLING_RATE);
 
   // Clear SPI FIFO
   m_LAB_Core->spi_clear_fifo ();
+
+  m_LAB_Core->pwm_stop ();
 
   m_LAB_Core->dma_start(mp, LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX, &dp->cbs[6], 0);  // Start SPI Tx DMA
   m_LAB_Core->dma_start(mp, LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX, &dp->cbs[0], 0);  // Start SPI Rx DMA
