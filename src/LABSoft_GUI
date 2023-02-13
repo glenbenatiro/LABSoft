@@ -802,8 +802,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Multimeter
-          xywh {0 60 1366 708} hide
+          label Multimeter open
+          xywh {0 60 1366 708}
         } {
           Fl_Output multimeter_fl_output_value {
             xywh {323 245 320 120} textsize 94
@@ -1255,8 +1255,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer} open
-          xywh {0 60 1366 708}
+          label {Logic Analyzer}
+          xywh {0 60 1366 708} hide
         } {
           Fl_Button {} {
             label Single

@@ -75,7 +75,7 @@ init_uncached_dma_data ()
       // CB4
       { 
         DMA_CB_TI_PWM, 
-        MEM(mp, &dp->pwm_val),   
+        MEM(mp, &dp->pwm_data),   
         REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
@@ -99,7 +99,7 @@ init_uncached_dma_data ()
       // CB6
       { 
         DMA_CB_TI_PWM, 
-        MEM(mp, &dp->pwm_val),   
+        MEM(mp, &dp->pwm_data),   
         REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
@@ -109,7 +109,7 @@ init_uncached_dma_data ()
     },
 
     .samp_size = 2, // in number of bytes
-    .pwm_val   = m_pwm_range, 
+    .pwm_data   = m_pwm_range, 
     .usecs     = {0, 0},  
     .states    = {0, 0}, 
     .rxd0      = {0}, 
@@ -146,7 +146,7 @@ sampling_rate (double value)
   // static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt)->pwm_val = 
   //   (LAB_PWM_FREQUENCY * 2) / value;
 
-  m_LAB_Core->pwm_frequency (value);
+  m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
 void LAB_Logic_Analyzer:: 

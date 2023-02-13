@@ -20,7 +20,7 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core)
   m_LAB_Core->dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
 
   LAB_OSCILLOSCOPE_DMA_DATA *dp  = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt);
-  MemoryMap *mp     = &m_uncached_adc_dma_data;
+  MemoryMap *mp                  = &m_uncached_adc_dma_data;
 
   LAB_OSCILLOSCOPE_DMA_DATA adc_dma_data = 
   {
@@ -299,12 +299,7 @@ load_data_samples ()
 void LAB_Oscilloscope:: 
 sampling_rate (int channel, double value)
 {
-  // static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt)->pwm_val = 
-  //   (LAB_PWM_FREQUENCY * 2) / value;
-
-  double actual_freq = m_LAB_Core->pwm_frequency (value);
-
-  printf ("actual freq is: %9.9f\n", actual_freq);
+  double actual_freq = m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
 void LAB_Oscilloscope:: 

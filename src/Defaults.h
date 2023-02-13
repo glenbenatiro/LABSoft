@@ -29,6 +29,9 @@ enum WaveType
 };
 
 // General Raspberry Pi
+constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
+constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
+constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
 constexpr int PWM_CHAN = 1;
 
 // DMA Channel Use
@@ -38,8 +41,7 @@ constexpr unsigned PI_MAX_GPIO_PINS = 32;
 
 constexpr int DEBUG = 1;
 
-constexpr double LAB_PWM_FREQUENCY  = 20'000'000; // this is to be extracted from 25MHz master clk
-constexpr int LAB_SPI_FREQUENCY     = 1'000'000; // in hz
+
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
@@ -275,7 +277,8 @@ struct LAB_LOGIC_ANALYZER_DMA_DATA
   DMA_CB cbs[15];
   
   uint32_t  samp_size,
-            pwm_val;
+            pwm_data,
+            buffer_ok_flag = 0x1;
 
   volatile uint32_t usecs[2],
                     states[2],

@@ -700,7 +700,6 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Multimeter");
-        o->hide();
         { multimeter_fl_output_value = new Fl_Output(323, 245, 320, 120);
           multimeter_fl_output_value->textsize(94);
         } // Fl_Output* multimeter_fl_output_value
@@ -783,6 +782,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Logic Analyzer");
+        o->hide();
         { new Fl_Button(50, 84, 120, 60, "Single");
         } // Fl_Button* o
         { logic_analyzer_fl_light_button_master_run_stop = new Fl_Light_Button(200, 84, 120, 60, "Run");
