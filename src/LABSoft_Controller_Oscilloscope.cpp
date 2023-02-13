@@ -49,8 +49,8 @@ cb_run_stop (Fl_Light_Button *w,
       // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
       //   enable ();
 
-      m_thread_update_display = new std::thread
-        (&LABSoft_Controller_Oscilloscope::update_display, this);
+      // m_thread_update_display = new std::thread
+      //   (&LABSoft_Controller_Oscilloscope::update_display, this);
 
       w->label ("Stop");
     }

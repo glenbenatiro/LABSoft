@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v1.0 Build 1} open
-      xywh {162 212 1366 768} type Double visible
+      xywh {407 172 1366 768} type Double visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
@@ -802,14 +802,14 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Multimeter open
+          label Voltmeter open
           xywh {0 60 1366 708}
         } {
-          Fl_Output multimeter_fl_output_value {
+          Fl_Output voltmeter_fl_output_value {
             xywh {323 245 320 120} textsize 94
           }
-          Fl_Choice multimeter_fl_choice_unit {
-            callback {m_LABSoft_Controller->m_Multimeter.cb_unit (o, v);}
+          Fl_Choice voltmeter_fl_choice_unit {
+            callback {m_LABSoft_Controller->m_Voltmeter.cb_unit (o, v);}
             xywh {723 245 320 120} down_box BORDER_BOX textsize 100
           } {
             MenuItem {} {
@@ -821,34 +821,10 @@ class LABSoft_GUI {open
               xywh {10 10 36 21} labelsize 72
             }
           }
-          Fl_Light_Button multimeter_fl_light_button_run_stop {
+          Fl_Light_Button voltmeter_fl_light_button_run_stop {
             label Run
-            callback {m_LABSoft_Controller->m_Multimeter.cb_run_stop (o, v);}
+            callback {m_LABSoft_Controller->m_Voltmeter.cb_run_stop (o, v);}
             xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
-          }
-          Fl_Light_Button multimeter_fl_light_button_generate_random_values {
-            label {DEBUG: Generate Random Values}
-            callback {m_LABSoft_Controller->m_Multimeter.cb_generate_random_values (o, v);}
-            xywh {1076 658 240 60} labelsize 11 align 16
-          }
-          Fl_Choice multimeter_fl_choice_mode {
-            label Mode
-            callback {m_LABSoft_Controller->m_Multimeter.cb_mode (o, v);}
-            comment {				} open
-            xywh {623 150 120 60} down_box BORDER_BOX align 1
-          } {
-            MenuItem {} {
-              label Voltmeter
-              xywh {0 0 36 21}
-            }
-            MenuItem {} {
-              label Ammeter
-              xywh {10 10 36 21}
-            }
-            MenuItem {} {
-              label Ohmmeter
-              xywh {20 20 36 21}
-            }
           }
         }
         Fl_Group {} {

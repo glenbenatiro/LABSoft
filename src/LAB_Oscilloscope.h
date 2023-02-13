@@ -27,23 +27,27 @@ class LAB_Oscilloscope
 
     Channel_Signals m_channel_signals;
 
-
     // --- functions --- 
     LAB_Oscilloscope  (LAB_Core *_LAB_Core);
    ~LAB_Oscilloscope  ();
 
-    void  run ();
-    void  stop ();   
+    void    run ();
+    void    stop ();   
+    double  time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
+    void    sampling_rate (int channel, double value);
+    void    sampling_rate (double value);
+    void    buffer_switch (int buffer);
+    void    volts_per_division (unsigned channel, double value);
+    void    vertical_offset (unsigned channel, double value);
+    void    load_data_samples ();
+    void    update_dma_data (int osc_disp_mode);
 
-    double time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
+    //
 
-    // this changes PWM speed on board!! 
-    // verify no other are affected
-    void sampling_rate (int channel, double value);
-    void sampling_rate (double value);
-
-    void buffer_switch (int buffer);
-
+    bool is_running ()
+    {
+      return m_is_running;
+    }
 
     void channel_enable (unsigned channel)
     {
@@ -54,20 +58,12 @@ class LAB_Oscilloscope
     {
       m_channel_signals.m_chans[channel].m_is_enabled = false;
     }
-    
-    void volts_per_division (unsigned channel, double value);
-    void vertical_offset (unsigned channel, double value);
 
-    void load_data_samples ();
-
-
-  void display_mode (unsigned channel, int value)
-  {
-    //m_channel_signals.m_chans[channel].osc.
-    m_channel_signals.m_chans[channel].osc.osc_disp_mode = value;
-  }
-
-  void update_dma_data (int osc_disp_mode);
+    void display_mode (unsigned channel, int value)
+    {
+      //m_channel_signals.m_chans[channel].osc.
+      m_channel_signals.m_chans[channel].osc.osc_disp_mode = value;
+    }
 };
 
 #endif

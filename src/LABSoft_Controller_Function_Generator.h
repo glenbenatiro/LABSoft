@@ -1,5 +1,5 @@
-#ifndef LABSOFT_CONTROLLER_MULTIMETER_H
-#define LABSOFT_CONTROLLER_MULTIMETER_H
+#ifndef LABSOFT_CONTROLLER_Voltmeter_H
+#define LABSOFT_CONTROLLER_Voltmeter_H
 
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Input_Choice.H>

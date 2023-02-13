@@ -19,8 +19,8 @@ CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB_Voltmeter.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/Channel_Signals.h
@@ -32,9 +32,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Main.h
-CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
@@ -44,8 +43,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/pugixml.hpp
@@ -59,9 +58,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Main.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
@@ -71,8 +69,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Circuit_Checker.
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/pugixml.hpp
@@ -92,8 +90,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/pugixml.hpp
@@ -113,8 +111,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/L
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LabelValue.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../lib/AikaPi/AikaPi.h
@@ -132,47 +130,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_C
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LabelValue.h
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/Channel_Signals.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/Defaults.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Controller_Main.cpp
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Controller_Main.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_GUI.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LABSoft_Oscilloscope_Display_Group.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_AD9833.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Circuit_Checker.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Core.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Function_Generator.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Multimeter.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LAB_Oscilloscope.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Main.cpp.o: ../src/LabelValue.h
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/Channel_Signals.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/Defaults.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LABSoft_Controller_Multimeter.cpp
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LABSoft_Controller_Multimeter.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LABSoft_GUI.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LABSoft_Oscilloscope_Display_Group.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_AD9833.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_Circuit_Checker.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_Core.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_Function_Generator.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_Multimeter.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LAB_Oscilloscope.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Multimeter.cpp.o: ../src/LabelValue.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Channel_Signals.h
@@ -189,9 +149,28 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Cir
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LabelValue.h
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/Channel_Signals.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/Defaults.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Controller_Voltmeter.cpp
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Oscilloscope_Display_Group.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_AD9833.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Logic_Analyzer.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LabelValue.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/Channel_Signals.h
@@ -201,9 +180,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Main.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -214,8 +192,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/pugixml.hpp
@@ -270,19 +248,17 @@ CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.h
 
-CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o: ../src/Channel_Signals.h
-CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o: ../src/Defaults.h
-CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o: ../src/LAB_Core.h
-CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o: ../src/LAB_Multimeter.cpp
-CMakeFiles/LABSoft.dir/src/LAB_Multimeter.cpp.o: ../src/LAB_Multimeter.h
-
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.h
+
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.cpp
+CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.h
 
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/LabelValue.cpp
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/LabelValue.h
@@ -296,9 +272,8 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Main.h
-CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Multimeter.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Oscilloscope_Display.h
@@ -308,8 +283,8 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Function_Generator.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Multimeter.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/pugiconfig.hpp

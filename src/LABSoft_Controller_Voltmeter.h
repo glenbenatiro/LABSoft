@@ -1,5 +1,5 @@
-#ifndef LABSOFT_CONTROLLER_MULTIMETER
-#define LABSOFT_CONTROLLER_MULTIMETER
+#ifndef LABSOFT_CONTROLLER_Voltmeter
+#define LABSOFT_CONTROLLER_Voltmeter
 
 #include <thread>
 
@@ -11,12 +11,12 @@
 
 //
 
-constexpr double LABSOFT_CONTROLLER_MULTIMETER_UPDATE_RATE = 1; // Hz
-constexpr double LABSOFT_CONTROLLER_MULTIMETER_UPDATE_RATE_MS = (1.0 / LABSOFT_CONTROLLER_MULTIMETER_UPDATE_RATE) * 1000;
+constexpr double LABSOFT_CONTROLLER_Voltmeter_UPDATE_RATE = 1; // Hz
+constexpr double LABSOFT_CONTROLLER_Voltmeter_UPDATE_RATE_MS = (1.0 / LABSOFT_CONTROLLER_Voltmeter_UPDATE_RATE) * 1000;
 
 //
 
-class LABSoft_Controller_Multimeter 
+class LABSoft_Controller_Voltmeter 
 {
   private:
     LAB *m_LAB;
@@ -24,7 +24,7 @@ class LABSoft_Controller_Multimeter
     std::thread m_update, m_random_value_generator;
     
   public:
-    LABSoft_Controller_Multimeter (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    LABSoft_Controller_Voltmeter (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
     // 
     void update ();

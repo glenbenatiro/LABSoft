@@ -266,46 +266,25 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_display_mode[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_multimeter_fl_choice_unit_i(Fl_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Multimeter.cb_unit (o, v);
+void LABSoft_GUI::cb_voltmeter_fl_choice_unit_i(Fl_Choice* o, void* v) {
+  m_LABSoft_Controller->m_Voltmeter.cb_unit (o, v);
 }
-void LABSoft_GUI::cb_multimeter_fl_choice_unit(Fl_Choice* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_multimeter_fl_choice_unit_i(o,v);
+void LABSoft_GUI::cb_voltmeter_fl_choice_unit(Fl_Choice* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_voltmeter_fl_choice_unit_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_multimeter_fl_choice_unit[] = {
+Fl_Menu_Item LABSoft_GUI::menu_voltmeter_fl_choice_unit[] = {
  {"V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 72, 0},
  {"mV", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 72, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_multimeter_fl_light_button_run_stop_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Multimeter.cb_run_stop (o, v);
+void LABSoft_GUI::cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Controller->m_Voltmeter.cb_run_stop (o, v);
 }
-void LABSoft_GUI::cb_multimeter_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_multimeter_fl_light_button_run_stop_i(o,v);
+void LABSoft_GUI::cb_voltmeter_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_voltmeter_fl_light_button_run_stop_i(o,v);
 }
-
-void LABSoft_GUI::cb_multimeter_fl_light_button_generate_random_values_i(Fl_Light_Button* o, void* v) {
-  m_LABSoft_Controller->m_Multimeter.cb_generate_random_values (o, v);
-}
-void LABSoft_GUI::cb_multimeter_fl_light_button_generate_random_values(Fl_Light_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_multimeter_fl_light_button_generate_random_values_i(o,v);
-}
-
-void LABSoft_GUI::cb_multimeter_fl_choice_mode_i(Fl_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Multimeter.cb_mode (o, v);
-}
-void LABSoft_GUI::cb_multimeter_fl_choice_mode(Fl_Choice* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_multimeter_fl_choice_mode_i(o,v);
-}
-
-Fl_Menu_Item LABSoft_GUI::menu_multimeter_fl_choice_mode[] = {
- {"Voltmeter", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"Ammeter", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"Ohmmeter", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {0,0,0,0,0,0,0,0,0}
-};
 
 void LABSoft_GUI::cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button* o, long v) {
   m_LABSoft_Controller->m_Function_Generator.cb_run_stop (o, v);
@@ -699,34 +678,22 @@ LABSoft_GUI::LABSoft_GUI() {
         } // Fl_Group* oscilloscope_fl_group_display
         o->end();
       } // Fl_Group* o
-      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Multimeter");
-        { multimeter_fl_output_value = new Fl_Output(323, 245, 320, 120);
-          multimeter_fl_output_value->textsize(94);
-        } // Fl_Output* multimeter_fl_output_value
-        { multimeter_fl_choice_unit = new Fl_Choice(723, 245, 320, 120);
-          multimeter_fl_choice_unit->down_box(FL_BORDER_BOX);
-          multimeter_fl_choice_unit->textsize(100);
-          multimeter_fl_choice_unit->callback((Fl_Callback*)cb_multimeter_fl_choice_unit);
-          multimeter_fl_choice_unit->menu(menu_multimeter_fl_choice_unit);
-        } // Fl_Choice* multimeter_fl_choice_unit
-        { multimeter_fl_light_button_run_stop = new Fl_Light_Button(383, 400, 600, 60, "Run");
-          multimeter_fl_light_button_run_stop->selection_color((Fl_Color)79);
-          multimeter_fl_light_button_run_stop->labelsize(24);
-          multimeter_fl_light_button_run_stop->callback((Fl_Callback*)cb_multimeter_fl_light_button_run_stop);
-          multimeter_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* multimeter_fl_light_button_run_stop
-        { multimeter_fl_light_button_generate_random_values = new Fl_Light_Button(1076, 658, 240, 60, "DEBUG: Generate Random Values");
-          multimeter_fl_light_button_generate_random_values->labelsize(11);
-          multimeter_fl_light_button_generate_random_values->callback((Fl_Callback*)cb_multimeter_fl_light_button_generate_random_values);
-          multimeter_fl_light_button_generate_random_values->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-        } // Fl_Light_Button* multimeter_fl_light_button_generate_random_values
-        { // 				
-          multimeter_fl_choice_mode = new Fl_Choice(623, 150, 120, 60, "Mode");
-          multimeter_fl_choice_mode->down_box(FL_BORDER_BOX);
-          multimeter_fl_choice_mode->callback((Fl_Callback*)cb_multimeter_fl_choice_mode);
-          multimeter_fl_choice_mode->align(Fl_Align(FL_ALIGN_TOP));
-          multimeter_fl_choice_mode->menu(menu_multimeter_fl_choice_mode);
-        } // Fl_Choice* multimeter_fl_choice_mode
+      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Voltmeter");
+        { voltmeter_fl_output_value = new Fl_Output(323, 245, 320, 120);
+          voltmeter_fl_output_value->textsize(94);
+        } // Fl_Output* voltmeter_fl_output_value
+        { voltmeter_fl_choice_unit = new Fl_Choice(723, 245, 320, 120);
+          voltmeter_fl_choice_unit->down_box(FL_BORDER_BOX);
+          voltmeter_fl_choice_unit->textsize(100);
+          voltmeter_fl_choice_unit->callback((Fl_Callback*)cb_voltmeter_fl_choice_unit);
+          voltmeter_fl_choice_unit->menu(menu_voltmeter_fl_choice_unit);
+        } // Fl_Choice* voltmeter_fl_choice_unit
+        { voltmeter_fl_light_button_run_stop = new Fl_Light_Button(383, 400, 600, 60, "Run");
+          voltmeter_fl_light_button_run_stop->selection_color((Fl_Color)79);
+          voltmeter_fl_light_button_run_stop->labelsize(24);
+          voltmeter_fl_light_button_run_stop->callback((Fl_Callback*)cb_voltmeter_fl_light_button_run_stop);
+          voltmeter_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+        } // Fl_Light_Button* voltmeter_fl_light_button_run_stop
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Function Generator");

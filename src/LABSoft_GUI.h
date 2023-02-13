@@ -95,28 +95,17 @@ public:
   Fl_Group *oscilloscope_fl_group_display;
   Fl_Input_Choice *oscilloscope_fl_input_choice_display_mode;
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_display_mode[];
-  Fl_Output *multimeter_fl_output_value;
-  Fl_Choice *multimeter_fl_choice_unit;
+  Fl_Output *voltmeter_fl_output_value;
+  Fl_Choice *voltmeter_fl_choice_unit;
 private:
-  inline void cb_multimeter_fl_choice_unit_i(Fl_Choice*, void*);
-  static void cb_multimeter_fl_choice_unit(Fl_Choice*, void*);
-  static Fl_Menu_Item menu_multimeter_fl_choice_unit[];
+  inline void cb_voltmeter_fl_choice_unit_i(Fl_Choice*, void*);
+  static void cb_voltmeter_fl_choice_unit(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_voltmeter_fl_choice_unit[];
 public:
-  Fl_Light_Button *multimeter_fl_light_button_run_stop;
+  Fl_Light_Button *voltmeter_fl_light_button_run_stop;
 private:
-  inline void cb_multimeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_multimeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
-public:
-  Fl_Light_Button *multimeter_fl_light_button_generate_random_values;
-private:
-  inline void cb_multimeter_fl_light_button_generate_random_values_i(Fl_Light_Button*, void*);
-  static void cb_multimeter_fl_light_button_generate_random_values(Fl_Light_Button*, void*);
-public:
-  Fl_Choice *multimeter_fl_choice_mode;
-private:
-  inline void cb_multimeter_fl_choice_mode_i(Fl_Choice*, void*);
-  static void cb_multimeter_fl_choice_mode(Fl_Choice*, void*);
-  static Fl_Menu_Item menu_multimeter_fl_choice_mode[];
+  inline void cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_voltmeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
   Fl_Light_Button *function_generator_fl_light_button_run_stop;
 private:
