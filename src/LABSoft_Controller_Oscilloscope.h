@@ -20,7 +20,6 @@ class LABSoft_Controller_Oscilloscope
     std::thread *m_thread_update_display;
 
     LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
-    void update_display ();
     
     // callback functions
     void cb_run_stop (Fl_Light_Button *w, void *data);

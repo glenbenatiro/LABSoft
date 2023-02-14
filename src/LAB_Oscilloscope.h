@@ -33,8 +33,7 @@ class LAB_Oscilloscope
 
     void    run ();
     void    stop ();   
-    double  time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols);
-    void    sampling_rate (int channel, double value);
+    double  time_per_division (double value, unsigned osc_disp_num_cols);
     void    sampling_rate (double value);
     void    buffer_switch (int buffer);
     void    volts_per_division (unsigned channel, double value);

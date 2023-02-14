@@ -98,15 +98,12 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
 
       if (osc->time_per_division < LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
       {
-        // double volt_samp_x_off = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES -
-        //   osc->samples) / 2;
-      
         double volt_samp_x_off = 0;
 
         if (osc->samples > w ())
         {
-          double sample_skip = static_cast<double>(osc->samples - 1) / 
-          static_cast<double>(w () - 1);
+          double sample_skip = static_cast<double>(osc->samples - 1.0) / 
+          static_cast<double>(w () - 1.0);
                   
           for (int b = 0; b < w (); b++)
           {
@@ -147,9 +144,7 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
         else // osc->samples < w ()
         { 
           double x_pixel_scaler = ((static_cast<double>(w ()) - 1.0) / 
-            (static_cast<double>(osc->samples) - 1.0));
-
-          // printf ("x_pixel_scaler: %9.9f\n", x_pixel_scaler);
+            (osc->samples - 1.0));
 
           for (int b = 0; b < osc->samples; b++)
           {

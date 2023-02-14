@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v1.0 Build 1} open
-      xywh {407 172 1366 768} type Double visible
+      xywh {0 0 1366 768} type Double visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
@@ -806,7 +806,8 @@ class LABSoft_GUI {open
           xywh {0 60 1366 708}
         } {
           Fl_Output voltmeter_fl_output_value {
-            xywh {323 245 320 120} textsize 94
+            xywh {323 245 320 120} align 8 textsize 94
+            code0 {voltmeter_fl_output_value->value (LABSOFT_VOLTMETER_FL_OUTPUT_VALUE_LABEL);}
           }
           Fl_Choice voltmeter_fl_choice_unit {
             callback {m_LABSoft_Controller->m_Voltmeter.cb_unit (o, v);}

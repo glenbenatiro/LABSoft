@@ -1,6 +1,7 @@
 #include "LABSoft_Controller.h"
 
 #include <iostream>
+#include <cstdio>
 
 #include <FL/Fl.H>
 
@@ -32,9 +33,9 @@ void LABSoft_Controller::
 update_display (void *data)
 {
   // calculate wait duration
-  post = std::chrono::steady_clock::now ();
-  std::chrono::duration<double, std::milli> diff = post - pre;
-  printf ("Duration: %6.3f ms\n", diff.count ());
+  //post = std::chrono::steady_clock::now ();
+  //std::chrono::duration<double, std::milli> diff = post - pre;
+  //printf ("Duration: %6.3f ms\n", diff.count ());
 
   // do stuff
   LAB *lab          = (static_cast<LAB_PACK *>(data))->_LAB;
@@ -42,7 +43,7 @@ update_display (void *data)
 
   if (lab->m_Oscilloscope->is_running ())
   {
-    printf ("osc running\n");
+    //printf ("osc running\n");
 
     lab->m_Oscilloscope->load_data_samples ();
 
@@ -54,8 +55,18 @@ update_display (void *data)
     Fl::awake ();
   }
 
+  if (lab->m_Voltmeter->is_running ())
+  {
+    double reading = lab->m_Voltmeter->get_data_sample ();
+
+    char label[15];
+    sprintf (label, "a");
+
+    gui->voltmeter_fl_output_value->label (label);
+  }
+  
   // store time before timeout
-  pre = std::chrono::steady_clock::now ();
+  //pre = std::chrono::steady_clock::now ();
 
   // loop call timeout
   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, update_display, data);  

@@ -20,7 +20,7 @@ struct multimeter
 
 struct Channel_Signal_Oscilloscope 
 {
-  int_fast16_t samples      = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
+  double samples            = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
   double sampling_rate      = LAB_OSCILLOSCOPE_SAMPLING_RATE;
   double sampling_period    = 1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE;
   double volts_per_division = CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION;

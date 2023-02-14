@@ -95,8 +95,8 @@ update_display ()
     // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();
     // Fl::awake ();
 
-    std::this_thread::sleep_for (std::chrono::milliseconds 
-      (DISPLAY_UPDATE_SLEEP_TIME_MS));
+    // std::this_thread::sleep_for (std::chrono::milliseconds 
+    //   (DISPLAY_UPDATE_SLEEP_TIME_MS));
 
     // auto end = std::chrono::steady_clock::now ();
 

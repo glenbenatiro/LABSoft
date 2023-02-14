@@ -6,6 +6,8 @@
 #include <cmath>
 #include <array>
 
+// --- Enums ---
+
 enum BUFFER_SWITCH
 {
   SINGLE_BUFFER,
@@ -28,32 +30,21 @@ enum WaveType
   DC
 };
 
+// ---
+
 // General Raspberry Pi
 constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
 constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
 constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
 constexpr int PWM_CHAN = 1;
-
-// DMA Channel Use
-constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
-
 constexpr unsigned PI_MAX_GPIO_PINS = 32; 
-
 constexpr int DEBUG = 1;
-
-
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
-constexpr int DISPLAY_UPDATE_SLEEP_TIME_MS = 38; // in milliseconds. ideally 40, but 38 to make room for overhead
-
-// DMA Channels
-
-
-// General LAB
-#define RANDOM_VALUE_GENERATOR_WAIT_MS  5
-#define PRE_FL_AWAKE_SLEEP_MS  10
+// DMA Channel Use
+constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
 
 // Channel_Signals
 
@@ -129,7 +120,6 @@ constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_PADDING = 20;
 constexpr double LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_VOLTAGE_PER_DIVISION = 1.0; // volts
 constexpr unsigned LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_COLOR_WHITE = 255;
 
-
 // LABSoft Oscilloscope Display
 constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS;
 constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS  = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS;
@@ -170,7 +160,7 @@ static std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS>
 
 constexpr int     LAB_OSCILLOSCOPE_ADC_CE                 = 0; // CE0 or CE1
 
-constexpr double LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_SCREEN_MODE = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS;
+constexpr double LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS;
 
 constexpr int     LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS      = 12;
 constexpr int     LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT       = std::pow (2, LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS);
@@ -196,20 +186,14 @@ constexpr const char* LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION = "1 ms/div";
 
 
 // LAB Oscilloscope
-constexpr double  LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM      = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / (LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+constexpr double  LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM = 
+  (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / (LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * 
+    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 
 
+// LAB Voltmeter
+constexpr const char *LABSOFT_VOLTMETER_FL_OUTPUT_VALUE_LABEL = "0";
 
-
-
-
-
-
-
-// LAB Oscilloscope
-
-
-// LAB Meter
 #define LAB_METER_VALUE 0.0
 #define LAB_METER_UNIT_SCALER 1.0
 
@@ -298,6 +282,6 @@ constexpr const char* LABSOFT_LOGIC_ANALYZER_SAMPLE_RATE      = "1 kHz";
 constexpr const char* LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON = "1 ms/div";
 constexpr const char* LABSOFT_LOGIC_ANALYZER_POSITION         = " 0 s";
 
-
-
 #endif
+
+// EOF

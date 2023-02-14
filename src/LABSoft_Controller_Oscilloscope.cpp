@@ -36,22 +36,12 @@ cb_run_stop (Fl_Light_Button *w,
       // backend
       m_LAB->m_Oscilloscope->stop ();
 
-      // frontend
-      // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      //   disable ();
-
       w->label ("Run");
     }
   else 
     {
       m_LAB->m_Oscilloscope->run ();
       
-      // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      //   enable ();
-
-      // m_thread_update_display = new std::thread
-      //   (&LABSoft_Controller_Oscilloscope::update_display, this);
-
       w->label ("Stop");
     }
 }
@@ -104,33 +94,6 @@ cb_x_offset (Fl_Input_Choice *w,
     update_time_per_division_labels ();
 }
 
-
-void LABSoft_Controller_Oscilloscope:: 
-update_display ()
-{
-  while (m_LAB->m_Oscilloscope->m_is_running) 
-  {
-    // auto start = std::chrono::steady_clock::now ();
-
-    m_LAB->m_Oscilloscope->load_data_samples ();
-
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-     load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
-
-    // draw signals
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();
-    Fl::awake ();
-
-    std::this_thread::sleep_for (std::chrono::milliseconds 
-      (DISPLAY_UPDATE_SLEEP_TIME_MS));
-
-    // auto end = std::chrono::steady_clock::now ();
-
-    // std::chrono::duration<double, std::milli> elapsed = end - start;
-    // std::cout << "Duration: " << elapsed.count () << " ms\n";
-  }
-}
-
 void LABSoft_Controller_Oscilloscope::
 cb_volts_per_division (Fl_Input_Choice *w, 
                        long             channel)
@@ -161,14 +124,14 @@ cb_time_per_division (Fl_Input_Choice *w,
 {
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Oscilloscope->time_per_division (static_cast<unsigned>(channel),
-    _LabelValue.actual_value (), LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+  m_LAB->m_Oscilloscope->time_per_division (_LabelValue.actual_value (), 
+    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
 
   char text[50];
-  sprintf (text, "%d samples at %9.9f Hz", m_LAB->m_Oscilloscope->
+  sprintf (text, "%9.0f samples at %9.12f Hz", m_LAB->m_Oscilloscope->
     m_channel_signals.m_chans[0].osc.samples, m_LAB->m_Oscilloscope->
     m_channel_signals.m_chans[0].osc.sampling_rate);
 

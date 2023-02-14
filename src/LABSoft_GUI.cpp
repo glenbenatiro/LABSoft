@@ -681,6 +681,8 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Voltmeter");
         { voltmeter_fl_output_value = new Fl_Output(323, 245, 320, 120);
           voltmeter_fl_output_value->textsize(94);
+          voltmeter_fl_output_value->align(Fl_Align(FL_ALIGN_RIGHT));
+          voltmeter_fl_output_value->value (LABSOFT_VOLTMETER_FL_OUTPUT_VALUE_LABEL);
         } // Fl_Output* voltmeter_fl_output_value
         { voltmeter_fl_choice_unit = new Fl_Choice(723, 245, 320, 120);
           voltmeter_fl_choice_unit->down_box(FL_BORDER_BOX);

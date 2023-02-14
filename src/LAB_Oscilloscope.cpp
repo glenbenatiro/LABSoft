@@ -198,8 +198,6 @@ vertical_offset (unsigned channel, double value)
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
-  // auto start = std::chrono::steady_clock::now ();
-
   uint32_t raw_data_buffer [LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
   LAB_OSCILLOSCOPE_DMA_DATA *dp = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt);
 
@@ -297,24 +295,15 @@ load_data_samples ()
 // this changes PWM speed on board!! 
 // verify no other are affected
 void LAB_Oscilloscope:: 
-sampling_rate (int channel, double value)
+sampling_rate (double value)
 {
   double actual_freq = m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
-void LAB_Oscilloscope:: 
-sampling_rate (double value)
-{
-  for (int a = 0; a < LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS; a++)
-  {
-    sampling_rate (a, value);
-  }
-}
-
 double LAB_Oscilloscope:: 
-time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
+time_per_division (double value, unsigned osc_disp_num_cols)
 {
-  Channel_Signal_Oscilloscope *osc = &(m_channel_signals.m_chans[channel].osc);
+  Channel_Signal_Oscilloscope *osc = &(m_channel_signals.m_chans[0].osc);
 
   if (osc->time_per_division != value)
   {
@@ -324,7 +313,7 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
     double  new_samples;
     double  new_sampling_rate;
 
-    // 1. Calculate the new count of active samples
+    // 1. Calculate the new count of samples
     if (value >= LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
     {
       new_samples = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
@@ -333,7 +322,7 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
     {
       new_samples = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * osc_disp_num_cols *
         value;
-    }    
+    }   
 
     // 2. Calculate the new sampling rate
     if (value <= LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
@@ -342,15 +331,12 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
     }
     else 
     {
-      new_sampling_rate = flag ? LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE:
-        ((new_samples) / (value * osc_disp_num_cols));
+      new_sampling_rate = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES / (value *
+        osc_disp_num_cols);
     }
-    
-    // 3. Set new values
-    osc->time_per_division  = value;
-    osc->samples            = new_samples;
 
-    if (value >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_SCREEN_MODE)
+    // 3. Change the oscilloscope display mode if necessary
+    if (value >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN)
     {
       if (osc->osc_disp_mode != OSC_DISP_MODE_SCREEN)
       {
@@ -366,12 +352,29 @@ time_per_division (unsigned channel, double value, unsigned osc_disp_num_cols)
         buffer_switch (DOUBLE_BUFFER);
       }
     }
-    
+
+    // 4. If new sample rate is different from current sample rate, change
+    //    hardware sampling rate (PWM pacing)
     if (osc->sampling_rate != new_sampling_rate)
     {
-      osc->sampling_rate = new_sampling_rate;
-      sampling_rate (channel, new_sampling_rate); 
+      flag = true;
+      sampling_rate (new_sampling_rate); 
     }
+
+    // 5. Set the new time per division, sample count, and sampling rate values 
+    //    to all channel data
+    for (int a = 0; a < LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS; a++)
+    {
+      Channel_Signal_Oscilloscope *osc = &(m_channel_signals.m_chans[a].osc);
+
+      osc->time_per_division  = value;
+      osc->samples            = new_samples;
+
+      if (flag)
+      {
+        osc->sampling_rate = new_sampling_rate;
+      }
+    }  
 
     m_LAB_Core->dma_play (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
   }
