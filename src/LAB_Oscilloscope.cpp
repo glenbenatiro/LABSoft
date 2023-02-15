@@ -1,18 +1,21 @@
 #include "LAB_Oscilloscope.h"
+#include "LAB.h"
 
-#include <cstdio>
 #include <cstring>
-#include <bitset>
-#include <iostream>
-#include <algorithm>
 
-#include "Defaults.h"
+// #include <cstdio>
+// 
+// #include <bitset>
+// #include <iostream>
+// #include <algorithm>
 
 LAB_Oscilloscope::
-LAB_Oscilloscope (LAB_Core *_LAB_Core) 
-  : m_LAB_Core (_LAB_Core),
-    m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES, 0)
+LAB_Oscilloscope (LAB_Core *_LAB_Core, LAB *_LAB) 
+: m_channel_signals (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES, 0)
 {
+  m_LAB_Core = _LAB_Core;
+  m_LAB = _LAB;
+
   m_LAB_Core->map_uncached_mem (&m_uncached_adc_dma_data, LAB_OSCILLOSCOPE_VC_MEM_SIZE);
 
   m_LAB_Core->dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);

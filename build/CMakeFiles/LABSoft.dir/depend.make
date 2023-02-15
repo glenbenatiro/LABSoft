@@ -226,9 +226,17 @@ CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_Core.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/Channel_Signals.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/Defaults.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Logic_Analyzer.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../src/LAB_Voltmeter.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o: ../src/LAB_Core.cpp
@@ -251,9 +259,15 @@ CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Defaults.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_AD9833.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Circuit_Checker.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB_Voltmeter.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/Channel_Signals.h

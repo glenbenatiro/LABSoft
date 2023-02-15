@@ -33,7 +33,7 @@ cb_master_run_stop (Fl_Light_Button *w,
 {
   if (w->value () == 1)
   {
-    m_LAB->m_Logic_Analyzer->master_run ();
+    m_LAB->m_Logic_Analyzer.master_run ();
 
     m_thread_update_display = new std::thread
         (&LABSoft_Controller_Logic_Analyzer::update_display, this);
@@ -42,7 +42,7 @@ cb_master_run_stop (Fl_Light_Button *w,
   }
   else 
   {
-    m_LAB->m_Logic_Analyzer->master_stop ();
+    m_LAB->m_Logic_Analyzer.master_stop ();
 
     w->label ("Run");
   }
@@ -81,12 +81,12 @@ cb_position (Fl_Input_Choice *w,
 void LABSoft_Controller_Logic_Analyzer:: 
 update_display ()
 {
-  while (m_LAB->m_Logic_Analyzer->is_running ()) 
+  while (m_LAB->m_Logic_Analyzer.is_running ()) 
   {
     // auto start = std::chrono::steady_clock::now ();
     printf (".\n");
 
-    m_LAB->m_Logic_Analyzer->load_data_samples ();
+    m_LAB->m_Logic_Analyzer.load_data_samples ();
 
     // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     //  load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));

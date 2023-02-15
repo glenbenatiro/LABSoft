@@ -4,10 +4,13 @@
 #include "LAB_Core.h"
 #include "Channel_Signals.h"
 
+// forward declare LAB, include LAB.h in cpp file
+class LAB;
+
 class LAB_Oscilloscope 
 {
   private:
-
+    LAB      *m_LAB;
     LAB_Core *m_LAB_Core;
     MemoryMap m_uncached_adc_dma_data;
 
@@ -29,7 +32,7 @@ class LAB_Oscilloscope
     Channel_Signals m_channel_signals;
 
     // --- functions --- 
-    LAB_Oscilloscope  (LAB_Core *_LAB_Core);
+    LAB_Oscilloscope  (LAB_Core *_LAB_Core, LAB *_LAB);
    ~LAB_Oscilloscope  ();
 
     void    run ();

@@ -41,14 +41,14 @@ update_display (void *data)
   LAB *lab          = (static_cast<LAB_PACK *>(data))->_LAB;
   LABSoft_GUI *gui  = (static_cast<LAB_PACK *>(data))->_LABSoft_GUI;
 
-  if (lab->m_Oscilloscope->is_master_running ())
+  if (lab->m_Oscilloscope.is_master_running ())
   {
     //printf ("osc running\n");
 
-    lab->m_Oscilloscope->load_data_samples ();
+    lab->m_Oscilloscope.load_data_samples ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
-     load_channel_signals (&(lab->m_Oscilloscope->m_channel_signals));
+     load_channel_signals (&(lab->m_Oscilloscope.m_channel_signals));
 
     // draw signals
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();

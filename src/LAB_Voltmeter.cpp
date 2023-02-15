@@ -12,7 +12,7 @@ LAB_Voltmeter::LAB_Voltmeter (LAB_Core *_LAB_Core, LAB *_LAB)
 void LAB_Voltmeter:: 
 run ()
 {
-  if (m_LAB->m_Oscilloscope->m_is_master_running)
+  if (m_LAB->m_Oscilloscope.m_is_master_running)
   {
     printf ("I cant run, oscilloscope is running!\n");
   }

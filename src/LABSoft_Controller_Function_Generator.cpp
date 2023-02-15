@@ -18,11 +18,11 @@ cb_run_stop (Fl_Light_Button *w,
 
   if (w->value () == 0)
   {
-    m_LAB->m_Function_Generator->stop (channel);
+    m_LAB->m_Function_Generator.stop (channel);
   }
   else
   {
-    m_LAB->m_Function_Generator->start (channel);
+    m_LAB->m_Function_Generator.start (channel);
   }
 }
 
@@ -50,7 +50,7 @@ cb_wave_type (Fl_Input_Choice *w,
   else 
     wave_type = SINE;
 
-  m_LAB->m_Function_Generator->wave_type (channel, wave_type);
+  m_LAB->m_Function_Generator.wave_type (channel, wave_type);
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -60,7 +60,7 @@ cb_frequency (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator->frequency (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.frequency (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -70,7 +70,7 @@ cb_period (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator->period (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.period (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -80,7 +80,7 @@ cb_amplitude (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator->amplitude (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.amplitude (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -90,7 +90,7 @@ cb_offset (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator->offset (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.offset (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -100,7 +100,7 @@ cb_duty_cycle (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator->duty_cycle (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.duty_cycle (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -110,7 +110,7 @@ cb_phase (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator->phase (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.phase (channel, _LabelValue.actual_value ());
 }
 
 // EOF
