@@ -31,9 +31,12 @@ struct Channel_Signal_Oscilloscope
   double  horizontal_offset = 0.0;
 
   std::vector<std::vector<int>> pixel_points;
-  std::vector<double>         voltage_samples;
+  std::vector<double>           voltage_samples;
 
   int osc_disp_mode = OSC_DISP_MODE_REPEATED;
+
+  // tiny section for voltmeter XD
+  LE_UNIT_PREFIX_EXP voltmeter_unit = LE_UNIT_PREFIX_EXP_NONE;
 };
 
 class Channel_Signal

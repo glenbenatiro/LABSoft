@@ -68,13 +68,9 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  update_time_per_division_labels ();
     void  hide_volts_per_division_labels (unsigned channel);
     void  show_volts_per_division_labels (unsigned channel);
-    void  update_upper_osc_disp_info (const char *text);
-
- 
+    void  update_upper_osc_disp_info (const char *text); 
     void volts_per_division (int channel, double value);
-    
     void vertical_offset (int channel, LabelValue _LabelValue);
-
     void time_per_division (int channel, double value);
     
 

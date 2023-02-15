@@ -12,26 +12,46 @@ LAB_Voltmeter::LAB_Voltmeter (LAB_Core *_LAB_Core, LAB *_LAB)
 void LAB_Voltmeter:: 
 run ()
 {
-  if (m_LAB->m_Oscilloscope.m_is_master_running)
+  LAB_Oscilloscope *osc = &(m_LAB->m_Oscilloscope);
+
+  if (osc->is_osc_front_running ())
   {
-    printf ("I cant run, oscilloscope is running!\n");
+    osc->stop_osc_front ();
   }
-  else 
+
+  if (!(osc->is_osc_core_running ()))
   {
-    printf ("I can run, oscilloscope is not running!\n");
+    osc->run_osc_core ();
   }
+
+  m_is_running = true; 
 }
 
 void LAB_Voltmeter:: 
 stop ()
 {
-  
+  m_LAB->m_Oscilloscope.stop_osc_core ();
+
+  m_is_running = false;
 }
 
 double LAB_Voltmeter:: 
-get_data_sample ()
+get_data_sample (unsigned channel)
 {
-  double data;
+  Channel_Signal_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.
+    channel_signals ()->m_chans[channel].osc);
+  
+  double sample = osc->voltage_samples[13]; 
+  double scaler = std::pow (10, static_cast<int>(osc->voltmeter_unit));
+  double scaled_samp = sample * scaler;
 
-  return data;
+  return (sample * scaler);
+}
+
+void LAB_Voltmeter:: 
+unit (unsigned       channel, 
+      LE_UNIT_PREFIX_EXP _LE_UNIT_PREFIX_EXP)
+{
+  m_LAB->m_Oscilloscope.channel_signals ()->m_chans[channel].osc.
+    voltmeter_unit = _LE_UNIT_PREFIX_EXP;
 }

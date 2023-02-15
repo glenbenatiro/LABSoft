@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v1.0 Build 1} open
-      xywh {0 0 1366 768} type Double visible
+      xywh {1954 57 1366 768} type Double visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
@@ -54,10 +54,10 @@ class LABSoft_GUI {open
           label Oscilloscope
           xywh {0 60 1366 708} hide
         } {
-          Fl_Light_Button oscilloscope_fl_light_button_run_stop {
+          Fl_Button oscilloscope_fl_button_run_stop {
             label Run
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
-            xywh {1205 80 120 60} align 16
+            xywh {1205 80 120 60}
           }
           Fl_Button oscilloscope_fl_button_single {
             label Single
@@ -69,7 +69,7 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_test (o, v);}
             xywh {1205 240 120 60} align 16
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
             xywh {24 84 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
@@ -805,27 +805,28 @@ class LABSoft_GUI {open
           label Voltmeter open
           xywh {0 60 1366 708}
         } {
-          Fl_Output voltmeter_fl_output_value {
-            xywh {323 245 320 120} align 8 textsize 94
-            code0 {voltmeter_fl_output_value->value (LABSOFT_VOLTMETER_FL_OUTPUT_VALUE_LABEL);}
+          Fl_Box {} {
+            label {Channel 1}
+            xywh {440 250 35 17} labelsize 18
           }
-          Fl_Choice voltmeter_fl_choice_unit {
-            callback {m_LABSoft_Controller->m_Voltmeter.cb_unit (o, v);}
-            xywh {723 245 320 120} down_box BORDER_BOX textsize 100
-          } {
-            MenuItem {} {
-              label V
-              xywh {0 0 36 21} labelsize 72
-            }
-            MenuItem {} {
-              label mV
-              xywh {10 10 36 21} labelsize 72
-            }
+          Fl_Output voltmeter_fl_output_chan1_value {
+            label DC
+            user_data 1 user_data_type long
+            xywh {300 280 320 60} labelsize 18 textsize 48
           }
-          Fl_Light_Button voltmeter_fl_light_button_run_stop {
+          Fl_Box {} {
+            label {Channel 2}
+            xywh {915 250 35 17} labelsize 18
+          }
+          Fl_Output voltmeter_fl_output_chan2_value {
+            label DC
+            user_data 2 user_data_type long
+            xywh {770 280 320 60} labelsize 24 textsize 48
+          }
+          Fl_Button voltmeter_fl_button_run_stop {
             label Run
             callback {m_LABSoft_Controller->m_Voltmeter.cb_run_stop (o, v);}
-            xywh {383 400 600 60} selection_color 79 labelsize 24 align 16
+            xywh {533 450 300 60} labelsize 28
           }
         }
         Fl_Group {} {

@@ -2,7 +2,7 @@
 #define LABSOFT_CONTROLLER_Voltmeter
 
 #include <FL/Fl_Choice.H>
-#include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Button.H>
 
 #include "LAB.h"
 #include "LABSoft_GUI.h"
@@ -17,8 +17,8 @@ class LABSoft_Controller_Voltmeter
     LABSoft_Controller_Voltmeter (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
     // callback functions
-    void cb_unit      (Fl_Choice *w, void *data);
-    void cb_run_stop  (Fl_Light_Button *w, void *data);
+    void cb_unit      (Fl_Choice *w, long data);
+    void cb_run_stop  (Fl_Button *w, void *data);
 };
 
 #endif

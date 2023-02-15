@@ -189,21 +189,21 @@ update_time_per_division_labels ()
 {
   if (m_channel_signals)
   {
-    char label[15];
-
-    Channel_Signal *chn = &(m_channel_signals->m_chans[0]);
-
-    LabelValue _LabelValue (chn->osc.time_per_division + chn->osc.horizontal_offset);
-
-    for (int a = 0; a < (m_number_of_columns + 1); a++)
+    Channel_Signal_Oscilloscope *chan = &(m_channel_signals->m_chans[0].osc);
+    
+    for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS + 1);
+      a++)
     {
-      int value_label = (a + ((m_number_of_rows / 2) * -1)) * 
-        _LabelValue.coefficient ();
-          
-      sprintf (label, "%3d %cs", value_label, _LabelValue.unit_prefix ());
-
-      m_x_labels[a]->copy_label (label);
-      m_x_labels[a]->labelcolor(m_default_label_color);
+      double col_time_per_div_value = (a + 
+        ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) * -1)) * 
+          chan->time_per_division;
+    
+      LabelValue _LabelValue (col_time_per_div_value + chan->horizontal_offset,
+        LE_UNIT_VOLT);
+      
+      m_x_labels[a]->copy_label (_LabelValue.to_label_text ().c_str ());
+      
+      m_x_labels[a]->labelcolor (m_default_label_color);
     }
   }
 }

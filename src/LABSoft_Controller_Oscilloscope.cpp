@@ -26,22 +26,22 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-cb_run_stop (Fl_Light_Button *w, 
-             void            *data)
+cb_run_stop (Fl_Button *w, 
+             void      *data)
 {
-  if (w->value () == 0)
-    {
-      // backend
-      m_LAB->m_Oscilloscope.stop ();
-
-      w->label ("Run");
-    }
-  else 
-    {
-      m_LAB->m_Oscilloscope.run ();
+  if (m_LAB->m_Oscilloscope.is_running ())
+  {
+    m_LAB->m_Oscilloscope.stop ();
       
-      w->label ("Stop");
-    }
+    w->label ("Run");
+  }
+  else 
+  { 
+    m_LAB->m_Oscilloscope.run ();
+      
+    w->label ("Stop");
+    m_LABSoft_GUI->voltmeter_fl_button_run_stop->label ("Run");
+  }
 }
 
 void LABSoft_Controller_Oscilloscope::

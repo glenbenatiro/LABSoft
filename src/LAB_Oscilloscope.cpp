@@ -171,32 +171,21 @@ LAB_Oscilloscope::~LAB_Oscilloscope ()
   m_LAB_Core->unmap_periph_mem (&m_uncached_adc_dma_data);
 }
 
-void LAB_Oscilloscope::
+void LAB_Oscilloscope:: 
 run ()
 {
-  run_osc_core ();
-  m_is_master_running = true;
+  if (m_LAB->m_Voltmeter.is_running ())
+  {
+    m_LAB->m_Voltmeter.stop ();
+  }
+
+  run_master ();
 }
 
-void LAB_Oscilloscope::
+void LAB_Oscilloscope:: 
 stop ()
 {
-  stop_osc_core ();
-  m_is_master_running = false;
-}
-
-void LAB_Oscilloscope:: 
-run_osc_core ()
-{
-  m_LAB_Core->pwm_start ();
-  m_is_osc_core_running = true;
-}
-
-void LAB_Oscilloscope:: 
-stop_osc_core ()
-{
-  m_LAB_Core->pwm_stop ();
-  m_is_osc_core_running = true;
+  stop_master ();
 }
 
 void LAB_Oscilloscope:: 

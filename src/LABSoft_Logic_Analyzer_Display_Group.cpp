@@ -136,7 +136,7 @@ update_time_per_division_labels ()
   for (int a = 0; a <= m_x_labels.size (); a++)
   {
     double temp = m_position + (m_time_per_division * (a - (m_graph_number_of_columns / 2)));
-    m_x_labels[a]->copy_label ((LabelValue::label_text (temp, TIME_PER_DIVISION)).c_str());
+    // m_x_labels[a]->copy_label ((LabelValue::label_text (temp, LE_LABEL_TYPE_TIME_PER_DIVISION)).c_str());
   }
 }
 

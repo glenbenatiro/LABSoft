@@ -283,6 +283,8 @@ CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o
+ /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LabelValue.cpp
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o

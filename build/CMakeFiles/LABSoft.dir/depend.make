@@ -282,6 +282,8 @@ CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o: ../src/LAB_Voltmeter.h
 
+CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/LabelValue.cpp
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/LabelValue.h
 

@@ -1,41 +1,53 @@
-#ifndef LabelValue_H
-#define LabelValue_H
+#ifndef LABELVALUE_H
+#define LABELVALUE_H
 
 #include <string>
 
-enum LABEL_TYPE
-{
-  VOLTS_PER_DIVISION = 0,
-  TIME_PER_DIVISION  = 1
-};
+#include "Defaults.h"
 
 class LabelValue
 {
   private:
-    int     m_exponent;
-    float   m_coefficient;
-    
-    char    m_unit_prefix;
-
-    double  m_actual_value;
+    double  m_actual_value  = 0.0;
+    double  m_coefficient   = 0.0; 
+    int     m_exponent      = 0;  
+    char    m_unit_prefix   = ' ';
+    char    m_unit          = 'V';
 
   public:
     LabelValue (const char *label);
-    LabelValue (double value);
-    
-    int     exponent    ();
-    int     exponent    (char m_unit_prefix);
+    LabelValue (double value, LE_UNIT unit = LE_UNIT_NONE);
 
-    char    unit_prefix ();
-    char    unit_prefix (char unit_prefix);
-    char    unit_prefix (int exponent);
+    void    exp_notation      (double actual_value, double *coefficient, int *exponent);
+    double  get_actual_value  (double coefficient, int exponent);
+    int     get_exponent      (char unit_prefix);
+    int     get_unit_prefix   (char *unit_string, char *unit_prefix);
+    char    get_unit_prefix   (int exponent);
+    char    get_unit          (LE_UNIT unit);
 
-    float   coefficient ();
-    float   short_value ();
-    
-    double  actual_value                ();
+    std::string to_label_text ();
 
-    static std::string label_text (double value, LABEL_TYPE _LABEL_TYPE);
+    //
+
+    double actual_value ()
+    {
+      return (m_actual_value);
+    }
+
+    double coefficient ()
+    {
+      return (m_coefficient);
+    }
+
+    int exponent ()
+    {
+      return (m_exponent);
+    }
+
+    char unit_prefix ()
+    {
+      return (m_unit_prefix);
+    }   
 };
 
 #endif

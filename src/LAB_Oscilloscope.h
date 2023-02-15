@@ -18,8 +18,8 @@ class LAB_Oscilloscope
     
     double usec_start = 0;
 
-    bool m_is_master_running = false,
-         m_is_osc_core_running = false;
+    bool  m_is_osc_front_running = false,
+          m_is_osc_core_running  = false;
 
     int   m_number_of_channels            = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
           m_number_of_samples_per_channel = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
@@ -44,14 +44,63 @@ class LAB_Oscilloscope
     void    vertical_offset (unsigned channel, double value);
     void    load_data_samples ();
     void    update_dma_data (int osc_disp_mode);
-    void    run_osc_core ();
-    void    stop_osc_core ();
 
-    //
+    // --- Inline Functions ---
 
-    bool is_master_running ()
+    void run_master ()
     {
-      return m_is_master_running;
+      run_osc_core ();
+      run_osc_front ();
+    }
+
+    void stop_master ()
+    {
+      stop_osc_core ();
+      stop_osc_front ();
+    }
+
+    void run_osc_front ()
+    {
+      m_is_osc_front_running = true;
+    }
+
+    void stop_osc_front ()
+    {
+      m_is_osc_front_running = false;
+    }
+
+    void run_osc_core ()
+    {
+      m_LAB_Core->pwm_start ();
+      m_is_osc_core_running = true;
+    }
+
+    void stop_osc_core ()
+    {
+      m_LAB_Core->pwm_stop ();
+      m_is_osc_core_running = false;
+    }   
+
+    bool is_running ()
+    {
+      if (m_is_osc_front_running && m_is_osc_core_running)
+      {
+        return (true);
+      }
+      else 
+      {
+        return (false);
+      }
+    }
+
+    bool is_osc_core_running ()
+    {
+      return (m_is_osc_core_running);
+    }
+
+    bool is_osc_front_running ()
+    {
+      return (m_is_osc_front_running);
     }
 
     void channel_enable (unsigned channel)
@@ -68,6 +117,11 @@ class LAB_Oscilloscope
     {
       //m_channel_signals.m_chans[channel].osc.
       m_channel_signals.m_chans[channel].osc.osc_disp_mode = value;
+    }
+
+    Channel_Signals* channel_signals ()
+    {
+      return (&m_channel_signals);
     }
 };
 

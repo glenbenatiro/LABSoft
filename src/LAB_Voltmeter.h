@@ -1,6 +1,8 @@
 #ifndef LAB_VOLTMETER_H
 #define LAB_VOLTMETER_H
 
+#include "Defaults.h"
+
 #include "LAB_Core.h"
 
 // forward declare LAB, #include "LAB.h" in Voltmeter cpp file
@@ -20,7 +22,8 @@ class LAB_Voltmeter
 
     void run ();
     void stop ();
-    double get_data_sample ();
+    double get_data_sample (unsigned channel);
+    void unit (unsigned channel, LE_UNIT_PREFIX_EXP _LE_UNIT_PREFIX_EXP);
 
     bool is_running ()
     {

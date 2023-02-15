@@ -33,40 +33,46 @@ void LABSoft_Controller::
 update_display (void *data)
 {
   // calculate wait duration
-  //post = std::chrono::steady_clock::now ();
-  //std::chrono::duration<double, std::milli> diff = post - pre;
-  //printf ("Duration: %6.3f ms\n", diff.count ());
-
+  pre = std::chrono::steady_clock::now ();
+  
   // do stuff
-  LAB *lab          = (static_cast<LAB_PACK *>(data))->_LAB;
-  LABSoft_GUI *gui  = (static_cast<LAB_PACK *>(data))->_LABSoft_GUI;
+  LAB *_LAB        = (static_cast<LAB_PACK *>(data))->_LAB;
+  LABSoft_GUI *gui = (static_cast<LAB_PACK *>(data))->_LABSoft_GUI;
 
-  if (lab->m_Oscilloscope.is_master_running ())
+  if (_LAB->m_Oscilloscope.is_running ())
   {
-    //printf ("osc running\n");
-
-    lab->m_Oscilloscope.load_data_samples ();
+    _LAB->m_Oscilloscope.load_data_samples ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
-     load_channel_signals (&(lab->m_Oscilloscope.m_channel_signals));
+     load_channel_signals (&(_LAB->m_Oscilloscope.m_channel_signals));
 
-    // draw signals
-    gui->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();
-    Fl::awake ();
+    gui->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
   }
 
-  if (lab->m_Voltmeter.is_running ())
+  if (_LAB->m_Voltmeter.is_running ())
   {
-    double reading = lab->m_Voltmeter.get_data_sample ();
+    _LAB->m_Oscilloscope.load_data_samples ();
 
-    char label[15];
-    sprintf (label, "a");
+    double reading = 0.0;
+    
+    reading = _LAB->m_Voltmeter.get_data_sample (0);
 
-    gui->voltmeter_fl_output_value->label (label);
+    gui->voltmeter_fl_output_chan1_value->value (LabelValue (reading, 
+      LE_UNIT_VOLT).to_label_text ().c_str ());
+
+    reading = _LAB->m_Voltmeter.get_data_sample (1);
+
+    gui->voltmeter_fl_output_chan2_value->value (LabelValue (reading, 
+      LE_UNIT_VOLT).to_label_text ().c_str ());
   }
+
+  Fl::awake ();
   
   // store time before timeout
-  //pre = std::chrono::steady_clock::now ();
+  post = std::chrono::steady_clock::now ();
+
+  std::chrono::duration<double, std::milli> diff = post - pre;
+  printf ("Duration: %6.3f ms\n", diff.count ());
 
   // loop call timeout
   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, update_display, data);  
