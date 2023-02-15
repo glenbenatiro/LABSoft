@@ -1,8 +1,6 @@
 #include "LABSoft_Controller_Oscilloscope.h"
 
 #include <iostream>
-#include <chrono>
-#include <bitset>
 
 #include <FL/Fl.H>
 
@@ -44,13 +42,6 @@ cb_run_stop (Fl_Light_Button *w,
       
       w->label ("Stop");
     }
-}
-
-void LABSoft_Controller_Oscilloscope::
-LABSoft_Controller_Oscilloscope_cb_fl_light_button_generate_sine_wave (Fl_Light_Button *w, 
-                                                                       void            *data)
-{
-
 }
 
 void LABSoft_Controller_Oscilloscope::

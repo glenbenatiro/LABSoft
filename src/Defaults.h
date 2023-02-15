@@ -33,9 +33,16 @@ enum WaveType
 // ---
 
 // General Raspberry Pi
+// constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
+// constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
+
 constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
-constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
 constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
+
+// constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
+// constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
+
+constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
 constexpr int PWM_CHAN = 1;
 constexpr unsigned PI_MAX_GPIO_PINS = 32; 
 constexpr int DEBUG = 1;

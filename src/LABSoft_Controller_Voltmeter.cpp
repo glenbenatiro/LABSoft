@@ -18,13 +18,13 @@ cb_run_stop  (Fl_Light_Button *w, void *data)
 {
   if (w->value () == 0)
   {
-    m_LAB->m_Voltmeter->stop ();
+    m_LAB->m_Voltmeter.stop ();
 
     w->label ("Run");
   }
   else 
   {
-    m_LAB->m_Voltmeter->run ();
+    m_LAB->m_Voltmeter.run ();
 
     w->label ("Stop");
   }

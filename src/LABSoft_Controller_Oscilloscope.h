@@ -1,9 +1,6 @@
 #ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
-#include <thread>
-#include <time.h>
-
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Button.H>
 
@@ -15,9 +12,6 @@ class LABSoft_Controller_Oscilloscope
   public:
     LAB         *m_LAB;
     LABSoft_GUI *m_LABSoft_GUI;
-    struct timespec tp1, tp2;
-
-    std::thread *m_thread_update_display;
 
     LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
     

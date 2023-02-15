@@ -171,17 +171,30 @@ LAB_Oscilloscope::~LAB_Oscilloscope ()
 void LAB_Oscilloscope::
 run ()
 {
-  m_LAB_Core->pwm_start ();
-  m_is_running = true;
+  run_osc_core ();
+  m_is_master_running = true;
 }
 
 void LAB_Oscilloscope::
 stop ()
 {
-  m_LAB_Core->pwm_stop ();
-  m_is_running = false;
+  stop_osc_core ();
+  m_is_master_running = false;
 }
 
+void LAB_Oscilloscope:: 
+run_osc_core ()
+{
+  m_LAB_Core->pwm_start ();
+  m_is_osc_core_running = true;
+}
+
+void LAB_Oscilloscope:: 
+stop_osc_core ()
+{
+  m_LAB_Core->pwm_stop ();
+  m_is_osc_core_running = true;
+}
 
 void LAB_Oscilloscope:: 
 volts_per_division (unsigned channel, double value)

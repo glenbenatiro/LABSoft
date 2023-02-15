@@ -41,7 +41,7 @@ update_display (void *data)
   LAB *lab          = (static_cast<LAB_PACK *>(data))->_LAB;
   LABSoft_GUI *gui  = (static_cast<LAB_PACK *>(data))->_LABSoft_GUI;
 
-  if (lab->m_Oscilloscope->is_running ())
+  if (lab->m_Oscilloscope->is_master_running ())
   {
     //printf ("osc running\n");
 
@@ -55,9 +55,9 @@ update_display (void *data)
     Fl::awake ();
   }
 
-  if (lab->m_Voltmeter->is_running ())
+  if (lab->m_Voltmeter.is_running ())
   {
-    double reading = lab->m_Voltmeter->get_data_sample ();
+    double reading = lab->m_Voltmeter.get_data_sample ();
 
     char label[15];
     sprintf (label, "a");

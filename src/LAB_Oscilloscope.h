@@ -15,7 +15,8 @@ class LAB_Oscilloscope
     
     double usec_start = 0;
 
-    bool m_is_running = false;
+    bool m_is_master_running = false,
+         m_is_osc_core_running = false;
 
     int   m_number_of_channels            = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS,
           m_number_of_samples_per_channel = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES,
@@ -40,12 +41,14 @@ class LAB_Oscilloscope
     void    vertical_offset (unsigned channel, double value);
     void    load_data_samples ();
     void    update_dma_data (int osc_disp_mode);
+    void    run_osc_core ();
+    void    stop_osc_core ();
 
     //
 
-    bool is_running ()
+    bool is_master_running ()
     {
-      return m_is_running;
+      return m_is_master_running;
     }
 
     void channel_enable (unsigned channel)
