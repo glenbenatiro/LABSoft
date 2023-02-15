@@ -46,7 +46,7 @@ update_display (void *data)
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
      load_channel_signals (&(_LAB->m_Oscilloscope.m_channel_signals));
 
-    gui->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
+    gui->oscilloscope_labsoft_oscilloscope_display_group_display->display()->redraw ();
   }
 
   if (_LAB->m_Voltmeter.is_running ())
@@ -72,7 +72,7 @@ update_display (void *data)
   post = std::chrono::steady_clock::now ();
 
   std::chrono::duration<double, std::milli> diff = post - pre;
-  printf ("Duration: %6.3f ms\n", diff.count ());
+  // printf ("Duration: %6.3f ms\n", diff.count ());
 
   // loop call timeout
   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, update_display, data);  

@@ -13,6 +13,12 @@ void LAB_Voltmeter::
 run ()
 {
   LAB_Oscilloscope *osc = &(m_LAB->m_Oscilloscope);
+  
+  if (!(osc->m_channel_signals.m_chans[0].is_enabled ()))
+  {
+    m_osc_chan_en_flag = true;
+    osc->channel_enable (0);
+  }
 
   if (osc->is_osc_front_running ())
   {
@@ -31,6 +37,12 @@ void LAB_Voltmeter::
 stop ()
 {
   m_LAB->m_Oscilloscope.stop_osc_core ();
+
+  if (m_osc_chan_en_flag)
+  {
+    m_LAB->m_Oscilloscope.channel_disable (0);
+    m_osc_chan_en_flag = false;
+  }
 
   m_is_running = false;
 }

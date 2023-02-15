@@ -15,6 +15,7 @@ class LAB_Voltmeter
     LAB_Core *m_LAB_Core;
 
     bool m_is_running   = false;
+    bool m_osc_chan_en_flag = false;
     double data_sample  = 0.0;
 
   public:

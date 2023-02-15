@@ -24,7 +24,8 @@ enum LE_UNIT
   LE_UNIT_NONE = ' ',
   LE_UNIT_VOLT = 'V',
   LE_UNIT_AMP  = 'A',
-  LE_UNIT_OHM  = 'O'
+  LE_UNIT_OHM  = 'O',
+  LE_UNIT_SEC  = 's'
 };
 
 enum LE_LABEL_TYPE

@@ -5,8 +5,7 @@
 LabelValue::
 LabelValue (const char *label)
 {
-  m_coefficient   = std::atof (std::strtok (strdup (label), " "));
-
+  m_coefficient     = std::atof (std::strtok (strdup (label), " "));
   char *unit_string = std::strtok (nullptr, "");
 
   if (unit_string != nullptr)
@@ -15,9 +14,14 @@ LabelValue (const char *label)
       unit_string[0];
   }
 
-  m_exponent = get_exponent (m_unit_prefix);
-
+  m_exponent      = get_exponent (m_unit_prefix);
   m_actual_value  = get_actual_value (m_coefficient, m_exponent);
+
+  // printf ("actual value: %9.9f\n", m_actual_value);
+  // printf ("coefficient: %9.9f\n", m_coefficient);
+  // printf ("exponent: %d\n", m_exponent);
+  // printf ("unit prefix: %c\n", m_unit_prefix);
+  // printf ("unit: %c\n\n", m_unit);
 }   
 
 LabelValue:: 
@@ -29,6 +33,12 @@ LabelValue (double value, LE_UNIT unit)
 
   m_unit_prefix   = get_unit_prefix (m_exponent);
   m_unit          = get_unit (unit);
+
+  printf ("actual value: %9.9f\n", m_actual_value);
+  printf ("coefficient: %9.9f\n", m_coefficient);
+  printf ("exponent: %d\n", m_exponent);
+  printf ("unit prefix: %c\n", m_unit_prefix);
+  printf ("unit: %c\n\n", m_unit);
 }
 
 // NOTE: This function only checks until giga (exp +9) and nano (exp -9)
@@ -41,7 +51,12 @@ exp_notation (double  actual_value,
   double  temp, intgr, integral, fractional = std::modf (actual_value, &integral);
   bool    flag = (integral == 0.0);
 
-  if (!(integral == 0.0 && fractional == 0.0))
+  if (integral == 0.0 && fractional == 0.0)
+  {
+    *coefficient  = 0.0;
+    *exponent     = 0;
+  }
+  else
   {
     if (std::abs(integral) < 1000.0 && std::abs(integral) > 0.0)
     {
@@ -68,17 +83,17 @@ exp_notation (double  actual_value,
           break;
       }
     }
-  }   
-  
-  *coefficient = temp;
-  *exponent    = a;
+
+    *coefficient = temp;
+    *exponent    = a;
+  } 
 }
 
 double LabelValue:: 
 get_actual_value (double coefficient, 
                   int    exponent)
 {
-  return (coefficient * std::pow (10, exponent));
+  return (coefficient * std::pow (10, -1 * exponent));
 }
 
 int LabelValue:: 
@@ -189,19 +204,22 @@ std::string LabelValue::
 to_label_text ()
 {
   char label[20];
+  double integral, fractional;
 
-  double integral, fractional = std::modf (m_coefficient, &integral);
+  fractional = std::modf (m_coefficient, &integral);
 
-  if (fractional == 0.0)
+  if (fractional = 0)
   {
     sprintf (label, "%3.0f %c%c", m_coefficient, m_unit_prefix, m_unit);
   }
   else 
   {
-    sprintf (label, "%3.3f %c%c", m_coefficient, m_unit_prefix, m_unit);
+    sprintf (label, "%3.2f %c%c", m_coefficient, m_unit_prefix, m_unit);
   }
 
-  //printf ("to_label_text: %s\n", label);
+  // printf ("m_coefficient: %9.9f\n", m_coefficient);
+  // printf ("integral: %9.9f\n", integral);
+  // printf ("fractional: %9.9f\n\n", fractional);
 
   return (std::string (label));
 }

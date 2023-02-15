@@ -199,7 +199,7 @@ update_time_per_division_labels ()
           chan->time_per_division;
     
       LabelValue _LabelValue (col_time_per_div_value + chan->horizontal_offset,
-        LE_UNIT_VOLT);
+        LE_UNIT_SEC);
       
       m_x_labels[a]->copy_label (_LabelValue.to_label_text ().c_str ());
       
