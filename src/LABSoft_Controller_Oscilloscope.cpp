@@ -122,9 +122,12 @@ cb_time_per_division (Fl_Input_Choice *w,
     update_time_per_division_labels ();
 
   char text[50];
-  sprintf (text, "%9.0f samples at %9.12f Hz", m_LAB->m_Oscilloscope.
-    m_channel_signals.m_chans[0].osc.samples, m_LAB->m_Oscilloscope.
-    m_channel_signals.m_chans[0].osc.sampling_rate);
+  
+  Channel_Signal_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.
+    m_channel_signals.m_chans[0].osc);
+
+  // sprintf (text, "%3.3f samples at %s", osc->samples, 
+  //   LabelValue (osc->sampling_rate, LE_UNIT_HZ).to_label_text ().c_str ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_upper_osc_disp_info (text);

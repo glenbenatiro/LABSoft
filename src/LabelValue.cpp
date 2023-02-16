@@ -1,27 +1,20 @@
 #include "LabelValue.h"
 
+#include <iostream>
 #include <cstring>
 
 LabelValue::
 LabelValue (const char *label)
 {
-  m_coefficient     = std::atof (std::strtok (strdup (label), " "));
-  char *unit_string = std::strtok (nullptr, "");
+  std::string str (label);
 
-  if (unit_string != nullptr)
-  {
-    m_unit = (get_unit_prefix (unit_string, &m_unit_prefix)) ? unit_string[1] : 
-      unit_string[0];
-  }
+  unsigned delim = str.find (" ");
 
-  m_exponent      = get_exponent (m_unit_prefix);
-  m_actual_value  = get_actual_value (m_coefficient, m_exponent);
-
-  // printf ("actual value: %9.9f\n", m_actual_value);
-  // printf ("coefficient: %9.9f\n", m_coefficient);
-  // printf ("exponent: %d\n", m_exponent);
-  // printf ("unit prefix: %c\n", m_unit_prefix);
-  // printf ("unit: %c\n\n", m_unit);
+  m_coefficient   = std::stod         (str.substr (0, delim));
+  m_unit_prefix   = get_unit_prefix   (str.substr (delim + 1));
+  m_unit          = get_unit          (str.substr (delim + 1)); 
+  m_exponent      = get_exponent      (m_unit_prefix);
+  m_actual_value  = get_actual_value  (m_coefficient, m_exponent);
 }   
 
 LabelValue:: 
@@ -33,12 +26,6 @@ LabelValue (double value, LE_UNIT unit)
 
   m_unit_prefix   = get_unit_prefix (m_exponent);
   m_unit          = get_unit (unit);
-
-  printf ("actual value: %9.9f\n", m_actual_value);
-  printf ("coefficient: %9.9f\n", m_coefficient);
-  printf ("exponent: %d\n", m_exponent);
-  printf ("unit prefix: %c\n", m_unit_prefix);
-  printf ("unit: %c\n\n", m_unit);
 }
 
 // NOTE: This function only checks until giga (exp +9) and nano (exp -9)
@@ -125,11 +112,10 @@ get_exponent (char unit_prefix)
   }
 }
 
-int LabelValue:: 
-get_unit_prefix (char *unit_string, 
-                 char *unit_prefix)
+char LabelValue:: 
+get_unit_prefix (std::string str)
 {
-  char prefix = unit_string[0];
+  char prefix = str[0];
 
   switch (prefix)
   {
@@ -139,11 +125,11 @@ get_unit_prefix (char *unit_string,
     case 'm':
     case 'u':
     case 'n':
-      *unit_prefix = prefix;
-      return 1;
+    case ' ':
+      return prefix; 
+      break;
     default:
-      *unit_prefix = ' ';
-      return 0;
+      return ' ';
       break;
   }
 }
@@ -194,32 +180,75 @@ get_unit_prefix (int exponent)
   }
 }
 
-char LabelValue:: 
-get_unit (LE_UNIT unit)
+std::string LabelValue:: 
+get_unit (std::string str)
 {
-  return (static_cast<char>(unit));
+  char c = str[0];
+
+  switch (c)
+  {
+    case 'G':
+    case 'M':
+    case 'k':
+    case 'm':
+    case 'u':
+    case 'n':
+    case ' ':
+      return str.substr (1);
+      break;
+    default:
+      return str;
+      break;
+  }
+}
+
+std::string LabelValue:: 
+get_unit (LE_UNIT le_unit)
+{
+  switch (le_unit)
+  {
+    case LE_UNIT_NONE:
+      return " ";
+      break;
+    case LE_UNIT_VOLT:
+      return "V";
+      break; 
+    case LE_UNIT_AMP:
+      return "A";
+      break; 
+    case LE_UNIT_OHM:
+      return "O";
+      break;
+    case LE_UNIT_HZ:
+      return "Hz";
+      break;
+    case LE_UNIT_SEC:
+      return "s";
+    default:
+      get_unit (LE_UNIT_NONE);
+      break;
+  }
+
+  // just to shut the compiler up
+  return (nullptr);
 }
 
 std::string LabelValue:: 
 to_label_text ()
 {
-  char label[20];
+  char label[50];
   double integral, fractional;
 
   fractional = std::modf (m_coefficient, &integral);
 
   if (fractional = 0)
   {
-    sprintf (label, "%3.0f %c%c", m_coefficient, m_unit_prefix, m_unit);
+    sprintf (label, "%3.0f %c%s", m_coefficient, m_unit_prefix, m_unit.c_str ());
   }
   else 
   {
-    sprintf (label, "%3.2f %c%c", m_coefficient, m_unit_prefix, m_unit);
+    sprintf (label, "%3.2f %c%s", m_coefficient, m_unit_prefix, m_unit.c_str ());
   }
-
-  // printf ("m_coefficient: %9.9f\n", m_coefficient);
-  // printf ("integral: %9.9f\n", integral);
-  // printf ("fractional: %9.9f\n\n", fractional);
 
   return (std::string (label));
 }

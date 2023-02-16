@@ -200,9 +200,8 @@ update_time_per_division_labels ()
     
       LabelValue _LabelValue (col_time_per_div_value + chan->horizontal_offset,
         LE_UNIT_SEC);
-      
+       
       m_x_labels[a]->copy_label (_LabelValue.to_label_text ().c_str ());
-      
       m_x_labels[a]->labelcolor (m_default_label_color);
     }
   }

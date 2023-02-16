@@ -178,6 +178,14 @@ Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
+/home/glen/Desktop/LABSoft/src/LabelValue.cpp
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
+iostream
+-
+cstring
+-
+
 /home/glen/Desktop/LABSoft/src/LabelValue.h
 string
 -

@@ -21,11 +21,12 @@ enum LE_UNIT_PREFIX_EXP
 
 enum LE_UNIT
 {
-  LE_UNIT_NONE = ' ',
-  LE_UNIT_VOLT = 'V',
-  LE_UNIT_AMP  = 'A',
-  LE_UNIT_OHM  = 'O',
-  LE_UNIT_SEC  = 's'
+  LE_UNIT_NONE,
+  LE_UNIT_VOLT,
+  LE_UNIT_AMP,
+  LE_UNIT_OHM,
+  LE_UNIT_SEC,
+  LE_UNIT_HZ
 };
 
 enum LE_LABEL_TYPE
