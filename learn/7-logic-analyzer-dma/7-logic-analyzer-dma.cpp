@@ -29,28 +29,85 @@ struct LAB_OSCILLOSCOPE_DMA_DATA
 int main ()
 {
   AikaPi AP;
-  AP_MemoryMap m_uncached_memory;
+
+  AP.pwm_init  (10'000);
+  // AP.pwm_duty_cycle (0, 50);
+  AP.pwm_algo  (0, AP_PWM_ALGO_MARKSPACE);
+  AP.pwm_fifo_clear ();
   
-  // AP.cm_pwm_clk_run ();
+  // 9.) start pwm
+  AP.pwm_start (0);
 
-  // Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);
+  *(Utility::get_reg32 (AP.m_regs_pwm, PWM_FIF1)) = 100000;
 
-  // if (AP.cm_pwm_clk_is_running ())
-  // {
-  //   std::cout << "clock is running\n";
-  // }
-  // else 
-  // {
-  //   std::cout << "clock is not running\n";
-  //}
+  // 10.) pause
+  std::cout << "cm pwm ctl: \n";
+  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);  
 
-  // 1.) set pwm pin mode
+  std::cout << "cm pwm div: \n";
+  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMDIV);  
+
+  std::cout << "pwm CTL: \n";
+  Utility::disp_reg32 (AP.m_regs_pwm, PWM_CTL); 
+
+  std::cout << "pwm rng: \n";
+  Utility::disp_reg32 (AP.m_regs_pwm, PWM_RNG1); 
+
+  std::cout << "pwm STA: \n";
+  Utility::disp_reg32 (AP.m_regs_pwm, PWM_STA); 
+
+  std::cout << "\n\npause, waiting for enter...\n";
+
+  double pwm_freq, pwm_dc;
   
+  while (true)
+  {
+    std::cout << "\n\nInput new freq: ";
+    std::cin >> pwm_freq;
+    std::cout << "\nInput duty cycle: " ;
+    std::cin >> pwm_dc;
 
-  // // 2.) map uncached memory
+    AP.pwm_frequency  (0, pwm_freq);
+    AP.pwm_duty_cycle (0, pwm_dc);
+  }
+
+  //
+  AP.pwm_stop (0);
+
+  // 11.) unmap
+  //AP.unmap_periph_mem (&m_uncached_memory);
+
+  return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // AP_MemoryMap m_uncached_memory;
+
+  // // 1.)
+  // AP.gpio_set (PIN_PWM, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
+  // AP.pwm_init (200'000); 
+
+  // *(Utility::get_reg32 (AP.m_regs_pwm, PWM_DMAC)) = (1 << 31) | (15 << 8) | (15 << 0);
+
+  // //2.) map uncached memory
   // AP.map_uncached_mem (&m_uncached_memory, sizeof (LAB_OSCILLOSCOPE_DMA_DATA));
 
-  // // 3.) set control blocks
+  // //3.) set control blocks
   // AP_MemoryMap *mp = &m_uncached_memory;
 
   // LAB_OSCILLOSCOPE_DMA_DATA *dp = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_memory.virt);
@@ -60,15 +117,15 @@ int main ()
   //   .cbs =
   //   {
   //     // store
-  //     {
-  //       DMA_TI_DREQ_PWM << 16 | DMA_TI_SRC_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP,
-  //       Utility::reg_bus_addr (&(AP.m_regs_st), AP_ST_CLO),
-  //       Utility::mem_bus_addr (&m_uncached_memory, dp->rxd0),
-  //       static_cast<uint32_t>(4 * 2000),
-  //       0,
-  //       Utility::mem_bus_addr (&m_uncached_memory, &(dp->cbs[0])),
-  //       0
-  //     },
+  //     // {
+  //     //   DMA_TI_DREQ_PWM << 16 | DMA_TI_SRC_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP,
+  //     //   Utility::reg_bus_addr (&(AP.m_regs_st), AP_ST_CLO),
+  //     //   Utility::mem_bus_addr (&m_uncached_memory, dp->rxd0),
+  //     //   static_cast<uint32_t>(4 * 2000),
+  //     //   0,
+  //     //   Utility::mem_bus_addr (&m_uncached_memory, &(dp->cbs[0])),
+  //     //   0
+  //     // },
 
   //     // PWM trigger
   //     {
@@ -77,15 +134,14 @@ int main ()
   //       Utility::reg_bus_addr (&(AP.m_regs_pwm), PWM_FIF1),
   //       4,
   //       0,
-  //       Utility::mem_bus_addr (&m_uncached_memory, &(dp->cbs[1])),
+  //       Utility::mem_bus_addr (&m_uncached_memory, &(dp->cbs[0])),
   //       0
-  //     },
-
+  //     }
   //   },
     
   //   .samp_size  = 4,
-  //   .pwm_val    = 0x0000FFFF,
-  //   .adc_csd    = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | SPI_CS_CLEAR,
+  //   .pwm_val    = static_cast<uint32_t>(32000),
+  //   .adc_csd    = 0,
   //   .txd        = {0xffff, 0x0000},
   //   .usecs      = {0, 0},
   //   .states     = {0, 0},
@@ -98,60 +154,36 @@ int main ()
 
   // // 5.) reset dma on the dma chans
   // AP.dma_reset (DMA_CHAN_PWM_PACING);
-  // AP.dma_reset (DMA_CHAN_RX);
+  // //AP.dma_reset (DMA_CHAN_RX);
 
   // // 8.) start dma chans
-  // AP.dma_start (DMA_CHAN_RX, &m_uncached_memory, &(dp->cbs[0]));
+  // //AP.dma_start (DMA_CHAN_RX, &m_uncached_memory, &(dp->cbs[0]));
   // AP.dma_start (DMA_CHAN_PWM_PACING, &m_uncached_memory, &(dp->cbs[1]));
 
-  // 6.) init pwm
-  //AP.pwm_init (1, 200'000);
+  // // 9.) start pwm
+  // AP.pwm_start (0);
 
-  // 7.) enable pwm dma
-  //*(Utility::get_reg32 (AP.m_regs_pwm, PWM_DMAC)) = PWM_DMAC_ENAB | PWM_ENAB
+  // // 10.) pause
+  // std::cout << "cm pwm ctl: \n";
+  // Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);  
 
-  std::cout << "before stop: " << "\n";
-  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);
+  // std::cout << "cm pwm div: \n";
+  // Utility::disp_reg32 (AP.m_regs_cm, CM_PWMDIV);  
 
+  // std::cout << "pwm rng: \n";
+  // Utility::disp_reg32 (AP.m_regs_pwm, PWM_RNG1); 
 
-  AP.cm_pwm_clk_stop  ();
+  // std::cout << "pwm STA: \n";
+  // Utility::disp_reg32 (AP.m_regs_pwm, PWM_STA); 
 
-  std::cout << "after stop: " << "\n";
-  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);
+  // std::cout << "\n\npause, waiting for enter...\n";
+  // std::cin.get ();
 
-  //AP.cm_pwm_clk_src   (AP_CM_CLK_SRC_PLLD);
-  AP.cm_pwm_clk_freq  (100'000'000);
-  //AP.cm_pwm_clk_mash  (AP_CM_CLK_MASH_1STAGE);
-  //AP.cm_pwm_clk_run   ();
+  // //
+  // AP.pwm_stop (0);
 
-  volatile uint32_t *reg = Utility::get_reg32 (AP.m_regs_cm, CM_PWMCTL);
+  // // 11.) unmap
+  // //AP.unmap_periph_mem (&m_uncached_memory);
 
-  *reg = CM_PASSWD | (1 << 9) | 6 | (1 << 4);
-
-   std::cout << "after run: " << "\n";
-  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);
-
-   AP.AP_gpio_set (PIN_PWM, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
-
-  *(Utility::get_reg32 (AP.m_regs_pwm, PWM_RNG1)) = 100;
-  *(Utility::get_reg32 (AP.m_regs_pwm, PWM_FIF1)) = 50;
-  *(Utility::get_reg32 (AP.m_regs_pwm, PWM_CTL)) = (1 << 2) | (1 << 5) | 1 << 0;
-
-  // std::cout << "clk ctl: ";
-  // Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);
-
-  // 9.) start pwm
-   AP.pwm_start ();
-
-  // 10.) pause
-
-  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);
-
-  std::cout << "pause, waiting for enter...\n";
-  std::cin.get ();
-
-  // 11.) unmap
-  AP.unmap_periph_mem (&m_uncached_memory);
-
-  return 0;
+  // return 0;
 }

@@ -71,7 +71,7 @@ class LAB_Core
     void     AP_gpio_write        (unsigned pin, unsigned value);
     void     AP_gpio_func        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
-    void     AP_gpio_set         (int pin, int mode, int pull);
+    void     gpio_set         (int pin, int mode, int pull);
     uint8_t  AP_gpio_read          (int pin);
     
     // --- SPI ---
