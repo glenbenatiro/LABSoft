@@ -246,16 +246,28 @@ CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
+ /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
+ /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
+ /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
+ /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/src/Channel_Signals.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
+ /home/glen/Desktop/LABSoft/src/LAB.h
+ /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
+ /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
+ /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
+ /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
  /home/glen/Desktop/LABSoft/src/Channel_Signals.h

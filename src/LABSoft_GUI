@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v1.0 Build 1} open
-      xywh {1954 57 1366 768} type Double visible
+      xywh {2209 175 1366 768} type Double visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
@@ -51,8 +51,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
-          xywh {0 60 1366 708} hide
+          label Oscilloscope open
+          xywh {0 60 1366 708}
         } {
           Fl_Button oscilloscope_fl_button_run_stop {
             label Run
@@ -74,12 +74,12 @@ class LABSoft_GUI {open
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
           } {}
-          Fl_Group oscilloscope_fl_group_vertical_channel_1 {
+          Fl_Group oscilloscope_fl_group_vertical_channel_1 {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
               label {Channel 1}
-              xywh {845 95 160 240} box ROUNDED_BOX align 1
+              xywh {845 95 160 330} box ROUNDED_BOX align 1
             }
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
               label {Ch. 1 Enable}
@@ -90,8 +90,8 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_volts_per_division {
               label {Volts per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);} open
-              xywh {865 215 120 30} align 1
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);}
+              xywh {865 200 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTAGE_PER_DIVISION);}
             } {
               MenuItem {} {
@@ -163,7 +163,7 @@ class LABSoft_GUI {open
               label {Vertical Offset}
               user_data 0 user_data_type long
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_vertical_offset (o, v);}
-              xywh {865 285 120 30} align 1
+              xywh {865 260 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_1_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_Y_OFFSET);}
             } {
               MenuItem {} {
@@ -283,13 +283,42 @@ class LABSoft_GUI {open
                 xywh {30 30 36 21}
               }
             }
+            Fl_Choice oscilloscope_fl_choice_channel_1_scaling {
+              label Scaling
+              user_data 0 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_scaling (o, v);} open
+              xywh {865 320 120 30} down_box BORDER_BOX align 1
+            } {
+              MenuItem {} {
+                label x2
+                xywh {40 40 36 21}
+              }
+              MenuItem {} {
+                label {x0.5}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {x0.25}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {x0.125}
+                xywh {60 60 36 21}
+              }
+            }
+            Fl_Light_Button oscilloscope_fl_light_button_channel_1_ac_coupling {
+              label {AC Coupling}
+              user_data 0 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_ac_coupling (o, v);}
+              xywh {864 370 120 30}
+            }
           }
-          Fl_Group oscilloscope_fl_group_vertical_channel_2 {
+          Fl_Group oscilloscope_fl_group_vertical_channel_2 {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
               label {Channel 2}
-              xywh {1015 95 160 240} box ROUNDED_BOX align 1
+              xywh {1015 95 160 330} box ROUNDED_BOX align 1
             }
             Fl_Light_Button oscilloscope_fl_light_button_channel_2_enable {
               label {Ch. 2 Enable}
@@ -301,7 +330,7 @@ class LABSoft_GUI {open
               label {Volts per Division}
               user_data 1 user_data_type long
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);}
-              xywh {1035 215 120 30} align 1
+              xywh {1035 200 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTAGE_PER_DIVISION);}
             } {
               MenuItem {} {
@@ -373,7 +402,7 @@ class LABSoft_GUI {open
               label {Vertical Offset}
               user_data 1 user_data_type long
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_vertical_offset (o, v);}
-              xywh {1035 285 120 30} align 1
+              xywh {1035 260 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_2_vertical_offset->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_Y_OFFSET);}
             } {
               MenuItem {} {
@@ -493,114 +522,143 @@ class LABSoft_GUI {open
                 xywh {40 40 36 21}
               }
             }
+            Fl_Choice oscilloscope_fl_choice_channel_2_scaling {
+              label Scaling
+              user_data 1 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_scaling (o, v);} open
+              xywh {1035 320 120 30} down_box BORDER_BOX align 1
+            } {
+              MenuItem {} {
+                label x2
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {x0.5}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {x0.25}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {x0.125} selected
+                xywh {70 70 36 21}
+              }
+            }
+            Fl_Light_Button oscilloscope_fl_light_button_channel_2_ac_coupling {
+              label {AC Coupling}
+              user_data 1 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_ac_coupling (o, v);}
+              xywh {1035 370 120 30}
+            }
           }
           Fl_Group oscilloscope_fl_group_horizontal {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
               label Horizontal
-              xywh {845 360 160 240} box ROUNDED_BOX align 1
+              xywh {845 480 160 240} box ROUNDED_BOX align 1
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
               user_data 0 user_data_type long
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
-              xywh {865 400 120 30} align 1
+              xywh {865 520 120 30} align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION);}
             } {
               MenuItem {} {
                 label {30 s}
-                xywh {40 40 36 21}
+                xywh {40 362 36 21}
               }
               MenuItem {} {
                 label {12 s}
-                xywh {60 60 36 21}
+                xywh {60 362 36 21}
               }
               MenuItem {} {
                 label {5 s}
-                xywh {20 20 36 21}
+                xywh {20 362 36 21}
               }
               MenuItem {} {
                 label {2 s}
-                xywh {10 10 36 21}
+                xywh {10 362 36 21}
               }
               MenuItem {} {
                 label {1 s}
-                xywh {10 10 36 21}
+                xywh {10 362 36 21}
               }
               MenuItem {} {
                 label {500 ms}
-                xywh {30 30 36 21}
+                xywh {30 362 36 21}
               }
               MenuItem {} {
                 label {200 ms}
-                xywh {50 50 36 21}
+                xywh {50 362 36 21}
               }
               MenuItem {} {
                 label {100 ms}
-                xywh {40 40 36 21}
+                xywh {40 362 36 21}
               }
               MenuItem {} {
                 label {50 ms}
-                xywh {60 60 36 21}
+                xywh {60 362 36 21}
               }
               MenuItem {} {
                 label {20 ms}
-                xywh {50 50 36 21}
+                xywh {50 362 36 21}
               }
               MenuItem {} {
                 label {10 ms}
-                xywh {70 70 36 21}
+                xywh {70 362 36 21}
               }
               MenuItem {} {
                 label {5 ms}
-                xywh {60 60 36 21}
+                xywh {60 362 36 21}
               }
               MenuItem {} {
                 label {4 ms}
-                xywh {70 70 36 21}
+                xywh {70 362 36 21}
               }
               MenuItem {} {
                 label {2 ms}
-                xywh {70 70 36 21}
+                xywh {70 362 36 21}
               }
               MenuItem {} {
                 label {1 ms}
-                xywh {80 80 36 21}
+                xywh {80 362 36 21}
               }
               MenuItem {} {
                 label {500 us}
-                xywh {30 30 36 21}
+                xywh {30 362 36 21}
               }
               MenuItem {} {
                 label {200 us}
-                xywh {30 30 36 21}
+                xywh {30 362 36 21}
               }
               MenuItem {} {
                 label {100 us}
-                xywh {50 50 36 21}
+                xywh {50 362 36 21}
               }
               MenuItem {} {
                 label {50 us}
-                xywh {40 40 36 21}
+                xywh {40 362 36 21}
               }
               MenuItem {} {
                 label {20 us}
-                xywh {60 60 36 21}
+                xywh {60 362 36 21}
               }
               MenuItem {} {
                 label {10 us}
-                xywh {70 70 36 21}
+                xywh {70 362 36 21}
               }
               MenuItem {} {
                 label {5 us}
-                xywh {50 50 36 21}
+                xywh {50 362 36 21}
               }
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
               label {Horizontal Offset}
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_x_offset (o, v);}
-              xywh {865 465 120 30} align 1
+              xywh {865 580 120 30} align 1
               code0 {oscilloscope_fl_input_choice_horizontal_offset->value (LABSOFT_OSCILLOSCOPE_X_OFFSET);}
             } {
               MenuItem {} {
@@ -742,7 +800,7 @@ class LABSoft_GUI {open
             }
             Fl_Button {} {
               label Menu
-              xywh {865 520 120 60}
+              xywh {865 630 120 60}
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
@@ -750,20 +808,20 @@ class LABSoft_GUI {open
           } {
             Fl_Box {} {
               label Trigger
-              xywh {1015 356 160 240} box ROUNDED_BOX align 1
+              xywh {1015 450 160 240} box ROUNDED_BOX align 1
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
               label Level open
-              xywh {1035 396 120 30} align 1
+              xywh {1035 490 120 30} align 1
               code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_TRIGGER_LEVEL);}
             } {}
             Fl_Button {} {
               label Auto
-              xywh {1035 441 120 60}
+              xywh {1035 530 120 60}
             }
             Fl_Button {} {
               label Menu
-              xywh {1035 516 120 60}
+              xywh {1035 600 120 60}
             }
           }
           Fl_Group oscilloscope_fl_group_display {
@@ -802,8 +860,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Voltmeter open
-          xywh {0 60 1366 708}
+          label Voltmeter
+          xywh {0 60 1366 708} hide
         } {
           Fl_Box {} {
             label {Channel 1}

@@ -6,6 +6,8 @@
 #include <cmath>
 #include <array>
 
+// --- Raspberry Pi Pin Allocations ---
+
 // --- Enums ---
 
 enum LE_UNIT_PREFIX_EXP
@@ -57,27 +59,53 @@ enum WaveType
   DC
 };
 
+enum LABE_OSC_COUPLING
+{
+  LABE_OSC_COUPLING_AC,
+  LABE_OSC_COUPLING_DC,
+  LABE_OSC_COUPLING_GND
+};
+
+enum LABE_OSC_SCALING
+{
+  LABE_OSC_SCALING_DOUBLE   = 0,
+  LABE_OSC_SCALING_HALF     = 1,
+  LABE_OSC_SCALING_QUARTER  = 2,
+  LABE_OSC_SCALING_EIGHTH   = 3
+};
+
 // ---
 
 // General Raspberry Pi
 // constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
 // constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
 
-constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
-constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
+constexpr double LAB_PWM_FREQUENCY  = 1'000'000.0; 
+constexpr double LAB_SPI_FREQUENCY  = 10'000'000.0;  // final
 
 // constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
 // constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
 
 constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
-constexpr int PWM_CHAN = 1;
+constexpr int PWM_CHAN              = 1;
 constexpr unsigned PI_MAX_GPIO_PINS = 32; 
-constexpr int DEBUG = 1;
+constexpr int DEBUG                 = 1;
 constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
+// Raspberry Pi Zero BCM Pin Assignments
+constexpr unsigned LAB_OSCILLOSCOPE_COUPLING_SELECT_PIN_CHANNEL_1 = 14;
+constexpr unsigned LAB_OSCILLOSCOPE_COUPLING_SELECT_PIN_CHANNEL_2 = 15;
+constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_1   = 27;
+constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_1   = 22;
+constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_2   = 23;
+constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_2   = 24;
+
 // DMA Channel Use
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING    = 7;
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX        = 8;
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX        = 9;
 constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
 
 // Channel_Signals
@@ -104,23 +132,21 @@ constexpr double  CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
 
 // LAB Oscilloscope
 // dma channels in use after reboot 3b plus = 2 3 4 6
-constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING    = 7;
-constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX        = 8;
-constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX        = 9;
-constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS     = 2;
-constexpr int       LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS = 10;
-constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES      = 2000;
-constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE          = 200'000; 
-constexpr double    LAB_OSCILLOSCOPE_SAMPLE_PERIOD          = (1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE);
-constexpr double    LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE      = 200'000;
-constexpr unsigned  LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES      = 4;  // 4 bytes per sample = 32 bits
-constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES    = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES;
-constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_COUNT           = 2;
-constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE            = PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS);
+constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS             = 2;
+constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES              = 2000;
+constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE                  = 200'000; 
+constexpr unsigned  LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES              = 4;  
+constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES            = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES;
+constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_COUNT                   = 2;
+constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE                    = PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS);
+constexpr unsigned  LAB_OSCILLOSCOPE_NUMBER_OF_COLUMNS              = 10;
+constexpr int       LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS         = 10;
+constexpr double    LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE              = 200'000;
+constexpr double    LAB_OSCILLOSCOPE_MAX_TIME_PER_DIVISION_NO_ZOOM  = (1.0 / LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE);
 
 struct LAB_OSCILLOSCOPE_DMA_DATA
 {
-  DMA_CB cbs[10];
+  AP_DMA_CB cbs[10];
 
   uint32_t  samp_size,
             pwm_val, 
@@ -292,7 +318,7 @@ constexpr unsigned  LAB_LOGIC_ANALYZER_CHANNELS_GPIO_PINS [LAB_LOGIC_ANALYZER_NU
 
 struct LAB_LOGIC_ANALYZER_DMA_DATA
 {
-  DMA_CB cbs[15];
+  AP_DMA_CB cbs[15];
   
   uint32_t  samp_size,
             pwm_data,

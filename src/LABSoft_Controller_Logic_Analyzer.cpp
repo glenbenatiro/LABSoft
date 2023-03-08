@@ -33,16 +33,13 @@ cb_master_run_stop (Fl_Light_Button *w,
 {
   if (w->value () == 1)
   {
-    m_LAB->m_Logic_Analyzer.master_run ();
-
-    m_thread_update_display = new std::thread
-        (&LABSoft_Controller_Logic_Analyzer::update_display, this);
+    m_LAB->m_Logic_Analyzer.run ();
     
     w->label ("Stop");
   }
   else 
   {
-    m_LAB->m_Logic_Analyzer.master_stop ();
+    m_LAB->m_Logic_Analyzer.stop ();
 
     w->label ("Run");
   }

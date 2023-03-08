@@ -66,7 +66,7 @@ typedef struct {
        *virt, // Virtual address
        *phys; // Physical address
   
-} MemoryMap;
+} AP_MemoryMap;
 
 // Round up to nearest page
 #define PAGE_ROUNDUP(n) ((n) % PAGE_SIZE == 0 ? (n) : ((n) + PAGE_SIZE) & ~(PAGE_SIZE - 1))
@@ -135,10 +135,10 @@ typedef struct {
            next_cb, // Next control block
            debug,   // Debug register, zero in control block
            unused;
-} DMA_CB __attribute__ ((aligned(32)));
+} AP_DMA_CB __attribute__ ((aligned(32)));
 
 typedef struct {
-  DMA_CB cbs[NUM_CBS];
+  AP_DMA_CB cbs[NUM_CBS];
 
   uint32_t samp_size, 
            pwm_val, 

@@ -118,10 +118,10 @@ typedef struct {
            next_cb, // Next control block
            debug,   // Debug register, zero in control block
            unused;
-} DMA_CB __attribute__ ((aligned(32)));
+} AP_DMA_CB __attribute__ ((aligned(32)));
 
 typedef struct {
-  DMA_CB cbs[NUM_CBS];
+  AP_DMA_CB cbs[NUM_CBS];
 
   uint32_t samp_size, 
            pwm_val, 

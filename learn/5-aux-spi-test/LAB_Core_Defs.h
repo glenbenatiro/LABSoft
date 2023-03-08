@@ -102,17 +102,17 @@ constexpr int GPIO_LEV0       = 0x34;
 constexpr int GPIO_GPPUD      = 0x94;
 constexpr int GPIO_GPPUDCLK0  = 0x98;
 
-constexpr int GPIO_IN     = 0;
-constexpr int gpio_write    = 1;
-constexpr int GPIO_ALT0   = 4;
+constexpr int GPIO_INPUT     = 0;
+constexpr int AP_gpio_write   = 1;
+constexpr int AP_GPIO_FUNC_ALT0   = 4;
 constexpr int GPIO_ALT1   = 5;
 constexpr int GPIO_ALT2   = 6;
 constexpr int GPIO_ALT3   = 7;
-constexpr int GPIO_ALT4   = 3;
+constexpr int AP_GPIO_FUNC_ALT4   = 3;
 constexpr int GPIO_ALT5   = 2;
-constexpr int GPIO_NOPULL = 0;
+constexpr int AP_GPIO_PULL_OFF = 0;
 constexpr int GPIO_PULLDN = 1;
-constexpr int GPIO_PULLUP = 2;
+constexpr int AP_GPIO_PULL_UP = 2;
 
 
 // --- Clock ---
@@ -125,8 +125,8 @@ constexpr int PWM_CLOCK_ID  = 0xa;
 
 
 // --- Microsecond Timer ---
-constexpr int USEC_BASE = (PHYS_REG_BASE + 0x3000);
-constexpr int USEC_TIME = 0x04;
+constexpr int AP_ST_BASE = (PHYS_REG_BASE + 0x3000);
+constexpr int AP_ST_CLO = 0x04;
 
 
 

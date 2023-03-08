@@ -46,7 +46,8 @@ update_display (void *data)
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
      load_channel_signals (&(_LAB->m_Oscilloscope.m_channel_signals));
 
-    gui->oscilloscope_labsoft_oscilloscope_display_group_display->display()->redraw ();
+    gui->oscilloscope_labsoft_oscilloscope_display_group_display->display()
+      ->redraw ();
   }
 
   if (_LAB->m_Voltmeter.is_running ())
@@ -64,6 +65,11 @@ update_display (void *data)
 
     gui->voltmeter_fl_output_chan2_value->value (LabelValue (reading, 
       LE_UNIT_VOLT).to_label_text ().c_str ());
+  }
+
+  if (_LAB->m_Logic_Analyzer.is_running ())
+  {
+    printf ("Logic Analyzer is running...\n");
   }
 
   Fl::awake ();

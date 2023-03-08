@@ -40,6 +40,7 @@ cb_run_stop (Fl_Button *w,
     m_LAB->m_Oscilloscope.run ();
       
     w->label ("Stop");
+    
     m_LABSoft_GUI->voltmeter_fl_button_run_stop->label ("Run");
   }
 }
@@ -108,6 +109,44 @@ cb_vertical_offset (Fl_Input_Choice *w,
     _LabelValue.actual_value ());
 }
 
+void LABSoft_Controller_Oscilloscope::
+cb_ac_coupling (Fl_Light_Button *w, 
+                long             channel)
+{
+  m_LAB->m_Oscilloscope.coupling (static_cast<unsigned>(channel),
+    (w->value () == 0) ? LABE_OSC_COUPLING_DC : LABE_OSC_COUPLING_AC);
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_scaling (Fl_Choice *w,
+            long       channel)
+{
+  LABE_OSC_SCALING scale;
+
+  switch (w->value ())
+  {
+    case 0: // x2
+      scale = LABE_OSC_SCALING_DOUBLE;
+      break;
+    
+    case 1: // x0.5
+      scale = LABE_OSC_SCALING_HALF;
+      break; 
+    
+    case 2: // x0.25
+      scale = LABE_OSC_SCALING_QUARTER;
+      break;
+    
+    case 3: // x0.125
+      scale = LABE_OSC_SCALING_EIGHTH;
+      break;
+    
+    default:
+      break;
+  }
+
+  m_LAB->m_Oscilloscope.scaling (static_cast<unsigned>(channel), scale);
+}
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_time_per_division (Fl_Input_Choice *w,

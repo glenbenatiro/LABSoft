@@ -30,7 +30,7 @@ LAB_Core::~LAB_Core ()
 
 // Allocate uncached memory, get bus & phys addresses
 void*
-LAB_Core::LAB_Core_map_uncached_mem (MemoryMap *mp,
+LAB_Core::LAB_Core_map_uncached_mem (AP_MemoryMap *mp,
                                      int      size)
 {
   void *ret;
@@ -55,15 +55,15 @@ LAB_Core::LAB_Core_map_devices ()
   LAB_Core_map_periph (&m_regs_gpio, (void *) GPIO_BASE, PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_dma,  (void *) DMA_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_spi,  (void *) SPI0_BASE, PAGE_SIZE);
-  LAB_Core_map_periph (&m_regs_clk,  (void *) CM_BASE,  PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_cm,  (void *) CM_BASE,  PAGE_SIZE);
   LAB_Core_map_periph (&m_regs_pwm,  (void *) PWM_BASE,  PAGE_SIZE);
-  LAB_Core_map_periph (&m_regs_usec, (void *) USEC_BASE, PAGE_SIZE);
+  LAB_Core_map_periph (&m_regs_st, (void *) AP_ST_BASE, PAGE_SIZE);
 }
 
 // --- Memory ---
 // use mmap to obtain virtual address, given physical
 void
-LAB_Core::LAB_Core_map_periph (MemoryMap *mp, void *phys, int size)
+LAB_Core::LAB_Core_map_periph (AP_MemoryMap *mp, void *phys, int size)
 {
   mp->phys = phys;
   mp->size = PAGE_ROUNDUP(size);
@@ -73,7 +73,7 @@ LAB_Core::LAB_Core_map_periph (MemoryMap *mp, void *phys, int size)
 
 // Free mapped peripheral or memory
 void 
-LAB_Core::LAB_Core_unmap_periph_mem (MemoryMap *mp)
+LAB_Core::LAB_Core_unmap_periph_mem (AP_MemoryMap *mp)
 {
   if (mp)
     {
@@ -141,9 +141,9 @@ LAB_Core::LAB_Core_dma_enable (int chan)
 
 // Start DMA, given first control block
 void 
-LAB_Core::LAB_Core_dma_start (MemoryMap *mp, 
+LAB_Core::LAB_Core_dma_start (AP_MemoryMap *mp, 
                                 int      chan, 
-                                DMA_CB  *cbp, 
+                                AP_DMA_CB  *cbp, 
                                 uint32_t csval)
 {
   *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
@@ -372,9 +372,9 @@ LAB_Core::LAB_Core_terminate (int sig)
   //dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
   
   LAB_Core_unmap_periph_mem (&m_vc_mem);
-  LAB_Core_unmap_periph_mem (&m_regs_usec);
+  LAB_Core_unmap_periph_mem (&m_regs_st);
   LAB_Core_unmap_periph_mem (&m_regs_pwm);
-  LAB_Core_unmap_periph_mem (&m_regs_clk);
+  LAB_Core_unmap_periph_mem (&m_regs_cm);
   LAB_Core_unmap_periph_mem (&m_regs_spi);
   LAB_Core_unmap_periph_mem (&m_regs_dma);
   LAB_Core_unmap_periph_mem (&m_regs_gpio);
@@ -393,11 +393,11 @@ int LAB_Core::
 spi_init ()
 {
   // initialize spi gpio pins on rpi
-  gpio_set (SPI0_CE0_PIN,  GPIO_ALT0, GPIO_NOPULL);
-  gpio_set (SPI0_CE1_PIN,  GPIO_ALT0, GPIO_NOPULL);
-  gpio_set (SPI0_MISO_PIN, GPIO_ALT0, GPIO_PULLUP);
-  gpio_set (SPI0_MOSI_PIN, GPIO_ALT0, GPIO_NOPULL);
-  gpio_set (SPI0_SCLK_PIN, GPIO_ALT0, GPIO_NOPULL);
+  AP_gpio_set (SPI0_CE0_PIN,  AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_OFF);
+  AP_gpio_set (SPI0_CE1_PIN,  AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_OFF);
+  AP_gpio_set (SPI0_MISO_PIN, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_UP);
+  AP_gpio_set (SPI0_MOSI_PIN, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_OFF);
+  AP_gpio_set (SPI0_SCLK_PIN, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_OFF);
 
   // clear tx and rx fifo. one shot operation
   spi_clear_fifo ();
@@ -509,10 +509,10 @@ aux_spi1_master_disable ()
 void LAB_Core:: 
 aux_spi0_init ()
 {
-  gpio_set (SPI1_SCLK_PIN,  GPIO_ALT4, GPIO_NOPULL);
-  gpio_set (SPI1_MOSI_PIN,  GPIO_ALT4, GPIO_NOPULL);
-  gpio_set (SPI1_MISO_PIN,  GPIO_ALT4, GPIO_PULLUP);
-  gpio_set (SPI1_CE2_PIN,   GPIO_ALT4, GPIO_NOPULL);
+  AP_gpio_set (SPI1_SCLK_PIN,  AP_GPIO_FUNC_ALT4, AP_GPIO_PULL_OFF);
+  AP_gpio_set (SPI1_MOSI_PIN,  AP_GPIO_FUNC_ALT4, AP_GPIO_PULL_OFF);
+  AP_gpio_set (SPI1_MISO_PIN,  AP_GPIO_FUNC_ALT4, AP_GPIO_PULL_UP);
+  AP_gpio_set (SPI1_CE2_PIN,   AP_GPIO_FUNC_ALT4, AP_GPIO_PULL_OFF);
 
   aux_spi1_master_enable ();
   aux_spi0_frequency (100'000);
@@ -691,11 +691,11 @@ aux_spi0_read (char        *txbuf,
 // --- GPIO ---
 // Set input or output with pullups
 void 
-LAB_Core::gpio_set (int pin, 
+LAB_Core::AP_gpio_set (int pin, 
                              int mode, 
                              int pull)
 {
-  gpio_mode (pin, mode);
+  AP_gpio_func (pin, mode);
   LAB_Core_gpio_pull (pin, pull);
 }
 
@@ -721,7 +721,7 @@ LAB_Core::LAB_Core_gpio_pull (int pin,
 
 // select the alternative function of the GPIO pin
 void LAB_Core::
-gpio_mode (int pin, 
+AP_gpio_func (int pin, 
            int mode)
 {
   volatile uint32_t *reg   = REG32(m_regs_gpio, GPIO_MODE0) + pin / 10, 
@@ -740,7 +740,7 @@ LAB_Core::gpio_write(unsigned pin, unsigned value)
 
 // Get an I/P pin value
 uint8_t 
-LAB_Core::gpio_read (int pin)
+LAB_Core::AP_gpio_read (int pin)
 {
   volatile uint32_t *reg = REG32(m_regs_gpio, GPIO_LEV0) + pin/32;
   return (((*reg) >> (pin % 32)) & 1);
@@ -778,23 +778,23 @@ LAB_Core::pwm_init (int freq,
 
     // 1 << 5 = KILL: kill the clock generator
     // this line stops the clock generator
-    *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | (1 << 5);
+    *REG32(m_regs_cm, CM_PWMCTL) = CM_PASSWD | (1 << 5);
 
     // 1 << 7 = BUSY: Clock generator is running
     // this line waits for BUSY to 0, or for clock generator to stop
-    while (*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) ;
+    while (*REG32(m_regs_cm, CM_PWMCTL) & (1 << 7)) ;
 
     // divi << 12 = DIVI: Integer part of divisor
     // assign divisor to DIVI field
-    *REG32(m_regs_clk, CM_PWMDIV) = CM_PASSWD | (divi << 12);
+    *REG32(m_regs_cm, CM_PWMDIV) = CM_PASSWD | (divi << 12);
 
     // 1 << 4 = ENAB: Enable the clock generator
     // this line asserts ENAB to enable the clock generator
-    *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | 6 | (1 << 4);
+    *REG32(m_regs_cm, CM_PWMCTL) = CM_PASSWD | 6 | (1 << 4);
 
     // // 1 << 7 = BUSY: Clock generator is running
     // this line waits until BUSY is 1, this means clock generator is running
-    while ((*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) == 0) ;
+    while ((*REG32(m_regs_cm, CM_PWMCTL) & (1 << 7)) == 0) ;
   #endif
 
 
@@ -805,10 +805,10 @@ LAB_Core::pwm_init (int freq,
 
 
   #if PWM_OUT
-    gpio_mode(PWM_PIN, GPIO_ALT5);
+    AP_gpio_func(PWM_PIN, GPIO_ALT5);
   #endif
 
-  //gpio_set(PWM_PIN, GPIO_ALT5, 1);
+  //AP_gpio_set(PWM_PIN, GPIO_ALT5, 1);
 }
 
 // Start PWM operation
@@ -856,23 +856,23 @@ LAB_Core::pwm_frequency (float frequency)
 
   // 1 << 5 = KILL: kill the clock generator
   // this line stops the clock generator
-  *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | (1 << 5);
+  *REG32(m_regs_cm, CM_PWMCTL) = CM_PASSWD | (1 << 5);
 
   // 1 << 7 = BUSY: Clock generator is running
   // this line waits for BUSY to 0, or for clock generator to stop
-  while (*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) ;
+  while (*REG32(m_regs_cm, CM_PWMCTL) & (1 << 7)) ;
 
   // divi << 12 = DIVI: Integer part of divisor
   // assign divisor to DIVI field
-  *REG32(m_regs_clk, CM_PWMDIV) = CM_PASSWD | (divi << 12);
+  *REG32(m_regs_cm, CM_PWMDIV) = CM_PASSWD | (divi << 12);
 
   // 1 << 4 = ENAB: Enable the clock generator
   // this line asserts ENAB to enable the clock generator
-  *REG32(m_regs_clk, CM_PWMCTL) = CM_PASSWD | 6 | (1 << 4);
+  *REG32(m_regs_cm, CM_PWMCTL) = CM_PASSWD | 6 | (1 << 4);
 
   // // 1 << 7 = BUSY: Clock generator is running
   // this line waits until BUSY is 1, this means clock generator is running
-  while ((*REG32(m_regs_clk, CM_PWMCTL) & (1 << 7)) == 0) ;
+  while ((*REG32(m_regs_cm, CM_PWMCTL) & (1 << 7)) == 0) ;
 
   usleep(1000);
   *REG32(m_regs_pwm, PWM_RNG1) = range;

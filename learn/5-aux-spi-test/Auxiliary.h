@@ -25,7 +25,7 @@ typedef struct
   void *bus,  // Bus address
        *virt, // Virtual address
        *phys; // Physical address
-} MemoryMap;
+} AP_MemoryMap;
 
 enum WaveType 
 { 
@@ -45,12 +45,12 @@ enum DisplayMode
   OSC_DISP_MODE_SCREEN
 };
 
-volatile uint32_t* g_reg32 (MemoryMap mem_map, uint32_t offset);
+volatile uint32_t* g_reg32 (AP_MemoryMap mem_map, uint32_t offset);
 void g_reg_write (volatile uint32_t *reg, uint32_t value, uint32_t mask, int shift);
-void g_reg_write (MemoryMap mem_map, uint32_t offset, uint32_t value, uint32_t mask, int shift);
+void g_reg_write (AP_MemoryMap mem_map, uint32_t offset, uint32_t value, uint32_t mask, int shift);
 
-void g_reg32_peek (MemoryMap mem_map, uint32_t offset);
-void g_reg32_peek (char const *name, MemoryMap mem_map, uint32_t offset);
+void g_reg32_peek (AP_MemoryMap mem_map, uint32_t offset);
+void g_reg32_peek (char const *name, AP_MemoryMap mem_map, uint32_t offset);
 
 double  g_get_unit_prefix_scaler          (char unit_prefix);
 int     g_get_unit_prefix_power_exponent  (char unit_prefix);

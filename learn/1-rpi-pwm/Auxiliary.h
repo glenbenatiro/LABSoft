@@ -212,17 +212,17 @@ constexpr int LAB_PWM_FREQUENCY      = 5'000'000; // this is to be extracted fro
 #define GPIO_GPPUDCLK0 0x98
 
 // GPIO I/O definitions
-#define GPIO_IN         0
-#define gpio_write        1
-#define GPIO_ALT0       4
+#define GPIO_INPUT         0
+#define AP_gpio_write       1
+#define AP_GPIO_FUNC_ALT0       4
 #define GPIO_ALT1       5
 #define GPIO_ALT2       6
 #define GPIO_ALT3       7
-#define GPIO_ALT4       3
+#define AP_GPIO_FUNC_ALT4       3
 #define GPIO_ALT5       2
-#define GPIO_NOPULL     0
+#define AP_GPIO_PULL_OFF     0
 #define GPIO_PULLDN     1
-#define GPIO_PULLUP     2
+#define AP_GPIO_PULL_UP     2
 
 
 
@@ -238,8 +238,8 @@ constexpr int LAB_PWM_FREQUENCY      = 5'000'000; // this is to be extracted fro
 
 // --- Microsecond Timer ---
 // Microsecond timer
-#define USEC_BASE (PHYS_REG_BASE + 0x3000)
-#define USEC_TIME 0x04
+#define AP_ST_BASE (PHYS_REG_BASE + 0x3000)
+#define AP_ST_CLO 0x04
 
 
 

@@ -7,7 +7,7 @@
 
 // get virtual 32-bit pointer to a register
 volatile uint32_t*
-g_reg32 (MemoryMap  mem_map, 
+g_reg32 (AP_MemoryMap  mem_map, 
          uint32_t   offset)
 {
   return (volatile uint32_t *)((uint32_t)(mem_map.virt) + (uint32_t)(offset));
@@ -23,7 +23,7 @@ g_reg_write (volatile uint32_t *reg,
 }
 
 void 
-g_reg_write (MemoryMap mem_map,
+g_reg_write (AP_MemoryMap mem_map,
              uint32_t  offset,
              uint32_t  value, 
              uint32_t  mask, 
@@ -35,7 +35,7 @@ g_reg_write (MemoryMap mem_map,
 }
 
 // print the contents of the 32-bit register
-void g_reg32_peek (char const *name, MemoryMap mem_map, uint32_t offset)
+void g_reg32_peek (char const *name, AP_MemoryMap mem_map, uint32_t offset)
 {
   uint32_t reg = *(g_reg32 (mem_map, offset));
 
@@ -54,7 +54,7 @@ void g_reg32_peek (char const *name, MemoryMap mem_map, uint32_t offset)
   printf ("**********\n\n");
 }
 
-void g_reg32_peek (MemoryMap mem_map, uint32_t offset)
+void g_reg32_peek (AP_MemoryMap mem_map, uint32_t offset)
 {
   g_reg32_peek ("no name given", mem_map, offset);
 }

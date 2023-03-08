@@ -12,7 +12,7 @@ class LAB_Oscilloscope
   private:
     LAB      *m_LAB;
     LAB_Core *m_LAB_Core;
-    MemoryMap m_uncached_adc_dma_data;
+    AP_MemoryMap m_uncached_adc_dma_data;
 
   public:
     
@@ -44,6 +44,11 @@ class LAB_Oscilloscope
     void    vertical_offset (unsigned channel, double value);
     void    load_data_samples ();
     void    update_dma_data (int osc_disp_mode);
+    void    channel_enable ();
+    double  time_per_division ();
+    void    config_dma_control_blocks ();
+    int     coupling  (unsigned channel, LABE_OSC_COUPLING _LABE_OSC_COUPLING);
+    int     scaling   (unsigned channel, LABE_OSC_SCALING _LABE_OSC_SCALING);
 
     // --- Inline Functions ---
 

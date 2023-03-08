@@ -14,9 +14,9 @@ class LABSoft_Controller;
 #include <FL/Fl_Light_Button.H>
 #include "LABSoft_Oscilloscope_Display_Group.h"
 #include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Choice.H>
 #include <FL/Fl_Output.H>
 #include "LABSoft_Logic_Analyzer_Display_Group.h"
-#include <FL/Fl_Choice.H>
 #include <FL/Fl_Text_Display.H>
 
 class LABSoft_GUI {
@@ -59,6 +59,17 @@ private:
   static void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[];
 public:
+  Fl_Choice *oscilloscope_fl_choice_channel_1_scaling;
+private:
+  inline void cb_oscilloscope_fl_choice_channel_1_scaling_i(Fl_Choice*, long);
+  static void cb_oscilloscope_fl_choice_channel_1_scaling(Fl_Choice*, long);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_1_scaling[];
+public:
+  Fl_Light_Button *oscilloscope_fl_light_button_channel_1_ac_coupling;
+private:
+  inline void cb_oscilloscope_fl_light_button_channel_1_ac_coupling_i(Fl_Light_Button*, long);
+  static void cb_oscilloscope_fl_light_button_channel_1_ac_coupling(Fl_Light_Button*, long);
+public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_2;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_2_enable;
 private:
@@ -76,6 +87,17 @@ private:
   inline void cb_oscilloscope_fl_input_choice_channel_2_vertical_offset_i(Fl_Input_Choice*, long);
   static void cb_oscilloscope_fl_input_choice_channel_2_vertical_offset(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_2_vertical_offset[];
+public:
+  Fl_Choice *oscilloscope_fl_choice_channel_2_scaling;
+private:
+  inline void cb_oscilloscope_fl_choice_channel_2_scaling_i(Fl_Choice*, long);
+  static void cb_oscilloscope_fl_choice_channel_2_scaling(Fl_Choice*, long);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_2_scaling[];
+public:
+  Fl_Light_Button *oscilloscope_fl_light_button_channel_2_ac_coupling;
+private:
+  inline void cb_oscilloscope_fl_light_button_channel_2_ac_coupling_i(Fl_Light_Button*, long);
+  static void cb_oscilloscope_fl_light_button_channel_2_ac_coupling(Fl_Light_Button*, long);
 public:
   Fl_Group *oscilloscope_fl_group_horizontal;
   Fl_Input_Choice *oscilloscope_fl_input_choice_time_per_division;

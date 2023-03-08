@@ -15,15 +15,15 @@ class LAB_Core
   public:
     int m_spi_frequency = LAB_SPI_FREQUENCY;
 
-    MemoryMap m_regs_gpio,
+    AP_MemoryMap m_regs_gpio,
             m_regs_dma, 
-            m_regs_clk, 
+            m_regs_cm, 
             m_regs_pwm, 
             m_regs_spi, 
-            m_regs_usec,
+            m_regs_st,
             m_aux_regs;
 
-    MemoryMap m_vc_mem;
+    AP_MemoryMap m_vc_mem;
        
   public:
     int   m_fifo_fd = 0;
@@ -36,12 +36,12 @@ class LAB_Core
    ~LAB_Core ();
 
     // --- Memory ---
-    void     LAB_Core_map_periph       (MemoryMap *mp, void *phys, int size);    
+    void     LAB_Core_map_periph       (AP_MemoryMap *mp, void *phys, int size);    
     void     LAB_Core_map_devices      ();
     void*    LAB_Core_map_segment      (void *addr, int size);
     void     LAB_Core_unmap_segment    ();
-    void*    LAB_Core_map_uncached_mem (MemoryMap *mp, int size);
-    void     LAB_Core_unmap_periph_mem (MemoryMap *mp);
+    void*    LAB_Core_map_uncached_mem (AP_MemoryMap *mp, int size);
+    void     LAB_Core_unmap_periph_mem (AP_MemoryMap *mp);
     
     // --- Videocore Mailbox ---
     int  	   LAB_Core_mailbox_open        (void);
@@ -61,18 +61,18 @@ class LAB_Core
         
     // --- DMA ---
     void     LAB_Core_dma_enable       (int chan);
-    void     LAB_Core_dma_start        (MemoryMap *mp, int chan, DMA_CB *cbp, uint32_t csval);
+    void     LAB_Core_dma_start        (AP_MemoryMap *mp, int chan, AP_DMA_CB *cbp, uint32_t csval);
     void     LAB_Core_dma_disp         (int chan);
     void     LAB_Core_dma_stop         (int chan);
     void     LAB_Core_dma_wait         (int chan);
     uint32_t LAB_Core_dma_transfer_len (int chan);
     
     // --- GPIO ---
-    void     gpio_write         (unsigned pin, unsigned value);
-    void     gpio_mode        (int pin, int mode);
+    void     AP_gpio_write        (unsigned pin, unsigned value);
+    void     AP_gpio_func        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
-    void     gpio_set         (int pin, int mode, int pull);
-    uint8_t  gpio_read          (int pin);
+    void     AP_gpio_set         (int pin, int mode, int pull);
+    uint8_t  AP_gpio_read          (int pin);
     
     // --- SPI ---
     int       spi_init            ();
