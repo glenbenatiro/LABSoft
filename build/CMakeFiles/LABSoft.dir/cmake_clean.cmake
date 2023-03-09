@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o"
+  "CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o"

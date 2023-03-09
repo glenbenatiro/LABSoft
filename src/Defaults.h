@@ -74,17 +74,19 @@ enum LABE_OSC_SCALING
   LABE_OSC_SCALING_EIGHTH   = 3
 };
 
-// ---
-
-// General Raspberry Pi
-// constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
-// constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
-
+// --- General Raspberry Pi ---
 constexpr double LAB_PWM_FREQUENCY  = 1'000'000.0; 
 constexpr double LAB_SPI_FREQUENCY  = 10'000'000.0;  // final
 
-// constexpr double LAB_PWM_FREQUENCY  = 15'000'000.0; // this is to be extracted from 25MHz master clk
-// constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
+// --- PWM ---
+struct LAB_PWM_PACING_DMA_DATA 
+{ 
+  AP_DMA_CB cbs[15];
+
+  uint32_t pwm_val;
+};
+
+constexpr unsigned LAB_PWM_DMA_PACING_PWM_CHAN = 0;
 
 constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
 constexpr int PWM_CHAN              = 1;
@@ -95,6 +97,8 @@ constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 // Raspberry Pi Zero BCM Pin Assignments
+// https://pinout.xyz/
+constexpr unsigned LAB_RPI_PIN_PWM_CHAN_0                         = 12;
 constexpr unsigned LAB_OSCILLOSCOPE_COUPLING_SELECT_PIN_CHANNEL_1 = 14;
 constexpr unsigned LAB_OSCILLOSCOPE_COUPLING_SELECT_PIN_CHANNEL_2 = 15;
 constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_1   = 27;
@@ -103,10 +107,11 @@ constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_2   = 23;
 constexpr unsigned LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_2   = 24;
 
 // DMA Channel Use
-constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING    = 7;
-constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX        = 8;
-constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX        = 9;
-constexpr unsigned  LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE  = 10;
+constexpr unsigned  LAB_DMA_CHAN_PWM_PACING                 = 7;
+constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX        = 8;
+constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX        = 9;
+constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_LOAD      = 10;
+constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 11;
 
 // Channel_Signals
 

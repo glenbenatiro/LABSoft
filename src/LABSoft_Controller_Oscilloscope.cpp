@@ -180,11 +180,11 @@ cb_test (Fl_Light_Button *w,
 
   if (w->value () == 1)
   {
-    m_LAB->m_LAB_Core.dma_pause (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+    m_LAB->m_LAB_Core.dma_pause (LAB_DMA_CHAN_PWM_PACING);
   }
   else 
   {
-    m_LAB->m_LAB_Core.dma_play (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+    m_LAB->m_LAB_Core.dma_play (LAB_DMA_CHAN_PWM_PACING);
   }
 }
 

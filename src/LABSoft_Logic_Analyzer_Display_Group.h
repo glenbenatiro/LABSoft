@@ -9,10 +9,12 @@
 
 #include "Defaults.h"
 #include "Channel_Signals.h"
+#include "LABSoft_Logic_Analyzer_Display.h"
 
 class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
 {
   private: 
+    LABSoft_Logic_Analyzer_Display     *m_display;
     std::vector<Fl_Menu_Button*> m_channel_menu_buttons;
     std::vector<Fl_Box*> m_x_labels;
     const Channel_Signals *m_channel_signals;
@@ -48,6 +50,18 @@ class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
 
     // setter
     void channel_signals (const Channel_Signals *_Channel_Signals);
+
+    // getter
+    LABSoft_Logic_Analyzer_Display* display ()
+    {
+      return m_display;
+    }
+
+    // forwarding functions to actual oscilloscope display
+    void load_channel_signals (std::vector <Channel_Data_Logic_Analyzer> *chan_data)
+    {
+      m_display->load_channel_signals (chan_data);
+    }
 };
 
 #endif 

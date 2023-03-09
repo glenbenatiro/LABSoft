@@ -85,20 +85,20 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
       m_display->load_channel_signals (_Channel_Signals);
     }
 
-  void channel_enable (unsigned channel)
-  {
-    update_volts_per_division_labels ();
-  }
+    void channel_enable (unsigned channel)
+    {
+      update_volts_per_division_labels ();
+    }
 
-  void channel_disable (unsigned channel)
-  {
-    update_volts_per_division_labels ();
-  }
+    void channel_disable (unsigned channel)
+    {
+      update_volts_per_division_labels ();
+    }
 
-  void channel_signals (Channel_Signals *_Channel_Signals)
-  {
-    m_channel_signals = m_display->m_channel_signals = _Channel_Signals;
-  }
+    void channel_signals (Channel_Signals *_Channel_Signals)
+    {
+      m_channel_signals = m_display->m_channel_signals = _Channel_Signals;
+    }
 };
 
 #endif

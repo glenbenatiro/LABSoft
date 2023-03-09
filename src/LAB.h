@@ -10,8 +10,11 @@
 
 class LAB
 {
+  private: 
+
+    AP_MemoryMap m_uncached_pwm_dma_data;
+
   public:
-    // functions
     LAB ();
    ~LAB ();
 
@@ -21,6 +24,11 @@ class LAB
     LAB_Function_Generator  m_Function_Generator;
     LAB_Logic_Analyzer      m_Logic_Analyzer;
     LAB_Circuit_Checker     m_Circuit_Checker;   
+
+    // --- Functions ---
+    void setup_pwm ();
+    void setup_spi ();
+    void config_pwm_dma_control_blocks ();
 };
 
 #endif

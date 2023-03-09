@@ -94,9 +94,9 @@ constexpr int VC_MEM_SIZE = (PAGE_SIZE + (BUFF_LEN * MAX_BUFFS * PING_PONG_BUFF_
 #define CBS(n)          MEM_BUS_ADDR(mp, &dp->cbs[(n)])
 
 // DMA channels and data requests
-#define LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING      7
-#define LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX      8
-#define LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX      9
+#define LAB_DMA_CHAN_PWM_PACING      7
+#define LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX      8
+#define LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX      9
 #define DMA_PWM_DREQ    5
 #define DMA_SPI_TX_DREQ 6
 #define DMA_SPI_RX_DREQ 7

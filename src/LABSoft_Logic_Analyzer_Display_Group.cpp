@@ -13,12 +13,12 @@ LABSoft_Logic_Analyzer_Display_Group
   (int X, int Y, int W, int H, const char *label) 
     : Fl_Group (X, Y, W, H, label)
 {
-  // Load default values
-  m_number_of_channels      = LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_NUMBER_OF_CHANNELS;
-  // m_graph_number_of_columns = LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_NUMBER_OF_COLUMNS;
-  // m_graph_background_color  = LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_BACKGROUND_COLOR;
-  // m_graph_grid_color        = LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_GRID_COLOR;
-  // m_x_label_strip_height    = LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_X_LABEL_STRIP_HEIGHT;
+  // create new labsoft oscilloscope display instance, with paddings
+  m_display = new LABSoft_Logic_Analyzer_Display (X + m_channel_menu_button_width,           // width
+                                                  Y,
+                                                  W - m_channel_menu_button_width,
+                                                  H, 
+                                                  0);
 
   // Generate child widgets
   // Channel menu buttons

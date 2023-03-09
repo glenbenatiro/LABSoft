@@ -76,13 +76,13 @@ class LAB_Oscilloscope
 
     void run_osc_core ()
     {
-      m_LAB_Core->pwm_start ();
+      m_LAB_Core->pwm_start (LAB_PWM_DMA_PACING_PWM_CHAN);
       m_is_osc_core_running = true;
     }
 
     void stop_osc_core ()
     {
-      m_LAB_Core->pwm_stop ();
+      m_LAB_Core->pwm_stop (LAB_PWM_DMA_PACING_PWM_CHAN);
       m_is_osc_core_running = false;
     }   
 

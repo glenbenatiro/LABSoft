@@ -28,20 +28,20 @@ run_display ()
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_master_run_stop (Fl_Light_Button *w,
-                    void            *data)
+cb_master_run_stop (Fl_Button *w,
+                    void      *data)
 {
-  if (w->value () == 1)
-  {
-    m_LAB->m_Logic_Analyzer.run ();
-    
-    w->label ("Stop");
-  }
-  else 
+  if (m_LAB->m_Logic_Analyzer.is_running ())
   {
     m_LAB->m_Logic_Analyzer.stop ();
 
     w->label ("Run");
+  }
+  else 
+  {
+    m_LAB->m_Logic_Analyzer.run ();
+
+    w->label ("Stop");
   }
 }
 

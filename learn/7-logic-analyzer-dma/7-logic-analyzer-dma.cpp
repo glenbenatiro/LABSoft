@@ -11,9 +11,17 @@ constexpr unsigned LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES = 2000;
 constexpr unsigned DMA_CHAN_RX = 8;
 constexpr unsigned DMA_CHAN_PWM_PACING = 7;
 
+constexpr unsigned  LAB_DMA_CHAN_PWM_PACING    = 7;
+constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX        = 8;
+constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX        = 9;
+constexpr unsigned  LAB_OSCILLOSCOPE_DMA_CHAN_XTRA          = 11;
+constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 10;
+
+constexpr int     LAB_OSCILLOSCOPE_ADC_CE                 = 0; // CE0 or CE1
+
 struct LAB_OSCILLOSCOPE_DMA_DATA
 {
-  AP_DMA_CB cbs[10];
+  AP_DMA_CB cbs[15];
 
   uint32_t  samp_size,
             pwm_val, 
@@ -26,164 +34,231 @@ struct LAB_OSCILLOSCOPE_DMA_DATA
                     rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
 };
 
+struct AP_DMA_PWM_PACING_DATA_STRUCT
+{
+  AP_DMA_CB _AP_DMA_CB[10];
+
+  uint32_t pwm_data;
+};
+
+constexpr unsigned VC_MEM_SIZE = 0x1000 + (2 * 8000 * 4);
+
 int main ()
 {
   AikaPi AP;
+  AP_MemoryMap m_uncached_memory;
 
-  AP.pwm_init  (10'000);
-  // AP.pwm_duty_cycle (0, 50);
-  AP.pwm_algo  (0, AP_PWM_ALGO_MARKSPACE);
-  AP.pwm_fifo_clear ();
+  // Map uncached memory
+  AP.map_uncached_mem (& m_uncached_memory, VC_MEM_SIZE);
+
+  // Set GPIO pin of PWM
+  AP.gpio_set (PIN_PWM, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
+
+  // Init PWM settings
+  AP.pwm_init     (200'000);
+  AP.pwm_algo     (0, AP_PWM_ALGO_MARKSPACE);
+  AP.pwm_use_fifo (0, 1);
+
+  //*(Utility::get_reg32 (AP.m_regs_pwm, PWM_CTL)) |= (1 << 2);
+
+  // Enable PWM DMA and set DREQ threshold
+  *(Utility::get_reg32 (AP.m_regs_pwm, PWM_DMAC)) = (1 << 31) | (8 << 8) | (1 << 0);
+
+  // Initialize SPI 
+  AP.spi_init (10'000'000.0);
+
+  *(Utility::get_reg32 (AP.m_regs_spi, SPI_DC)) = 
+    (8<<24) | (1<<16) | (8<<8) | 1;
+
+  // Setup PWM control blocks
+  AP_MemoryMap *mp = &m_uncached_memory;
+
+  LAB_OSCILLOSCOPE_DMA_DATA *dp = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>
+    (m_uncached_memory.virt);
   
-  // 9.) start pwm
+  LAB_OSCILLOSCOPE_DMA_DATA adc_dma_data = 
+  {
+    .cbs = 
+    {
+      // control blocks for SPI_RX dual buffer
+      { // CB 0
+        DMA_CB_TI_SPI_RX,
+        Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_FIFO),  
+        Utility::mem_bus_addr (mp, dp->rxd0),       
+        (uint32_t)(2000*4),  
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[1]),
+        0
+      },
+      { // CB 1
+        DMA_CB_TI_SPI_RX, 
+        Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_CS),
+        Utility::mem_bus_addr (mp, &dp->states[0]),
+        4,
+        0,
+        Utility::mem_bus_addr (mp, &dp->cbs[2]),
+        0
+      }, 
+      { // CB 2
+        DMA_CB_TI_SPI_RX, 
+        Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_FIFO),
+        Utility::mem_bus_addr (mp, dp->rxd1),       
+        (uint32_t)(2000*4),  
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[3]), 
+        0
+      }, 
+      { // CB 3
+        DMA_CB_TI_SPI_RX, 
+        Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_CS),    
+        Utility::mem_bus_addr (mp, &dp->states[1]), 
+        4,                                              
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[0]), 
+        0
+      }, 
+
+
+      // control blocks for SPI_RX single buffer
+      { // CB 4
+        DMA_CB_TI_SPI_RX, 
+        Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_FIFO),
+        Utility::mem_bus_addr (mp, dp->rxd0),       
+        (uint32_t)(2000*4),  
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[5]), 
+        0
+      },  
+      { // CB 5
+        DMA_CB_TI_SPI_RX, 
+        Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_CS),    
+        Utility::mem_bus_addr (mp, &dp->states[1]), 
+        4,                                              
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[4]), 
+        0
+      },  
+
+
+      // // Control Blocks for SPI TX
+      // { // CB 6
+      //   DMA_CB_TI_SPI_TX,  
+      //   MEM(mp, dp->txd),        
+      //   REG(AP.m_regs_spi, SPI_FIFO), 
+      //   8, 
+      //   0, 
+      //   Utility::mem_bus_addr (mp, &dp->cbs[6]), 
+      //   0
+      // }, 
+
+      // Control Blocks for SPI TX
+      { // CB 6
+        DMA_CB_TI_SPI_TX,  
+        MEM(mp, dp->txd),        
+        REG(AP.m_regs_spi, SPI_FIFO), 
+        8, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[6]), 
+        0
+      }, 
+
+
+      // PWM ADC trigger: wait for PWM, set sample length, trigger SPI
+      { //CB 7
+        DMA_CB_TI_PWM, 
+        MEM(mp, &dp->pwm_val),   
+        REG(AP.m_regs_pwm, PWM_FIF1), 
+        4, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[8]), 
+        0
+      }, 
+      // PWM ADC trigger: wait for PWM, set sample length, trigger SPI
+      { //CB 8
+        DMA_CB_TI_PWM, 
+        MEM(mp, &dp->pwm_val),   
+        REG(AP.m_regs_pwm, PWM_FIF1), 
+        4, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[7]), 
+        0
+      }, 
+
+      { // CB 9
+        DMA_CB_TI_PWM, 
+        MEM(mp, &dp->samp_size), 
+        REG(AP.m_regs_spi, SPI_DLEN), 
+        4, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[10]), 
+        0
+      },
+      { // CB 10
+        DMA_CB_TI_PWM, 
+        MEM(mp, &dp->adc_csd),   
+        REG(AP.m_regs_spi, SPI_CS),   
+        4, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[9]), 
+        0
+      },
+    },
+
+    .samp_size = 4, // in number of bytes
+    .pwm_val   = 250, 
+    .adc_csd   = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | SPI_CS_CLEAR | LAB_OSCILLOSCOPE_ADC_CE,
+    // .txd       = {0xd0, static_cast<uint32_t>(m_number_of_channels > 1 ? 0xf0 : 0xd0)},
+    .txd       = {0xffff, 0x0000},
+    .usecs     = {0, 0},  
+    .states    = {0, 0}, 
+    .rxd0      = {0}, 
+    .rxd1      = {0},
+  };
+  
+  // Copy control blocks to uncached mem
+  std::memcpy (dp, &adc_dma_data, sizeof (adc_dma_data));
+
+  // Reset DMA chan
+  AP.dma_reset (DMA_CHAN_PWM_PACING);
+  AP.dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX);
+  AP.dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX);
+  AP.dma_reset (LAB_OSCILLOSCOPE_DMA_CHAN_XTRA);
+
+  // Start DMA chan
+  AP_MemoryMap              *ud = &(m_uncached_memory);
+  LAB_OSCILLOSCOPE_DMA_DATA *dd = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(ud->virt);
+
+  AP.dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX,     &(dd->cbs[6]), 0);  // Start SPI Tx DMA
+  AP.dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX,     &(dd->cbs[0]), 0);  // Start SPI Rx DMA
+  AP.dma_start (ud, LAB_OSCILLOSCOPE_DMA_CHAN_XTRA,       &(dd->cbs[9]), 0);  // Start SPI Rx DMALAB_OSCILLOSCOPE_DMA_CHAN_XTRA
+  AP.dma_start (ud, DMA_CHAN_PWM_PACING,                  &(dd->cbs[7]), 0);
+  // Start PWM
   AP.pwm_start (0);
 
-  *(Utility::get_reg32 (AP.m_regs_pwm, PWM_FIF1)) = 100000;
+  // pause
+  double freq, dc;
 
-  // 10.) pause
-  std::cout << "cm pwm ctl: \n";
-  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);  
-
-  std::cout << "cm pwm div: \n";
-  Utility::disp_reg32 (AP.m_regs_cm, CM_PWMDIV);  
-
-  std::cout << "pwm CTL: \n";
-  Utility::disp_reg32 (AP.m_regs_pwm, PWM_CTL); 
-
-  std::cout << "pwm rng: \n";
-  Utility::disp_reg32 (AP.m_regs_pwm, PWM_RNG1); 
-
-  std::cout << "pwm STA: \n";
-  Utility::disp_reg32 (AP.m_regs_pwm, PWM_STA); 
-
-  std::cout << "\n\npause, waiting for enter...\n";
-
-  double pwm_freq, pwm_dc;
-  
-  while (true)
+  while (1)
   {
-    std::cout << "\n\nInput new freq: ";
-    std::cin >> pwm_freq;
-    std::cout << "\nInput duty cycle: " ;
-    std::cin >> pwm_dc;
+    std::cout << "\n\nFreq: ";
+    std::cin >> freq;
+    std::cout << "Duty Cycle: ";
+    std::cin >> dc;
 
-    AP.pwm_frequency  (0, pwm_freq);
-    AP.pwm_duty_cycle (0, pwm_dc);
+    double range = AP.pwm_frequency (0, freq);
+    double pwm_val = range * (dc / 100.0);
+
+    (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_memory.virt))->
+      pwm_val = pwm_val;
+
+    *(Utility::get_reg32 (AP.m_regs_pwm, PWM_DAT1)) = pwm_val;
+
+    std::cout << "pwm val: " << (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>
+      (m_uncached_memory.virt))->pwm_val << "\n";
   }
 
-  //
-  AP.pwm_stop (0);
-
-  // 11.) unmap
-  //AP.unmap_periph_mem (&m_uncached_memory);
+  // Free mapped memory upon exit
+  AP.unmap_periph_mem (&m_uncached_memory);
 
   return 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // AP_MemoryMap m_uncached_memory;
-
-  // // 1.)
-  // AP.gpio_set (PIN_PWM, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
-  // AP.pwm_init (200'000); 
-
-  // *(Utility::get_reg32 (AP.m_regs_pwm, PWM_DMAC)) = (1 << 31) | (15 << 8) | (15 << 0);
-
-  // //2.) map uncached memory
-  // AP.map_uncached_mem (&m_uncached_memory, sizeof (LAB_OSCILLOSCOPE_DMA_DATA));
-
-  // //3.) set control blocks
-  // AP_MemoryMap *mp = &m_uncached_memory;
-
-  // LAB_OSCILLOSCOPE_DMA_DATA *dp = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_memory.virt);
-  
-  // LAB_OSCILLOSCOPE_DMA_DATA dma_data = 
-  // {
-  //   .cbs =
-  //   {
-  //     // store
-  //     // {
-  //     //   DMA_TI_DREQ_PWM << 16 | DMA_TI_SRC_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP,
-  //     //   Utility::reg_bus_addr (&(AP.m_regs_st), AP_ST_CLO),
-  //     //   Utility::mem_bus_addr (&m_uncached_memory, dp->rxd0),
-  //     //   static_cast<uint32_t>(4 * 2000),
-  //     //   0,
-  //     //   Utility::mem_bus_addr (&m_uncached_memory, &(dp->cbs[0])),
-  //     //   0
-  //     // },
-
-  //     // PWM trigger
-  //     {
-  //       DMA_TI_DREQ_PWM << 16 | DMA_TI_DEST_DREQ | DMA_TI_WAIT_RESP,
-  //       Utility::mem_bus_addr (&m_uncached_memory, &(dp->pwm_val)),
-  //       Utility::reg_bus_addr (&(AP.m_regs_pwm), PWM_FIF1),
-  //       4,
-  //       0,
-  //       Utility::mem_bus_addr (&m_uncached_memory, &(dp->cbs[0])),
-  //       0
-  //     }
-  //   },
-    
-  //   .samp_size  = 4,
-  //   .pwm_val    = static_cast<uint32_t>(32000),
-  //   .adc_csd    = 0,
-  //   .txd        = {0xffff, 0x0000},
-  //   .usecs      = {0, 0},
-  //   .states     = {0, 0},
-  //   .rxd0       = {0, 0},
-  //   .rxd1       = {0, 0},
-  // };
-
-  // // 4.) copy control block to uncached mem
-  // std::memcpy (dp, &dma_data, sizeof (dma_data));
-
-  // // 5.) reset dma on the dma chans
-  // AP.dma_reset (DMA_CHAN_PWM_PACING);
-  // //AP.dma_reset (DMA_CHAN_RX);
-
-  // // 8.) start dma chans
-  // //AP.dma_start (DMA_CHAN_RX, &m_uncached_memory, &(dp->cbs[0]));
-  // AP.dma_start (DMA_CHAN_PWM_PACING, &m_uncached_memory, &(dp->cbs[1]));
-
-  // // 9.) start pwm
-  // AP.pwm_start (0);
-
-  // // 10.) pause
-  // std::cout << "cm pwm ctl: \n";
-  // Utility::disp_reg32 (AP.m_regs_cm, CM_PWMCTL);  
-
-  // std::cout << "cm pwm div: \n";
-  // Utility::disp_reg32 (AP.m_regs_cm, CM_PWMDIV);  
-
-  // std::cout << "pwm rng: \n";
-  // Utility::disp_reg32 (AP.m_regs_pwm, PWM_RNG1); 
-
-  // std::cout << "pwm STA: \n";
-  // Utility::disp_reg32 (AP.m_regs_pwm, PWM_STA); 
-
-  // std::cout << "\n\npause, waiting for enter...\n";
-  // std::cin.get ();
-
-  // //
-  // AP.pwm_stop (0);
-
-  // // 11.) unmap
-  // //AP.unmap_periph_mem (&m_uncached_memory);
-
-  // return 0;
 }

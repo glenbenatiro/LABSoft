@@ -1,6 +1,8 @@
 #ifndef LAB_LOGIC_ANALYZER_H
 #define LAB_LOGIC_ANALYZER_H
 
+#include <vector>
+
 #include "Defaults.h"
 #include "LAB_Core.h"
 
@@ -15,14 +17,12 @@ class LAB_Logic_Analyzer
 
     bool m_is_running = false;
 
-    Channel_Data_Logic_Analyzer 
-      m_channel_data_logic_analyzer[LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS];
-    
     AP_MemoryMap m_uncached_dma_data;
 
   public:
-    const uint32_t m_dma_one = 0x1;
-    
+    std::vector <Channel_Data_Logic_Analyzer> m_channel_data_logic_analyzer = 
+      std::vector <Channel_Data_Logic_Analyzer> (LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
+
     LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB);
 
     void  run   ();

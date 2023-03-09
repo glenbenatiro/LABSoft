@@ -367,9 +367,9 @@ LAB_Core::LAB_Core_terminate (int sig)
   printf("Closing\n");
   
   spi_disable();
-  //dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  //dma_reset(LAB_DMA_CHAN_PWM_PACING);
   //dma_reset(DMA_CHAN_SPI_RX);
-  //dma_reset(LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
+  //dma_reset(LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX);
   
   LAB_Core_unmap_periph_mem (&m_vc_mem);
   LAB_Core_unmap_periph_mem (&m_regs_st);

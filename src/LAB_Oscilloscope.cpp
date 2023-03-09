@@ -12,31 +12,31 @@ LAB_Oscilloscope (LAB_Core *_LAB_Core, LAB *_LAB)
   m_LAB       = _LAB;
 
   // Initialize GPIO pins
-  m_LAB_Core->AP_gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_1, 
+  m_LAB_Core->gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_1, 
     AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-  m_LAB_Core->AP_gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_1, 
+  m_LAB_Core->gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_1, 
     AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-  m_LAB_Core->AP_gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_2, 
+  m_LAB_Core->gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A0_PIN_CHANNEL_2, 
     AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-  m_LAB_Core->AP_gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_2, 
+  m_LAB_Core->gpio_set (LAB_OSCILLOSCOPE_SCALER_MUX_A1_PIN_CHANNEL_2, 
     AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
 
   coupling (0, LABE_OSC_COUPLING_DC);
   coupling (1, LABE_OSC_COUPLING_DC);
 
   // PWM should be initialized already at this point in LAB
-  m_LAB_Core->dma_reset (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
-  m_LAB_Core->dma_reset (LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX);
-  m_LAB_Core->dma_reset (LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX);
+  m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_LOAD);
+  m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
+  m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX);
 
   config_dma_control_blocks ();
 
   AP_MemoryMap              *ud = &(m_uncached_adc_dma_data);
   LAB_OSCILLOSCOPE_DMA_DATA *dd = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(ud->virt);
 
-  m_LAB_Core->dma_start (ud, LAB_OSCILLOSCOPE_DMA_CHAN_SPI_TX,     &(dd->cbs[6]), 0);  // Start SPI Tx DMA
-  m_LAB_Core->dma_start (ud, LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX,     &(dd->cbs[0]), 0);  // Start SPI Rx DMA
-  m_LAB_Core->dma_start (ud, LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING, &(dd->cbs[7]), 0); // Start PWM DMA, for SPI trigger
+  m_LAB_Core->dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX,   &(dd->cbs[6]), 0);  // Start SPI Tx DMA
+  m_LAB_Core->dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX,   &(dd->cbs[0]), 0);  // Start SPI Rx DMA
+  m_LAB_Core->dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_LOAD, &(dd->cbs[8]), 0); // Start PWM DMA, for SPI trigger
 }
 
 LAB_Oscilloscope::~LAB_Oscilloscope ()
@@ -175,7 +175,15 @@ load_data_samples ()
 void LAB_Oscilloscope:: 
 sampling_rate (double value)
 {
-  double actual_freq = m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
+  std::cout << "frequency to apply: " << value << "\n\n";
+  
+  // for some reason regarding DMA SPI DREQ, we multiply the actual pwm freq
+  // by 4!
+
+  double actual_freq = m_LAB_Core->pwm_frequency (LAB_PWM_DMA_PACING_PWM_CHAN, 
+    value * 4.0);
+  
+  m_LAB_Core->pwm_duty_cycle (LAB_PWM_DMA_PACING_PWM_CHAN, 50);
 }
 
 double LAB_Oscilloscope:: 
@@ -185,7 +193,7 @@ time_per_division (double value, unsigned osc_disp_num_cols)
 
   if (osc->time_per_division != value)
   {
-    m_LAB_Core->dma_pause (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
 
     bool    flag = false;
     double  new_samples;
@@ -254,7 +262,7 @@ time_per_division (double value, unsigned osc_disp_num_cols)
       }
     }  
 
-    m_LAB_Core->dma_play (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma_play (LAB_DMA_CHAN_PWM_PACING);
   }
 
   return (osc->time_per_division);
@@ -263,10 +271,10 @@ time_per_division (double value, unsigned osc_disp_num_cols)
 void LAB_Oscilloscope:: 
 update_dma_data (int osc_disp_mode)
 {
-  // m_LAB_Core->dma_pause (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  // m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
   
   // volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
-  //   DMA_REG (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING, DMA_NEXTCONBK));
+  //   DMA_REG (LAB_DMA_CHAN_PWM_PACING, DMA_NEXTCONBK));
 
   // *reg = Utility::mem_bus_addr ()
   
@@ -275,7 +283,7 @@ update_dma_data (int osc_disp_mode)
 
   // *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
 
-  // m_LAB_Core->dma_play (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  // m_LAB_Core->dma_play (LAB_DMA_CHAN_PWM_PACING);
 }
 
 void LAB_Oscilloscope:: 
@@ -283,10 +291,10 @@ buffer_switch (int buffer)
 {
   bool flag = false;
 
-  if (!(m_LAB_Core->is_dma_paused (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING)))
+  if (!(m_LAB_Core->is_dma_paused (LAB_DMA_CHAN_PWM_PACING)))
   {
     flag = true;
-    m_LAB_Core->dma_pause (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
   }
 
   // load the next cb depending on buffer
@@ -294,7 +302,7 @@ buffer_switch (int buffer)
     (m_uncached_adc_dma_data.virt);
   
   volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
-    DMA_REG (LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX, DMA_NEXTCONBK));
+    DMA_REG (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK));
 
   if (buffer == SINGLE_BUFFER)
   {
@@ -306,7 +314,7 @@ buffer_switch (int buffer)
   }
 
   // abort current DMA control block
-  m_LAB_Core->dma_abort (LAB_OSCILLOSCOPE_DMA_CHAN_SPI_RX);
+  m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
 
   // clear buffer states
   static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_adc_dma_data.virt)->
@@ -316,7 +324,7 @@ buffer_switch (int buffer)
 
   if (flag)
   {
-    m_LAB_Core->dma_play (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma_play (LAB_DMA_CHAN_PWM_PACING);
   }
 }
 
@@ -339,53 +347,53 @@ time_per_division ()
 void LAB_Oscilloscope:: 
 config_dma_control_blocks ()
 {
-  AP_MemoryMap *mp = &m_uncached_adc_dma_data;
-
   m_LAB_Core->map_uncached_mem (&m_uncached_adc_dma_data, 
     LAB_OSCILLOSCOPE_VC_MEM_SIZE);
+
+  AP_MemoryMap *mp = &m_uncached_adc_dma_data;
 
   LAB_OSCILLOSCOPE_DMA_DATA *dp  = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>
     (m_uncached_adc_dma_data.virt);
 
-  LAB_OSCILLOSCOPE_DMA_DATA adc_dma_data = 
+  LAB_OSCILLOSCOPE_DMA_DATA dma_data = 
   {
     .cbs = 
     {
       // control blocks for SPI_RX dual buffer
       { // CB 0
         DMA_CB_TI_SPI_RX,
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),  
-        Utility::mem_bus_addr (mp, dp->rxd0),       
-        (uint32_t)(m_number_of_samples_per_channel*4),  
+        REG (m_LAB_Core->m_regs_spi, SPI_FIFO),  
+        MEM (mp, dp->rxd0),       
+        (uint32_t)(LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES*4),  
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[1]),
+        MEM (mp, &dp->cbs[1]),
         0
       },
       { // CB 1
         DMA_CB_TI_SPI_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),
-        Utility::mem_bus_addr (mp, &dp->states[0]),
+        REG (m_LAB_Core->m_regs_spi,  SPI_CS),
+        MEM (mp, &dp->states[0]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[2]),
+        MEM (mp, &dp->cbs[2]),
         0
       }, 
       { // CB 2
         DMA_CB_TI_SPI_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),
-        Utility::mem_bus_addr (mp, dp->rxd1),       
-        (uint32_t)(m_number_of_samples_per_channel*4),  
+        REG (m_LAB_Core->m_regs_spi,  SPI_FIFO),
+        MEM (mp, dp->rxd1),       
+        (uint32_t)(LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES*4),  
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[3]), 
+        MEM (mp, &dp->cbs[3]), 
         0
       }, 
       { // CB 3
         DMA_CB_TI_SPI_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    
-        Utility::mem_bus_addr (mp, &dp->states[1]), 
+        REG (m_LAB_Core->m_regs_spi,  SPI_CS),    
+        MEM (mp, &dp->states[1]), 
         4,                                              
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[0]), 
+        MEM (mp, &dp->cbs[0]), 
         0
       }, 
 
@@ -393,20 +401,20 @@ config_dma_control_blocks ()
       // control blocks for SPI_RX single buffer
       { // CB 4
         DMA_CB_TI_SPI_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),
-        Utility::mem_bus_addr (mp, dp->rxd0),       
+        REG (m_LAB_Core->m_regs_spi,  SPI_FIFO),
+        MEM (mp, dp->rxd0),       
         (uint32_t)(m_number_of_samples_per_channel*4),  
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[5]), 
+        MEM (mp, &dp->cbs[5]), 
         0
       },  
       { // CB 5
         DMA_CB_TI_SPI_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    
-        Utility::mem_bus_addr (mp, &dp->states[1]), 
+        REG (m_LAB_Core->m_regs_spi,  SPI_CS),    
+        MEM (mp, &dp->states[1]), 
         4,                                              
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[4]), 
+        MEM (mp, &dp->cbs[4]), 
         0
       },  
 
@@ -418,7 +426,7 @@ config_dma_control_blocks ()
       //   REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 
       //   8, 
       //   0, 
-      //   Utility::mem_bus_addr (mp, &dp->cbs[6]), 
+      //   MEM (mp, &dp->cbs[6]), 
       //   0
       // }, 
 
@@ -429,7 +437,7 @@ config_dma_control_blocks ()
         REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 
         8, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[6]), 
+        MEM (mp, &dp->cbs[6]), 
         0
       }, 
 
@@ -441,7 +449,7 @@ config_dma_control_blocks ()
         REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[8]), 
+        MEM (mp, &dp->cbs[8]), 
         0
       }, 
       { // CB 8
@@ -450,7 +458,7 @@ config_dma_control_blocks ()
         REG(m_LAB_Core->m_regs_spi, SPI_DLEN), 
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[9]), 
+        MEM (mp, &dp->cbs[9]), 
         0
       },
       { // CB 9
@@ -459,12 +467,12 @@ config_dma_control_blocks ()
         REG(m_LAB_Core->m_regs_spi, SPI_CS),   
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[7]), 
+        MEM (mp, &dp->cbs[8]), 
         0
       }, 
     },
 
-    .samp_size = 4, // in number of bytes
+    .samp_size = 2, // in number of bytes
     .pwm_val   = m_pwm_range, 
     .adc_csd   = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | SPI_CS_CLEAR | LAB_OSCILLOSCOPE_ADC_CE,
     // .txd       = {0xd0, static_cast<uint32_t>(m_number_of_channels > 1 ? 0xf0 : 0xd0)},
@@ -475,7 +483,7 @@ config_dma_control_blocks ()
     .rxd1      = {0},
   };
  
-  std::memcpy (dp, &adc_dma_data, sizeof (adc_dma_data));
+  std::memcpy (dp, &dma_data, sizeof (dma_data));
 }
 
 int LAB_Oscilloscope:: 
@@ -488,11 +496,11 @@ coupling (unsigned          channel,
   switch (_LABE_OSC_COUPLING)
   {
     case LABE_OSC_COUPLING_AC:
-      m_LAB_Core->AP_gpio_set   (pin, AP_GPIO_FUNC_INPUT, AP_GPIO_PULL_DOWN);
+      m_LAB_Core->gpio_set   (pin, AP_GPIO_FUNC_INPUT, AP_GPIO_PULL_DOWN);
       break;
 
     case LABE_OSC_COUPLING_DC:
-      m_LAB_Core->AP_gpio_set   (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_UP);
+      m_LAB_Core->gpio_set   (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_UP);
       m_LAB_Core->AP_gpio_write (pin, 1);
       break;
 

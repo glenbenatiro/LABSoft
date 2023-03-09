@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o"

@@ -13,27 +13,35 @@ LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB)
   m_LAB_Core  = _LAB_Core;
   m_LAB       = _LAB;
 
-  //m_LAB_Core->dma_reset (LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE);
-  //m_LAB_Core->dma_reset (LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING);
+  // Initialize GPIO pins
 
-  //config_dma_control_blocks ();
+  // Reset GPIO store DMA chan
+  m_LAB_Core->dma_reset (LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE);
 
-  //AP_MemoryMap                 *ud = &(m_uncached_dma_data);
-  //LAB_OSCILLOSCOPE_DMA_DATA *dd = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(ud->virt);
+  // Config DMA blocks
+  config_dma_control_blocks ();
 
-  //m_LAB_Core->dma_start (ud, LAB_LOGIC_ANALYZER_DMA_CHAN_GPIO_STORE,  &(dd->cbs[0]), 0); // Start SPI Tx DMA
-  //m_LAB_Core->dma_start (ud, LAB_OSCILLOSCOPE_DMA_CHAN_PWM_PACING,    &(dd->cbs[7]), 0); // Start PWM DMA, for SPI trigger
+  // Start GPIO store DMA chan
+  AP_MemoryMap                *ud = &(m_uncached_dma_data);
+  LAB_LOGIC_ANALYZER_DMA_DATA *dd = static_cast<LAB_LOGIC_ANALYZER_DMA_DATA *>
+    (ud->virt);
+
+  m_LAB_Core->dma_start (ud, LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE,
+    &(dd->cbs[0]), 0);
 }
 
 void LAB_Logic_Analyzer:: 
 run ()
 {
+  // in the meantime, use PWM triggering
+  m_LAB_Core->pwm_start (LAB_PWM_DMA_PACING_PWM_CHAN);
   m_is_running = true;
 }
 
 void LAB_Logic_Analyzer:: 
 stop ()
 {
+  m_LAB_Core->pwm_stop (LAB_PWM_DMA_PACING_PWM_CHAN);
   m_is_running = false;
 }
 
@@ -51,38 +59,10 @@ sampling_rate (double value)
 void LAB_Logic_Analyzer:: 
 load_data_samples ()
 {
-  // auto start = std::chrono::steady_clock::now ();
-
   uint32_t raw_data_buffer [LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES];
 
-  LAB_LOGIC_ANALYZER_DMA_DATA *dp = 
-    static_cast<LAB_LOGIC_ANALYZER_DMA_DATA *>(m_uncached_dma_data.virt);
-  
-  for (int b = 0; b < 2; b++)
-  {
-    if (dp->states[b])
-    {
-      std::memcpy (raw_data_buffer, b ? (void *)(dp->rxd1) : (void *)(dp->rxd0), 
-        LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * 4);
-
-      if (dp->states[b ^ 1])
-      {
-        dp->states[0] = dp->states[1] = 0;
-        // overrun
-        break;
-      }
-
-      dp->states[b] = 0;
-
-      // if (usec_start == 0)
-      // {
-      //   usec_start = dp->usecs[b];
-      // }
-    }
-  }
-
-  //std::cout << "logic analyz samps: " << std::bitset<32> (raw_data_buffer) << "\n";
-    
+  LAB_LOGIC_ANALYZER_DMA_DATA *dp = static_cast<LAB_LOGIC_ANALYZER_DMA_DATA *>
+    (m_uncached_dma_data.virt);
 
   // if (m_channel_signals.m_chans[0].osc.osc_disp_mode == OSC_DISP_MODE_SCREEN)
   // {
@@ -124,8 +104,8 @@ load_data_samples ()
   //   }
   // }
 
-  // skip processing of data if all channels are disabled
-  // HARD CODED FOR 2 CHANNELS LAB
+  // // skip processing of data if all channels are disabled
+  // // HARD CODED FOR 2 CHANNELS LAB
   // if (m_channel_signals.m_chans[0].is_enabled () || 
   //   m_channel_signals.m_chans[1].is_enabled ())
   // {
@@ -175,101 +155,85 @@ load_data_samples ()
   // std::cout << "Duration: " << elapsed.count () << " ms\n";
 }
 
+
 void LAB_Logic_Analyzer::
 config_dma_control_blocks ()
 {
-  m_LAB_Core->map_uncached_mem  (&m_uncached_dma_data, LAB_LOGIC_ANALYZER_VC_MEM_SIZE);
+  m_LAB_Core->map_uncached_mem  (&m_uncached_dma_data, 
+    LAB_LOGIC_ANALYZER_VC_MEM_SIZE);
+
+  AP_MemoryMap *mp = &m_uncached_dma_data;
 
   LAB_LOGIC_ANALYZER_DMA_DATA *dp = static_cast<LAB_LOGIC_ANALYZER_DMA_DATA *>
     (m_uncached_dma_data.virt);
-  
-  AP_MemoryMap *ud = &m_uncached_dma_data;
-
-  uint32_t m_pwm_range       = (LAB_PWM_FREQUENCY * 2) / LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
-  
+    
   LAB_LOGIC_ANALYZER_DMA_DATA dma_data = 
   {
     .cbs = 
     {
       // for dual buffer
-      // CB0
       {
+        // CB0
         LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE, 
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
-        Utility::mem_bus_addr (ud, dp->rxd0),
+        Utility::mem_bus_addr (mp, dp->rxd0),
         (uint32_t)(LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 4),
         0,
-        Utility::mem_bus_addr (ud, &dp->cbs[1]),
+        Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
       },
-      // CB1
-      {
-        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_dma), DMA_CS),
-        Utility::mem_bus_addr (ud, &dp->states[0]),
-        (uint32_t)(LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 4),
+      { // CB1
+        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE,
+        Utility::mem_bus_addr (mp, &dp->buffer_ok_flag),
+        Utility::mem_bus_addr (mp, &dp->states[0]),
+        4,
         0,
-        Utility::mem_bus_addr (ud, &dp->cbs[2]),
+        Utility::mem_bus_addr (mp, &dp->cbs[2]),
         0
       },
-      // CB2
-      {
+      { // CB2
         LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE, 
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
-        Utility::mem_bus_addr (ud, dp->rxd1),
+        Utility::mem_bus_addr (mp, dp->rxd1),
         (uint32_t)(LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 4),
         0,
-        Utility::mem_bus_addr (ud, &dp->cbs[3]),
+        Utility::mem_bus_addr (mp, &dp->cbs[3]),
         0
       },
-      // CB3
-      {
-        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_dma), DMA_CS),
-        Utility::mem_bus_addr (ud, &dp->states[1]),
-        (uint32_t)(LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 4),
+      { //CB 3
+        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE,
+        Utility::mem_bus_addr (mp, &dp->buffer_ok_flag),
+        Utility::mem_bus_addr (mp, &dp->states[1]),
+        4,
         0,
-        Utility::mem_bus_addr (ud, &dp->cbs[4]),
-        0
-      },
-      // CB4
-      { 
-        DMA_CB_TI_PWM, 
-        MEM(ud, &dp->pwm_data),   
-        REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 
-        4, 
-        0, 
-        Utility::mem_bus_addr (ud, &dp->cbs[0]),
-        0
-      }, 
-
-
-      // for single buffer
-      // CB5
-      {
-        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
-        Utility::mem_bus_addr (ud, dp->rxd0),
-        (uint32_t)(LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 4),
-        0,
-        Utility::mem_bus_addr (ud, &dp->cbs[6]),
+        Utility::mem_bus_addr (mp, &dp->cbs[0]),
         0
       },
 
-      // CB6
-      { 
-        DMA_CB_TI_PWM, 
-        MEM(ud, &dp->pwm_data),   
-        REG(m_LAB_Core->m_regs_pwm, PWM_FIF1), 
-        4, 
-        0, 
-        Utility::mem_bus_addr (ud, &dp->cbs[5]),
+      // for single buffer
+      {
+        // CB4
+        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE, 
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
+        Utility::mem_bus_addr (mp, dp->rxd0),
+        (uint32_t)(LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 4),
+        0,
+        Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
-      }
+      },
+      {
+        // CB5
+        LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE,
+        Utility::mem_bus_addr (mp, &dp->buffer_ok_flag),
+        Utility::mem_bus_addr (mp, &dp->states[0]),
+        4,
+        0,
+        Utility::mem_bus_addr (mp, &dp->cbs[2]),
+        0
+      },
     },
 
     .samp_size = 2, // in number of bytes
-    .pwm_data   = m_pwm_range, 
     .usecs     = {0, 0},  
     .states    = {0, 0}, 
     .rxd0      = {0}, 

@@ -39,6 +39,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Oscilloscope_Display_Group.cpp
   src/LABSoft_Oscilloscope_Display.cpp
   src/LABSoft_Logic_Analyzer_Display_Group.cpp
+  src/LABSoft_Logic_Analyzer_Display.cpp
 
   src/Channel_Signals.cpp
   src/LabelValue.cpp

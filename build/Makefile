@@ -439,6 +439,33 @@ src/LABSoft_GUI.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.s
 .PHONY : src/LABSoft_GUI.cpp.s
 
+src/LABSoft_Logic_Analyzer_Display.o: src/LABSoft_Logic_Analyzer_Display.cpp.o
+
+.PHONY : src/LABSoft_Logic_Analyzer_Display.o
+
+# target to build an object file
+src/LABSoft_Logic_Analyzer_Display.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o
+.PHONY : src/LABSoft_Logic_Analyzer_Display.cpp.o
+
+src/LABSoft_Logic_Analyzer_Display.i: src/LABSoft_Logic_Analyzer_Display.cpp.i
+
+.PHONY : src/LABSoft_Logic_Analyzer_Display.i
+
+# target to preprocess a source file
+src/LABSoft_Logic_Analyzer_Display.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.i
+.PHONY : src/LABSoft_Logic_Analyzer_Display.cpp.i
+
+src/LABSoft_Logic_Analyzer_Display.s: src/LABSoft_Logic_Analyzer_Display.cpp.s
+
+.PHONY : src/LABSoft_Logic_Analyzer_Display.s
+
+# target to generate assembly for a file
+src/LABSoft_Logic_Analyzer_Display.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.s
+.PHONY : src/LABSoft_Logic_Analyzer_Display.cpp.s
+
 src/LABSoft_Logic_Analyzer_Display_Group.o: src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
 
 .PHONY : src/LABSoft_Logic_Analyzer_Display_Group.o
@@ -832,6 +859,9 @@ help:
 	@echo "... src/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI.s"
+	@echo "... src/LABSoft_Logic_Analyzer_Display.o"
+	@echo "... src/LABSoft_Logic_Analyzer_Display.i"
+	@echo "... src/LABSoft_Logic_Analyzer_Display.s"
 	@echo "... src/LABSoft_Logic_Analyzer_Display_Group.o"
 	@echo "... src/LABSoft_Logic_Analyzer_Display_Group.i"
 	@echo "... src/LABSoft_Logic_Analyzer_Display_Group.s"
