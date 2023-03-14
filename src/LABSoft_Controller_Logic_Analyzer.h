@@ -18,7 +18,7 @@ class LABSoft_Controller_Logic_Analyzer
   public:
     LABSoft_Controller_Logic_Analyzer (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
-    void run_display ();
+    void reserve_pixel_point_vector ();
 
     // callback functions
     void cb_master_run_stop   (Fl_Button       *w, void *data);

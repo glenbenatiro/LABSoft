@@ -38,11 +38,11 @@ enum WaveType
   OTHER
 };
 
-enum DisplayMode 
+enum LE_GRAPH_DISP_MODE 
 {
-  OSC_DISP_MODE_REPEATED,
+  LE_GRAPH_DISP_MODE_REPEATED,
   SHIFT,
-  OSC_DISP_MODE_SCREEN
+  LE_GRAPH_DISP_MODE_SCREEN
 };
 
 volatile uint32_t* g_reg32 (AP_MemoryMap mem_map, uint32_t offset);

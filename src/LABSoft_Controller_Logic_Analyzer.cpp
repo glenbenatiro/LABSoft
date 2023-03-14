@@ -18,13 +18,24 @@ LABSoft_Controller_Logic_Analyzer (LAB         *_LAB,
     value (LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON);
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_position->
     value (LABSOFT_LOGIC_ANALYZER_POSITION);
-
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-run_display ()
+reserve_pixel_point_vector ()
 {
+  // LAB_Parent_Data_Logic_Analyzer *pd    = m_LAB->m_Logic_Analyzer.parent_data ();
+  // LABSoft_Logic_Analyzer_Display *disp  = m_LABSoft_GUI->
+  //   logic_analyzer_labsoft_logic_analyzer_display
 
+  // for (int a = 0; a < (pd->channel_data.size ()); a++)
+  // {
+  //   pd->channel_data[a].pixel_point.reserve (m_LAB)
+  // }
+
+
+
+
+  // for (int a = 0; a < )
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -68,11 +79,11 @@ cb_position (Fl_Input_Choice *w,
 {
   LabelValue _LabelValue (w->value ());
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-    position (_LabelValue.actual_value ());
+  // m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+  //   position (_LabelValue.actual_value ());
 
-    m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-    update_time_per_division_labels ();
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+  update_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

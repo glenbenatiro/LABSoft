@@ -71,8 +71,8 @@ update_display (void *data)
   {
     _LAB->m_Logic_Analyzer.load_data_samples ();
 
-    gui->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-      load_channel_signals (&(_LAB->m_Logic_Analyzer.m_channel_data_logic_analyzer));
+    gui->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+      load_channel_signals (_LAB->m_Logic_Analyzer.parent_data ());
 
     gui->logic_analyzer_labsoft_logic_analyzer_display_group_display->display() 
       ->redraw ();

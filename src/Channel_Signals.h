@@ -33,7 +33,7 @@ struct Channel_Signal_Oscilloscope
   std::vector<std::vector<int>> pixel_points;
   std::vector<double>           voltage_samples;
 
-  int osc_disp_mode = OSC_DISP_MODE_REPEATED;
+  int graph_disp_mode = LE_GRAPH_DISP_MODE_REPEATED;
 
   // tiny section for voltmeter XD
   LE_UNIT_PREFIX_EXP voltmeter_unit = LE_UNIT_PREFIX_EXP_NONE;

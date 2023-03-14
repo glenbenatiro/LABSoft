@@ -39,16 +39,16 @@ class LAB_Oscilloscope
     void    stop ();   
     double  time_per_division (double value, unsigned osc_disp_num_cols);
     void    sampling_rate (double value);
-    void    buffer_switch (int buffer);
+    void    switch_dma_buffer (int buffer);
     void    volts_per_division (unsigned channel, double value);
     void    vertical_offset (unsigned channel, double value);
     void    load_data_samples ();
-    void    update_dma_data (int osc_disp_mode);
+    void    update_dma_data (int graph_disp_mode);
     void    channel_enable ();
     double  time_per_division ();
     void    config_dma_control_blocks ();
     int     coupling  (unsigned channel, LABE_OSC_COUPLING _LABE_OSC_COUPLING);
-    int     scaling   (unsigned channel, LABE_OSC_SCALING _LABE_OSC_SCALING);
+    int     scaling   (unsigned channel, LE_OSC_SCALING _LE_OSC_SCALING);
 
     // --- Inline Functions ---
 
@@ -121,7 +121,7 @@ class LAB_Oscilloscope
     void display_mode (unsigned channel, int value)
     {
       //m_channel_signals.m_chans[channel].osc.
-      m_channel_signals.m_chans[channel].osc.osc_disp_mode = value;
+      m_channel_signals.m_chans[channel].osc.graph_disp_mode = value;
     }
 
     Channel_Signals* channel_signals ()

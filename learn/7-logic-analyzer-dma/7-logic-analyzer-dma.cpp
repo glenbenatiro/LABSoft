@@ -19,7 +19,7 @@ constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 10;
 
 constexpr int     LAB_OSCILLOSCOPE_ADC_CE                 = 0; // CE0 or CE1
 
-struct LAB_OSCILLOSCOPE_DMA_DATA
+struct LAB_Oscilloscope_DMA_Data
 {
   AP_DMA_CB cbs[15];
 
@@ -29,7 +29,7 @@ struct LAB_OSCILLOSCOPE_DMA_DATA
             txd[2];
 
   volatile uint32_t usecs[2],
-                    states[2],
+                    status[2],
                     rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
                     rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
 };
@@ -73,10 +73,10 @@ int main ()
   // Setup PWM control blocks
   AP_MemoryMap *mp = &m_uncached_memory;
 
-  LAB_OSCILLOSCOPE_DMA_DATA *dp = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>
+  LAB_Oscilloscope_DMA_Data *dp = static_cast<LAB_Oscilloscope_DMA_Data *>
     (m_uncached_memory.virt);
   
-  LAB_OSCILLOSCOPE_DMA_DATA adc_dma_data = 
+  LAB_Oscilloscope_DMA_Data adc_dma_data = 
   {
     .cbs = 
     {
@@ -93,7 +93,7 @@ int main ()
       { // CB 1
         DMA_CB_TI_SPI_RX, 
         Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_CS),
-        Utility::mem_bus_addr (mp, &dp->states[0]),
+        Utility::mem_bus_addr (mp, &dp->status[0]),
         4,
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[2]),
@@ -111,7 +111,7 @@ int main ()
       { // CB 3
         DMA_CB_TI_SPI_RX, 
         Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_CS),    
-        Utility::mem_bus_addr (mp, &dp->states[1]), 
+        Utility::mem_bus_addr (mp, &dp->status[1]), 
         4,                                              
         0, 
         Utility::mem_bus_addr (mp, &dp->cbs[0]), 
@@ -132,7 +132,7 @@ int main ()
       { // CB 5
         DMA_CB_TI_SPI_RX, 
         Utility::reg_bus_addr (&(AP.m_regs_spi),  SPI_CS),    
-        Utility::mem_bus_addr (mp, &dp->states[1]), 
+        Utility::mem_bus_addr (mp, &dp->status[1]), 
         4,                                              
         0, 
         Utility::mem_bus_addr (mp, &dp->cbs[4]), 
@@ -210,7 +210,7 @@ int main ()
     // .txd       = {0xd0, static_cast<uint32_t>(m_number_of_channels > 1 ? 0xf0 : 0xd0)},
     .txd       = {0xffff, 0x0000},
     .usecs     = {0, 0},  
-    .states    = {0, 0}, 
+    .status    = {0, 0}, 
     .rxd0      = {0}, 
     .rxd1      = {0},
   };
@@ -226,7 +226,7 @@ int main ()
 
   // Start DMA chan
   AP_MemoryMap              *ud = &(m_uncached_memory);
-  LAB_OSCILLOSCOPE_DMA_DATA *dd = static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(ud->virt);
+  LAB_Oscilloscope_DMA_Data *dd = static_cast<LAB_Oscilloscope_DMA_Data *>(ud->virt);
 
   AP.dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX,     &(dd->cbs[6]), 0);  // Start SPI Tx DMA
   AP.dma_start (ud, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX,     &(dd->cbs[0]), 0);  // Start SPI Rx DMA
@@ -248,12 +248,12 @@ int main ()
     double range = AP.pwm_frequency (0, freq);
     double pwm_val = range * (dc / 100.0);
 
-    (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>(m_uncached_memory.virt))->
+    (static_cast<LAB_Oscilloscope_DMA_Data *>(m_uncached_memory.virt))->
       pwm_val = pwm_val;
 
     *(Utility::get_reg32 (AP.m_regs_pwm, PWM_DAT1)) = pwm_val;
 
-    std::cout << "pwm val: " << (static_cast<LAB_OSCILLOSCOPE_DMA_DATA *>
+    std::cout << "pwm val: " << (static_cast<LAB_Oscilloscope_DMA_Data *>
       (m_uncached_memory.virt))->pwm_val << "\n";
   }
 

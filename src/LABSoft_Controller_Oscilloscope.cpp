@@ -23,6 +23,10 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_volts_per_division_labels ();
+  
+  // Set initial sample rate / time per division
+  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE_TIME_PER_DIVISION,
+    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -121,24 +125,24 @@ void LABSoft_Controller_Oscilloscope::
 cb_scaling (Fl_Choice *w,
             long       channel)
 {
-  LABE_OSC_SCALING scale;
+  LE_OSC_SCALING scale;
 
   switch (w->value ())
   {
     case 0: // x2
-      scale = LABE_OSC_SCALING_DOUBLE;
+      scale = LE_OSC_SCALING_DOUBLE;
       break;
     
     case 1: // x0.5
-      scale = LABE_OSC_SCALING_HALF;
+      scale = LE_OSC_SCALING_HALF;
       break; 
     
     case 2: // x0.25
-      scale = LABE_OSC_SCALING_QUARTER;
+      scale = LE_OSC_SCALING_QUARTER;
       break;
     
     case 3: // x0.125
-      scale = LABE_OSC_SCALING_EIGHTH;
+      scale = LE_OSC_SCALING_EIGHTH;
       break;
     
     default:
@@ -170,6 +174,8 @@ cb_time_per_division (Fl_Input_Choice *w,
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_upper_osc_disp_info (text);
+
+
 }
 
 void LABSoft_Controller_Oscilloscope::

@@ -212,7 +212,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/Channel_Signals.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.cpp

@@ -20,11 +20,13 @@ LABSoft_Oscilloscope_Display_Group (int X,
                                                                    label)
 {
   // create new labsoft oscilloscope display instance, with paddings
-  m_display = new LABSoft_Oscilloscope_Display (X + m_left_padding, 
-                                                Y + m_upper_padding, 
-                                                W - m_left_padding - m_right_padding,
-                                                H - m_upper_padding - m_lower_padding,
-                                                0);
+  m_display = new LABSoft_Oscilloscope_Display (
+    X + m_left_padding, 
+    Y + m_upper_padding, 
+    W - m_left_padding - m_right_padding,
+    H - m_upper_padding - m_lower_padding,
+    0
+  );
   
   // m_display->m_channel_signals = m_channel_signals;
 

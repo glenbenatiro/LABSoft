@@ -15,28 +15,31 @@ class LAB_Logic_Analyzer
     LAB       *m_LAB;
     LAB_Core  *m_LAB_Core;
 
-    bool m_is_running = false;
-
     AP_MemoryMap m_uncached_dma_data;
 
-  public:
-    std::vector <Channel_Data_Logic_Analyzer> m_channel_data_logic_analyzer = 
-      std::vector <Channel_Data_Logic_Analyzer> (LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
+    bool m_is_running = false;
 
+    int m_curr_screen_buffer = 0;
+
+    LAB_Parent_Data_Logic_Analyzer m_parent_data;
+
+  public:
     LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB);
 
-    void  run   ();
-    void  stop  ();
-
-    void  sampling_rate (double value);
-    void  load_data_samples ();
-    void  config_dma_control_blocks ();    
+    void    run   ();
+    void    stop  ();
+    void    sampling_rate (double value);
+    void    load_data_samples ();
+    void    config_dma_control_blocks ();   
+    void    graph_disp_mode (LE_GRAPH_DISP_MODE _LE_GRAPH_DISP_MODE); 
+    double  time_per_division (double value, unsigned disp_num_cols);
+    void    parse_raw_sample_buffer ();
+    void    switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT);
 
     // getter
-    bool is_running ()
-    {
-      return m_is_running;
-    }
+    bool is_running ();
+
+    LAB_Parent_Data_Logic_Analyzer* parent_data ();
 };
 
 #endif

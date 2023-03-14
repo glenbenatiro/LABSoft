@@ -53,7 +53,7 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     float m_function_time_per_division,
           m_function_volts_per_division;
 
-    DisplayMode m_display_mode = LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE;
+    LE_GRAPH_DISP_MODE m_display_mode = LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE;
 
     // for display css-ish
     std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS> m_channels_graph_color = 

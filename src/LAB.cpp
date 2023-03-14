@@ -30,7 +30,7 @@ setup_pwm ()
   // Init GPIO pin for PWM
   m_LAB_Core.gpio_set (LAB_RPI_PIN_PWM_CHAN_0, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
 
-  // Setup WPM DMA control blocks
+  // Setup PWM DMA control blocks
   config_pwm_dma_control_blocks ();
 
   // Enable DMA for PWM and DREQ threshold
@@ -42,7 +42,7 @@ setup_pwm ()
   // Load up DMA control block for PWM pacing and start DMA
   m_LAB_Core.dma_start (&m_uncached_pwm_dma_data, LAB_DMA_CHAN_PWM_PACING, 
     &((static_cast<LAB_PWM_PACING_DMA_DATA *>(m_uncached_pwm_dma_data.virt))->
-      cbs[0]), 0);  // Start SPI Tx DMA
+      cbs[0]), 0); 
 }
 
 void LAB:: 
@@ -78,7 +78,7 @@ config_pwm_dma_control_blocks ()
         REG (m_LAB_Core.m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
-        MEM (mp, &dp->cbs[0]), 
+        Utility::mem_bus_addr (mp, &dp->cbs[8]), 
         0
       }, 
     },

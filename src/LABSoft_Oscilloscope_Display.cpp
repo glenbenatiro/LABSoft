@@ -96,7 +96,7 @@ load_channel_signals (Channel_Signals *_Channel_Signals)
         ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
           osc->volts_per_division);
 
-      if (osc->time_per_division < LAB_OSCILLOSCOPE_MAX_TIME_PER_DIV_ZOOM)
+      if (osc->time_per_division < LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM)
       {
         double volt_samp_x_off = 0;
 
