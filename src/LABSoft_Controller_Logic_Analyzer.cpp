@@ -21,7 +21,7 @@ LABSoft_Controller_Logic_Analyzer (LAB         *_LAB,
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-reserve_pixel_point_vector ()
+reserve_pixel_points ()
 {
   // LAB_Parent_Data_Logic_Analyzer *pd    = m_LAB->m_Logic_Analyzer.parent_data ();
   // LABSoft_Logic_Analyzer_Display *disp  = m_LABSoft_GUI->

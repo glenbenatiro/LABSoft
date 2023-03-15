@@ -6,12 +6,12 @@
 // compile using
 // g++ -Wall -pthread -o AD9833 AD9833.cpp -lpigpio -lrt
 
-enum WaveType
+enum LE_WAVE_TYPE
 {
-  SINE, 
-  TRIANGLE,
-  SQUARE_FULL,
-  SQUARE_HALF
+  LE_WAVE_TYPE_SINE, 
+  LE_WAVE_TYPE_TRIANGLE,
+  LE_WAVE_TYPE_SQUARE_FULL,
+  LE_WAVE_TYPE_SQUARE_HALF
 };
 
 constexpr int SPI_FREQUENCY = 100'000;
@@ -41,7 +41,7 @@ class AD9833_pigpio
               m_DIV2 = 0,
               m_Mode = 0;
     
-    WaveType def_wavetype = SINE;
+    LE_WAVE_TYPE def_wavetype = LE_WAVE_TYPE_SINE;
     double def_freq = 100;
     
     char m_txbuff[2], m_rxbuff[2];
@@ -76,7 +76,7 @@ class AD9833_pigpio
       // set initial values
       stop ();
 
-      set_wavetype (TRIANGLE);
+      set_wavetype (LE_WAVE_TYPE_TRIANGLE);
       set_frequency (500);
       // set_write_mode (1);
 
@@ -134,32 +134,32 @@ class AD9833_pigpio
       write_ctrl_reg ();
     }
     
-    void set_wavetype (WaveType _WaveType)
+    void set_wavetype (LE_WAVE_TYPE _WAVETYPE)
     {
-      switch (_WaveType)
+      switch (_WAVETYPE)
       {
-        case SINE:
+        case LE_WAVE_TYPE_SINE:
           m_OPBITEN = 0;
           m_DIV2 = 0;
           m_Mode = 0;
           break;
-        case TRIANGLE:
+        case LE_WAVE_TYPE_TRIANGLE:
           m_OPBITEN = 0;
           m_DIV2 = 0;
           m_Mode = 1;
           break;
-        case SQUARE_FULL:
+        case LE_WAVE_TYPE_SQUARE_FULL:
           m_OPBITEN = 1;
           m_DIV2 = 1;
           m_Mode = 0;
           break;
-        case SQUARE_HALF:
+        case LE_WAVE_TYPE_SQUARE_HALF:
           m_OPBITEN = 1;
           m_DIV2 = 0;
           m_Mode = 0;
           break;
         default:
-          set_wavetype (SINE);
+          set_wavetype (LE_WAVE_TYPE_SINE);
           break;
       }
     
@@ -224,19 +224,19 @@ int main()
 
   // while (x--)
   // {
-  //   dev.set_wavetype (SINE);
+  //   dev.set_wavetype (LE_WAVE_TYPE_SINE);
   //   dev.set_frequency (250);
   //   sleep (time);
 
-  //   dev.set_wavetype (TRIANGLE);
+  //   dev.set_wavetype (LE_WAVE_TYPE_TRIANGLE);
   //   //dev.set_frequency (250);
   //   sleep (time);
 
-  //   dev.set_wavetype (SQUARE_FULL);
+  //   dev.set_wavetype (LE_WAVE_TYPE_SQUARE_FULL);
   //   //dev.set_frequency (250);
   //   sleep (time);
 
-  //   dev.set_wavetype (SQUARE_HALF);
+  //   dev.set_wavetype (LE_WAVE_TYPE_SQUARE_HALF);
   //   //dev.set_frequency (250);
   //   sleep (time);
 

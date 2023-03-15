@@ -17,7 +17,7 @@ class LABSoft_Controller_Function_Generator
     // functions
     LABSoft_Controller_Function_Generator (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
-    void reserve_pixel_point_vector ();
+    void reserve_pixel_points ();
 
     // callback functions
     void  cb_run_stop    (Fl_Light_Button *w, long data);

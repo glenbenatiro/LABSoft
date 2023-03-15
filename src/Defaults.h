@@ -10,7 +10,7 @@
 
 #include "../lib/AikaPi/AikaPi.h"
 
-// --- Raspberry Pi Pin Allocations ---
+
 
 // --- Enums ---
 
@@ -53,16 +53,6 @@ enum LE_GRAPH_DISP_MODE
   LE_GRAPH_DISP_MODE_SCREEN
 };
 
-enum WaveType 
-{ 
-  SINE,
-  SQUARE,
-  SQUARE_HALF,
-  SQUARE_FULL,
-  TRIANGLE,
-  DC
-};
-
 
 // --- General Raspberry Pi ---
 constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0; 
@@ -86,7 +76,7 @@ constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
 
 constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
-// Raspberry Pi Zero BCM Pin Assignments
+// Raspberry Pi Zero BCM Pin Assishift_bit_countgnments
 // https://pinout.xyz/
 constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {0, 1, 26};
 constexpr unsigned LAB_RPI_PIN_PWM_CHAN_0                         = 12;
@@ -104,33 +94,14 @@ constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX        = 9;
 constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_LOAD      = 10;
 constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 11;
 
-// Channel_Signals
-
-// Channel_Signal
-constexpr double CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION  = 1.0; // volts/div
-constexpr int    CHANNEL_SIGNAL_VOLTAGE_PER_DIVISION_UNIT_SCALER  = 0; // 1 is 10 to the power of 0
-constexpr double CHANNEL_SIGNAL_TIME_PER_DIVISION  = 1.0; // s
-constexpr double CHANNEL_SIGNAL_SAMPLE_RATE = 1.0; // hz
-constexpr double CHANNEL_SIGNAL_VERTICAL_OFFSET = 0.0; // volts
-constexpr double CHANNEL_SIGNAL_HORIZONTAL_OFFSET = 0.0; // seconds
-
-constexpr double  CHANNEL_SIGNAL_FUNCTION_AMPLITUDE   = 1.0;  // volts
-constexpr double  CHANNEL_SIGNAL_FUNCTION_FREQUENCY   = 1.0;  // hz
-constexpr double  CHANNEL_SIGNAL_FUNCTION_PHASE       = 0.0;  // degrees
-constexpr double  CHANNEL_SIGNAL_FUNCTION_Y_OFFSET    = 0.0;  // volts
-constexpr double  CHANNEL_SIGNAL_FUNCTION_DUTY_CYCLE  = 50.0; // %
-
-// constexpr WaveType  CHANNEL_SIGNAL_FUNCTION_WAVE_TYPE   = SINE;
-
-
-/// --- OSCILLOSCOPE ---
-
+// --- Oscilloscope ---
 enum LE_OSC_SCALING
 {
   LE_OSC_SCALING_DOUBLE   = 0,
   LE_OSC_SCALING_HALF     = 1,
   LE_OSC_SCALING_QUARTER  = 2,
-  LE_OSC_SCALING_EIGHTH   = 3
+  LE_OSC_SCALING_EIGHTH   = 3,
+  LE_OSC_SCALING_UNITY    = 4
 };
 
 enum LE_OSC_COUPLING
@@ -139,39 +110,76 @@ enum LE_OSC_COUPLING
   LE_OSC_COUPLING_DC = 1
 };
 
-struct LAB_Channel_Data_Oscilloscope
-{
-  bool is_enabled = false;
-
-  double  voltage_per_division  = 0.0;
-  double  vertical_offset       = 0.0;
-
-  LE_OSC_SCALING scaling;
- 
-
-
-
-  double  time_per_division     = 0.0;
-};
-
-struct LAB_Parent_Data_Oscilloscope
-{
-
-};
-
-// LAB Oscilloscope
 // dma channels in use after reboot 3b plus = 2 3 4 6
 constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS             = 2;
 constexpr int       LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES              = 2'000;
 constexpr double    LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE              = 200'000;
-constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE                  = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE; 
-constexpr double    LAB_OSCILLOSCOPE_TIME_PER_DIVISION              = (1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE);
 constexpr int       LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS         = 10;
 constexpr double    LAB_OSCILLOSCOPE_MAX_TIME_PER_DIVISION_NO_ZOOM  = (1.0 / LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE);
 constexpr unsigned  LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES              = 4;  
 constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES            = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES;
 constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_COUNT                   = 2;
 constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE                    = PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS);
+constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE                  = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE; 
+constexpr double    LAB_OSCILLOSCOPE_VOLTAGE_PER_DIVISION           = 1.0;
+constexpr double    LAB_OSCILLOSCOPE_VERTICAL_OFFSET                = 0.0;
+constexpr double    LAB_OSCILLOSCOPE_TIME_PER_DIVISION              = (1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE);
+constexpr double    LAB_OSCILLOSCOPE_HORIZONTAL_OFFSET              = 0.0;
+constexpr int       LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS            = 12;
+constexpr int       LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT             = std::pow (2, LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS);
+constexpr double    LAB_OSCILLOSCOPE_ACTUAL_ADC_REFERENCE_VOLTAGE   = 5.0;
+constexpr double    LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE          = 2.5;
+constexpr double    LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT        = LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE / ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+constexpr unsigned  LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT       = 32 / LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
+constexpr uint32_t  LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK       = ((std::pow (2, LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT)) - 1);
+constexpr int       LAB_OSCILLOSCOPE_ADC_CE                         = 0; // CE0 or CE1
+constexpr LE_GRAPH_DISP_MODE LAB_OSCILLOSCOPE_GRAPH_DISP_MODE       = LE_GRAPH_DISP_MODE_REPEATED;
+
+
+struct LAB_Channel_Data_Oscilloscope
+{
+  // Channel
+  bool is_enabled = false;
+
+  // Vertical
+  double          voltage_per_division  = LAB_OSCILLOSCOPE_VOLTAGE_PER_DIVISION;
+  double          vertical_offset       = LAB_OSCILLOSCOPE_VERTICAL_OFFSET;
+  LE_OSC_SCALING  scaling               = LE_OSC_SCALING_UNITY;
+  LE_OSC_COUPLING coupling              = LE_OSC_COUPLING_DC;
+
+  // Data/Samples
+  std::vector <std::array<int, 2>> pixel_points;
+  std::array  <double, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>  samples;
+};
+
+class LAB_Parent_Data_Oscilloscope
+{
+  public:
+    bool has_enabled_channels ()
+    {
+      for (int a = 0; a < channel_data.size (); a++)
+      {
+        if (channel_data[a].is_enabled)
+          return true;
+      }
+
+      return false;
+    }
+    
+    bool is_osc_core_running      = false; 
+    bool is_osc_frontend_running  = false;
+
+    // Horizontal
+    double  time_per_division   = LAB_OSCILLOSCOPE_TIME_PER_DIVISION;
+    double  horizontal_offset   = LAB_OSCILLOSCOPE_HORIZONTAL_OFFSET;
+    double  sampling_rate       = LAB_OSCILLOSCOPE_SAMPLING_RATE;
+    LE_GRAPH_DISP_MODE graph_disp_mode  = LAB_OSCILLOSCOPE_GRAPH_DISP_MODE;
+
+    // Data/Samples
+    unsigned w_samp_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; // working sample count
+    std::array <uint32_t, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>                       raw_sample_buffer;
+    std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
+};
 
 struct LAB_Oscilloscope_DMA_Data
 {
@@ -189,36 +197,19 @@ struct LAB_Oscilloscope_DMA_Data
 };
 
 // LABSoft Oscilloscope Display Group
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_CHANNELS     = LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_MAX_NUMBER_OF_CHANNELS = LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS;
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_UPPER_PADDING      50
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LOWER_PADDING      50
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LEFT_PADDING       80
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_RIGHT_PADDING      65
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_PADDING    10
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING    22
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_INTERSPACE = 35;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_PADDING = 20;
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_LABEL_SIZE         10
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR        FL_WHITE
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS     10
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS  10
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_OFFSET           0.0
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION  1.0 // seconds
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR   FL_BLACK
-constexpr double LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_VOLTAGE_PER_DIVISION = 1.0; // volts
-constexpr unsigned LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_COLOR_WHITE = 255;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_SIZE           = 10;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_COLOR          = FL_FOREGROUND_COLOR;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_INTRASPACE     = 18; 
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_SIZE           = 10;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_COLOR          = FL_FOREGROUND_COLOR;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_INTERSPACE     = 35; // spacing between columns of y-axis labels
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING        = 22; // padding of first column of y-axis labels from left of grid
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN    = 20; // padding of voltage unit of y-axis labels from top of grid
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR    = FL_BACKGROUND2_COLOR;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR       = FL_BLACK;
 
-// LABSoft Oscilloscope Display
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_ROWS;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS  = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_CHANNELS = LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_CHANNELS;
-constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_VOLTAGE        = 25.0; // in volts
-
-constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTAGE_PER_DIVISION = 1.0;
-
-static std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_MAX_NUMBER_OF_CHANNELS>
-  LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNELS_GRAPH_COLOR = 
+static std::array<int, 10> 
+  LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS = 
 {
   0x00000003,
   0x00000006,
@@ -226,35 +217,42 @@ static std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_MAX_NUMBER_OF_CHANNELS
   0x00000001,
 };
 
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR       FL_BLACK 
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR          FL_BLACK
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR             FL_LIGHT3
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE 1.0 // volts
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY 1.0 // hz
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE     0.0 // degrees
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET  0.0 // volts
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER 0
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION_UNIT_SCALER = 0;
-constexpr LE_GRAPH_DISP_MODE LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE = LE_GRAPH_DISP_MODE_SCREEN;
-
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_VOLTAGE_PER_DIVISION  1.0
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_TIME_PER_DIVISION 1.0
-
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS = 
-  LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS;
-
-static std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS>
-  LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNELS_GRAPH_COLOR = 
-    LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNELS_GRAPH_COLOR;
-
-constexpr int     LAB_OSCILLOSCOPE_ADC_CE                 = 0; // CE0 or CE1
+// LABSoft Oscilloscope Display
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = 10;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS  = 10;
+constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_VOLTAGE        = 25.0; // in volts
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN         = 50;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BOTTOM_MARGIN      = 50;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_LEFT_MARGIN        = 80;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_RIGHT_MARGIN       = 65;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR   = FL_BLACK;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR         = FL_WHITE;
 
 
-constexpr int     LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS      = 12;
-constexpr int     LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT       = std::pow (2, LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS);
-constexpr double  LAB_OSCILLOSCOPE_ACTUAL_ADC_REFERENCE_VOLTAGE    = 5.0;
-constexpr double  LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE    = 2.5;
-constexpr double  LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT  = LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE / ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTAGE_PER_DIVISION = 1.0;
+
+
+
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR       FL_BLACK 
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR          FL_BLACK
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR             FL_LIGHT3
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE 1.0 // volts
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY 1.0 // hz
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE     0.0 // degrees
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET  0.0 // volts
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER 0
+// // constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION_UNIT_SCALER = 0;
+// // constexpr LE_GRAPH_DISP_MODE LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE = LE_GRAPH_DISP_MODE_SCREEN;
+
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_VOLTAGE_PER_DIVISION  1.0
+// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_TIME_PER_DIVISION 1.0
+
+// constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS = 
+//   LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS;
+
+// static std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS>
+//   LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNELS_GRAPH_COLOR = 
+//     LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS;
 
 
 // LABSoft Oscilloscope
@@ -269,40 +267,79 @@ constexpr const char* LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION = "1 ms/div";
 
 // LAB Oscilloscope
 constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM                 = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / (LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
-constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_NUMBER_OF_COLUMNS;
+constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS;
 
-// LAB Voltmeter
-constexpr const char *LABSOFT_VOLTMETER_FL_OUTPUT_VALUE_LABEL = "0";
+// --- LAB Voltmeter ---
 
-#define LAB_METER_VALUE 0.0
-#define LAB_METER_UNIT_SCALER 1.0
+// --- Function Generator ---
+enum LE_FG_PARAM
+{
+  LE_FG_PARAM_WAVE_TYPE,
+  LE_FG_PARAM_FREQUENCY,
+  LE_FG_PARAM_PERIOD,
+  LE_FG_PARAM_AMPLITUDE,
+  LE_FG_PARAM_VERTICAL_OFFSET,
+  LE_FG_PARAM_DUTY_CYCLE,
+  LE_FG_PARAM_PHASE
+};
 
-// LABSoft_Voltmeter
-#define LABSOFT_VOLTMETER_UNIT 0 
+enum LE_WAVE_TYPE 
+{ 
+  LE_WAVE_TYPE_SINE,
+  LE_WAVE_TYPE_SQUARE,
+  LE_WAVE_TYPE_SQUARE_HALF,
+  LE_WAVE_TYPE_SQUARE_FULL,
+  LE_WAVE_TYPE_TRIANGLE,
+  LE_WAVE_TYPE_DC
+};
 
-// LABSoft_Ammeter
-#define LABSOFT_AMMETER_UNIT 0 
+constexpr unsigned  LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS     = 1;
+constexpr double    LAB_FUNCTION_GENERATOR_SIG_GEN_FREQUENCY_MIN  = 0.1; // Hz
+constexpr double    LAB_FUNCTION_GENERATOR_SIG_GEN_FREQUENCY_MAX  = 1'000'00; // Hz
+constexpr double    LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MIN = -3.3; //V
+constexpr double    LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MAX = 3.3; //V
+constexpr double    LAB_FUNCTION_GENERATOR_FREQUENCY_MIN          = LAB_FUNCTION_GENERATOR_SIG_GEN_FREQUENCY_MIN;
+constexpr double    LAB_FUNCTION_GENERATOR_FREQUENCY_MAX          = 1'000'000; // Hz
+constexpr double    LAB_FUNCTION_GENERATOR_AMPLITUDE_MIN          = LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MIN;
+constexpr double    LAB_FUNCTION_GENERATOR_AMPLITUDE_MAX          = LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MAX;
+constexpr double    LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET_MIN    = -5.0;
+constexpr double    LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET_MAX    = 5.0;
+constexpr double    LAB_FUNCTION_GENERATOR_DUTY_CYCLE_MIN         = 0.0;
+constexpr double    LAB_FUNCTION_GENERATOR_DUTY_CYCLE_MAX         = 100.0;
+constexpr double    LAB_FUNCTION_GENERATOR_PHASE_MIN              = -360.0;
+constexpr double    LAB_FUNCTION_GENERATOR_PHASE_MAX              = 360.0;
+constexpr double    LAB_FUNCTION_GENERATOR_FREQUENCY              = 1'000; // Hz
+constexpr double    LAB_FUNCTION_GENERATOR_PERIOD                 = 1.0 / LAB_FUNCTION_GENERATOR_FREQUENCY;
+constexpr double    LAB_FUNCTION_GENERATOR_AMPLITUDE              = 1.0; // 1 volt
+constexpr double    LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET        = 0.0;
+constexpr double    LAB_FUNCTION_GENERATOR_DUTY_CYCLE             = 50.0; // 50% duty cycle
+constexpr double    LAB_FUNCTION_GENERATOR_PHASE                  = 0.0; // 0 degree phase = in phase
+constexpr LE_WAVE_TYPE LAB_FUNCTION_GENERATOR_WAVE_TYPE           = LE_WAVE_TYPE_SQUARE;
 
-// LABSoft_Ohmmeter
-#define LABSOFT_OHMMETER_UNIT 2 
-
-// LAB_Function_Generator
 constexpr double SIG_GEN_MIN_FREQ   = 0.1; 
 constexpr double SIG_GEN_MAX_FREQ   = 12'500'000; 
 constexpr int    SIG_GEN_REF_CLK_HZ = 25'000'000; 
 constexpr int    SIG_GEN_2_POW_28   = 268'435'456;
 
-constexpr int LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS = 1;
-#define LAB_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER  0
-#define LAB_FUNCTION_GENERATOR_WAVE_TYPE   SINE
-#define LAB_FUNCTION_GENERATOR_FREQUENCY   1.0
-#define LAB_FUNCTION_GENERATOR_PERIOD      1.0
-#define LAB_FUNCTION_GENERATOR_AMPLITUDE   1.0
-#define LAB_FUNCTION_GENERATOR_Y_OFFSET      0.0
-#define LAB_FUNCTION_GENERATOR_DUTY_CYCLE  50.0
-#define LAB_FUNCTION_GENERATOR_PHASE       0.0
+struct LAB_Channel_Data_Function_Generator
+{
+  // Channel
+  bool is_enabled = false;
 
-// constexpr int AD9833_CE_PIN = 
+  // Parameters
+  LE_WAVE_TYPE  wave_type       = LAB_FUNCTION_GENERATOR_WAVE_TYPE;
+  double        frequency       = LAB_FUNCTION_GENERATOR_FREQUENCY;
+  double        period          = LAB_FUNCTION_GENERATOR_PERIOD;
+  double        amplitude       = LAB_FUNCTION_GENERATOR_AMPLITUDE;
+  double        vertical_offset = LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET;
+  double        duty_cycle      = LAB_FUNCTION_GENERATOR_DUTY_CYCLE;
+  double        phase           = LAB_FUNCTION_GENERATOR_PHASE;
+};
+
+struct LAB_Parent_Data_Function_Generator
+{
+  std::array <LAB_Channel_Data_Function_Generator, LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS> channel_data;
+};
 
 // LABSoft Function Generator
 #define LABSOFT_FUNCTION_GENERATOR_HORIZONTAL_POSITION "0 s"
@@ -347,8 +384,8 @@ struct LAB_Parent_Data_Logic_Analyzer
   bool      is_enabled          = false;
   double    sampling_rate       = LAB_LOGIC_ANALYZER_SAMPLING_RATE;
   double    time_per_division   = 0.0;
-  double    x_offset            = 0.0;
-  unsigned  working_samp_count  = 0;
+  double    horizontal_offset            = 0.0;
+  unsigned  w_samp_count  = 0;
 
   std::array <uint32_t, 
     LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES>   raw_sample_buffer;

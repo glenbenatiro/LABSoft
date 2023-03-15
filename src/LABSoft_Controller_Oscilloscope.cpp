@@ -12,21 +12,25 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   m_LAB         = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    channel_signals (&(m_LAB->m_Oscilloscope.m_channel_signals));
-
-  m_LAB->m_Oscilloscope.m_channel_signals.display_width (m_LABSoft_GUI->
-    oscilloscope_labsoft_oscilloscope_display_group_display->display ()-> w ());
-
+  // Link the LAB_Oscilloscope_Parent_Data struct from LAB_Oscilloscope
+  // to the LABSoft_Oscilloscope_Display_Group class in the GUI
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    update_time_per_division_labels ();
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    update_volts_per_division_labels ();
+    load_osc_parent_data ( &(m_LAB->m_Oscilloscope.m_parent_data) );
   
-  // Set initial sample rate / time per division
-  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE_TIME_PER_DIVISION,
-    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+  // reserve() the pixel point vectors in the LAB_Oscilloscope_Parent_Data
+  // struct 
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    reserve_pixel_points ();
+
+  //  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+  //   update_voltage_per_division_labels ();
+  
+  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+  //   update_time_per_division_labels (); 
+  
+  // // Set initial sample rate / time per division
+  // m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE_TIME_PER_DIVISION,
+  //   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -60,47 +64,35 @@ void LABSoft_Controller_Oscilloscope::
 cb_channel_enable_disable (Fl_Light_Button *w,
                            long             data)
 {
-  int channel = static_cast<int>(data);
-  bool value  = w->value ();
+  unsigned  channel = static_cast<unsigned>(data);
+  bool      value   = w->value ();
 
-  if (value)
-  {
-    m_LAB->m_Oscilloscope.channel_enable (channel);
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      channel_enable (channel);
-  }
-  else 
-  {
-    m_LAB->m_Oscilloscope.channel_disable (channel);
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      channel_disable (channel);
-  }
+  m_LAB->m_Oscilloscope.channel_enable_disable (channel, value);
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_x_offset (Fl_Input_Choice *w, 
+cb_horizontal_offset (Fl_Input_Choice *w, 
              void            *data)
 {
   double value = LabelValue (w->value ()).actual_value ();
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    m_x_offset = value;
+  m_LAB->m_Oscilloscope.horizontal_offset (value);
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_volts_per_division (Fl_Input_Choice *w, 
+cb_voltage_per_division (Fl_Input_Choice *w, 
                        long             channel)
 {
   LabelValue _LabelValue (w->value ());
   
-  m_LAB->m_Oscilloscope.volts_per_division (static_cast<unsigned>(channel),
+  m_LAB->m_Oscilloscope.voltage_per_division (static_cast<unsigned>(channel),
     _LabelValue.actual_value ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    update_volts_per_division_labels ();
+    update_voltage_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -118,7 +110,7 @@ cb_ac_coupling (Fl_Light_Button *w,
                 long             channel)
 {
   m_LAB->m_Oscilloscope.coupling (static_cast<unsigned>(channel),
-    (w->value () == 0) ? LABE_OSC_COUPLING_DC : LABE_OSC_COUPLING_AC);
+    (w->value () == 0) ? LE_OSC_COUPLING_DC : LE_OSC_COUPLING_AC);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -158,24 +150,27 @@ cb_time_per_division (Fl_Input_Choice *w,
 {
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Oscilloscope.time_per_division (_LabelValue.actual_value (), 
+  // Backend
+  m_LAB->m_Oscilloscope.time_per_division (_LabelValue.actual_value (),
     LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 
+  // Frontend
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
 
-  char text[50];
-  
-  Channel_Signal_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.
-    m_channel_signals.m_chans[0].osc);
 
-  // sprintf (text, "%3.3f samples at %s", osc->samples, 
-  //   LabelValue (osc->sampling_rate, LE_UNIT_HZ).to_label_text ().c_str ());
+
+  // TO-DO: fix this up lmao
+
+  char text[50];
+
+  LAB_Parent_Data_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.m_parent_data);
+  
+  sprintf (text, "%3.3f samples at %s", osc->w_samp_count, 
+    LabelValue (osc->sampling_rate, LE_UNIT_HZ).to_label_text ().c_str ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_upper_osc_disp_info (text);
-
-
 }
 
 void LABSoft_Controller_Oscilloscope::

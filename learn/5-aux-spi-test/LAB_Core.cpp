@@ -456,7 +456,7 @@ spi_disp ()
                                "CLK", 
                                "DLEN", 
                                "LTOH", 
-                               "DC", 
+                               "LE_WAVE_TYPE_DC", 
                                ""};
 
   int i = 0;

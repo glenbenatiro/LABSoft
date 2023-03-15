@@ -29,45 +29,45 @@ init ()
   // initialize actual chip
   stop ();
 
-  wave_type (TRIANGLE);
+  wave_type (LE_WAVE_TYPE_TRIANGLE);
   frequency (250);
 
   // start ();
 }
 
 void LAB_AD9833:: 
-wave_type (WaveType _WaveType)
+wave_type (LE_WAVE_TYPE _LE_WAVE_TYPE)
 {
-  switch (_WaveType)
+  switch (_LE_WAVE_TYPE)
   {
-    case SINE:
+    case LE_WAVE_TYPE_SINE:
       m_OPBITEN = 0;
       m_DIV2 = 0;
       m_Mode = 0;
       break;
-    case TRIANGLE:
+    case LE_WAVE_TYPE_TRIANGLE:
       m_OPBITEN = 0;
       m_DIV2 = 0;
       m_Mode = 1;
       break;
-    case SQUARE_FULL:
+    case LE_WAVE_TYPE_SQUARE_FULL:
       m_OPBITEN = 1;
       m_DIV2 = 1;
       m_Mode = 0;
       break;
-    case SQUARE_HALF:
+    case LE_WAVE_TYPE_SQUARE_HALF:
       m_OPBITEN = 1;
       m_DIV2 = 0;
       m_Mode = 0;
       break;
-    case SQUARE:
-      wave_type (SQUARE_FULL);
+    case LE_WAVE_TYPE_SQUARE:
+      wave_type (LE_WAVE_TYPE_SQUARE_FULL);
       break;
-    case DC:
+    case LE_WAVE_TYPE_DC:
       // add here code for DC signal
       break;
     default:
-      wave_type (SINE);
+      wave_type (LE_WAVE_TYPE_SINE);
       break;
   }
 
@@ -110,6 +110,12 @@ frequency (double frequency)
       write_reg ();
     }
   }
+}
+
+void LAB_AD9833:: 
+period (double value)
+{
+  frequency (1.0 / value);
 }
 
 void LAB_AD9833:: 

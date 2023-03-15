@@ -17,7 +17,6 @@ class LABSoft_Controller_Voltmeter
     LABSoft_Controller_Voltmeter (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
 
     // callback functions
-    void cb_unit      (Fl_Choice *w, long data);
     void cb_run_stop  (Fl_Button *w, void *data);
 };
 

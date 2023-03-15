@@ -12,139 +12,200 @@ LAB_Function_Generator (LAB_Core *_LAB_Core) :
   m_LAB_Core  = _LAB_Core;
 }
 
-void LAB_Function_Generator:: 
-start (int channel)
+int LAB_Function_Generator::
+run_stop (unsigned  channel,
+          bool      value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel))
   {
-    m_channel_signal[channel].enable ();
+    m_parent_data.channel_data[channel].is_enabled = value;
 
-    m_func_gen_ic.start ();
+    value ? m_func_gen_ic.start () : m_func_gen_ic.stop ();
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator:: 
-stop (int channel)
+int LAB_Function_Generator:: 
+wave_type (unsigned     channel,
+           LE_WAVE_TYPE _LE_WAVE_TYPE)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel))
   {
-    m_channel_signal[channel].disable ();
+    m_parent_data.channel_data[channel].wave_type = _LE_WAVE_TYPE;
 
-    m_func_gen_ic.stop ();
+    m_func_gen_ic.wave_type (_LE_WAVE_TYPE);
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-wave_type  (int channel, WaveType _WaveType)
+int LAB_Function_Generator:: 
+frequency (unsigned channel,
+           double   value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel) && 
+    is_valid_fg_param (value, LE_FG_PARAM_FREQUENCY))
   {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
+    m_parent_data.channel_data[channel].frequency = value;
 
-      m_func_gen_ic.wave_type (_WaveType);
-    }
+    m_func_gen_ic.frequency (value);
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-frequency (int    channel, 
-           double frequency)
+int LAB_Function_Generator:: 
+period (unsigned channel,
+        double   value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel) && 
+    is_valid_fg_param (value, LE_FG_PARAM_PERIOD))
   {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
-      printf ("lab function generator freq: %f\n", frequency);
+    m_parent_data.channel_data[channel].period = value;
 
-      m_func_gen_ic.frequency (frequency);
-    }
+    m_func_gen_ic.period (value);
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-period (int channel, double period)
+int LAB_Function_Generator:: 
+amplitude (unsigned channel,
+           double   value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel) && 
+    is_valid_fg_param (value, LE_FG_PARAM_AMPLITUDE))
   {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
+    m_parent_data.channel_data[channel].amplitude = value;
 
-      double frequency = (1.0 / period);
+    set_hw_amplitude (channel, value);
 
-      m_func_gen_ic.frequency (frequency);
-    }
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-amplitude  (int    channel,
-            double amplitude)
+int LAB_Function_Generator:: 
+vertical_offset (unsigned channel,
+                 double   value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel) && 
+    is_valid_fg_param (value, LE_FG_PARAM_VERTICAL_OFFSET))
   {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
+    m_parent_data.channel_data[channel].vertical_offset = value;
 
-      // add code here for amplitude setting
-    }
+    set_hw_vertical_offset (channel, value);
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-offset  (int    channel,
-         double offset)
+int LAB_Function_Generator:: 
+duty_cycle (unsigned channel,
+            double   value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel) && 
+    is_valid_fg_param (value, LE_FG_PARAM_DUTY_CYCLE))
   {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
+    m_parent_data.channel_data[channel].duty_cycle = value;
 
-      // add code here for offset setting
-    }
+    m_func_gen_ic.duty_cycle (value);
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-duty_cycle (int    channel, 
-            double duty_cycle)
+int LAB_Function_Generator:: 
+phase (unsigned channel,
+            double   value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
+  if (is_valid_channel (channel) && 
+    is_valid_fg_param (value, LE_FG_PARAM_PHASE))
   {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
+    m_parent_data.channel_data[channel].phase = value;
 
-      // m_func_gen_ic.duty_cycle (duty_cycle);
-    }
+    m_func_gen_ic.phase (value);
+
+    return 1;
   }
+
+  return -1;
 }
 
-void LAB_Function_Generator::
-phase (int    channel, 
-       double phase)
+int LAB_Function_Generator:: 
+set_hw_amplitude (unsigned  channel, 
+                  double    value)
 {
-  if (channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS && channel >= 0)
-  {
-    if (m_channel_signal[channel].is_enabled ())
-    {
-      // add more code here regarding channel selection in the future if
-      // Lab in a Box will have more than 1 function generator channel
+  return 1;
+}
 
-      m_func_gen_ic.phase (phase);
-    }
+int LAB_Function_Generator:: 
+set_hw_vertical_offset (unsigned  channel, 
+                        double    value)
+{
+  return 1;
+}
+
+bool LAB_Function_Generator:: 
+is_valid_channel (unsigned channel)
+{
+  return (channel >= 0 && channel < LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS);
+}
+
+bool LAB_Function_Generator:: 
+is_valid_fg_param (double value, LE_FG_PARAM _LE_FG_PARAM)
+{
+  switch (_LE_FG_PARAM)
+  {
+    case LE_FG_PARAM_FREQUENCY:
+      return (value >= LAB_FUNCTION_GENERATOR_FREQUENCY_MIN &&
+        value <= LAB_FUNCTION_GENERATOR_FREQUENCY_MAX);
+      break;
+    
+    case LE_FG_PARAM_PERIOD:
+      return (is_valid_fg_param (1.0 / value, LE_FG_PARAM_FREQUENCY));
+      break;
+    
+    case LE_FG_PARAM_AMPLITUDE:
+      return (value >= LAB_FUNCTION_GENERATOR_AMPLITUDE_MIN &&
+        value <= LAB_FUNCTION_GENERATOR_AMPLITUDE_MAX);
+      break;
+    
+    case LE_FG_PARAM_VERTICAL_OFFSET:
+      return (value >= LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET_MIN &&
+        value <= LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET_MAX);
+      break;
+    
+    case LE_FG_PARAM_DUTY_CYCLE:
+      return (value >= LAB_FUNCTION_GENERATOR_DUTY_CYCLE_MIN &&
+        value <= LAB_FUNCTION_GENERATOR_DUTY_CYCLE_MAX);
+      break;
+  
+    case LE_FG_PARAM_PHASE:
+      return (value >= LAB_FUNCTION_GENERATOR_PHASE_MIN &&
+        value <= LAB_FUNCTION_GENERATOR_PHASE_MAX);
+      break;
+
+    default:
+      break;
   }
+
+  // If nothing else
+  return false;
 }
 
 // EOF

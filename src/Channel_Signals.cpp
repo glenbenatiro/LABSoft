@@ -13,7 +13,7 @@ disable ()
 }
 
 void Channel_Signal:: 
-volts_per_division (double value)
+voltage_per_division (double value)
 {
   m_voltage_per_division = value;
 }

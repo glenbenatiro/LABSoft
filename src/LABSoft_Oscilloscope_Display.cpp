@@ -30,7 +30,7 @@ LABSoft_Oscilloscope_Display::
 void LABSoft_Oscilloscope_Display:: 
 draw ()
 {
-  draw_box (FL_FLAT_BOX, m_background_color);
+  draw_box (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR);
   draw_grid ();
   draw_channels ();
 }
@@ -39,7 +39,7 @@ void LABSoft_Oscilloscope_Display::
 draw_grid ()
 {
   // set color
-  fl_color (m_grid_color);
+  fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR);
 
   // draw grid outer box
   fl_line_style (FL_SOLID, 0, NULL);
@@ -48,175 +48,226 @@ draw_grid ()
   fl_line (x () + w (), y () + h (), x (), y () + h ());  // down
   fl_line (x (), y () + h (), x (), y ());                // left
 
-  // draw rows
-  for (int a = 0; a < (m_number_of_rows - 1); a++)
-    {
-      if (a == ((m_number_of_rows / 2) - 1))
-        fl_line_style (FL_DASH, 0, NULL);
-      else 
-        fl_line_style (FL_DOT, 0, NULL);
+  // Draw rows
+  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS - 1); a++)
+  {
+    if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) - 1))
+      fl_line_style (FL_DASH, 0, NULL);
+    else 
+      fl_line_style (FL_DOT, 0, NULL);
 
-      int Y = round ((a + 1) * ((float)h () / (float)m_number_of_rows)) + y ();
-      fl_line (x (), Y, x () + w (), Y);
-    }
+    int Y = round ((a + 1) * ((float)h () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS)) + y ();
+    fl_line (x (), Y, x () + w (), Y);
+  }
 
   // draw columns 
-  for (int a = 0; a < (m_number_of_columns - 1); a++)
+  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS - 1); a++)
     {
-      if (a == ((m_number_of_columns / 2) - 1))
+      if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS / 2) - 1))
         fl_line_style (FL_DASH, 0, NULL);
       else 
         fl_line_style (FL_DOT, 0, NULL);
 
-      int X = round ((a + 1) * ((float)w () / (float)m_number_of_columns)) + x ();
+      int X = round ((a + 1) * ((float)w () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS)) + x ();
       fl_line (X, y (), X, y () + h ());
     }
   
   // reset color
   fl_line_style (0);
-  fl_color (m_default_color);
 }
 
-
-void LABSoft_Oscilloscope_Display:: 
-load_channel_signals (Channel_Signals *_Channel_Signals)
+int LABSoft_Oscilloscope_Display:: 
+draw_channels () 
 {
+  if (!m_osc_parent_data)
+  {
+    return -1;
+  }
+
+  if (!(m_osc_parent_data->has_enabled_channels ()))
+  {
+    return -2;
+  }
+
+  // ---
+ 
+  fl_push_clip (x (), y (), w (), h ());
+
+  for (int a = 0; a < (m_osc_parent_data->channel_data.size ()); a++)
+  {
+    LAB_Parent_Data_Oscilloscope  &osc  = *m_osc_parent_data;
+    LAB_Channel_Data_Oscilloscope &chn  = osc.channel_data[a];
+
+    std::vector<std::array<int, 2>> &pp = chn.pixel_points;
+
+    if (chn.is_enabled)
+    {
+      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[a]);
+
+      int samp_count = ((osc.w_samp_count < w ()) ? osc.w_samp_count : w ()) - 1;
+
+      for (int b = 0; b < samp_count; b++)
+      {
+        fl_line (pp[b][0], pp[b][1], pp[b + 1][0], pp[b + 1][1]);
+      }
+    }
+  }
+
+  fl_pop_clip();
+
+  return 1;
+}
+
+void LABSoft_Oscilloscope_Display::
+load_osc_parent_data (LAB_Parent_Data_Oscilloscope *parent_data)
+{
+  m_osc_parent_data = parent_data;
+}
+
+int LABSoft_Oscilloscope_Display::
+reserve_pixel_points ()
+{
+  if (!m_osc_parent_data)
+  {
+    return -1;
+  }
+  else 
+  {
+    for (int a = 0; a < (m_osc_parent_data->channel_data.size ()); a++)
+    {
+      m_osc_parent_data->channel_data[a].pixel_points.reserve (
+        LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
+      );
+    }
+
+    return 1;
+  }
+}
+
+int LABSoft_Oscilloscope_Display::
+fill_pixel_points ()
+{
+  if (!m_osc_parent_data)
+  {
+    return -1;
+  }
+
+  if (!(m_osc_parent_data->has_enabled_channels ()))
+  {
+    return -2;
+  }
+
+  //
+
   double osc_disp_vert_half     = h () / 2;
   double osc_disp_vert_midline  = y () + osc_disp_vert_half;
-  
-  for (int a = 0; a < _Channel_Signals->m_chans.size (); a++)
+
+  for (int a = 0; a < (m_osc_parent_data->channel_data.size ()); a++)
   {
-    if (_Channel_Signals->m_chans[a].is_enabled ())
+    if (m_osc_parent_data->channel_data[a].is_enabled)
     {
-      Channel_Signal_Oscilloscope *osc  = &(_Channel_Signals->m_chans[a].osc);
-      std::vector<std::vector<int>> *pp = &(_Channel_Signals->m_chans[a].osc.
-        pixel_points);
+      LAB_Parent_Data_Oscilloscope    &osc  = *m_osc_parent_data;
+      LAB_Channel_Data_Oscilloscope   &chn  = osc.channel_data[a];
+      std::vector<std::array<int, 2>> &pp   = chn.pixel_points;
       
       double vert_scaler = (osc_disp_vert_half) / 
         ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
-          osc->volts_per_division);
+          chn.voltage_per_division);
 
-      if (osc->time_per_division < LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM)
+      if (osc.time_per_division < LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM)
       {
         double volt_samp_x_off = 0;
 
-        if (osc->samples > w ())
+        if (osc.w_samp_count > w ())
         {
-          double sample_skip = static_cast<double>(osc->samples - 1.0) / 
-          static_cast<double>(w () - 1.0);
+          double sample_skip = static_cast<double>(osc.w_samp_count - 1.0) / 
+            static_cast<double>(w () - 1.0);
                   
           for (int b = 0; b < w (); b++)
           {
-            (*pp)[b][0] = x () + b;
+            pp[b][0] = x () + b;
 
-            double samp_value = (osc->voltage_samples[volt_samp_x_off + 
-              (sample_skip * b)]) + (osc->vertical_offset);
+            double samp_value = (chn.samples[volt_samp_x_off + 
+              (sample_skip * b)]) + (chn.vertical_offset);
 
             if (samp_value == 0.0)
             {
-              (*pp)[b][1] = osc_disp_vert_midline;
+              pp[b][1] = osc_disp_vert_midline;
             }
             else
             {
-              (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+              pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
             }
           }
         }
-        else if (osc->samples == w ())
+        else if (osc.w_samp_count == w ())
         {
           for (int b = 0; b < w (); b++)
           {
-            (*pp)[b][0] = x () + b;
+            pp[b][0] = x () + b;
 
-            double samp_value = (osc->voltage_samples[volt_samp_x_off + b]) +
-              (osc->vertical_offset);
+            double samp_value = (chn.samples[volt_samp_x_off + b]) +
+              (chn.vertical_offset);
 
             if (samp_value == 0.0)
             {
-              (*pp)[b][1] = osc_disp_vert_midline;
+              pp[b][1] = osc_disp_vert_midline;
             }
             else
             {
-              (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+              pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
             }
           }
         }
-        else // osc->samples < w ()
+        else // osc.w_samp_count < w ()
         { 
           double x_pixel_scaler = ((static_cast<double>(w ()) - 1.0) / 
-            (osc->samples - 1.0));
+            (osc.w_samp_count - 1.0));
 
-          for (int b = 0; b < osc->samples; b++)
+          for (int b = 0; b < osc.w_samp_count; b++)
           {
-            (*pp)[b][0] = x () + (b * x_pixel_scaler);
+            pp[b][0] = x () + (b * x_pixel_scaler);
 
-            double samp_value = (osc->voltage_samples[volt_samp_x_off + b]) +
-              (osc->vertical_offset);
+            double samp_value = (chn.samples[volt_samp_x_off + b]) +
+              (chn.vertical_offset);
             
             if (samp_value == 0.0)
             {
-              (*pp)[b][1] = osc_disp_vert_midline;
+              pp[b][1] = osc_disp_vert_midline;
             }
             else
             {
-              (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+              pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
             }
           }
         }
       }
       else 
       {
-        double sample_skip = static_cast<double>(osc->voltage_samples.size () - 1) / 
-        static_cast<double>(w () - 1);
+        double sample_skip = static_cast<double>(chn.samples.size () - 1) / 
+          static_cast<double>(w () - 1);
                 
         for (int b = 0; b < w (); b++)
         {
-          (*pp)[b][0] = x () + b;
+          pp[b][0] = x () + b;
 
-          double samp_value = (osc->voltage_samples[sample_skip * b]) + 
-            (osc->vertical_offset);
+          double samp_value = (chn.samples[sample_skip * b]) + 
+            (chn.vertical_offset);
 
           if (samp_value == 0.0)
           {
-            (*pp)[b][1] = osc_disp_vert_midline;
+            pp[b][1] = osc_disp_vert_midline;
           }
           else
           {
-            (*pp)[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
+            pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
           }
         }
       }
     }
   }
-}
 
-void LABSoft_Oscilloscope_Display:: 
-draw_channels () 
-{
-  if (m_channel_signals)
-  {
-    fl_push_clip (x (), y (), w (), h ());
-
-    for (int a = 0; a < m_channel_signals->m_chans.size (); a++)
-    {
-      if (m_channel_signals->m_chans[a].is_enabled ())
-      {
-        Channel_Signal_Oscilloscope *osc = &(m_channel_signals->m_chans[a].
-          osc);
-
-        std::vector<std::vector<int>> *pp = &(osc->pixel_points);
-
-        fl_color (m_channels_graph_color[a]);
-
-        for (int b = 0; b < ((osc->samples < w() ? osc->samples : w ()) - 1); b++)
-        {
-          fl_line ((*pp)[b][0], (*pp)[b][1], (*pp)[b + 1][0], (*pp)[b + 1][1]);
-        }
-      }
-    }
-
-    fl_pop_clip();
-  }
+  return 1;
 }
 
 // EOF

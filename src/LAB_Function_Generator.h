@@ -2,34 +2,40 @@
 #define LAB_FUNCTION_GENERATOR
 
 #include "LAB_Core.h"
-#include "Channel_Signals.h"
 #include "Defaults.h"
 #include "LAB_AD9833.h"
 
 class LAB_Function_Generator 
 {
   public:
-    LAB_Core       *m_LAB_Core;
-    Channel_Signal  m_channel_signal[LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS];
-
-    // API for the ADC: AD9833
-    LAB_AD9833 m_func_gen_ic;
+    LAB_Core   *m_LAB_Core;
+    LAB_AD9833  m_func_gen_ic;
 
   public:
-    // functions
-         LAB_Function_Generator (LAB_Core *_LAB_Core);
+    LAB_Parent_Data_Function_Generator m_parent_data;
 
-    void start  (int channel);
-    void stop   (int channel);
+    // --- Functions ---
+    LAB_Function_Generator (LAB_Core *_LAB_Core);
+
+    // 
+    int run_stop (unsigned channel, bool value);
       
     // setters
-    void wave_type  (int channel, WaveType _WaveType);
-    void frequency  (int channel, double frequency);
-    void period     (int channel, double period);
-    void amplitude  (int channel, double amplitude);
-    void offset     (int channel, double offset);
-    void duty_cycle (int channel, double duty_cycle);
-    void phase      (int channel, double phase);
+    int wave_type       (unsigned channel, LE_WAVE_TYPE _WAVETYPE);
+    int frequency       (unsigned channel, double frequency);
+    int period          (unsigned channel, double period);
+    int amplitude       (unsigned channel, double amplitude);
+    int vertical_offset (unsigned channel, double offset);
+    int duty_cycle      (unsigned channel, double duty_cycle);
+    int phase           (unsigned channel, double phase);
+
+    //
+    int set_hw_amplitude        (unsigned channel, double value);
+    int set_hw_vertical_offset  (unsigned channel, double value);
+    
+    //
+    bool is_valid_channel   (unsigned channel);
+    bool is_valid_fg_param  (double value, LE_FG_PARAM _LE_FG_PARAM);
 };
 
 #endif

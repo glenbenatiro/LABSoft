@@ -14,15 +14,15 @@ void LABSoft_Controller_Function_Generator::
 cb_run_stop (Fl_Light_Button *w, 
              long             data)
 {
-  int channel = static_cast<int>(data);
+  unsigned channel = static_cast<unsigned>(data);
 
   if (w->value () == 0)
   {
-    m_LAB->m_Function_Generator.stop (channel);
+    m_LAB->m_Function_Generator.run_stop (channel, false);
   }
   else
   {
-    m_LAB->m_Function_Generator.start (channel);
+    m_LAB->m_Function_Generator.run_stop (channel, true);
   }
 }
 
@@ -30,25 +30,25 @@ void LABSoft_Controller_Function_Generator::
 cb_wave_type (Fl_Input_Choice *w, 
               long             data)
 {
-  WaveType wave_type;
+  LE_WAVE_TYPE wave_type;
 
   std::string label (w->value ());
   int channel = static_cast<int>(data);
 
   if (label == "Sine")
-    wave_type = SINE;
+    wave_type = LE_WAVE_TYPE_SINE;
   else if (label == "Half Square")
-    wave_type = SQUARE_HALF;
+    wave_type = LE_WAVE_TYPE_SQUARE_HALF;
   else if (label == "Full Square")
-    wave_type = SQUARE_FULL;
+    wave_type = LE_WAVE_TYPE_SQUARE_FULL;
   else if (label == "Square")
-    wave_type = SQUARE_FULL;
+    wave_type = LE_WAVE_TYPE_SQUARE_FULL;
   else if (label == "Triangle")
-    wave_type = TRIANGLE;
+    wave_type = LE_WAVE_TYPE_TRIANGLE;
   else if (label == "DC")
-    wave_type = DC;
+    wave_type = LE_WAVE_TYPE_DC;
   else 
-    wave_type = SINE;
+    wave_type = LE_WAVE_TYPE_SINE;
 
   m_LAB->m_Function_Generator.wave_type (channel, wave_type);
 }
@@ -90,7 +90,7 @@ cb_offset (Fl_Input_Choice *w,
   int channel = static_cast<int>(data);
   LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Function_Generator.offset (channel, _LabelValue.actual_value ());
+  m_LAB->m_Function_Generator.vertical_offset (channel, _LabelValue.actual_value ());
 }
 
 void LABSoft_Controller_Function_Generator:: 

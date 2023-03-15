@@ -40,14 +40,14 @@ void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_1_enable(Fl_Light_Butt
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_channel_1_enable_i(o,v);
 }
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(Fl_Input_Choice* o, long v) {
-  m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_voltage_per_division_i(Fl_Input_Choice* o, long v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_volts_per_division(Fl_Input_Choice* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_1_volts_per_division_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_voltage_per_division(Fl_Input_Choice* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_1_voltage_per_division_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_1_volts_per_division[] = {
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_1_voltage_per_division[] = {
  {"10 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -136,14 +136,14 @@ void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_2_enable(Fl_Light_Butt
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_channel_2_enable_i(o,v);
 }
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(Fl_Input_Choice* o, long v) {
-  m_LABSoft_Controller->m_Oscilloscope.cb_volts_per_division (o, v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_voltage_per_division_i(Fl_Input_Choice* o, long v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_volts_per_division(Fl_Input_Choice* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_2_volts_per_division_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_2_voltage_per_division(Fl_Input_Choice* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_channel_2_voltage_per_division_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_2_volts_per_division[] = {
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_2_voltage_per_division[] = {
  {"10 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -259,7 +259,7 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] 
 };
 
 void LABSoft_GUI::cb_oscilloscope_fl_input_choice_horizontal_offset_i(Fl_Input_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Oscilloscope.cb_x_offset (o, v);
+  m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);
 }
 void LABSoft_GUI::cb_oscilloscope_fl_input_choice_horizontal_offset(Fl_Input_Choice* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_horizontal_offset_i(o,v);
@@ -615,12 +615,12 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_light_button_channel_1_enable->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_channel_1_enable, (void*)(0));
             oscilloscope_fl_light_button_channel_1_enable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
           } // Fl_Light_Button* oscilloscope_fl_light_button_channel_1_enable
-          { oscilloscope_fl_input_choice_channel_1_volts_per_division = new Fl_Input_Choice(865, 200, 120, 30, "Volts per Division");
-            oscilloscope_fl_input_choice_channel_1_volts_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_1_volts_per_division, (void*)(0));
-            oscilloscope_fl_input_choice_channel_1_volts_per_division->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_channel_1_volts_per_division->menu(menu_oscilloscope_fl_input_choice_channel_1_volts_per_division);
-            oscilloscope_fl_input_choice_channel_1_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTAGE_PER_DIVISION);
-          } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_1_volts_per_division
+          { oscilloscope_fl_input_choice_channel_1_voltage_per_division = new Fl_Input_Choice(865, 200, 120, 30, "Volts per Division");
+            oscilloscope_fl_input_choice_channel_1_voltage_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_1_voltage_per_division, (void*)(0));
+            oscilloscope_fl_input_choice_channel_1_voltage_per_division->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_channel_1_voltage_per_division->menu(menu_oscilloscope_fl_input_choice_channel_1_voltage_per_division);
+            oscilloscope_fl_input_choice_channel_1_voltage_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTAGE_PER_DIVISION);
+          } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_1_voltage_per_division
           { oscilloscope_fl_input_choice_channel_1_vertical_offset = new Fl_Input_Choice(865, 260, 120, 30, "Vertical Offset");
             oscilloscope_fl_input_choice_channel_1_vertical_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_1_vertical_offset, (void*)(0));
             oscilloscope_fl_input_choice_channel_1_vertical_offset->align(Fl_Align(FL_ALIGN_TOP));
@@ -647,12 +647,12 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_light_button_channel_2_enable->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_channel_2_enable, (void*)(1));
             oscilloscope_fl_light_button_channel_2_enable->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
           } // Fl_Light_Button* oscilloscope_fl_light_button_channel_2_enable
-          { oscilloscope_fl_input_choice_channel_2_volts_per_division = new Fl_Input_Choice(1035, 200, 120, 30, "Volts per Division");
-            oscilloscope_fl_input_choice_channel_2_volts_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_2_volts_per_division, (void*)(1));
-            oscilloscope_fl_input_choice_channel_2_volts_per_division->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_channel_2_volts_per_division->menu(menu_oscilloscope_fl_input_choice_channel_2_volts_per_division);
-            oscilloscope_fl_input_choice_channel_2_volts_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTAGE_PER_DIVISION);
-          } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_2_volts_per_division
+          { oscilloscope_fl_input_choice_channel_2_voltage_per_division = new Fl_Input_Choice(1035, 200, 120, 30, "Volts per Division");
+            oscilloscope_fl_input_choice_channel_2_voltage_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_2_voltage_per_division, (void*)(1));
+            oscilloscope_fl_input_choice_channel_2_voltage_per_division->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_channel_2_voltage_per_division->menu(menu_oscilloscope_fl_input_choice_channel_2_voltage_per_division);
+            oscilloscope_fl_input_choice_channel_2_voltage_per_division->value (LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTAGE_PER_DIVISION);
+          } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_2_voltage_per_division
           { oscilloscope_fl_input_choice_channel_2_vertical_offset = new Fl_Input_Choice(1035, 260, 120, 30, "Vertical Offset");
             oscilloscope_fl_input_choice_channel_2_vertical_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_2_vertical_offset, (void*)(1));
             oscilloscope_fl_input_choice_channel_2_vertical_offset->align(Fl_Align(FL_ALIGN_TOP));

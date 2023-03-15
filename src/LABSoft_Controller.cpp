@@ -44,10 +44,9 @@ update_display (void *data)
     _LAB->m_Oscilloscope.load_data_samples ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
-     load_channel_signals (&(_LAB->m_Oscilloscope.m_channel_signals));
+      fill_pixel_points ();
 
-    gui->oscilloscope_labsoft_oscilloscope_display_group_display->display()
-      ->redraw ();
+    gui->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
   }
 
   if (_LAB->m_Voltmeter.is_running ())
@@ -89,16 +88,3 @@ update_display (void *data)
   // loop call timeout
   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, update_display, data);  
 }
-  
-
-// void LABSoft_Controller_Main:: 
-// LABSoft_Controller_Main_cb_update_display (void *data)
-// {
-//   // sure??
-//   LABSoft_GUI *gui = static_cast<LABSoft_GUI *>(data);
-//   gui->main_fl_window->flush ();
-
-//   printf ("hello p\n");
-
-//   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, LABSoft_Controller_Main_cb_update_display, (void *)gui);
-// }

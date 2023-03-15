@@ -53,8 +53,9 @@ class LAB_AD9833
     void  update_ctrl_reg ();
     void  write_reg ();
 
-    void  wave_type   (WaveType _WaveType);
+    void  wave_type   (LE_WAVE_TYPE _WAVETYPE);
     void  frequency   (double frequency);
+    void  period      (double value);
     void  duty_cycle  (double duty_cycle);
     void  phase       (double phase);
 

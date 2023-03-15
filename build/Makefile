@@ -169,33 +169,6 @@ lib/AikaPi/AikaPi.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.s
 .PHONY : lib/AikaPi/AikaPi.cpp.s
 
-src/Channel_Signals.o: src/Channel_Signals.cpp.o
-
-.PHONY : src/Channel_Signals.o
-
-# target to build an object file
-src/Channel_Signals.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.o
-.PHONY : src/Channel_Signals.cpp.o
-
-src/Channel_Signals.i: src/Channel_Signals.cpp.i
-
-.PHONY : src/Channel_Signals.i
-
-# target to preprocess a source file
-src/Channel_Signals.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.i
-.PHONY : src/Channel_Signals.cpp.i
-
-src/Channel_Signals.s: src/Channel_Signals.cpp.s
-
-.PHONY : src/Channel_Signals.s
-
-# target to generate assembly for a file
-src/Channel_Signals.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Channel_Signals.cpp.s
-.PHONY : src/Channel_Signals.cpp.s
-
 src/LAB.o: src/LAB.cpp.o
 
 .PHONY : src/LAB.o
@@ -829,9 +802,6 @@ help:
 	@echo "... lib/AikaPi/AikaPi.o"
 	@echo "... lib/AikaPi/AikaPi.i"
 	@echo "... lib/AikaPi/AikaPi.s"
-	@echo "... src/Channel_Signals.o"
-	@echo "... src/Channel_Signals.i"
-	@echo "... src/Channel_Signals.s"
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"

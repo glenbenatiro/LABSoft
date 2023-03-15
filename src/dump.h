@@ -26,7 +26,7 @@ enable_function_generator_mode ()
 }
 
 // int LABSoft_Oscilloscope_Display:: 
-// generate_waveform (WaveType wave_type, int channel)
+// generate_waveform (LE_WAVE_TYPE wave_type, int channel)
 // {
 //   std::vector<float>  values;  
 //   float               x_scaler = 1 / (static_cast<float>(w ()) /
@@ -42,24 +42,24 @@ enable_function_generator_mode ()
 //     {
 //       switch (m_wave_type)
 //         {
-//           case (SINE):
-//             values[a] = (m_function_amplitude / m_function_volts_per_division) * 
+//           case (LE_WAVE_TYPE_SINE):
+//             values[a] = (m_function_amplitude / m_function_voltage_per_division) * 
 //               sin ((2 * m_pi * m_function_frequency * a * m_time_per_division * x_scaler) 
 //                 + (m_function_phase * m_pi / 180.0)) + m_function_y_offset;
 //             break;
 
-//           case (SQUARE):
-//             values[a] = copysign ((m_function_amplitude / m_function_volts_per_division), sin ((2 * m_pi * m_function_frequency * 
+//           case (LE_WAVE_TYPE_SQUARE):
+//             values[a] = copysign ((m_function_amplitude / m_function_voltage_per_division), sin ((2 * m_pi * m_function_frequency * 
 //               a * m_time_per_division * x_scaler) + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;
 //             break;
 
-//           case (TRIANGLE):
-//             values[a] = ((2 * (m_function_amplitude / m_function_volts_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
+//           case (LE_WAVE_TYPE_TRIANGLE):
+//             values[a] = ((2 * (m_function_amplitude / m_function_voltage_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
 //               (1.0 / m_function_frequency)) * a * x_scaler + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;        
 //             break;
 
 //           case (DC):
-//             values[a] = (m_function_amplitude / m_function_volts_per_division) + m_function_y_offset;
+//             values[a] = (m_function_amplitude / m_function_voltage_per_division) + m_function_y_offset;
 //             break;
 
 //           default:
@@ -88,24 +88,24 @@ generate_waveform (WaveType wave_type, int channel)
     {
       switch (m_wave_type)
         {
-          case (SINE):
-            values[a] = (m_function_amplitude / m_function_volts_per_division) * 
+          case (LE_WAVE_TYPE_SINE):
+            values[a] = (m_function_amplitude / m_function_voltage_per_division) * 
               sin ((2 * m_pi * m_function_frequency * a * m_time_per_division * x_scaler) 
                 + (m_function_phase * m_pi / 180.0)) + m_function_y_offset;
             break;
 
-          case (SQUARE_FULL):
-            values[a] = copysign ((m_function_amplitude / m_function_volts_per_division), sin ((2 * m_pi * m_function_frequency * 
+          case (LE_WAVE_TYPE_SQUARE_FULL):
+            values[a] = copysign ((m_function_amplitude / m_function_voltage_per_division), sin ((2 * m_pi * m_function_frequency * 
               a * m_time_per_division * x_scaler) + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;
             break;
 
-          case (TRIANGLE):
-            values[a] = ((2 * (m_function_amplitude / m_function_volts_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
+          case (LE_WAVE_TYPE_TRIANGLE):
+            values[a] = ((2 * (m_function_amplitude / m_function_voltage_per_division)) /m_pi) * asin (sin ((2 * m_pi / 
               (1.0 / m_function_frequency)) * a * x_scaler + (m_function_phase * m_pi / 180.0))) + m_function_y_offset;        
             break;
 
           case (DC):
-            values[a] = (m_function_amplitude / m_function_volts_per_division) + m_function_y_offset;
+            values[a] = (m_function_amplitude / m_function_voltage_per_division) + m_function_y_offset;
             break;
 
           default:

@@ -29,10 +29,10 @@ typedef struct
 
 enum WaveType 
 { 
-  SINE, 
-  SQUARE, 
+  LE_WAVE_TYPE_SINE, 
+  LE_WAVE_TYPE_SQUARE, 
   TRIANGLE, 
-  DC,
+  LE_WAVE_TYPE_DC,
   SAWTOOTH,
   NOISE,
   OTHER
