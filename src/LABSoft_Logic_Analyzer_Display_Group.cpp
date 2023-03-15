@@ -97,29 +97,48 @@ draw ()
   draw_children ();
 }
 
+void LABSoft_Logic_Analyzer_Display_Group::
+load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer *parent_data)
+{
+  m_logan_parent_data = parent_data;
+
+  m_display->load_logan_parent_data (parent_data);
+}
+
+int LABSoft_Logic_Analyzer_Display_Group::
+reserve_pixel_points ()
+{
+  if (!m_display)
+  {
+    return -1;
+  }
+  else 
+  {
+    m_display->reserve_pixel_points ();
+
+    return 1;
+  }
+}
+
+int LABSoft_Logic_Analyzer_Display_Group::
+fill_pixel_points ()
+{
+  if (!m_display)
+  {
+    return -1;
+  }
+  else 
+  {
+    m_display->fill_pixel_points ();
+
+    return 1;
+  }
+}
+
 void LABSoft_Logic_Analyzer_Display_Group:: 
 update_time_per_division_labels ()
 {
-  // for (int a = 0; a <= m_x_labels.size (); a++)
-  // {
-  //   double temp = m_position + (m_time_per_division * (a - (LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS / 2)));
-  //   // m_x_labels[a]->copy_label ((LabelValue::label_text (temp, LE_LABEL_TYPE_TIME_PER_DIVISION)).c_str());
-  // }
-}
 
-void LABSoft_Logic_Analyzer_Display_Group:: 
-update_time_per_division_labels (double value)
-{
-  // time_per_division (value);
-  // update_time_per_division_labels ();
-}
-
-//
-
-void LABSoft_Logic_Analyzer_Display_Group:: 
-load_channel_signals (LAB_Parent_Data_Logic_Analyzer *parent_data)
-{
-  m_display->load_channel_signals (parent_data);
 }
 
 // eof

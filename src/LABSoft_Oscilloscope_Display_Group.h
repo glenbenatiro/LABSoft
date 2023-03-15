@@ -13,8 +13,8 @@
 class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 {
   private: 
-    Fl_Box* m_upper_osc_disp_info = nullptr;
-    LAB_Parent_Data_Oscilloscope *m_osc_parent_data = nullptr;
+    Fl_Box*                       m_upper_osc_disp_info = nullptr;
+    LAB_Parent_Data_Oscilloscope *m_osc_parent_data     = nullptr;
 
     std::array <Fl_Box*, LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS + 1>
       m_x_labels; 

@@ -32,6 +32,12 @@ FL/fl_draw.H
 ../lib/AikaPi/AikaPi.h
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
 
+/home/glen/Desktop/LABSoft/src/LAB.cpp
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB.h
+cstring
+-
+
 /home/glen/Desktop/LABSoft/src/LAB.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -222,13 +228,35 @@ LABSoft_Logic_Analyzer_Display_Group.h
 FL/Fl_Text_Display.H
 -
 
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display.cpp
+LABSoft_Logic_Analyzer_Display.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display.h
-vector
+FL/fl_draw.H
 -
+FL/Enumerations.H
+-
+iostream
+-
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display.h
 FL/Fl_Widget.H
 -
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
 array
@@ -298,6 +326,12 @@ Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.cpp
+LAB_Circuit_Checker.h
+/home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB.h
+
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
@@ -305,6 +339,14 @@ LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 ../lib/AikaPi/AikaPi.h
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+
+/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
+LAB_Function_Generator.h
+/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB.h
+iostream
+-
 
 /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
 LAB_Core.h
@@ -314,6 +356,16 @@ Defaults.h
 LAB_AD9833.h
 /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
+LAB_Logic_Analyzer.h
+/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB.h
+cstring
+-
+bitset
+-
+
 /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
 vector
 -
@@ -322,17 +374,41 @@ Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
+LAB_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
+cstring
+-
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB.h
+
 /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 
+/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp
+LAB_Voltmeter.h
+/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB.h
+iostream
+-
+
 /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
+
+/home/glen/Desktop/LABSoft/src/LabelValue.cpp
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
+iostream
+-
+cstring
+-
 
 /home/glen/Desktop/LABSoft/src/LabelValue.h
 string

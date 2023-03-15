@@ -67,14 +67,13 @@ update_display (void *data)
   }
 
   if (_LAB->m_Logic_Analyzer.is_running ())
-  {
+  {   
     _LAB->m_Logic_Analyzer.load_data_samples ();
 
     gui->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-      load_channel_signals (_LAB->m_Logic_Analyzer.parent_data ());
+      fill_pixel_points ();
 
-    gui->logic_analyzer_labsoft_logic_analyzer_display_group_display->display() 
-      ->redraw ();
+    gui->logic_analyzer_labsoft_logic_analyzer_display_group_display->redraw ();
   }
 
   Fl::awake ();

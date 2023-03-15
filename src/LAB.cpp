@@ -10,7 +10,6 @@ LAB::LAB ()
   m_Circuit_Checker     (&(m_LAB_Core), this)
 {
   setup_pwm ();
-
   setup_spi (); 
 }
 
@@ -43,6 +42,15 @@ setup_pwm ()
   m_LAB_Core.dma_start (&m_uncached_pwm_dma_data, LAB_DMA_CHAN_PWM_PACING, 
     &((static_cast<LAB_PWM_PACING_DMA_DATA *>(m_uncached_pwm_dma_data.virt))->
       cbs[0]), 0); 
+}
+
+void LAB:: 
+setup_spi ()
+{
+  m_LAB_Core.spi_init (LAB_SPI_FREQUENCY);
+
+  *(Utility::get_reg32 (m_LAB_Core.m_regs_spi, SPI_DC)) = 
+    (8<<24) | (1<<16) | (8<<8) | 1;
 }
 
 void LAB:: 
@@ -90,11 +98,3 @@ config_pwm_dma_control_blocks ()
   std::memcpy (dp, &adc_dma_data, sizeof (adc_dma_data));
 }
 
-void LAB:: 
-setup_spi ()
-{
-  m_LAB_Core.spi_init (LAB_SPI_FREQUENCY);
-
-  *(Utility::get_reg32 (m_LAB_Core.m_regs_spi, SPI_DC)) = 
-    (8<<24) | (1<<16) | (8<<8) | 1;
-}

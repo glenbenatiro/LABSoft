@@ -80,9 +80,9 @@ draw_channels ()
 {
   fl_push_clip (x (), y (), w (), h ());
 
-  for (int a = 0; a < (m_parent_data->channel_data.size ()); a++)
+  for (int a = 0; a < (m_logan_parent_data->channel_data.size ()); a++)
   {
-    LAB_Channel_Data_Logic_Analyzer *chan = &(m_parent_data->channel_data[a]);
+    LAB_Channel_Data_Logic_Analyzer *chan = &(m_logan_parent_data->channel_data[a]);
 
     if (chan->is_enabled)
     {
@@ -94,13 +94,13 @@ draw_channels ()
         LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_DASHES
       );
 
-      for (int b = 0; b < (chan->pixel_point.size ()) - 1; b++)
+      for (int b = 0; b < (chan->pixel_points.size ()) - 1; b++)
       {
         fl_line (
-          chan->pixel_point[b][0],
-          chan->pixel_point[b][1],
-          chan->pixel_point[b + 1][0],
-          chan->pixel_point[b + 1][1]
+          chan->pixel_points[b][0],
+          chan->pixel_points[b][1],
+          chan->pixel_points[b + 1][0],
+          chan->pixel_points[b + 1][1]
         );
       }
 
@@ -114,10 +114,36 @@ draw_channels ()
   return 0;
 }
 
-// 
-
 void LABSoft_Logic_Analyzer_Display::
-load_channel_signals (LAB_Parent_Data_Logic_Analyzer *parent_data)
+load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer *parent_data)
 {
-  m_parent_data = parent_data;
+  m_logan_parent_data = parent_data;
 }
+
+int LABSoft_Logic_Analyzer_Display::
+reserve_pixel_points ()
+{
+  if (!m_logan_parent_data)
+  {
+    return -1;
+  }
+  else 
+  {
+    for (int a = 0; a < (m_logan_parent_data->channel_data.size ()); a++)
+    {
+      m_logan_parent_data->channel_data[a].pixel_points.reserve (
+        LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 2
+      );
+    }
+
+    return 1;
+  }
+}
+
+int LABSoft_Logic_Analyzer_Display::
+fill_pixel_points ()
+{
+  return 1;
+}
+
+// EOF

@@ -145,12 +145,12 @@ reserve_pixel_points ()
 {
   if (!m_display)
   {
-    m_display->reserve_pixel_points ();
-    
-    return 1;
+    return -1;
   }
   else 
   {
+    m_display->reserve_pixel_points ();
+
     return 1;
   }
 }

@@ -23,9 +23,10 @@ class LABSoft_Controller_Logic_Analyzer
     // callback functions
     void cb_master_run_stop   (Fl_Button       *w, void *data);
     void cb_memory_depth      (Fl_Input_Choice *w, void *data);
+    void cb_sampling_rate     (Fl_Input_Choice *w, void *data);
     void cb_time_per_division (Fl_Input_Choice *w, void *data);
-    void cb_position          (Fl_Input_Choice *w, void *data);
-    void update_display ();
+    void cb_horizontal_offset (Fl_Input_Choice *w, void *data);
+    void cb_display_mode      (Fl_Choice       *w, void *data);
 };
 
 #endif

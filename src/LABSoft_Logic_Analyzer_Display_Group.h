@@ -13,7 +13,7 @@
 class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
 {
   private: 
-    LABSoft_Logic_Analyzer_Display     *m_display;
+    LAB_Parent_Data_Logic_Analyzer *m_logan_parent_data = nullptr;
 
     std::array<Fl_Menu_Button *, LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>         
       m_channel_menu_buttons;
@@ -22,18 +22,21 @@ class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
       m_x_labels;
 
   public:
+    LABSoft_Logic_Analyzer_Display *m_display = nullptr;
+
+    // --- Functions ---
     LABSoft_Logic_Analyzer_Display_Group (int X, int Y, int W, int H, const char *label = 0);
 
+    // Draw
     void draw ();
-    void update_time_per_division_labels ();
-    void update_time_per_division_labels (double value);
-    void load_channel_signals (LAB_Parent_Data_Logic_Analyzer *parent_data);
 
-    // getter
-    LABSoft_Logic_Analyzer_Display* display ()
-    {
-      return m_display;
-    }
+    // Load data
+    void  load_logan_parent_data  (LAB_Parent_Data_Logic_Analyzer *parent_data);
+    int   reserve_pixel_points    ();
+    int   fill_pixel_points       ();
+
+    // Update data
+    void update_time_per_division_labels ();
 };
 
 #endif 

@@ -8,34 +8,16 @@ LABSoft_Controller_Logic_Analyzer (LAB         *_LAB,
 {
   m_LAB = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
-
-  // Load default values
-  m_LABSoft_GUI->logic_analyzer_fl_input_choice_memory_depth->
-    value (LABSOFT_LOGIC_ANALYZER_MEMORY_DEPTH);
-  m_LABSoft_GUI->logic_analyzer_fl_input_choice_sample_rate->
-    value (LABSOFT_LOGIC_ANALYZER_SAMPLE_RATE);
-  m_LABSoft_GUI->logic_analyzer_fl_input_choice_time_per_division->
-    value (LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON);
-  m_LABSoft_GUI->logic_analyzer_fl_input_choice_position->
-    value (LABSOFT_LOGIC_ANALYZER_POSITION);
-}
-
-void LABSoft_Controller_Logic_Analyzer:: 
-reserve_pixel_points ()
-{
-  // LAB_Parent_Data_Logic_Analyzer *pd    = m_LAB->m_Logic_Analyzer.parent_data ();
-  // LABSoft_Logic_Analyzer_Display *disp  = m_LABSoft_GUI->
-  //   logic_analyzer_labsoft_logic_analyzer_display
-
-  // for (int a = 0; a < (pd->channel_data.size ()); a++)
-  // {
-  //   pd->channel_data[a].pixel_point.reserve (m_LAB)
-  // }
-
-
-
-
-  // for (int a = 0; a < )
+  
+  // Link the LAB_Logic_Analyzer_Parent_Data struct from LAB_Logic_Analyzer
+  // to the LABSoft_Logic_Analyzer_Display_Group class in the GUI
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
+    load_logan_parent_data (&(m_LAB->m_Logic_Analyzer.m_parent_data));
+  
+  // reserve() the pixel point vectors in the LAB_Logic_Analyzer_Parent_Data
+  // struct 
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
+    reserve_pixel_points ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -60,7 +42,14 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_memory_depth (Fl_Input_Choice *w,
                  void            *data)
 {
-  LabelValue _LabelValue (w->value ());
+
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_sampling_rate (Fl_Input_Choice *w,
+                 void            *data)
+{
+  
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -69,48 +58,30 @@ cb_time_per_division (Fl_Input_Choice *w,
 {
   LabelValue _LabelValue (w->value ());
 
+  m_LAB->m_Logic_Analyzer.time_per_division (_LabelValue.actual_value (),
+    LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS);
+
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-    update_time_per_division_labels (_LabelValue.actual_value ());
+    update_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_position (Fl_Input_Choice *w,
-             void            *data)
+cb_horizontal_offset (Fl_Input_Choice *w,
+                      void            *data)
 {
   LabelValue _LabelValue (w->value ());
 
-  // m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-  //   position (_LabelValue.actual_value ());
+  m_LAB->m_Logic_Analyzer.horizontal_offset (_LabelValue.actual_value ());
 
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-  update_time_per_division_labels ();
+    update_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-update_display ()
+cb_display_mode (Fl_Choice  *w,
+                 void       *data)
 {
-  while (m_LAB->m_Logic_Analyzer.is_running ()) 
-  {
-    // auto start = std::chrono::steady_clock::now ();
-    printf (".\n");
 
-    m_LAB->m_Logic_Analyzer.load_data_samples ();
-
-    // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    //  load_channel_signals (&(m_LAB->m_Oscilloscope->m_channel_signals));
-
-    // // draw signals
-    // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->display ()->redraw ();
-    // Fl::awake ();
-
-    // std::this_thread::sleep_for (std::chrono::milliseconds 
-    //   (DISPLAY_UPDATE_SLEEP_TIME_MS));
-
-    // auto end = std::chrono::steady_clock::now ();
-
-    // std::chrono::duration<double, std::milli> elapsed = end - start;
-    // std::cout << "Duration: " << elapsed.count () << " ms\n";
-  }
 }
 
 // EOF

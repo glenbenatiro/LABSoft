@@ -123,7 +123,7 @@ parse_raw_sample_buffer()
   {
     for (int b = 0; b < LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS; b++)
     {
-      m_parent_data.channel_data[b].raw_sample_buffer[a] = 
+      m_parent_data.channel_data[b].samples[a] = 
         ((m_parent_data.raw_sample_buffer[a] >> LAB_PIN_LOGIC_ANALYZER[b]) & 0x1);
     }
   }
@@ -278,6 +278,12 @@ time_per_division (double value, unsigned disp_num_cols)
   return value;
 }
 
+double LAB_Logic_Analyzer:: 
+horizontal_offset (double value)
+{
+  m_parent_data.horizontal_offset = value;
+}
+
 void LAB_Logic_Analyzer:: 
 switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT)
 {
@@ -320,20 +326,10 @@ switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT)
   }
 }
 
-// 
-
 bool LAB_Logic_Analyzer:: 
 is_running ()
 {
-  return (m_is_running);
-}
-
-LAB_Parent_Data_Logic_Analyzer* LAB_Logic_Analyzer:: 
-parent_data ()
-{
-  return (&m_parent_data);
+  return (m_parent_data.is_enabled);
 }
 
 // EOF
-
-

@@ -78,7 +78,7 @@ constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 // Raspberry Pi Zero BCM Pin Assishift_bit_countgnments
 // https://pinout.xyz/
-constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {0, 1, 26};
+constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {2, 3, 4, 27, 22, 0, 5, 6};
 constexpr unsigned LAB_RPI_PIN_PWM_CHAN_0                         = 12;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1 = 14;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_2 = 15;
@@ -135,6 +135,20 @@ constexpr uint32_t  LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK       = ((std::pow
 constexpr int       LAB_OSCILLOSCOPE_ADC_CE                         = 0; // CE0 or CE1
 constexpr LE_GRAPH_DISP_MODE LAB_OSCILLOSCOPE_GRAPH_DISP_MODE       = LE_GRAPH_DISP_MODE_REPEATED;
 
+struct LAB_Oscilloscope_DMA_Data
+{
+  AP_DMA_CB cbs[10];
+
+  uint32_t  samp_size,
+            pwm_val, 
+            adc_csd,
+            txd[2];
+
+  volatile uint32_t usecs[2],
+                    status[2],
+                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
+                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
+};
 
 struct LAB_Channel_Data_Oscilloscope
 {
@@ -149,7 +163,7 @@ struct LAB_Channel_Data_Oscilloscope
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
-  std::array  <double, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>  samples;
+  std::array  <double, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES> samples;
 };
 
 class LAB_Parent_Data_Oscilloscope
@@ -181,20 +195,20 @@ class LAB_Parent_Data_Oscilloscope
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
 };
 
-struct LAB_Oscilloscope_DMA_Data
-{
-  AP_DMA_CB cbs[10];
+// LABSoft Oscilloscope Display
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = 10;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS  = 10;
+constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_VOLTAGE        = 25.0; // in volts
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN         = 50;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BOTTOM_MARGIN      = 50;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_LEFT_MARGIN        = 80;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_RIGHT_MARGIN       = 65;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR   = FL_BLACK;
+constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR         = FL_WHITE;
 
-  uint32_t  samp_size,
-            pwm_val, 
-            adc_csd,
-            txd[2];
-
-  volatile uint32_t usecs[2],
-                    status[2],
-                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
-                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
-};
+// LAB Oscilloscope
+constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM                 = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / (LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS;
 
 // LABSoft Oscilloscope Display Group
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_SIZE           = 10;
@@ -208,6 +222,15 @@ constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN    = 20; //
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR    = FL_BACKGROUND2_COLOR;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR       = FL_BLACK;
 
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_DIVISION = "1 V/div";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VERTICAL_OFFSET      = "0 V";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VOLTAGE_PER_DIVISION = "1 V/div";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VERTICAL_OFFSET      = "0 V";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION              = "5 us/div";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET              = "0 s";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL                  = "0 V";
+constexpr int         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE                   = (LAB_OSCILLOSCOPE_TIME_PER_DIVISION >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN) ? 1 : 0; // 0 is repeated, 1 is screen
+
 static std::array<int, 10> 
   LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS = 
 {
@@ -216,58 +239,6 @@ static std::array<int, 10>
   0x00000002,
   0x00000001,
 };
-
-// LABSoft Oscilloscope Display
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = 10;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS  = 10;
-constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_VOLTAGE        = 25.0; // in volts
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN         = 50;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BOTTOM_MARGIN      = 50;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_LEFT_MARGIN        = 80;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_RIGHT_MARGIN       = 65;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR   = FL_BLACK;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR         = FL_WHITE;
-
-
-constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_VOLTAGE_PER_DIVISION = 1.0;
-
-
-
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR       FL_BLACK 
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_DEFAULT_COLOR          FL_BLACK
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR             FL_LIGHT3
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_AMPLITUDE 1.0 // volts
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_FREQUENCY 1.0 // hz
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_PHASE     0.0 // degrees
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_Y_OFFSET  0.0 // volts
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_GENERATOR_CHANNEL_NUMBER 0
-// // constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION_UNIT_SCALER = 0;
-// // constexpr LE_GRAPH_DISP_MODE LABSOFT_OSCILLOSCOPE_DISPLAY_DISPLAY_MODE = LE_GRAPH_DISP_MODE_SCREEN;
-
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_FUNCTION_VOLTAGE_PER_DIVISION  1.0
-// // #define LABSOFT_OSCILLOSCOPE_DISPLAY_TIME_PER_DIVISION 1.0
-
-// constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS = 
-//   LAB_OSCILLOSCOPE_MAX_NUMBER_OF_CHANNELS;
-
-// static std::array<int, LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_NUMBER_OF_CHANNELS>
-//   LABSOFT_OSCILLOSCOPE_DISPLAY_CHANNELS_GRAPH_COLOR = 
-//     LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS;
-
-
-// LABSoft Oscilloscope
-#define LABSOFT_OSCILLOSCOPE_CHANNEL_1_VOLTAGE_PER_DIVISION "1 V/div"
-#define LABSOFT_OSCILLOSCOPE_CHANNEL_1_Y_OFFSET            "0 V"
-#define LABSOFT_OSCILLOSCOPE_CHANNEL_2_VOLTAGE_PER_DIVISION "1 V/div"
-#define LABSOFT_OSCILLOSCOPE_CHANNEL_2_Y_OFFSET            "0 V"
-#define LABSOFT_OSCILLOSCOPE_X_OFFSET                     "0 s"
-#define LABSOFT_OSCILLOSCOPE_TRIGGER_LEVEL                "0 v"
-#define LABSOFT_OSCILLOSCOPE_DISPLAY_MODE                 "Repeated"
-constexpr const char* LABSOFT_OSCILLOSCOPE_TIME_PER_DIVISION = "1 ms/div";
-
-// LAB Oscilloscope
-constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM                 = (LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) / (LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
-constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS;
 
 // --- LAB Voltmeter ---
 
@@ -372,28 +343,38 @@ struct LAB_Channel_Data_Logic_Analyzer
   bool      is_enabled                        = true;
   unsigned  raw_sample_buffer_working_size      = 0;
 
-  std::array <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> raw_sample_buffer;
-
-  // This vector will be reserve()'d in the 
-  // constructor of the Logic Analyzer controller
-  std::vector<std::vector<int>> pixel_point;
+  // Data/Samples
+  std::vector <std::array<int, 2>> pixel_points;
+  std::array  <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> samples;
 };
 
-struct LAB_Parent_Data_Logic_Analyzer
+class LAB_Parent_Data_Logic_Analyzer
 {
-  bool      is_enabled          = false;
-  double    sampling_rate       = LAB_LOGIC_ANALYZER_SAMPLING_RATE;
-  double    time_per_division   = 0.0;
-  double    horizontal_offset            = 0.0;
-  unsigned  w_samp_count  = 0;
+  public:
+    bool has_enabled_channels ()
+    {
+      for (int a = 0; a < channel_data.size (); a++)
+      {
+        if (channel_data[a].is_enabled)
+          return true;
+      }
 
-  std::array <uint32_t, 
-    LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES>   raw_sample_buffer;
-    
-  std::array <LAB_Channel_Data_Logic_Analyzer, 
-    LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>  channel_data;
+      return false;
+    }
 
-  LE_GRAPH_DISP_MODE graph_disp_mode  = LE_GRAPH_DISP_MODE_REPEATED;
+    bool      is_enabled          = false;
+    double    sampling_rate       = LAB_LOGIC_ANALYZER_SAMPLING_RATE;
+    double    time_per_division   = 0.0;
+    double    horizontal_offset            = 0.0;
+    unsigned  w_samp_count  = 0;
+
+    std::array <uint32_t, 
+      LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES>   raw_sample_buffer;
+      
+    std::array <LAB_Channel_Data_Logic_Analyzer, 
+      LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>  channel_data;
+
+    LE_GRAPH_DISP_MODE graph_disp_mode  = LE_GRAPH_DISP_MODE_REPEATED;
 };
 
 struct LAB_Logic_Analyzer_DMA_Data
@@ -428,11 +409,6 @@ constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR             
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_WIDTH             = 0;
 constexpr char*     LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_DASHES            = 0;
 constexpr double    LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.0 / (LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS);
-
-//constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_BACKGROUND_COLOR = 0xFFFFFF00; // white
-//constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_NUMBER_OF_COLUMNS = 10;
-// constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_GRID_COLOR = 0x000000FF; // kinda light gray
-// constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_GRAPH_X_LABEL_STRIP_HEIGHT= 30; // kinda light gray
 
 constexpr const char* LABSOFT_LOGIC_ANALYZER_MEMORY_DEPTH     = "4096";
 constexpr const char* LABSOFT_LOGIC_ANALYZER_SAMPLE_RATE      = "1 kHz";

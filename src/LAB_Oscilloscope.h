@@ -23,8 +23,8 @@ class LAB_Oscilloscope
    ~LAB_Oscilloscope  ();
 
     // Setup
-    void  init_osc_gpio_pins      ();
-    void  init_osc_dma            ();
+    void  init_osc_gpio_pins        ();
+    void  init_osc_dma              ();
     void  config_dma_control_blocks ();
 
     // Master controls
@@ -33,7 +33,6 @@ class LAB_Oscilloscope
     void master_run_stop        (bool value);
     void osc_core_run_stop      (bool value);
     void osc_frontend_run_stop  (bool value);
-    bool is_running             ();
 
     // Vertical
     void  channel_enable_disable  (unsigned channel, bool value);
@@ -47,7 +46,8 @@ class LAB_Oscilloscope
     double  horizontal_offset (double value);
     void    sampling_rate     (double value);
 
-    // Get data/samples
+    // 
+    bool  is_running              ();
     void  load_data_samples       ();
     int   parse_raw_sample_buffer ();
     bool  has_enabled_channel     ();

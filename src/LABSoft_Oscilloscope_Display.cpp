@@ -169,7 +169,7 @@ fill_pixel_points ()
       LAB_Parent_Data_Oscilloscope    &osc  = *m_osc_parent_data;
       LAB_Channel_Data_Oscilloscope   &chn  = osc.channel_data[a];
       std::vector<std::array<int, 2>> &pp   = chn.pixel_points;
-      
+
       double vert_scaler = (osc_disp_vert_half) / 
         ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
           chn.voltage_per_division);
@@ -266,6 +266,8 @@ fill_pixel_points ()
       }
     }
   }
+
+  std::cout << "filling pixel points done\n";
 
   return 1;
 }

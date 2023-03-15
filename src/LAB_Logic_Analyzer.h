@@ -21,25 +21,37 @@ class LAB_Logic_Analyzer
 
     int m_curr_screen_buffer = 0;
 
-    LAB_Parent_Data_Logic_Analyzer m_parent_data;
-
   public:
+    LAB_Parent_Data_Logic_Analyzer m_parent_data;
+    
+    // --- Functions ---
     LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB);
 
+    // Setup
+    void    config_dma_control_blocks ();  
+
+    // Master controls
     void    run   ();
     void    stop  ();
-    void    sampling_rate (double value);
-    void    load_data_samples ();
-    void    config_dma_control_blocks ();   
-    void    graph_disp_mode (LE_GRAPH_DISP_MODE _LE_GRAPH_DISP_MODE); 
+    
+    // Vertical 
+    void    channel_enable_disable (unsigned channel, bool value);
+
+    // Horizontal
     double  time_per_division (double value, unsigned disp_num_cols);
+    double  horizontal_offset (double value);
+    void    sampling_rate     (double value);
+
+    // Display
+    void    graph_disp_mode (LE_GRAPH_DISP_MODE _LE_GRAPH_DISP_MODE); 
+
+    // Get data/samples
+    void    load_data_samples ();
     void    parse_raw_sample_buffer ();
-    void    switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT);
 
-    // getter
+    //
     bool is_running ();
-
-    LAB_Parent_Data_Logic_Analyzer* parent_data ();
+    void    switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT);
 };
 
 #endif

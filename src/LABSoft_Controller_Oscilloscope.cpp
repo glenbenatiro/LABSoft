@@ -15,28 +15,19 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   // Link the LAB_Oscilloscope_Parent_Data struct from LAB_Oscilloscope
   // to the LABSoft_Oscilloscope_Display_Group class in the GUI
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    load_osc_parent_data ( &(m_LAB->m_Oscilloscope.m_parent_data) );
+    load_osc_parent_data (&(m_LAB->m_Oscilloscope.m_parent_data));
   
   // reserve() the pixel point vectors in the LAB_Oscilloscope_Parent_Data
   // struct 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     reserve_pixel_points ();
-
-  //  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-  //   update_voltage_per_division_labels ();
-  
-  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-  //   update_time_per_division_labels (); 
-  
-  // // Set initial sample rate / time per division
-  // m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE_TIME_PER_DIVISION,
-  //   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_run_stop (Fl_Button *w, 
              void      *data)
 {
+  
   if (m_LAB->m_Oscilloscope.is_running ())
   {
     m_LAB->m_Oscilloscope.stop ();
@@ -74,9 +65,9 @@ void LABSoft_Controller_Oscilloscope::
 cb_horizontal_offset (Fl_Input_Choice *w, 
              void            *data)
 {
-  double value = LabelValue (w->value ()).actual_value ();
+  LabelValue _LabelValue (w->value ());
 
-  m_LAB->m_Oscilloscope.horizontal_offset (value);
+  m_LAB->m_Oscilloscope.horizontal_offset (_LabelValue.actual_value ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
