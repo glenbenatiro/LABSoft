@@ -267,8 +267,6 @@ fill_pixel_points ()
     }
   }
 
-  std::cout << "filling pixel points done\n";
-
   return 1;
 }
 

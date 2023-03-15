@@ -149,19 +149,25 @@ cb_time_per_division (Fl_Input_Choice *w,
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
 
-
-
   // TO-DO: fix this up lmao
 
-  char text[50];
+  // char text[50];
 
-  LAB_Parent_Data_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.m_parent_data);
+  // LAB_Parent_Data_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.m_parent_data);
   
-  sprintf (text, "%3.3f samples at %s", osc->w_samp_count, 
-    LabelValue (osc->sampling_rate, LE_UNIT_HZ).to_label_text ().c_str ());
+  // std::cout << "2" << "\n";
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_upper_osc_disp_info (text);
+  // // sprintf (text, "%3.3f samples at %s", osc->w_samp_count, 
+  // //   LabelValue (osc->sampling_rate, LE_UNIT_HZ).to_label_text ().c_str ());
+  
+  // std::cout << "3" << "\n";
+
+  // std::cout << text;
+
+  // std::cout << "4" << "\n";
+
+  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+  //   update_upper_osc_disp_info (text);
 }
 
 void LABSoft_Controller_Oscilloscope::

@@ -140,7 +140,6 @@ struct LAB_Oscilloscope_DMA_Data
   AP_DMA_CB cbs[10];
 
   uint32_t  samp_size,
-            pwm_val, 
             adc_csd,
             txd[2];
 
@@ -328,7 +327,7 @@ struct LAB_Parent_Data_Function_Generator
 // LAB Logic Analyzer
 constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS       = sizeof (LAB_PIN_LOGIC_ANALYZER) / sizeof (LAB_PIN_LOGIC_ANALYZER[0]);
 constexpr uint32_t  LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE     = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
-constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES        = 2000;
+constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES        = 2'000;
 constexpr double    LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE        = 200'000;
 constexpr unsigned  LAB_LOGIC_ANALYZER_SAMPLING_RATE            = LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
 constexpr double    LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_NO_ZOOM = 1.0 / LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
@@ -345,7 +344,7 @@ struct LAB_Channel_Data_Logic_Analyzer
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
-  std::array  <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> samples;
+  std::array <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> samples;
 };
 
 class LAB_Parent_Data_Logic_Analyzer

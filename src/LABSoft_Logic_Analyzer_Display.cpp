@@ -78,13 +78,29 @@ draw_grid ()
 int LABSoft_Logic_Analyzer_Display:: 
 draw_channels ()
 {
+  if (!m_logan_parent_data)
+  {
+    return -1;
+  }
+
+  if (!(m_logan_parent_data->is_enabled))
+  {
+    return -2;
+  }
+
+  //
+
   fl_push_clip (x (), y (), w (), h ());
 
   for (int a = 0; a < (m_logan_parent_data->channel_data.size ()); a++)
   {
-    LAB_Channel_Data_Logic_Analyzer *chan = &(m_logan_parent_data->channel_data[a]);
+    LAB_Channel_Data_Logic_Analyzer &chan = m_logan_parent_data->channel_data[a];
 
-    if (chan->is_enabled)
+    std::cout << chan.pixel_points.size ();
+    std::cout << "\n" << chan.pixel_points[0].size ();
+    std::cout << "\n" << chan.samples[1];
+
+    if (chan.is_enabled)
     {
       fl_color (LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR);
 
@@ -94,13 +110,13 @@ draw_channels ()
         LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_DASHES
       );
 
-      for (int b = 0; b < (chan->pixel_points.size ()) - 1; b++)
+      for (int b = 0; b < (chan.pixel_points.size ()) - 1; b++)
       {
         fl_line (
-          chan->pixel_points[b][0],
-          chan->pixel_points[b][1],
-          chan->pixel_points[b + 1][0],
-          chan->pixel_points[b + 1][1]
+          chan.pixel_points[b][0],
+          chan.pixel_points[b][1],
+          chan.pixel_points[b + 1][0],
+          chan.pixel_points[b + 1][1]
         );
       }
 
@@ -111,7 +127,7 @@ draw_channels ()
 
   fl_pop_clip();
 
-  return 0;
+  return 1;
 }
 
 void LABSoft_Logic_Analyzer_Display::

@@ -105,7 +105,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
         - LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN,
       0,
       0,
-      ""
+      "."
     );
 
     m_upper_osc_disp_info->align      (FL_ALIGN_RIGHT);
@@ -263,6 +263,5 @@ update_upper_osc_disp_info (const char *text)
 {
   m_upper_osc_disp_info->copy_label (text);
 }
-
 
 // EOF

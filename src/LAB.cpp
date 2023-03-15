@@ -59,7 +59,7 @@ config_pwm_dma_control_blocks ()
   // Map uncached memory for PWM DMA data
   // (lol just estimated the memory size XD)
   m_LAB_Core.map_uncached_mem (& (m_uncached_pwm_dma_data), 0x1000 * 10);
-
+  
   // Setup PWM control blocks
   AP_MemoryMap *mp = &m_uncached_pwm_dma_data;
 
@@ -70,23 +70,13 @@ config_pwm_dma_control_blocks ()
   {
     .cbs = 
     {
-      // { //CB 0
-      //   DMA_CB_TI_PWM, 
-      //   MEM(mp, &dp->pwm_val),   
-      //   REG(AP.m_regs_pwm, PWM_FIF1), 
-      //   4, 
-      //   0, 
-      //   Utility::mem_bus_addr (mp, &dp->cbs[0]), 
-      //   0
-      // }, 
-
       { //CB 0
         DMA_CB_TI_PWM, 
         MEM (mp, &dp->pwm_val),   
         REG (m_LAB_Core.m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[8]), 
+        Utility::mem_bus_addr (mp, &dp->cbs[0]), 
         0
       }, 
     },

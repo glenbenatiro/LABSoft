@@ -8,7 +8,7 @@
 class LABSoft_Logic_Analyzer_Display : public Fl_Widget
 {
   private: 
-    LAB_Parent_Data_Logic_Analyzer *m_logan_parent_data;
+    LAB_Parent_Data_Logic_Analyzer *m_logan_parent_data = nullptr;
 
   public:
     LABSoft_Logic_Analyzer_Display (int X, int Y, int W, int H, const char *label);
