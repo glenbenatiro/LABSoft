@@ -282,6 +282,8 @@ double LAB_Logic_Analyzer::
 horizontal_offset (double value)
 {
   m_parent_data.horizontal_offset = value;
+
+  return (value);
 }
 
 void LAB_Logic_Analyzer:: 

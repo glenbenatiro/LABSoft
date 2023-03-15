@@ -1,6 +1,7 @@
 #include "LAB_Oscilloscope.h"
 
 #include <cstring>
+#include <bitset>
 
 #include "LAB.h"
 
@@ -200,7 +201,7 @@ load_data_samples ()
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (), 
       m_curr_screen_buffer ? (void *)(dma_data->rxd1) : (void *)(dma_data->rxd0),
-      LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * 4
+      4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
     );
   }
   else if (m_parent_data.graph_disp_mode == LE_GRAPH_DISP_MODE_REPEATED)
@@ -211,8 +212,8 @@ load_data_samples ()
       {
         std::memcpy (
           m_parent_data.raw_sample_buffer.data (), 
-          m_curr_screen_buffer ? (void *)(dma_data->rxd1) : (void *)(dma_data->rxd0),
-          LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * 4
+          a ? (void *)(dma_data->rxd1) : (void *)(dma_data->rxd0),
+          4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
         );
 
         // Check if the other buffer is also full. 
@@ -223,13 +224,11 @@ load_data_samples ()
 
           break;
         }
-        else 
-        {
-          dma_data->status[a] = 0;
-        }
+
+        dma_data->status[a] = 0;
       }
     }
-  }
+  } 
 
   parse_raw_sample_buffer ();
 }
@@ -237,57 +236,57 @@ load_data_samples ()
 int LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  if (!has_enabled_channel ())
-  {
-    return -1;
-  } 
-  else 
-  {
-    double data;
+  double data;
 
-    // Go through and distribute all the samples in one go
-    for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
+  // Go through and distribute all the samples in one go
+  for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
+  {
+    // From a 32-bit sample from the raw data buffer,  
+    // slice it up and distribute actual samples to each channel
+    for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
     {
-      // From a 32-bit sample from the raw data buffer,  
-      // slice it up and distribute actual samples to each channel
-      for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
+      if (m_parent_data.channel_data[chan].is_enabled)
       {
-        if (m_parent_data.channel_data[chan].is_enabled)
+        uint32_t temp1 = ((m_parent_data.raw_sample_buffer[samp]) >>
+          (LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
+            LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK;
+            
+        // --- START HARD CODED ---
+
+        // This formula is specific to the Texas Instruments ADS7883 ADC
+        uint32_t temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0xFFF;
+
+        if (samp == 10)
         {
-          uint32_t temp1 = ((m_parent_data.raw_sample_buffer[samp]) >>
-            (LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
-              LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK;
-          
-          // --- START HARD CODED ---
-
-          // This formula is specific to the Texas Instruments ADS7883 ADC
-          uint32_t temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0xFFF;
-
-          // --- END HARD CODED ---
-
-          // Get MSB to determine sign
-          bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
-
-          // Mask temp2 to mask out the MSB sign bit
-          uint32_t temp3 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
-
-          if (sign)
-          {
-            data = static_cast<double>(temp3) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
-          }
-          else 
-          {
-            data = (static_cast<double>(temp3) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
-                LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
-          }
-          
-          m_parent_data.channel_data[chan].samples[samp] = data;
+          std::cout << "raw  : " << std::bitset <32> (m_parent_data.raw_sample_buffer[samp]) << "\n";
+          std::cout << "temp1: " << std::bitset <32> (temp1) << "\n";
+          std::cout << "temp2: " << std::bitset <32> (temp2) << "\n\n";
         }
+        
+        // --- END HARD CODED ---
+
+        // Get MSB to determine sign
+        bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
+
+        // Mask temp2 to mask out the MSB sign bit
+        uint32_t temp3 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+
+        if (sign)
+        {
+          data = static_cast<double>(temp3) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
+        }
+        else 
+        {
+          data = (static_cast<double>(temp3) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
+            LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
+        }
+        
+        m_parent_data.channel_data[chan].samples[samp] = data;
       }
     }
-
-    return 1;
   }
+
+  return 1;
 }
 
 bool LAB_Oscilloscope:: 
@@ -481,62 +480,62 @@ config_dma_control_blocks ()
   {
     .cbs = 
     {
-      // Control blocks for single buffer SPI RX DMA
+      // control blocks for SPI_RX dual buffer
       { // CB 0
         DMA_CB_TI_SPI_RX,
-        REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 
-        MEM(mp, dp->rxd0),  
-        (uint32_t)(LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES*4),  
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),  
+        Utility::mem_bus_addr (mp, dp->rxd0),       
+        (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),  
         0, 
-        MEM (mp, &dp->cbs[1]),
+        Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
       },
       { // CB 1
         DMA_CB_TI_SPI_RX, 
-        REG(m_LAB_Core->m_regs_spi, SPI_CS), 
-        MEM(mp, dp->status[0]), 
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),
+        Utility::mem_bus_addr (mp, &dp->status[0]),
         4,
         0,
-        MEM (mp, &dp->cbs[2]),
+        Utility::mem_bus_addr (mp, &dp->cbs[2]),
         0
       }, 
       { // CB 2
         DMA_CB_TI_SPI_RX, 
-        REG(m_LAB_Core->m_regs_spi, SPI_FIFO),
-        MEM(mp, dp->rxd1),       
-        (uint32_t)(LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES*4),  
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),
+        Utility::mem_bus_addr (mp, dp->rxd1),       
+        (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),  
         0, 
-        MEM (mp, &dp->cbs[3]), 
+        Utility::mem_bus_addr (mp, &dp->cbs[3]), 
         0
       }, 
       { // CB 3
         DMA_CB_TI_SPI_RX, 
-        REG(m_LAB_Core->m_regs_spi, SPI_CS), 
-        MEM(mp, dp->status[1]), 
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    
+        Utility::mem_bus_addr (mp, &dp->status[1]), 
         4,                                              
         0, 
-        MEM (mp, &dp->cbs[0]), 
+        Utility::mem_bus_addr (mp, &dp->cbs[0]), 
         0
       }, 
 
 
-      // Control blocks for double buffer SPI RX DMA
+      // control blocks for SPI_RX single buffer
       { // CB 4
         DMA_CB_TI_SPI_RX, 
-        REG(m_LAB_Core->m_regs_spi, SPI_FIFO), 
-        MEM(mp, dp->rxd0),      
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_FIFO),
+        Utility::mem_bus_addr (mp, dp->rxd0),       
         (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),  
         0, 
-        MEM (mp, &dp->cbs[5]), 
+        Utility::mem_bus_addr (mp, &dp->cbs[5]), 
         0
       },  
       { // CB 5
         DMA_CB_TI_SPI_RX, 
-        REG(m_LAB_Core->m_regs_spi, SPI_CS), 
-        MEM(mp, dp->status[0]),  
+        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi),  SPI_CS),    
+        Utility::mem_bus_addr (mp, &dp->status[0]), 
         4,                                              
         0, 
-        MEM (mp, &dp->cbs[4]), 
+        Utility::mem_bus_addr (mp, &dp->cbs[4]), 
         0
       },  
 
@@ -569,7 +568,7 @@ config_dma_control_blocks ()
         0, 
         MEM (mp, &dp->cbs[7]), 
         0
-      }, 
+      },
     },
 
     .samp_size = 2, // in number of bytes

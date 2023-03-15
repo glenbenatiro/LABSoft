@@ -56,7 +56,7 @@ enum LE_GRAPH_DISP_MODE
 
 // --- General Raspberry Pi ---
 constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0; 
-constexpr double LAB_SPI_FREQUENCY  = 10'000'000.0;  // final
+constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
 
 // --- PWM ---
 struct LAB_PWM_PACING_DMA_DATA 
@@ -135,20 +135,6 @@ constexpr uint32_t  LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK       = ((std::pow
 constexpr int       LAB_OSCILLOSCOPE_ADC_CE                         = 0; // CE0 or CE1
 constexpr LE_GRAPH_DISP_MODE LAB_OSCILLOSCOPE_GRAPH_DISP_MODE       = LE_GRAPH_DISP_MODE_REPEATED;
 
-struct LAB_Oscilloscope_DMA_Data
-{
-  AP_DMA_CB cbs[10];
-
-  uint32_t  samp_size,
-            adc_csd,
-            txd[2];
-
-  volatile uint32_t usecs[2],
-                    status[2],
-                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
-                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
-};
-
 struct LAB_Channel_Data_Oscilloscope
 {
   // Channel
@@ -186,13 +172,28 @@ class LAB_Parent_Data_Oscilloscope
     double  time_per_division   = LAB_OSCILLOSCOPE_TIME_PER_DIVISION;
     double  horizontal_offset   = LAB_OSCILLOSCOPE_HORIZONTAL_OFFSET;
     double  sampling_rate       = LAB_OSCILLOSCOPE_SAMPLING_RATE;
-    LE_GRAPH_DISP_MODE graph_disp_mode  = LAB_OSCILLOSCOPE_GRAPH_DISP_MODE;
+    LE_GRAPH_DISP_MODE graph_disp_mode = LAB_OSCILLOSCOPE_GRAPH_DISP_MODE;
 
     // Data/Samples
     unsigned w_samp_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; // working sample count
     std::array <uint32_t, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>                       raw_sample_buffer;
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
 };
+
+struct LAB_Oscilloscope_DMA_Data
+{
+  AP_DMA_CB cbs[10];
+
+  uint32_t  samp_size,
+            adc_csd,
+            txd[2];
+
+  volatile uint32_t usecs[2] = {0, 0},
+                    status[2] = {0, 0},
+                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
+                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
+};
+
 
 // LABSoft Oscilloscope Display
 constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = 10;
