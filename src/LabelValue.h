@@ -25,7 +25,6 @@ class LabelValue
     char        get_unit_prefix   (int exponent);
     std::string get_unit          (std::string str);
     std::string get_unit          (LE_UNIT le_unit);
-
     std::string to_label_text ();
 
     //

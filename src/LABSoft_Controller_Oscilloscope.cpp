@@ -21,6 +21,18 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   // struct 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     reserve_pixel_points ();
+  
+  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE_TIME_PER_DIVISION,
+    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+
+  // Do these here, instead of in the LABSoft_Oscilloscope_Display_Group widget,
+  // because we already just linked m_parent_data to the said widget
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_voltage_per_division_labels ();
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_time_per_division_labels ();
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_upper_osc_disp_info ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -59,6 +71,9 @@ cb_channel_enable_disable (Fl_Light_Button *w,
   bool      value   = w->value ();
 
   m_LAB->m_Oscilloscope.channel_enable_disable (channel, value);
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_voltage_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -112,20 +127,20 @@ cb_scaling (Fl_Choice *w,
 
   switch (w->value ())
   {
-    case 0: // x2
-      scale = LE_OSC_SCALING_DOUBLE;
+    case 0: // x4
+      scale = LE_OSC_SCALING_QUADRUPLE;
       break;
     
-    case 1: // x0.5
-      scale = LE_OSC_SCALING_HALF;
+    case 1: // x1
+      scale = LE_OSC_SCALING_UNITY;
       break; 
     
-    case 2: // x0.25
-      scale = LE_OSC_SCALING_QUARTER;
+    case 2: // x0.50
+      scale = LE_OSC_SCALING_HALF;
       break;
     
-    case 3: // x0.125
-      scale = LE_OSC_SCALING_EIGHTH;
+    case 3: // x0.25
+      scale = LE_OSC_SCALING_FOURTH;
       break;
     
     default:
@@ -144,30 +159,13 @@ cb_time_per_division (Fl_Input_Choice *w,
   // Backend
   m_LAB->m_Oscilloscope.time_per_division (_LabelValue.actual_value (),
     LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
-
+    
   // Frontend
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
-
-  // TO-DO: fix this up lmao
-
-  // char text[50];
-
-  // LAB_Parent_Data_Oscilloscope *osc = &(m_LAB->m_Oscilloscope.m_parent_data);
   
-  // std::cout << "2" << "\n";
-
-  // // sprintf (text, "%3.3f samples at %s", osc->w_samp_count, 
-  // //   LabelValue (osc->sampling_rate, LE_UNIT_HZ).to_label_text ().c_str ());
-  
-  // std::cout << "3" << "\n";
-
-  // std::cout << text;
-
-  // std::cout << "4" << "\n";
-
-  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-  //   update_upper_osc_disp_info (text);
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_upper_osc_disp_info ();
 }
 
 void LABSoft_Controller_Oscilloscope::

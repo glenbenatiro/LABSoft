@@ -61,7 +61,7 @@ class LAB_Core
     uint32_t LAB_Core_dma_transfer_len (int chan);
     
     // --- GPIO ---
-    void     AP_gpio_write        (unsigned pin, unsigned value);
+    void     gpio_write        (unsigned pin, unsigned value);
     void     AP_gpio_func        (int pin, int mode);
     void     LAB_Core_gpio_pull        (int pin, int pull);
     void     gpio_set         (int pin, int mode, int pull);

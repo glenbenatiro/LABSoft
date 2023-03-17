@@ -115,11 +115,10 @@ void LABSoft_GUI::cb_oscilloscope_fl_choice_channel_0_scaling(Fl_Choice* o, long
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_channel_0_scaling[] = {
+ {"x4", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"x1", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"x2", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"x0.5", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"x0.25", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"x0.125", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -212,11 +211,10 @@ void LABSoft_GUI::cb_oscilloscope_fl_choice_channel_1_scaling(Fl_Choice* o, long
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_channel_1_scaling[] = {
+ {"x4", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"x1", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"x2", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"x0.5", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"x0.25", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"x0.125", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -247,7 +245,6 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] 
  {"20 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"10 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"4 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 ms", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"500 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -257,6 +254,7 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] 
  {"20 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"10 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"2 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -621,7 +619,6 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
-        o->hide();
         { oscilloscope_fl_button_run_stop = new Fl_Button(1205, 90, 120, 60, "Run");
           oscilloscope_fl_button_run_stop->callback((Fl_Callback*)cb_oscilloscope_fl_button_run_stop);
         } // Fl_Button* oscilloscope_fl_button_run_stop
@@ -670,7 +667,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_choice_channel_0_scaling->callback((Fl_Callback*)cb_oscilloscope_fl_choice_channel_0_scaling, (void*)(0));
             oscilloscope_fl_choice_channel_0_scaling->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_choice_channel_0_scaling->menu(menu_oscilloscope_fl_choice_channel_0_scaling);
-            oscilloscope_fl_choice_channel_0_scaling->value (0); // select x1 scaling
+            oscilloscope_fl_choice_channel_0_scaling->value (1); // select x1 scaling
           } // Fl_Choice* oscilloscope_fl_choice_channel_0_scaling
           { oscilloscope_fl_light_button_channel_0_ac_coupling = new Fl_Light_Button(864, 370, 120, 30, "AC Coupling");
             oscilloscope_fl_light_button_channel_0_ac_coupling->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_channel_0_ac_coupling, (void*)(0));
@@ -703,7 +700,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_choice_channel_1_scaling->callback((Fl_Callback*)cb_oscilloscope_fl_choice_channel_1_scaling, (void*)(1));
             oscilloscope_fl_choice_channel_1_scaling->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_choice_channel_1_scaling->menu(menu_oscilloscope_fl_choice_channel_1_scaling);
-            oscilloscope_fl_choice_channel_1_scaling->value (0); // select x1 scaling
+            oscilloscope_fl_choice_channel_1_scaling->value (1); // select x1 scaling
           } // Fl_Choice* oscilloscope_fl_choice_channel_1_scaling
           { oscilloscope_fl_light_button_channel_1_ac_coupling = new Fl_Light_Button(1035, 370, 120, 30, "AC Coupling");
             oscilloscope_fl_light_button_channel_1_ac_coupling->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_channel_1_ac_coupling, (void*)(1));
@@ -843,6 +840,7 @@ LABSoft_GUI::LABSoft_GUI() {
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Logic Analyzer");
+        o->hide();
         { new Fl_Button(50, 84, 120, 60, "Single");
         } // Fl_Button* o
         { logic_analyzer_fl_button_master_run_stop = new Fl_Button(200, 84, 120, 60, "Run");

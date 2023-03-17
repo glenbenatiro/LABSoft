@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v1.0 Build 1} open
-      xywh {271 161 1366 768} type Double visible
+      xywh {2048 167 1366 768} type Double visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
@@ -51,8 +51,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
-          xywh {0 60 1366 708} hide
+          label Oscilloscope open
+          xywh {0 60 1366 708}
         } {
           Fl_Button oscilloscope_fl_button_run_stop {
             label Run
@@ -286,17 +286,17 @@ class LABSoft_GUI {open
             Fl_Choice oscilloscope_fl_choice_channel_0_scaling {
               label Scaling
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_scaling (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_scaling (o, v);} open
               xywh {865 320 120 30} down_box BORDER_BOX align 1
-              code0 {oscilloscope_fl_choice_channel_0_scaling->value (0); // select x1 scaling}
+              code0 {oscilloscope_fl_choice_channel_0_scaling->value (1); // select x1 scaling}
             } {
+              MenuItem {} {
+                label x4
+                xywh {40 40 36 21}
+              }
               MenuItem {} {
                 label x1
                 xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label x2
-                xywh {40 40 36 21}
               }
               MenuItem {} {
                 label {x0.5}
@@ -305,10 +305,6 @@ class LABSoft_GUI {open
               MenuItem {} {
                 label {x0.25}
                 xywh {50 50 36 21}
-              }
-              MenuItem {} {
-                label {x0.125}
-                xywh {60 60 36 21}
               }
             }
             Fl_Light_Button oscilloscope_fl_light_button_channel_0_ac_coupling {
@@ -334,7 +330,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_voltage_per_division {
               label {Volts per Division}
               user_data 1 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);}
               xywh {1035 200 120 30} align 1
               code0 {oscilloscope_fl_input_choice_channel_1_voltage_per_division->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VOLTAGE_PER_DIVISION);}
             } {
@@ -530,17 +526,17 @@ class LABSoft_GUI {open
             Fl_Choice oscilloscope_fl_choice_channel_1_scaling {
               label Scaling
               user_data 1 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_scaling (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_scaling (o, v);} open
               xywh {1035 320 120 30} down_box BORDER_BOX align 1
-              code0 {oscilloscope_fl_choice_channel_1_scaling->value (0); // select x1 scaling}
+              code0 {oscilloscope_fl_choice_channel_1_scaling->value (1); // select x1 scaling}
             } {
+              MenuItem {} {
+                label x4
+                xywh {50 50 36 21}
+              }
               MenuItem {} {
                 label x1
                 xywh {60 60 36 21}
-              }
-              MenuItem {} {
-                label x2
-                xywh {50 50 36 21}
               }
               MenuItem {} {
                 label {x0.5}
@@ -550,10 +546,6 @@ class LABSoft_GUI {open
                 label {x0.25}
                 xywh {60 60 36 21}
               }
-              MenuItem {} {
-                label {x0.125}
-                xywh {70 70 36 21}
-              }
             }
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_ac_coupling {
               label {AC Coupling}
@@ -562,7 +554,7 @@ class LABSoft_GUI {open
               xywh {1035 370 120 30}
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {
+          Fl_Group oscilloscope_fl_group_horizontal {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -572,7 +564,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);} open
               xywh {865 500 120 30} align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION);}
             } {
@@ -625,11 +617,7 @@ class LABSoft_GUI {open
                 xywh {60 362 36 21}
               }
               MenuItem {} {
-                label {4 ms}
-                xywh {70 362 36 21}
-              }
-              MenuItem {} {
-                label {2 ms}
+                label {2 ms} selected
                 xywh {70 362 36 21}
               }
               MenuItem {} {
@@ -663,6 +651,10 @@ class LABSoft_GUI {open
               MenuItem {} {
                 label {5 us}
                 xywh {50 362 36 21}
+              }
+              MenuItem {} {
+                label {2 us}
+                xywh {60 372 36 21}
               }
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
@@ -834,7 +826,7 @@ class LABSoft_GUI {open
               xywh {1035 610 120 60}
             }
           }
-          Fl_Group oscilloscope_fl_group_display {open
+          Fl_Group oscilloscope_fl_group_display {
             xywh {0 0 1366 768} labeltype NO_LABEL
           } {
             Fl_Box {} {
@@ -1297,8 +1289,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer} open
-          xywh {0 60 1366 708}
+          label {Logic Analyzer}
+          xywh {0 60 1366 708} hide
         } {
           Fl_Button {} {
             label Single

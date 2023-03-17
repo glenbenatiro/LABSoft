@@ -213,7 +213,7 @@ constexpr int LAB_PWM_FREQUENCY      = 5'000'000; // this is to be extracted fro
 
 // GPIO I/O definitions
 #define GPIO_INPUT         0
-#define AP_gpio_write       1
+#define gpio_write       1
 #define AP_GPIO_FUNC_ALT0       4
 #define GPIO_ALT1       5
 #define GPIO_ALT2       6

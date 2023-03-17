@@ -1,4 +1,5 @@
 #include "LABSoft_Oscilloscope_Display_Group.h"
+#include <FL/Fl.H>
 
 LABSoft_Oscilloscope_Display_Group::
 LABSoft_Oscilloscope_Display_Group (int X, 
@@ -33,9 +34,9 @@ LABSoft_Oscilloscope_Display_Group (int X,
       X + LABSOFT_OSCILLOSCOPE_DISPLAY_LEFT_MARGIN + static_cast<int>(x_coord),
       H + Y - LABSOFT_OSCILLOSCOPE_DISPLAY_BOTTOM_MARGIN + 
         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_INTRASPACE,
-      0,
-      0,
-      "."
+      1, // THIS IS IMPORTANT! Weird FLTK redraw bug if width and height set to 0
+      1, // THIS IS IMPORTANT! Weird FLTK redraw bug if width and height set to 0
+      ""
     );
 
     box->labelcolor (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_COLOR);
@@ -48,7 +49,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
   // Add y-axis labels
   for (int b = 0; b < (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS); b++)
   {
-    for (int c = 0; c < (m_y_labels.size ()); c++)
+    for (int c = 0; c < (m_y_labels[0].size ()); c++)
     {
       double y_coord = c * 
         (static_cast<float>(H - LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN - 
@@ -60,9 +61,9 @@ LABSoft_Oscilloscope_Display_Group (int X,
           ((b * LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_INTERSPACE) + 
           LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING), 
         Y + LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN + static_cast<int>(y_coord),
-        0,
-        0,
-        "."
+        1, // THIS IS IMPORTANT! Weird FLTK redraw bug if width and height set to 0
+        1, // THIS IS IMPORTANT! Weird FLTK redraw bug if width and height set to 0
+        ""
       );
 
       box->labelcolor (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[b]);
@@ -84,9 +85,9 @@ LABSoft_Oscilloscope_Display_Group (int X,
         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING), 
       Y + LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN - 
         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN,
-      0,
-      0,
-      "."
+      1, // THIS IS IMPORTANT! Weird FLTK redraw bug if width and height set to 0
+      1, // THIS IS IMPORTANT! Weird FLTK redraw bug if width and height set to 0
+      ""
     );
 
     box->align      (FL_ALIGN_TEXT_OVER_IMAGE);
@@ -103,9 +104,9 @@ LABSoft_Oscilloscope_Display_Group (int X,
       X + LABSOFT_OSCILLOSCOPE_DISPLAY_LEFT_MARGIN + 10,
       Y + LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN 
         - LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN,
-      0,
-      0,
-      "."
+      1,
+      1,
+      ""
     );
 
     m_upper_osc_disp_info->align      (FL_ALIGN_RIGHT);
@@ -120,15 +121,12 @@ LABSoft_Oscilloscope_Display_Group (int X,
   }
   
   end ();
- 
-  update_voltage_per_division_labels ();
-  update_time_per_division_labels ();
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
 draw ()
 {
-  draw_box (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR);
+  draw_box      (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR);
   draw_children ();
 }
 
@@ -204,7 +202,7 @@ update_voltage_per_division_labels (unsigned channel)
       LAB_Channel_Data_Oscilloscope *chan = 
         &(m_osc_parent_data->channel_data[channel]);
 
-      for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS + 1); a++)
+      for (int a = 0; a < m_y_labels[channel].size (); a++)
       {
         double row_vpd = (-1 * chan->voltage_per_division) * 
           (a - (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2)) -
@@ -216,21 +214,19 @@ update_voltage_per_division_labels (unsigned channel)
           sprintf (label, "%cV", _LabelValue.unit_prefix ());
           m_y_label_units[channel]->copy_label (label);
         }
-                  
-        sprintf (label, "%3.2f", row_vpd);
+        else 
+        {
+          sprintf (label, "%3.2f", row_vpd);
 
-        m_y_labels[channel][a]->copy_label (label);
+          m_y_labels[channel][a]->copy_label (label);
 
-        m_y_labels[channel][a]->labelcolor(
-          LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[channel]
-          );
-
-        m_y_labels[channel][a]->show ();
+          m_y_labels[channel][a]->show ();
+        }
       }
     }
     else 
     {
-      for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS + 1); a++)
+      for (int a = 0; a < m_y_labels[channel].size (); a++)
       {
         m_y_labels[channel][a]->hide ();
       }
@@ -240,12 +236,16 @@ update_voltage_per_division_labels (unsigned channel)
   }
 }
 
-void LABSoft_Oscilloscope_Display_Group:: 
+int LABSoft_Oscilloscope_Display_Group:: 
 update_time_per_division_labels ()
 {
-  if (m_osc_parent_data)
+  if (!m_osc_parent_data)
   {
-    for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS + 1); a++)
+    return -1;
+  }
+  else
+  {
+    for (int a = 0; a < m_x_labels.size (); a++)
     {
       double col_tpd = (a + ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
         -1)) * (m_osc_parent_data->time_per_division);
@@ -255,13 +255,28 @@ update_time_per_division_labels ()
 
       m_x_labels[a]->copy_label (_LabelValue.to_label_text ().c_str ());
     }
+
+    return 1;
   }
 }
 
-void LABSoft_Oscilloscope_Display_Group:: 
-update_upper_osc_disp_info (const char *text)
+int LABSoft_Oscilloscope_Display_Group:: 
+update_upper_osc_disp_info ()
 {
+  char text[100];
+  LabelValue _LabelValue (m_osc_parent_data->sampling_rate, LE_UNIT_HZ);
+
+  sprintf (
+    text, 
+    "%3.3f samples at %c%s", 
+    m_osc_parent_data->w_samp_count,
+    _LabelValue.unit_prefix (),
+    _LabelValue.to_label_text ().c_str ()
+  );
+
   m_upper_osc_disp_info->copy_label (text);
+
+  return 1;
 }
 
 // EOF

@@ -1,4 +1,4 @@
-#include "LABSoft_Oscilloscope_Display.h"
+  #include "LABSoft_Oscilloscope_Display.h"
 
 #include <vector>
 #include <cmath>

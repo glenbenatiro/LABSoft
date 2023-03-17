@@ -76,6 +76,33 @@ config_pwm_dma_control_blocks ()
         REG (m_LAB_Core.m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[1]), 
+        0
+      }, 
+      { //CB 1
+        DMA_CB_TI_PWM, 
+        MEM (mp, &dp->pwm_val),   
+        REG (m_LAB_Core.m_regs_pwm, PWM_FIF1), 
+        4, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[2]), 
+        0
+      }, 
+      { //CB 2
+        DMA_CB_TI_PWM, 
+        MEM (mp, &dp->pwm_val),   
+        REG (m_LAB_Core.m_regs_pwm, PWM_FIF1), 
+        4, 
+        0, 
+        Utility::mem_bus_addr (mp, &dp->cbs[3]), 
+        0
+      }, 
+      { //CB 3
+        DMA_CB_TI_PWM, 
+        MEM (mp, &dp->pwm_val),   
+        REG (m_LAB_Core.m_regs_pwm, PWM_FIF1), 
+        4, 
+        0, 
         Utility::mem_bus_addr (mp, &dp->cbs[0]), 
         0
       }, 

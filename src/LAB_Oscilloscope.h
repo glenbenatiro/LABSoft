@@ -53,6 +53,7 @@ class LAB_Oscilloscope
     bool  has_enabled_channel     ();
     void  switch_dma_buffer       (int buffer);   
     void  update_dma_data         (int graph_disp_mode);
+    int   update_state            ();
 };
 
 #endif

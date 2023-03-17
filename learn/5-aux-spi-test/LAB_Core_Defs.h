@@ -103,7 +103,7 @@ constexpr int GPIO_GPPUD      = 0x94;
 constexpr int GPIO_GPPUDCLK0  = 0x98;
 
 constexpr int GPIO_INPUT     = 0;
-constexpr int AP_gpio_write   = 1;
+constexpr int gpio_write   = 1;
 constexpr int AP_GPIO_FUNC_ALT0   = 4;
 constexpr int GPIO_ALT1   = 5;
 constexpr int GPIO_ALT2   = 6;

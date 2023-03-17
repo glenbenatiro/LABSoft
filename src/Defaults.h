@@ -10,8 +10,6 @@
 
 #include "../lib/AikaPi/AikaPi.h"
 
-
-
 // --- Enums ---
 
 enum LE_UNIT_PREFIX_EXP
@@ -56,7 +54,7 @@ enum LE_GRAPH_DISP_MODE
 
 // --- General Raspberry Pi ---
 constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0; 
-constexpr double LAB_SPI_FREQUENCY  = 5'000'000.0;  // final
+constexpr double LAB_SPI_FREQUENCY  = 8'000'000.0;  // final
 
 // --- PWM ---
 struct LAB_PWM_PACING_DMA_DATA 
@@ -78,14 +76,14 @@ constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 // Raspberry Pi Zero BCM Pin Assishift_bit_countgnments
 // https://pinout.xyz/
-constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {2, 3, 4, 27, 22, 0, 5, 6};
+constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {0, 26, 1};
 constexpr unsigned LAB_RPI_PIN_PWM_CHAN_0                         = 12;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1 = 14;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_2 = 15;
-constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1   = 27;
-constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1   = 22;
-constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_2   = 23;
-constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_2   = 24;
+constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0   = 27;
+constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0   = 22;
+constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1   = 23;
+constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1   = 24;
 
 // DMA Channel Use
 constexpr unsigned  LAB_DMA_CHAN_PWM_PACING                 = 7;
@@ -97,11 +95,10 @@ constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 11;
 // --- Oscilloscope ---
 enum LE_OSC_SCALING
 {
-  LE_OSC_SCALING_DOUBLE   = 0,
-  LE_OSC_SCALING_HALF     = 1,
-  LE_OSC_SCALING_QUARTER  = 2,
-  LE_OSC_SCALING_EIGHTH   = 3,
-  LE_OSC_SCALING_UNITY    = 4
+  LE_OSC_SCALING_QUADRUPLE  = 0, // 00
+  LE_OSC_SCALING_UNITY      = 1, // 01
+  LE_OSC_SCALING_HALF       = 2, // 10
+  LE_OSC_SCALING_FOURTH     = 3, // 11
 };
 
 enum LE_OSC_COUPLING
@@ -133,7 +130,10 @@ constexpr double    LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT        = LAB_OSCILL
 constexpr unsigned  LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT       = 32 / LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
 constexpr uint32_t  LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK       = ((std::pow (2, LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT)) - 1);
 constexpr int       LAB_OSCILLOSCOPE_ADC_CE                         = 0; // CE0 or CE1
-constexpr LE_GRAPH_DISP_MODE LAB_OSCILLOSCOPE_GRAPH_DISP_MODE       = LE_GRAPH_DISP_MODE_REPEATED;
+
+constexpr LE_OSC_COUPLING     LAB_OSCILLOSCOPE_COUPLING             = LE_OSC_COUPLING_DC;
+constexpr LE_OSC_SCALING      LAB_OSCILLOSCOPE_SCALING              = LE_OSC_SCALING_UNITY;
+constexpr LE_GRAPH_DISP_MODE  LAB_OSCILLOSCOPE_GRAPH_DISP_MODE      = LE_GRAPH_DISP_MODE_REPEATED;
 
 struct LAB_Channel_Data_Oscilloscope
 {
@@ -143,8 +143,8 @@ struct LAB_Channel_Data_Oscilloscope
   // Vertical
   double          voltage_per_division  = LAB_OSCILLOSCOPE_VOLTAGE_PER_DIVISION;
   double          vertical_offset       = LAB_OSCILLOSCOPE_VERTICAL_OFFSET;
-  LE_OSC_SCALING  scaling               = LE_OSC_SCALING_UNITY;
-  LE_OSC_COUPLING coupling              = LE_OSC_COUPLING_DC;
+  LE_OSC_SCALING  scaling               = LAB_OSCILLOSCOPE_SCALING;
+  LE_OSC_COUPLING coupling              = LAB_OSCILLOSCOPE_COUPLING;
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
@@ -175,7 +175,7 @@ class LAB_Parent_Data_Oscilloscope
     LE_GRAPH_DISP_MODE graph_disp_mode = LAB_OSCILLOSCOPE_GRAPH_DISP_MODE;
 
     // Data/Samples
-    unsigned w_samp_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; // working sample count
+    double w_samp_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; // working sample count
     std::array <uint32_t, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>                       raw_sample_buffer;
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
 };
@@ -212,14 +212,14 @@ constexpr double  LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.
 
 // LABSoft Oscilloscope Display Group
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_SIZE           = 10;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_COLOR          = FL_FOREGROUND_COLOR;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_COLOR          = FL_WHITE;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_INTRASPACE     = 18; 
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_SIZE           = 10;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_COLOR          = FL_FOREGROUND_COLOR;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_INTERSPACE     = 35; // spacing between columns of y-axis labels
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING        = 22; // padding of first column of y-axis labels from left of grid
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN    = 20; // padding of voltage unit of y-axis labels from top of grid
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR    = FL_BACKGROUND2_COLOR;
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR    = FL_WHITE;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR       = FL_BLACK;
 
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_DIVISION = "1 V/div";
