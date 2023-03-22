@@ -12,7 +12,7 @@ class LAB_Oscilloscope
   private:
     LAB          *m_LAB;
     LAB_Core     *m_LAB_Core;
-    AP_MemoryMap  m_uncached_dma_data;
+    AP_MemoryMap  m_uncached_dma_data_osc;
 
   public:
     LAB_Parent_Data_Oscilloscope m_parent_data;
@@ -23,9 +23,11 @@ class LAB_Oscilloscope
    ~LAB_Oscilloscope  ();
 
     // Setup
-    void  init_osc_gpio_pins        ();
-    void  init_osc_dma              ();
-    void  config_dma_control_blocks ();
+    void init_spi                   ();
+    void init_pwm                   ();
+    void init_osc_gpio_pins         ();
+    void init_osc_dma               ();
+    void config_dma_control_blocks  ();
 
     // Master controls
     void run                    ();

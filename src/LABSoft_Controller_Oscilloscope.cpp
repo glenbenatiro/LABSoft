@@ -33,6 +33,7 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
     update_time_per_division_labels ();
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_upper_osc_disp_info ();
+
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -109,6 +110,9 @@ cb_vertical_offset (Fl_Input_Choice *w,
 
   m_LAB->m_Oscilloscope.vertical_offset (static_cast<unsigned>(channel),
     _LabelValue.actual_value ());
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_voltage_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -159,7 +163,7 @@ cb_time_per_division (Fl_Input_Choice *w,
   // Backend
   m_LAB->m_Oscilloscope.time_per_division (_LabelValue.actual_value (),
     LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
-    
+
   // Frontend
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();

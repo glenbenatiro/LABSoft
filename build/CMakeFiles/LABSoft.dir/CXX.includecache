@@ -46,32 +46,6 @@ LAB_Logic_Analyzer.h
 LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
-FL/Fl_Widget.H
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
-LABSoft_Oscilloscope_Display_Group.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
-FL/Fl.H
--
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
-array
--
-FL/Fl_Group.H
--
-FL/Fl_Box.H
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-LabelValue.h
-/home/glen/Desktop/LABSoft/src/LabelValue.h
-LABSoft_Oscilloscope_Display.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
-
 /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
@@ -123,10 +97,4 @@ Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-
-/home/glen/Desktop/LABSoft/src/LabelValue.h
-string
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 

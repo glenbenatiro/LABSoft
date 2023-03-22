@@ -23,12 +23,11 @@ LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB)
   config_dma_control_blocks ();
 
   // Start GPIO store DMA chan
-  AP_MemoryMap                *ud = &(m_uncached_dma_data);
-  LAB_Logic_Analyzer_DMA_Data *dd = static_cast<LAB_Logic_Analyzer_DMA_Data *>
-    (ud->virt);
+  AP_MemoryMap                *mp = &(m_uncached_dma_data_logan);
+  LAB_Logic_Analyzer_DMA_Data *dp = static_cast<LAB_Logic_Analyzer_DMA_Data *>(mp->virt);
 
-  m_LAB_Core->dma_start (ud, LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE,
-    &(dd->cbs[0]), 0);
+  m_LAB_Core->dma_start (mp, LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE,
+    &(dp->cbs[0]), 0);
 
   // initialize GPIO pins
   for (int a = 0; a < (sizeof (LAB_PIN_LOGIC_ANALYZER) / 
@@ -59,7 +58,7 @@ stop ()
 void LAB_Logic_Analyzer:: 
 sampling_rate (double value)
 {
-  // static_cast<LAB_Oscilloscope_DMA_Data *>(m_uncached_dma_data.virt)->pwm_val = 
+  // static_cast<LAB_DMA_Data_Oscilloscope *>(m_uncached_dma_data_logan.virt)->pwm_val = 
   //   (LAB_PWM_FREQUENCY * 2) / value;
 
   m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
@@ -69,7 +68,7 @@ void LAB_Logic_Analyzer::
 load_data_samples ()
 {
   LAB_Logic_Analyzer_DMA_Data *dma_data = static_cast<LAB_Logic_Analyzer_DMA_Data *>
-    (m_uncached_dma_data.virt);
+    (m_uncached_dma_data_logan.virt);
   
   if (m_parent_data.graph_disp_mode == LE_GRAPH_DISP_MODE_SCREEN)
   {
@@ -132,13 +131,13 @@ parse_raw_sample_buffer()
 void LAB_Logic_Analyzer::
 config_dma_control_blocks ()
 {
-  m_LAB_Core->map_uncached_mem  (&m_uncached_dma_data, 
+  m_LAB_Core->map_uncached_mem  (&m_uncached_dma_data_logan, 
     LAB_LOGIC_ANALYZER_VC_MEM_SIZE);
 
-  AP_MemoryMap *mp = &m_uncached_dma_data;
+  AP_MemoryMap *mp = &m_uncached_dma_data_logan;
 
   LAB_Logic_Analyzer_DMA_Data *dp = static_cast<LAB_Logic_Analyzer_DMA_Data *>
-    (m_uncached_dma_data.virt);
+    (m_uncached_dma_data_logan.virt);
     
   LAB_Logic_Analyzer_DMA_Data dma_data = 
   {
@@ -299,27 +298,27 @@ switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT)
  
   // load the next cb depending on buffer
   LAB_Logic_Analyzer_DMA_Data *dma_data = static_cast
-    <LAB_Logic_Analyzer_DMA_Data *>(m_uncached_dma_data.virt);
+    <LAB_Logic_Analyzer_DMA_Data *>(m_uncached_dma_data_logan.virt);
   
   volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
     DMA_REG (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK));
 
   if (_LE_SPI_DMA_BUFFER_COUNT == LE_SPI_DMA_BUFFER_COUNT_SINGLE)
   {
-    *reg = Utility::mem_bus_addr (&m_uncached_dma_data, &(dma_data->cbs[4]));
+    *reg = Utility::mem_bus_addr (&m_uncached_dma_data_logan, &(dma_data->cbs[4]));
   }
   else // (buffer == LE_SPI_DMA_BUFFER_COUNT_DOUBLE)
   {
-    *reg = Utility::mem_bus_addr (&m_uncached_dma_data, &(dma_data->cbs[0]));
+    *reg = Utility::mem_bus_addr (&m_uncached_dma_data_logan, &(dma_data->cbs[0]));
   }
 
   // abort current DMA control block
   m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
 
   // clear buffer status
-  static_cast<LAB_Logic_Analyzer_DMA_Data *>(m_uncached_dma_data.virt)->
+  static_cast<LAB_Logic_Analyzer_DMA_Data *>(m_uncached_dma_data_logan.virt)->
     status[0] = 0;
-  static_cast<LAB_Logic_Analyzer_DMA_Data *>(m_uncached_dma_data.virt)->
+  static_cast<LAB_Logic_Analyzer_DMA_Data *>(m_uncached_dma_data_logan.virt)->
     status[1] = 0;
 
   if (is_dma_pwm_pacing_running)

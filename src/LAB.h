@@ -17,18 +17,13 @@ class LAB
     
     LAB ();
    ~LAB ();
-
+   
     LAB_Core                m_LAB_Core;
     LAB_Oscilloscope        m_Oscilloscope;
     LAB_Voltmeter           m_Voltmeter;
     LAB_Function_Generator  m_Function_Generator;
     LAB_Logic_Analyzer      m_Logic_Analyzer;
     LAB_Circuit_Checker     m_Circuit_Checker;   
-
-    // --- Functions ---
-    void setup_pwm ();
-    void setup_spi ();
-    void config_pwm_dma_control_blocks ();
 };
 
 #endif

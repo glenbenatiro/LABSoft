@@ -54,7 +54,10 @@ enum LE_GRAPH_DISP_MODE
 
 // --- General Raspberry Pi ---
 constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0; 
-constexpr double LAB_SPI_FREQUENCY  = 8'000'000.0;  // final
+
+// because SPI core clock is fixed to 250MHz in boot/config.txt
+// this is a divisor of 32
+constexpr double LAB_SPI_FREQUENCY  = 7'812'500;  // final
 
 // --- PWM ---
 struct LAB_PWM_PACING_DMA_DATA 
@@ -89,8 +92,7 @@ constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1   = 24;
 constexpr unsigned  LAB_DMA_CHAN_PWM_PACING                 = 7;
 constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX        = 8;
 constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX        = 9;
-constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_LOAD      = 10;
-constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 11;
+constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 10;
 
 // --- Oscilloscope ---
 enum LE_OSC_SCALING
@@ -116,7 +118,7 @@ constexpr double    LAB_OSCILLOSCOPE_MAX_TIME_PER_DIVISION_NO_ZOOM  = (1.0 / LAB
 constexpr unsigned  LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES              = 4;  
 constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES            = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES * LAB_OSCILLOSCOPE_SAMPLE_SIZE_BYTES;
 constexpr unsigned  LAB_OSCILLOSCOPE_BUFFER_COUNT                   = 2;
-constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE                    = PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS);
+constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE                    = 10 *(PAGE_SIZE + (LAB_OSCILLOSCOPE_BUFFER_COUNT * LAB_OSCILLOSCOPE_BUFFER_LENGTH_BYTES * LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS));
 constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE                  = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE; 
 constexpr double    LAB_OSCILLOSCOPE_VOLTAGE_PER_DIVISION           = 1.0;
 constexpr double    LAB_OSCILLOSCOPE_VERTICAL_OFFSET                = 0.0;
@@ -180,18 +182,20 @@ class LAB_Parent_Data_Oscilloscope
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
 };
 
-struct LAB_Oscilloscope_DMA_Data
+struct LAB_DMA_Data_Oscilloscope
 {
-  AP_DMA_CB cbs[10];
+  AP_DMA_CB cbs[15];
 
-  uint32_t  samp_size,
-            adc_csd,
-            txd[2];
+  uint32_t  spi_samp_size,
+            spi_cs,
+            spi_cs_fifo_reset,
+            pwm_rng,
+            txd;
+            //txd[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES + 1] = {0};
+            //txd[2] = {0};
 
-  volatile uint32_t usecs[2] = {0, 0},
-                    status[2] = {0, 0},
-                    rxd0[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES],
-                    rxd1[LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES];
+  volatile uint32_t status[2],
+                    rxd[LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS][LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES] = {0};
 };
 
 

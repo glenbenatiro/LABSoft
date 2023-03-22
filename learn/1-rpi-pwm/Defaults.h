@@ -150,7 +150,7 @@ typedef struct {
                     rxd0[MAX_SAMPS], 
                     rxd1[MAX_SAMPS];
 } 
-LAB_Oscilloscope_DMA_Data;
+LAB_DMA_Data_Oscilloscope;
 
 
 

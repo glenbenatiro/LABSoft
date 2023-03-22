@@ -15,7 +15,7 @@ class LAB_Logic_Analyzer
     LAB       *m_LAB;
     LAB_Core  *m_LAB_Core;
 
-    AP_MemoryMap m_uncached_dma_data;
+    AP_MemoryMap m_uncached_dma_data_logan;
 
     bool m_is_running = false;
 
