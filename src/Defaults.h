@@ -57,7 +57,7 @@ constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0;
 
 // because SPI core clock is fixed to 250MHz in boot/config.txt
 // this is a divisor of 32
-constexpr double LAB_SPI_FREQUENCY  = 7'812'500;  // final
+constexpr double LAB_SPI_FREQUENCY  = 10'000'000;  // final
 
 // --- PWM ---
 struct LAB_PWM_PACING_DMA_DATA 

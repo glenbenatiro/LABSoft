@@ -30,7 +30,7 @@ init_spi ()
   m_LAB_Core->spi_init (LAB_SPI_FREQUENCY);
 
   *(Utility::get_reg32 (&(m_LAB_Core->m_regs_spi), SPI_DC)) = 
-    (8<<24) | (1<<16) | (8<<8) | 1;
+    (8<<24) | (4 << 16) | (8<<8) | 1;
 }
 
 void LAB_Oscilloscope:: 
@@ -146,7 +146,7 @@ config_dma_control_blocks ()
         Utility::mem_bus_addr (mp, &dp->txd),
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
         //(uint32_t)((4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) + 4), 
-        04,
+        4,
         0, 
         Utility::mem_bus_addr (mp, &dp->cbs[6]), 
         0
@@ -193,7 +193,7 @@ config_dma_control_blocks ()
       },
     },
 
-    .spi_samp_size      = 2,    // in bytes
+    .spi_samp_size      = 4,    // in bytes
     .spi_cs             = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | LAB_OSCILLOSCOPE_ADC_CE,
     .spi_cs_fifo_reset  = 0x00000030,
     .pwm_rng            = 250,  // arbitrary value, will be changed in pwm_frequency ()
@@ -398,10 +398,11 @@ load_data_samples ()
 
         // std::cout << std::bitset <32> (dma_data->status[a]) << "\n";
 
-        // for (int samp = 10; samp <= 20; samp++)
-        // {
-        //   std::cout << std::bitset <32> (dma_data->rxd[a][samp]) << "\n";
-        // }
+        for (int samp = 10; samp <= 20; samp++)
+        {
+          std::cout << std::bitset <16> ((dma_data->rxd[a][samp]) >> 16) << " ";
+          std::cout << std::bitset <16> ((dma_data->rxd[a][samp])) << "\n";
+        }
 
         // Check if the other buffer is also full. 
         // If it is, then we have a buffer overflow (both buffers full).
@@ -448,7 +449,8 @@ parse_raw_sample_buffer ()
         //uint32_t temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0xFFF;
 
         // This formula is specific to the Microchip MCP33111 ADC
-        uint32_t temp2 = ((temp1 & 0xff) << 4) | ((temp1 & 0xf000) >> 12);
+        //uint32_t temp2 = ((temp1 & 0xff) << 4) | ((temp1 & 0xf000) >> 12);
+        uint32_t temp2 = ((temp1 & 0x7f) << 5) | ((temp1 & 0xf800) >> 11); // at 10MHz SPI freq
 
         // --- END HARD CODED ---
 
@@ -561,6 +563,10 @@ time_per_division (double value, unsigned osc_disp_num_cols)
   //    to all channel data
   m_parent_data.time_per_division = value;
   m_parent_data.w_samp_count      = new_samp_count;
+
+  // std::cout << "new tpd: "<< value << "\n";
+  // std::cout << "new samp count: " << new_samp_count << "\n";
+  // std::cout << "new samp rate: " << new_samp_rate << "\n\n";
 
   // 5. Set new sampling rate
   sampling_rate (new_samp_rate); 
