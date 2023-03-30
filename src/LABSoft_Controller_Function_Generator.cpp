@@ -7,6 +7,8 @@ LABSoft_Controller_Function_Generator (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 {
   m_LAB         = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
+
+  // init 
 }
 
 // callback functions

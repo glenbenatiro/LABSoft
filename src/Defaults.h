@@ -79,7 +79,7 @@ constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 // Raspberry Pi Zero BCM Pin Assishift_bit_countgnments
 // https://pinout.xyz/
-constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {0, 26, 1};
+constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {0, 1, 26};
 constexpr unsigned LAB_RPI_PIN_PWM_CHAN_0                         = 12;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1 = 14;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_2 = 15;
@@ -93,6 +93,12 @@ constexpr unsigned  LAB_DMA_CHAN_PWM_PACING                 = 7;
 constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX        = 8;
 constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX        = 9;
 constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 10;
+
+constexpr uint32_t LAB_DMA_TI_OSC_PWM_PACING  = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_WAIT_RESP;
+constexpr uint32_t LAB_DMA_TI_OSC_TX          = (DMA_TI_DREQ_SPI_TX << 16) | DMA_TI_DEST_DREQ | DMA_TI_WAIT_RESP | DMA_TI_SRC_INC;
+constexpr uint32_t LAB_DMA_TI_OSC_RX          = (DMA_TI_DREQ_SPI_RX << 16) | DMA_TI_SRC_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
+constexpr uint32_t LAB_DMA_TI_LOGAN_STORE     = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
+
 
 // --- Oscilloscope ---
 enum LE_OSC_SCALING
@@ -331,7 +337,6 @@ struct LAB_Parent_Data_Function_Generator
 
 // LAB Logic Analyzer
 constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS       = sizeof (LAB_PIN_LOGIC_ANALYZER) / sizeof (LAB_PIN_LOGIC_ANALYZER[0]);
-constexpr uint32_t  LAB_LOGIC_ANALYZER_DMA_CB_TI_GPIO_STORE     = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
 constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES        = 2'000;
 constexpr double    LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE        = 200'000;
 constexpr unsigned  LAB_LOGIC_ANALYZER_SAMPLING_RATE            = LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
@@ -349,7 +354,7 @@ struct LAB_Channel_Data_Logic_Analyzer
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
-  std::array <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> samples;
+  std::array  <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> samples;
 };
 
 class LAB_Parent_Data_Logic_Analyzer
@@ -369,8 +374,8 @@ class LAB_Parent_Data_Logic_Analyzer
     bool      is_enabled          = false;
     double    sampling_rate       = LAB_LOGIC_ANALYZER_SAMPLING_RATE;
     double    time_per_division   = 0.0;
-    double    horizontal_offset            = 0.0;
-    unsigned  w_samp_count  = 0;
+    double    horizontal_offset   = 0.0;
+    unsigned  w_samp_count        = LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES;
 
     std::array <uint32_t, 
       LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES>   raw_sample_buffer;
@@ -381,18 +386,14 @@ class LAB_Parent_Data_Logic_Analyzer
     LE_GRAPH_DISP_MODE graph_disp_mode  = LE_GRAPH_DISP_MODE_REPEATED;
 };
 
-struct LAB_Logic_Analyzer_DMA_Data
+struct LAB_DMA_Data_Logic_Analyzer
 {
   AP_DMA_CB cbs[15];
   
-  uint32_t  samp_size,
-            pwm_data,
-            buffer_ok_flag = 0x1;
+  uint32_t  buffer_ok_flag = 0x1;
 
-  volatile uint32_t usecs[2],
-                    status[2],
-                    rxd0[LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES],
-                    rxd1[LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES];
+  volatile uint32_t status[2] = {0},
+                    rxd[2][LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES] = {0};
 };
 
 // LABSoft Logic Analyzer Display Group
@@ -412,12 +413,8 @@ constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_STYLE             
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR             = FL_BLACK;
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_WIDTH             = 0;
 constexpr char*     LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_DASHES            = 0;
+constexpr double    LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_P2P_SPREAD        = 80.0; // in percent
 constexpr double    LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN  = 1.0 / (LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS);
-
-constexpr const char* LABSOFT_LOGIC_ANALYZER_MEMORY_DEPTH     = "4096";
-constexpr const char* LABSOFT_LOGIC_ANALYZER_SAMPLE_RATE      = "1 kHz";
-constexpr const char* LABSOFT_LOGIC_ANALYZER_TIME_PER_DIVISON = "1 ms/div";
-constexpr const char* LABSOFT_LOGIC_ANALYZER_POSITION         = " 0 s";
 
 #endif
 

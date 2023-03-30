@@ -100,7 +100,7 @@ draw ()
 void LABSoft_Logic_Analyzer_Display_Group::
 load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer *parent_data)
 {
-  m_logan_parent_data = parent_data;
+  m_parent_data_logan = parent_data;
 
   m_display->load_logan_parent_data (parent_data);
 }

@@ -8,7 +8,7 @@
 class LABSoft_Oscilloscope_Display : public Fl_Widget
 { 
   private:
-    LAB_Parent_Data_Oscilloscope *m_osc_parent_data = nullptr;
+    LAB_Parent_Data_Oscilloscope *m_parent_data_osc = nullptr;
 
   public:
      // --- Functions ---

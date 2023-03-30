@@ -79,12 +79,12 @@ draw_grid ()
 int LABSoft_Oscilloscope_Display:: 
 draw_channels () 
 {
-  if (!m_osc_parent_data)
+  if (!m_parent_data_osc)
   {
     return -1;
   }
 
-  if (!(m_osc_parent_data->has_enabled_channels ()))
+  if (!(m_parent_data_osc->has_enabled_channels ()))
   {
     return -2;
   }
@@ -93,26 +93,31 @@ draw_channels ()
  
   fl_push_clip (x (), y (), w (), h ());
 
-  for (int a = 0; a < (m_osc_parent_data->channel_data.size ()); a++)
+  LAB_Parent_Data_Oscilloscope  &p_data = *m_parent_data_osc;
+  int samp_count = (p_data.w_samp_count < w () ? p_data.w_samp_count : w ()) - 1;
+
+  for (int chan = 0; chan < (m_parent_data_osc->channel_data.size ()); chan++)
   {
-    LAB_Parent_Data_Oscilloscope  &osc  = *m_osc_parent_data;
-    LAB_Channel_Data_Oscilloscope &chn  = osc.channel_data[a];
+    LAB_Channel_Data_Oscilloscope &c_data = p_data.channel_data[chan];
+    std::vector<std::array<int, 2>> &pp   = c_data.pixel_points;
 
-    std::vector<std::array<int, 2>> &pp = chn.pixel_points;
-
-    if (chn.is_enabled)
+    if (c_data.is_enabled)
     {
-      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[a]);
+      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[chan]);
 
-      int samp_count = ((osc.w_samp_count < w ()) ? osc.w_samp_count : w ()) - 1;
-
-      for (int b = 0; b < samp_count; b++)
+      for (int samp_i = 0; samp_i < samp_count; samp_i++)
       {
-        fl_line (pp[b][0], pp[b][1], pp[b + 1][0], pp[b + 1][1]);
+        fl_line (
+          pp[samp_i][0], 
+          pp[samp_i][1], 
+          pp[samp_i + 1][0], 
+          pp[samp_i + 1][1]
+        );
       }
     }
   }
 
+  fl_line_style (0);
   fl_pop_clip();
 
   return 1;
@@ -121,21 +126,21 @@ draw_channels ()
 void LABSoft_Oscilloscope_Display::
 load_osc_parent_data (LAB_Parent_Data_Oscilloscope *parent_data)
 {
-  m_osc_parent_data = parent_data;
+  m_parent_data_osc = parent_data;
 }
 
 int LABSoft_Oscilloscope_Display::
 reserve_pixel_points ()
 {
-  if (!m_osc_parent_data)
+  if (!m_parent_data_osc)
   {
     return -1;
   }
   else 
   {
-    for (int a = 0; a < (m_osc_parent_data->channel_data.size ()); a++)
+    for (int a = 0; a < (m_parent_data_osc->channel_data.size ()); a++)
     {
-      m_osc_parent_data->channel_data[a].pixel_points.reserve (
+      m_parent_data_osc->channel_data[a].pixel_points.reserve (
         LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
       );
     }
@@ -147,12 +152,12 @@ reserve_pixel_points ()
 int LABSoft_Oscilloscope_Display::
 fill_pixel_points ()
 {
-  if (!m_osc_parent_data)
+  if (!m_parent_data_osc)
   {
     return -1;
   }
 
-  if (!(m_osc_parent_data->has_enabled_channels ()))
+  if (!(m_parent_data_osc->has_enabled_channels ()))
   {
     return -2;
   }
@@ -162,11 +167,11 @@ fill_pixel_points ()
   double osc_disp_vert_half     = h () / 2;
   double osc_disp_vert_midline  = y () + osc_disp_vert_half;
 
-  for (int a = 0; a < (m_osc_parent_data->channel_data.size ()); a++)
+  for (int a = 0; a < (m_parent_data_osc->channel_data.size ()); a++)
   {
-    if (m_osc_parent_data->channel_data[a].is_enabled)
+    if (m_parent_data_osc->channel_data[a].is_enabled)
     {
-      LAB_Parent_Data_Oscilloscope    &osc  = *m_osc_parent_data;
+      LAB_Parent_Data_Oscilloscope    &osc  = *m_parent_data_osc;
       LAB_Channel_Data_Oscilloscope   &chn  = osc.channel_data[a];
       std::vector<std::array<int, 2>> &pp   = chn.pixel_points;
 

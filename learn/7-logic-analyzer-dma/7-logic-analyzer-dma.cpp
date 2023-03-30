@@ -86,7 +86,7 @@ int main ()
     {
       // For double buffer SPI RX
       { // CB 0
-        DMA_CB_TI_SPI_RX,
+        LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, dp->rxd0),
         (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),
@@ -95,7 +95,7 @@ int main ()
         0
       },
       { // CB 1
-        DMA_CB_TI_SPI_RX, 
+        LAB_DMA_TI_OSC_RX, 
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_CS),
         Utility::mem_bus_addr (mp, &dp->status[0]),
         4,
@@ -104,7 +104,7 @@ int main ()
         0
       }, 
       { // CB 2
-        DMA_CB_TI_SPI_RX,
+        LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, dp->rxd1),
         (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),
@@ -113,7 +113,7 @@ int main ()
         0
       }, 
       { // CB 3
-        DMA_CB_TI_SPI_RX, 
+        LAB_DMA_TI_OSC_RX, 
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_CS),
         Utility::mem_bus_addr (mp, &dp->status[1]),
         4,
@@ -126,7 +126,7 @@ int main ()
 
       // For single buffer SPI RX
       { // CB 4
-        DMA_CB_TI_SPI_RX,
+        LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, dp->rxd0),
         (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),
@@ -135,7 +135,7 @@ int main ()
         0
       },  
       { // CB 5
-        DMA_CB_TI_SPI_RX, 
+        LAB_DMA_TI_OSC_RX, 
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_CS),
         Utility::mem_bus_addr (mp, &dp->status[0]),
         4,
@@ -148,7 +148,7 @@ int main ()
 
       // For SPI TX
       { // CB 6
-        DMA_CB_TI_SPI_TX,  
+        LAB_DMA_TI_OSC_TX,  
         Utility::mem_bus_addr (mp, dp->txd),
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_FIFO),
         (uint32_t)((4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) + 4), 
@@ -161,7 +161,7 @@ int main ()
 
       // For PWM pacing
       { //CB 7
-        DMA_CB_TI_PWM, 
+        LAB_DMA_TI_OSC_PWM_PACING, 
         Utility::mem_bus_addr (mp, &dp->pwm_val),   
         Utility::reg_bus_addr (&(AP.m_regs_pwm), PWM_FIF1), 
         4, 
@@ -170,7 +170,7 @@ int main ()
         0
       }, 
       { // CB 8
-        DMA_CB_TI_PWM, 
+        LAB_DMA_TI_OSC_PWM_PACING, 
         Utility::mem_bus_addr (mp, &dp->adc_csd_fifo_reset), 
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_CS), 
         4, 
@@ -179,7 +179,7 @@ int main ()
         0
       },
       { // CB 9
-        DMA_CB_TI_PWM, 
+        LAB_DMA_TI_OSC_PWM_PACING, 
         Utility::mem_bus_addr (mp, &dp->samp_size), 
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_DLEN), 
         4, 
@@ -188,7 +188,7 @@ int main ()
         0
       },
       { // CB 10
-        DMA_CB_TI_PWM, 
+        LAB_DMA_TI_OSC_PWM_PACING, 
         Utility::mem_bus_addr (mp, &dp->adc_csd),   
         Utility::reg_bus_addr (&(AP.m_regs_spi), SPI_CS),   
         4, 

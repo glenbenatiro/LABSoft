@@ -26,8 +26,11 @@ class LAB_Logic_Analyzer
     
     // --- Functions ---
     LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB);
+    ~LAB_Logic_Analyzer ();
 
     // Setup
+    void    init_logan_gpio_pins  ();
+    void    init_logan_dma        ();
     void    config_dma_control_blocks ();  
 
     // Master controls
@@ -50,7 +53,7 @@ class LAB_Logic_Analyzer
     void    parse_raw_sample_buffer ();
 
     //
-    bool is_running ();
+    bool    is_running ();
     void    switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT);
 };
 
