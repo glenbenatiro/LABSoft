@@ -345,13 +345,13 @@ coupling (unsigned        channel,
   switch (_LE_OSC_COUPLING)
   {
     case LE_OSC_COUPLING_AC:
-      m_LAB_Core->gpio_set   (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN);
-      m_LAB_Core->gpio_write (pin, 1);
+      m_LAB_Core->gpio_set    (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN);
+      m_LAB_Core->gpio_write  (pin, 1);
       break;
 
     case LE_OSC_COUPLING_DC:
-      m_LAB_Core->gpio_set   (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN);
-      m_LAB_Core->gpio_write (pin, 0);
+      m_LAB_Core->gpio_set    (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN);
+      m_LAB_Core->gpio_write  (pin, 0);
       break;
 
     default: 

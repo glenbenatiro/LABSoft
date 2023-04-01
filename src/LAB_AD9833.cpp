@@ -13,6 +13,8 @@ LAB_AD9833 (LAB_Core *_LAB_Core): m_LAB_Core (_LAB_Core)
   init ();
 }
 
+// 
+
 void LAB_AD9833:: 
 init ()
 {
@@ -34,6 +36,16 @@ init ()
 
   // start ();
 }
+
+void LAB_AD9833:: 
+write_reg ()
+{
+  m_LAB_Core->bb_spi_xfer (m_CS, m_txbuff, 2);
+}
+
+//
+
+
 
 void LAB_AD9833:: 
 wave_type (LE_WAVE_TYPE _LE_WAVE_TYPE)
@@ -158,12 +170,6 @@ update_ctrl_reg ()
     (m_OPBITEN << 5) | (m_DIV2 << 3) | (m_Mode << 1);
 
   write_reg ();
-}
-
-void LAB_AD9833:: 
-write_reg ()
-{
-  m_LAB_Core->bb_spi_xfer (m_CS, m_txbuff, 2);
 }
 
 //

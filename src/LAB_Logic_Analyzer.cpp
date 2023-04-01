@@ -209,7 +209,7 @@ parse_raw_sample_buffer()
     for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
     {
       m_parent_data.channel_data[chan].samples[samp_i] = 
-        (m_parent_data.raw_sample_buffer[samp_i] >> LAB_PIN_LOGIC_ANALYZER[chan]) * 0x1;
+        (m_parent_data.raw_sample_buffer[samp_i] >> LAB_PIN_LOGIC_ANALYZER[chan]) & 0x1;
     }
   }
 }

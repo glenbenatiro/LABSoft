@@ -44,8 +44,7 @@ class LAB_AD9833
               m_rxbuff[2] = {0x00, 0x00};
 
   public: 
-    //
-          LAB_AD9833 (LAB_Core *_LAB_Core);
+    LAB_AD9833 (LAB_Core *_LAB_Core);
 
     void  init ();
     void  start ();

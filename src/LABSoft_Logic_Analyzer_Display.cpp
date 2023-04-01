@@ -90,20 +90,27 @@ draw_channels ()
 
   //
 
-  if  (m_parent_data_logan->is_enabled)
+  if (m_parent_data_logan->is_enabled)
   {
+    
     fl_push_clip (x (), y (), w (), h ());
 
     LAB_Parent_Data_Logic_Analyzer &pdat  = *m_parent_data_logan;
+
+    fl_color (LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR);
+        
+    fl_line_style (
+      LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_STYLE,
+      LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_WIDTH,
+      0
+    );
 
     for (int chan = 0; chan < (pdat.channel_data.size ()); chan++)
     {
       if (pdat.channel_data[chan].is_enabled)
       {
         std::vector<std::array<int, 2>> &pp = pdat.channel_data[chan].pixel_points;
-
-        fl_color (LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR);
-        
+  
         for (int a = 0; a < (pp.size () - 1); a++)
         {
           fl_line (pp[a][0], pp[a][1], pp[a + 1][0], pp[a + 1][1]);
