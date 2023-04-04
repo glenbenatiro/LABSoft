@@ -88,6 +88,7 @@ constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0   = 22;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1   = 23;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1   = 24;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_MOSI                  = 4;
+constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_MISO                  = 19;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_SCLK                  = 6;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_CS                    = 13;       
 

@@ -23,6 +23,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB_Core.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LabelValue.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"

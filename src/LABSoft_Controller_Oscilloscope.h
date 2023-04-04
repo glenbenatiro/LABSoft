@@ -32,6 +32,9 @@ class LABSoft_Controller_Oscilloscope
     // Horizontal
     void cb_time_per_division       (Fl_Input_Choice *w, long channel);
     void cb_horizontal_offset       (Fl_Input_Choice *w, void *data);
+
+    // test
+    void cb_test (Fl_Input_Choice *w, long channel);
 };
 
 #endif

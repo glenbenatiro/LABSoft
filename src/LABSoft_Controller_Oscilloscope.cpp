@@ -173,19 +173,14 @@ cb_time_per_division (Fl_Input_Choice *w,
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_test (Fl_Light_Button *w,
-         void            *data)
+cb_test (Fl_Input_Choice *w, long channel)
 {
-  printf ("test!\n");
+  const char *text = w->value ();
 
-  if (w->value () == 1)
-  {
-    m_LAB->m_LAB_Core.dma_pause (LAB_DMA_CHAN_PWM_PACING);
-  }
-  else 
-  {
-    m_LAB->m_LAB_Core.dma_play (LAB_DMA_CHAN_PWM_PACING);
-  }
+  std::cout << "data in text field: " << text << std::endl;
+  std::cout << "last kb press: " << Fl::event_key () << std::endl;
+
+
 }
 
 // EOFs

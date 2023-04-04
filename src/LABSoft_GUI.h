@@ -10,6 +10,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
+#include "LABSoft_Fl_Input_Choice.h"
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Light_Button.H>
 #include "LABSoft_Oscilloscope_Display_Group.h"
@@ -25,6 +26,12 @@ public:
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
   static Fl_Menu_Item menu_[];
+  LABSoft_Fl_Input_Choice *oscilloscope_fl_input_choice_test;
+private:
+  inline void cb_oscilloscope_fl_input_choice_test_i(LABSoft_Fl_Input_Choice*, long);
+  static void cb_oscilloscope_fl_input_choice_test(LABSoft_Fl_Input_Choice*, long);
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_test[];
+public:
   Fl_Button *oscilloscope_fl_button_run_stop;
 private:
   inline void cb_oscilloscope_fl_button_run_stop_i(Fl_Button*, void*);
@@ -36,10 +43,6 @@ private:
   static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
 public:
   Fl_Light_Button *oscilloscope_fl_light_button_test;
-private:
-  inline void cb_oscilloscope_fl_light_button_test_i(Fl_Light_Button*, void*);
-  static void cb_oscilloscope_fl_light_button_test(Fl_Light_Button*, void*);
-public:
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;

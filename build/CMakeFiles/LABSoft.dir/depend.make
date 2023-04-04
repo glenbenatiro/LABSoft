@@ -27,6 +27,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Function_Gen
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -53,6 +54,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_F
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -74,6 +76,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/Defa
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABSoft_Controller_Circuit_Checker.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABSoft_Controller_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -95,6 +98,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/D
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_Controller_Function_Generator.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_Controller_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -114,6 +118,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Defau
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -133,6 +138,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Default
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller_Oscilloscope.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -152,6 +158,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Controller_Voltmeter.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h
@@ -175,6 +182,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Function
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
@@ -262,6 +270,12 @@ CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Voltmeter.h
 
+CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: ../src/Defaults.h
+CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: ../src/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: ../src/LAB_MCP4161_503.cpp
+CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: ../src/LAB_MCP4161_503.h
+
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o: ../src/LAB.h
@@ -301,6 +315,7 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Function_Genera
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Fl_Input_Choice.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Logic_Analyzer_Display.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Logic_Analyzer_Display_Group.h

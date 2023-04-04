@@ -18,6 +18,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o"
+  "CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"

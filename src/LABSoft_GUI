@@ -25,7 +25,7 @@ class LABSoft_GUI {open
         xywh {0 0 1366 30}
       } {
         Submenu {} {
-          label File
+          label File open
           xywh {0 0 70 21}
         } {
           MenuItem {} {
@@ -42,17 +42,90 @@ class LABSoft_GUI {open
         xywh {0 30 1366 738} box UP_BOX
       } {
         Fl_Group {} {
-          label Home
-          xywh {0 60 1366 708} hide
+          label Home open
+          xywh {0 60 1366 708}
         } {
           Fl_Box {} {
             label {LABSoft v1.0}
             xywh {0 0 1366 768} labelsize 60 labelcolor 46
           }
+          Fl_Input_Choice oscilloscope_fl_input_choice_test {
+            label {Volts per Division}
+            user_data 0 user_data_type long
+            callback {m_LABSoft_Controller->m_Oscilloscope.cb_test (o, v);}
+            xywh {623 210 120 30} align 1
+            code0 {\#include "LABSoft_Fl_Input_Choice.h"}
+            class LABSoft_Fl_Input_Choice
+          } {
+            MenuItem {} {
+              label {10 V}
+              xywh {85 85 36 21}
+            }
+            MenuItem {} {
+              label {5 V}
+              xywh {45 45 36 21}
+            }
+            MenuItem {} {
+              label {2 V}
+              xywh {35 35 36 21}
+            }
+            MenuItem {} {
+              label {1 V}
+              xywh {35 35 36 21}
+            }
+            MenuItem {} {
+              label {500 mV}
+              xywh {55 55 36 21}
+            }
+            MenuItem {} {
+              label {200 mV}
+              xywh {75 75 36 21}
+            }
+            MenuItem {} {
+              label {100 mV}
+              xywh {65 65 36 21}
+            }
+            MenuItem {} {
+              label {50 mV}
+              xywh {85 85 36 21}
+            }
+            MenuItem {} {
+              label {20 mV}
+              xywh {75 75 36 21}
+            }
+            MenuItem {} {
+              label {10 mV}
+              xywh {95 95 36 21}
+            }
+            MenuItem {} {
+              label {5 mV}
+              xywh {85 85 36 21}
+            }
+            MenuItem {} {
+              label {2 mV}
+              xywh {95 95 36 21}
+            }
+            MenuItem {} {
+              label {1 mV}
+              xywh {105 105 36 21}
+            }
+            MenuItem {} {
+              label {500 uV}
+              xywh {55 55 36 21}
+            }
+            MenuItem {} {
+              label {200 uV}
+              xywh {55 55 36 21}
+            }
+            MenuItem {} {
+              label {100 uV}
+              xywh {75 75 36 21}
+            }
+          }
         }
         Fl_Group {} {
-          label Oscilloscope open
-          xywh {0 60 1366 708}
+          label Oscilloscope
+          xywh {0 60 1366 708} hide
         } {
           Fl_Button oscilloscope_fl_button_run_stop {
             label Run
@@ -66,7 +139,6 @@ class LABSoft_GUI {open
           }
           Fl_Light_Button oscilloscope_fl_light_button_test {
             label Run
-            callback {m_LABSoft_Controller->m_Oscilloscope.cb_test (o, v);}
             xywh {1205 250 120 60} align 16
           }
           Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
@@ -554,7 +626,7 @@ class LABSoft_GUI {open
               xywh {1035 370 120 30}
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {open
+          Fl_Group oscilloscope_fl_group_horizontal {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -617,7 +689,7 @@ class LABSoft_GUI {open
                 xywh {60 362 36 21}
               }
               MenuItem {} {
-                label {2 ms} selected
+                label {2 ms}
                 xywh {70 362 36 21}
               }
               MenuItem {} {

@@ -655,6 +655,33 @@ src/LAB_Logic_Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.s
 .PHONY : src/LAB_Logic_Analyzer.cpp.s
 
+src/LAB_MCP4161_503.o: src/LAB_MCP4161_503.cpp.o
+
+.PHONY : src/LAB_MCP4161_503.o
+
+# target to build an object file
+src/LAB_MCP4161_503.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o
+.PHONY : src/LAB_MCP4161_503.cpp.o
+
+src/LAB_MCP4161_503.i: src/LAB_MCP4161_503.cpp.i
+
+.PHONY : src/LAB_MCP4161_503.i
+
+# target to preprocess a source file
+src/LAB_MCP4161_503.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.i
+.PHONY : src/LAB_MCP4161_503.cpp.i
+
+src/LAB_MCP4161_503.s: src/LAB_MCP4161_503.cpp.s
+
+.PHONY : src/LAB_MCP4161_503.s
+
+# target to generate assembly for a file
+src/LAB_MCP4161_503.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.s
+.PHONY : src/LAB_MCP4161_503.cpp.s
+
 src/LAB_Oscilloscope.o: src/LAB_Oscilloscope.cpp.o
 
 .PHONY : src/LAB_Oscilloscope.o
@@ -856,6 +883,9 @@ help:
 	@echo "... src/LAB_Logic_Analyzer.o"
 	@echo "... src/LAB_Logic_Analyzer.i"
 	@echo "... src/LAB_Logic_Analyzer.s"
+	@echo "... src/LAB_MCP4161_503.o"
+	@echo "... src/LAB_MCP4161_503.i"
+	@echo "... src/LAB_MCP4161_503.s"
 	@echo "... src/LAB_Oscilloscope.o"
 	@echo "... src/LAB_Oscilloscope.i"
 	@echo "... src/LAB_Oscilloscope.s"
