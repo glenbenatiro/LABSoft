@@ -4,6 +4,9 @@
 
 #include <FL/Fl.H>
 
+// FLTK: Hitting the 'Escape' key closes windows - how do I prevent this?
+// https://www.fltk.org/doc-1.3/FAQ.html
+
 LABSoft::
 LABSoft (int    argc,
          char **argv) 

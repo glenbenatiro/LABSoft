@@ -18,9 +18,8 @@ class LABSoft_Controller_Oscilloscope
     LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
     
     // Master controls
-    void cb_run_stop                (Fl_Button *w, void *data);
-    void cb_single                  (Fl_Button *w, void *data);
-    void cb_test                    (Fl_Light_Button *w, void *data);
+    void cb_run_stop                (Fl_Light_Button *w, void *data);
+    void cb_test                    (Fl_Input_Choice *w, long channel);
 
     // Vertical
     void cb_channel_enable_disable  (Fl_Light_Button *w, long data);
@@ -32,9 +31,6 @@ class LABSoft_Controller_Oscilloscope
     // Horizontal
     void cb_time_per_division       (Fl_Input_Choice *w, long channel);
     void cb_horizontal_offset       (Fl_Input_Choice *w, void *data);
-
-    // test
-    void cb_test (Fl_Input_Choice *w, long channel);
 };
 
 #endif

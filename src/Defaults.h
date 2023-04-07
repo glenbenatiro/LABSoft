@@ -81,8 +81,8 @@ constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 // https://pinout.xyz/
 constexpr unsigned LAB_PIN_LOGIC_ANALYZER []                      = {0, 1, 26};
 constexpr unsigned LAB_RPI_PIN_PWM_CHAN_0                         = 12;
-constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1 = 14;
-constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_2 = 15;
+constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0 = 14;
+constexpr unsigned LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1 = 15;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0   = 27;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0   = 22;
 constexpr unsigned LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1   = 23;
@@ -105,18 +105,25 @@ constexpr uint32_t LAB_DMA_TI_LOGAN_STORE     = (DMA_TI_DREQ_PWM << 16) | DMA_TI
 
 
 // --- Oscilloscope ---
-enum LE_OSC_SCALING
+enum class LE_OSC_SCALING
 {
-  LE_OSC_SCALING_QUADRUPLE  = 0, // 00
-  LE_OSC_SCALING_UNITY      = 1, // 01
-  LE_OSC_SCALING_HALF       = 2, // 10
-  LE_OSC_SCALING_FOURTH     = 3, // 11
+  QUADRUPLE = 0,
+  UNITY     = 1,
+  HALF      = 2,
+  FOURTH    = 4,
 };
 
-enum LE_OSC_COUPLING
+enum class LE_OSC_COUPLING
 {
-  LE_OSC_COUPLING_AC = 0,
-  LE_OSC_COUPLING_DC = 1
+  DC = 0,
+  AC = 1
+};
+
+enum class LE_OSC_TRIG_MODE
+{
+  NONE,
+  AUTO,
+  NORMAL
 };
 
 // dma channels in use after reboot 3b plus = 2 3 4 6
@@ -132,7 +139,7 @@ constexpr unsigned  LAB_OSCILLOSCOPE_VC_MEM_SIZE                    = 10 *(PAGE_
 constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE                  = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE; 
 constexpr double    LAB_OSCILLOSCOPE_VOLTAGE_PER_DIVISION           = 1.0;
 constexpr double    LAB_OSCILLOSCOPE_VERTICAL_OFFSET                = 0.0;
-constexpr double    LAB_OSCILLOSCOPE_TIME_PER_DIVISION              = (1.0 / LAB_OSCILLOSCOPE_SAMPLING_RATE);
+constexpr double    LAB_OSCILLOSCOPE_TIME_PER_DIVISION              = 0.005; // 5 ms/div
 constexpr double    LAB_OSCILLOSCOPE_HORIZONTAL_OFFSET              = 0.0;
 constexpr int       LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS            = 12;
 constexpr int       LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT             = std::pow (2, LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS);
@@ -142,9 +149,11 @@ constexpr double    LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT        = LAB_OSCILL
 constexpr unsigned  LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT       = 32 / LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS;
 constexpr uint32_t  LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK       = ((std::pow (2, LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT)) - 1);
 constexpr int       LAB_OSCILLOSCOPE_ADC_CE                         = 0; // CE0 or CE1
+constexpr double    LAB_OSCILLOSCOPE_MAX_VOLTAGE_PER_DIVISION       = 0.000100;
+constexpr double    LAB_OSCILLOSCOPE_MIN_VOLTAGE_PER_DIVISION       = 10;
 
-constexpr LE_OSC_COUPLING     LAB_OSCILLOSCOPE_COUPLING             = LE_OSC_COUPLING_DC;
-constexpr LE_OSC_SCALING      LAB_OSCILLOSCOPE_SCALING              = LE_OSC_SCALING_UNITY;
+constexpr LE_OSC_COUPLING     LAB_OSCILLOSCOPE_COUPLING             = LE_OSC_COUPLING::DC;
+constexpr LE_OSC_SCALING      LAB_OSCILLOSCOPE_SCALING              = LE_OSC_SCALING::UNITY;
 constexpr LE_GRAPH_DISP_MODE  LAB_OSCILLOSCOPE_GRAPH_DISP_MODE      = LE_GRAPH_DISP_MODE_REPEATED;
 
 struct LAB_Channel_Data_Oscilloscope
@@ -190,6 +199,11 @@ class LAB_Parent_Data_Oscilloscope
     double w_samp_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES; // working sample count
     std::array <uint32_t, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>                       raw_sample_buffer;
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
+    
+
+    // Trigger 
+    LE_OSC_TRIG_MODE  trig_mode     = LE_OSC_TRIG_MODE::NONE;
+    unsigned          trig_chan_src = 0;
 };
 
 struct LAB_DMA_Data_Oscilloscope
@@ -240,7 +254,7 @@ constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_D
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VERTICAL_OFFSET      = "0 V";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VOLTAGE_PER_DIVISION = "1 V/div";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VERTICAL_OFFSET      = "0 V";
-constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION              = "5 us/div";
+constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION              = "5 ms/div";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET              = "0 s";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL                  = "0 V";
 constexpr int         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE                   = (LAB_OSCILLOSCOPE_TIME_PER_DIVISION >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN) ? 1 : 0; // 0 is repeated, 1 is screen

@@ -44,7 +44,7 @@ init_logan_dma ()
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE);
 
   // Config DMA blocks
-  config_dma_control_blocks ();
+  config_dma_cb ();
 
   // Start GPIO store DMA chan
   AP_MemoryMap                *mp = &(m_uncached_dma_data_logan);
@@ -59,7 +59,7 @@ init_logan_dma ()
 }
 
 void LAB_Logic_Analyzer::
-config_dma_control_blocks ()
+config_dma_cb ()
 {
   m_LAB_Core->map_uncached_mem  (
     &m_uncached_dma_data_logan, 

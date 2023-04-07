@@ -243,28 +243,29 @@ update_time_per_division_labels ()
   {
     return -1;
   }
-  else
+
+  // 
+
+  for (int a = 0; a < m_x_labels.size (); a++)
   {
-    for (int a = 0; a < m_x_labels.size (); a++)
-    {
-      double col_tpd = (a + ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
-        -1)) * (m_parent_data_osc->time_per_division);
+    double col_tpd = (a + ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
+      -1)) * (m_parent_data_osc->time_per_division);
+    
+    LabelValue lv (col_tpd + m_parent_data_osc->horizontal_offset,
+      LABELVALUE_TYPE::SECONDS);
 
-      LabelValue _LabelValue (col_tpd + m_parent_data_osc->horizontal_offset, 
-        LE_UNIT_SEC);
-
-      m_x_labels[a]->copy_label (_LabelValue.to_label_text ().c_str ());
-    }
-
-    return 1;
+    m_x_labels[a]->copy_label (lv.to_label_text ().c_str ());
   }
+
+  return 1;
 }
 
 int LABSoft_Oscilloscope_Display_Group:: 
 update_upper_osc_disp_info ()
 {
   char text[100];
-  LabelValue _LabelValue (m_parent_data_osc->sampling_rate, LE_UNIT_HZ);
+  LabelValue _LabelValue (m_parent_data_osc->sampling_rate,
+    LABELVALUE_TYPE::HERTZ);
 
   sprintf (
     text, 

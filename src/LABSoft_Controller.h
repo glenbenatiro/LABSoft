@@ -22,7 +22,7 @@ class LABSoft_Controller
 {
   private: 
     LAB_PACK _LAB_PACK;
-
+    
   public:
     static std::chrono::time_point<std::chrono::steady_clock> post;
     static std::chrono::time_point<std::chrono::steady_clock> pre;

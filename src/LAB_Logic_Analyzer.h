@@ -31,7 +31,7 @@ class LAB_Logic_Analyzer
     // Setup
     void    init_logan_gpio_pins  ();
     void    init_logan_dma        ();
-    void    config_dma_control_blocks ();  
+    void    config_dma_cb ();  
 
     // Master controls
     void    run   ();

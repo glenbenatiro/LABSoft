@@ -155,6 +155,8 @@ LABSoft_Controller_Oscilloscope.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.h
 iostream
 -
+string
+-
 FL/Fl.H
 -
 Defaults.h
@@ -184,16 +186,6 @@ LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Fl_Input_Choice.h
-FL/Enumerations.H
--
-FL/Fl_Input_Choice.H
--
-FL/names.h
--
-iostream
--
-
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
@@ -215,17 +207,15 @@ FL/Fl_Group.H
 -
 FL/Fl_Box.H
 -
-LABSoft_Fl_Input_Choice.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Fl_Input_Choice.h
-FL/Fl_Button.H
+FL/Fl_Input_Choice.H
 -
 FL/Fl_Light_Button.H
 -
 LABSoft_Oscilloscope_Display_Group.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
-FL/Fl_Input_Choice.H
--
 FL/Fl_Choice.H
+-
+FL/Fl_Button.H
 -
 FL/Fl_Output.H
 -
@@ -243,6 +233,20 @@ FL/Fl_Widget.H
 -
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
 array
@@ -263,6 +267,12 @@ FL/Fl_Widget.H
 -
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
+LABSoft_Oscilloscope_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
+FL/Fl.H
+-
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
 array
@@ -320,11 +330,21 @@ Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
+/home/glen/Desktop/LABSoft/src/LabelValue.cpp
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
+iomanip
+-
+sstream
+-
+cmath
+-
+
 /home/glen/Desktop/LABSoft/src/LabelValue.h
 string
 -
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
+map
+-
 
 /home/glen/Desktop/LABSoft/src/main.cpp
 LABSoft.h

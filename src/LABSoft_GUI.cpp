@@ -12,10 +12,10 @@ Fl_Menu_Item LABSoft_GUI::menu_[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_test_i(LABSoft_Fl_Input_Choice* o, long v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_test_i(Fl_Input_Choice* o, long v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_test (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_test(LABSoft_Fl_Input_Choice* o, long v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_test(Fl_Input_Choice* o, long v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_test_i(o,v);
 }
 
@@ -39,18 +39,11 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_test[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_oscilloscope_fl_button_run_stop_i(Fl_Button* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_test_i(Fl_Light_Button* o, void* v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_button_run_stop(Fl_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_button_run_stop_i(o,v);
-}
-
-void LABSoft_GUI::cb_oscilloscope_fl_button_single_i(Fl_Button* o, void* v) {
-  m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);
-}
-void LABSoft_GUI::cb_oscilloscope_fl_button_single(Fl_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_button_single_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_test(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_test_i(o,v);
 }
 
 void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_0_enable_i(Fl_Light_Button* o, long v) {
@@ -320,6 +313,13 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_horizontal_offset[] 
  {"5 ns", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 ns", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 ns", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0}
+};
+
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_trigger_mode[] = {
+ {"None", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Auto", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Normal", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -635,30 +635,19 @@ LABSoft_GUI::LABSoft_GUI() {
           o->labelsize(60);
           o->labelcolor((Fl_Color)46);
         } // Fl_Box* o
-        { oscilloscope_fl_input_choice_test = new LABSoft_Fl_Input_Choice(623, 210, 120, 30, "Volts per Division");
-          oscilloscope_fl_input_choice_test->box(FL_DOWN_BOX);
-          oscilloscope_fl_input_choice_test->color(FL_BACKGROUND_COLOR);
-          oscilloscope_fl_input_choice_test->selection_color(FL_BACKGROUND_COLOR);
-          oscilloscope_fl_input_choice_test->labeltype(FL_NORMAL_LABEL);
-          oscilloscope_fl_input_choice_test->labelfont(0);
-          oscilloscope_fl_input_choice_test->labelsize(14);
-          oscilloscope_fl_input_choice_test->labelcolor(FL_FOREGROUND_COLOR);
+        { oscilloscope_fl_input_choice_test = new Fl_Input_Choice(623, 210, 120, 30, "Volts per Division");
           oscilloscope_fl_input_choice_test->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_test, (void*)(0));
           oscilloscope_fl_input_choice_test->align(Fl_Align(FL_ALIGN_TOP));
-          oscilloscope_fl_input_choice_test->when(FL_WHEN_RELEASE);
           oscilloscope_fl_input_choice_test->menu(menu_oscilloscope_fl_input_choice_test);
-        } // LABSoft_Fl_Input_Choice* oscilloscope_fl_input_choice_test
+          oscilloscope_fl_input_choice_test->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+          oscilloscope_fl_input_choice_test->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+        } // Fl_Input_Choice* oscilloscope_fl_input_choice_test
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
         o->hide();
-        { oscilloscope_fl_button_run_stop = new Fl_Button(1205, 90, 120, 60, "Run");
-          oscilloscope_fl_button_run_stop->callback((Fl_Callback*)cb_oscilloscope_fl_button_run_stop);
-        } // Fl_Button* oscilloscope_fl_button_run_stop
-        { oscilloscope_fl_button_single = new Fl_Button(1205, 170, 120, 60, "Single");
-          oscilloscope_fl_button_single->callback((Fl_Callback*)cb_oscilloscope_fl_button_single);
-        } // Fl_Button* oscilloscope_fl_button_single
-        { oscilloscope_fl_light_button_test = new Fl_Light_Button(1205, 250, 120, 60, "Run");
+        { oscilloscope_fl_light_button_test = new Fl_Light_Button(1205, 90, 120, 60, "Run");
+          oscilloscope_fl_light_button_test->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_test);
           oscilloscope_fl_light_button_test->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
         } // Fl_Light_Button* oscilloscope_fl_light_button_test
         { oscilloscope_labsoft_oscilloscope_display_group_display = new LABSoft_Oscilloscope_Display_Group(24, 84, 800, 660);
@@ -687,6 +676,8 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_input_choice_channel_0_voltage_per_division->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_input_choice_channel_0_voltage_per_division->menu(menu_oscilloscope_fl_input_choice_channel_0_voltage_per_division);
             oscilloscope_fl_input_choice_channel_0_voltage_per_division->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_DIVISION);
+            oscilloscope_fl_input_choice_channel_0_voltage_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_channel_0_voltage_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
           } // Fl_Input_Choice* oscilloscope_fl_input_choice_channel_0_voltage_per_division
           { oscilloscope_fl_input_choice_channel_0_vertical_offset = new Fl_Input_Choice(865, 260, 120, 30, "Vertical Offset");
             oscilloscope_fl_input_choice_channel_0_vertical_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_channel_0_vertical_offset, (void*)(0));
@@ -769,10 +760,11 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_input_choice_trigger_level->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);
           } // Fl_Input_Choice* oscilloscope_fl_input_choice_trigger_level
-          { new Fl_Button(1035, 535, 120, 60, "Auto");
-          } // Fl_Button* o
-          { new Fl_Button(1035, 610, 120, 60, "Menu");
-          } // Fl_Button* o
+          { oscilloscope_fl_choice_trigger_mode = new Fl_Choice(1035, 550, 120, 30, "Mode");
+            oscilloscope_fl_choice_trigger_mode->down_box(FL_BORDER_BOX);
+            oscilloscope_fl_choice_trigger_mode->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_choice_trigger_mode->menu(menu_oscilloscope_fl_choice_trigger_mode);
+          } // Fl_Choice* oscilloscope_fl_choice_trigger_mode
           oscilloscope_fl_group_trigger->end();
         } // Fl_Group* oscilloscope_fl_group_trigger
         { oscilloscope_fl_group_display = new Fl_Group(0, 0, 1366, 768);

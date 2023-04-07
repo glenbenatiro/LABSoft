@@ -22,6 +22,6 @@ cb_run_stop  (Fl_Button *w,
     m_LAB->m_Voltmeter.run ();
 
     w->label ("Stop");
-    m_LABSoft_GUI->oscilloscope_fl_button_run_stop->label ("Run");
+    // m_LABSoft_GUI->oscilloscope_fl_button_run_stop->label ("Run");
   }
 }

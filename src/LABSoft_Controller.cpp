@@ -57,13 +57,13 @@ update_display (void *data)
     
     reading = _LAB->m_Voltmeter.get_data_sample (0);
 
-    gui->voltmeter_fl_output_chan1_value->value (LabelValue (reading, 
-      LE_UNIT_VOLT).to_label_text ().c_str ());
+    gui->voltmeter_fl_output_chan1_value->value (LabelValue (reading,
+      LABELVALUE_TYPE::VOLTS).to_label_text ().c_str ());
 
     reading = _LAB->m_Voltmeter.get_data_sample (1);
 
-    gui->voltmeter_fl_output_chan2_value->value (LabelValue (reading, 
-      LE_UNIT_VOLT).to_label_text ().c_str ());
+    gui->voltmeter_fl_output_chan2_value->value (LabelValue (reading,
+      LABELVALUE_TYPE::VOLTS).to_label_text ().c_str ());
   }
 
   if (_LAB->m_Logic_Analyzer.is_running ())

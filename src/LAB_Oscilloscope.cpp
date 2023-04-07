@@ -12,10 +12,11 @@ LAB_Oscilloscope (LAB_Core  *_LAB_Core,
   m_LAB_Core  = _LAB_Core;
   m_LAB       = _LAB;
   
-  init_spi            ();
-  init_pwm            ();
-  init_osc_gpio_pins  ();
-  init_osc_dma        ();
+  init_spi        ();
+  init_pwm        ();
+  init_gpio_pins  ();
+  init_dma        ();
+  init_state      ();
 }
 
 LAB_Oscilloscope::
@@ -46,33 +47,34 @@ init_pwm ()
 }
 
 void LAB_Oscilloscope::
-init_osc_gpio_pins ()
+init_gpio_pins ()
 {
+  // scaling
   m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-
+    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 1);
   m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0, 
     AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-
   m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-
+    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 1);
   m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1, 
     AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
 
-  coupling (0, LE_OSC_COUPLING_DC);
-  coupling (1, LE_OSC_COUPLING_DC);
+  // coupling
+  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0, 
+    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
+  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1, 
+    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
 }
 
 void LAB_Oscilloscope::
-init_osc_dma ()
+init_dma ()
 {
   // PWM should be initialized already at this point in LAB
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_PWM_PACING);
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX);
   
-  config_dma_control_blocks ();
+  config_dma_cb ();
 
   AP_MemoryMap              *mp = &(m_uncached_dma_data_osc);
   LAB_DMA_Data_Oscilloscope *dp = static_cast<LAB_DMA_Data_Oscilloscope *>(mp->virt);
@@ -83,7 +85,22 @@ init_osc_dma ()
 }
 
 void LAB_Oscilloscope:: 
-config_dma_control_blocks ()
+init_state ()
+{
+  // per channel
+  for (int a = 0; a < m_parent_data.channel_data.size (); a++)
+  {
+    scaling   (a, m_parent_data.channel_data[a].scaling);
+    coupling  (a, m_parent_data.channel_data[a].coupling);
+  }
+
+  // as entire oscilloscope
+  time_per_division (m_parent_data.time_per_division, 
+    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+}
+
+void LAB_Oscilloscope:: 
+config_dma_cb ()
 {
   m_LAB_Core->map_uncached_mem (
     &m_uncached_dma_data_osc, 
@@ -307,10 +324,12 @@ vertical_offset (unsigned channel,
   m_parent_data.channel_data[channel].vertical_offset = value;
 }
 
-int LAB_Oscilloscope:: 
+void LAB_Oscilloscope:: 
 scaling (unsigned       channel, 
          LE_OSC_SCALING _LE_OSC_SCALING)
 {
+  m_parent_data.channel_data[channel].scaling = _LE_OSC_SCALING;
+
   unsigned a0, a1;
 
   if (channel == 0)
@@ -324,42 +343,23 @@ scaling (unsigned       channel,
     a1 = LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1;
   }
 
-  m_LAB_Core->gpio_write (a0, (_LE_OSC_SCALING == LE_OSC_SCALING_FOURTH || 
-    _LE_OSC_SCALING == LE_OSC_SCALING_UNITY) ? 1 : 0);
+  m_LAB_Core->gpio_write (a0, (_LE_OSC_SCALING == LE_OSC_SCALING::FOURTH || 
+    _LE_OSC_SCALING == LE_OSC_SCALING::UNITY) ? 1 : 0);
   
-  m_LAB_Core->gpio_write (a1, (_LE_OSC_SCALING == LE_OSC_SCALING_FOURTH || 
-    _LE_OSC_SCALING == LE_OSC_SCALING_HALF) ? 1 : 0);
-
-  m_parent_data.channel_data[channel].scaling = _LE_OSC_SCALING;
-
-  return (_LE_OSC_SCALING);
+  m_LAB_Core->gpio_write (a1, (_LE_OSC_SCALING == LE_OSC_SCALING::FOURTH || 
+    _LE_OSC_SCALING == LE_OSC_SCALING::HALF) ? 1 : 0);
 }
 
-int LAB_Oscilloscope:: 
+void LAB_Oscilloscope:: 
 coupling (unsigned        channel,
           LE_OSC_COUPLING _LE_OSC_COUPLING)
 {
-  unsigned pin = (channel == 0) ? LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1 :
-    LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_2;
+  m_parent_data.channel_data[channel].coupling = _LE_OSC_COUPLING;
 
-  switch (_LE_OSC_COUPLING)
-  {
-    case LE_OSC_COUPLING_AC:
-      m_LAB_Core->gpio_set    (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN);
-      m_LAB_Core->gpio_write  (pin, 1);
-      break;
+  unsigned pin = (channel == 0) ? LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0 :
+    LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1;
 
-    case LE_OSC_COUPLING_DC:
-      m_LAB_Core->gpio_set    (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN);
-      m_LAB_Core->gpio_write  (pin, 0);
-      break;
-
-    default: 
-      coupling (channel, LE_OSC_COUPLING_DC);
-      break;
-  }
-
-  return (_LE_OSC_COUPLING);
+  m_LAB_Core->gpio_write (pin, static_cast<int>(_LE_OSC_COUPLING));
 }
 
 void LAB_Oscilloscope:: 
