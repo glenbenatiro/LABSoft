@@ -197,8 +197,8 @@ class LAB_Parent_Data_Oscilloscope
 
     // Horizontal
     double  time_per_division   = LAB_OSCILLOSCOPE_TIME_PER_DIVISION;
-    double  horizontal_offset   = LAB_OSCILLOSCOPE_HORIZONTAL_OFFSET;
     double  sampling_rate       = LAB_OSCILLOSCOPE_SAMPLING_RATE;
+    double  horizontal_offset   = LAB_OSCILLOSCOPE_HORIZONTAL_OFFSET;
     LE_GRAPH_DISP_MODE graph_disp_mode = LAB_OSCILLOSCOPE_GRAPH_DISP_MODE;
 
     // Data/Samples

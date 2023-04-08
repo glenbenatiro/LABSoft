@@ -31,6 +31,9 @@ class LABSoft_Controller_Oscilloscope
     void cb_time_per_division       (Fl_Input_Choice* w, void* data);
     void cb_sampling_rate           (Fl_Input_Choice* w, void* data);
     void cb_horizontal_offset       (Fl_Input_Choice* w, void* data);
+
+    // Utility
+    double calc_sampling_rate ();
 };
 
 #endif

@@ -186,17 +186,14 @@ cb_time_per_division (Fl_Input_Choice* w,
 
   // Frontend
   double time_per_division = m_LAB->m_Oscilloscope.time_per_division ();
+  double sampling_rate     = m_LAB->m_Oscilloscope.sampling_rate ();
   
   w->value (LabelValue (time_per_division).
     to_label_text (LABELVALUE_TYPE::SECONDS).c_str ());
 
-  std::cout << "!! tpd: " << time_per_division << std::endl; 
-  LabelValue temp (1.0 / time_per_division);
-  std::cout << "!! temp actual val: " << temp.actual_value () << std::endl;
-
   // I have to access the widget for the sampling rate to update it as well
   m_LABSoft_GUI->oscilloscope_fl_input_choice_sampling_rate->value (
-    temp.to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
+    LabelValue (sampling_rate).to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
   );
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
@@ -230,15 +227,15 @@ cb_sampling_rate (Fl_Input_Choice* w,
   }
 
   // Frontend
-  double sampling_rate = m_LAB->m_Oscilloscope.sampling_rate ();
+  double sampling_rate     = m_LAB->m_Oscilloscope.sampling_rate ();
+  double time_per_division = m_LAB->m_Oscilloscope.time_per_division ();
   
   w->value (LabelValue (sampling_rate).
     to_label_text (LABELVALUE_TYPE::HERTZ).c_str ());
 
   // I have to access the widget for the sampling rate to update it as well
   m_LABSoft_GUI->oscilloscope_fl_input_choice_time_per_division->value (
-    LabelValue (1.0 / sampling_rate).
-      to_label_text (LABELVALUE_TYPE::SECONDS).c_str ()
+    LabelValue (time_per_division).to_label_text (LABELVALUE_TYPE::SECONDS).c_str ()
   );
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 

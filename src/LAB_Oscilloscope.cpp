@@ -544,12 +544,9 @@ time_per_division (double value, unsigned osc_disp_num_cols)
 
   // 4. Set the new time per division, sample count, sampling rate values 
   //    to all channel data
-  m_parent_data.time_per_division = value;
   m_parent_data.w_samp_count      = new_samp_count;
-
-  // std::cout << "new tpd: "<< value << "\n";
-  // std::cout << "new samp count: " << new_samp_count << "\n";
-  // std::cout << "new samp rate: " << new_samp_rate << "\n\n";
+  m_parent_data.time_per_division = value;
+  m_parent_data.sampling_rate     = new_samp_rate;
 
   // 5. Set new sampling rate
   set_hw_sampling_rate (new_samp_rate);
@@ -558,7 +555,9 @@ time_per_division (double value, unsigned osc_disp_num_cols)
 void LAB_Oscilloscope:: 
 sampling_rate (double value, unsigned osc_disp_num_cols)
 {
-  time_per_division (1.0 / value, osc_disp_num_cols);
+  double tpd = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES / (value * osc_disp_num_cols);  
+  
+  time_per_division (tpd, osc_disp_num_cols);
 }
 
 void LAB_Oscilloscope:: 
