@@ -280,6 +280,7 @@ osc_core_run_stop (bool value)
 {
   if (value)
   {
+    std::cout << "hello!\n";
     m_LAB_Core->pwm_start (LAB_PWM_DMA_PACING_PWM_CHAN);
     m_parent_data.is_osc_core_running = true;
   }
@@ -496,24 +497,6 @@ has_enabled_channel ()
 }
 
 void LAB_Oscilloscope:: 
-sampling_rate (double value)
-{
-  double actual_freq = m_LAB_Core->pwm_frequency (
-    LAB_PWM_DMA_PACING_PWM_CHAN, 
-    value
-  );
-  
-  m_LAB_Core->pwm_duty_cycle (LAB_PWM_DMA_PACING_PWM_CHAN, 50);
-
-  // Change duty cycle by changing pwm_val in PWM DMA control block
-  double dc_percentage  = (std::fmod (50, 100.0)) / (100.0);
-  double fifo_data      = m_LAB_Core->m_pwm_range * dc_percentage;
-
-  (static_cast<LAB_DMA_Data_Oscilloscope *>(m_uncached_dma_data_osc.virt))->
-    pwm_rng = fifo_data;
-}
-
-double LAB_Oscilloscope:: 
 time_per_division (double value, unsigned osc_disp_num_cols)
 {
   double  new_samp_count;
@@ -569,17 +552,37 @@ time_per_division (double value, unsigned osc_disp_num_cols)
   // std::cout << "new samp rate: " << new_samp_rate << "\n\n";
 
   // 5. Set new sampling rate
-  sampling_rate (new_samp_rate); 
-
-  return (m_parent_data.time_per_division);
+  set_hw_sampling_rate (new_samp_rate);
 }
 
-double LAB_Oscilloscope:: 
+void LAB_Oscilloscope:: 
+sampling_rate (double value, unsigned osc_disp_num_cols)
+{
+  time_per_division (1.0 / value, osc_disp_num_cols);
+}
+
+void LAB_Oscilloscope:: 
+set_hw_sampling_rate (double value)
+{
+  double actual_freq = m_LAB_Core->pwm_frequency (
+    LAB_PWM_DMA_PACING_PWM_CHAN, 
+    value
+  );
+  
+  m_LAB_Core->pwm_duty_cycle (LAB_PWM_DMA_PACING_PWM_CHAN, 50);
+
+  // Change duty cycle by changing pwm_val in PWM DMA control block
+  double dc_percentage  = (std::fmod (50, 100.0)) / (100.0);
+  double fifo_data      = m_LAB_Core->m_pwm_range * dc_percentage;
+
+  (static_cast<LAB_DMA_Data_Oscilloscope *>(m_uncached_dma_data_osc.virt))->
+    pwm_rng = fifo_data;
+}
+
+void LAB_Oscilloscope:: 
 horizontal_offset (double value)
 {
   m_parent_data.horizontal_offset = value;
-
-  return (value);
 }
 
 void LAB_Oscilloscope:: 

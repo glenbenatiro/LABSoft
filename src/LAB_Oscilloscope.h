@@ -14,6 +14,8 @@ class LAB_Oscilloscope
     LAB_Core     *m_LAB_Core;
     AP_MemoryMap  m_uncached_dma_data_osc;
 
+    void set_hw_sampling_rate (double value);
+
   public:
     LAB_Parent_Data_Oscilloscope m_parent_data;
     int m_curr_screen_buffer = 0;  
@@ -45,10 +47,10 @@ class LAB_Oscilloscope
     void  coupling                (unsigned channel, LE_OSC_COUPLING _LE_OSC_COUPLING);
 
     // Horizontal
-    double  time_per_division (double value, unsigned osc_disp_num_cols);
-    double  horizontal_offset (double value);
-    void    sampling_rate     (double value);
-
+    void  time_per_division (double value, unsigned osc_disp_num_cols);
+    void  sampling_rate     (double value, unsigned osc_disp_num_cols);
+    void  horizontal_offset (double value);
+    
     // 
     bool  is_running              ();
     void  load_data_samples       ();
@@ -62,6 +64,21 @@ class LAB_Oscilloscope
     double voltage_per_division (unsigned channel)
     {
       return (m_parent_data.channel_data[channel].voltage_per_division);
+    }
+
+    double vertical_offset (unsigned channel)
+    {
+      return (m_parent_data.channel_data[channel].vertical_offset);
+    }
+
+    double time_per_division ()
+    {
+      return (m_parent_data.time_per_division);
+    }
+
+    double sampling_rate ()
+    {
+      return (m_parent_data.sampling_rate);
     }
 };
 
