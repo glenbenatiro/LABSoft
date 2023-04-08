@@ -16,13 +16,13 @@ enum class LABELVALUE_TYPE
 class LabelValue
 {
   private:
-    double            m_actual_value          = 0.0;
-    double            m_coefficient           = 0.0;
-    int               m_exponent              = 0;
-    std::string       m_unit_prefix           = " ";
-    LABELVALUE_TYPE   m_label_for             = LABELVALUE_TYPE::NONE;
-    bool              m_is_valid_label_input  = false;
-    double            m_reference_value       = 0.0;
+    double            m_actual_value        = 0.0;
+    double            m_coefficient         = 0.0;
+    int               m_exponent            = 0;
+    std::string       m_unit_prefix         = " ";
+    LABELVALUE_TYPE   m_label_type          = LABELVALUE_TYPE::NONE;
+    bool              m_is_valid_label_text = false;
+    double            m_reference_value     = 0.0;
 
     std::map<int, std::string> m_exp_to_si_prefix = 
     {
@@ -69,26 +69,39 @@ class LabelValue
       {LABELVALUE_TYPE::HERTZ,               "Hz"},
     };
 
-    bool parse_widget_input_if_valid  (const std::string& str);
-    bool parse_double_if_valid        (double value);
-    bool parse_string_if_valid        (const std::string& str);
-
+    bool        parse_widget_input_if_valid       (const std::string& str);
+    bool        parse_double_if_valid             (double value);
+    bool        parse_string_if_valid             (const std::string& str);
+    double      calc_actual_value_using_reference (double actual_value, double reference);
+    double      calc_actual_value                 (double coefficient, int exponent);
+    int         calc_sci_exponent                 (std::string unit_prefix);
     void        calc_sci_coefficient_and_exponent (double value, double& coefficient, int& exponent);
     std::string calc_unit_prefix                  (int exponent);
-    int         calc_sci_exponent                 (std::string unit_prefix);
-    double      calc_actual_value                 (double coefficient, int exponent);
 
+    // inline getters
+    int correct_mod (int exponent, int modulo)
+    {
+      int ret = exponent < 0 ? ((exponent % modulo + modulo) % modulo) :
+        (exponent % modulo);
+
+      return (ret);
+    }
+  
   public: 
     LabelValue (
       double          value, 
-      LABELVALUE_TYPE parse_input_as  = LABELVALUE_TYPE::NONE,
-      double          reference_val   = 0.0
+      LABELVALUE_TYPE parse_input_as = LABELVALUE_TYPE::NONE
     );
 
     LabelValue (
       const char      *label, 
-      LABELVALUE_TYPE  parse_input_as = LABELVALUE_TYPE::NONE, 
-      double           reference_val = 0.0
+      double           reference,
+      LABELVALUE_TYPE  parse_input_as = LABELVALUE_TYPE::NONE
+    );
+
+    LabelValue (
+      const char      *label,
+      LABELVALUE_TYPE  parse_input_as = LABELVALUE_TYPE::NONE
     );
 
     std::string to_label_text ();
@@ -117,18 +130,18 @@ class LabelValue
 
     std::string label_for ()
     {
-      return (labelvalue_for_string_format[m_label_for]);
+      return (labelvalue_for_string_format[m_label_type]);
     }
 
-    bool is_valid ()
+    bool is_valid_label_text ()
     {
-      return (m_is_valid_label_input);
+      return (m_is_valid_label_text);
     }
 
     // inline setters
     void label_for (LABELVALUE_TYPE parse_output_as)
     {
-      m_label_for = parse_output_as;
+      m_label_type = parse_output_as;
     }
 };
 

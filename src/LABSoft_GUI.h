@@ -102,6 +102,8 @@ private:
   static void cb_oscilloscope_fl_input_choice_time_per_division(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_time_per_division[];
 public:
+  Fl_Input_Choice *oscilloscope_fl_input_choice_sampling_rate;
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_sampling_rate[];
   Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;
 private:
   inline void cb_oscilloscope_fl_input_choice_horizontal_offset_i(Fl_Input_Choice*, void*);

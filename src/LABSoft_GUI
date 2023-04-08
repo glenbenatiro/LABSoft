@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft v1.0 Build 1} open
-      xywh {290 173 1366 768} type Double visible
+      xywh {2096 127 1366 768} type Double visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30}
@@ -42,8 +42,8 @@ class LABSoft_GUI {open
         xywh {0 30 1366 738} box UP_BOX
       } {
         Fl_Group {} {
-          label Home open
-          xywh {0 60 1366 708}
+          label Home
+          xywh {0 60 1366 708} hide
         } {
           Fl_Box {} {
             label {LABSoft v1.0}
@@ -124,8 +124,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
-          xywh {0 60 1366 708} hide
+          label Oscilloscope open
+          xywh {0 60 1366 708}
         } {
           Fl_Light_Button oscilloscope_fl_light_button_test {
             label Run
@@ -137,7 +137,7 @@ class LABSoft_GUI {open
             code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
           } {}
-          Fl_Group oscilloscope_fl_group_vertical_channel_0 {open
+          Fl_Group oscilloscope_fl_group_vertical_channel_0 {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -619,7 +619,7 @@ class LABSoft_GUI {open
               xywh {1035 370 120 30}
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {
+          Fl_Group oscilloscope_fl_group_horizontal {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -629,7 +629,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
               xywh {865 500 120 30} align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION);}
             } {
@@ -722,11 +722,9 @@ class LABSoft_GUI {open
                 xywh {60 372 36 21}
               }
             }
-            Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
-              label {Horizontal Offset}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);}
+            Fl_Input_Choice oscilloscope_fl_input_choice_sampling_rate {
+              label {Sampling Rate}
               xywh {865 560 120 30} align 1
-              code0 {oscilloscope_fl_input_choice_horizontal_offset->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET);}
             } {
               MenuItem {} {
                 label {50 s}
@@ -865,9 +863,148 @@ class LABSoft_GUI {open
                 xywh {80 80 36 21}
               }
             }
-            Fl_Button {} {
-              label Menu
-              xywh {865 610 120 60}
+            Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
+              label {Horizontal Offset}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);}
+              xywh {865 620 120 30} align 1
+              code0 {oscilloscope_fl_input_choice_horizontal_offset->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET);}
+            } {
+              MenuItem {} {
+                label {50 s}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {20 s}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {10 s}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {5 s}
+                xywh {40 40 36 21}
+              }
+              MenuItem {} {
+                label {2 s}
+                xywh {30 30 36 21}
+              }
+              MenuItem {} {
+                label {1 s}
+                xywh {30 30 36 21}
+              }
+              MenuItem {} {
+                label {0 s}
+                xywh {40 40 36 21}
+              }
+              MenuItem {} {
+                label {500 ms}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {200 ms}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {100 ms}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {50 ms}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {20 ms}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {10 ms}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {5 ms}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {2 ms}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {1 ms}
+                xywh {100 100 36 21}
+              }
+              MenuItem {} {
+                label {500 us}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {200 us}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {100 us}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {50 us}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {20 us}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {10 us}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {5 us}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {2 us}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {1 us}
+                xywh {100 100 36 21}
+              }
+              MenuItem {} {
+                label {500 ns}
+                xywh {40 40 36 21}
+              }
+              MenuItem {} {
+                label {200 ns}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {100 ns}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {50 ns}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {20 ns}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {10 ns}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {5 ns}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {2 ns}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {1 ns}
+                xywh {90 90 36 21}
+              }
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
@@ -900,7 +1037,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_display {
+          Fl_Group oscilloscope_fl_group_display {selected
             xywh {0 0 1366 768} labeltype NO_LABEL
           } {
             Fl_Box {} {

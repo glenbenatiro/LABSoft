@@ -4,23 +4,33 @@
 #include <sstream>
 #include <cmath>
 
-LabelValue::
-LabelValue (const char *label, LABELVALUE_TYPE parse_input_as, double reference_val)
-{
-  m_label_for       = parse_input_as;
-  m_reference_value = reference_val;
+#include <iostream>
 
-  std::string str (label);
-  m_is_valid_label_input = parse_widget_input_if_valid (str);
+LabelValue::
+LabelValue (double          value, 
+            LABELVALUE_TYPE parse_input_as)
+{
+  m_label_type          = parse_input_as;
+  m_is_valid_label_text = parse_double_if_valid (value);
 }
 
-LabelValue:: 
-LabelValue (double value, LABELVALUE_TYPE parse_input_as, double reference_val)
+LabelValue::
+LabelValue (const char      *label, 
+            double           reference,
+            LABELVALUE_TYPE  parse_input_as)
 {
-  m_label_for       = parse_input_as;
-  m_reference_value = reference_val;
+  std::string str (label);
 
-  m_is_valid_label_input = parse_double_if_valid (value);
+  m_label_type          = parse_input_as;  
+  m_reference_value     = reference;
+  m_is_valid_label_text = parse_widget_input_if_valid (str);
+}
+
+LabelValue::
+LabelValue (const char      *label,
+            LABELVALUE_TYPE  parse_input_as)
+{
+  LabelValue (label, 0.0, parse_input_as);
 }
 
 //
@@ -55,7 +65,8 @@ parse_double_if_valid (double value)
   // do checking of double if valid here.
   // if not, proceed straight away to parsing
 
-  m_actual_value = value;
+  // scale actual value using m_reference
+  m_actual_value = calc_actual_value_using_reference (value, m_reference_value);
   calc_sci_coefficient_and_exponent (m_actual_value, m_coefficient, m_exponent);
   m_unit_prefix = calc_unit_prefix (m_exponent);
 
@@ -78,7 +89,7 @@ parse_string_if_valid (const std::string& str)
 
   // 4.1 If the remaining string is equivalent to the labelvalue_for_string_format,
   //     this means that exponent is 0 = base value.
-  if (post_coeff == labelvalue_for_string_format[m_label_for])
+  if (post_coeff == labelvalue_for_string_format[m_label_type])
   {
     m_unit_prefix = " ";
   }
@@ -90,7 +101,7 @@ parse_string_if_valid (const std::string& str)
     auto it = m_si_prefix_to_exp.find (poss_unit);
 
     if (it != m_si_prefix_to_exp.end () && 
-      poss_format == labelvalue_for_string_format[m_label_for])
+      poss_format == labelvalue_for_string_format[m_label_type])
     {
       m_unit_prefix = poss_unit;
     }
@@ -104,6 +115,48 @@ parse_string_if_valid (const std::string& str)
   m_actual_value  = calc_actual_value (m_coefficient, m_exponent);
 
   return (true);
+}
+
+double LabelValue:: 
+calc_actual_value_using_reference (double actual_value, 
+                                   double reference)
+{
+  if (reference == 0.0)
+  {
+    return (actual_value);
+  }
+  else 
+  {
+    int     temp_exp;
+    double  temp_coeff;
+  
+    // Get the unit prefix of the reference value
+    calc_sci_coefficient_and_exponent (
+      reference, 
+      temp_coeff, 
+      temp_exp
+    );
+
+    // Using the unit prefix, get the unit prefix integer
+    int pow_exp = calc_sci_exponent (calc_unit_prefix (temp_exp));
+
+    return (actual_value * std::pow (10, pow_exp));
+  }
+}
+
+double LabelValue:: 
+calc_actual_value (double coefficient, 
+                   int    exponent)
+{
+  return (coefficient * std::pow (10, exponent));
+}
+
+int LabelValue:: 
+calc_sci_exponent (std::string unit_prefix)
+{
+  // TO-DO: do bounds checking
+
+  return (m_si_prefix_to_exp[unit_prefix]);
 }
 
 void LabelValue::
@@ -130,32 +183,15 @@ calc_unit_prefix (int exponent)
   return (m_exp_to_si_prefix[exponent]);
 }
 
-int LabelValue:: 
-calc_sci_exponent (std::string unit_prefix)
-{
-  // TO-DO: do bounds checking
-
-  return (m_si_prefix_to_exp[unit_prefix]);
-}
-
-double LabelValue:: 
-calc_actual_value (double coefficient, 
-                   int    exponent)
-{
-  return (coefficient * std::pow (10, exponent));
-}
-
 std::string LabelValue:: 
 to_label_text ()
 {
   std::stringstream ss;
 
-  int pow_exp = (m_exponent < 0 ? ((m_exponent % 3 + 3) % 3) : (m_exponent % 3));
-
-  ss  <<  (m_coefficient * std::pow (10, pow_exp))
+  ss  <<  (m_coefficient * std::pow (10, correct_mod (m_exponent, 3)))
       <<  (m_exponent == 0 ? "" : " ") 
       <<  m_unit_prefix 
-      <<  labelvalue_for_string_format[m_label_for];
+      <<  labelvalue_for_string_format[m_label_type];
   
   return (ss.str ());
 }
@@ -163,7 +199,7 @@ to_label_text ()
 std::string LabelValue:: 
 to_label_text (LABELVALUE_TYPE parse_input_as)
 {
-  label_for (parse_input_as);
+  m_label_type = parse_input_as;
 
   return (to_label_text ());
 }

@@ -84,9 +84,13 @@ void LABSoft_Controller_Oscilloscope::
 cb_voltage_per_division (Fl_Input_Choice *w, 
                           long            channel)
 {
-  LabelValue lv (w->value (), LABELVALUE_TYPE::VOLTS_PER_DIVISION);
+  LabelValue lv (
+    w->value (),
+    m_LAB->m_Oscilloscope.voltage_per_division (channel),
+    LABELVALUE_TYPE::VOLTS
+  );
 
-  if (lv.is_valid ())
+  if (lv.is_valid_label_text ())
   {
     if (lv.actual_value () >= LAB_OSCILLOSCOPE_MAX_VOLTAGE_PER_DIVISION &&
       lv.actual_value () <= LAB_OSCILLOSCOPE_MIN_VOLTAGE_PER_DIVISION)
@@ -175,19 +179,22 @@ void LABSoft_Controller_Oscilloscope::
 cb_test (Fl_Input_Choice *w, long channel)
 {
 
-  LabelValue lv (w->value (), LABELVALUE_TYPE::VOLTS
-    m_LAB->m_Oscilloscope.voltage_per_division (channel));
+  LabelValue lv (
+    w->value (), 
+    m_LAB->m_Oscilloscope.voltage_per_division (channel),
+    LABELVALUE_TYPE::VOLTS
+  );
 
-  std::cout << "\ninput: " << w->value () << std::endl;
-  std::cout << "is valid: " << lv.is_valid () << std::endl;
-  std::cout << "actual value: " << lv.actual_value () << std::endl;
-  std::cout << "coeff: " << lv.coefficient () << std::endl;
-  std::cout << "exponent: " << lv.exponent () << std::endl;
-  std::cout << "prefix: " << lv.unit_prefix ()   << std::endl;
-  std::cout << "labelvalue string: " << lv.label_for () << std::endl;
-  std::cout << "full string: " << lv.to_label_text () << std::endl;
+  // std::cout << "\ninput: " << w->value () << std::endl;
+  // std::cout << "is valid: " << lv.is_valid_label_text () << std::endl;
+  // std::cout << "actual value: " << lv.actual_value () << std::endl;
+  // std::cout << "coeff: " << lv.coefficient () << std::endl;
+  // std::cout << "exponent: " << lv.exponent () << std::endl;
+  // std::cout << "prefix: " << lv.unit_prefix ()   << std::endl;
+  // std::cout << "labelvalue string: " << lv.label_for () << std::endl;
+  // std::cout << "full string: " << lv.to_label_text () << std::endl;
 
-  if (lv.is_valid ())
+  if (lv.is_valid_label_text ())
   {
     if (lv.actual_value () >= LAB_OSCILLOSCOPE_MAX_VOLTAGE_PER_DIVISION &&
       lv.actual_value () <= LAB_OSCILLOSCOPE_MIN_VOLTAGE_PER_DIVISION)
