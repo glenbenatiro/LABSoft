@@ -175,14 +175,10 @@ update_voltage_per_division_labels ()
   {
     return -1;
   }
-  else 
-  {
-    for (int a = 0; a < m_parent_data_osc->channel_data.size (); a++)
-    {
-      update_voltage_per_division_labels (a);
-    }
 
-    return 1;
+  for (int chan = 0; chan < m_parent_data_osc->channel_data.size (); chan++)
+  {
+    update_voltage_per_division_labels (chan);
   }
 }
 

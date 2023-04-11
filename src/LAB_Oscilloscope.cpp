@@ -584,6 +584,88 @@ horizontal_offset (double value)
   m_parent_data.horizontal_offset = value;
 }
 
+
+// Trigger
+LE_OSC_TRIG_MODE LAB_Oscilloscope:: 
+trigger () 
+{
+  return (m_parent_data.trig_mode);
+}
+
+void LAB_Oscilloscope:: 
+trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
+{
+  if (_LE_OSC_TRIG_MODE != trigger ())
+  {
+    m_parent_data.trig_mode = _LE_OSC_TRIG_MODE;
+    
+    parse_trigger (m_parent_data.trig_mode);
+  }
+}
+
+void LAB_Oscilloscope:: 
+trigger_level (double value)
+{
+  if (value >= LAB_OSCILLOSCOPE_MIN_TRIGGER_LEVEL && 
+    value <= LAB_OSCILLOSCOPE_MAX_TRIGGER_LEVEL)
+  {
+    m_parent_data.trig_level = value;
+  }
+}
+
+double LAB_Oscilloscope::    
+trigger_level ()
+{
+  return (m_parent_data.trig_level);
+}
+
+void LAB_Oscilloscope:: 
+parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
+{
+  switch (_LE_OSC_TRIG_MODE)
+  {
+    case LE_OSC_TRIG_MODE::NONE:
+    {
+      break;
+    }
+
+    case LE_OSC_TRIG_MODE::NORMAL:
+    {
+      m_trigger_thread = std::thread (&LAB_Oscilloscope::trigger_pass, this);
+      
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
+}
+
+void LAB_Oscilloscope:: 
+trigger_pass ()
+{
+  while (trigger () == LE_OSC_TRIG_MODE::NORMAL)
+  {
+    std::this_thread::sleep_for (
+      std::chrono::duration<double>(LAB_OSCILLOSCOPE_MAX_SAMPLING_PERIOD)
+    );
+
+    auto start = std::chrono::steady_clock::now ();
+    
+    for (int a = 0; a < m_parent_data.raw_sample_buffer.size (); a++)
+    {
+      m_parent_data.raw_sample_buffer[a]++;
+    }
+
+    auto end = std::chrono::steady_clock::now ();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    std::cout << "execution: " << duration.count () << " us" << std::endl;
+  }
+}
+
 void LAB_Oscilloscope:: 
 update_dma_data (int graph_disp_mode)
 {

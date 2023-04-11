@@ -105,6 +105,12 @@ constexpr uint32_t LAB_DMA_TI_LOGAN_STORE     = (DMA_TI_DREQ_PWM << 16) | DMA_TI
 
 
 // --- Oscilloscope ---
+enum class LE_OSC_TRIG_MODE
+{
+  NONE,
+  NORMAL,
+};
+
 enum class LE_OSC_SCALING
 {
   QUADRUPLE = 0,
@@ -117,13 +123,6 @@ enum class LE_OSC_COUPLING
 {
   DC = 0,
   AC = 1
-};
-
-enum class LE_OSC_TRIG_MODE
-{
-  NONE,
-  AUTO,
-  NORMAL
 };
 
 // dma channels in use after reboot 3b plus = 2 3 4 6
@@ -152,10 +151,13 @@ constexpr double    LAB_OSCILLOSCOPE_MIN_VERTICAL_OFFSET            = -10.0; // 
 constexpr double    LAB_OSCILLOSCOPE_MAX_VERTICAL_OFFSET            = 10.0; // 10V   
 constexpr double    LAB_OSCILLOSCOPE_MIN_SAMPLING_RATE              = 6.67; // 6.67Hz
 constexpr double    LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE              = 200'000; // 200kHz
+constexpr double    LAB_OSCILLOSCOPE_MAX_SAMPLING_PERIOD            = 1.0 / LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE;
 constexpr double    LAB_OSCILLOSCOPE_SAMPLING_RATE                  = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE; 
 constexpr double    LAB_OSCILLOSCOPE_MIN_TIME_PER_DIVISION          = 0.000002; // 2us
 constexpr double    LAB_OSCILLOSCOPE_MAX_TIME_PER_DIVISION          = 30; // 30s
 constexpr double    LAB_OSCILLOSCOPE_MAX_TIME_PER_DIVISION_NO_ZOOM  = (1.0 / LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE);
+constexpr double    LAB_OSCILLOSCOPE_MIN_TRIGGER_LEVEL              = LAB_OSCILLOSCOPE_MIN_VERTICAL_OFFSET;
+constexpr double    LAB_OSCILLOSCOPE_MAX_TRIGGER_LEVEL              = LAB_OSCILLOSCOPE_MAX_VERTICAL_OFFSET;
 
 
 constexpr LE_OSC_COUPLING     LAB_OSCILLOSCOPE_COUPLING             = LE_OSC_COUPLING::DC;
@@ -206,9 +208,9 @@ class LAB_Parent_Data_Oscilloscope
     std::array <uint32_t, LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES>                       raw_sample_buffer;
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> channel_data;
     
-
     // Trigger 
     LE_OSC_TRIG_MODE  trig_mode     = LE_OSC_TRIG_MODE::NONE;
+    double            trig_level    = 0.0;
     unsigned          trig_chan_src = 0;
 };
 

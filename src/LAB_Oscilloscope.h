@@ -1,6 +1,8 @@
 #ifndef LAB_OSCILLOSCOPE_H
 #define LAB_OSCILLOSCOPE_H
 
+#include <thread>
+
 #include "LAB_Core.h"
 #include "Defaults.h"
 
@@ -10,19 +12,14 @@ class LAB;
 class LAB_Oscilloscope 
 {
   private:
-    LAB          *m_LAB;
-    LAB_Core     *m_LAB_Core;
-    AP_MemoryMap  m_uncached_dma_data_osc;
+    LAB                          *m_LAB;
+    LAB_Core                     *m_LAB_Core;
+    int                           m_curr_screen_buffer = 0;  
+    AP_MemoryMap                  m_uncached_dma_data_osc;
+    std::thread                   m_trigger_thread;
+    
 
-    void set_hw_sampling_rate (double value);
-
-  public:
-    LAB_Parent_Data_Oscilloscope m_parent_data;
-    int m_curr_screen_buffer = 0;  
-  
-    // --- Functions --- 
-    LAB_Oscilloscope  (LAB_Core *_LAB_Core, LAB *_LAB);
-   ~LAB_Oscilloscope  ();
+    friend class LABSoft_Controller_Oscilloscope;
 
     // Setup
     void init_spi       ();
@@ -31,6 +28,19 @@ class LAB_Oscilloscope
     void init_dma       ();
     void init_state     ();
     void config_dma_cb  ();
+
+    void set_hw_sampling_rate (double value);
+
+    // Trigger 
+    void parse_trigger  (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
+    void trigger_pass   ();
+
+  public:
+    LAB_Parent_Data_Oscilloscope  m_parent_data;
+
+    // --- Functions --- 
+    LAB_Oscilloscope  (LAB_Core *_LAB_Core, LAB *_LAB);
+   ~LAB_Oscilloscope  ();   
 
     // Master controls
     void run                    ();
@@ -50,12 +60,18 @@ class LAB_Oscilloscope
     void  time_per_division (double value, unsigned osc_disp_num_cols);
     void  sampling_rate     (double value, unsigned osc_disp_num_cols);
     void  horizontal_offset (double value);
+
+    // Trigger 
+    LE_OSC_TRIG_MODE  trigger       ();
+    void              trigger       (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
+    void              trigger_level (double value);
+    double            trigger_level ();
     
-    // 
+    // State
     bool  is_running              ();
+    bool  has_enabled_channel     ();
     void  load_data_samples       ();
     int   parse_raw_sample_buffer ();
-    bool  has_enabled_channel     ();
     void  switch_dma_buffer       (int buffer);   
     void  update_dma_data         (int graph_disp_mode);
     int   update_state            ();
