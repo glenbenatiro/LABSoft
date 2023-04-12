@@ -252,7 +252,7 @@ config_dma_cb ()
   std::memcpy (dp, &dma_data, sizeof (dma_data));
 }
 
-LE_OSC_DISP_MODE LAB_Oscilloscope:: 
+LE::DISPLAY_MODE LAB_Oscilloscope:: 
 disp_mode ()
 {
   return (m_parent_data.disp_mode);
@@ -376,7 +376,7 @@ fill_raw_sample_buffer ()
   LAB_DMA_Data_Oscilloscope* dma_data = static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_dma_data_osc.virt);
     
-  if (disp_mode () == LE_OSC_DISP_MODE::SCREEN)
+  if (disp_mode () == LE::DISPLAY_MODE::SCREEN)
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
@@ -384,7 +384,7 @@ fill_raw_sample_buffer ()
       4 *LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
     );
   }
-  else if (disp_mode () == LE_OSC_DISP_MODE::REPEATED)
+  else if (disp_mode () == LE::DISPLAY_MODE::REPEATED)
   {
     for (int a = 0; a < 2; a++)
     {
@@ -508,16 +508,16 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
   }
 }
 
-LE_OSC_DISP_MODE LAB_Oscilloscope:: 
+LE::DISPLAY_MODE LAB_Oscilloscope:: 
 calc_disp_mode (double time_per_div)
 {
   if (time_per_div >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN)
   {
-    return (LE_OSC_DISP_MODE::SCREEN);
+    return (LE::DISPLAY_MODE::SCREEN);
   }
   else 
   {
-    return (LE_OSC_DISP_MODE::REPEATED);
+    return (LE::DISPLAY_MODE::REPEATED);
   }
 }
 
@@ -526,7 +526,7 @@ time_per_division (double value, unsigned osc_disp_num_cols)
 {
   double            new_samp_count  = calc_samp_count (value, osc_disp_num_cols);
   double            new_samp_rate   = calc_samp_rate  (value, osc_disp_num_cols);
-  LE_OSC_DISP_MODE  new_disp_mode   = calc_disp_mode  (value);
+  LE::DISPLAY_MODE  new_disp_mode   = calc_disp_mode  (value);
 
   m_parent_data.time_per_division = value;
   m_parent_data.w_samp_count      = new_samp_count;
@@ -642,17 +642,17 @@ trigger_source ()
 }
 
 void LAB_Oscilloscope:: 
-display_mode_frontend (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE)
+display_mode_frontend (LE::DISPLAY_MODE _DISPLAY_MODE)
 {
-  switch (_LE_OSC_DISP_MODE)
+  switch (_DISPLAY_MODE)
   {
-    case LE_OSC_DISP_MODE::SCREEN:
+    case LE::DISPLAY_MODE::SCREEN:
     {
       time_per_division (LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN);
       break;
     }
 
-    case LE_OSC_DISP_MODE::REPEATED:
+    case LE::DISPLAY_MODE::REPEATED:
     {
       time_per_division (LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM);
       break;
@@ -665,7 +665,7 @@ display_mode_frontend (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE)
   }
 }
 
-LE_OSC_DISP_MODE LAB_Oscilloscope::
+LE::DISPLAY_MODE LAB_Oscilloscope::
 display_mode ()
 {
   return (m_parent_data.disp_mode);
@@ -692,17 +692,17 @@ trigger_pass ()
 }
 
 void LAB_Oscilloscope::   
-display_mode (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE)
+display_mode (LE::DISPLAY_MODE _DISPLAY_MODE)
 {
-  switch (_LE_OSC_DISP_MODE)
+  switch (_DISPLAY_MODE)
   {
-    case LE_OSC_DISP_MODE::REPEATED:
+    case LE::DISPLAY_MODE::REPEATED:
     {
       switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_DOUBLE);
       break;
     }
 
-    case LE_OSC_DISP_MODE::SCREEN:
+    case LE::DISPLAY_MODE::SCREEN:
     { 
       switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
       break;
@@ -714,7 +714,7 @@ display_mode (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE)
     }
   }
 
-  m_parent_data.disp_mode = _LE_OSC_DISP_MODE;
+  m_parent_data.disp_mode = _DISPLAY_MODE;
 }
 
 void LAB_Oscilloscope:: 

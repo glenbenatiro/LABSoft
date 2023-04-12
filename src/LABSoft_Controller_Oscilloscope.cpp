@@ -299,15 +299,15 @@ cb_display_mode (Fl_Choice* w,
                  void*      data)
 {
   std::string str (w->text ());
-  LE_OSC_DISP_MODE disp_mode;
+  LE::DISPLAY_MODE disp_mode;
 
-  if (str == "Repeated" && w->value () == 0)
+  if (str == "Repeated")
   {
-    disp_mode = LE_OSC_DISP_MODE::REPEATED;
+    disp_mode = LE::DISPLAY_MODE::REPEATED;
   }
-  else if (str == "Screen" && w->value () == 1)
+  else if (str == "Screen")
   {
-    disp_mode = LE_OSC_DISP_MODE::SCREEN;
+    disp_mode = LE::DISPLAY_MODE::SCREEN;
   }
   else 
   {
@@ -315,6 +315,15 @@ cb_display_mode (Fl_Choice* w,
   }
 
   m_LAB->m_Oscilloscope.display_mode_frontend (disp_mode);
+
+  // Frontend
+  update_horizontal_widgets_gui ();
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_time_per_division_labels ();
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_upper_osc_disp_info ();
 }
 
 
@@ -350,29 +359,11 @@ update_horizontal_widgets_gui ()
   );
 
   // Display Mode
-  std::string str;
-
-  switch (m_LAB->m_Oscilloscope.display_mode ()) 
-  {
-    case LE_OSC_DISP_MODE::SCREEN:
-    {
-      str = "Screen";
-      break;
-    }
-    
-    case LE_OSC_DISP_MODE::REPEATED:
-    {
-      str = "Repeated";
-      break;
-    }
-
-    default:
-    {
-      break;
-    }
-  }
-
-  // m_LABSoft_GUI->oscilloscope_fl_choice_display_mode->value (str.c_str ());
+  m_LABSoft_GUI->oscilloscope_fl_choice_display_mode->value (
+    m_LABSoft_GUI->oscilloscope_fl_choice_display_mode->find_index (
+      (GUI_LBL::DISPLAY_MODE.at (m_LAB->m_Oscilloscope.display_mode ())).c_str ()
+    )
+  );
 }
 
 // EOF

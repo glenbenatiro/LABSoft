@@ -34,7 +34,7 @@ class LAB_Oscilloscope
     // Horizontal 
     double calc_samp_count  (double time_per_division, unsigned osc_disp_num_cols);
     double calc_samp_rate   (double time_per_div, unsigned osc_disp_num_cols);
-    LE_OSC_DISP_MODE disp_mode ();
+    LE::DISPLAY_MODE disp_mode ();
 
     // Fill data
     void fill_raw_sample_buffer   ();
@@ -45,8 +45,8 @@ class LAB_Oscilloscope
     void trigger_pass   ();
 
     // Display 
-    LE_OSC_DISP_MODE  calc_disp_mode  (double time_per_div);
-    void              display_mode    (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE);
+    LE::DISPLAY_MODE  calc_disp_mode  (double time_per_div);
+    void              display_mode    (LE::DISPLAY_MODE _DISPLAY_MODE);
 
     // Other
     void set_hw_sampling_rate (double value);
@@ -89,8 +89,8 @@ class LAB_Oscilloscope
     double            trigger_source  ();
 
     // Display 
-    void              display_mode_frontend (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE); 
-    LE_OSC_DISP_MODE  display_mode          ();
+    void              display_mode_frontend (LE::DISPLAY_MODE _DISPLAY_MODE); 
+    LE::DISPLAY_MODE  display_mode          ();
        
     // State
     bool  is_running              ();

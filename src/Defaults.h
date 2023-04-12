@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <array>
+#include <map>
+#include <string>
 
 #include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
@@ -18,6 +20,15 @@ namespace LE
   {
     SCREEN,
     REPEATED
+  };
+}
+
+namespace GUI_LBL
+{
+  static std::map <LE::DISPLAY_MODE, std::string> DISPLAY_MODE = 
+  {
+    {LE::DISPLAY_MODE::SCREEN,    "Screen"},
+    {LE::DISPLAY_MODE::REPEATED,  "Repeated"}
   };
 }
 
@@ -52,12 +63,6 @@ enum LE_SPI_DMA_BUFFER_COUNT
 {
   LE_SPI_DMA_BUFFER_COUNT_SINGLE,
   LE_SPI_DMA_BUFFER_COUNT_DOUBLE
-};
-
-enum class LE_OSC_DISP_MODE 
-{
-  REPEATED,
-  SCREEN
 };
 
 // --- General Raspberry Pi ---
@@ -191,7 +196,7 @@ namespace LAB_OSCILLOSCOPE
   constexpr unsigned          VC_MEM_SIZE                   = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
 
   // For Display
-  constexpr LE_OSC_DISP_MODE  OSC_DISP_MODE                         = LE_OSC_DISP_MODE::REPEATED;
+  constexpr LE::DISPLAY_MODE  OSC_DISP_MODE                         = LE::DISPLAY_MODE::REPEATED;
   constexpr double            MIN_TIME_PER_DIV_NO_ZOOM              = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
   constexpr double            MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
 }
@@ -235,7 +240,7 @@ class LAB_Parent_Data_Oscilloscope
     double            horizontal_offset = LAB_OSCILLOSCOPE::HORIZONTAL_OFFSET;
 
     // Display
-    LE_OSC_DISP_MODE  disp_mode   = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
+    LE::DISPLAY_MODE  disp_mode   = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
 
     // Data/Samples
     double w_samp_count = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; // working sample count
@@ -438,7 +443,7 @@ class LAB_Parent_Data_Logic_Analyzer
     std::array <LAB_Channel_Data_Logic_Analyzer, 
       LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>  channel_data;
 
-    LE_OSC_DISP_MODE disp_mode  = LE_OSC_DISP_MODE::REPEATED;
+    LE::DISPLAY_MODE disp_mode  = LE::DISPLAY_MODE::REPEATED;
 };
 
 struct LAB_DMA_Data_Logic_Analyzer

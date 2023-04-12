@@ -46,7 +46,7 @@ class LAB_Logic_Analyzer
     void    sampling_rate     (double value);
 
     // Display
-    void    disp_mode (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE); 
+    void    disp_mode (LE::DISPLAY_MODE _DISPLAY_MODE); 
 
     // Get data/samples
     void    load_data_samples ();
