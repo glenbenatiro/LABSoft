@@ -6,6 +6,12 @@
 
 #include <iostream>
 
+LabelValue:: 
+LabelValue ()
+{
+  
+}
+
 LabelValue::
 LabelValue (double          value, 
             LABELVALUE_TYPE parse_input_as)
@@ -67,7 +73,13 @@ parse_double_if_valid (double value)
 
   // scale actual value using m_reference
   m_actual_value = calc_actual_value_using_reference (value, m_reference_value);
-  calc_sci_coefficient_and_exponent (m_actual_value, m_coefficient, m_exponent);
+
+  calc_sci_coefficient_and_exponent (
+    m_actual_value, 
+    m_coefficient, 
+    m_exponent
+  );
+
   m_unit_prefix = calc_unit_prefix (m_exponent);
 
   return (true);

@@ -171,7 +171,7 @@ load_data_samples ()
   LAB_DMA_Data_Logic_Analyzer *dma_data = 
     static_cast<LAB_DMA_Data_Logic_Analyzer *>(m_uncached_dma_data_logan.virt);
   
-  if (m_parent_data.graph_disp_mode == LE_OSC_DISP_MODE::SCREEN)
+  if (m_parent_data.disp_mode == LE_OSC_DISP_MODE::SCREEN)
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
@@ -179,7 +179,7 @@ load_data_samples ()
       4 * LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES
     );
   }
-  else if (m_parent_data.graph_disp_mode == LE_OSC_DISP_MODE::REPEATED)
+  else if (m_parent_data.disp_mode == LE_OSC_DISP_MODE::REPEATED)
   {
     for (int buff = 0; buff < 2; buff++)
     {
@@ -247,17 +247,17 @@ time_per_division (double value, unsigned disp_num_cols)
     // 3. Change the graph display mode if necessary
     if (value >= LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN)
     {
-      if (m_parent_data.graph_disp_mode != LE_OSC_DISP_MODE::SCREEN)
+      if (m_parent_data.disp_mode != LE_OSC_DISP_MODE::SCREEN)
       {
-        m_parent_data.graph_disp_mode = LE_OSC_DISP_MODE::SCREEN;
+        m_parent_data.disp_mode = LE_OSC_DISP_MODE::SCREEN;
         switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
       }
     }
     else 
     {
-      if (m_parent_data.graph_disp_mode != LE_OSC_DISP_MODE::REPEATED)
+      if (m_parent_data.disp_mode != LE_OSC_DISP_MODE::REPEATED)
       {
-        m_parent_data.graph_disp_mode = LE_OSC_DISP_MODE::REPEATED;
+        m_parent_data.disp_mode = LE_OSC_DISP_MODE::REPEATED;
         switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
       }
     }

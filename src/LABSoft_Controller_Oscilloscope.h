@@ -10,11 +10,10 @@
 class LABSoft_Controller_Oscilloscope
 {
   private:
-
-  public:
     LAB         *m_LAB;
     LABSoft_GUI *m_LABSoft_GUI;
 
+  public:
     LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
     
     // Master controls
@@ -37,9 +36,13 @@ class LABSoft_Controller_Oscilloscope
     void cb_trigger_source          (Fl_Choice*       w, void* data);
     void cb_trigger_level           (Fl_Input_Choice* w, void* data);
 
+    // Display
+    void cb_display_mode            (Fl_Choice*       w, void* data);
+
     // Utility
-    double calc_sampling_rate     ();
-    void update_trigger_panel_gui ();
+    double calc_sampling_rate           ();
+    void update_trigger_panel_gui       ();
+    void update_horizontal_widgets_gui  ();
 };
 
 #endif

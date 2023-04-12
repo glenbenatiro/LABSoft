@@ -253,9 +253,9 @@ config_dma_cb ()
 }
 
 LE_OSC_DISP_MODE LAB_Oscilloscope:: 
-graph_disp_mode ()
+disp_mode ()
 {
-  return (m_parent_data.graph_disp_mode);
+  return (m_parent_data.disp_mode);
 }
 
 void LAB_Oscilloscope:: 
@@ -266,6 +266,7 @@ run ()
     m_LAB->m_Voltmeter.stop ();
   }
 
+  sampling_rate (m_parent_data.sampling_rate);
   master_run_stop (true);
 }
 
@@ -287,7 +288,6 @@ osc_core_run_stop (bool value)
 {
   if (value)
   {
-    std::cout << "hello!\n";
     m_LAB_Core->pwm_start (LAB_PWM_DMA_PACING_PWM_CHAN);
     m_parent_data.is_osc_core_running = true;
   }
@@ -376,7 +376,7 @@ fill_raw_sample_buffer ()
   LAB_DMA_Data_Oscilloscope* dma_data = static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_dma_data_osc.virt);
     
-  if (graph_disp_mode () == LE_OSC_DISP_MODE::SCREEN)
+  if (disp_mode () == LE_OSC_DISP_MODE::SCREEN)
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
@@ -384,7 +384,7 @@ fill_raw_sample_buffer ()
       4 *LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
     );
   }
-  else if (graph_disp_mode () == LE_OSC_DISP_MODE::REPEATED)
+  else if (disp_mode () == LE_OSC_DISP_MODE::REPEATED)
   {
     for (int a = 0; a < 2; a++)
     {
@@ -398,7 +398,7 @@ fill_raw_sample_buffer ()
       }
 
       // Check if the other buffer is also full. 
-        // If it is, then we have a buffer overflow (both buffers full).
+      // If it is, then we have a buffer overflow (both buffers full).
       if (dma_data->status[a ^ 1])
       {
         dma_data->status[0] = dma_data->status[1] = 0;
@@ -421,54 +421,43 @@ load_data_samples ()
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  double data;
+  double actual_value;
 
-  // Go through and distribute all the samples in one go
   for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
   {
-    // From a 32-bit sample from the raw data buffer,  
-    // slice it up and distribute actual samples to each channel
     for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
     {
-      if (m_parent_data.channel_data[chan].is_enabled)
+      uint32_t raw_channel_bits = (
+        ((m_parent_data.raw_sample_buffer[samp]) >> 
+        (LAB_OSCILLOSCOPE::RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
+        LAB_OSCILLOSCOPE::RAW_DATA_POST_SHIFT_MASK
+      );
+
+      // This formula is specific to the Microchip MCP33111 ADC at 10MHz SPI frequency.
+      // Bits can get rearranged depending on the SPI frequency.
+      uint32_t arranged_raw_channel_bits = (
+        ((raw_channel_bits & 0x7f) << 5) | ((raw_channel_bits & 0xf800) >> 11)
+      );
+
+      bool sign = arranged_raw_channel_bits >> 
+        (LAB_OSCILLOSCOPE::ADC_RESOLUTION_BITS - 1);
+
+      uint32_t abs_val_arranged_raw_channel_bits = arranged_raw_channel_bits & 
+        ((LAB_OSCILLOSCOPE::ADC_RESOLUTION_INT - 1) >> 1);
+
+      if (sign)
       {
-        // {
-        //   std::cout << std::bitset <32> (m_parent_data.raw_sample_buffer[samp]) << "\n";
-        // }
-        
-        uint32_t temp1 = ((m_parent_data.raw_sample_buffer[samp]) >>
-          (LAB_OSCILLOSCOPE::RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
-            LAB_OSCILLOSCOPE::RAW_DATA_POST_SHIFT_MASK;
-            
-        // --- START HARD CODED ---
-
-        // This formula is specific to the Texas Instruments ADS7883 ADC
-        //uint32_t temp2 = ((temp1 << 6) | (temp1 >> 10)) & 0xFFF;
-
-        // This formula is specific to the Microchip MCP33111 ADC
-        //uint32_t temp2 = ((temp1 & 0xff) << 4) | ((temp1 & 0xf000) >> 12);
-        uint32_t temp2 = ((temp1 & 0x7f) << 5) | ((temp1 & 0xf800) >> 11); // at 10MHz SPI freq
-
-        // --- END HARD CODED ---
-
-        // Get MSB to determine sign
-        bool sign = temp2 >> (LAB_OSCILLOSCOPE::ADC_RESOLUTION_BITS - 1);
-
-        // Mask temp2 to mask out the MSB sign bit
-        uint32_t temp3 = temp2 & ((LAB_OSCILLOSCOPE::ADC_RESOLUTION_INT - 1) >> 1);
-
-        if (sign)
-        {
-          data = static_cast<double>(temp3) * LAB_OSCILLOSCOPE::CONVERSION_CONSTANT;
-        }
-        else 
-        {
-          data = (static_cast<double>(temp3) * LAB_OSCILLOSCOPE::CONVERSION_CONSTANT) -  
-            LAB_OSCILLOSCOPE::CONVERSION_REFERENCE_VOLTAGE;
-        }
-        
-        m_parent_data.channel_data[chan].samples[samp] = data;
+        actual_value = static_cast<double>(abs_val_arranged_raw_channel_bits) * 
+          LAB_OSCILLOSCOPE::CONVERSION_CONSTANT;
       }
+      else 
+      {
+        actual_value = (static_cast<double>(abs_val_arranged_raw_channel_bits) * 
+          LAB_OSCILLOSCOPE::CONVERSION_CONSTANT) - 
+          LAB_OSCILLOSCOPE::CONVERSION_REFERENCE_VOLTAGE;
+      }
+
+      m_parent_data.channel_data[chan].samples[samp] = actual_value;
     }
   }
 }
@@ -491,7 +480,7 @@ has_enabled_channel ()
 }
 
 double LAB_Oscilloscope:: 
-calc_new_samp_count (double time_per_div, unsigned osc_disp_num_cols)
+calc_samp_count (double time_per_div, unsigned osc_disp_num_cols)
 {
   if (time_per_div >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
   {
@@ -504,52 +493,47 @@ calc_new_samp_count (double time_per_div, unsigned osc_disp_num_cols)
   }
 }
 
-void LAB_Oscilloscope:: 
-time_per_division (double value, unsigned osc_disp_num_cols)
+double LAB_Oscilloscope:: 
+calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
 {
-  double  new_samp_count;
-  double  new_samp_rate;
-
-  // 1. Calculate new sample count
-  new_samp_count = calc_new_samp_count (value, osc_disp_num_cols);
-
-  // 2. Calculate the new sampling rate
-  if (value <= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
+  if (time_per_div <= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
   {
-    new_samp_rate = LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE;
+    return (LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE);
   }
   else 
   {
-    new_samp_rate = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES / (value * 
-      osc_disp_num_cols);
+    return (
+      LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols)
+    );
   }
+}
 
-  // 3. Change the oscilloscope display mode if necessary
-  if (value >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN)
+LE_OSC_DISP_MODE LAB_Oscilloscope:: 
+calc_disp_mode (double time_per_div)
+{
+  if (time_per_div >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN)
   {
-    if (m_parent_data.graph_disp_mode != LE_OSC_DISP_MODE::SCREEN)
-    {
-      m_parent_data.graph_disp_mode = LE_OSC_DISP_MODE::SCREEN;
-      switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
-    }
+    return (LE_OSC_DISP_MODE::SCREEN);
   }
-  else
+  else 
   {
-    if (m_parent_data.graph_disp_mode != LE_OSC_DISP_MODE::REPEATED)
-    {
-      m_parent_data.graph_disp_mode = LE_OSC_DISP_MODE::REPEATED; 
-      switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_DOUBLE);
-    }
+    return (LE_OSC_DISP_MODE::REPEATED);
   }
+}
 
-  // 4. Set the new time per division, sample count, sampling rate values 
-  //    to all channel data
-  m_parent_data.w_samp_count      = new_samp_count;
+void LAB_Oscilloscope:: 
+time_per_division (double value, unsigned osc_disp_num_cols)
+{
+  double            new_samp_count  = calc_samp_count (value, osc_disp_num_cols);
+  double            new_samp_rate   = calc_samp_rate  (value, osc_disp_num_cols);
+  LE_OSC_DISP_MODE  new_disp_mode   = calc_disp_mode  (value);
+
   m_parent_data.time_per_division = value;
+  m_parent_data.w_samp_count      = new_samp_count;
   m_parent_data.sampling_rate     = new_samp_rate;
 
-  // 5. Set new sampling rate
-  set_hw_sampling_rate (new_samp_rate);
+  display_mode          (new_disp_mode);
+  set_hw_sampling_rate  (m_parent_data.sampling_rate);
 }
 
 void LAB_Oscilloscope:: 
@@ -658,33 +642,83 @@ trigger_source ()
 }
 
 void LAB_Oscilloscope:: 
+display_mode_frontend (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE)
+{
+  switch (_LE_OSC_DISP_MODE)
+  {
+    case LE_OSC_DISP_MODE::SCREEN:
+    {
+      time_per_division (LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN);
+      break;
+    }
+
+    case LE_OSC_DISP_MODE::REPEATED:
+    {
+      time_per_division (LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM);
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
+}
+
+LE_OSC_DISP_MODE LAB_Oscilloscope::
+display_mode ()
+{
+  return (m_parent_data.disp_mode);
+}
+
+void LAB_Oscilloscope:: 
 trigger_pass ()
 {
-  while (trigger_mode () == LE_OSC_TRIG_MODE::NORMAL)
-  {
-    // std::this_thread::sleep_for (
-    //   std::chrono::duration<double>(LAB_OSCILLOSCOPE::MAX_SAMPLING_PERIOD)
-    // );
+  double m_arr[2000];
 
-    auto start = std::chrono::steady_clock::now ();
-    
+  while (trigger_mode () == LE_OSC_TRIG_MODE::NORMAL)
+  {    
     for (int a = 0; a < m_parent_data.raw_sample_buffer.size (); a++)
     {
       if (m_parent_data.channel_data[trigger_source ()].samples[a] > trigger_level ())
       {
-        std::cout << ".\n";
+        for (int x = 0; x < 2000; x++)
+        {
+          m_arr[x] = (((x + 1) / 2.34) * 3.16) + (4.26 * x);
+        }
       }
     }
-
-    auto end = std::chrono::steady_clock::now ();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-    std::cout << "execution: " << duration.count () << " us" << std::endl;
   }
 }
 
+void LAB_Oscilloscope::   
+display_mode (LE_OSC_DISP_MODE _LE_OSC_DISP_MODE)
+{
+  switch (_LE_OSC_DISP_MODE)
+  {
+    case LE_OSC_DISP_MODE::REPEATED:
+    {
+      switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_DOUBLE);
+      break;
+    }
+
+    case LE_OSC_DISP_MODE::SCREEN:
+    { 
+      switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
+
+  m_parent_data.disp_mode = _LE_OSC_DISP_MODE;
+}
+
 void LAB_Oscilloscope:: 
-update_dma_data (int graph_disp_mode)
+update_dma_data (int disp_mode)
 {
   // m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
   
@@ -760,6 +794,36 @@ update_state ()
 }
 
 // Getters
+bool LAB_Oscilloscope:: 
+is_osc_frontend_running ()
+{
+  return (m_parent_data.is_osc_frontend_running);
+}
+
+bool LAB_Oscilloscope:: 
+is_osc_core_running ()
+{
+  return (m_parent_data.is_osc_core_running);
+}
+
+double LAB_Oscilloscope::  
+voltage_per_division (unsigned channel)
+{
+  return (m_parent_data.channel_data[channel].voltage_per_division);
+}
+
+double LAB_Oscilloscope:: 
+vertical_offset (unsigned channel)
+{
+  return (m_parent_data.channel_data[channel].vertical_offset);
+}
+
+double LAB_Oscilloscope:: 
+time_per_division ()
+{
+  return (m_parent_data.time_per_division);
+}
+
 double LAB_Oscilloscope:: 
 sampling_rate ()
 {

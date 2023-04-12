@@ -21,7 +21,7 @@ class LABSoft_Controller_Logic_Analyzer
     void reserve_pixel_points ();
 
     // callback functions
-    void cb_master_run_stop   (Fl_Button       *w, void *data);
+    void cb_run_stop          (Fl_Light_Button *w, void *data);
     void cb_memory_depth      (Fl_Input_Choice *w, void *data);
     void cb_sampling_rate     (Fl_Input_Choice *w, void *data);
     void cb_time_per_division (Fl_Input_Choice *w, void *data);

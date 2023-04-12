@@ -13,6 +13,7 @@
 class LABSoft_Oscilloscope_Display_Group : public Fl_Group
 {
   private: 
+    // --- Variables ---
     Fl_Box*                       m_upper_osc_disp_info = nullptr;
     LAB_Parent_Data_Oscilloscope *m_parent_data_osc     = nullptr;
 
@@ -23,6 +24,11 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
       LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> m_y_labels;
 
     std::array<Fl_Box*, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> m_y_label_units;
+
+    // --- Functions ---
+    void    update_y_label_unit           (unsigned channel);
+    bool    is_approx_zero                (double x, double epsilon = 1e-12);
+    double  calc_row_voltage_per_division (int row, unsigned number_of_rows, LAB_Channel_Data_Oscilloscope& chan);
         
   public:   
     LABSoft_Oscilloscope_Display  *m_display;
@@ -36,14 +42,13 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     // Load data
     void  load_osc_parent_data  (LAB_Parent_Data_Oscilloscope *parent_data);
     int   reserve_pixel_points  ();
-    int   fill_pixel_points     ();
+    void  fill_pixel_points     ();
 
     // Update data
-    int   update_voltage_per_division_labels  ();
-    int   update_voltage_per_division_labels  (unsigned channel);
-    int   update_time_per_division_labels     ();
+    void  update_voltage_per_division_labels  ();
+    void  update_voltage_per_division_labels  (unsigned channel);
+    void  update_time_per_division_labels     ();
     void  update_upper_osc_disp_info          (); 
-    void  update_y_label_unit                 (unsigned channel);
 };
 
 #endif

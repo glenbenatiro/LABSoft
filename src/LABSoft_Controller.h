@@ -24,10 +24,10 @@ class LABSoft_Controller
     LAB_PACK _LAB_PACK;
     
   public:
+    // --- Variables
     static std::chrono::time_point<std::chrono::steady_clock> post;
     static std::chrono::time_point<std::chrono::steady_clock> pre;
 
-    // variables
     LAB                                   *m_LAB;
     LABSoft_GUI                           *m_LABSoft_GUI;
     LABSoft_Controller_Oscilloscope        m_Oscilloscope;             
@@ -36,10 +36,9 @@ class LABSoft_Controller
     LABSoft_Controller_Logic_Analyzer      m_Logic_Analyzer;
     LABSoft_Controller_Circuit_Checker     m_Circuit_Checker;
 
-    // functions
-    LABSoft_Controller (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
-
-    static void update_display (void *data);
+    // --- Functions ---
+                LABSoft_Controller  (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    static void update_display      (void *data);
 };
 
 #endif

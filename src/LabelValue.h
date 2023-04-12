@@ -88,6 +88,8 @@ class LabelValue
     }
   
   public: 
+    LabelValue ();
+    
     LabelValue (
       double          value, 
       LABELVALUE_TYPE parse_input_as = LABELVALUE_TYPE::NONE

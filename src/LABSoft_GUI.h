@@ -125,12 +125,23 @@ public:
 private:
   inline void cb_oscilloscope_fl_input_choice_trigger_level_i(Fl_Input_Choice*, void*);
   static void cb_oscilloscope_fl_input_choice_trigger_level(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_trigger_level[];
 public:
   Fl_Group *oscilloscope_fl_group_display;
   Fl_Choice *oscilloscope_fl_choice_display_mode;
+private:
+  inline void cb_oscilloscope_fl_choice_display_mode_i(Fl_Choice*, void*);
+  static void cb_oscilloscope_fl_choice_display_mode(Fl_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_choice_display_mode[];
+public:
+  Fl_Light_Button *voltmeter_fl_light_button_run_stop;
+private:
+  inline void cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_voltmeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
+  Fl_Group *voltmeter_fl_group_values;
+  Fl_Output *voltmeter_fl_output_chan0_value;
   Fl_Output *voltmeter_fl_output_chan1_value;
-  Fl_Output *voltmeter_fl_output_chan2_value;
   Fl_Input_Choice *function_generator_fl_input_choice_wave_type;
 private:
   inline void cb_function_generator_fl_input_choice_wave_type_i(Fl_Input_Choice*, long);
@@ -179,6 +190,10 @@ private:
   static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, long);
 public:
   Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
+private:
+  inline void cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_memory_depth;
 private:
   inline void cb_logic_analyzer_fl_input_choice_memory_depth_i(Fl_Input_Choice*, void*);

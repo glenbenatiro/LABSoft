@@ -1,8 +1,5 @@
 #include "LABSoft_Controller.h"
 
-#include <iostream>
-#include <cstdio>
-
 #include <FL/Fl.H>
 
 // ----------
@@ -32,38 +29,53 @@ LABSoft_Controller (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
 void LABSoft_Controller::
 update_display (void *data)
 {
-  // calculate wait duration
   pre = std::chrono::steady_clock::now ();
+  std::chrono::duration<double, std::micro> wait_dur = pre - post;
+  
   
   // do stuff
   LAB *_LAB        = (static_cast<LAB_PACK *>(data))->_LAB;
   LABSoft_GUI *gui = (static_cast<LAB_PACK *>(data))->_LABSoft_GUI;
 
-  if (_LAB->m_Oscilloscope.is_running ())
+  if (_LAB->m_Oscilloscope.is_osc_frontend_running ())
   {
     _LAB->m_Oscilloscope.load_data_samples ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
-      fill_pixel_points ();
+    fill_pixel_points ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
   }
 
   if (_LAB->m_Voltmeter.is_running ())
   {
-    _LAB->m_Oscilloscope.load_data_samples ();
+    _LAB->m_Voltmeter.load_data_samples ();
 
-    double reading = 0.0;
+    // Use this code soon if you plan to add 3 or more channels.
+    // This allows us to update the Fl_Outputs in a loop.
+    {
+      /*
+        Fl_Group* group       = gui->voltmeter_fl_group_values;
+        int children          = group->children ();
+        Fl_Widget* const* arr = group->array ();
+
+        for (int a = 0; a < children; a++)
+        {
+          Fl_Output*  output  = static_cast<Fl_Output*>(arr[a]);
+          int         chan    = (int)(output->user_data ());
+        
+          std::string value = std::to_string (_LAB->m_Voltmeter.m_samples[chan]);
+
+          output->value (value.c_str ());
+        }
+      */ 
+    }
+
+    LabelValue lv0 (_LAB->m_Voltmeter.m_samples[0], LABELVALUE_TYPE::VOLTS);
+    gui->voltmeter_fl_output_chan0_value->value (lv0.to_label_text ().c_str ());
     
-    reading = _LAB->m_Voltmeter.get_data_sample (0);
-
-    gui->voltmeter_fl_output_chan1_value->value (LabelValue (reading,
-      LABELVALUE_TYPE::VOLTS).to_label_text ().c_str ());
-
-    reading = _LAB->m_Voltmeter.get_data_sample (1);
-
-    gui->voltmeter_fl_output_chan2_value->value (LabelValue (reading,
-      LABELVALUE_TYPE::VOLTS).to_label_text ().c_str ());
+    LabelValue lv1 (_LAB->m_Voltmeter.m_samples[1], LABELVALUE_TYPE::VOLTS);
+    gui->voltmeter_fl_output_chan1_value->value (lv1.to_label_text ().c_str ());
   }
 
   if (_LAB->m_Logic_Analyzer.is_running ())
@@ -78,12 +90,14 @@ update_display (void *data)
 
   Fl::awake ();
   
-  // store time before timeout
   post = std::chrono::steady_clock::now ();
+  std::chrono::duration<double, std::micro> diff = post - pre;
+  std::cout << "duration: "
+            << diff.count () 
+            << "/" 
+            << wait_dur.count () 
+            << " us" 
+            << std::endl;
 
-  std::chrono::duration<double, std::milli> diff = post - pre;
-  // printf ("Duration: %6.3f ms\n", diff.count ());
-
-  // loop call timeout
   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, update_display, data);  
 }

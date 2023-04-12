@@ -1,9 +1,8 @@
 #ifndef LAB_VOLTMETER_H
 #define LAB_VOLTMETER_H
 
-#include "Defaults.h"
-
 #include "LAB_Core.h"
+#include "Defaults.h"
 
 // forward declare LAB, #include "LAB.h" in Voltmeter cpp file
 class LAB;
@@ -11,24 +10,21 @@ class LAB;
 class LAB_Voltmeter
 {
   private:
-    LAB *m_LAB;
-    LAB_Core *m_LAB_Core;
+    LAB_Core  *m_LAB_Core;
+    LAB       *m_LAB;
 
-    bool m_is_running   = false;
-    bool m_osc_chan_en_flag = false;
-    double data_sample  = 0.0;
+    bool  m_is_running       = false;
+    bool  m_osc_chan_en_flag = false;
 
   public:
-    LAB_Voltmeter (LAB_Core *_LAB_Core, LAB *_LAB);
+    std::array <double, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> m_samples = {0};
 
-    void run ();
-    void stop ();
-    double get_data_sample (unsigned channel);
+    LAB_Voltmeter (LAB_Core* _LAB_Core, LAB* _LAB);
 
-    bool is_running ()
-    {
-      return m_is_running;
-    }
+    bool    is_running        ();
+    void    run               ();
+    void    stop              ();
+    void    load_data_samples ();
 };
 
 #endif

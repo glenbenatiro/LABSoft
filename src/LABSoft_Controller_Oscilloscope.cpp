@@ -48,6 +48,9 @@ cb_run_stop (Fl_Light_Button *w,
   else 
   {
     m_LAB->m_Oscilloscope.run ();
+
+    // 
+    m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear ();
   }
 }
 
@@ -191,16 +194,7 @@ cb_time_per_division (Fl_Input_Choice* w,
   }
 
   // Frontend
-  double time_per_division = m_LAB->m_Oscilloscope.time_per_division ();
-  double sampling_rate     = m_LAB->m_Oscilloscope.sampling_rate ();
-  
-  w->value (LabelValue (time_per_division).
-    to_label_text (LABELVALUE_TYPE::SECONDS).c_str ());
-
-  // I have to access the widget for the sampling rate to update it as well
-  m_LABSoft_GUI->oscilloscope_fl_input_choice_sampling_rate->value (
-    LabelValue (sampling_rate).to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
-  );
+  update_horizontal_widgets_gui ();
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
@@ -233,16 +227,7 @@ cb_sampling_rate (Fl_Input_Choice* w,
   }
 
   // Frontend
-  double sampling_rate     = m_LAB->m_Oscilloscope.sampling_rate ();
-  double time_per_division = m_LAB->m_Oscilloscope.time_per_division ();
-  
-  w->value (LabelValue (sampling_rate).
-    to_label_text (LABELVALUE_TYPE::HERTZ).c_str ());
-
-  // I have to access the widget for the sampling rate to update it as well
-  m_LABSoft_GUI->oscilloscope_fl_input_choice_time_per_division->value (
-    LabelValue (time_per_division).to_label_text (LABELVALUE_TYPE::SECONDS).c_str ()
-  );
+  update_horizontal_widgets_gui ();
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     update_time_per_division_labels ();
@@ -286,7 +271,7 @@ cb_trigger_source (Fl_Choice* w,
 
 }
 
-void  LABSoft_Controller_Oscilloscope::
+void LABSoft_Controller_Oscilloscope::
 cb_trigger_level (Fl_Input_Choice* w, 
                   void*           data)
 {
@@ -309,6 +294,30 @@ cb_trigger_level (Fl_Input_Choice* w,
     to_label_text (LABELVALUE_TYPE::VOLTS).c_str ());
 }
 
+void LABSoft_Controller_Oscilloscope::
+cb_display_mode (Fl_Choice* w,  
+                 void*      data)
+{
+  std::string str (w->text ());
+  LE_OSC_DISP_MODE disp_mode;
+
+  if (str == "Repeated" && w->value () == 0)
+  {
+    disp_mode = LE_OSC_DISP_MODE::REPEATED;
+  }
+  else if (str == "Screen" && w->value () == 1)
+  {
+    disp_mode = LE_OSC_DISP_MODE::SCREEN;
+  }
+  else 
+  {
+    return;
+  }
+
+  m_LAB->m_Oscilloscope.display_mode_frontend (disp_mode);
+}
+
+
 void LABSoft_Controller_Oscilloscope:: 
 update_trigger_panel_gui ()
 {
@@ -322,6 +331,48 @@ update_trigger_panel_gui ()
     m_LABSoft_GUI->oscilloscope_fl_choice_trigger_source->activate ();
     m_LABSoft_GUI->oscilloscope_fl_input_choice_trigger_level->activate ();
   }
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+update_horizontal_widgets_gui ()
+{
+  LabelValue time_per_division  (m_LAB->m_Oscilloscope.time_per_division ());
+  LabelValue sampling_rate      (m_LAB->m_Oscilloscope.sampling_rate ());
+
+  // Time per Division
+  m_LABSoft_GUI->oscilloscope_fl_input_choice_sampling_rate->value (
+    sampling_rate.to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
+  );
+
+  // Sampling Rate
+  m_LABSoft_GUI->oscilloscope_fl_input_choice_time_per_division->value (
+    time_per_division.to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
+  );
+
+  // Display Mode
+  std::string str;
+
+  switch (m_LAB->m_Oscilloscope.display_mode ()) 
+  {
+    case LE_OSC_DISP_MODE::SCREEN:
+    {
+      str = "Screen";
+      break;
+    }
+    
+    case LE_OSC_DISP_MODE::REPEATED:
+    {
+      str = "Repeated";
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
+
+  // m_LABSoft_GUI->oscilloscope_fl_choice_display_mode->value (str.c_str ());
 }
 
 // EOF

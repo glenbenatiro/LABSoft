@@ -156,65 +156,65 @@ reserve_pixel_points ()
   }
 }
 
-int LABSoft_Oscilloscope_Display_Group::
+void LABSoft_Oscilloscope_Display_Group::
 fill_pixel_points ()
 {
-  if (!m_display)
-  {
-    return -1;
-  }
-  else 
-  {
-    m_display->fill_pixel_points ();
-
-    return 1;
-  }
+  m_display->fill_pixel_points ();
 }
 
-int LABSoft_Oscilloscope_Display_Group:: 
+void LABSoft_Oscilloscope_Display_Group:: 
 update_voltage_per_division_labels ()
 {
-  if (!m_parent_data_osc)
-  {
-    return (-1);
-  }
-
   for (int chan = 0; chan < m_parent_data_osc->channel_data.size (); chan++)
   {
     update_voltage_per_division_labels (chan);
   }
-
-  return (1);
 }
 
-int LABSoft_Oscilloscope_Display_Group:: 
-update_voltage_per_division_labels (unsigned channel)
+double LABSoft_Oscilloscope_Display_Group:: 
+calc_row_voltage_per_division (int                            row, 
+                               unsigned                       number_of_rows,
+                               LAB_Channel_Data_Oscilloscope& chan)
 {
-  if (!m_parent_data_osc)
+  double row_vpd = (
+    (-1 * chan.voltage_per_division) * 
+    (row - (static_cast<double>(number_of_rows) / 2.0)) - 
+    (chan.vertical_offset)
+  );
+
+  if (is_approx_zero (row_vpd))
   {
-    return (-1);
+    row_vpd = 0.0;
   }
 
-  //
-  
+  return (row_vpd);
+}
+
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_voltage_per_division_labels (unsigned channel)
+{
   if (m_parent_data_osc->channel_data[channel].is_enabled)
   {
+    LabelValue unit_ref;
     LAB_Channel_Data_Oscilloscope &chan = m_parent_data_osc->channel_data[channel];
 
     for (int a = 0; a < m_y_labels[channel].size (); a++)
     {
-      double row_vpd = (
-        (-1 * chan.voltage_per_division) *
-        (a - (static_cast<double>(LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS) / 2.0)) - 
-        (chan.vertical_offset)
+      double row_vpd = calc_row_voltage_per_division (
+        a, 
+        LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS,
+        chan
       );
 
       LabelValue lv (row_vpd, LABELVALUE_TYPE::VOLTS);
 
       if (a == 0)
       {
+        unit_ref = lv;
+
         std::stringstream ss;
-        ss << lv.unit_prefix () << lv.label_for ();
+        ss << unit_ref.unit_prefix () << unit_ref.label_for ();
 
         m_y_label_units[channel]->copy_label (ss.str ().c_str ());
         m_y_label_units[channel]->show ();
@@ -233,20 +233,11 @@ update_voltage_per_division_labels (unsigned channel)
       m_y_labels[channel][a]->hide ();
     }
   }
-
-  return (1);
 }
 
-int LABSoft_Oscilloscope_Display_Group:: 
+void LABSoft_Oscilloscope_Display_Group:: 
 update_time_per_division_labels ()
 {
-  if (!m_parent_data_osc)
-  {
-    return -1;
-  }
-
-  // 
-
   for (int a = 0; a < m_x_labels.size (); a++)
   {
     double col_tpd = (a + ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
@@ -257,8 +248,6 @@ update_time_per_division_labels ()
     
     m_x_labels[a]->copy_label (lv.to_label_text ().c_str ());
   }
-
-  return 1;
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -279,6 +268,12 @@ void LABSoft_Oscilloscope_Display_Group::
 update_y_label_unit (unsigned channel)
 {
 
+}
+
+bool LABSoft_Oscilloscope_Display_Group::   
+is_approx_zero (double x, double epsilon)
+{
+  return (std::abs (x) < epsilon);
 }
 
 // EOF

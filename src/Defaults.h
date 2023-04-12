@@ -12,6 +12,15 @@
 
 // --- Enums ---
 
+namespace LE
+{
+  enum class DISPLAY_MODE
+  {
+    SCREEN,
+    REPEATED
+  };
+}
+
 enum LE_UNIT_PREFIX_EXP
 {
   LE_UNIT_PREFIX_EXP_GIGA   = 9,
@@ -226,7 +235,7 @@ class LAB_Parent_Data_Oscilloscope
     double            horizontal_offset = LAB_OSCILLOSCOPE::HORIZONTAL_OFFSET;
 
     // Display
-    LE_OSC_DISP_MODE  graph_disp_mode   = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
+    LE_OSC_DISP_MODE  disp_mode   = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
 
     // Data/Samples
     double w_samp_count = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; // working sample count
@@ -271,7 +280,7 @@ constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_INTRASPACE     = 18;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_SIZE           = 10;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_COLOR          = FL_FOREGROUND_COLOR;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_INTERSPACE     = 35; // spacing between columns of y-axis labels
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING        = 30; // padding of first column of y-axis labels from left of grid
+constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING        = 33; // padding of first column of y-axis labels from left of grid
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN    = 20; // padding of voltage unit of y-axis labels from top of grid
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR    = FL_WHITE;
 constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR       = FL_BLACK;
@@ -429,7 +438,7 @@ class LAB_Parent_Data_Logic_Analyzer
     std::array <LAB_Channel_Data_Logic_Analyzer, 
       LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>  channel_data;
 
-    LE_OSC_DISP_MODE graph_disp_mode  = LE_OSC_DISP_MODE::REPEATED;
+    LE_OSC_DISP_MODE disp_mode  = LE_OSC_DISP_MODE::REPEATED;
 };
 
 struct LAB_DMA_Data_Logic_Analyzer
