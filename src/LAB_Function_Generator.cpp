@@ -48,6 +48,8 @@ int LAB_Function_Generator::
 frequency (unsigned channel,
            double   value)
 {
+  std::cout << "freq: " << value << std::endl;
+
   if (is_valid_channel (channel) && 
     is_valid_fg_param (value, LE_FG_PARAM_FREQUENCY))
   {
@@ -144,6 +146,12 @@ phase (unsigned channel,
   }
 
   return -1;
+}
+
+double LAB_Function_Generator::
+frequency (unsigned channel)
+{
+  return (m_parent_data.channel_data[channel].frequency);
 }
 
 int LAB_Function_Generator:: 

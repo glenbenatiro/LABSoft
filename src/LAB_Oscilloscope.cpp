@@ -511,7 +511,7 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
 LE::DISPLAY_MODE LAB_Oscilloscope:: 
 calc_disp_mode (double time_per_div)
 {
-  if (time_per_div >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN)
+  if (time_per_div >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_DISP_SCREEN)
   {
     return (LE::DISPLAY_MODE::SCREEN);
   }
@@ -648,7 +648,7 @@ display_mode_frontend (LE::DISPLAY_MODE _DISPLAY_MODE)
   {
     case LE::DISPLAY_MODE::SCREEN:
     {
-      time_per_division (LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN);
+      time_per_division (LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_DISP_SCREEN);
       break;
     }
 

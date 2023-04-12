@@ -27,7 +27,7 @@ LAB_Logic_Analyzer::
 void LAB_Logic_Analyzer:: 
 init_logan_gpio_pins ()
 {
-  for (int chan = 0; chan < LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS; chan++)
+  for (int chan = 0; chan < LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS; chan++)
   {
     m_LAB_Core->gpio_set (
       LAB_PIN_LOGIC_ANALYZER[chan],
@@ -63,7 +63,7 @@ config_dma_cb ()
 {
   m_LAB_Core->map_uncached_mem  (
     &m_uncached_dma_data_logan, 
-    LAB_LOGIC_ANALYZER_VC_MEM_SIZE
+    LAB_LOGIC_ANALYZER::VC_MEM_SIZE
   );
 
   AP_MemoryMap                     *mp = &m_uncached_dma_data_logan;
@@ -78,7 +78,7 @@ config_dma_cb ()
         LAB_DMA_TI_LOGAN_STORE, 
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
         Utility::mem_bus_addr (mp, dp->rxd[0]),
-        (uint32_t)(4 * LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES),
+        (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
@@ -96,7 +96,7 @@ config_dma_cb ()
         LAB_DMA_TI_LOGAN_STORE, 
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
         Utility::mem_bus_addr (mp, dp->rxd[1]),
-        (uint32_t)(4 * LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES),
+        (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[3]),
         0
@@ -117,7 +117,7 @@ config_dma_cb ()
         LAB_DMA_TI_LOGAN_STORE, 
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
         Utility::mem_bus_addr (mp, dp->rxd[0]),
-        (uint32_t)(4 * LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES),
+        (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
@@ -176,7 +176,7 @@ load_data_samples ()
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
       (void *)(dma_data->rxd[0]),
-      4 * LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES
+      4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
     );
   }
   else if (m_parent_data.disp_mode == LE::DISPLAY_MODE::REPEATED)
@@ -186,7 +186,7 @@ load_data_samples ()
       std::memcpy (
         m_parent_data.raw_sample_buffer.data (),
         (void *)(dma_data->rxd[buff]),
-        4 * LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES
+        4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
       );
 
       dma_data->status[buff] = 0;
@@ -223,29 +223,29 @@ time_per_division (double value, unsigned disp_num_cols)
     double new_samp_rate;
 
     // 1. Calculate the new count of samples
-    if (value >= LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_NO_ZOOM)
+    if (value >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
     {
-      new_samp_count = LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES;
+      new_samp_count = LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES;
     }
     else 
     {
-      new_samp_count = LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE * disp_num_cols *
+      new_samp_count = LAB_LOGIC_ANALYZER::MAX_SAMPLING_RATE * disp_num_cols *
         value;
     }
 
     // 2. Calculate the new sampling rate
-    if (value <= LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_NO_ZOOM)
+    if (value <= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
     {
-      new_samp_rate = LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
+      new_samp_rate = LAB_LOGIC_ANALYZER::MAX_SAMPLING_RATE;
     }
     else 
     {
-      new_samp_rate = (LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES) / 
+      new_samp_rate = (LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES) / 
         (value * disp_num_cols);
     }
 
     // 3. Change the graph display mode if necessary
-    if (value >= LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN)
+    if (value >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_DISP_SCREEN)
     {
       if (m_parent_data.disp_mode != LE::DISPLAY_MODE::SCREEN)
       {

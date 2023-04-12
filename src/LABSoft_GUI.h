@@ -200,11 +200,11 @@ private:
   static void cb_logic_analyzer_fl_input_choice_memory_depth(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_memory_depth[];
 public:
-  Fl_Input_Choice *logic_analyzer_fl_input_choice_sample_rate;
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_sampling_rate;
 private:
-  inline void cb_logic_analyzer_fl_input_choice_sample_rate_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_sample_rate(Fl_Input_Choice*, void*);
-  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sample_rate[];
+  inline void cb_logic_analyzer_fl_input_choice_sampling_rate_i(Fl_Input_Choice*, void*);
+  static void cb_logic_analyzer_fl_input_choice_sampling_rate(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sampling_rate[];
 public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_time_per_division;
 private:

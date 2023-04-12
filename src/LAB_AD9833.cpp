@@ -1,6 +1,7 @@
 #include "LAB_AD9833.h"
 
 #include <cstdio>
+#include <iostream>
 
 LAB_AD9833::
 LAB_AD9833 (LAB_Core *_LAB_Core): m_LAB_Core (_LAB_Core)
@@ -87,6 +88,8 @@ wave_type (LE_WAVE_TYPE _LE_WAVE_TYPE)
 void LAB_AD9833:: 
 frequency (double frequency)
 {
+  std::cout << "freq: " << frequency << std::endl;
+
   if ((frequency <= AD9833_MAX_FREQUENCY) && (frequency >= AD9833_MIN_FREQUENCY))
   {
     uint32_t divider = ((frequency * AD9833_2_POW_28) / 

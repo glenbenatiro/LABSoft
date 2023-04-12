@@ -2,10 +2,13 @@
 version 1.0305
 header_name {.h}
 code_name {.cpp}
-decl {\#include "LABSoft_Controller.h"} {private global
+decl {\#include "Defaults.h"} {public global
 }
 
-decl {\#include "Defaults.h"} {public global
+decl {\#include <string>} {private global
+}
+
+decl {\#include "LABSoft_Controller.h"} {private global
 }
 
 decl {class LABSoft_Controller;} {public global
@@ -19,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {447 174 1365 765} type Double color 55 visible
+      xywh {294 154 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
@@ -51,7 +54,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope open
+          label Oscilloscope
           xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
@@ -552,7 +555,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {open
+          Fl_Group oscilloscope_fl_group_horizontal {
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -666,7 +669,7 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_sampling_rate {
               label {Sampling Rate}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_sampling_rate (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_sampling_rate (o, v);}
               xywh {865 590 120 30} box FLAT_BOX color 53 selection_color 53 align 1
               code0 {oscilloscope_fl_input_choice_sampling_rate->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_SAMPLING_RATE);}
               code1 {oscilloscope_fl_input_choice_sampling_rate->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -1036,7 +1039,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_display {open
+          Fl_Group oscilloscope_fl_group_display {
             xywh {0 0 1366 768} labeltype NO_LABEL
           } {
             Fl_Box {} {
@@ -1500,18 +1503,14 @@ class LABSoft_GUI {open
           Fl_Input_Choice logic_analyzer_fl_input_choice_memory_depth {
             label {Memory Depth}
             callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_memory_depth (o, v);}
-            xywh {200 100 120 30} box FLAT_BOX color 53 selection_color 53 align 1
+            xywh {200 100 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
           } {
             MenuItem {} {
-              label 4096
+              label 2000
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label 2048
-              xywh {729 100 36 21}
-            }
-            MenuItem {} {
-              label 1024
+              label 1000
               xywh {729 100 36 21}
             }
             MenuItem {} {
@@ -1535,10 +1534,12 @@ class LABSoft_GUI {open
               xywh {729 100 36 21}
             }
           }
-          Fl_Input_Choice logic_analyzer_fl_input_choice_sample_rate {
-            label {Sample Rate}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_sampling_rate (o, v);}
+          Fl_Input_Choice logic_analyzer_fl_input_choice_sampling_rate {
+            label {Sampling Rate}
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_sampling_rate (o, v);} selected
             xywh {350 100 120 30} box FLAT_BOX color 53 selection_color 53 align 1
+            code0 {// TO-DO: logic_analyzer_fl_input_choice_sampling_rate->value (logic_analyzer_fl_input_choice_sampling_rate->menubutton ()->find_index (std::to_string (LAB_LOGIC_ANALYZER::SAMPLING_RATE).c_str ()));}
+            code1 {logic_analyzer_fl_input_choice_sampling_rate->value (logic_analyzer_fl_input_choice_sampling_rate->menubutton ()->find_index (LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP::SAMPLING_RATE.c_str ()));}
           } {
             MenuItem {} {
               label {50 kHz}
@@ -1625,6 +1626,7 @@ class LABSoft_GUI {open
             label {Time per Division}
             callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);}
             xywh {500 100 120 30} align 1
+            code0 {logic_analyzer_fl_input_choice_time_per_division->value (logic_analyzer_fl_input_choice_time_per_division->menubutton ()->find_index (LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP::TIME_PER_DIVISION.c_str()));}
           } {
             MenuItem {} {
               label {20 s/div}

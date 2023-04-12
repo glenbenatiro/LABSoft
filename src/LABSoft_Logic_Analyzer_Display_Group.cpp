@@ -23,7 +23,7 @@ LABSoft_Logic_Analyzer_Display_Group
   );
   
   // Channel menu buttons
-  for (int a = 0; a < LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS; a++)
+  for (int a = 0; a < LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS; a++)
   {
     char label[20];
 
@@ -31,11 +31,11 @@ LABSoft_Logic_Analyzer_Display_Group
 
     double button_y_coord = Y + (a * ((H - 
       LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_X_LABEL_STRIP_HEIGHT) / 
-        (LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS)));
+        (LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS)));
     
     double button_height = ((H - 
       LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_X_LABEL_STRIP_HEIGHT) / 
-        LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
+        LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS);
 
     Fl_Menu_Button *button = new Fl_Menu_Button (
       X,       

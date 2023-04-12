@@ -152,7 +152,7 @@ namespace LAB_OSCILLOSCOPE
   constexpr unsigned          NUMBER_OF_SAMPLES             = 2'000;
   constexpr unsigned          SAMPLE_SIZE                   = sizeof (uint32_t);
 
-  // Horizontal
+  // Vertical
   constexpr LE_OSC_COUPLING   COUPLING                      = LE_OSC_COUPLING::DC;
   constexpr double            MIN_VOLTAGE_PER_DIVISION      = 0.0001;
   constexpr double            MAX_VOLTAGE_PER_DIVISION      = 5.0;
@@ -162,13 +162,13 @@ namespace LAB_OSCILLOSCOPE
   constexpr double            VERTICAL_OFFSET               = 0.0;
   constexpr LE_OSC_SCALING    SCALING                       = LE_OSC_SCALING::UNITY;
 
-  // Vertical
+  // Horizontal
   constexpr double            MIN_TIME_PER_DIVISION         = 0.000001;
   constexpr double            MAX_TIME_PER_DIVISION         = 30.0;
   constexpr double            TIME_PER_DIVISION             = 0.005;
-  constexpr double            MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS);
+  constexpr double            MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
   constexpr double            MAX_SAMPLING_RATE             = 200'000;
-  constexpr double            SAMPLING_RATE                 = NUMBER_OF_SAMPLES / (TIME_PER_DIVISION * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS);
+  constexpr double            SAMPLING_RATE                 = NUMBER_OF_SAMPLES / (TIME_PER_DIVISION * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
   constexpr double            MIN_HORIZONTAL_OFFSET         = 0.0;
   constexpr double            MAX_HORIZONTAL_OFFSET         = 0.0;  
   constexpr double            HORIZONTAL_OFFSET             = 0.0;
@@ -190,15 +190,15 @@ namespace LAB_OSCILLOSCOPE
   constexpr uint32_t          RAW_DATA_POST_SHIFT_MASK      = ((std::pow (2, RAW_DATA_SHIFT_BIT_COUNT)) - 1);
   constexpr unsigned          ADC_SPI0_CHIP_ENABLE          = 0;
 
+  // Display
+  constexpr LE::DISPLAY_MODE  OSC_DISP_MODE                 = LE::DISPLAY_MODE::REPEATED;
+  constexpr double            MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
+  constexpr double            MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
+
   // Uncached Oscilloscope DMA Data Info
   constexpr unsigned          BUFFER_LENGTH                 = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
   constexpr unsigned          BUFFER_COUNT                  = 2;
   constexpr unsigned          VC_MEM_SIZE                   = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
-
-  // For Display
-  constexpr LE::DISPLAY_MODE  OSC_DISP_MODE                         = LE::DISPLAY_MODE::REPEATED;
-  constexpr double            MIN_TIME_PER_DIV_NO_ZOOM              = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
-  constexpr double            MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
 }
 
 struct LAB_Channel_Data_Oscilloscope
@@ -298,7 +298,7 @@ constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION      
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_SAMPLING_RATE                  = "40 kHz";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET              = "0 s";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL                  = "0 V";
-constexpr int         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE                   = (LAB_OSCILLOSCOPE::TIME_PER_DIVISION >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN) ? 1 : 0; // 0 is repeated, 1 is screen
+constexpr int         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE                   = (LAB_OSCILLOSCOPE::TIME_PER_DIVISION >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_DISP_SCREEN) ? 1 : 0; // 0 is repeated, 1 is screen
 
 static std::array<int, 10> 
   LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS = 
@@ -312,6 +312,15 @@ static std::array<int, 10>
 // --- LAB Voltmeter ---
 
 // --- Function Generator ---
+
+namespace LAB_FUNCTION_GENERATOR
+{
+  constexpr double  SIGNAL_GENERATOR_MIN_FREQUENCY  = 0.1;
+  constexpr double  SIGNAL_GENERATOR_MAX_FREQUENCY  = 12'500'000.0;
+  constexpr double  MIN_FREQUENCY                   = SIGNAL_GENERATOR_MIN_FREQUENCY;
+  constexpr double  MAX_FREQUENCY                   = 1'000'000.0;
+}
+
 enum LE_FG_PARAM
 {
   LE_FG_PARAM_WAVE_TYPE,
@@ -395,16 +404,50 @@ struct LAB_Parent_Data_Function_Generator
 #define LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER 0
 
 // LAB Logic Analyzer
-constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS       = sizeof (LAB_PIN_LOGIC_ANALYZER) / sizeof (LAB_PIN_LOGIC_ANALYZER[0]);
-constexpr unsigned  LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES        = 2'000;
-constexpr double    LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE        = 200'000;
-constexpr unsigned  LAB_LOGIC_ANALYZER_SAMPLING_RATE            = LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
-constexpr double    LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_NO_ZOOM = 1.0 / LAB_LOGIC_ANALYZER_MAX_SAMPLING_RATE;
-constexpr double    LAB_LOGIC_ANALYZER_SAMPLE_PERIOD            = (1.0 / LAB_LOGIC_ANALYZER_SAMPLING_RATE);
-constexpr unsigned  LAB_LOGIC_ANALYZER_SAMPLE_SIZE_BYTES        = 4;  // 4 bytes per sample = 32 bits
-constexpr unsigned  LAB_LOGIC_ANALYZER_BUFFER_LENGTH_BYTES      = LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * LAB_LOGIC_ANALYZER_SAMPLE_SIZE_BYTES;
-constexpr unsigned  LAB_LOGIC_ANALYZER_BUFFER_COUNT             = 2;
-constexpr unsigned  LAB_LOGIC_ANALYZER_VC_MEM_SIZE              = PAGE_SIZE + (LAB_LOGIC_ANALYZER_BUFFER_COUNT * LAB_LOGIC_ANALYZER_BUFFER_LENGTH_BYTES * LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
+namespace LABSOFT_LOGIC_ANALYZER_DISPLAY
+{
+  constexpr unsigned  NUMBER_OF_COLUMNS = 10;
+}
+
+namespace LAB_LOGIC_ANALYZER
+{
+  // General
+  constexpr unsigned  NUMBER_OF_CHANNELS  = sizeof (LAB_PIN_LOGIC_ANALYZER) / sizeof (LAB_PIN_LOGIC_ANALYZER[0]);
+  constexpr unsigned  NUMBER_OF_SAMPLES   = 2'000;
+  constexpr unsigned  SAMPLE_SIZE         = sizeof (uint32_t);
+
+  // Horizontal
+  constexpr double            MIN_TIME_PER_DIVISION         = 0.000001;
+  constexpr double            MAX_TIME_PER_DIVISION         = 30.0;
+  constexpr double            TIME_PER_DIVISION             = 0.005;
+  constexpr double            MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS);
+  constexpr double            MAX_SAMPLING_RATE             = 200'000;
+  constexpr double            SAMPLING_RATE                 = NUMBER_OF_SAMPLES / (TIME_PER_DIVISION * LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS);
+  constexpr double            MIN_HORIZONTAL_OFFSET         = 0.0;
+  constexpr double            MAX_HORIZONTAL_OFFSET         = 0.0;  
+  constexpr double            HORIZONTAL_OFFSET             = 0.0;
+
+  // Display
+  constexpr LE::DISPLAY_MODE  OSC_DISP_MODE                 = LE::DISPLAY_MODE::REPEATED;
+  constexpr double            MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS);
+  constexpr double            MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS;
+
+  // Uncached Logic Analyzer DMA Data Info
+  constexpr unsigned BUFFER_LENGTH        = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
+  constexpr unsigned BUFFER_COUNT         = 2;
+  constexpr unsigned VC_MEM_SIZE          = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
+}
+
+namespace LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP
+{
+  /**
+   * TO-DO: Change std::string variables to constexpr conversion functions.
+   *        String creation will be in LABSoft_GUI's widgets.
+  */
+
+ static std::string SAMPLING_RATE     ("40 kHz");
+ static std::string TIME_PER_DIVISION ("5 ms");
+}
 
 
 struct LAB_Channel_Data_Logic_Analyzer
@@ -414,7 +457,7 @@ struct LAB_Channel_Data_Logic_Analyzer
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
-  std::array  <bool, LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES> samples;
+  std::array  <bool, LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES> samples;
 };
 
 class LAB_Parent_Data_Logic_Analyzer
@@ -432,16 +475,16 @@ class LAB_Parent_Data_Logic_Analyzer
     }
 
     bool      is_enabled          = false;
-    double    sampling_rate       = LAB_LOGIC_ANALYZER_SAMPLING_RATE;
+    double    sampling_rate       = LAB_LOGIC_ANALYZER::SAMPLING_RATE;
     double    time_per_division   = 0.0;
     double    horizontal_offset   = 0.0;
-    unsigned  w_samp_count        = LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES;
+    unsigned  w_samp_count        = LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES;
 
     std::array <uint32_t, 
-      LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES>   raw_sample_buffer;
+      LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES>   raw_sample_buffer;
       
     std::array <LAB_Channel_Data_Logic_Analyzer, 
-      LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>  channel_data;
+      LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS>  channel_data;
 
     LE::DISPLAY_MODE disp_mode  = LE::DISPLAY_MODE::REPEATED;
 };
@@ -453,10 +496,8 @@ struct LAB_DMA_Data_Logic_Analyzer
   uint32_t  buffer_ok_flag = 0x1;
 
   volatile uint32_t status[2] = {0},
-                    rxd[2][LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES] = {0};
+                    rxd[2][LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES] = {0};
 };
-
-
 
 // LABSoft Logic Analyzer Display Group
 constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_X_LABEL_STRIP_HEIGHT      = 30;
@@ -469,16 +510,14 @@ constexpr int LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_X_LABEL_COLOR             = F
 // LABSoft Logic Analyzer Display
 constexpr unsigned  LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS            = 10;
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_BG_COLOR                     = FL_WHITE;
-constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_NUMBER_OF_CHANNELS     = LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS;
+constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP_NUMBER_OF_CHANNELS     = LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS;
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRID_COLOR                   = FL_BLACK;
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_STYLE             = FL_SOLID;
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR             = FL_BLACK;
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_WIDTH             = 2;
 constexpr char*     LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_DASHES            = 0;
 constexpr double    LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_P2P_SPREAD        = 60.0; // in percent
-constexpr double    LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN  = 1.0 / (LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS);
 
-constexpr double    LAB_LOGIC_ANALYZER_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN = 1.0 / LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS;
 
 #endif
 

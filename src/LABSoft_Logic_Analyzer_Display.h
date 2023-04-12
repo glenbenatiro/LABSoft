@@ -13,7 +13,7 @@ class LABSoft_Logic_Analyzer_Display : public Fl_Widget
   private: 
     LAB_Parent_Data_Logic_Analyzer *m_parent_data_logan = nullptr;
 
-    std::array <std::array<int, 2>, LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>
+    std::array <std::array<int, 2>, LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS>
       m_graph_line_coords;
 
   public:

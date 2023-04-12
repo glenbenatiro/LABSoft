@@ -15,7 +15,7 @@ class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
   private: 
     LAB_Parent_Data_Logic_Analyzer *m_parent_data_logan = nullptr;
 
-    std::array<Fl_Menu_Button *, LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS>         
+    std::array<Fl_Menu_Button *, LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS>         
       m_channel_menu_buttons;
 
     std::array<Fl_Box *, LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS + 1>  

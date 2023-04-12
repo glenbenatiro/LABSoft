@@ -38,7 +38,7 @@ draw_grid ()
     static_cast<double>(LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS);
 
   double row_height   = static_cast<double>(h ()) / 
-    static_cast<double>(LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
+    static_cast<double>(LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS);
 
   fl_color      (LABSOFT_LOGIC_ANALYZER_DISPLAY_GRID_COLOR);
   fl_line_style (FL_DOT);
@@ -55,9 +55,9 @@ draw_grid ()
   }
 
   // draw rows
-  for (int row = 1; row <= LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS; row++)
+  for (int row = 1; row <= LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS; row++)
   {
-    if (row == LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS)
+    if (row == LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS)
     {
       fl_line_style (FL_SOLID);
     }
@@ -150,7 +150,7 @@ reserve_pixel_points ()
   for (int a = 0; a < (m_parent_data_logan->channel_data.size ()); a++)
   {
     m_parent_data_logan->channel_data[a].pixel_points.reserve (
-      LAB_LOGIC_ANALYZER_NUMBER_OF_SAMPLES * 2
+      LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES * 2
     );
   }
 
@@ -239,7 +239,7 @@ int LABSoft_Logic_Analyzer_Display::
 calc_graph_line_coords ()
 {
   double row_height = static_cast<double>(h ()) /
-    static_cast<double>(LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS);
+    static_cast<double>(LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS);
   
   double row_height_half = row_height / 2.0;
 
@@ -247,7 +247,7 @@ calc_graph_line_coords ()
     ((std::fmod (LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_P2P_SPREAD, 101) / 
     2.0) / 100.0);
   
-  for (int chan = 0; chan < (LAB_LOGIC_ANALYZER_NUMBER_OF_CHANNELS); chan++)
+  for (int chan = 0; chan < (LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS); chan++)
   {
     m_graph_line_coords[chan][0] = y () + (chan * row_height) + 
       row_height_half + row_graph_amp;

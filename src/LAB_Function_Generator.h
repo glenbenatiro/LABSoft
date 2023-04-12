@@ -1,5 +1,5 @@
-#ifndef LAB_FUNCTION_GENERATOR
-#define LAB_FUNCTION_GENERATOR
+#ifndef LAB_FUNCTION_GENERATOR_H
+#define LAB_FUNCTION_GENERATOR_H
 
 #include "LAB_Core.h"
 #include "Defaults.h"
@@ -28,6 +28,9 @@ class LAB_Function_Generator
     int vertical_offset (unsigned channel, double offset);
     int duty_cycle      (unsigned channel, double duty_cycle);
     int phase           (unsigned channel, double phase);
+
+    // Getters 
+    double  frequency   (unsigned channel);
 
     //
     int set_hw_amplitude        (unsigned channel, double value);
