@@ -1,4 +1,7 @@
 #include "LABSoft_Oscilloscope_Display_Group.h"
+
+#include <sstream>
+
 #include <FL/Fl.H>
 
 LABSoft_Oscilloscope_Display_Group::
@@ -47,7 +50,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
   }
 
   // Add y-axis labels
-  for (int b = 0; b < (LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS); b++)
+  for (int b = 0; b < (LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS); b++)
   {
     for (int c = 0; c < (m_y_labels[0].size ()); c++)
     {
@@ -68,7 +71,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
 
       box->labelcolor (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[b]);
       box->labelsize  (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_SIZE);
-      box->align      (FL_ALIGN_TEXT_OVER_IMAGE);
+      box->align      (FL_ALIGN_INSIDE | FL_ALIGN_LEFT);
 
       m_y_labels[b][c] = box;
     }
@@ -76,7 +79,7 @@ LABSoft_Oscilloscope_Display_Group (int X,
 
   // Add a small label at the top of each y-axis label column  
   // denoting the voltage per division unit
-  for (int a = 0; a < LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS; a++) 
+  for (int a = 0; a < LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS; a++) 
   {
     // create new label instance using fl_box
     Fl_Box *box = new Fl_Box (
@@ -173,13 +176,15 @@ update_voltage_per_division_labels ()
 {
   if (!m_parent_data_osc)
   {
-    return -1;
+    return (-1);
   }
 
   for (int chan = 0; chan < m_parent_data_osc->channel_data.size (); chan++)
   {
     update_voltage_per_division_labels (chan);
   }
+
+  return (1);
 }
 
 int LABSoft_Oscilloscope_Display_Group:: 
@@ -187,49 +192,49 @@ update_voltage_per_division_labels (unsigned channel)
 {
   if (!m_parent_data_osc)
   {
-    return -1;
+    return (-1);
   }
-  else
+
+  //
+  
+  if (m_parent_data_osc->channel_data[channel].is_enabled)
   {
-    if (m_parent_data_osc->channel_data[channel].is_enabled)
+    LAB_Channel_Data_Oscilloscope &chan = m_parent_data_osc->channel_data[channel];
+
+    for (int a = 0; a < m_y_labels[channel].size (); a++)
     {
-      char label[15];
+      double row_vpd = (
+        (-1 * chan.voltage_per_division) *
+        (a - (static_cast<double>(LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS) / 2.0)) - 
+        (chan.vertical_offset)
+      );
 
-      LAB_Channel_Data_Oscilloscope *chan = 
-        &(m_parent_data_osc->channel_data[channel]);
+      LabelValue lv (row_vpd, LABELVALUE_TYPE::VOLTS);
 
-      for (int a = 0; a < m_y_labels[channel].size (); a++)
+      if (a == 0)
       {
-        double row_vpd = (-1 * chan->voltage_per_division) * 
-          (a - (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2)) -
-          (chan->vertical_offset);
+        std::stringstream ss;
+        ss << lv.unit_prefix () << lv.label_for ();
 
-        if (a == 0)
-        {
-          LabelValue _LabelValue (row_vpd);
-          sprintf (label, "%cV", _LabelValue.unit_prefix ());
-          m_y_label_units[channel]->copy_label (label);
-        }
-        else 
-        {
-          sprintf (label, "%3.2f", row_vpd);
-
-          m_y_labels[channel][a]->copy_label (label);
-
-          m_y_labels[channel][a]->show ();
-        }
+        m_y_label_units[channel]->copy_label (ss.str ().c_str ());
+        m_y_label_units[channel]->show ();
       }
+      
+      m_y_labels[channel][a]->copy_label (lv.short_value ().c_str ());
+      m_y_labels[channel][a]->show ();
     }
-    else 
-    {
-      for (int a = 0; a < m_y_labels[channel].size (); a++)
-      {
-        m_y_labels[channel][a]->hide ();
-      }
-    }
-
-    return 1;
   }
+  else 
+  {
+    m_y_label_units[channel]->hide ();
+
+    for (int a = 0; a < m_y_labels[channel].size (); a++)
+    {
+      m_y_labels[channel][a]->hide ();
+    }
+  }
+
+  return (1);
 }
 
 int LABSoft_Oscilloscope_Display_Group:: 
@@ -249,31 +254,31 @@ update_time_per_division_labels ()
     
     LabelValue lv (col_tpd + m_parent_data_osc->horizontal_offset,
       LABELVALUE_TYPE::SECONDS);
-
+    
     m_x_labels[a]->copy_label (lv.to_label_text ().c_str ());
   }
 
   return 1;
 }
 
-int LABSoft_Oscilloscope_Display_Group:: 
+void LABSoft_Oscilloscope_Display_Group:: 
 update_upper_osc_disp_info ()
 {
-  char text[100];
-  LabelValue _LabelValue (m_parent_data_osc->sampling_rate,
-    LABELVALUE_TYPE::HERTZ);
+  LabelValue lv (m_parent_data_osc->sampling_rate, LABELVALUE_TYPE::HERTZ);
 
-  sprintf (
-    text, 
-    "%3.3f samples at %c%s", 
-    m_parent_data_osc->w_samp_count,
-    _LabelValue.unit_prefix (),
-    _LabelValue.to_label_text ().c_str ()
-  );
+  std::stringstream ss;
 
-  m_upper_osc_disp_info->copy_label (text);
+  ss  << m_parent_data_osc->w_samp_count
+      << " samples at "
+      << lv.to_label_text ();
 
-  return 1;
+  m_upper_osc_disp_info->copy_label (ss.str ().c_str ());
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_y_label_unit (unsigned channel)
+{
+
 }
 
 // EOF

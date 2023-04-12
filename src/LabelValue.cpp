@@ -204,4 +204,69 @@ to_label_text (LABELVALUE_TYPE parse_input_as)
   return (to_label_text ());
 }
 
+// Getters
+
+double LabelValue:: 
+actual_value ()
+{
+  return (m_actual_value);
+}
+
+double LabelValue:: 
+coefficient ()
+{
+  return (m_coefficient);
+}
+
+int LabelValue:: 
+exponent ()
+{
+  return (m_exponent);
+}
+
+char LabelValue:: 
+unit_prefix ()
+{
+  return (m_unit_prefix[0]);
+}
+
+std::string LabelValue::
+label_for ()
+{
+  return (labelvalue_for_string_format[m_label_type]);
+}
+
+bool LabelValue::
+is_valid_label_text ()
+{
+  return (m_is_valid_label_text);
+}
+
+std::string LabelValue::
+short_value ()
+{
+  std::stringstream ss;
+
+  double val = m_coefficient * std::pow (10, correct_mod (m_exponent, 3));
+
+  if (val == 0)
+  {
+    std::abs (val);
+  }
+
+  // Huh. Amazing. When adding a space after the val, 
+  // the string output is clean. No uneeded decimal point.
+  // No trailing zeros. Amazing.
+  ss << val << " ";
+  
+  return (ss.str ());
+}
+
+// Setters
+void LabelValue::
+label_for (LABELVALUE_TYPE parse_output_as)
+{
+  m_label_type = parse_output_as;
+}
+
 // EOF

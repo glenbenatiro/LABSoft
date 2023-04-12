@@ -109,12 +109,22 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_horizontal_offset[];
 public:
   Fl_Group *oscilloscope_fl_group_trigger;
-  Fl_Input_Choice *oscilloscope_fl_input_choice_trigger_level;
   Fl_Choice *oscilloscope_fl_choice_trigger_mode;
 private:
   inline void cb_oscilloscope_fl_choice_trigger_mode_i(Fl_Choice*, void*);
   static void cb_oscilloscope_fl_choice_trigger_mode(Fl_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_choice_trigger_mode[];
+public:
+  Fl_Choice *oscilloscope_fl_choice_trigger_source;
+private:
+  inline void cb_oscilloscope_fl_choice_trigger_source_i(Fl_Choice*, void*);
+  static void cb_oscilloscope_fl_choice_trigger_source(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_trigger_source[];
+public:
+  Fl_Input_Choice *oscilloscope_fl_input_choice_trigger_level;
+private:
+  inline void cb_oscilloscope_fl_input_choice_trigger_level_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_trigger_level(Fl_Input_Choice*, void*);
 public:
   Fl_Group *oscilloscope_fl_group_display;
   Fl_Choice *oscilloscope_fl_choice_display_mode;

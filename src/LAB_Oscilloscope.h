@@ -12,11 +12,11 @@ class LAB;
 class LAB_Oscilloscope 
 {
   private:
-    LAB                          *m_LAB;
-    LAB_Core                     *m_LAB_Core;
-    int                           m_curr_screen_buffer = 0;  
-    AP_MemoryMap                  m_uncached_dma_data_osc;
-    std::thread                   m_trigger_thread;
+    LAB          *m_LAB;
+    LAB_Core     *m_LAB_Core;
+    int           m_curr_screen_buffer = 0;  
+    AP_MemoryMap  m_uncached_dma_data_osc;
+    std::thread   m_trigger_thread;
     
 
     friend class LABSoft_Controller_Oscilloscope;
@@ -29,11 +29,20 @@ class LAB_Oscilloscope
     void init_state     ();
     void config_dma_cb  ();
 
-    void set_hw_sampling_rate (double value);
+    // Horizontal 
+    double calc_new_samp_count (double time_per_division, unsigned osc_disp_num_cols);
+    LE_OSC_DISP_MODE graph_disp_mode ();
+
+    // Fill data
+    void fill_raw_sample_buffer   ();
+    void parse_raw_sample_buffer  ();
 
     // Trigger 
     void parse_trigger  (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
     void trigger_pass   ();
+
+    // Other
+    void set_hw_sampling_rate (double value);
 
   public:
     LAB_Parent_Data_Oscilloscope  m_parent_data;
@@ -62,16 +71,17 @@ class LAB_Oscilloscope
     void  horizontal_offset (double value);
 
     // Trigger 
-    LE_OSC_TRIG_MODE  trigger       ();
-    void              trigger       (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
-    void              trigger_level (double value);
-    double            trigger_level ();
-    
+    LE_OSC_TRIG_MODE  trigger_mode    ();
+    void              trigger_mode    (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
+    void              trigger_level   (double value);
+    double            trigger_level   ();
+    void              trigger_source  (unsigned chan);
+    double            trigger_source  ();
+  
     // State
     bool  is_running              ();
     bool  has_enabled_channel     ();
     void  load_data_samples       ();
-    int   parse_raw_sample_buffer ();
     void  switch_dma_buffer       (int buffer);   
     void  update_dma_data         (int graph_disp_mode);
     int   update_state            ();
@@ -92,10 +102,7 @@ class LAB_Oscilloscope
       return (m_parent_data.time_per_division);
     }
 
-    double sampling_rate ()
-    {
-      return (m_parent_data.sampling_rate);
-    }
+    double sampling_rate ();
 };
 
 #endif

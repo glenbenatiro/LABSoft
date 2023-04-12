@@ -12,6 +12,8 @@ LABSoft (int    argc,
          char **argv) 
   : m_LABSoft_Controller (&m_LAB, &m_LABSoft_GUI)
 {
+  std::ios_base::sync_with_stdio(false);
+  
   // link
   m_LABSoft_GUI.m_LABSoft_Controller = &m_LABSoft_Controller;
 

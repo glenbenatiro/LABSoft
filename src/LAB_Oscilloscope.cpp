@@ -10,12 +10,12 @@ LAB_Oscilloscope (LAB_Core  *_LAB_Core,
                   LAB       *_LAB) 
 {
   m_LAB_Core  = _LAB_Core;
-  m_LAB       = _LAB;
-  
+  m_LAB       = _LAB;   
+
   init_spi        ();
   init_pwm        ();
   init_gpio_pins  ();
-  init_dma        ();
+  init_dma        (); 
   init_state      ();
 }
 
@@ -38,7 +38,7 @@ void LAB_Oscilloscope::
 init_pwm ()
 {
   m_LAB_Core->gpio_set      (LAB_RPI_PIN_PWM_CHAN_0, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
-  m_LAB_Core->pwm_init      (LAB_OSCILLOSCOPE_SAMPLING_RATE);
+  m_LAB_Core->pwm_init      (LAB_OSCILLOSCOPE::SAMPLING_RATE);
   m_LAB_Core->pwm_algo      (LAB_PWM_DMA_PACING_PWM_CHAN, AP_PWM_ALGO_MARKSPACE);
   m_LAB_Core->pwm_use_fifo  (LAB_PWM_DMA_PACING_PWM_CHAN, 1);
 
@@ -73,7 +73,7 @@ init_dma ()
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_PWM_PACING);
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
   m_LAB_Core->dma_reset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX);
-  
+
   config_dma_cb ();
 
   AP_MemoryMap              *mp = &(m_uncached_dma_data_osc);
@@ -104,7 +104,7 @@ config_dma_cb ()
 {
   m_LAB_Core->map_uncached_mem (
     &m_uncached_dma_data_osc, 
-    LAB_OSCILLOSCOPE_VC_MEM_SIZE
+    LAB_OSCILLOSCOPE::VC_MEM_SIZE
   );
 
   AP_MemoryMap *mp                   = &m_uncached_dma_data_osc;
@@ -118,7 +118,7 @@ config_dma_cb ()
         LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, &dp->rxd[0]),
-        (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),
+        (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[1]),
         0
@@ -136,7 +136,7 @@ config_dma_cb ()
         LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, &dp->rxd[1]),
-        (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),
+        (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[3]),
         0
@@ -158,7 +158,7 @@ config_dma_cb ()
         LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, &dp->rxd[0]),
-        (uint32_t)(4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES),
+        (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[5]),
         0
@@ -180,7 +180,7 @@ config_dma_cb ()
         LAB_DMA_TI_OSC_TX,  
         Utility::mem_bus_addr (mp, &dp->txd),
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
-        //(uint32_t)((4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES) + 4), 
+        //(uint32_t)((4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES) + 4), 
         4,
         0, 
         Utility::mem_bus_addr (mp, &dp->cbs[6]), 
@@ -229,7 +229,7 @@ config_dma_cb ()
     },
 
     .spi_samp_size      = 4,    // in bytes
-    .spi_cs             = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | LAB_OSCILLOSCOPE_ADC_CE,
+    .spi_cs             = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | LAB_OSCILLOSCOPE::ADC_SPI0_CHIP_ENABLE,
     .spi_cs_fifo_reset  = 0x00000030,
     .pwm_rng            = 250,  // arbitrary value, will be changed in pwm_frequency ()
     .txd                = 0x0000ffff
@@ -248,7 +248,14 @@ config_dma_cb ()
  // dma_data.txd[0] = 0x07d00080;
 
   //
+
   std::memcpy (dp, &dma_data, sizeof (dma_data));
+}
+
+LE_OSC_DISP_MODE LAB_Oscilloscope:: 
+graph_disp_mode ()
+{
+  return (m_parent_data.graph_disp_mode);
 }
 
 void LAB_Oscilloscope:: 
@@ -364,65 +371,54 @@ coupling (unsigned        channel,
 }
 
 void LAB_Oscilloscope:: 
-load_data_samples ()
+fill_raw_sample_buffer ()
 {
-  LAB_DMA_Data_Oscilloscope *dma_data = static_cast<LAB_DMA_Data_Oscilloscope *>
+  LAB_DMA_Data_Oscilloscope* dma_data = static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_dma_data_osc.virt);
-  
-
-  if (m_parent_data.graph_disp_mode == LE_GRAPH_DISP_MODE_SCREEN)
+    
+  if (graph_disp_mode () == LE_OSC_DISP_MODE::SCREEN)
   {
-    // if (dma_data->status[m_curr_screen_buffer])
-    // {
-    //   dma_data->status[m_curr_screen_buffer] = 0;
-    //   m_curr_screen_buffer ^= 1;
-    // }
-
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data (), 
-      // (void *)(dma_data->rxd[m_curr_screen_buffer]),
-      (void *)(dma_data->rxd[0]),
-      4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
+      m_parent_data.raw_sample_buffer.data (),
+      (void*)(dma_data->rxd[0]),
+      4 *LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
     );
   }
-  else if (m_parent_data.graph_disp_mode == LE_GRAPH_DISP_MODE_REPEATED)
+  else if (graph_disp_mode () == LE_OSC_DISP_MODE::REPEATED)
   {
     for (int a = 0; a < 2; a++)
     {
       if (dma_data->status[a])
       {
         std::memcpy (
-          m_parent_data.raw_sample_buffer.data (), 
-          (void *)(dma_data->rxd[a]),
-          4 * LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
+          m_parent_data.raw_sample_buffer.data (),
+          (void*)(dma_data->rxd[a]),
+          4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
         );
-
-        // std::cout << std::bitset <32> (dma_data->status[a]) << "\n";
-
-        // for (int samp = 10; samp <= 20; samp++)
-        // {
-        //   std::cout << std::bitset <16> ((dma_data->rxd[a][samp]) >> 16) << " ";
-        //   std::cout << std::bitset <16> ((dma_data->rxd[a][samp])) << "\n";
-        // }
-
-        // Check if the other buffer is also full. 
-        // If it is, then we have a buffer overflow (both buffers full).
-        if (dma_data->status[a ^ 1])
-        {
-          dma_data->status[0] = dma_data->status[1] = 0;
-
-          break;
-        }
-
-        dma_data->status[a] = 0;
       }
-    }
-  } 
 
+      // Check if the other buffer is also full. 
+        // If it is, then we have a buffer overflow (both buffers full).
+      if (dma_data->status[a ^ 1])
+      {
+        dma_data->status[0] = dma_data->status[1] = 0;
+
+        break;
+      }
+
+      dma_data->status[a] = 0;
+    }
+  }
+}
+
+void LAB_Oscilloscope:: 
+load_data_samples ()
+{
+  fill_raw_sample_buffer  ();
   parse_raw_sample_buffer ();
 }
 
-int LAB_Oscilloscope:: 
+void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
   double data;
@@ -441,8 +437,8 @@ parse_raw_sample_buffer ()
         // }
         
         uint32_t temp1 = ((m_parent_data.raw_sample_buffer[samp]) >>
-          (LAB_OSCILLOSCOPE_RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
-            LAB_OSCILLOSCOPE_RAW_DATA_POST_SHIFT_MASK;
+          (LAB_OSCILLOSCOPE::RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
+            LAB_OSCILLOSCOPE::RAW_DATA_POST_SHIFT_MASK;
             
         // --- START HARD CODED ---
 
@@ -456,27 +452,25 @@ parse_raw_sample_buffer ()
         // --- END HARD CODED ---
 
         // Get MSB to determine sign
-        bool sign = temp2 >> (LAB_OSCILLOSCOPE_ADC_RESOLUTION_BITS - 1);
+        bool sign = temp2 >> (LAB_OSCILLOSCOPE::ADC_RESOLUTION_BITS - 1);
 
         // Mask temp2 to mask out the MSB sign bit
-        uint32_t temp3 = temp2 & ((LAB_OSCILLOSCOPE_ADC_RESOLUTION_INT - 1) >> 1);
+        uint32_t temp3 = temp2 & ((LAB_OSCILLOSCOPE::ADC_RESOLUTION_INT - 1) >> 1);
 
         if (sign)
         {
-          data = static_cast<double>(temp3) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT;
+          data = static_cast<double>(temp3) * LAB_OSCILLOSCOPE::CONVERSION_CONSTANT;
         }
         else 
         {
-          data = (static_cast<double>(temp3) * LAB_OSCILLOSCOPE_ADC_CONVERSION_CONSTANT) -  
-            LAB_OSCILLOSCOPE_ADC_REFERENCE_VOLTAGE;
+          data = (static_cast<double>(temp3) * LAB_OSCILLOSCOPE::CONVERSION_CONSTANT) -  
+            LAB_OSCILLOSCOPE::CONVERSION_REFERENCE_VOLTAGE;
         }
         
         m_parent_data.channel_data[chan].samples[samp] = data;
       }
     }
   }
-
-  return 1;
 }
 
 bool LAB_Oscilloscope:: 
@@ -496,48 +490,54 @@ has_enabled_channel ()
   return (flag);
 }
 
+double LAB_Oscilloscope:: 
+calc_new_samp_count (double time_per_div, unsigned osc_disp_num_cols)
+{
+  if (time_per_div >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
+  {
+    return (LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES);
+  }
+  else 
+  {
+    return (LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE * osc_disp_num_cols *
+      time_per_div);
+  }
+}
+
 void LAB_Oscilloscope:: 
 time_per_division (double value, unsigned osc_disp_num_cols)
 {
   double  new_samp_count;
   double  new_samp_rate;
 
-  // 1. Calculate the new count of samples
-  if (value >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM)
-  {
-    new_samp_count = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES;
-  }
-  else 
-  {
-    new_samp_count = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE * osc_disp_num_cols *
-      value;
-  }   
+  // 1. Calculate new sample count
+  new_samp_count = calc_new_samp_count (value, osc_disp_num_cols);
 
   // 2. Calculate the new sampling rate
-  if (value <= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM)
+  if (value <= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
   {
-    new_samp_rate = LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE;
+    new_samp_rate = LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE;
   }
   else 
   {
-    new_samp_rate = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES / (value * 
+    new_samp_rate = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES / (value * 
       osc_disp_num_cols);
   }
 
   // 3. Change the oscilloscope display mode if necessary
-  if (value >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_GRAPH_DISP_MODE_SCREEN)
+  if (value >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_OSC_DISP_MODE_SCREEN)
   {
-    if (m_parent_data.graph_disp_mode != LE_GRAPH_DISP_MODE_SCREEN)
+    if (m_parent_data.graph_disp_mode != LE_OSC_DISP_MODE::SCREEN)
     {
-      m_parent_data.graph_disp_mode = LE_GRAPH_DISP_MODE_SCREEN;
+      m_parent_data.graph_disp_mode = LE_OSC_DISP_MODE::SCREEN;
       switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
     }
   }
   else
   {
-    if (m_parent_data.graph_disp_mode != LE_GRAPH_DISP_MODE_REPEATED)
+    if (m_parent_data.graph_disp_mode != LE_OSC_DISP_MODE::REPEATED)
     {
-      m_parent_data.graph_disp_mode = LE_GRAPH_DISP_MODE_REPEATED; 
+      m_parent_data.graph_disp_mode = LE_OSC_DISP_MODE::REPEATED; 
       switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_DOUBLE);
     }
   }
@@ -555,7 +555,7 @@ time_per_division (double value, unsigned osc_disp_num_cols)
 void LAB_Oscilloscope:: 
 sampling_rate (double value, unsigned osc_disp_num_cols)
 {
-  double tpd = LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES / (value * osc_disp_num_cols);  
+  double tpd = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES / (value * osc_disp_num_cols);  
   
   time_per_division (tpd, osc_disp_num_cols);
 }
@@ -584,18 +584,17 @@ horizontal_offset (double value)
   m_parent_data.horizontal_offset = value;
 }
 
-
 // Trigger
 LE_OSC_TRIG_MODE LAB_Oscilloscope:: 
-trigger () 
+trigger_mode () 
 {
   return (m_parent_data.trig_mode);
 }
 
 void LAB_Oscilloscope:: 
-trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
+trigger_mode (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 {
-  if (_LE_OSC_TRIG_MODE != trigger ())
+  if (_LE_OSC_TRIG_MODE != trigger_mode ())
   {
     m_parent_data.trig_mode = _LE_OSC_TRIG_MODE;
     
@@ -606,8 +605,8 @@ trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 void LAB_Oscilloscope:: 
 trigger_level (double value)
 {
-  if (value >= LAB_OSCILLOSCOPE_MIN_TRIGGER_LEVEL && 
-    value <= LAB_OSCILLOSCOPE_MAX_TRIGGER_LEVEL)
+  if (value >= LAB_OSCILLOSCOPE::MIN_TRIGGER_LEVEL && 
+    value <= LAB_OSCILLOSCOPE::MAX_TRIGGER_LEVEL)
   {
     m_parent_data.trig_level = value;
   }
@@ -644,19 +643,37 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 }
 
 void LAB_Oscilloscope:: 
+trigger_source  (unsigned chan)
+{
+  if (chan >= 0 && chan <= LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS)
+  {
+    m_parent_data.trig_chan_src = chan;
+  }
+}
+
+double LAB_Oscilloscope:: 
+trigger_source ()
+{
+  return (m_parent_data.trig_chan_src);
+}
+
+void LAB_Oscilloscope:: 
 trigger_pass ()
 {
-  while (trigger () == LE_OSC_TRIG_MODE::NORMAL)
+  while (trigger_mode () == LE_OSC_TRIG_MODE::NORMAL)
   {
-    std::this_thread::sleep_for (
-      std::chrono::duration<double>(LAB_OSCILLOSCOPE_MAX_SAMPLING_PERIOD)
-    );
+    // std::this_thread::sleep_for (
+    //   std::chrono::duration<double>(LAB_OSCILLOSCOPE::MAX_SAMPLING_PERIOD)
+    // );
 
     auto start = std::chrono::steady_clock::now ();
     
     for (int a = 0; a < m_parent_data.raw_sample_buffer.size (); a++)
     {
-      m_parent_data.raw_sample_buffer[a]++;
+      if (m_parent_data.channel_data[trigger_source ()].samples[a] > trigger_level ())
+      {
+        std::cout << ".\n";
+      }
     }
 
     auto end = std::chrono::steady_clock::now ();
@@ -740,6 +757,13 @@ update_state ()
   }
 
   return 1;
+}
+
+// Getters
+double LAB_Oscilloscope:: 
+sampling_rate ()
+{
+  return (m_parent_data.sampling_rate);
 }
 
 // EOF

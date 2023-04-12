@@ -20,9 +20,9 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
       m_x_labels; 
 
     std::array <std::array <Fl_Box*, LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS + 1>, 
-      LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> m_y_labels;
+      LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> m_y_labels;
 
-    std::array<Fl_Box*, LAB_OSCILLOSCOPE_NUMBER_OF_CHANNELS> m_y_label_units;
+    std::array<Fl_Box*, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> m_y_label_units;
         
   public:   
     LABSoft_Oscilloscope_Display  *m_display;
@@ -42,7 +42,8 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     int   update_voltage_per_division_labels  ();
     int   update_voltage_per_division_labels  (unsigned channel);
     int   update_time_per_division_labels     ();
-    int   update_upper_osc_disp_info          (); 
+    void  update_upper_osc_disp_info          (); 
+    void  update_y_label_unit                 (unsigned channel);
 };
 
 #endif

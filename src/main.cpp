@@ -15,7 +15,7 @@
   3. Clean Code: A Handbook of Agile Software Craftmanship
   https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
 
-  4. SOLID pricinple
+  4. SOLID pricinples
   https://en.wikipedia.org/wiki/SOLID
 */
 

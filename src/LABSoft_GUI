@@ -552,7 +552,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {
+          Fl_Group oscilloscope_fl_group_horizontal {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -561,7 +561,7 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_time_per_division {
               label {Time per Division}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);} open
               xywh {865 520 120 30} box FLAT_BOX color 53 selection_color 53 align 1
               code0 {oscilloscope_fl_input_choice_time_per_division->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION);}
               code1 {oscilloscope_fl_input_choice_time_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -572,7 +572,11 @@ class LABSoft_GUI {open
                 xywh {40 362 36 21}
               }
               MenuItem {} {
-                label {12 s}
+                label {20 s}
+                xywh {60 382 36 21}
+              }
+              MenuItem {} {
+                label {10 s}
                 xywh {60 362 36 21}
               }
               MenuItem {} {
@@ -600,7 +604,7 @@ class LABSoft_GUI {open
                 xywh {40 362 36 21}
               }
               MenuItem {} {
-                label {50 ms}
+                label {50 ms} selected
                 xywh {60 362 36 21}
               }
               MenuItem {} {
@@ -654,6 +658,10 @@ class LABSoft_GUI {open
               MenuItem {} {
                 label {2 us}
                 xywh {60 372 36 21}
+              }
+              MenuItem {} {
+                label {1 us}
+                xywh {70 382 36 21}
               }
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_sampling_rate {
@@ -867,22 +875,17 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_trigger {open
+          Fl_Group oscilloscope_fl_group_trigger {
             xywh {0 -4 1366 768}
           } {
             Fl_Box {} {
               label Trigger
               xywh {1015 480 160 240} box FLAT_BOX color 52 align 1
             }
-            Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
-              label Level open
-              xywh {1035 515 120 30} box FLAT_BOX color 53 selection_color 53 align 1
-              code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);}
-            } {}
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
               label Mode
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);} open
-              xywh {1035 575 120 30} down_box BORDER_BOX color 53 selection_color 53 align 1
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);}
+              xywh {1035 520 120 30} down_box BORDER_BOX color 53 selection_color 53 align 1
             } {
               MenuItem {} {
                 label None
@@ -893,6 +896,28 @@ class LABSoft_GUI {open
                 xywh {20 20 36 21}
               }
             }
+            Fl_Choice oscilloscope_fl_choice_trigger_source {
+              label Source
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_source (o, v);}
+              xywh {1035 590 120 30} down_box BORDER_BOX align 1 deactivate
+            } {
+              MenuItem {} {
+                label {Channel 1}
+                xywh {0 0 36 21}
+              }
+              MenuItem {} {
+                label {Channel 2}
+                xywh {10 10 36 21}
+              }
+            }
+            Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
+              label Level
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);}
+              xywh {1035 660 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
+              code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);}
+              code1 {oscilloscope_fl_input_choice_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code2 {oscilloscope_fl_input_choice_trigger_level->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+            } {}
           }
           Fl_Group oscilloscope_fl_group_display {
             xywh {0 0 1366 768} labeltype NO_LABEL

@@ -220,7 +220,8 @@ void LABSoft_GUI::cb_oscilloscope_fl_input_choice_time_per_division(Fl_Input_Cho
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] = {
  {"30 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"12 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"20 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"10 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -241,6 +242,7 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] 
  {"10 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -326,6 +328,26 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_trigger_mode[] = {
  {"Normal", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
+
+void LABSoft_GUI::cb_oscilloscope_fl_choice_trigger_source_i(Fl_Choice* o, void* v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_trigger_source (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_choice_trigger_source(Fl_Choice* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_choice_trigger_source_i(o,v);
+}
+
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_trigger_source[] = {
+ {"Channel 1", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Channel 2", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0}
+};
+
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_trigger_level_i(Fl_Input_Choice* o, void* v) {
+  m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_trigger_level(Fl_Input_Choice* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_trigger_level_i(o,v);
+}
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_display_mode[] = {
  {"Repeated", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -813,14 +835,7 @@ LABSoft_GUI::LABSoft_GUI() {
             o->color(FL_LIGHT2);
             o->align(Fl_Align(FL_ALIGN_TOP));
           } // Fl_Box* o
-          { oscilloscope_fl_input_choice_trigger_level = new Fl_Input_Choice(1035, 515, 120, 30, "Level");
-            oscilloscope_fl_input_choice_trigger_level->box(FL_FLAT_BOX);
-            oscilloscope_fl_input_choice_trigger_level->color((Fl_Color)53);
-            oscilloscope_fl_input_choice_trigger_level->selection_color((Fl_Color)53);
-            oscilloscope_fl_input_choice_trigger_level->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);
-          } // Fl_Input_Choice* oscilloscope_fl_input_choice_trigger_level
-          { oscilloscope_fl_choice_trigger_mode = new Fl_Choice(1035, 575, 120, 30, "Mode");
+          { oscilloscope_fl_choice_trigger_mode = new Fl_Choice(1035, 520, 120, 30, "Mode");
             oscilloscope_fl_choice_trigger_mode->down_box(FL_BORDER_BOX);
             oscilloscope_fl_choice_trigger_mode->color((Fl_Color)53);
             oscilloscope_fl_choice_trigger_mode->selection_color((Fl_Color)53);
@@ -828,6 +843,24 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_choice_trigger_mode->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_fl_choice_trigger_mode->menu(menu_oscilloscope_fl_choice_trigger_mode);
           } // Fl_Choice* oscilloscope_fl_choice_trigger_mode
+          { oscilloscope_fl_choice_trigger_source = new Fl_Choice(1035, 590, 120, 30, "Source");
+            oscilloscope_fl_choice_trigger_source->down_box(FL_BORDER_BOX);
+            oscilloscope_fl_choice_trigger_source->callback((Fl_Callback*)cb_oscilloscope_fl_choice_trigger_source);
+            oscilloscope_fl_choice_trigger_source->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_choice_trigger_source->deactivate();
+            oscilloscope_fl_choice_trigger_source->menu(menu_oscilloscope_fl_choice_trigger_source);
+          } // Fl_Choice* oscilloscope_fl_choice_trigger_source
+          { oscilloscope_fl_input_choice_trigger_level = new Fl_Input_Choice(1035, 660, 120, 30, "Level");
+            oscilloscope_fl_input_choice_trigger_level->box(FL_FLAT_BOX);
+            oscilloscope_fl_input_choice_trigger_level->color((Fl_Color)53);
+            oscilloscope_fl_input_choice_trigger_level->selection_color((Fl_Color)53);
+            oscilloscope_fl_input_choice_trigger_level->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_trigger_level);
+            oscilloscope_fl_input_choice_trigger_level->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_trigger_level->deactivate();
+            oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);
+            oscilloscope_fl_input_choice_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_trigger_level->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+          } // Fl_Input_Choice* oscilloscope_fl_input_choice_trigger_level
           oscilloscope_fl_group_trigger->end();
         } // Fl_Group* oscilloscope_fl_group_trigger
         { oscilloscope_fl_group_display = new Fl_Group(0, 0, 1366, 768);

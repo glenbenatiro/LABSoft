@@ -141,7 +141,7 @@ reserve_pixel_points ()
     for (int a = 0; a < (m_parent_data_osc->channel_data.size ()); a++)
     {
       m_parent_data_osc->channel_data[a].pixel_points.reserve (
-        LAB_OSCILLOSCOPE_NUMBER_OF_SAMPLES
+        LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
       );
     }
 
@@ -179,7 +179,7 @@ fill_pixel_points ()
         ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
           chn.voltage_per_division);
 
-      if (osc.time_per_division < LAB_OSCILLOSCOPE_MIN_TIME_PER_DIV_NO_ZOOM)
+      if (osc.time_per_division < LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
       {
         double volt_samp_x_off = 0;
 

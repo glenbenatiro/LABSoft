@@ -107,42 +107,17 @@ class LabelValue
     std::string to_label_text ();
     std::string to_label_text (LABELVALUE_TYPE _LABELVALUE_TYPE);
     
-    // inline getters
-    double actual_value ()
-    {
-      return (m_actual_value);
-    }
+    // Getters
+    double      actual_value        ();
+    double      coefficient         ();
+    int         exponent            ();
+    char        unit_prefix         ();
+    std::string label_for           ();
+    bool        is_valid_label_text ();
+    std::string short_value         ();
 
-    double coefficient ()
-    {
-      return (m_coefficient);
-    }
-
-    int exponent ()
-    {
-      return (m_exponent);
-    }
-
-    char unit_prefix ()
-    {
-      return (m_unit_prefix[0]);
-    }
-
-    std::string label_for ()
-    {
-      return (labelvalue_for_string_format[m_label_type]);
-    }
-
-    bool is_valid_label_text ()
-    {
-      return (m_is_valid_label_text);
-    }
-
-    // inline setters
-    void label_for (LABELVALUE_TYPE parse_output_as)
-    {
-      m_label_type = parse_output_as;
-    }
+    // Setters
+    void        label_for           (LABELVALUE_TYPE parse_output_as);
 };
 
 #endif

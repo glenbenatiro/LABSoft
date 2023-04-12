@@ -24,7 +24,7 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     reserve_pixel_points ();
   
-  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE_TIME_PER_DIVISION,
+  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE::TIME_PER_DIVISION,
     LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 
   // Do these here, instead of in the LABSoft_Oscilloscope_Display_Group widget,
@@ -35,7 +35,6 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
     update_time_per_division_labels ();
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_upper_osc_disp_info ();
-
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -88,14 +87,9 @@ cb_voltage_per_division (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    std::cout << "actual v/div value is: " << std::setprecision (12) << lv.actual_value () << std::endl;
-
-    std::cout << (lv.actual_value () >= LAB_OSCILLOSCOPE_MIN_VOLTAGE_PER_DIVISION) << std::endl;
-
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE_MIN_VOLTAGE_PER_DIVISION &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE_MAX_VOLTAGE_PER_DIVISION)
+    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_VOLTAGE_PER_DIVISION &&
+      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_VOLTAGE_PER_DIVISION)
     {
-      std::cout  << "luh" << std::endl;
       m_LAB->m_Oscilloscope.voltage_per_division (channel, lv.actual_value ());
     }
   }
@@ -119,8 +113,8 @@ cb_vertical_offset (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE_MIN_VERTICAL_OFFSET &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE_MAX_VERTICAL_OFFSET)
+    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_VERTICAL_OFFSET &&
+      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_VERTICAL_OFFSET)
     {
       m_LAB->m_Oscilloscope.vertical_offset (channel, lv.actual_value ());
     }
@@ -128,6 +122,9 @@ cb_vertical_offset (Fl_Input_Choice* w,
 
   w->value (LabelValue (m_LAB->m_Oscilloscope.vertical_offset (channel)).
     to_label_text (LABELVALUE_TYPE::VOLTS).c_str ());
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_voltage_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -182,8 +179,8 @@ cb_time_per_division (Fl_Input_Choice* w,
   
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE_MIN_TIME_PER_DIVISION &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE_MAX_TIME_PER_DIVISION)
+    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIVISION &&
+      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_TIME_PER_DIVISION)
     {
       // Backend
       m_LAB->m_Oscilloscope.time_per_division (
@@ -224,8 +221,8 @@ cb_sampling_rate (Fl_Input_Choice* w,
   
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE_MIN_SAMPLING_RATE &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE_MAX_SAMPLING_RATE)
+    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_SAMPLING_RATE &&
+      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE)
     {
       // Backend
       m_LAB->m_Oscilloscope.sampling_rate (
@@ -258,7 +255,7 @@ void LABSoft_Controller_Oscilloscope::
 cb_trigger_mode (Fl_Choice* w,
                  void*      data)
 {
-  //
+  // parse input
   LE_OSC_TRIG_MODE trig_mode;
   std::string choice (w->text ());
   
@@ -274,9 +271,19 @@ cb_trigger_mode (Fl_Choice* w,
   {
     return;
   }
-  //
 
-  m_LAB->m_Oscilloscope.trigger (trig_mode);
+  // backend
+  m_LAB->m_Oscilloscope.trigger_mode (trig_mode);
+
+  // frontend
+  update_trigger_panel_gui ();
+}
+
+void LABSoft_Controller_Oscilloscope::
+cb_trigger_source (Fl_Choice* w, 
+                   void*      data)
+{
+
 }
 
 void  LABSoft_Controller_Oscilloscope::
@@ -291,8 +298,8 @@ cb_trigger_level (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE_MIN_TRIGGER_LEVEL &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE_MAX_TRIGGER_LEVEL)
+    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_TRIGGER_LEVEL &&
+      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_TRIGGER_LEVEL)
     {
       m_LAB->m_Oscilloscope.trigger_level (lv.actual_value ());
     }
@@ -300,6 +307,21 @@ cb_trigger_level (Fl_Input_Choice* w,
 
   w->value (LabelValue (m_LAB->m_Oscilloscope.trigger_level ()).
     to_label_text (LABELVALUE_TYPE::VOLTS).c_str ());
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+update_trigger_panel_gui ()
+{
+  if (m_LAB->m_Oscilloscope.trigger_mode () == LE_OSC_TRIG_MODE::NONE)
+  {
+    m_LABSoft_GUI->oscilloscope_fl_choice_trigger_source->deactivate ();
+    m_LABSoft_GUI->oscilloscope_fl_input_choice_trigger_level->deactivate ();
+  }
+  else 
+  {
+    m_LABSoft_GUI->oscilloscope_fl_choice_trigger_source->activate ();
+    m_LABSoft_GUI->oscilloscope_fl_input_choice_trigger_level->activate ();
+  }
 }
 
 // EOF
