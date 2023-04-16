@@ -14,9 +14,9 @@ class LABSoft_Controller;
 #include "LABSoft_Oscilloscope_Display_Group.h"
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Output.H>
 #include "LABSoft_Logic_Analyzer_Display_Group.h"
-#include <FL/Fl_Button.H>
 #include <FL/Fl_Text_Display.H>
 
 class LABSoft_GUI {

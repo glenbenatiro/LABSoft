@@ -169,6 +169,33 @@ lib/AikaPi/AikaPi.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.s
 .PHONY : lib/AikaPi/AikaPi.cpp.s
 
+src/Defaults.o: src/Defaults.cpp.o
+
+.PHONY : src/Defaults.o
+
+# target to build an object file
+src/Defaults.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Defaults.cpp.o
+.PHONY : src/Defaults.cpp.o
+
+src/Defaults.i: src/Defaults.cpp.i
+
+.PHONY : src/Defaults.i
+
+# target to preprocess a source file
+src/Defaults.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Defaults.cpp.i
+.PHONY : src/Defaults.cpp.i
+
+src/Defaults.s: src/Defaults.cpp.s
+
+.PHONY : src/Defaults.s
+
+# target to generate assembly for a file
+src/Defaults.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Defaults.cpp.s
+.PHONY : src/Defaults.cpp.s
+
 src/LAB.o: src/LAB.cpp.o
 
 .PHONY : src/LAB.o
@@ -829,6 +856,9 @@ help:
 	@echo "... lib/AikaPi/AikaPi.o"
 	@echo "... lib/AikaPi/AikaPi.i"
 	@echo "... lib/AikaPi/AikaPi.s"
+	@echo "... src/Defaults.o"
+	@echo "... src/Defaults.i"
+	@echo "... src/Defaults.s"
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"

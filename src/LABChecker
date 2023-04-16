@@ -1,0 +1,122 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0305
+header_name {.h}
+code_name {.cxx}
+Function {} {open
+} {
+  Fl_Window {} {
+    label {LABChecker 0.1} open
+    xywh {300 160 1366 768} type Double color 52 visible
+  } {
+    Fl_Menu_Bar {} {open
+      xywh {0 0 1366 30} box FLAT_BOX color 54
+    } {
+      Submenu {} {
+        label File open
+        xywh {0 0 70 21}
+      } {
+        MenuItem {} {
+          label Exit
+          xywh {5 5 36 21}
+        }
+      }
+      MenuItem {} {
+        label Settings
+        xywh {10 10 36 21}
+      }
+    }
+    Fl_Tabs {} {open
+      xywh {0 30 1366 738} box FLAT_BOX color 54
+    } {
+      Fl_Group {} {
+        label Home
+        xywh {0 60 1366 708} box FLAT_BOX color 54 selection_color 53 hide
+      } {}
+      Fl_Group {} {
+        label {Simple Wizard} open
+        xywh {0 60 1366 708} box FLAT_BOX color 54 selection_color 53
+      } {
+        Fl_Group simple_wizard_fl_group_output {
+          label Output open
+          xywh {170 160 250 440} box FLAT_BOX color 52
+        } {
+          Fl_Choice simple_wizard_fl_input_choice_output_type {
+            label Type
+            xywh {205 205 180 60} down_box BORDER_BOX align 1
+          } {
+            MenuItem {} {
+              label Sine
+              xywh {15 15 36 21}
+            }
+            MenuItem {} {
+              label Square
+              xywh {5 5 36 21}
+            }
+            MenuItem {} {
+              label Triangle
+              xywh {25 25 36 21}
+            }
+            MenuItem {} {
+              label DC
+              xywh {35 35 36 21}
+            }
+          }
+          Fl_Input_Choice simple_wizard_fl_input_choice_output_amplitude {
+            label Amplitude open
+            xywh {205 305 180 60} align 1
+          } {}
+          Fl_Input_Choice simple_wizard_fl_input_choice_output_frequency {
+            label Frequency open
+            xywh {205 400 180 60} align 1
+          } {}
+          Fl_Input_Choice simple_wizard_fl_input_choice_output_duration {
+            label Duration open
+            xywh {205 500 180 60} align 1
+          } {}
+        }
+        Fl_Group simple_wizard_fl_group_input {
+          label {Expected Input} open
+          xywh {558 160 250 440} box FLAT_BOX color 52
+        } {
+          Fl_Choice simple_wizard_fl_choice_input_type {
+            label Type
+            xywh {593 205 180 60} down_box BORDER_BOX align 1
+          } {
+            MenuItem {} {
+              label Sine
+              xywh {665 25 36 21}
+            }
+            MenuItem {} {
+              label Square
+              xywh {665 15 36 21}
+            }
+            MenuItem {} {
+              label Triangle
+              xywh {665 35 36 21}
+            }
+            MenuItem {} {
+              label DC
+              xywh {665 45 36 21}
+            }
+          }
+          Fl_Input_Choice simple_wizard_fl_input_choice_input_amplitude {
+            label Amplitude open
+            xywh {593 305 180 60} align 1
+          } {}
+          Fl_Input_Choice simple_wizard_fl_input_choice_input_frequency {
+            label Frequency open
+            xywh {593 400 180 60} align 1
+          } {}
+          Fl_Input_Choice simple_wizard_fl_input_choice_input_duration {
+            label Duration open
+            xywh {593 500 180 60} align 1
+          } {}
+        }
+        Fl_Button simple_wizard_fl_button_generate {
+          label {Generate Circuit Checker File}
+          xywh {990 340 180 60} box GTK_UP_BOX color 53 align 128
+        }
+      }
+    }
+  }
+}

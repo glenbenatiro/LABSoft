@@ -50,6 +50,7 @@ ADD_EXECUTABLE(LABSoft
 
   src/LabelValue.cpp
   src/pugixml.cpp
+  src/Defaults.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

@@ -14,6 +14,12 @@
 
 // --- Enums ---
 
+namespace LAB_DEFAULTS
+{
+  bool compareDouble (double a, double b, double epsilon = 1e-9);
+  bool isWithinRange (double value, double min, double max);
+}
+
 namespace LE
 {
   enum class DISPLAY_MODE
@@ -31,6 +37,8 @@ namespace GUI_LBL
     {LE::DISPLAY_MODE::REPEATED,  "Repeated"}
   };
 }
+
+
 
 enum LE_UNIT_PREFIX_EXP
 {
@@ -152,6 +160,11 @@ namespace LAB_OSCILLOSCOPE
   constexpr unsigned          NUMBER_OF_SAMPLES             = 2'000;
   constexpr unsigned          SAMPLE_SIZE                   = sizeof (uint32_t);
 
+   // Uncached Oscilloscope DMA Data Info
+  constexpr unsigned          BUFFER_LENGTH                 = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
+  constexpr unsigned          BUFFER_COUNT                  = 2;
+  constexpr unsigned          VC_MEM_SIZE                   = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
+
   // Vertical
   constexpr LE_OSC_COUPLING   COUPLING                      = LE_OSC_COUPLING::DC;
   constexpr double            MIN_VOLTAGE_PER_DIVISION      = 0.0001;
@@ -194,12 +207,8 @@ namespace LAB_OSCILLOSCOPE
   constexpr LE::DISPLAY_MODE  OSC_DISP_MODE                 = LE::DISPLAY_MODE::REPEATED;
   constexpr double            MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
   constexpr double            MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
-
-  // Uncached Oscilloscope DMA Data Info
-  constexpr unsigned          BUFFER_LENGTH                 = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
-  constexpr unsigned          BUFFER_COUNT                  = 2;
-  constexpr unsigned          VC_MEM_SIZE                   = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
 }
+
 
 struct LAB_Channel_Data_Oscilloscope
 {
@@ -244,13 +253,17 @@ class LAB_Parent_Data_Oscilloscope
 
     // Data/Samples
     double w_samp_count = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; // working sample count
-    std::array <uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>                       raw_sample_buffer;
+    std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES> raw_sample_buffer;
     std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> channel_data;
     
     // Trigger 
+    bool flag_search_trigger_point = false; 
+    
     LE_OSC_TRIG_MODE  trig_mode     = LE_OSC_TRIG_MODE::NONE;
     double            trig_level    = 0.0;
     unsigned          trig_chan_src = 0;
+
+    std::array<std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>, LAB_OSCILLOSCOPE::BUFFER_COUNT> raw_sample_buffer_copy;
 };
 
 struct LAB_DMA_Data_Oscilloscope
@@ -265,6 +278,9 @@ struct LAB_DMA_Data_Oscilloscope
 
   volatile uint32_t status[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS];
   volatile uint32_t rxd[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS][LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES];
+
+  //volatile std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> status;
+  //volatile std::array<std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> rxd;
 };
 
 // LABSoft Oscilloscope Display

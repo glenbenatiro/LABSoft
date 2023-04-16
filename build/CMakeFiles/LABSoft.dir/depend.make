@@ -4,6 +4,10 @@
 CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o: ../lib/AikaPi/AikaPi.cpp
 CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o: ../lib/AikaPi/AikaPi.h
 
+CMakeFiles/LABSoft.dir/src/Defaults.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/Defaults.cpp.o: ../src/Defaults.cpp
+CMakeFiles/LABSoft.dir/src/Defaults.cpp.o: ../src/Defaults.h
+
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o: ../src/LAB.cpp

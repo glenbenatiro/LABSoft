@@ -90,8 +90,9 @@ cb_voltage_per_division (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_VOLTAGE_PER_DIVISION &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_VOLTAGE_PER_DIVISION)
+    if (LAB_DEFAULTS::isWithinRange (lv.actual_value (), 
+      LAB_OSCILLOSCOPE::MIN_VOLTAGE_PER_DIVISION,
+      LAB_OSCILLOSCOPE::MAX_VOLTAGE_PER_DIVISION))
     {
       m_LAB->m_Oscilloscope.voltage_per_division (channel, lv.actual_value ());
     }
@@ -349,13 +350,13 @@ update_horizontal_widgets_gui ()
   LabelValue sampling_rate      (m_LAB->m_Oscilloscope.sampling_rate ());
 
   // Time per Division
-  m_LABSoft_GUI->oscilloscope_fl_input_choice_sampling_rate->value (
-    sampling_rate.to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
+  m_LABSoft_GUI->oscilloscope_fl_input_choice_time_per_division->value (
+    time_per_division.to_label_text (LABELVALUE_TYPE::SECONDS).c_str ()
   );
 
   // Sampling Rate
-  m_LABSoft_GUI->oscilloscope_fl_input_choice_time_per_division->value (
-    time_per_division.to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
+  m_LABSoft_GUI->oscilloscope_fl_input_choice_sampling_rate->value (
+    sampling_rate.to_label_text (LABELVALUE_TYPE::HERTZ).c_str ()
   );
 
   // Display Mode

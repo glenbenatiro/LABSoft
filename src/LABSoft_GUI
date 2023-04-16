@@ -22,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {294 154 1365 765} type Double color 55 visible
+      xywh {2284 89 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
@@ -54,8 +54,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label Oscilloscope open
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
@@ -95,10 +95,6 @@ class LABSoft_GUI {open
               code1 {oscilloscope_fl_input_choice_channel_0_voltage_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_channel_0_voltage_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
-              MenuItem {} {
-                label {10 V}
-                xywh {75 75 36 21}
-              }
               MenuItem {} {
                 label {5 V}
                 xywh {35 35 36 21}
@@ -333,16 +329,12 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_fl_input_choice_channel_1_voltage_per_division {
               label {Volts per Division}
               user_data 1 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);} open
               xywh {1035 280 120 30} box FLAT_BOX color 53 selection_color 53 align 1
               code0 {oscilloscope_fl_input_choice_channel_1_voltage_per_division->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VOLTAGE_PER_DIVISION);}
               code1 {oscilloscope_fl_input_choice_channel_1_voltage_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_channel_1_voltage_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
-              MenuItem {} {
-                label {10 V}
-                xywh {80 80 36 21}
-              }
               MenuItem {} {
                 label {5 V}
                 xywh {40 40 36 21}
@@ -1062,6 +1054,10 @@ class LABSoft_GUI {open
               }
             }
           }
+          Fl_Button {} {
+            label Single
+            xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
+          }
         }
         Fl_Group {} {
           label Voltmeter
@@ -1174,6 +1170,8 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Function_Generator.cb_frequency (o, v);}
             xywh {880 140 180 60} box FLAT_BOX color 53 selection_color 53 align 1
             code0 {function_generator_fl_input_choice_frequency->value (LABSOFT_FUNCTION_GENERATOR_FREQUENCY);}
+            code1 {function_generator_fl_input_choice_frequency->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+            code2 {function_generator_fl_input_choice_frequency->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
           } {
             MenuItem {} {
               label {1 MHz}
@@ -1492,8 +1490,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Logic Analyzer} open
-          xywh {0 60 1366 708} color 54 selection_color 52
+          label {Logic Analyzer}
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
             label Run
@@ -1536,7 +1534,7 @@ class LABSoft_GUI {open
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_sampling_rate {
             label {Sampling Rate}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_sampling_rate (o, v);} selected
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_sampling_rate (o, v);}
             xywh {350 100 120 30} box FLAT_BOX color 53 selection_color 53 align 1
             code0 {// TO-DO: logic_analyzer_fl_input_choice_sampling_rate->value (logic_analyzer_fl_input_choice_sampling_rate->menubutton ()->find_index (std::to_string (LAB_LOGIC_ANALYZER::SAMPLING_RATE).c_str ()));}
             code1 {logic_analyzer_fl_input_choice_sampling_rate->value (logic_analyzer_fl_input_choice_sampling_rate->menubutton ()->find_index (LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP::SAMPLING_RATE.c_str ()));}

@@ -6,6 +6,7 @@
 
 #include "LAB.h"
 #include "LABSoft_GUI.h"
+#include "Defaults.h"
 
 class LABSoft_Controller_Oscilloscope
 {

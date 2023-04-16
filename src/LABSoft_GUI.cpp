@@ -42,7 +42,6 @@ void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_0_voltage_per_division
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_0_voltage_per_division[] = {
- {"10 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -138,7 +137,6 @@ void LABSoft_GUI::cb_oscilloscope_fl_input_choice_channel_1_voltage_per_division
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_channel_1_voltage_per_division[] = {
- {"10 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"5 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"2 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"1 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -754,7 +752,6 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
         o->color(FL_LIGHT3);
         o->selection_color(FL_LIGHT2);
-        o->hide();
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 95, 120, 60, "Run");
           oscilloscope_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
           oscilloscope_fl_light_button_run_stop->color((Fl_Color)53);
@@ -976,6 +973,11 @@ LABSoft_GUI::LABSoft_GUI() {
           } // Fl_Choice* oscilloscope_fl_choice_display_mode
           oscilloscope_fl_group_display->end();
         } // Fl_Group* oscilloscope_fl_group_display
+        { Fl_Button* o = new Fl_Button(1205, 180, 120, 60, "Single");
+          o->box(FL_GTK_UP_BOX);
+          o->color((Fl_Color)53);
+          o->deactivate();
+        } // Fl_Button* o
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Voltmeter");
@@ -1042,6 +1044,8 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_input_choice_frequency->align(Fl_Align(FL_ALIGN_TOP));
           function_generator_fl_input_choice_frequency->menu(menu_function_generator_fl_input_choice_frequency);
           function_generator_fl_input_choice_frequency->value (LABSOFT_FUNCTION_GENERATOR_FREQUENCY);
+          function_generator_fl_input_choice_frequency->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+          function_generator_fl_input_choice_frequency->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
         } // Fl_Input_Choice* function_generator_fl_input_choice_frequency
         { function_generator_fl_input_choice_period = new Fl_Input_Choice(300, 240, 180, 60, "Period");
           function_generator_fl_input_choice_period->box(FL_FLAT_BOX);
@@ -1092,6 +1096,7 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Logic Analyzer");
         o->color(FL_LIGHT3);
         o->selection_color(FL_LIGHT2);
+        o->hide();
         { logic_analyzer_fl_light_button_run_stop = new Fl_Light_Button(50, 84, 120, 60, "Run");
           logic_analyzer_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
           logic_analyzer_fl_light_button_run_stop->color((Fl_Color)53);

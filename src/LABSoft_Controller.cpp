@@ -91,13 +91,12 @@ update_display (void *data)
   Fl::awake ();
   
   post = std::chrono::steady_clock::now ();
-  std::chrono::duration<double, std::micro> diff = post - pre;
-  std::cout << "duration: "
-            << diff.count () 
-            << "/" 
-            << wait_dur.count () 
-            << " us" 
-            << std::endl;
+  // std::chrono::duration<double, std::micro> diff = post - pre;
+  // std::cout << diff.count () 
+  //           << "/" 
+  //           << wait_dur.count () 
+  //           << " us" 
+  //           << std::endl;
 
   Fl::repeat_timeout (DISPLAY_UPDATE_RATE, update_display, data);  
 }

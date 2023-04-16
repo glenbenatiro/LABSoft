@@ -41,15 +41,25 @@ class LAB_Oscilloscope
     void parse_raw_sample_buffer  ();
 
     // Trigger 
+    void convert_raw_sample_buffer (uint32_t sample, unsigned channel);
     void parse_trigger  (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
-    void trigger_pass   ();
+    void search_trigger_point   ();
+    void trigger_algo   ();
+    bool is_triggered   (unsigned samp);
 
     // Display 
     LE::DISPLAY_MODE  calc_disp_mode  (double time_per_div);
     void              display_mode    (LE::DISPLAY_MODE _DISPLAY_MODE);
 
     // Other
-    void set_hw_sampling_rate (double value);
+    void      set_hw_sampling_rate        (double value);
+    bool      is_raw_buffer_being_written (unsigned buff);
+     
+    // Conversion
+    double    conv_raw_samp_buff_samp         (uint32_t sample, unsigned channel);
+    uint32_t  extract_chan_raw_samp_buff_samp (uint32_t sample, unsigned channel);
+    uint32_t  arrange_raw_chan_bits           (uint32_t sample);
+    double    arranged_bits_to_actual_value   (uint32_t abs_arranged_bits, bool sign);
 
   public:
     LAB_Parent_Data_Oscilloscope  m_parent_data;

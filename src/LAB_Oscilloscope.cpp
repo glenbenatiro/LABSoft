@@ -367,7 +367,25 @@ coupling (unsigned        channel,
   unsigned pin = (channel == 0) ? LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0 :
     LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1;
 
-  m_LAB_Core->gpio_write (pin, static_cast<int>(_LE_OSC_COUPLING));
+  switch (m_parent_data.channel_data[channel].coupling)
+  {
+    case LE_OSC_COUPLING::AC:
+    {
+      m_LAB_Core->gpio_set (pin, AP_GPIO_FUNC_INPUT, AP_GPIO_PULL_OFF);
+      break;
+    }
+
+    case LE_OSC_COUPLING::DC:
+    {
+      m_LAB_Core->gpio_set (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
 }
 
 void LAB_Oscilloscope:: 
@@ -418,44 +436,96 @@ load_data_samples ()
   parse_raw_sample_buffer ();
 }
 
+/**
+ * @brief Given a uint32_t sample from the raw sample buffer, convert it to the
+ *        selected channel's actual value.
+ * 
+ * @param sample  uint32_t sample from the raw sample buffer
+ * @param channel channel of interest
+ * @return voltage reading
+ */
+double LAB_Oscilloscope:: 
+conv_raw_samp_buff_samp (uint32_t sample,
+                         unsigned channel)
+{
+  uint32_t  raw_channel_bits  = extract_chan_raw_samp_buff_samp (sample, channel);
+  uint32_t  arranged_bits     = arrange_raw_chan_bits (raw_channel_bits);
+  bool      sign              = arranged_bits >> (LAB_OSCILLOSCOPE::ADC_RESOLUTION_BITS - 1);
+  uint32_t  abs_arranged_bits = arranged_bits & ((LAB_OSCILLOSCOPE::ADC_RESOLUTION_INT - 1) >> 1);
+  double    actual_value      = arranged_bits_to_actual_value (abs_arranged_bits, sign);
+
+  return (actual_value);
+}
+
+/**
+ * @brief Given a uint32_t sample from the raw sample buffer, extract the raw
+ *        bits of the given channel.
+ * 
+ * @param sample uint32_t sample from the raw sample buffer
+ * @param channel channel of interest
+ * @return raw bits of the given channel
+ */
+uint32_t LAB_Oscilloscope::
+extract_chan_raw_samp_buff_samp (uint32_t  sample,
+                                 unsigned channel)
+{
+  return (
+    (sample >> (LAB_OSCILLOSCOPE::RAW_DATA_SHIFT_BIT_COUNT * channel)) &
+      LAB_OSCILLOSCOPE::RAW_DATA_POST_SHIFT_MASK
+  );
+}
+
+/**
+ * @brief Given a uint32_t containing the raw data bits of a channel extracted
+ *        from the raw sample buffer, arrange it, taking into account the use
+ *        of the MCP33111 ADC at 10 MHz SPI frequency.
+ * 
+ * @param sample raw channel bits
+ * @return arranged raw channel bits (for MCP33111 ADC)
+ */
+uint32_t LAB_Oscilloscope:: 
+arrange_raw_chan_bits (uint32_t sample)
+{
+  return (
+    ((sample & 0x7f) << 5) | ((sample & 0xf800) >> 11)
+  );
+}
+
+/**
+ * @brief Given a proper, arranged raw channel bits from the raw sample buffer,
+ *        convert it to the actual voltage value. Note that the arranged bits
+ *        is minus one bit as the MSB was used as a sign bit.
+ * 
+ * @param abs_arranged_bits arranged bits, minus the MSB
+ * @param sign sign of the arranged channel bits, taken from MSB
+ * @return converted voltage value
+ */
+double LAB_Oscilloscope::
+arranged_bits_to_actual_value (uint32_t abs_arranged_bits, bool sign)
+{
+  if (sign)
+  {
+    return (static_cast<double>(abs_arranged_bits) *
+      LAB_OSCILLOSCOPE::CONVERSION_CONSTANT);
+  }
+  else 
+  {
+    return ((static_cast<double>(abs_arranged_bits) * 
+      LAB_OSCILLOSCOPE::CONVERSION_CONSTANT) - 
+      LAB_OSCILLOSCOPE::CONVERSION_REFERENCE_VOLTAGE
+    );
+  }
+}
+
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  double actual_value;
-
   for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
   {
     for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
     {
-      uint32_t raw_channel_bits = (
-        ((m_parent_data.raw_sample_buffer[samp]) >> 
-        (LAB_OSCILLOSCOPE::RAW_DATA_SHIFT_BIT_COUNT * chan)) & 
-        LAB_OSCILLOSCOPE::RAW_DATA_POST_SHIFT_MASK
-      );
-
-      // This formula is specific to the Microchip MCP33111 ADC at 10MHz SPI frequency.
-      // Bits can get rearranged depending on the SPI frequency.
-      uint32_t arranged_raw_channel_bits = (
-        ((raw_channel_bits & 0x7f) << 5) | ((raw_channel_bits & 0xf800) >> 11)
-      );
-
-      bool sign = arranged_raw_channel_bits >> 
-        (LAB_OSCILLOSCOPE::ADC_RESOLUTION_BITS - 1);
-
-      uint32_t abs_val_arranged_raw_channel_bits = arranged_raw_channel_bits & 
-        ((LAB_OSCILLOSCOPE::ADC_RESOLUTION_INT - 1) >> 1);
-
-      if (sign)
-      {
-        actual_value = static_cast<double>(abs_val_arranged_raw_channel_bits) * 
-          LAB_OSCILLOSCOPE::CONVERSION_CONSTANT;
-      }
-      else 
-      {
-        actual_value = (static_cast<double>(abs_val_arranged_raw_channel_bits) * 
-          LAB_OSCILLOSCOPE::CONVERSION_CONSTANT) - 
-          LAB_OSCILLOSCOPE::CONVERSION_REFERENCE_VOLTAGE;
-      }
+      double actual_value = conv_raw_samp_buff_samp (
+        m_parent_data.raw_sample_buffer[samp], chan);
 
       m_parent_data.channel_data[chan].samples[samp] = actual_value;
     }
@@ -536,6 +606,7 @@ time_per_division (double value, unsigned osc_disp_num_cols)
   set_hw_sampling_rate  (m_parent_data.sampling_rate);
 }
 
+
 void LAB_Oscilloscope:: 
 sampling_rate (double value, unsigned osc_disp_num_cols)
 {
@@ -578,12 +649,9 @@ trigger_mode ()
 void LAB_Oscilloscope:: 
 trigger_mode (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 {
-  if (_LE_OSC_TRIG_MODE != trigger_mode ())
-  {
-    m_parent_data.trig_mode = _LE_OSC_TRIG_MODE;
-    
-    parse_trigger (m_parent_data.trig_mode);
-  }
+  m_parent_data.trig_mode = _LE_OSC_TRIG_MODE;
+
+  parse_trigger (m_parent_data.trig_mode);
 }
 
 void LAB_Oscilloscope:: 
@@ -609,12 +677,13 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
   {
     case LE_OSC_TRIG_MODE::NONE:
     {
+      m_trigger_thread.join ();
       break;
     }
 
     case LE_OSC_TRIG_MODE::NORMAL:
     {
-      m_trigger_thread = std::thread (&LAB_Oscilloscope::trigger_pass, this);
+      m_trigger_thread = std::thread (&LAB_Oscilloscope::search_trigger_point, this);
       
       break;
     }
@@ -671,24 +740,12 @@ display_mode ()
   return (m_parent_data.disp_mode);
 }
 
-void LAB_Oscilloscope:: 
-trigger_pass ()
-{
-  double m_arr[2000];
 
-  while (trigger_mode () == LE_OSC_TRIG_MODE::NORMAL)
-  {    
-    for (int a = 0; a < m_parent_data.raw_sample_buffer.size (); a++)
-    {
-      if (m_parent_data.channel_data[trigger_source ()].samples[a] > trigger_level ())
-      {
-        for (int x = 0; x < 2000; x++)
-        {
-          m_arr[x] = (((x + 1) / 2.34) * 3.16) + (4.26 * x);
-        }
-      }
-    }
-  }
+void LAB_Oscilloscope:: 
+search_trigger_point ()
+{
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_dma_data_osc.virt));
 }
 
 void LAB_Oscilloscope::   
