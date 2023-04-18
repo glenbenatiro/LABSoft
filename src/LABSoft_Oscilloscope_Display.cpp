@@ -152,127 +152,68 @@ reserve_pixel_points ()
 int LABSoft_Oscilloscope_Display::
 fill_pixel_points ()
 {
-  if (!m_parent_data_osc)
+  double osc_disp_vert_half           = h () / 2.0;
+  double osc_disp_vert_midline        = y () + osc_disp_vert_half;
+  LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data_osc;
+
+  for (int chan = 0; chan < (m_parent_data_osc->channel_data.size ()); chan++)
   {
-    return -1;
-  }
+    LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
+    std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
 
-  if (!(m_parent_data_osc->has_enabled_channels ()))
-  {
-    return -2;
-  }
+    double vertical_scaler = (osc_disp_vert_half) / 
+      ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2.0) * 
+      cdata.voltage_per_division);
 
-  //
-
-  double osc_disp_vert_half     = h () / 2;
-  double osc_disp_vert_midline  = y () + osc_disp_vert_half;
-
-  for (int a = 0; a < (m_parent_data_osc->channel_data.size ()); a++)
-  {
-    if (m_parent_data_osc->channel_data[a].is_enabled)
+    if (pdata.w_samp_count >= w ())
     {
-      LAB_Parent_Data_Oscilloscope    &osc  = *m_parent_data_osc;
-      LAB_Channel_Data_Oscilloscope   &chn  = osc.channel_data[a];
-      std::vector<std::array<int, 2>> &pp   = chn.pixel_points;
-
-      double vert_scaler = (osc_disp_vert_half) / 
-        ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) *
-          chn.voltage_per_division);
-
-      if (osc.time_per_division < LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_NO_ZOOM)
+      double skipper = (static_cast<double>(pdata.w_samp_count) - 1.0) / w ();
+    
+      for (int samp = 0; samp <= w (); samp++)
       {
-        double volt_samp_x_off = 0;
+        pp[samp][0] = x () + samp;
 
-        if (osc.w_samp_count > w ())
+        double curr_samp = (cdata.samples[std::round (skipper * samp)]) + 
+          cdata.vertical_offset;
+        
+        if (curr_samp == 0.0)
         {
-          double sample_skip = static_cast<double>(osc.w_samp_count - 1.0) / 
-            static_cast<double>(w () - 1.0);
-                  
-          for (int b = 0; b < w (); b++)
-          {
-            pp[b][0] = x () + b;
-
-            double samp_value = (chn.samples[volt_samp_x_off + 
-              (sample_skip * b)]) + (chn.vertical_offset);
-
-            if (samp_value == 0.0)
-            {
-              pp[b][1] = osc_disp_vert_midline;
-            }
-            else
-            {
-              pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
-            }
-          }
+          pp[samp][1] = osc_disp_vert_midline;
         }
-        else if (osc.w_samp_count == w ())
+        else 
         {
-          for (int b = 0; b < w (); b++)
-          {
-            pp[b][0] = x () + b;
-
-            double samp_value = (chn.samples[volt_samp_x_off + b]) +
-              (chn.vertical_offset);
-
-            if (samp_value == 0.0)
-            {
-              pp[b][1] = osc_disp_vert_midline;
-            }
-            else
-            {
-              pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
-            }
-          }
-        }
-        else // osc.w_samp_count < w ()
-        { 
-          double x_pixel_scaler = ((static_cast<double>(w ()) - 1.0) / 
-            (osc.w_samp_count - 1.0));
-
-          for (int b = 0; b < osc.w_samp_count; b++)
-          {
-            pp[b][0] = x () + (b * x_pixel_scaler);
-
-            double samp_value = (chn.samples[volt_samp_x_off + b]) +
-              (chn.vertical_offset);
-            
-            if (samp_value == 0.0)
-            {
-              pp[b][1] = osc_disp_vert_midline;
-            }
-            else
-            {
-              pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
-            }
-          }
+          pp[samp][1] = osc_disp_vert_midline - (curr_samp * vertical_scaler);
         }
       }
-      else 
+    }
+    else 
+    {
+      double scaler = w () / 
+        (static_cast<double>(pdata.w_samp_count) - 1.0);
+
+      double first_samp_index = (static_cast<double>(cdata.samples.size ()) - 
+        static_cast<double>(pdata.w_samp_count)) / 2.0;
+      
+      for (int samp = 0; samp < pdata.w_samp_count; samp++)
       {
-        double sample_skip = static_cast<double>(chn.samples.size () - 1) / 
-          static_cast<double>(w () - 1);
-                
-        for (int b = 0; b < w (); b++)
+        pp[samp][0] = x () + (samp * scaler);
+
+        double curr_samp = (cdata.samples[first_samp_index + samp]) + 
+          cdata.vertical_offset;
+        
+        if (curr_samp == 0.0)
         {
-          pp[b][0] = x () + b;
-
-          double samp_value = (chn.samples[sample_skip * b]) + 
-            (chn.vertical_offset);
-
-          if (samp_value == 0.0)
-          {
-            pp[b][1] = osc_disp_vert_midline;
-          }
-          else
-          {
-            pp[b][1] = osc_disp_vert_midline - (samp_value * vert_scaler);
-          }
+          pp[samp][1] = osc_disp_vert_midline;
+        }
+        else 
+        {
+          pp[samp][1] = osc_disp_vert_midline - (curr_samp * vertical_scaler);
         }
       }
     }
   }
 
-  return 1;
+  return (1);
 }
 
 // EOF

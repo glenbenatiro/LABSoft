@@ -266,7 +266,7 @@ run ()
     m_LAB->m_Voltmeter.stop ();
   }
 
-  sampling_rate (m_parent_data.sampling_rate);
+  time_per_division (m_parent_data.time_per_division);
   master_run_stop (true);
 }
 

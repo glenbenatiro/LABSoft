@@ -42,7 +42,7 @@ update_display (void *data)
     _LAB->m_Oscilloscope.load_data_samples ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->
-    fill_pixel_points ();
+      fill_pixel_points ();
 
     gui->oscilloscope_labsoft_oscilloscope_display_group_display->redraw ();
   }
