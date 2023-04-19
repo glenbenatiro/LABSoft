@@ -15,10 +15,10 @@ LABSoft_Oscilloscope_Display (int X,
                               int Y,
                               int W,
                               int H,
-                              const char *label = 0) 
+                              const char *label) 
   : Fl_Widget (X, Y, W, H, label)                                               
 { 
-
+  
 }
 
 LABSoft_Oscilloscope_Display:: 
@@ -30,7 +30,7 @@ LABSoft_Oscilloscope_Display::
 void LABSoft_Oscilloscope_Display:: 
 draw ()
 {
-  draw_box (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR);
+  draw_box (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY::BACKGROUND_COLOR);
   draw_grid ();
   draw_channels ();
 }
@@ -39,7 +39,7 @@ void LABSoft_Oscilloscope_Display::
 draw_grid ()
 {
   // set color
-  fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR);
+  fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY::GRID_COLOR);
 
   // draw grid outer box
   fl_line_style (FL_SOLID, 0, NULL);
@@ -49,26 +49,26 @@ draw_grid ()
   fl_line (x (), y () + h (), x (), y ());                // left
 
   // Draw rows
-  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS - 1); a++)
+  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS - 1); a++)
   {
-    if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2) - 1))
+    if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS / 2) - 1))
       fl_line_style (FL_DASH, 0, NULL);
     else 
       fl_line_style (FL_DOT, 0, NULL);
 
-    int Y = round ((a + 1) * ((float)h () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS)) + y ();
+    int Y = round ((a + 1) * ((float)h () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS)) + y ();
     fl_line (x (), Y, x () + w (), Y);
   }
 
   // draw columns 
-  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS - 1); a++)
+  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS - 1); a++)
     {
-      if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS / 2) - 1))
+      if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS / 2) - 1))
         fl_line_style (FL_DASH, 0, NULL);
       else 
         fl_line_style (FL_DOT, 0, NULL);
 
-      int X = round ((a + 1) * ((float)w () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS)) + x ();
+      int X = round ((a + 1) * ((float)w () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS)) + x ();
       fl_line (X, y (), X, y () + h ());
     }
   
@@ -93,40 +93,84 @@ draw_channels ()
  
   fl_push_clip (x (), y (), w (), h ());
 
-  LAB_Parent_Data_Oscilloscope  &p_data = *m_parent_data_osc;
-  int samp_count = (p_data.w_samp_count < w () ? p_data.w_samp_count : w ()) - 1;
+  LAB_Parent_Data_Oscilloscope  &pdata = *m_parent_data_osc;
+  int samp_count = (pdata.w_samp_count < w () ? pdata.w_samp_count : w ()) - 1;
 
   for (int chan = 0; chan < (m_parent_data_osc->channel_data.size ()); chan++)
   {
-    LAB_Channel_Data_Oscilloscope &c_data = p_data.channel_data[chan];
+    LAB_Channel_Data_Oscilloscope &c_data = pdata.channel_data[chan];
     std::vector<std::array<int, 2>> &pp   = c_data.pixel_points;
 
     if (c_data.is_enabled)
     {
-      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS[chan]);
+      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::CHANNEL_COLORS[chan]);
 
-      for (int samp_i = 0; samp_i < samp_count; samp_i++)
+      if (pdata.w_samp_count <= LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_THRESHOLD)
       {
-        fl_line (
-          pp[samp_i][0], 
-          pp[samp_i][1], 
-          pp[samp_i + 1][0], 
-          pp[samp_i + 1][1]
-        );
+        for (int samp_i = 0; samp_i < samp_count; samp_i++)
+        {
+          fl_line_style (
+            FL_SOLID,
+            0,
+            0
+          );
+
+          fl_line (
+            pp[samp_i][0], 
+            pp[samp_i][1], 
+            pp[samp_i + 1][0], 
+            pp[samp_i + 1][1]
+          );
+
+          fl_line_style (
+            FL_SOLID,
+            LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_THICKNESS,
+            0
+          );
+
+          // Draw the sample markers
+          fl_line (
+            // vertical
+            pp[samp_i][0],
+            pp[samp_i][1] + LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+            pp[samp_i][0],
+            pp[samp_i][1] - LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE
+          );
+
+          fl_line (
+            // horizontal
+            pp[samp_i][0] + LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+            pp[samp_i][1],
+            pp[samp_i][0] - LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+            pp[samp_i][1]
+          );
+        }
       }
+      else 
+      {
+        for (int samp_i = 0; samp_i < samp_count; samp_i++)
+        {
+          fl_line (
+            pp[samp_i][0], 
+            pp[samp_i][1], 
+            pp[samp_i + 1][0], 
+            pp[samp_i + 1][1]
+          );
+        }
+      }  
     }
   }
 
   fl_line_style (0);
   fl_pop_clip();
 
-  return 1;
+  return (1);
 }
 
 void LABSoft_Oscilloscope_Display::
-load_osc_parent_data (LAB_Parent_Data_Oscilloscope *parent_data)
+load_osc_parent_data (LAB_Parent_Data_Oscilloscope& parent_data)
 {
-  m_parent_data_osc = parent_data;
+  m_parent_data_osc = &parent_data;
 }
 
 int LABSoft_Oscilloscope_Display::
@@ -149,12 +193,12 @@ reserve_pixel_points ()
   }
 }
 
-int LABSoft_Oscilloscope_Display::
+void LABSoft_Oscilloscope_Display::
 fill_pixel_points ()
 {
+  LAB_Parent_Data_Oscilloscope& pdata = *(m_parent_data_osc);
   double osc_disp_vert_half           = h () / 2.0;
   double osc_disp_vert_midline        = y () + osc_disp_vert_half;
-  LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data_osc;
 
   for (int chan = 0; chan < (m_parent_data_osc->channel_data.size ()); chan++)
   {
@@ -162,7 +206,7 @@ fill_pixel_points ()
     std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
 
     double vertical_scaler = (osc_disp_vert_half) / 
-      ((LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS / 2.0) * 
+      ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS / 2.0) * 
       cdata.voltage_per_division);
 
     if (pdata.w_samp_count >= w ())
@@ -212,8 +256,6 @@ fill_pixel_points ()
       }
     }
   }
-
-  return (1);
 }
 
 // EOF

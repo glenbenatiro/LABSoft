@@ -216,6 +216,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
 CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h

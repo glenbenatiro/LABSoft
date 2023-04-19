@@ -31,6 +31,9 @@ private:
   static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
+  LABSoft_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
+  Fl_Box *oscilloscope_fl_box_display_status;
+  Fl_Box *oscilloscope_fl_box_upper_info_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;
 private:

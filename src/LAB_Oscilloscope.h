@@ -14,12 +14,10 @@ class LAB_Oscilloscope
   private:
     LAB          *m_LAB;
     LAB_Core     *m_LAB_Core;
-    int           m_curr_screen_buffer = 0;  
     AP_MemoryMap  m_uncached_dma_data_osc;
     std::thread   m_trigger_thread;
-    
-    friend class LABSoft_Controller_Oscilloscope;
 
+    // --- Functions ---
     // Setup
     void init_spi       ();
     void init_pwm       ();
@@ -29,7 +27,7 @@ class LAB_Oscilloscope
     void config_dma_cb  ();
 
     // Master Controls
-    void master_run_stop        (bool value);
+    void master_run_stop (bool value);
   
     // Horizontal 
     double calc_samp_count  (double time_per_division, unsigned osc_disp_num_cols);
@@ -41,11 +39,10 @@ class LAB_Oscilloscope
     void parse_raw_sample_buffer  ();
 
     // Trigger 
-    void convert_raw_sample_buffer (uint32_t sample, unsigned channel);
-    void parse_trigger  (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
-    void search_trigger_point   ();
-    void trigger_algo   ();
-    bool is_triggered   (unsigned samp);
+    void  parse_trigger         (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
+    void  search_trigger_point  ();
+    bool  is_trigger_point      (unsigned buff, unsigned samp);
+    void  service_trigger       (unsigned buff, unsigned samp);
 
     // Display 
     LE::DISPLAY_MODE  calc_disp_mode  (double time_per_div);
@@ -91,8 +88,8 @@ class LAB_Oscilloscope
     void    horizontal_offset (double value);
 
     // Trigger 
-    LE_OSC_TRIG_MODE  trigger_mode    ();
     void              trigger_mode    (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
+    LE_OSC_TRIG_MODE  trigger_mode    ();
     void              trigger_level   (double value);
     double            trigger_level   ();
     void              trigger_source  (unsigned chan);

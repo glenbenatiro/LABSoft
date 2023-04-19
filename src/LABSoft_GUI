@@ -5,9 +5,6 @@ code_name {.cpp}
 decl {\#include "Defaults.h"} {public global
 }
 
-decl {\#include <string>} {private global
-}
-
 decl {\#include "LABSoft_Controller.h"} {private global
 }
 
@@ -22,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {2284 89 1365 765} type Double color 55 visible
+      xywh {146 138 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
@@ -55,18 +52,31 @@ class LABSoft_GUI {open
         }
         Fl_Group {} {
           label Oscilloscope open
-          xywh {0 60 1366 708} color 54 selection_color 52
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
             xywh {1205 95 120 60} box GTK_UP_BOX color 53 selection_color 63 align 16
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
             xywh {24 84 800 660} box FLAT_BOX color 0
-            code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
             class LABSoft_Oscilloscope_Display_Group
-          } {}
+          } {
+            Fl_Box oscilloscope_labsoft_oscilloscope_display_display {
+              xywh {106 109 700 610} box FLAT_BOX color 37
+              code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
+              class LABSoft_Oscilloscope_Display
+            }
+            Fl_Box oscilloscope_fl_box_display_status {
+              label Auto
+              xywh {106 84 90 25} box BORDER_FRAME color 61 labelfont 1 labelsize 10 labelcolor 7
+            }
+            Fl_Box oscilloscope_fl_box_upper_info_display {
+              label {2000 samples at 200kHz}
+              xywh {204 84 0 25} color 7 labelsize 10 labelcolor 7 align 8
+            }
+          }
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
             xywh {0 0 1366 768} color 55
           } {
@@ -1854,8 +1864,8 @@ class LABSoft_GUI {open
           } {}
         }
         Fl_Group {} {
-          label {Circuit Checker}
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label {Circuit Checker} selected
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Button circuit_checker_fl_button_choose_circuit_checker_file {
             label {Choose Circuit   Checker File}

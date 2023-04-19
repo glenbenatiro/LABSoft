@@ -14,27 +14,45 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
   m_LAB         = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
 
-  // Link the LAB_Oscilloscope_Parent_Data struct from LAB_Oscilloscope
-  // to the LABSoft_Oscilloscope_Display_Group class in the GUI
+  /**
+   * 1. Link the LABSoft_Oscilloscope_Display_Group widgets in the FLUID file
+   *    to the LABSoft_Oscilloscope_Display_Group.h/cpp file class. Please 
+   *    see the comment I placed for the function below.
+   */
+  oscilloscope_display_group_init ();
+
+  /**
+   * 2. Link the LAB_Oscilloscope_Parent_Data class to the
+   *    LABSoft_Oscilloscope_Display_Group. This also links the parent data
+   *    class to the LABSoft_Oscilloscope_Display widget.
+   */
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    load_osc_parent_data (&(m_LAB->m_Oscilloscope.m_parent_data));
-  
-  // reserve() the pixel point vectors in the LAB_Oscilloscope_Parent_Data
-  // struct 
+    load_osc_parent_data (m_LAB->m_Oscilloscope.m_parent_data);
+
+  /**
+   * 3. Now that we already linked the LAB_Oscilloscope_Parent_Data class,
+   *    call reserve_pixel_points () so that the pixel point array in the 
+   *    data class is reserved to the width of the LABSoft_Oscilloscope_Display
+   *    widget width. 
+   */
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     reserve_pixel_points ();
-  
-  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE::TIME_PER_DIVISION,
-    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
 
-  // Do these here, instead of in the LABSoft_Oscilloscope_Display_Group widget,
-  // because we already just linked m_parent_data to the said widget
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_voltage_per_division_labels ();
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_time_per_division_labels ();
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_upper_osc_disp_info ();
+  /**
+   * 4. In connection with 3, now that the parent data class is linked,
+   *    update all display information on the LABSoft_Oscilloscope_Display_Group
+   *    widget (voltage per division labels, time per division labels, etc.).
+   */
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_all_display_information ();
+
+  /**
+   * 5. Lastly, call time_per_division () on the LAB_Oscilloscope class to 
+   *    update the time per division, now given the number of columns of
+   *    the LABSoft_Oscilloscope_Display widget.
+   */
+  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE::TIME_PER_DIVISION,
+    LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -189,7 +207,7 @@ cb_time_per_division (Fl_Input_Choice* w,
       // Backend
       m_LAB->m_Oscilloscope.time_per_division (
         lv.actual_value (), 
-        LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS
+        LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS
       );
     }
   }
@@ -222,7 +240,7 @@ cb_sampling_rate (Fl_Input_Choice* w,
       // Backend
       m_LAB->m_Oscilloscope.sampling_rate (
         lv.actual_value (), 
-        LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS
+        LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS
       );
     }
   }
@@ -365,6 +383,94 @@ update_horizontal_widgets_gui ()
       (GUI_LBL::DISPLAY_MODE.at (m_LAB->m_Oscilloscope.display_mode ())).c_str ()
     )
   );
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+display_update_cycle ()
+{
+  m_LAB->m_Oscilloscope.load_data_samples ();
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    fill_pixel_points ();
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    redraw ();
+}
+
+/**
+ * This is needed as the whole definition of the
+ * LABSoft_Oscilloscope_Display_Group class is split into two: inside the 
+ * LABSoft_Oscilloscope_Display_Group.h/cpp file, and in the 
+ * FLUID file. I placed the other half in FLUID because I want to
+ * visualize how the overall look of the oscilloscope display and display group
+ * would look like. I also wanted to make resizing and repositioning of the 
+ * major widgets easier, instead of manually changing in code, compiling, 
+ * then actually running LABSoft to see the changes.
+ * 
+ * Basically this function links and repositions the other widgets part of the 
+ * LABSoft_Oscilloscope_Display_Group, which were defined in the FLUID file,
+ * to the LABSoft_Oscilloscope_Display_Group.h/cpp file class.
+*/
+void LABSoft_Controller_Oscilloscope::
+oscilloscope_display_group_init ()
+{
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    m_display_status = m_LABSoft_GUI->oscilloscope_fl_box_display_status;
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    m_upper_info_display = m_LABSoft_GUI->oscilloscope_fl_box_upper_info_display;
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    m_display = m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_display;
+
+
+  // Reposition y-axis labels and label units
+  LABSoft_Oscilloscope_Display_Group& group = *(m_LABSoft_GUI->
+    oscilloscope_labsoft_oscilloscope_display_group_display);
+  
+  LABSoft_Oscilloscope_Display& disp = *(m_LABSoft_GUI->
+    oscilloscope_labsoft_oscilloscope_display_display);
+    
+  float row_height = (static_cast<float>(disp.h ())) / 
+    LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS;
+
+  for (int chan = 0; chan < group.m_y_labels.size (); chan++)
+  {
+    int x = (disp.x ()) - 
+      (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::Y_LABEL_INTERSPACE * (chan + 1));
+
+    for (int row = 0; row < group.m_y_labels[chan].size (); row++)
+    {
+      int y = (disp.y ()) + (std::round (row_height * row));
+
+      group.m_y_labels[chan][row]->position (x, y);
+    }
+
+    int x_label_unit = x + 
+      LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::Y_LABEL_UNIT_LEFT_MARGIN;
+    int y_label_unit = (disp.y ()) -
+      LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::Y_LABEL_UNIT_BOTTOM_MARGIN;
+
+    group.m_y_label_units[chan]->position (x_label_unit, y_label_unit);
+  }
+
+  // Reposition x-axis labels 
+  float column_width = (static_cast<float>(disp.w ())) / 
+    LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
+  
+  int y = (disp.x () + disp.h ()) + 
+    LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::X_LABEL_INTRASPACE;
+
+  for (int i = 0; i < group.m_x_labels.size (); i++)
+  {
+    int x = (disp.x ()) + (column_width * i);
+
+    // The rightmost x-label could be a bit to the left to avoid clipping
+    if (i == group.m_x_labels.size () - 1)
+      x -= 5;
+
+    group.m_x_labels[i]->position (x, y);
+  }  
 }
 
 // EOF

@@ -96,7 +96,7 @@ init_state ()
 
   // as entire oscilloscope
   time_per_division (m_parent_data.time_per_division, 
-    LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+    LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
 }
 
 void LAB_Oscilloscope:: 
@@ -432,8 +432,16 @@ fill_raw_sample_buffer ()
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
-  fill_raw_sample_buffer  ();
-  parse_raw_sample_buffer ();
+  if (m_parent_data.trig_mode == LE_OSC_TRIG_MODE::NONE && 
+    m_parent_data.trig_flag_no_trig_found_yet)
+  {
+    fill_raw_sample_buffer  ();
+    parse_raw_sample_buffer ();
+  }
+  else 
+  {
+
+  }
 }
 
 /**
@@ -640,11 +648,121 @@ horizontal_offset (double value)
 }
 
 // Trigger
-LE_OSC_TRIG_MODE LAB_Oscilloscope:: 
-trigger_mode () 
+void LAB_Oscilloscope:: 
+parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 {
-  return (m_parent_data.trig_mode);
+  switch (_LE_OSC_TRIG_MODE)
+  {
+    case LE_OSC_TRIG_MODE::NONE:
+    {
+      m_trigger_thread.join ();
+      break;
+    }
+
+    case LE_OSC_TRIG_MODE::NORMAL:
+    {
+      m_trigger_thread = std::thread (&LAB_Oscilloscope::search_trigger_point, this);
+      
+      break;
+    }
+
+    case LE_OSC_TRIG_MODE::AUTO:
+    {
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
 }
+
+void LAB_Oscilloscope:: 
+search_trigger_point ()
+{
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_dma_data_osc.virt));
+  
+  for (int buff = 0; buff < LAB_OSCILLOSCOPE::BUFFER_COUNT; buff++)
+  {
+    for (int samp = 0; samp < LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; samp++)
+    {
+      if (is_trigger_point (buff, samp))
+      {
+        service_trigger (buff, samp);
+      }
+    }
+  }
+}
+
+bool LAB_Oscilloscope:: 
+is_trigger_point (unsigned buff,
+                  unsigned samp)
+{
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_dma_data_osc.virt));
+
+  switch (m_parent_data.trig_type)
+  {
+    case (LE_OSC_TRIG_TYPE::EDGE):
+    {
+      switch (m_parent_data.trig_condition)
+      {
+        case (LE_OSC_TRIG_CND::RISING):
+        {
+          if (dma_data.rxd[buff][samp] > m_parent_data.trig_level)
+          {
+            return (true);
+          }
+          else 
+          {
+            return (false);
+          }
+
+          break;
+        }
+
+        case (LE_OSC_TRIG_CND::FALLING):
+        {
+          if (dma_data.rxd[buff][samp] < m_parent_data.trig_level)
+          {
+            return (true);
+          }
+          else 
+          {
+            return (false);
+          }
+
+          break;
+        }
+
+        default:
+        {
+          break;
+        }
+      }
+
+      break;
+    }
+
+    default:
+    {
+      return (false);
+      break;
+    }
+  }
+
+  return (false);
+}
+
+void LAB_Oscilloscope::
+service_trigger (unsigned buff,
+                 unsigned samp)
+{
+  std::cout << "Triggered!" << std::endl;
+  std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(1))
+;}
 
 void LAB_Oscilloscope:: 
 trigger_mode (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
@@ -652,6 +770,12 @@ trigger_mode (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
   m_parent_data.trig_mode = _LE_OSC_TRIG_MODE;
 
   parse_trigger (m_parent_data.trig_mode);
+}
+
+LE_OSC_TRIG_MODE LAB_Oscilloscope:: 
+trigger_mode () 
+{
+  return (m_parent_data.trig_mode);
 }
 
 void LAB_Oscilloscope:: 
@@ -671,45 +795,21 @@ trigger_level ()
 }
 
 void LAB_Oscilloscope:: 
-parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
-{
-  switch (_LE_OSC_TRIG_MODE)
-  {
-    case LE_OSC_TRIG_MODE::NONE:
-    {
-      m_trigger_thread.join ();
-      break;
-    }
-
-    case LE_OSC_TRIG_MODE::NORMAL:
-    {
-      m_trigger_thread = std::thread (&LAB_Oscilloscope::search_trigger_point, this);
-      
-      break;
-    }
-
-    default:
-    {
-      break;
-    }
-  }
-}
-
-void LAB_Oscilloscope:: 
 trigger_source  (unsigned chan)
 {
   if (chan >= 0 && chan <= LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS)
   {
-    m_parent_data.trig_chan_src = chan;
+    m_parent_data.trig_source = chan;
   }
 }
 
 double LAB_Oscilloscope:: 
 trigger_source ()
 {
-  return (m_parent_data.trig_chan_src);
+  return (m_parent_data.trig_source);
 }
 
+// Display
 void LAB_Oscilloscope:: 
 display_mode_frontend (LE::DISPLAY_MODE _DISPLAY_MODE)
 {
@@ -741,12 +841,9 @@ display_mode ()
 }
 
 
-void LAB_Oscilloscope:: 
-search_trigger_point ()
-{
-  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_dma_data_osc.virt));
-}
+
+
+
 
 void LAB_Oscilloscope::   
 display_mode (LE::DISPLAY_MODE _DISPLAY_MODE)
@@ -839,7 +936,7 @@ update_state ()
 {
   // // Time per division
   // time_per_division (m_parent_data.time_per_division,
-  //   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS);
+  //   LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
 
   // Init scaling
   for (int a = 0; a < m_parent_data.channel_data.size (); a++)

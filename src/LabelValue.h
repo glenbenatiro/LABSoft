@@ -106,8 +106,8 @@ class LabelValue
       LABELVALUE_TYPE  parse_input_as = LABELVALUE_TYPE::NONE
     );
 
-    std::string to_label_text ();
-    std::string to_label_text (LABELVALUE_TYPE _LABELVALUE_TYPE);
+    std::string to_label_text (unsigned precision = 3);
+    std::string to_label_text (LABELVALUE_TYPE _LABELVALUE_TYPE, unsigned precision = 3);
     
     // Getters
     double      actual_value        ();

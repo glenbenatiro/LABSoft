@@ -196,7 +196,7 @@ calc_unit_prefix (int exponent)
 }
 
 std::string LabelValue:: 
-to_label_text ()
+to_label_text (unsigned precision)
 {
   std::stringstream ss;
 
@@ -209,7 +209,7 @@ to_label_text ()
 }
 
 std::string LabelValue:: 
-to_label_text (LABELVALUE_TYPE parse_input_as)
+to_label_text (LABELVALUE_TYPE parse_input_as, unsigned precision)
 {
   m_label_type = parse_input_as;
 

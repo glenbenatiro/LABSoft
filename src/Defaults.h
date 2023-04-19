@@ -38,8 +38,6 @@ namespace GUI_LBL
   };
 }
 
-
-
 enum LE_UNIT_PREFIX_EXP
 {
   LE_UNIT_PREFIX_EXP_GIGA   = 9,
@@ -74,6 +72,14 @@ enum LE_SPI_DMA_BUFFER_COUNT
 };
 
 // --- General Raspberry Pi ---
+namespace LABSOFT_GENERAL
+{
+  constexpr float DISPLAY_UPDATE_RATE (1.0 / 25.0); // 25 fps
+}
+
+
+
+
 constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0; 
 
 // because SPI core clock is fixed to 250MHz in boot/config.txt
@@ -131,6 +137,18 @@ enum class LE_OSC_TRIG_MODE
 {
   NONE,
   NORMAL,
+  AUTO,
+};
+
+enum class LE_OSC_TRIG_TYPE
+{
+  EDGE,
+};
+
+enum class LE_OSC_TRIG_CND
+{
+  RISING,
+  FALLING,
 };
 
 enum class LE_OSC_SCALING
@@ -147,10 +165,36 @@ enum class LE_OSC_COUPLING
   AC = 1
 };
 
+namespace LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP
+{
+  constexpr int AXIS_LABEL_SIZE     = 9;
+  constexpr int X_LABEL_COLOR       = FL_WHITE;
+  constexpr int X_LABEL_INTRASPACE  = 18; 
+  constexpr int Y_LABEL_COLOR       = FL_FOREGROUND_COLOR;
+  constexpr int Y_LABEL_INTERSPACE  = 40; // spacing between columns of y-axis labels
+  constexpr int Y_LABEL_UNIT_BOTTOM_MARGIN = 17; // padding of voltage unit of y-axis labels from top of grid
+  constexpr int DEFAULT_LABEL_COLOR = FL_WHITE;
+  constexpr int BACKGROUND_COLOR    = FL_BLACK;
+  constexpr int Y_LABEL_UNIT_LEFT_MARGIN = 10;
+
+  static std::array<int, 10> CHANNEL_COLORS = 
+  {
+    0x00000003,
+    0x00000006,
+    0x00000002,
+    0x00000001,
+  };
+}
+
 namespace LABSOFT_OSCILLOSCOPE_DISPLAY
 {
-  constexpr unsigned  NUMBER_OF_ROWS    = 10;
-  constexpr unsigned  NUMBER_OF_COLUMNS = 10;
+  constexpr unsigned  NUMBER_OF_ROWS            = 10;
+  constexpr unsigned  NUMBER_OF_COLUMNS         = 10;
+  constexpr unsigned  SAMPLE_MARKING_THRESHOLD  = 40;
+  constexpr unsigned  SAMPLE_MARKING_AMPLITUDE  = 5;
+  constexpr unsigned  SAMPLE_MARKING_THICKNESS  = 1; // Final!
+  constexpr int       BACKGROUND_COLOR          = FL_BLACK;
+  constexpr int       GRID_COLOR                = FL_WHITE;     
 }
 
 namespace LAB_OSCILLOSCOPE
@@ -189,6 +233,8 @@ namespace LAB_OSCILLOSCOPE
   // Trigger
   constexpr LE_OSC_TRIG_MODE  TRIGGER_MODE                  = LE_OSC_TRIG_MODE::NONE;
   constexpr unsigned          TRIGGER_SOURCE                = 0;
+  constexpr LE_OSC_TRIG_TYPE  TRIGGER_TYPE                  = LE_OSC_TRIG_TYPE::EDGE;
+  constexpr LE_OSC_TRIG_CND   TRIGGER_CONDITION             = LE_OSC_TRIG_CND::RISING;
   constexpr double            MIN_TRIGGER_LEVEL             = MIN_VERTICAL_OFFSET;
   constexpr double            MAX_TRIGGER_LEVEL             = MAX_VERTICAL_OFFSET;
   constexpr double            TRIGGER_LEVEL                 = 0.0;
@@ -210,6 +256,7 @@ namespace LAB_OSCILLOSCOPE
 }
 
 
+
 struct LAB_Channel_Data_Oscilloscope
 {
   // Channel
@@ -228,7 +275,43 @@ struct LAB_Channel_Data_Oscilloscope
 
 class LAB_Parent_Data_Oscilloscope
 {
-  public:
+  public:    
+    // Horizontal
+    double            time_per_division = LAB_OSCILLOSCOPE::TIME_PER_DIVISION;
+    double            sampling_rate     = LAB_OSCILLOSCOPE::SAMPLING_RATE;
+    double            horizontal_offset = LAB_OSCILLOSCOPE::HORIZONTAL_OFFSET;
+
+    // Trigger 
+    LE_OSC_TRIG_MODE  trig_mode         = LAB_OSCILLOSCOPE::TRIGGER_MODE;
+    unsigned          trig_source       = LAB_OSCILLOSCOPE::TRIGGER_SOURCE;
+    LE_OSC_TRIG_TYPE  trig_type         = LAB_OSCILLOSCOPE::TRIGGER_TYPE;
+    LE_OSC_TRIG_CND   trig_condition    = LAB_OSCILLOSCOPE::TRIGGER_CONDITION;
+    double            trig_level        = LAB_OSCILLOSCOPE::TRIGGER_LEVEL;
+
+    bool              trig_flag_no_trig_found_yet = true;
+
+    // Display  
+    LE::DISPLAY_MODE  disp_mode         = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
+
+
+    // Data/Samples
+    double            w_samp_count      = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES;
+
+    std::array<
+      uint32_t, 
+      LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
+    > raw_sample_buffer;
+
+    std::array <
+      LAB_Channel_Data_Oscilloscope, 
+      LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS
+    > channel_data;
+
+    // State
+    bool is_osc_core_running      = false; 
+    bool is_osc_frontend_running  = false;
+
+    // --- Functions ---
     bool has_enabled_channels ()
     {
       for (int a = 0; a < channel_data.size (); a++)
@@ -239,31 +322,6 @@ class LAB_Parent_Data_Oscilloscope
 
       return false;
     }
-    
-    bool is_osc_core_running      = false; 
-    bool is_osc_frontend_running  = false;
-
-    // Horizontal
-    double            time_per_division = LAB_OSCILLOSCOPE::TIME_PER_DIVISION;
-    double            sampling_rate     = LAB_OSCILLOSCOPE::SAMPLING_RATE;
-    double            horizontal_offset = LAB_OSCILLOSCOPE::HORIZONTAL_OFFSET;
-
-    // Display
-    LE::DISPLAY_MODE  disp_mode   = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
-
-    // Data/Samples
-    double w_samp_count = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; // working sample count
-    std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES> raw_sample_buffer;
-    std::array <LAB_Channel_Data_Oscilloscope, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> channel_data;
-    
-    // Trigger 
-    bool flag_search_trigger_point = false; 
-    
-    LE_OSC_TRIG_MODE  trig_mode     = LE_OSC_TRIG_MODE::NONE;
-    double            trig_level    = 0.0;
-    unsigned          trig_chan_src = 0;
-
-    std::array<std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>, LAB_OSCILLOSCOPE::BUFFER_COUNT> raw_sample_buffer_copy;
 };
 
 struct LAB_DMA_Data_Oscilloscope
@@ -278,34 +336,10 @@ struct LAB_DMA_Data_Oscilloscope
 
   volatile uint32_t status[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS];
   volatile uint32_t rxd[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS][LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES];
-
-  //volatile std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> status;
-  //volatile std::array<std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> rxd;
 };
 
-// LABSoft Oscilloscope Display
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_ROWS     = 10;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_NUMBER_OF_COLUMNS  = 10;
-constexpr float LABSOFT_OSCILLOSCOPE_DISPLAY_MAX_VOLTAGE        = 25.0; // in volts
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_TOP_MARGIN         = 50;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BOTTOM_MARGIN      = 50;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_LEFT_MARGIN        = 80;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_RIGHT_MARGIN       = 65;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_BACKGROUND_COLOR   = FL_BLACK;
-constexpr int   LABSOFT_OSCILLOSCOPE_DISPLAY_GRID_COLOR         = FL_WHITE;
 
 // LABSoft Oscilloscope Display Group
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_SIZE           = 10;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_COLOR          = FL_WHITE;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_X_LABEL_INTRASPACE     = 18; 
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_SIZE           = 10;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_COLOR          = FL_FOREGROUND_COLOR;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_INTERSPACE     = 35; // spacing between columns of y-axis labels
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_PADDING        = 33; // padding of first column of y-axis labels from left of grid
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_Y_LABEL_UNIT_MARGIN    = 20; // padding of voltage unit of y-axis labels from top of grid
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DEFAULT_LABEL_COLOR    = FL_WHITE;
-constexpr int LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_BACKGROUND_COLOR       = FL_BLACK;
-
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_DIVISION = "1 V";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VERTICAL_OFFSET      = "0 V";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_1_VOLTAGE_PER_DIVISION = "1 V";
@@ -316,14 +350,6 @@ constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET      
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL                  = "0 V";
 constexpr int         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE                   = (LAB_OSCILLOSCOPE::TIME_PER_DIVISION >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIV_DISP_SCREEN) ? 1 : 0; // 0 is repeated, 1 is screen
 
-static std::array<int, 10> 
-  LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_COLORS = 
-{
-  0x00000003,
-  0x00000006,
-  0x00000002,
-  0x00000001,
-};
 
 // --- LAB Voltmeter ---
 

@@ -41,9 +41,15 @@ class LABSoft_Controller_Oscilloscope
     void cb_display_mode            (Fl_Choice*       w, void* data);
 
     // Utility
-    double calc_sampling_rate           ();
-    void update_trigger_panel_gui       ();
-    void update_horizontal_widgets_gui  ();
+    double  calc_sampling_rate           ();
+    void    update_trigger_panel_gui       ();
+    void    update_horizontal_widgets_gui  ();
+
+    // Update Cycle
+    void display_update_cycle ();
+
+    // Extra
+    void oscilloscope_display_group_init ();
 };
 
 #endif
