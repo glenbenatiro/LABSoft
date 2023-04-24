@@ -1,6 +1,9 @@
 #include "LAB_Oscilloscope.h"
 
 #include <cstring>
+#include <iostream>
+
+// remove soon
 #include <bitset>
 
 #include "LAB.h"
@@ -30,7 +33,7 @@ init_spi ()
 {
   m_LAB_Core->spi_init (LAB_SPI_FREQUENCY);
 
-  *(Utility::get_reg32 (&(m_LAB_Core->m_regs_spi), SPI_DC)) = 
+  *(Utility::reg_virt (m_LAB_Core->m_regs_spi, SPI_DC)) = 
     (8<<24) | (4 << 16) | (8<<8) | 1;
 }
 
@@ -42,7 +45,7 @@ init_pwm ()
   m_LAB_Core->pwm_algo      (LAB_PWM_DMA_PACING_PWM_CHAN, AP_PWM_ALGO_MARKSPACE);
   m_LAB_Core->pwm_use_fifo  (LAB_PWM_DMA_PACING_PWM_CHAN, 1);
 
-  *(Utility::get_reg32      (&(m_LAB_Core->m_regs_pwm), PWM_DMAC)) = 
+  *(Utility::reg_virt (m_LAB_Core->m_regs_pwm, PWM_DMAC)) = 
     (1 << 31) | (8 << 8) | (1 << 0);
 }
 
@@ -107,8 +110,8 @@ config_dma_cb ()
     LAB_OSCILLOSCOPE::VC_MEM_SIZE
   );
 
-  AP_MemoryMap *mp                   = &m_uncached_dma_data_osc;
-  LAB_DMA_Data_Oscilloscope *dp      = static_cast<LAB_DMA_Data_Oscilloscope *>(mp->virt);
+  AP_MemoryMap& mp                   = m_uncached_dma_data_osc;
+  LAB_DMA_Data_Oscilloscope& dp      = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt));
   LAB_DMA_Data_Oscilloscope dma_data = 
   {
     .cbs = 
@@ -116,39 +119,38 @@ config_dma_cb ()
       // For double buffer SPI RX
       { // CB 0
         LAB_DMA_TI_OSC_RX,
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
-        Utility::mem_bus_addr (mp, &dp->rxd[0]),
-        //Utility::mem_bus_addr (mp, dp->rxd[0]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_FIFO),
+        Utility::uncached_reg_bus (mp, &dp.rxd[0]),
         (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[1]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[1]),
         0
       },
       { // CB 1
         LAB_DMA_TI_OSC_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_CS),
-        Utility::mem_bus_addr (mp, &dp->status[0]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_CS),
+        Utility::uncached_reg_bus (mp, &dp.status[0]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[2]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[2]),
         0
       }, 
       { // CB 2
         LAB_DMA_TI_OSC_RX,
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
-        Utility::mem_bus_addr (mp, &dp->rxd[1]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_FIFO),
+        Utility::uncached_reg_bus (mp, &dp.rxd[1]),
         (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[3]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[3]),
         0
       }, 
       { // CB 3
         LAB_DMA_TI_OSC_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_CS),
-        Utility::mem_bus_addr (mp, &dp->status[1]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_CS),
+        Utility::uncached_reg_bus (mp, &dp.status[1]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[0]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[0]),
         0
       }, 
 
@@ -157,20 +159,20 @@ config_dma_cb ()
       // For single buffer SPI RX
       { // CB 4
         LAB_DMA_TI_OSC_RX,
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
-        Utility::mem_bus_addr (mp, &dp->rxd[0]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_FIFO),
+        Utility::uncached_reg_bus (mp, &dp.rxd[0]),
         (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[5]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[5]),
         0
       },
       { // CB 5
         LAB_DMA_TI_OSC_RX, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_CS),
-        Utility::mem_bus_addr (mp, &dp->status[0]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_CS),
+        Utility::uncached_reg_bus (mp, &dp.status[0]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[4]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[4]),
         0
       },  
 
@@ -179,12 +181,12 @@ config_dma_cb ()
       // For SPI TX
       { // CB 6
         LAB_DMA_TI_OSC_TX,  
-        Utility::mem_bus_addr (mp, &dp->txd),
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
+        Utility::uncached_reg_bus (mp, &dp.txd),
+        Utility::reg_bus          (m_LAB_Core->m_regs_spi, SPI_FIFO),
         //(uint32_t)((4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES) + 4), 
         4,
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[6]), 
+        Utility::uncached_reg_bus (mp, &dp.cbs[6]), 
         0
       }, 
 
@@ -193,38 +195,38 @@ config_dma_cb ()
       // For PWM pacing
       { //CB 7
         LAB_DMA_TI_OSC_PWM_PACING, 
-        Utility::mem_bus_addr (mp, &dp->pwm_rng),   
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_pwm), PWM_FIF1), 
+        Utility::uncached_reg_bus (mp, &dp.pwm_rng),   
+        Utility::reg_bus (m_LAB_Core->m_regs_pwm, PWM_FIF1), 
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[8]), 
+        Utility::uncached_reg_bus (mp, &dp.cbs[8]), 
         0
       }, 
       { // CB 8
         LAB_DMA_TI_OSC_PWM_PACING, 
-        Utility::mem_bus_addr (mp, &dp->spi_cs_fifo_reset), 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_CS), 
+        Utility::uncached_reg_bus (mp, &dp.spi_cs_fifo_reset), 
+        Utility::reg_bus (m_LAB_Core->m_regs_spi, SPI_CS), 
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[9]), 
+        Utility::uncached_reg_bus (mp, &dp.cbs[9]), 
         0
       },
       { // CB 9
         LAB_DMA_TI_OSC_PWM_PACING, 
-        Utility::mem_bus_addr (mp, &dp->spi_samp_size), 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_DLEN), 
+        Utility::uncached_reg_bus (mp, &dp.spi_samp_size), 
+        Utility::reg_bus (m_LAB_Core->m_regs_spi, SPI_DLEN), 
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[10]), 
+        Utility::uncached_reg_bus (mp, &dp.cbs[10]), 
         0
       },
       { // CB 10
         LAB_DMA_TI_OSC_PWM_PACING, 
-        Utility::mem_bus_addr (mp, &dp->spi_cs),   
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_CS),   
+        Utility::uncached_reg_bus (mp, &dp.spi_cs),   
+        Utility::reg_bus (m_LAB_Core->m_regs_spi, SPI_CS),   
         4, 
         0, 
-        Utility::mem_bus_addr (mp, &dp->cbs[7]), 
+        Utility::uncached_reg_bus (mp, &dp.cbs[7]), 
         0
       },
     },
@@ -250,7 +252,7 @@ config_dma_cb ()
 
   //
 
-  std::memcpy (dp, &dma_data, sizeof (dma_data));
+  std::memcpy (&dp, &dma_data, sizeof (dma_data));
 }
 
 LE::DISPLAY_MODE LAB_Oscilloscope:: 
@@ -535,6 +537,9 @@ parse_raw_sample_buffer ()
     {
       double actual_value = conv_raw_samp_buff_samp (
         m_parent_data.raw_sample_buffer[samp], chan);
+      
+      // if (samp == 0)
+      //   std::cout << actual_value << std::endl;
 
       m_parent_data.channel_data[chan].samples[samp] = actual_value;
     }
@@ -688,9 +693,23 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 void LAB_Oscilloscope:: 
 search_trigger_point ()
 {
+  uint32_t offset = Utility::dma_chan_reg_offset 
+      (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_DEST_AD);
+
   while (m_parent_data.trig_mode != LE_OSC_TRIG_MODE::NONE)
   {
-    std::cout << *(reg_virt (m_LAB_Core->m_regs_dma, ))
+    static uint32_t x;
+
+    // uint32_t lmao = *(Utility::reg_virt (m_LAB_Core->m_regs_dma, Utility::dma_chan_reg_offset (LAB_DMA_CHAN_PWM_PACING, DMA_DEST_AD)));
+
+    // if (x != lmao)
+    // {
+    //   x = lmao;
+
+    //   std::cout << std::hex << x << std::endl;
+    // }
+
+    Utility::disp_reg_virt (m_LAB_Core->m_regs_spi, SPI_CS);
   }
 }
 
@@ -869,13 +888,13 @@ update_dma_data (int disp_mode)
 {
   // m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
   
-  // volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
+  // volatile uint32_t *reg = Utility::reg_virt (m_LAB_Core->m_regs_dma,
   //   DMA_REG (LAB_DMA_CHAN_PWM_PACING, DMA_NEXTCONBK));
 
-  // *reg = Utility::mem_bus_addr ()
+  // *reg = Utility::uncached_reg_bus ()
   
 
-  // Utility::reg_write (*reg, )
+  // Utility::write_reg_virt (*reg, )
 
   // *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
 
@@ -893,30 +912,27 @@ switch_dma_buffer (int buffer)
     m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
   }
 
-  // load the next cb depending on buffer
-  LAB_DMA_Data_Oscilloscope *dp = static_cast<LAB_DMA_Data_Oscilloscope *>
-    (m_uncached_dma_data_osc.virt);
-  
-  volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
-    DMA_REG (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK));
+  // 1. Load the next control block, depending on the buffer 
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_dma_data_osc.virt));
+
+  volatile uint32_t& reg = *(Utility::reg_virt (m_LAB_Core->m_regs_dma,
+    Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK)));
 
   if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   {
-    *reg = Utility::mem_bus_addr (&m_uncached_dma_data_osc, &(dp->cbs[4]));
+    reg = Utility::uncached_reg_bus (m_uncached_dma_data_osc, &dma_data.cbs[4]);
   }
   else // (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
-    *reg = Utility::mem_bus_addr (&m_uncached_dma_data_osc, &(dp->cbs[0]));
-  }
+    reg = Utility::uncached_reg_bus (m_uncached_dma_data_osc, &dma_data.cbs[0]);
+  }  
 
-  // abort current DMA control block
+  // 2. Abort current DMA control block
   m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
 
-  // clear buffer status
-  static_cast<LAB_DMA_Data_Oscilloscope *>(m_uncached_dma_data_osc.virt)->
-    status[0] = 0;
-  static_cast<LAB_DMA_Data_Oscilloscope *>(m_uncached_dma_data_osc.virt)->
-    status[1] = 0;
+  // 3. Clear buffer status
+  dma_data.status[0] = dma_data.status[1] = 0;
 
   if (flag)
   {

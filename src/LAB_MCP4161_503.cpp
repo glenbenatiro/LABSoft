@@ -1,5 +1,7 @@
 #include "LAB_MCP4161_503.h"
 
+#include <iostream>
+
 LAB_MCP4161_503::
 LAB_MCP4161_503 (LAB_Core *_LAB_Core, unsigned spi_chan, unsigned spi_baud)
 {

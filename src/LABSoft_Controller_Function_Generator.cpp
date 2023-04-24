@@ -1,6 +1,7 @@
 #include "LABSoft_Controller_Function_Generator.h"
 
 #include <string>
+#include <iostream>
 
 #include "Defaults.h"
 

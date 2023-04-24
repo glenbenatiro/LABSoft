@@ -66,9 +66,9 @@ config_dma_cb ()
     LAB_LOGIC_ANALYZER::VC_MEM_SIZE
   );
 
-  AP_MemoryMap                     *mp = &m_uncached_dma_data_logan;
-  LAB_DMA_Data_Logic_Analyzer      *dp = static_cast<LAB_DMA_Data_Logic_Analyzer *>(mp->virt);
-  LAB_DMA_Data_Logic_Analyzer dma_data = 
+  AP_MemoryMap& mp                      = m_uncached_dma_data_logan;
+  LAB_DMA_Data_Logic_Analyzer& dp       = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(mp.virt));
+  LAB_DMA_Data_Logic_Analyzer dma_data  = 
   {
     .cbs = 
     {
@@ -76,66 +76,67 @@ config_dma_cb ()
       {
         // CB0
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
-        Utility::mem_bus_addr (mp, dp->rxd[0]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
+        Utility::uncached_reg_bus (mp, &dp.rxd[0]),
         (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[1]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[1]),
         0
       },
-      { // CB1
-        LAB_DMA_TI_LOGAN_STORE,
-        MEM (mp, &dp->buffer_ok_flag),
-        MEM (mp, &dp->status[0]),
+      { // CB 1
+        LAB_DMA_TI_LOGAN_STORE, 
+        Utility::uncached_reg_bus (mp, &dp.buffer_ok_flag),
+        Utility::uncached_reg_bus (mp, &dp.status[0]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[2]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[2]),
         0
       },
       { // CB2
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
-        Utility::mem_bus_addr (mp, dp->rxd[1]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
+        Utility::uncached_reg_bus (mp, &dp.rxd[1]),
         (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[3]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[3]),
         0
       },
-      { //CB 3
-        LAB_DMA_TI_LOGAN_STORE,
-        MEM (mp, &dp->buffer_ok_flag),
-        MEM (mp, &dp->status[1]),
+      { // CB 3
+        LAB_DMA_TI_LOGAN_STORE, 
+        Utility::uncached_reg_bus (mp, &dp.buffer_ok_flag),
+        Utility::uncached_reg_bus (mp, &dp.status[1]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[0]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[0]),
         0
       },
+
+
 
       // for single buffer
       {
         // CB4
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::reg_bus_addr (&(m_LAB_Core->m_regs_gpio), GPIO_GPLEV0),
-        Utility::mem_bus_addr (mp, dp->rxd[0]),
+        Utility::reg_bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
+        Utility::uncached_reg_bus (mp, &dp.rxd[0]),
         (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[1]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[5]),
         0
       },
-      {
-        // CB5
-        LAB_DMA_TI_LOGAN_STORE,
-        MEM (mp, &dp->buffer_ok_flag),
-        MEM (mp, &dp->status[0]),
+      { // CB 5
+        LAB_DMA_TI_LOGAN_STORE, 
+        Utility::uncached_reg_bus (mp, &dp.buffer_ok_flag),
+        Utility::uncached_reg_bus (mp, &dp.status[0]),
         4,
         0,
-        Utility::mem_bus_addr (mp, &dp->cbs[2]),
+        Utility::uncached_reg_bus (mp, &dp.cbs[4]),
         0
       },
     },
   };
 
-  std::memcpy (dp, &dma_data, sizeof (dma_data));
+  std::memcpy (&dp, &dma_data, sizeof (dma_data));
 }
 
 void LAB_Logic_Analyzer:: 
@@ -296,29 +297,26 @@ switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
   }
  
   // load the next cb depending on buffer
-  LAB_DMA_Data_Logic_Analyzer *dma_data = static_cast
-    <LAB_DMA_Data_Logic_Analyzer *>(m_uncached_dma_data_logan.virt);
+  LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
+    (m_uncached_dma_data_logan.virt));
   
-  volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
-    DMA_REG (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK));
+  volatile uint32_t& reg = *(Utility::reg_virt (m_LAB_Core->m_regs_dma,
+    Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK)));
 
   if (_LE_SPI_DMA_NUMBER_OF_BUFFERS == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   {
-    *reg = Utility::mem_bus_addr (&m_uncached_dma_data_logan, &(dma_data->cbs[4]));
+    reg = Utility::uncached_reg_bus (m_uncached_dma_data_logan, &dma_data.cbs[4]);
   }
   else // (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
-    *reg = Utility::mem_bus_addr (&m_uncached_dma_data_logan, &(dma_data->cbs[0]));
+    reg = Utility::uncached_reg_bus (m_uncached_dma_data_logan, &dma_data.cbs[0]);
   }
 
   // abort current DMA control block
   m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
 
   // clear buffer status
-  static_cast<LAB_DMA_Data_Logic_Analyzer *>(m_uncached_dma_data_logan.virt)->
-    status[0] = 0;
-  static_cast<LAB_DMA_Data_Logic_Analyzer *>(m_uncached_dma_data_logan.virt)->
-    status[1] = 0;
+  dma_data.status[0] = dma_data.status[1] = 0;
 
   if (is_dma_pwm_pacing_running)
   {
