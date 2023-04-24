@@ -35,6 +35,8 @@ init_spi ()
 
   *(Utility::reg_virt (m_LAB_Core->m_regs_spi, SPI_DC)) = 
     (8<<24) | (4 << 16) | (8<<8) | 1;
+
+  
 }
 
 void LAB_Oscilloscope:: 
