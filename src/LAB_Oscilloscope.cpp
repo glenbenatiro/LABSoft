@@ -85,6 +85,10 @@ init_dma ()
   m_LAB_Core->dma_start (mp, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX, &(dp->cbs[6]), 0);  
   m_LAB_Core->dma_start (mp, LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, &(dp->cbs[0]), 0);  
   m_LAB_Core->dma_start (mp, LAB_DMA_CHAN_PWM_PACING,          &(dp->cbs[7]), 0); 
+
+  Utility::disp_reg_virt (m_LAB_Core->m_regs_dma, Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX, DMA_CONBLK_AD));
+  Utility::disp_reg_virt (m_LAB_Core->m_regs_dma, Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_CONBLK_AD));
+  Utility::disp_reg_virt (m_LAB_Core->m_regs_dma, Utility::dma_chan_reg_offset (LAB_DMA_CHAN_PWM_PACING, DMA_CONBLK_AD));
 }
 
 void LAB_Oscilloscope:: 
@@ -700,16 +704,14 @@ search_trigger_point ()
   {
     static uint32_t x;
 
-    // uint32_t lmao = *(Utility::reg_virt (m_LAB_Core->m_regs_dma, Utility::dma_chan_reg_offset (LAB_DMA_CHAN_PWM_PACING, DMA_DEST_AD)));
+    uint32_t lmao = *(Utility::reg_virt (m_LAB_Core->m_regs_spi, SPI_FIFO));
 
-    // if (x != lmao)
-    // {
-    //   x = lmao;
+    if (x != lmao)
+    {
+      x = lmao;
 
-    //   std::cout << std::hex << x << std::endl;
-    // }
-
-    Utility::disp_reg_virt (m_LAB_Core->m_regs_spi, SPI_CS);
+      std::cout << std::hex << x << std::endl;
+    }
   }
 }
 
