@@ -11,10 +11,10 @@ class LABSoft_Controller;
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Button.H>
 #include "LABSoft_Oscilloscope_Display_Group.h"
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Choice.H>
-#include <FL/Fl_Button.H>
 #include <FL/Fl_Output.H>
 #include "LABSoft_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>

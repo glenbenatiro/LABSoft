@@ -57,7 +57,15 @@ parse_widget_input_if_valid (const std::string& str)
   //    be a value. Else, further parse the string.
   if (str.find_first_not_of ("0123456789.-") == std::string::npos)
   {
-    return (parse_double_if_valid (std::stod (str)));
+    try 
+    {
+      double value = std::stod (str);
+      return (parse_double_if_valid (value));
+    }
+    catch (const std::invalid_argument& ia)
+    {
+      return (false);
+    }
   }
   else 
   {
@@ -92,7 +100,14 @@ parse_string_if_valid (const std::string& str)
   unsigned nd_pos = str.find_first_not_of ("0123456789.-");
 
   // 2. Assign the substring before the position as the coefficient
-  m_coefficient = std::stod (str.substr (0, nd_pos));
+  try 
+  {
+    m_coefficient = std::stod (str.substr (0, nd_pos));
+  }
+  catch (const std::invalid_argument& ia)
+  {
+    return (false);
+  }
 
   // 3. Remove all possible whitespaces between the coefficient and the unit
   std::string post_coeff  = str.substr (nd_pos);

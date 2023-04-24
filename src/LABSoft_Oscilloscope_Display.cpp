@@ -193,14 +193,15 @@ reserve_pixel_points ()
   }
 }
 
+
 void LABSoft_Oscilloscope_Display::
 fill_pixel_points ()
 {
   LAB_Parent_Data_Oscilloscope& pdata = *(m_parent_data_osc);
-  double osc_disp_vert_half           = h () / 2.0;
-  double osc_disp_vert_midline        = y () + osc_disp_vert_half;
+  double  osc_disp_vert_half           = h () / 2.0;
+  int     osc_disp_vert_midline        = std::round (y () + osc_disp_vert_half);
 
-  for (int chan = 0; chan < (m_parent_data_osc->channel_data.size ()); chan++)
+  for (int chan = 0; chan < pdata.channel_data.size (); chan++)
   {
     LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
     std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
@@ -208,6 +209,8 @@ fill_pixel_points ()
     double vertical_scaler = (osc_disp_vert_half) / 
       ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS / 2.0) * 
       cdata.voltage_per_division);
+    
+    double x_offset = calc_x_offset (chan);
 
     if (pdata.w_samp_count >= w ())
     {
@@ -215,7 +218,7 @@ fill_pixel_points ()
     
       for (int samp = 0; samp <= w (); samp++)
       {
-        pp[samp][0] = x () + samp;
+        pp[samp][0] = std::round (x () + samp + x_offset);
 
         double curr_samp = (cdata.samples[std::round (skipper * samp)]) + 
           cdata.vertical_offset;
@@ -226,21 +229,21 @@ fill_pixel_points ()
         }
         else 
         {
-          pp[samp][1] = osc_disp_vert_midline - (curr_samp * vertical_scaler);
+          pp[samp][1] = std::round (osc_disp_vert_midline - 
+            (curr_samp * vertical_scaler));
         }
       }
     }
     else 
     {
-      double scaler = w () / 
-        (static_cast<double>(pdata.w_samp_count) - 1.0);
+      double scaler = w () / (static_cast<double>(pdata.w_samp_count) - 1.0);
 
       double first_samp_index = (static_cast<double>(cdata.samples.size ()) - 
         static_cast<double>(pdata.w_samp_count)) / 2.0;
       
       for (int samp = 0; samp < pdata.w_samp_count; samp++)
       {
-        pp[samp][0] = x () + (samp * scaler);
+        pp[samp][0] = std::round (x () + (samp * scaler) + x_offset);
 
         double curr_samp = (cdata.samples[first_samp_index + samp]) + 
           cdata.vertical_offset;
@@ -251,10 +254,32 @@ fill_pixel_points ()
         }
         else 
         {
-          pp[samp][1] = osc_disp_vert_midline - (curr_samp * vertical_scaler);
+          pp[samp][1] = std::round (osc_disp_vert_midline - 
+            (curr_samp * vertical_scaler));
         }
       }
     }
+  }
+}
+
+double LABSoft_Oscilloscope_Display:: 
+calc_x_offset (unsigned channel)
+{
+  double curr_off = m_parent_data_osc->horizontal_offset;
+  double curr_tpd = m_parent_data_osc->time_per_division;
+
+  if (curr_off == 0.0)
+  { 
+    return (0.0);
+  }
+  else 
+  {
+    double col_width = static_cast<double>(w ()) / 
+      LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
+
+    double offset_pix = (-1.0 * col_width * (curr_off / curr_tpd));
+
+    return (offset_pix);
   }
 }
 

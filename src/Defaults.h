@@ -65,10 +65,10 @@ enum LE_LABEL_TYPE
   LE_LABEL_TYPE_TIME_PER_DIVISION
 };
 
-enum LE_SPI_DMA_BUFFER_COUNT
+enum LE_SPI_DMA_NUMBER_OF_BUFFERS
 {
-  LE_SPI_DMA_BUFFER_COUNT_SINGLE,
-  LE_SPI_DMA_BUFFER_COUNT_DOUBLE
+  LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE,
+  LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE
 };
 
 // --- General Raspberry Pi ---
@@ -206,8 +206,8 @@ namespace LAB_OSCILLOSCOPE
 
    // Uncached Oscilloscope DMA Data Info
   constexpr unsigned          BUFFER_LENGTH                 = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
-  constexpr unsigned          BUFFER_COUNT                  = 2;
-  constexpr unsigned          VC_MEM_SIZE                   = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
+  constexpr unsigned          NUMBER_OF_BUFFERS                  = 2;
+  constexpr unsigned          VC_MEM_SIZE                   = (PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH));
 
   // Vertical
   constexpr LE_OSC_COUPLING   COUPLING                      = LE_OSC_COUPLING::DC;
@@ -226,8 +226,8 @@ namespace LAB_OSCILLOSCOPE
   constexpr double            MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
   constexpr double            MAX_SAMPLING_RATE             = 200'000;
   constexpr double            SAMPLING_RATE                 = NUMBER_OF_SAMPLES / (TIME_PER_DIVISION * LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
-  constexpr double            MIN_HORIZONTAL_OFFSET         = 0.0;
-  constexpr double            MAX_HORIZONTAL_OFFSET         = 0.0;  
+  constexpr double            MIN_HORIZONTAL_OFFSET         = -100.0; // -100s
+  constexpr double            MAX_HORIZONTAL_OFFSET         = 100.0; // +100s  
   constexpr double            HORIZONTAL_OFFSET             = 0.0;
 
   // Trigger
@@ -336,8 +336,9 @@ struct LAB_DMA_Data_Oscilloscope
 
   volatile uint32_t status[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS];
   volatile uint32_t rxd[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS][LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES];
-};
 
+  //volatile  std::array<std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>, LAB_OSCILLOSCOPE::NUMBER_OF_BUFFERS> rxd;
+};
 
 // LABSoft Oscilloscope Display Group
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_DIVISION = "1 V";
@@ -476,8 +477,8 @@ namespace LAB_LOGIC_ANALYZER
 
   // Uncached Logic Analyzer DMA Data Info
   constexpr unsigned BUFFER_LENGTH        = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
-  constexpr unsigned BUFFER_COUNT         = 2;
-  constexpr unsigned VC_MEM_SIZE          = (PAGE_SIZE + (NUMBER_OF_CHANNELS * BUFFER_COUNT * BUFFER_LENGTH));
+  constexpr unsigned NUMBER_OF_BUFFERS         = 2;
+  constexpr unsigned VC_MEM_SIZE          = (PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH));
 }
 
 namespace LABSOFT_LOGIC_ANALYZER_DISPLAY_GROUP

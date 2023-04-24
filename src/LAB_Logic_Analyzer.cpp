@@ -250,7 +250,7 @@ time_per_division (double value, unsigned disp_num_cols)
       if (m_parent_data.disp_mode != LE::DISPLAY_MODE::SCREEN)
       {
         m_parent_data.disp_mode = LE::DISPLAY_MODE::SCREEN;
-        switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
+        switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE);
       }
     }
     else 
@@ -258,7 +258,7 @@ time_per_division (double value, unsigned disp_num_cols)
       if (m_parent_data.disp_mode != LE::DISPLAY_MODE::REPEATED)
       {
         m_parent_data.disp_mode = LE::DISPLAY_MODE::REPEATED;
-        switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
+        switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE);
       }
     }
 
@@ -285,7 +285,7 @@ horizontal_offset (double value)
 }
 
 void LAB_Logic_Analyzer:: 
-switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT)
+switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
 {
   bool is_dma_pwm_pacing_running = false;
 
@@ -302,11 +302,11 @@ switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT)
   volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
     DMA_REG (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK));
 
-  if (_LE_SPI_DMA_BUFFER_COUNT == LE_SPI_DMA_BUFFER_COUNT_SINGLE)
+  if (_LE_SPI_DMA_NUMBER_OF_BUFFERS == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   {
     *reg = Utility::mem_bus_addr (&m_uncached_dma_data_logan, &(dma_data->cbs[4]));
   }
-  else // (buffer == LE_SPI_DMA_BUFFER_COUNT_DOUBLE)
+  else // (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
     *reg = Utility::mem_bus_addr (&m_uncached_dma_data_logan, &(dma_data->cbs[0]));
   }

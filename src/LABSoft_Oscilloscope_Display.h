@@ -23,6 +23,9 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     void  load_osc_parent_data  (LAB_Parent_Data_Oscilloscope& parent_data);
     int   reserve_pixel_points  ();
     void  fill_pixel_points     ();
+
+    // Calc
+    double calc_x_offset (unsigned channel);
 };
 
 #endif

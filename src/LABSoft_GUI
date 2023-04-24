@@ -52,14 +52,18 @@ class LABSoft_GUI {open
         }
         Fl_Group {} {
           label Oscilloscope open
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
             xywh {1205 95 120 60} box GTK_UP_BOX color 53 selection_color 63 align 16
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
+          Fl_Button {} {
+            label Single
+            xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
+          }
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
             xywh {24 84 800 660} box FLAT_BOX color 0
             class LABSoft_Oscilloscope_Display_Group
           } {
@@ -557,7 +561,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_horizontal {
+          Fl_Group oscilloscope_fl_group_horizontal {open
             xywh {0 0 1366 768}
           } {
             Fl_Box {} {
@@ -736,12 +740,16 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
               label {Horizontal Offset}
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);}
-              xywh {865 660 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);} open
+              xywh {865 660 120 30} box FLAT_BOX color 53 selection_color 53 align 1
               code0 {oscilloscope_fl_input_choice_horizontal_offset->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET);}
               code1 {oscilloscope_fl_input_choice_horizontal_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
+              MenuItem {} {
+                label 100s
+                xywh {80 80 36 21}
+              }
               MenuItem {} {
                 label {50 s}
                 xywh {70 70 36 21}
@@ -765,10 +773,6 @@ class LABSoft_GUI {open
               MenuItem {} {
                 label {1 s}
                 xywh {30 30 36 21}
-              }
-              MenuItem {} {
-                label {0 s}
-                xywh {40 40 36 21}
               }
               MenuItem {} {
                 label {500 ms}
@@ -819,7 +823,7 @@ class LABSoft_GUI {open
                 xywh {70 70 36 21}
               }
               MenuItem {} {
-                label {50 us}
+                label {50 us} selected
                 xywh {60 60 36 21}
               }
               MenuItem {} {
@@ -843,39 +847,107 @@ class LABSoft_GUI {open
                 xywh {100 100 36 21}
               }
               MenuItem {} {
-                label {500 ns}
+                label {0 s}
                 xywh {40 40 36 21}
               }
               MenuItem {} {
-                label {200 ns}
-                xywh {60 60 36 21}
+                label {-1 us}
+                xywh {90 90 36 21}
               }
               MenuItem {} {
-                label {100 ns}
+                label {-2 us}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {-5 us}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {-10 us}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {-20 us}
                 xywh {50 50 36 21}
               }
               MenuItem {} {
-                label {50 ns}
-                xywh {70 70 36 21}
+                label {-50 us}
+                xywh {40 40 36 21}
               }
               MenuItem {} {
-                label {20 ns}
+                label {-100 us}
+                xywh {40 40 36 21}
+              }
+              MenuItem {} {
+                label {-200 us}
+                xywh {50 50 36 21}
+              }
+              MenuItem {} {
+                label {-500 us}
                 xywh {60 60 36 21}
               }
               MenuItem {} {
-                label {10 ns}
+                label {-1 ms}
                 xywh {80 80 36 21}
               }
               MenuItem {} {
-                label {5 ns}
+                label {-2 ms}
                 xywh {70 70 36 21}
               }
               MenuItem {} {
-                label {2 ns}
+                label {-5 ms}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {-10 ms}
                 xywh {80 80 36 21}
               }
               MenuItem {} {
-                label {1 ns}
+                label {-20 ms}
+                xywh {100 100 36 21}
+              }
+              MenuItem {} {
+                label {-50 ms}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {-100 ms}
+                xywh {100 100 36 21}
+              }
+              MenuItem {} {
+                label {-200 ms}
+                xywh {110 110 36 21}
+              }
+              MenuItem {} {
+                label {-500 ms}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {-1 s}
+                xywh {60 60 36 21}
+              }
+              MenuItem {} {
+                label {-2 s}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {-5 s}
+                xywh {70 70 36 21}
+              }
+              MenuItem {} {
+                label {-10 s}
+                xywh {90 90 36 21}
+              }
+              MenuItem {} {
+                label {-20 s}
+                xywh {100 100 36 21}
+              }
+              MenuItem {} {
+                label {-50 s}
+                xywh {80 80 36 21}
+              }
+              MenuItem {} {
+                label {-100 s}
                 xywh {90 90 36 21}
               }
             }
@@ -1063,10 +1135,6 @@ class LABSoft_GUI {open
                 xywh {30 30 36 21}
               }
             }
-          }
-          Fl_Button {} {
-            label Single
-            xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
           }
         }
         Fl_Group {} {
@@ -1864,8 +1932,8 @@ class LABSoft_GUI {open
           } {}
         }
         Fl_Group {} {
-          label {Circuit Checker} selected
-          xywh {0 60 1366 708} color 54 selection_color 52
+          label {Circuit Checker}
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Button circuit_checker_fl_button_choose_circuit_checker_file {
             label {Choose Circuit   Checker File}

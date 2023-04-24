@@ -86,6 +86,7 @@ class LAB_Oscilloscope
     void    sampling_rate     (double value, unsigned osc_disp_num_cols = LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
     double  sampling_rate     ();
     void    horizontal_offset (double value);
+    double  horizontal_offset ();
 
     // Trigger 
     void              trigger_mode    (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);

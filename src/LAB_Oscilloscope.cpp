@@ -118,6 +118,7 @@ config_dma_cb ()
         LAB_DMA_TI_OSC_RX,
         Utility::reg_bus_addr (&(m_LAB_Core->m_regs_spi), SPI_FIFO),
         Utility::mem_bus_addr (mp, &dp->rxd[0]),
+        //Utility::mem_bus_addr (mp, dp->rxd[0]),
         (uint32_t)(4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         Utility::mem_bus_addr (mp, &dp->cbs[1]),
@@ -647,6 +648,12 @@ horizontal_offset (double value)
   m_parent_data.horizontal_offset = value;
 }
 
+double LAB_Oscilloscope:: 
+horizontal_offset ()
+{
+  return (m_parent_data.horizontal_offset);
+}
+
 // Trigger
 void LAB_Oscilloscope:: 
 parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
@@ -681,18 +688,9 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 void LAB_Oscilloscope:: 
 search_trigger_point ()
 {
-  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_dma_data_osc.virt));
-  
-  for (int buff = 0; buff < LAB_OSCILLOSCOPE::BUFFER_COUNT; buff++)
+  while (m_parent_data.trig_mode != LE_OSC_TRIG_MODE::NONE)
   {
-    for (int samp = 0; samp < LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; samp++)
-    {
-      if (is_trigger_point (buff, samp))
-      {
-        service_trigger (buff, samp);
-      }
-    }
+    std::cout << *(reg_virt (m_LAB_Core->m_regs_dma, ))
   }
 }
 
@@ -840,11 +838,6 @@ display_mode ()
   return (m_parent_data.disp_mode);
 }
 
-
-
-
-
-
 void LAB_Oscilloscope::   
 display_mode (LE::DISPLAY_MODE _DISPLAY_MODE)
 {
@@ -852,13 +845,13 @@ display_mode (LE::DISPLAY_MODE _DISPLAY_MODE)
   {
     case LE::DISPLAY_MODE::REPEATED:
     {
-      switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_DOUBLE);
+      switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE);
       break;
     }
 
     case LE::DISPLAY_MODE::SCREEN:
     { 
-      switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT_SINGLE);
+      switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE);
       break;
     }
 
@@ -907,11 +900,11 @@ switch_dma_buffer (int buffer)
   volatile uint32_t *reg = Utility::get_reg32 (m_LAB_Core->m_regs_dma,
     DMA_REG (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK));
 
-  if (buffer == LE_SPI_DMA_BUFFER_COUNT_SINGLE)
+  if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   {
     *reg = Utility::mem_bus_addr (&m_uncached_dma_data_osc, &(dp->cbs[4]));
   }
-  else // (buffer == LE_SPI_DMA_BUFFER_COUNT_DOUBLE)
+  else // (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
     *reg = Utility::mem_bus_addr (&m_uncached_dma_data_osc, &(dp->cbs[0]));
   }

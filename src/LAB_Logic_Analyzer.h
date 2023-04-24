@@ -54,7 +54,7 @@ class LAB_Logic_Analyzer
 
     //
     bool    is_running ();
-    void    switch_dma_buffer (LE_SPI_DMA_BUFFER_COUNT _LE_SPI_DMA_BUFFER_COUNT);
+    void    switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS);
 };
 
 #endif

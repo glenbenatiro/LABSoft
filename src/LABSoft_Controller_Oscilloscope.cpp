@@ -73,7 +73,7 @@ cb_run_stop (Fl_Light_Button *w,
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-cb_channel_enable_disable (Fl_Light_Button *w,
+cb_channel_enable_disable (Fl_Light_Button* w,
                            long             channel)
 {
   bool value = w->value ();
@@ -86,13 +86,28 @@ cb_channel_enable_disable (Fl_Light_Button *w,
 
 void LABSoft_Controller_Oscilloscope::
 cb_horizontal_offset (Fl_Input_Choice* w, 
-             void            *data)
+                      void*            data)
 {
-  LabelValue _LabelValue (w->value ());
+  LabelValue lv (
+    w->value (),
+    m_LAB->m_Oscilloscope.horizontal_offset (),
+    LABELVALUE_TYPE::SECONDS
+  );
 
-  m_LAB->m_Oscilloscope.horizontal_offset (_LabelValue.actual_value ());
+  if (lv.is_valid_label_text ())
+  {
+    if (LAB_DEFAULTS::isWithinRange (lv.actual_value (), 
+      LAB_OSCILLOSCOPE::MIN_HORIZONTAL_OFFSET,
+      LAB_OSCILLOSCOPE::MAX_HORIZONTAL_OFFSET))
+    {
+      m_LAB->m_Oscilloscope.horizontal_offset (lv.actual_value ());
+    }
+  }
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+  w->value (LabelValue (m_LAB->m_Oscilloscope.horizontal_offset ()).
+    to_label_text (LABELVALUE_TYPE::SECONDS).c_str ());
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_time_per_division_labels ();
 }
 
@@ -271,7 +286,7 @@ cb_trigger_mode (Fl_Choice* w,
   {
     trig_mode = LE_OSC_TRIG_MODE::NORMAL;
   }
-  else 
+  else
   {
     return;
   }
