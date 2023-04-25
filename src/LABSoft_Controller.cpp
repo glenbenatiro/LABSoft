@@ -29,7 +29,7 @@ update_display (void *data)
 
   controller.m_Oscilloscope.display_update_cycle    ();
   controller.m_Voltmeter.display_update_cycle       (); 
-  controller.m_Logic_Analyzer.display_update_cycle  ();
+  // controller.m_Logic_Analyzer.display_update_cycle  ();
   
   // post = std::chrono::steady_clock::now ();
   // // std::chrono::duration<double, std::micro> diff = post - pre;

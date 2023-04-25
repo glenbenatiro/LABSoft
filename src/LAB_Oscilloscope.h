@@ -15,6 +15,7 @@ class LAB_Oscilloscope
     LAB          *m_LAB;
     LAB_Core     *m_LAB_Core;
     AP_MemoryMap  m_uncached_dma_data_osc;
+    Uncached      m_uncached_dma_data;
     std::thread   m_trigger_thread;
 
     // --- Functions ---

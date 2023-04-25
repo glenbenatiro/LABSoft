@@ -4,7 +4,9 @@
 
 #include <cstring>
 #include <bitset>
-// #include <iostream>
+
+// remove soon
+#include <iostream>
 // #include <bitset>
 
 LAB_Logic_Analyzer::
@@ -13,9 +15,9 @@ LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB)
   // PWM should be initialized already at this point in LAB
   m_LAB_Core  = _LAB_Core;
   m_LAB       = _LAB;
-
-  init_logan_gpio_pins  ();
-  init_logan_dma        ();
+  
+  //init_logan_gpio_pins  ();
+  //init_logan_dma        ();
 }
 
 LAB_Logic_Analyzer::
