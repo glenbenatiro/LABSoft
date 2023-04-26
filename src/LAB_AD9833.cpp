@@ -88,8 +88,6 @@ wave_type (LE_WAVE_TYPE _LE_WAVE_TYPE)
 void LAB_AD9833:: 
 frequency (double frequency)
 {
-  std::cout << "freq: " << frequency << std::endl;
-
   if ((frequency <= AD9833_MAX_FREQUENCY) && (frequency >= AD9833_MIN_FREQUENCY))
   {
     uint32_t divider = ((frequency * AD9833_2_POW_28) / 

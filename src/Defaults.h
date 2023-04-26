@@ -122,8 +122,8 @@ constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_CS                    = 13;
 // DMA Channel Use
 // dma channels in use after reboot 3b plus = 2 3 4 6
 constexpr unsigned  LAB_DMA_CHAN_PWM_PACING                 = 7;
-constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX        = 8;
-constexpr unsigned  LAB_DMA_CHAN_OSCILLOSCOPE_SPI_TX        = 9;
+constexpr unsigned  LAB_DMA_CHAN_OSC_RX        = 8;
+constexpr unsigned  LAB_DMA_CHAN_OSC_TX        = 9;
 constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 10;
 
 constexpr uint32_t LAB_DMA_TI_OSC_PWM_PACING  = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_WAIT_RESP;

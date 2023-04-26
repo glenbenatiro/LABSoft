@@ -60,8 +60,6 @@ void LABSoft_Controller_Function_Generator::
 cb_frequency (Fl_Input_Choice *w, 
               long             channel)
 {
-  std::cout << "freq: " << w->value () << std::endl;
-
   LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.frequency (channel),

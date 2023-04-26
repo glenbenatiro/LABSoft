@@ -15,7 +15,7 @@ LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB)
   // PWM should be initialized already at this point in LAB
   m_LAB_Core  = _LAB_Core;
   m_LAB       = _LAB;
-  
+
   //init_logan_gpio_pins  ();
   //init_logan_dma        ();
 }
@@ -78,38 +78,38 @@ config_dma_cb ()
       {
         // CB0
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::reg_bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
-        Utility::uncached_reg_bus (mp, &dp.rxd[0]),
+        Utility::bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
+        Utility::bus (mp, &dp.rxd[0]),
         (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::uncached_reg_bus (mp, &dp.cbs[1]),
+        Utility::bus (mp, &dp.cbs[1]),
         0
       },
       { // CB 1
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::uncached_reg_bus (mp, &dp.buffer_ok_flag),
-        Utility::uncached_reg_bus (mp, &dp.status[0]),
+        Utility::bus (mp, &dp.buffer_ok_flag),
+        Utility::bus (mp, &dp.status[0]),
         4,
         0,
-        Utility::uncached_reg_bus (mp, &dp.cbs[2]),
+        Utility::bus (mp, &dp.cbs[2]),
         0
       },
       { // CB2
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::reg_bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
-        Utility::uncached_reg_bus (mp, &dp.rxd[1]),
+        Utility::bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
+        Utility::bus (mp, &dp.rxd[1]),
         (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::uncached_reg_bus (mp, &dp.cbs[3]),
+        Utility::bus (mp, &dp.cbs[3]),
         0
       },
       { // CB 3
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::uncached_reg_bus (mp, &dp.buffer_ok_flag),
-        Utility::uncached_reg_bus (mp, &dp.status[1]),
+        Utility::bus (mp, &dp.buffer_ok_flag),
+        Utility::bus (mp, &dp.status[1]),
         4,
         0,
-        Utility::uncached_reg_bus (mp, &dp.cbs[0]),
+        Utility::bus (mp, &dp.cbs[0]),
         0
       },
 
@@ -119,20 +119,20 @@ config_dma_cb ()
       {
         // CB4
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::reg_bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
-        Utility::uncached_reg_bus (mp, &dp.rxd[0]),
+        Utility::bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
+        Utility::bus (mp, &dp.rxd[0]),
         (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::uncached_reg_bus (mp, &dp.cbs[5]),
+        Utility::bus (mp, &dp.cbs[5]),
         0
       },
       { // CB 5
         LAB_DMA_TI_LOGAN_STORE, 
-        Utility::uncached_reg_bus (mp, &dp.buffer_ok_flag),
-        Utility::uncached_reg_bus (mp, &dp.status[0]),
+        Utility::bus (mp, &dp.buffer_ok_flag),
+        Utility::bus (mp, &dp.status[0]),
         4,
         0,
-        Utility::uncached_reg_bus (mp, &dp.cbs[4]),
+        Utility::bus (mp, &dp.cbs[4]),
         0
       },
     },
@@ -302,20 +302,20 @@ switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
   LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
     (m_uncached_dma_data_logan.virt));
   
-  volatile uint32_t& reg = *(Utility::reg_virt (m_LAB_Core->m_regs_dma,
-    Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX, DMA_NEXTCONBK)));
+  volatile uint32_t& reg = *(Utility::reg (m_LAB_Core->m_regs_dma,
+    Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSC_RX, DMA_NEXTCONBK)));
 
   if (_LE_SPI_DMA_NUMBER_OF_BUFFERS == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   {
-    reg = Utility::uncached_reg_bus (m_uncached_dma_data_logan, &dma_data.cbs[4]);
+    reg = Utility::bus (m_uncached_dma_data_logan, &dma_data.cbs[4]);
   }
   else // (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
-    reg = Utility::uncached_reg_bus (m_uncached_dma_data_logan, &dma_data.cbs[0]);
+    reg = Utility::bus (m_uncached_dma_data_logan, &dma_data.cbs[0]);
   }
 
   // abort current DMA control block
-  m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSCILLOSCOPE_SPI_RX);
+  m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSC_RX);
 
   // clear buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
