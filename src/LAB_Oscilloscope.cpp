@@ -38,7 +38,6 @@ void LAB_Oscilloscope::
 init_spi ()
 {
   m_LAB_Core->spi_init (LAB_SPI_FREQUENCY);
-
   m_LAB_Core->spi.reg (SPI_DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
 }
 
@@ -120,40 +119,40 @@ config_dma_cb ()
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        mp.bus   (&dp.rxd[0]),
+        mp.bus                (&dp.rxd[0]),
         static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        mp.bus   (&dp.cbs[1]),
+        mp.bus                (&dp.cbs[1]),
         0
       },
       // 1
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_CS),
-        mp.bus   (&dp.status[0]),
+        mp.bus                (&dp.status[0]),
         4,
         0,
-        mp.bus   (&dp.cbs[2]),
+        mp.bus                (&dp.cbs[2]),
         0
       },
       // 2
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        mp.bus   (&dp.rxd[1]),
+        mp.bus                (&dp.rxd[1]),
         static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        mp.bus   (&dp.cbs[3]),
+        mp.bus                (&dp.cbs[3]),
         0
       },
       // 3
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_CS),
-        mp.bus   (&dp.status[1]),
+        mp.bus                (&dp.status[1]),
         4,
         0,
-        mp.bus   (&dp.cbs[0]),
+        mp.bus                (&dp.cbs[0]),
         0
       },
 
@@ -162,20 +161,20 @@ config_dma_cb ()
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        mp.bus   (&dp.rxd[0]),
+        mp.bus                (&dp.rxd[0]),
         static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        mp.bus   (&dp.cbs[5]),
+        mp.bus                (&dp.cbs[5]),
         0
       },
       // 5
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_CS),
-        mp.bus   (&dp.status[0]),
+        mp.bus                (&dp.status[0]),
         4,
         0,
-        mp.bus   (&dp.cbs[4]),
+        mp.bus                (&dp.cbs[4]),
         0
       },
 
@@ -183,11 +182,11 @@ config_dma_cb ()
       // 6
       {
         LAB_DMA_TI_OSC_TX,
-        mp.bus   (&dp.txd),
+        mp.bus                (&dp.txd),
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
+        4,
         0,
-        mp.bus   (&dp.cbs[6]),
+        mp.bus                (&dp.cbs[6]),
         0
       },
 
@@ -195,41 +194,41 @@ config_dma_cb ()
       // 7
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus         (&dp.pwm_rng),
-        m_LAB_Core->pwm.bus         (PWM_FIF1),
+        mp.bus                (&dp.pwm_rng),
+        m_LAB_Core->pwm.bus   (PWM_FIF1),
         4,
         0,
-        mp.bus         (&dp.cbs[8]),
+        mp.bus                (&dp.cbs[8]),
         0
       },
       // 8
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus         (&dp.spi_cs_fifo_reset),
-        m_LAB_Core->spi.bus         (SPI_CS),
+        mp.bus                (&dp.spi_cs_fifo_reset),
+        m_LAB_Core->spi.bus   (SPI_CS),
         4,
         0,
-        mp.bus         (&dp.cbs[9]),
+        mp.bus                (&dp.cbs[9]),
         0
       },
       // 9
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus         (&dp.spi_samp_size),
-        m_LAB_Core->spi.bus         (SPI_DLEN),
+        mp.bus                (&dp.spi_samp_size),
+        m_LAB_Core->spi.bus   (SPI_DLEN),
         4,
         0,
-        mp.bus         (&dp.cbs[10]),
+        mp.bus                (&dp.cbs[10]),
         0
       },
       // 10
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus         (&dp.spi_cs),
-        m_LAB_Core->spi.bus         (SPI_CS),
+        mp.bus                (&dp.spi_cs),
+        m_LAB_Core->spi.bus   (SPI_CS),
         4,
         0,
-        mp.bus         (&dp.cbs[7]),
+        mp.bus                (&dp.cbs[7]),
         0
       },     
     },   
@@ -527,8 +526,8 @@ parse_raw_sample_buffer ()
       double actual_value = conv_raw_samp_buff_samp (
         m_parent_data.raw_sample_buffer[samp], chan);
       
-      // if (samp == 0)
-      //   std::cout << actual_value << std::endl;
+      if (samp == 0)
+        SPI::print (m_parent_data.raw_sample_buffer[samp]);
 
       m_parent_data.channel_data[chan].samples[samp] = actual_value;
     }
@@ -682,13 +681,21 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 void LAB_Oscilloscope:: 
 search_trigger_point ()
 {
-  unsigned dma_chan = LAB_DMA_CHAN_OSC_RX;
-  DMA& dma = m_LAB_Core->dma;
   std::cout << std::hex; 
+  DMA& dma = m_LAB_Core->dma;
+  SPI& spi = m_LAB_Core->spi;
+
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+      (m_uncached_dma_data.virt ()));
 
   while (m_parent_data.trig_mode != LE_OSC_TRIG_MODE::NONE)
   {
-    std::cout << dma.dest_addr (LAB_DMA_CHAN_OSC_RX) << std::endl;
+    //std::cout << dma.dest_addr (LAB_DMA_CHAN_OSC_RX) << std::endl;
+
+    std::cout << dma_data.txd << std::endl;
+    std::cout << "spi cs: "; spi.disp_reg (SPI_CS);
+
+    
 
     std::this_thread::sleep_for (std::chrono::duration <double, std::micro> (10)); 
   }
