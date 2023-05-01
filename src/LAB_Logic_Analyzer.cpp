@@ -292,10 +292,10 @@ switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
 {
   bool is_dma_pwm_pacing_running = false;
 
-  if (!(m_LAB_Core->is_dma_paused (LAB_DMA_CHAN_PWM_PACING)))
+  if (!(m_LAB_Core->is_dma_paused (LABC::DMA_CHAN::PWM_PACING)))
   {
     is_dma_pwm_pacing_running = true;
-    m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma_pause (LABC::DMA_CHAN::PWM_PACING);
   }
  
   // load the next cb depending on buffer
@@ -303,7 +303,7 @@ switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
     (m_uncached_dma_data_logan.virt));
   
   volatile uint32_t& reg = *(Utility::reg (m_LAB_Core->m_regs_dma,
-    Utility::dma_chan_reg_offset (LAB_DMA_CHAN_OSC_RX, DMA_NEXTCONBK)));
+    Utility::dma_chan_reg_offset (LABC::DMA_CHAN::OSC_RX, DMA_NEXTCONBK)));
 
   if (_LE_SPI_DMA_NUMBER_OF_BUFFERS == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   {
@@ -315,14 +315,14 @@ switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
   }
 
   // abort current DMA control block
-  m_LAB_Core->dma_abort (LAB_DMA_CHAN_OSC_RX);
+  m_LAB_Core->dma_abort (LABC::DMA_CHAN::OSC_RX);
 
   // clear buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
 
   if (is_dma_pwm_pacing_running)
   {
-    m_LAB_Core->dma_play (LAB_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma_play (LABC::DMA_CHAN::PWM_PACING);
   }
 }
 

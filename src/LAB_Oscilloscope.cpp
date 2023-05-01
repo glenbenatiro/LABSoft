@@ -25,51 +25,51 @@ LAB_Oscilloscope (LAB_Core  *_LAB_Core,
 LAB_Oscilloscope::
 ~LAB_Oscilloscope ()
 {
-  m_LAB_Core->dma.stop  (LAB_DMA_CHAN_OSC_RX);
-  m_LAB_Core->dma.stop  (LAB_DMA_CHAN_OSC_TX);
-  m_LAB_Core->dma.stop  (LAB_DMA_CHAN_PWM_PACING);
+  m_LAB_Core->dma.stop  (LABC::DMA_CHAN::OSC_RX);
+  m_LAB_Core->dma.stop  (LABC::DMA_CHAN::OSC_TX);
+  m_LAB_Core->dma.stop  (LABC::DMA_CHAN::PWM_PACING);
 
-  m_LAB_Core->dma.reset (LAB_DMA_CHAN_OSC_RX);
-  m_LAB_Core->dma.reset (LAB_DMA_CHAN_OSC_TX);
-  m_LAB_Core->dma.reset (LAB_DMA_CHAN_PWM_PACING);
+  m_LAB_Core->dma.reset (LABC::DMA_CHAN::OSC_RX);
+  m_LAB_Core->dma.reset (LABC::DMA_CHAN::OSC_TX);
+  m_LAB_Core->dma.reset (LABC::DMA_CHAN::PWM_PACING);
 }
 
 void LAB_Oscilloscope:: 
 init_spi ()
 {
-  m_LAB_Core->spi_init (LAB_SPI_FREQUENCY);
-  m_LAB_Core->spi.reg (SPI_DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
+  m_LAB_Core->spi.frequency (LABC::SPI::FREQUENCY);
+  m_LAB_Core->spi.reg       (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
 }
 
 void LAB_Oscilloscope:: 
 init_pwm ()
 {
-  m_LAB_Core->gpio_set      (LAB_RPI_PIN_PWM_CHAN_0, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
-  m_LAB_Core->pwm_init      (LAB_OSCILLOSCOPE::SAMPLING_RATE);
+  m_LAB_Core->gpio.set      (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
 
-  m_LAB_Core->pwm.algo      (LAB_PWM_DMA_PACING_PWM_CHAN, AP_PWM_ALGO_MARKSPACE);
-  m_LAB_Core->pwm.use_fifo  (LAB_PWM_DMA_PACING_PWM_CHAN, true);
-  m_LAB_Core->pwm.reg       (PWM_DMAC, (1 << 31) | (8 << 8) | (1 << 0));
+  m_LAB_Core->pwm.frequency (LABC::PIN::PWM, LAB_OSCILLOSCOPE::SAMPLING_RATE);
+  m_LAB_Core->pwm.algo      (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
+  m_LAB_Core->pwm.use_fifo  (LABC::PWM::DMA_PACING_CHAN, true);
+  m_LAB_Core->pwm.reg       (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
 }
 
 void LAB_Oscilloscope::
 init_gpio_pins ()
 {
   // scaling
-  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 1);
-  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 1);
-  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
+  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0, 
+    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 1);
+  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0, 
+    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
+  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1, 
+    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 1);
+  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1, 
+    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 
   // coupling
-  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
-  m_LAB_Core->gpio_set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1, 
-    AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
+  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0, 
+    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
+  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1, 
+    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 }
 
 void LAB_Oscilloscope::
@@ -80,9 +80,9 @@ init_dma ()
   AikaPi::Uncached&          mp = m_uncached_dma_data;
   LAB_DMA_Data_Oscilloscope& dp = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt ()));
 
-  m_LAB_Core->dma.start (LAB_DMA_CHAN_OSC_TX,     mp.bus (&dp.cbs[6]));
-  m_LAB_Core->dma.start (LAB_DMA_CHAN_OSC_RX,     mp.bus (&dp.cbs[0]));
-  m_LAB_Core->dma.start (LAB_DMA_CHAN_PWM_PACING, mp.bus (&dp.cbs[7]));
+  m_LAB_Core->dma.start (LABC::DMA_CHAN::OSC_TX,     mp.bus (&dp.cbs[6]));
+  m_LAB_Core->dma.start (LABC::DMA_CHAN::OSC_RX,     mp.bus (&dp.cbs[0]));
+  m_LAB_Core->dma.start (LABC::DMA_CHAN::PWM_PACING, mp.bus (&dp.cbs[7]));
 }
 
 void LAB_Oscilloscope:: 
@@ -889,10 +889,10 @@ display_mode (LE::DISPLAY_MODE _DISPLAY_MODE)
 void LAB_Oscilloscope:: 
 update_dma_data (int disp_mode)
 {
-  // m_LAB_Core->dma_pause (LAB_DMA_CHAN_PWM_PACING);
+  // m_LAB_Core->dma_pause (LABC::DMA_CHAN::PWM_PACING);
   
   // volatile uint32_t *reg = Utility::reg (m_LAB_Core->m_regs_dma,
-  //   DMA_REG (LAB_DMA_CHAN_PWM_PACING, DMA_NEXTCONBK));
+  //   DMA_REG (LABC::DMA_CHAN::PWM_PACING, DMA_NEXTCONBK));
 
   // *reg = Utility::bus ()
   
@@ -901,7 +901,7 @@ update_dma_data (int disp_mode)
 
   // *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
 
-  // m_LAB_Core->dma_play (LAB_DMA_CHAN_PWM_PACING);
+  // m_LAB_Core->dma_play (LABC::DMA_CHAN::PWM_PACING);
 }
 
 void LAB_Oscilloscope:: 
@@ -913,24 +913,24 @@ switch_dma_buffer (int buffer)
     (m_uncached_dma_data.virt ()));
   
   // 1. Pause PWM pacing if running
-  if (m_LAB_Core->dma.is_running (LAB_DMA_CHAN_PWM_PACING))
+  if (m_LAB_Core->dma.is_running (LABC::DMA_CHAN::PWM_PACING))
   {
     flag = true;
-    m_LAB_Core->dma.pause (LAB_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma.pause (LABC::DMA_CHAN::PWM_PACING);
   }
 
   // 2. Assign next control block depending on buffer
   if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   { 
-    m_LAB_Core->dma.next_cb (LAB_DMA_CHAN_OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[4]));
+    m_LAB_Core->dma.next_cb (LABC::DMA_CHAN::OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[4]));
   }
   else if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
-    m_LAB_Core->dma.next_cb (LAB_DMA_CHAN_OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[0]));
+    m_LAB_Core->dma.next_cb (LABC::DMA_CHAN::OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[0]));
   }
 
   // 3. Abort the current control block 
-  m_LAB_Core->dma.abort (LAB_DMA_CHAN_OSC_RX);
+  m_LAB_Core->dma.abort (LABC::DMA_CHAN::OSC_RX);
 
   // 4. Clean buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
@@ -938,7 +938,7 @@ switch_dma_buffer (int buffer)
   // 5. Run DMA channel if it was running
   if (flag)
   {
-    m_LAB_Core->dma.run (LAB_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma.run (LABC::DMA_CHAN::PWM_PACING);
   }
 }
 
