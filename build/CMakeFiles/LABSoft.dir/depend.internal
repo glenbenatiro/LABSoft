@@ -4,12 +4,16 @@
 CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.cpp
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.cpp
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/Defaults.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
  /home/glen/Desktop/LABSoft/src/Defaults.cpp
  /home/glen/Desktop/LABSoft/src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.cpp
  /home/glen/Desktop/LABSoft/src/LAB.h
@@ -18,10 +22,12 @@ CMakeFiles/LABSoft.dir/src/LAB.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft.cpp
@@ -42,6 +48,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
@@ -49,6 +56,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp
@@ -68,6 +76,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
@@ -75,6 +84,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.cpp
@@ -89,6 +99,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
@@ -96,6 +107,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/src/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Function_Generator.cpp
@@ -110,11 +122,13 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Logic_Analyzer.cpp
@@ -129,11 +143,13 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Oscilloscope.cpp
@@ -148,11 +164,13 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Voltmeter.cpp
@@ -167,11 +185,13 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
@@ -191,6 +211,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h
@@ -231,6 +252,7 @@ CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
@@ -239,6 +261,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o
@@ -247,18 +270,16 @@ CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
- /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
- /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
- /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
- /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
- /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
@@ -267,16 +288,18 @@ CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
-CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o
+CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/src/Defaults.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
- /home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp
- /home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.cpp
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
@@ -284,11 +307,13 @@ CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
@@ -296,6 +321,7 @@ CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
@@ -304,6 +330,7 @@ CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o
  /home/glen/Desktop/LABSoft/src/LabelValue.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Defaults.h
  /home/glen/Desktop/LABSoft/src/LAB.h
  /home/glen/Desktop/LABSoft/src/LABSoft.h
@@ -323,6 +350,7 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LabelValue.h

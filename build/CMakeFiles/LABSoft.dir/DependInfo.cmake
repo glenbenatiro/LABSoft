@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o"
+  "/home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Defaults.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Defaults.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"
@@ -24,7 +25,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB_Core.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Function_Generator.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o"
-  "/home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Oscilloscope.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB_Voltmeter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB_Voltmeter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LabelValue.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"

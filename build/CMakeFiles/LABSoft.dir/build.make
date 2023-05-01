@@ -362,22 +362,9 @@ CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_AD9833.cpp -o CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.s
 
-CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: CMakeFiles/LABSoft.dir/flags.make
-CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o: ../src/LAB_MCP4161_503.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp
-
-CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp > CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.i
-
-CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp -o CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.s
-
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o: ../src/LabelValue.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o -c /home/glen/Desktop/LABSoft/src/LabelValue.cpp
 
 CMakeFiles/LABSoft.dir/src/LabelValue.cpp.i: cmake_force
@@ -390,7 +377,7 @@ CMakeFiles/LABSoft.dir/src/LabelValue.cpp.s: cmake_force
 
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.o: ../src/pugixml.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/LABSoft.dir/src/pugixml.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/pugixml.cpp.o -c /home/glen/Desktop/LABSoft/src/pugixml.cpp
 
 CMakeFiles/LABSoft.dir/src/pugixml.cpp.i: cmake_force
@@ -403,7 +390,7 @@ CMakeFiles/LABSoft.dir/src/pugixml.cpp.s: cmake_force
 
 CMakeFiles/LABSoft.dir/src/Defaults.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/Defaults.cpp.o: ../src/Defaults.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/LABSoft.dir/src/Defaults.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/LABSoft.dir/src/Defaults.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/Defaults.cpp.o -c /home/glen/Desktop/LABSoft/src/Defaults.cpp
 
 CMakeFiles/LABSoft.dir/src/Defaults.cpp.i: cmake_force
@@ -413,6 +400,32 @@ CMakeFiles/LABSoft.dir/src/Defaults.cpp.i: cmake_force
 CMakeFiles/LABSoft.dir/src/Defaults.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/Defaults.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/Defaults.cpp -o CMakeFiles/LABSoft.dir/src/Defaults.cpp.s
+
+CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o: ../lib/MCP4XXX/MCP4XXX.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o -c /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.cpp
+
+CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.cpp > CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.i
+
+CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.cpp -o CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: ../src/LAB_MCP4XXX.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o -c /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.cpp
+
+CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.cpp > CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.cpp -o CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.s
 
 # Object files for target LABSoft
 LABSoft_OBJECTS = \
@@ -438,10 +451,11 @@ LABSoft_OBJECTS = \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/pugixml.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/Defaults.cpp.o"
+"CMakeFiles/LABSoft.dir/src/Defaults.cpp.o" \
+"CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o"
 
 # External object files for target LABSoft
 LABSoft_EXTERNAL_OBJECTS =
@@ -468,14 +482,15 @@ LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display_Group.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Logic_Analyzer_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o
-LABSoft: CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LabelValue.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/pugixml.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/Defaults.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/build.make
 LABSoft: /usr/lib/arm-linux-gnueabihf/libfltk.so
 LABSoft: CMakeFiles/LABSoft.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Linking CXX executable LABSoft"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Linking CXX executable LABSoft"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LABSoft.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

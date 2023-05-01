@@ -169,6 +169,33 @@ lib/AikaPi/AikaPi.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.s
 .PHONY : lib/AikaPi/AikaPi.cpp.s
 
+lib/MCP4XXX/MCP4XXX.o: lib/MCP4XXX/MCP4XXX.cpp.o
+
+.PHONY : lib/MCP4XXX/MCP4XXX.o
+
+# target to build an object file
+lib/MCP4XXX/MCP4XXX.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o
+.PHONY : lib/MCP4XXX/MCP4XXX.cpp.o
+
+lib/MCP4XXX/MCP4XXX.i: lib/MCP4XXX/MCP4XXX.cpp.i
+
+.PHONY : lib/MCP4XXX/MCP4XXX.i
+
+# target to preprocess a source file
+lib/MCP4XXX/MCP4XXX.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.i
+.PHONY : lib/MCP4XXX/MCP4XXX.cpp.i
+
+lib/MCP4XXX/MCP4XXX.s: lib/MCP4XXX/MCP4XXX.cpp.s
+
+.PHONY : lib/MCP4XXX/MCP4XXX.s
+
+# target to generate assembly for a file
+lib/MCP4XXX/MCP4XXX.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.s
+.PHONY : lib/MCP4XXX/MCP4XXX.cpp.s
+
 src/Defaults.o: src/Defaults.cpp.o
 
 .PHONY : src/Defaults.o
@@ -682,32 +709,32 @@ src/LAB_Logic_Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.s
 .PHONY : src/LAB_Logic_Analyzer.cpp.s
 
-src/LAB_MCP4161_503.o: src/LAB_MCP4161_503.cpp.o
+src/LAB_MCP4XXX.o: src/LAB_MCP4XXX.cpp.o
 
-.PHONY : src/LAB_MCP4161_503.o
+.PHONY : src/LAB_MCP4XXX.o
 
 # target to build an object file
-src/LAB_MCP4161_503.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.o
-.PHONY : src/LAB_MCP4161_503.cpp.o
+src/LAB_MCP4XXX.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o
+.PHONY : src/LAB_MCP4XXX.cpp.o
 
-src/LAB_MCP4161_503.i: src/LAB_MCP4161_503.cpp.i
+src/LAB_MCP4XXX.i: src/LAB_MCP4XXX.cpp.i
 
-.PHONY : src/LAB_MCP4161_503.i
+.PHONY : src/LAB_MCP4XXX.i
 
 # target to preprocess a source file
-src/LAB_MCP4161_503.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.i
-.PHONY : src/LAB_MCP4161_503.cpp.i
+src/LAB_MCP4XXX.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.i
+.PHONY : src/LAB_MCP4XXX.cpp.i
 
-src/LAB_MCP4161_503.s: src/LAB_MCP4161_503.cpp.s
+src/LAB_MCP4XXX.s: src/LAB_MCP4XXX.cpp.s
 
-.PHONY : src/LAB_MCP4161_503.s
+.PHONY : src/LAB_MCP4XXX.s
 
 # target to generate assembly for a file
-src/LAB_MCP4161_503.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4161_503.cpp.s
-.PHONY : src/LAB_MCP4161_503.cpp.s
+src/LAB_MCP4XXX.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.s
+.PHONY : src/LAB_MCP4XXX.cpp.s
 
 src/LAB_Oscilloscope.o: src/LAB_Oscilloscope.cpp.o
 
@@ -856,6 +883,9 @@ help:
 	@echo "... lib/AikaPi/AikaPi.o"
 	@echo "... lib/AikaPi/AikaPi.i"
 	@echo "... lib/AikaPi/AikaPi.s"
+	@echo "... lib/MCP4XXX/MCP4XXX.o"
+	@echo "... lib/MCP4XXX/MCP4XXX.i"
+	@echo "... lib/MCP4XXX/MCP4XXX.s"
 	@echo "... src/Defaults.o"
 	@echo "... src/Defaults.i"
 	@echo "... src/Defaults.s"
@@ -913,9 +943,9 @@ help:
 	@echo "... src/LAB_Logic_Analyzer.o"
 	@echo "... src/LAB_Logic_Analyzer.i"
 	@echo "... src/LAB_Logic_Analyzer.s"
-	@echo "... src/LAB_MCP4161_503.o"
-	@echo "... src/LAB_MCP4161_503.i"
-	@echo "... src/LAB_MCP4161_503.s"
+	@echo "... src/LAB_MCP4XXX.o"
+	@echo "... src/LAB_MCP4XXX.i"
+	@echo "... src/LAB_MCP4XXX.s"
 	@echo "... src/LAB_Oscilloscope.o"
 	@echo "... src/LAB_Oscilloscope.i"
 	@echo "... src/LAB_Oscilloscope.s"

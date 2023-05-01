@@ -36,6 +36,10 @@ sys/ioctl.h
 mutex
 -
 
+/home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
+cstdint
+-
+
 /home/glen/Desktop/LABSoft/src/Defaults.cpp
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
@@ -81,8 +85,6 @@ LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LABSoft.cpp
 LABSoft.h
 /home/glen/Desktop/LABSoft/src/LABSoft.h
-iostream
--
 FL/Fl.H
 -
 
@@ -391,18 +393,16 @@ LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.cpp
 LAB_Function_Generator.h
 /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB.h
-iostream
--
 
 /home/glen/Desktop/LABSoft/src/LAB_Function_Generator.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 LAB_AD9833.h
 /home/glen/Desktop/LABSoft/src/LAB_AD9833.h
+LAB_MCP4XXX.h
+/home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
+Defaults.h
+/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Logic_Analyzer.cpp
 LAB_Logic_Analyzer.h
@@ -424,17 +424,15 @@ Defaults.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
 
-/home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.cpp
-LAB_MCP4161_503.h
-/home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.h
-iostream
--
+/home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.cpp
+LAB_MCP4XXX.h
+/home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
 
-/home/glen/Desktop/LABSoft/src/LAB_MCP4161_503.h
+/home/glen/Desktop/LABSoft/src/LAB_MCP4XXX.h
+../lib/MCP4XXX/MCP4XXX.h
+/home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB_Core.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LAB_Oscilloscope.cpp
 LAB_Oscilloscope.h
@@ -443,7 +441,7 @@ cstring
 -
 iostream
 -
-bitset
+chrono
 -
 LAB.h
 /home/glen/Desktop/LABSoft/src/LAB.h
