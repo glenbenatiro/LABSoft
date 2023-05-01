@@ -1,7 +1,5 @@
 #include "LABSoft.h"
 
-#include <iostream>
-
 #include <FL/Fl.H>
 
 // FLTK: Hitting the 'Escape' key closes windows - how do I prevent this?
@@ -9,11 +7,9 @@
 
 LABSoft::
 LABSoft (int    argc,
-         char **argv) 
+         char** argv) 
   : m_LABSoft_Controller (&m_LAB, &m_LABSoft_GUI)
 {
-  std::ios_base::sync_with_stdio(false);
-  
   // link
   m_LABSoft_GUI.m_LABSoft_Controller = &m_LABSoft_Controller;
 

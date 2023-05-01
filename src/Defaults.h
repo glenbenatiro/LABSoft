@@ -335,9 +335,9 @@ struct LAB_DMA_Data_Oscilloscope
             txd;
 
   volatile uint32_t status[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS];
-  volatile uint32_t rxd[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS][LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES];
 
-  //volatile  std::array<std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>, LAB_OSCILLOSCOPE::NUMBER_OF_BUFFERS> rxd;
+  volatile uint32_t rxd [LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS]
+                        [LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES];
 };
 
 // LABSoft Oscilloscope Display Group
@@ -385,28 +385,34 @@ enum LE_WAVE_TYPE
   LE_WAVE_TYPE_DC
 };
 
-constexpr unsigned  LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS     = 1;
-constexpr double    LAB_FUNCTION_GENERATOR_SIG_GEN_FREQUENCY_MIN  = 0.1; // Hz
-constexpr double    LAB_FUNCTION_GENERATOR_SIG_GEN_FREQUENCY_MAX  = 1'000'00; // Hz
-constexpr double    LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MIN = -3.3; //V
-constexpr double    LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MAX = 3.3; //V
-constexpr double    LAB_FUNCTION_GENERATOR_FREQUENCY_MIN          = LAB_FUNCTION_GENERATOR_SIG_GEN_FREQUENCY_MIN;
-constexpr double    LAB_FUNCTION_GENERATOR_FREQUENCY_MAX          = 1'000'000; // Hz
-constexpr double    LAB_FUNCTION_GENERATOR_AMPLITUDE_MIN          = LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MIN;
-constexpr double    LAB_FUNCTION_GENERATOR_AMPLITUDE_MAX          = LAB_FUNCTION_GENERATOR_DIGI_POT_AMPLITUDE_MAX;
-constexpr double    LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET_MIN    = -5.0;
-constexpr double    LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET_MAX    = 5.0;
-constexpr double    LAB_FUNCTION_GENERATOR_DUTY_CYCLE_MIN         = 0.0;
-constexpr double    LAB_FUNCTION_GENERATOR_DUTY_CYCLE_MAX         = 100.0;
-constexpr double    LAB_FUNCTION_GENERATOR_PHASE_MIN              = -360.0;
-constexpr double    LAB_FUNCTION_GENERATOR_PHASE_MAX              = 360.0;
-constexpr double    LAB_FUNCTION_GENERATOR_FREQUENCY              = 1'000; // Hz
-constexpr double    LAB_FUNCTION_GENERATOR_PERIOD                 = 1.0 / LAB_FUNCTION_GENERATOR_FREQUENCY;
-constexpr double    LAB_FUNCTION_GENERATOR_AMPLITUDE              = 1.0; // 1 volt
-constexpr double    LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET        = 0.0;
-constexpr double    LAB_FUNCTION_GENERATOR_DUTY_CYCLE             = 50.0; // 50% duty cycle
-constexpr double    LAB_FUNCTION_GENERATOR_PHASE                  = 0.0; // 0 degree phase = in phase
-constexpr LE_WAVE_TYPE LAB_FUNCTION_GENERATOR_WAVE_TYPE           = LE_WAVE_TYPE_SQUARE;
+namespace LAB_CONST
+{
+  namespace FUNC_GEN
+  {
+    constexpr unsigned      NUMBER_OF_CHANNELS      = 1;
+    constexpr double        SIG_GEN_FREQUENCY_MIN   = 0.1; // Hz
+    constexpr double        SIG_GEN_FREQUENCY_MAX   = 1'000'00; // Hz
+    constexpr double        DIGI_POT_AMPLITUDE_MIN  = -3.3; //V
+    constexpr double        DIGI_POT_AMPLITUDE_MAX  = 3.3; //V
+    constexpr double        FREQUENCY_MIN           = SIG_GEN_FREQUENCY_MIN;
+    constexpr double        FREQUENCY_MAX           = 1'000'000; // Hz
+    constexpr double        AMPLITUDE_MIN           = DIGI_POT_AMPLITUDE_MIN;
+    constexpr double        AMPLITUDE_MAX           = DIGI_POT_AMPLITUDE_MAX;
+    constexpr double        VERTICAL_OFFSET_MIN     = -5.0;
+    constexpr double        VERTICAL_OFFSET_MAX     = 5.0;
+    constexpr double        DUTY_CYCLE_MIN          = 0.0;
+    constexpr double        DUTY_CYCLE_MAX          = 100.0;
+    constexpr double        PHASE_MIN               = -360.0;
+    constexpr double        PHASE_MAX               = 360.0;
+    constexpr double        FREQUENCY               = 1'000; // Hz
+    constexpr double        PERIOD                  = 1.0 / FREQUENCY;
+    constexpr double        AMPLITUDE               = 1.0; // 1 volt
+    constexpr double        VERTICAL_OFFSET         = 0.0;
+    constexpr double        DUTY_CYCLE              = 50.0; // 50% duty cycle
+    constexpr double        PHASE                   = 0.0; // 0 degree phase = in phase
+    constexpr LE_WAVE_TYPE  WAVE_TYPE               = LE_WAVE_TYPE_SQUARE;
+  }
+}
 
 constexpr double SIG_GEN_MIN_FREQ   = 0.1; 
 constexpr double SIG_GEN_MAX_FREQ   = 12'500'000; 
@@ -419,18 +425,18 @@ struct LAB_Channel_Data_Function_Generator
   bool is_enabled = false;
 
   // Parameters
-  LE_WAVE_TYPE  wave_type       = LAB_FUNCTION_GENERATOR_WAVE_TYPE;
-  double        frequency       = LAB_FUNCTION_GENERATOR_FREQUENCY;
-  double        period          = LAB_FUNCTION_GENERATOR_PERIOD;
-  double        amplitude       = LAB_FUNCTION_GENERATOR_AMPLITUDE;
-  double        vertical_offset = LAB_FUNCTION_GENERATOR_VERTICAL_OFFSET;
-  double        duty_cycle      = LAB_FUNCTION_GENERATOR_DUTY_CYCLE;
-  double        phase           = LAB_FUNCTION_GENERATOR_PHASE;
+  LE_WAVE_TYPE  wave_type       = LAB_CONST::FUNC_GEN::WAVE_TYPE;
+  double        frequency       = LAB_CONST::FUNC_GEN::FREQUENCY;
+  double        period          = LAB_CONST::FUNC_GEN::PERIOD;
+  double        amplitude       = LAB_CONST::FUNC_GEN::AMPLITUDE;
+  double        vertical_offset = LAB_CONST::FUNC_GEN::VERTICAL_OFFSET;
+  double        duty_cycle      = LAB_CONST::FUNC_GEN::DUTY_CYCLE;
+  double        phase           = LAB_CONST::FUNC_GEN::PHASE;
 };
 
 struct LAB_Parent_Data_Function_Generator
 {
-  std::array <LAB_Channel_Data_Function_Generator, LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS> channel_data;
+  std::array <LAB_Channel_Data_Function_Generator, LAB_CONST::FUNC_GEN::NUMBER_OF_CHANNELS> channel_data;
 };
 
 // LABSoft Function Generator

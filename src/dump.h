@@ -79,7 +79,7 @@ generate_waveform (WaveType wave_type, int channel)
                         static_cast<float>(m_number_of_columns));
 
   // error out if channel argument is greater than number of channels
-  if (channel > LAB_FUNCTION_GENERATOR_NUMBER_OF_CHANNELS)
+  if (channel > LAB_FUNCTION_GENERATOR::NUMBER_OF_CHANNELS)
     return -1;
   else
     Channel_Signal *chn = &(m_channel_signals.m_chans[channel]);

@@ -10,11 +10,7 @@
 
 class LAB
 {
-  private: 
-    
   public:
-    AP_MemoryMap m_uncached_pwm_dma_data;
-    
     LAB ();
    ~LAB ();
    

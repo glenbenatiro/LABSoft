@@ -4,7 +4,7 @@
 #include <iostream>
 
 // remove soon
-#include <bitset>
+#include <chrono>
 
 #include "LAB.h"
 
@@ -44,14 +44,12 @@ init_spi ()
 void LAB_Oscilloscope:: 
 init_pwm ()
 {
-  PWM& pwm = m_LAB_Core->pwm; 
-
   m_LAB_Core->gpio_set      (LAB_RPI_PIN_PWM_CHAN_0, AP_GPIO_FUNC_ALT0, AP_GPIO_PULL_DOWN);
   m_LAB_Core->pwm_init      (LAB_OSCILLOSCOPE::SAMPLING_RATE);
 
-  pwm.algo      (LAB_PWM_DMA_PACING_PWM_CHAN, AP_PWM_ALGO_MARKSPACE);
-  pwm.use_fifo  (LAB_PWM_DMA_PACING_PWM_CHAN, true);
-  pwm.reg       (PWM_DMAC, (1 << 31) | (8 << 8) | (1 << 0));
+  m_LAB_Core->pwm.algo      (LAB_PWM_DMA_PACING_PWM_CHAN, AP_PWM_ALGO_MARKSPACE);
+  m_LAB_Core->pwm.use_fifo  (LAB_PWM_DMA_PACING_PWM_CHAN, true);
+  m_LAB_Core->pwm.reg       (PWM_DMAC, (1 << 31) | (8 << 8) | (1 << 0));
 }
 
 void LAB_Oscilloscope::
@@ -79,7 +77,7 @@ init_dma ()
 {
   config_dma_cb ();
 
-  Uncached&                  mp = m_uncached_dma_data;
+  AikaPi::Uncached&          mp = m_uncached_dma_data;
   LAB_DMA_Data_Oscilloscope& dp = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt ()));
 
   m_LAB_Core->dma.start (LAB_DMA_CHAN_OSC_TX,     mp.bus (&dp.cbs[6]));
@@ -107,7 +105,7 @@ config_dma_cb ()
 {
   m_uncached_dma_data.map_uncached_mem (LAB_OSCILLOSCOPE::VC_MEM_SIZE);
 
-  Uncached&                   mp  = m_uncached_dma_data; 
+  AikaPi::Uncached&           mp  = m_uncached_dma_data; 
   LAB_DMA_Data_Oscilloscope&  dp  = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt ()));
 
   LAB_DMA_Data_Oscilloscope dma_data = 
@@ -526,9 +524,6 @@ parse_raw_sample_buffer ()
       double actual_value = conv_raw_samp_buff_samp (
         m_parent_data.raw_sample_buffer[samp], chan);
       
-      if (samp == 0)
-        SPI::print (m_parent_data.raw_sample_buffer[samp]);
-
       m_parent_data.channel_data[chan].samples[samp] = actual_value;
     }
   }
@@ -681,23 +676,33 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 void LAB_Oscilloscope:: 
 search_trigger_point ()
 {
-  std::cout << std::hex; 
-  DMA& dma = m_LAB_Core->dma;
-  SPI& spi = m_LAB_Core->spi;
+  LAB_DMA_Data_Oscilloscope& dd = *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_dma_data.virt ()));
 
-  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-      (m_uncached_dma_data.virt ()));
+  //AikaPi::DMA& dma      = m_LAB_Core->dma;
+  int master_curr_buff  = 0;
+  int curr_buff         = 0;
+
+  uint32_t rxd_cb[2] = 
+  {
+    m_uncached_dma_data.bus (&dd.cbs[0]),
+    m_uncached_dma_data.bus (&dd.cbs[2]),
+  };
+
+  uint32_t rxd_end_bus_addr[2] = 
+  {
+    m_uncached_dma_data.bus (&dd.rxd[0] + 2000),
+    m_uncached_dma_data.bus (&dd.rxd[1] + 2000),
+  };
+
+  auto start = std::chrono::steady_clock::now ();
+  auto end   = std::chrono::steady_clock::now ();
 
   while (m_parent_data.trig_mode != LE_OSC_TRIG_MODE::NONE)
   {
-    //std::cout << dma.dest_addr (LAB_DMA_CHAN_OSC_RX) << std::endl;
-
-    std::cout << dma_data.txd << std::endl;
-    std::cout << "spi cs: "; spi.disp_reg (SPI_CS);
-
-    
-
-    std::this_thread::sleep_for (std::chrono::duration <double, std::micro> (10)); 
+    start = std::chrono::steady_clock::now ();
+    end = std::chrono::steady_clock::now ();
+    std::chrono::duration<double, std::micro> elapsed = end - start;
+    std::cout << "elapsed: " << elapsed.count () << "us" << std::endl;
   }
 }
 
@@ -902,31 +907,30 @@ update_dma_data (int disp_mode)
 void LAB_Oscilloscope:: 
 switch_dma_buffer (int buffer)
 {
-  bool      flag      = false; 
-  DMA&      dma       = m_LAB_Core->dma;
+  bool flag = false; 
 
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_dma_data.virt ()));
   
   // 1. Pause PWM pacing if running
-  if (dma.is_running (LAB_DMA_CHAN_PWM_PACING))
+  if (m_LAB_Core->dma.is_running (LAB_DMA_CHAN_PWM_PACING))
   {
     flag = true;
-    dma.pause (LAB_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma.pause (LAB_DMA_CHAN_PWM_PACING);
   }
 
   // 2. Assign next control block depending on buffer
   if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   { 
-    dma.next_cb (LAB_DMA_CHAN_OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[4]));
+    m_LAB_Core->dma.next_cb (LAB_DMA_CHAN_OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[4]));
   }
   else if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
-    dma.next_cb (LAB_DMA_CHAN_OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[0]));
+    m_LAB_Core->dma.next_cb (LAB_DMA_CHAN_OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[0]));
   }
 
   // 3. Abort the current control block 
-  dma.abort (LAB_DMA_CHAN_OSC_RX);
+  m_LAB_Core->dma.abort (LAB_DMA_CHAN_OSC_RX);
 
   // 4. Clean buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
@@ -934,7 +938,7 @@ switch_dma_buffer (int buffer)
   // 5. Run DMA channel if it was running
   if (flag)
   {
-    dma.run (LAB_DMA_CHAN_PWM_PACING);
+    m_LAB_Core->dma.run (LAB_DMA_CHAN_PWM_PACING);
   }
 }
 

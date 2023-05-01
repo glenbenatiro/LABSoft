@@ -46,11 +46,13 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Logic_Analyzer_Display.cpp
 
   src/LAB_AD9833.cpp
-  src/LAB_MCP4161_503.cpp
 
   src/LabelValue.cpp
   src/pugixml.cpp
   src/Defaults.cpp
+
+  lib/MCP4XXX/MCP4XXX.cpp
+  src/LAB_MCP4XXX.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

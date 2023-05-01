@@ -13,8 +13,10 @@ constexpr int LAB_FUNCTION_GENERATOR_FUNCTION_GENERATOR_IC_FLAGS  = 2;
 
 class LAB_AD9833
 {
+  // https://www.analog.com/media/en/technical-documentation/data-sheets/ad9833.pdf
+  
   private: 
-    LAB_Core *m_LAB_Core;
+    LAB_Core* m_LAB_Core;
 
     int       DEBUG = 1;
 

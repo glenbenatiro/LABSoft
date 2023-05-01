@@ -60,23 +60,26 @@ void LABSoft_Controller_Function_Generator::
 cb_frequency (Fl_Input_Choice *w, 
               long             channel)
 {
-  LabelValue lv (
-    w->value (),
-    m_LAB->m_Function_Generator.frequency (channel),
-    LABELVALUE_TYPE::HERTZ
-  );
 
-  if (lv.is_valid_label_text ())
-  {
-    if (lv.actual_value () >= LAB_FUNCTION_GENERATOR::MIN_FREQUENCY && 
-      lv.actual_value () <= LAB_FUNCTION_GENERATOR::MAX_FREQUENCY)
-    {
-      m_LAB->m_Function_Generator.frequency (channel, lv.actual_value ());
-    }
-  }
 
-  w->value (LabelValue (m_LAB->m_Function_Generator.frequency (channel)).
-    to_label_text (LABELVALUE_TYPE::HERTZ).c_str ());
+  
+  // LabelValue lv (
+  //   w->value (),
+  //   m_LAB->m_Function_Generator.frequency (channel),
+  //   LABELVALUE_TYPE::HERTZ
+  // );
+
+  // if (lv.is_valid_label_text ())
+  // {
+  //   if (lv.actual_value () >= LAB_FUNCTION_GENERATOR::MIN_FREQUENCY && 
+  //     lv.actual_value () <= LAB_FUNCTION_GENERATOR::MAX_FREQUENCY)
+  //   {
+  //     m_LAB->m_Function_Generator.frequency (channel, lv.actual_value ());
+  //   }
+  // }
+
+  // w->value (LabelValue (m_LAB->m_Function_Generator.frequency (channel)).
+  //   to_label_text (LABELVALUE_TYPE::HERTZ).c_str ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
