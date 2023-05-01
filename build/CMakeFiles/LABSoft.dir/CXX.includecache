@@ -13,6 +13,8 @@ cmath
 -
 bitset
 -
+string
+-
 thread
 -
 iostream
@@ -22,6 +24,10 @@ exception
 poll.h
 -
 fcntl.h
+-
+errno.h
+-
+string.h
 -
 unistd.h
 -
