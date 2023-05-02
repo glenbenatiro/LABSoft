@@ -97,14 +97,21 @@ namespace LABC
 {
   namespace PIN
   {
-    constexpr int PWM = 12;
+    constexpr unsigned PWM = 12;
+
+    constexpr unsigned OSC_MUX_SCALER_A0_CHAN_0   = 27;
+    constexpr unsigned OSC_MUX_SCALER_A1_CHAN_0   = 22;
+    constexpr unsigned OSC_MUX_SCALER_A0_CHAN_1   = 23;
+    constexpr unsigned OSC_MUX_SCALER_A1_CHAN_1   = 24;
+    constexpr unsigned OSC_COUPLING_SELECT_CHAN_0 = 14;
+    constexpr unsigned OSC_COUPLING_SELECT_CHAN_1 = 15; 
   };
 
   namespace DMA_CHAN
   {
-    constexpr int PWM_PACING  = 7;
-    constexpr int OSC_RX      = 8;
-    constexpr int OSC_TX      = 9;
+    constexpr unsigned PWM_PACING  = 7;
+    constexpr unsigned OSC_RX      = 8;
+    constexpr unsigned OSC_TX      = 9;
   };
 
   namespace SPI
@@ -115,6 +122,17 @@ namespace LABC
   namespace PWM
   {
     constexpr int DMA_PACING_CHAN = 0;
+  };
+
+  namespace CLKMAN
+  {
+    constexpr double INIT_FREQUENCY = 100'000'000.0;
+  };
+
+  // Oscilloscope
+  namespace OSC
+  {
+
   };
 };
 

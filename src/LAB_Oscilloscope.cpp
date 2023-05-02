@@ -8,13 +8,10 @@
 
 #include "LAB.h"
 
-LAB_Oscilloscope::
-LAB_Oscilloscope (LAB_Core  *_LAB_Core, 
-                  LAB       *_LAB) 
+LAB_Oscilloscope:: 
+LAB_Oscilloscope (LAB_Core* _LAB_Core, LAB* _LAB) 
+  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
 {
-  m_LAB_Core  = _LAB_Core;
-  m_LAB       = _LAB;   
-
   init_spi        ();
   init_pwm        ();
   init_gpio_pins  ();
@@ -37,38 +34,51 @@ LAB_Oscilloscope::
 void LAB_Oscilloscope:: 
 init_spi ()
 {
-  m_LAB_Core->spi.frequency (LABC::SPI::FREQUENCY);
-  m_LAB_Core->spi.reg       (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
+  m_LAB_Core->spi.clear_fifo  ();
+  m_LAB_Core->spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
+  m_LAB_Core->spi.frequency   (LABC::SPI::FREQUENCY);
+
+  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::CE0,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::CE1,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
 }
 
 void LAB_Oscilloscope:: 
 init_pwm ()
 {
-  m_LAB_Core->gpio.set      (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  m_LAB_Core->cm.pwm.frequency  (LABC::CLKMAN::INIT_FREQUENCY);
 
-  m_LAB_Core->pwm.frequency (LABC::PIN::PWM, LAB_OSCILLOSCOPE::SAMPLING_RATE);
-  m_LAB_Core->pwm.algo      (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
-  m_LAB_Core->pwm.use_fifo  (LABC::PWM::DMA_PACING_CHAN, true);
-  m_LAB_Core->pwm.reg       (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
+  m_LAB_Core->pwm.reg           (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
+  m_LAB_Core->pwm.use_fifo      (LABC::PWM::DMA_PACING_CHAN, true);
+  m_LAB_Core->pwm.algo          (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
+  m_LAB_Core->pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LAB_OSCILLOSCOPE::SAMPLING_RATE);
+
+  m_LAB_Core->gpio.set          (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
 }
 
 void LAB_Oscilloscope::
 init_gpio_pins ()
 {
   // scaling
-  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_A0_CHAN_0, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 1);
-  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0, 
+
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_A1_CHAN_0, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
-  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1, 
+
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_A0_CHAN_1, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 1);
-  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1, 
+
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_A1_CHAN_1, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 
   // coupling
-  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_COUPLING_SELECT_CHAN_0, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
-  m_LAB_Core->gpio.set (LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1, 
+
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_COUPLING_SELECT_CHAN_1, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 }
 
@@ -98,6 +108,8 @@ init_state ()
   // as entire oscilloscope
   time_per_division (m_parent_data.time_per_division, 
     LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
+
+  std::cout << *(m_LAB_Core->spi.reg (AP::SPI::CLK)) << "\n";
 }
 
 void LAB_Oscilloscope:: 
