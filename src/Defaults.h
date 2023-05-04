@@ -126,7 +126,7 @@ namespace LABC
 
   namespace CLKMAN
   {
-    constexpr double INIT_FREQUENCY = 100'000'000.0;
+    constexpr double FREQUENCY = 100'000'000.0;
   };
 
   // Oscilloscope
@@ -373,7 +373,7 @@ struct LAB_DMA_Data_Oscilloscope
   uint32_t  spi_samp_size,
             spi_cs,
             spi_cs_fifo_reset,
-            pwm_rng,
+            pwm_duty_cycle,
             txd;
 
   volatile uint32_t status[LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS];

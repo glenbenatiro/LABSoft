@@ -38,22 +38,23 @@ init_spi ()
   m_LAB_Core->spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
   m_LAB_Core->spi.frequency   (LABC::SPI::FREQUENCY);
 
-  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::CE0,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::CE1,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
-  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set  (AP::RPI::PIN::SPI::SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::CE0,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::CE1,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
 }
 
 void LAB_Oscilloscope:: 
 init_pwm ()
 {
-  m_LAB_Core->cm.pwm.frequency  (LABC::CLKMAN::INIT_FREQUENCY);
+  m_LAB_Core->cm.pwm.frequency  (LABC::CLKMAN::FREQUENCY);
 
   m_LAB_Core->pwm.reg           (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
   m_LAB_Core->pwm.use_fifo      (LABC::PWM::DMA_PACING_CHAN, true);
   m_LAB_Core->pwm.algo          (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
   m_LAB_Core->pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LAB_OSCILLOSCOPE::SAMPLING_RATE);
+  m_LAB_Core->pwm.duty_cycle    (LABC::PWM::DMA_PACING_CHAN, 50.0);
 
   m_LAB_Core->gpio.set          (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
 }
@@ -87,7 +88,7 @@ init_dma ()
 {
   config_dma_cb ();
 
-  AikaPi::Uncached&          mp = m_uncached_dma_data;
+  AikaPi::Uncached&          mp = m_uncached_memory;
   LAB_DMA_Data_Oscilloscope& dp = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt ()));
 
   m_LAB_Core->dma.start (LABC::DMA_CHAN::OSC_TX,     mp.bus (&dp.cbs[6]));
@@ -108,19 +109,17 @@ init_state ()
   // as entire oscilloscope
   time_per_division (m_parent_data.time_per_division, 
     LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
-
-  std::cout << *(m_LAB_Core->spi.reg (AP::SPI::CLK)) << "\n";
 }
 
 void LAB_Oscilloscope:: 
 config_dma_cb ()
 {
-  m_uncached_dma_data.map_uncached_mem (LAB_OSCILLOSCOPE::VC_MEM_SIZE);
+  m_uncached_memory.map_uncached_mem (LAB_OSCILLOSCOPE::VC_MEM_SIZE);
 
-  AikaPi::Uncached&           mp  = m_uncached_dma_data; 
-  LAB_DMA_Data_Oscilloscope&  dp  = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt ()));
+  LAB_DMA_Data_Oscilloscope& uncached_dma_data = 
+    *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
 
-  LAB_DMA_Data_Oscilloscope dma_data = 
+  LAB_DMA_Data_Oscilloscope new_uncached_dma_data = 
   {
     .cbs = 
     {
@@ -129,40 +128,40 @@ config_dma_cb ()
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        mp.bus                (&dp.rxd[0]),
+        m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        mp.bus                (&dp.cbs[1]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
       },
       // 1
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_CS),
-        mp.bus                (&dp.status[0]),
+        m_uncached_memory.bus (&uncached_dma_data.status[0]),
         4,
         0,
-        mp.bus                (&dp.cbs[2]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[2]),
         0
       },
       // 2
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        mp.bus                (&dp.rxd[1]),
+        m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
         static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        mp.bus                (&dp.cbs[3]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
         0
       },
       // 3
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_CS),
-        mp.bus                (&dp.status[1]),
+        m_uncached_memory.bus (&uncached_dma_data.status[1]),
         4,
         0,
-        mp.bus                (&dp.cbs[0]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[0]),
         0
       },
 
@@ -171,20 +170,20 @@ config_dma_cb ()
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        mp.bus                (&dp.rxd[0]),
+        m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
-        mp.bus                (&dp.cbs[5]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[5]),
         0
       },
       // 5
       {
         LAB_DMA_TI_OSC_RX,
         m_LAB_Core->spi.bus   (SPI_CS),
-        mp.bus                (&dp.status[0]),
+        m_uncached_memory.bus (&uncached_dma_data.status[0]),
         4,
         0,
-        mp.bus                (&dp.cbs[4]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[4]),
         0
       },
 
@@ -192,11 +191,11 @@ config_dma_cb ()
       // 6
       {
         LAB_DMA_TI_OSC_TX,
-        mp.bus                (&dp.txd),
+        m_uncached_memory.bus (&uncached_dma_data.txd),
         m_LAB_Core->spi.bus   (SPI_FIFO),
         4,
         0,
-        mp.bus                (&dp.cbs[6]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[6]),
         0
       },
 
@@ -204,41 +203,41 @@ config_dma_cb ()
       // 7
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus                (&dp.pwm_rng),
-        m_LAB_Core->pwm.bus   (PWM_FIF1),
+        m_uncached_memory.bus       (&uncached_dma_data.pwm_duty_cycle),
+        m_LAB_Core->pwm.bus         (PWM_FIF1),
         4,
         0,
-        mp.bus                (&dp.cbs[8]),
+        m_uncached_memory.bus       (&uncached_dma_data.cbs[8]),
         0
       },
       // 8
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus                (&dp.spi_cs_fifo_reset),
-        m_LAB_Core->spi.bus   (SPI_CS),
+        m_uncached_memory.bus       (&uncached_dma_data.spi_cs_fifo_reset),
+        m_LAB_Core->spi.bus         (SPI_CS),
         4,
         0,
-        mp.bus                (&dp.cbs[9]),
+        m_uncached_memory.bus       (&uncached_dma_data.cbs[9]),
         0
       },
       // 9
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus                (&dp.spi_samp_size),
-        m_LAB_Core->spi.bus   (SPI_DLEN),
+        m_uncached_memory.bus       (&uncached_dma_data.spi_samp_size),
+        m_LAB_Core->spi.bus         (SPI_DLEN),
         4,
         0,
-        mp.bus                (&dp.cbs[10]),
+        m_uncached_memory.bus       (&uncached_dma_data.cbs[10]),
         0
       },
       // 10
       {
         LAB_DMA_TI_OSC_PWM_PACING,
-        mp.bus                (&dp.spi_cs),
-        m_LAB_Core->spi.bus   (SPI_CS),
+        m_uncached_memory.bus       (&uncached_dma_data.spi_cs),
+        m_LAB_Core->spi.bus         (SPI_CS),
         4,
         0,
-        mp.bus                (&dp.cbs[7]),
+        m_uncached_memory.bus       (&uncached_dma_data.cbs[7]),
         0
       },     
     },   
@@ -246,11 +245,11 @@ config_dma_cb ()
     .spi_samp_size      = 4,    
     .spi_cs             = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | LAB_OSCILLOSCOPE::ADC_SPI0_CHIP_ENABLE,
     .spi_cs_fifo_reset  = 0x00000030,
-    .pwm_rng            = 250,        // arbitrary value, will be changed in pwm_frequency ()
+    .pwm_duty_cycle     = 0x0,
     .txd                = 0x0000ffff
   };
 
-  std::memcpy (&dp, &dma_data, sizeof (dma_data));
+  std::memcpy (&uncached_dma_data, &new_uncached_dma_data, sizeof (new_uncached_dma_data));
 }
 
 LE::DISPLAY_MODE LAB_Oscilloscope:: 
@@ -289,12 +288,12 @@ osc_core_run_stop (bool value)
 {
   if (value)
   {
-    m_LAB_Core->pwm.start (LAB_PWM_DMA_PACING_PWM_CHAN);
+    m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
     m_parent_data.is_osc_core_running = true;
   }
   else
   {
-    m_LAB_Core->pwm.stop (LAB_PWM_DMA_PACING_PWM_CHAN);
+    m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
     m_parent_data.is_osc_core_running = false;
   }
 }
@@ -393,7 +392,7 @@ void LAB_Oscilloscope::
 fill_raw_sample_buffer ()
 {
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_dma_data.virt ()));
+    (m_uncached_memory.virt ()));
     
   if (disp_mode () == LE::DISPLAY_MODE::SCREEN)
   {
@@ -627,19 +626,13 @@ sampling_rate (double value, unsigned osc_disp_num_cols)
 void LAB_Oscilloscope:: 
 set_hw_sampling_rate (double value)
 {
-  double actual_freq = m_LAB_Core->pwm_frequency (
-    LAB_PWM_DMA_PACING_PWM_CHAN, 
-    value
-  );
-  
-  m_LAB_Core->pwm_duty_cycle (LAB_PWM_DMA_PACING_PWM_CHAN, 50);
+  m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
 
-  // Change duty cycle by changing pwm_val in PWM DMA control block
-  double dc_percentage  = (std::fmod (50, 100.0)) / (100.0);
-  double fifo_data      = m_LAB_Core->m_pwm_range * dc_percentage;
+  // Set duty cycle to 50%
+  uint32_t fifo_data = m_LAB_Core->pwm.range (LABC::PWM::DMA_PACING_CHAN) / 2.0;
 
-  static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_dma_data.virt ())->
-    pwm_rng = fifo_data;
+  static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ())->
+    pwm_duty_cycle = fifo_data;
 }
 
 void LAB_Oscilloscope:: 
@@ -688,34 +681,47 @@ parse_trigger (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE)
 void LAB_Oscilloscope:: 
 search_trigger_point ()
 {
-  LAB_DMA_Data_Oscilloscope& dd = *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_dma_data.virt ()));
-
-  //AikaPi::DMA& dma      = m_LAB_Core->dma;
-  int master_curr_buff  = 0;
-  int curr_buff         = 0;
-
-  uint32_t rxd_cb[2] = 
-  {
-    m_uncached_dma_data.bus (&dd.cbs[0]),
-    m_uncached_dma_data.bus (&dd.cbs[2]),
-  };
-
-  uint32_t rxd_end_bus_addr[2] = 
-  {
-    m_uncached_dma_data.bus (&dd.rxd[0] + 2000),
-    m_uncached_dma_data.bus (&dd.rxd[1] + 2000),
-  };
-
-  auto start = std::chrono::steady_clock::now ();
-  auto end   = std::chrono::steady_clock::now ();
-
   while (m_parent_data.trig_mode != LE_OSC_TRIG_MODE::NONE)
   {
-    start = std::chrono::steady_clock::now ();
-    end = std::chrono::steady_clock::now ();
-    std::chrono::duration<double, std::micro> elapsed = end - start;
-    std::cout << "elapsed: " << elapsed.count () << "us" << std::endl;
+    //auto start = std::chrono::steady_clock::now ();
+
+    m_LAB_Core->spi.disp_reg (AP::SPI::CS);
+
+    std::this_thread::sleep_for (std::chrono::milliseconds (100));
+    
+    //auto end = std::chrono::steady_clock::now ();
+    //std::chrono::duration<double, std::micro> elapsed = end - start;
+    //std::cout << "elapsed: " << elapsed.count () << "us" << std::endl;
   }
+
+  // LAB_DMA_Data_Oscilloscope& dd = *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
+
+  // //AikaPi::DMA& dma      = m_LAB_Core->dma;
+  // int master_curr_buff  = 0;
+  // int curr_buff         = 0;
+
+  // uint32_t rxd_cb[2] = 
+  // {
+  //   m_uncached_memory.bus (&dd.cbs[0]),
+  //   m_uncached_memory.bus (&dd.cbs[2]),
+  // };
+
+  // uint32_t rxd_end_bus_addr[2] = 
+  // {
+  //   m_uncached_memory.bus (&dd.rxd[0] + 2000),
+  //   m_uncached_memory.bus (&dd.rxd[1] + 2000),
+  // };
+
+  // auto start = std::chrono::steady_clock::now ();
+  // auto end   = std::chrono::steady_clock::now ();
+
+  // while (m_parent_data.trig_mode != LE_OSC_TRIG_MODE::NONE)
+  // {
+  //   start = std::chrono::steady_clock::now ();
+  //   end = std::chrono::steady_clock::now ();
+  //   std::chrono::duration<double, std::micro> elapsed = end - start;
+  //   std::cout << "elapsed: " << elapsed.count () << "us" << std::endl;
+  // }
 }
 
 void search_trigger_point_algo ()
@@ -733,7 +739,7 @@ is_trigger_point (unsigned buff,
                   unsigned samp)
 {
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_dma_data.virt ()));
+    (m_uncached_memory.virt ()));
 
   switch (m_parent_data.trig_type)
   {
@@ -922,7 +928,7 @@ switch_dma_buffer (int buffer)
   bool flag = false; 
 
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_dma_data.virt ()));
+    (m_uncached_memory.virt ()));
   
   // 1. Pause PWM pacing if running
   if (m_LAB_Core->dma.is_running (LABC::DMA_CHAN::PWM_PACING))
@@ -934,11 +940,11 @@ switch_dma_buffer (int buffer)
   // 2. Assign next control block depending on buffer
   if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
   { 
-    m_LAB_Core->dma.next_cb (LABC::DMA_CHAN::OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[4]));
+    m_LAB_Core->dma.next_cb (LABC::DMA_CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
   else if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
   {
-    m_LAB_Core->dma.next_cb (LABC::DMA_CHAN::OSC_RX, m_uncached_dma_data.bus (&dma_data.cbs[0]));
+    m_LAB_Core->dma.next_cb (LABC::DMA_CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
   }
 
   // 3. Abort the current control block 

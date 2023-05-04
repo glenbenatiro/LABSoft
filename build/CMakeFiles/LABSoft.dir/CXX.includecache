@@ -17,6 +17,8 @@ string
 -
 thread
 -
+chrono
+-
 iostream
 -
 exception
@@ -39,6 +41,6 @@ sys/ioctl.h
 -
 
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
-mutex
+cstdint
 -
 

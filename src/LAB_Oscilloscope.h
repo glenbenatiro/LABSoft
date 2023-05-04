@@ -14,7 +14,7 @@ class LAB_Oscilloscope
   private:
     LAB*             m_LAB;
     LAB_Core*        m_LAB_Core;
-    AikaPi::Uncached m_uncached_dma_data;
+    AikaPi::Uncached m_uncached_memory;
     std::thread      m_trigger_thread;
 
     // --- Functions ---
