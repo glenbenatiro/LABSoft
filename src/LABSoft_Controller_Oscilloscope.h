@@ -35,6 +35,8 @@ class LABSoft_Controller_Oscilloscope
     // Trigger
     void cb_trigger_mode            (Fl_Choice*       w, void* data);
     void cb_trigger_source          (Fl_Choice*       w, void* data);
+    void cb_trigger_type            (Fl_Choice*       w, void* data);
+    void cb_trigger_condition       (Fl_Choice*       w, void* data);
     void cb_trigger_level           (Fl_Input_Choice* w, void* data);
 
     // Display

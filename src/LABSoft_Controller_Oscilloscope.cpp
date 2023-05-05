@@ -274,25 +274,28 @@ void LABSoft_Controller_Oscilloscope::
 cb_trigger_mode (Fl_Choice* w,
                  void*      data)
 {
-  // parse input
-  LE_OSC_TRIG_MODE trig_mode;
+  LABC::OSC::TRIG::MODE mode;
   std::string choice (w->text ());
-  
+
   if (choice == "None")
   {
-    trig_mode = LE_OSC_TRIG_MODE::NONE;
+    mode = LABC::OSC::TRIG::MODE::NONE;
+  }
+  else if (choice == "Auto")
+  { 
+    mode = LABC::OSC::TRIG::MODE::AUTO;
   }
   else if (choice == "Normal")
   {
-    trig_mode = LE_OSC_TRIG_MODE::NORMAL;
+    mode = LABC::OSC::TRIG::MODE::NORMAL;
   }
-  else
+  else 
   {
-    return;
+
   }
 
   // backend
-  m_LAB->m_Oscilloscope.trigger_mode (trig_mode);
+  m_LAB->m_Oscilloscope.trigger_mode (mode);
 
   // frontend
   update_trigger_panel_gui ();
@@ -302,12 +305,70 @@ void LABSoft_Controller_Oscilloscope::
 cb_trigger_source (Fl_Choice* w, 
                    void*      data)
 {
+  unsigned source;
+  std::string choice (w->text ());
+  
+  if (choice == "Channel 1")
+  {
+    source = 0;
+  }
+  else if (choice == "Channel 2")
+  {
+    source = 1;
+  }
+  else 
+  {
 
+  }
+
+  m_LAB->m_Oscilloscope.trigger_source (source);
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_trigger_type (Fl_Choice* w,
+                 void*      data)
+{
+  LABC::OSC::TRIG::TYPE type;
+  std::string choice (w->text ());
+
+  if (choice == "Edge")
+  {
+    type = LABC::OSC::TRIG::TYPE::EDGE;
+  }
+  
+  m_LAB->m_Oscilloscope.trigger_type (type);
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_trigger_condition (Fl_Choice* w,
+                      void*      data)
+{
+  LABC::OSC::TRIG::CND cnd;
+  std::string choice (w->text ());
+
+  if (choice == "Rising")
+  {
+    cnd = LABC::OSC::TRIG::CND::RISING;
+  }
+  else if (choice == "Falling")
+  {
+    cnd = LABC::OSC::TRIG::CND::FALLING;
+  }
+  else if (choice == "Either")
+  {
+    cnd = LABC::OSC::TRIG::CND::EITHER;
+  }
+  else 
+  {
+
+  }
+
+  m_LAB->m_Oscilloscope.trigger_condition (cnd);
 }
 
 void LABSoft_Controller_Oscilloscope::
 cb_trigger_level (Fl_Input_Choice* w, 
-                  void*           data)
+                  void*            data)
 {
   LabelValue lv (
     w->value (),
@@ -364,14 +425,18 @@ cb_display_mode (Fl_Choice* w,
 void LABSoft_Controller_Oscilloscope:: 
 update_trigger_panel_gui ()
 {
-  if (m_LAB->m_Oscilloscope.trigger_mode () == LE_OSC_TRIG_MODE::NONE)
+  if (m_LAB->m_Oscilloscope.trigger_mode () == LABC::OSC::TRIG::MODE::NONE)
   {
     m_LABSoft_GUI->oscilloscope_fl_choice_trigger_source->deactivate ();
+    m_LABSoft_GUI->oscilloscope_fl_choice_trigger_type->deactivate ();
+    m_LABSoft_GUI->oscilloscope_fl_choice_trigger_condition->deactivate ();
     m_LABSoft_GUI->oscilloscope_fl_input_choice_trigger_level->deactivate ();
   }
   else 
   {
     m_LABSoft_GUI->oscilloscope_fl_choice_trigger_source->activate ();
+    m_LABSoft_GUI->oscilloscope_fl_choice_trigger_type->activate ();
+    m_LABSoft_GUI->oscilloscope_fl_choice_trigger_condition->activate ();
     m_LABSoft_GUI->oscilloscope_fl_input_choice_trigger_level->activate ();
   }
 }

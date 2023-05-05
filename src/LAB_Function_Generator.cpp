@@ -1,5 +1,7 @@
 #include "LAB_Function_Generator.h"
 
+#include <iostream>
+
 LAB_Function_Generator:: 
 LAB_Function_Generator (LAB_Core* _LAB_Core)
   : m_LAB_Core    (_LAB_Core),

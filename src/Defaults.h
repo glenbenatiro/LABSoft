@@ -107,11 +107,39 @@ namespace LABC
     constexpr unsigned OSC_COUPLING_SELECT_CHAN_1 = 15; 
   };
 
-  namespace DMA_CHAN
+  namespace DMA
   {
-    constexpr unsigned PWM_PACING  = 7;
-    constexpr unsigned OSC_RX      = 8;
-    constexpr unsigned OSC_TX      = 9;
+    namespace TI
+    {
+      constexpr uint32_t OSC_PWM_PACING  = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::PWM))  
+                                            | AP::DMA::TI_DATA::DEST_DREQ      
+                                            | AP::DMA::TI_DATA::WAIT_RESP
+                                            | AP::DMA::TI_DATA::INTEN;
+
+      constexpr uint32_t OSC_TX          = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::SPI_TX))  
+                                            | AP::DMA::TI_DATA::DEST_DREQ         
+                                            | AP::DMA::TI_DATA::WAIT_RESP         
+                                            | AP::DMA::TI_DATA::SRC_INC
+                                            | AP::DMA::TI_DATA::INTEN;
+
+      constexpr uint32_t OSC_RX          = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::SPI_RX))  
+                                            | AP::DMA::TI_DATA::SRC_DREQ         
+                                            | AP::DMA::TI_DATA::DEST_INC          
+                                            | AP::DMA::TI_DATA::WAIT_RESP;
+                                        
+      constexpr uint32_t LOGAN_STORE     = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::PWM))  
+                                            | AP::DMA::TI_DATA::DEST_DREQ      
+                                            | AP::DMA::TI_DATA::DEST_INC       
+                                            | AP::DMA::TI_DATA::WAIT_RESP
+                                            | AP::DMA::TI_DATA::INTEN;
+    };
+
+    namespace CHAN
+    {
+      constexpr unsigned PWM_PACING = 7;
+      constexpr unsigned OSC_RX     = 8;
+      constexpr unsigned OSC_TX     = 9;
+    };
   };
 
   namespace SPI
@@ -132,7 +160,27 @@ namespace LABC
   // Oscilloscope
   namespace OSC
   {
+    namespace TRIG
+    {
+      enum class MODE
+      {
+        NONE,
+        AUTO,
+        NORMAL
+      };
 
+      enum class TYPE
+      {
+        EDGE
+      };
+
+      enum class CND
+      {
+        RISING,
+        FALLING,
+        EITHER
+      };
+    };    
   };
 };
 
@@ -273,13 +321,13 @@ namespace LAB_OSCILLOSCOPE
   constexpr double            HORIZONTAL_OFFSET             = 0.0;
 
   // Trigger
-  constexpr LE_OSC_TRIG_MODE  TRIGGER_MODE                  = LE_OSC_TRIG_MODE::NONE;
-  constexpr unsigned          TRIGGER_SOURCE                = 0;
-  constexpr LE_OSC_TRIG_TYPE  TRIGGER_TYPE                  = LE_OSC_TRIG_TYPE::EDGE;
-  constexpr LE_OSC_TRIG_CND   TRIGGER_CONDITION             = LE_OSC_TRIG_CND::RISING;
-  constexpr double            MIN_TRIGGER_LEVEL             = MIN_VERTICAL_OFFSET;
-  constexpr double            MAX_TRIGGER_LEVEL             = MAX_VERTICAL_OFFSET;
-  constexpr double            TRIGGER_LEVEL                 = 0.0;
+  constexpr LABC::OSC::TRIG::MODE TRIGGER_MODE              = LABC::OSC::TRIG::MODE::NONE;
+  constexpr unsigned              TRIGGER_SOURCE            = 0;
+  constexpr LABC::OSC::TRIG::TYPE TRIGGER_TYPE              = LABC::OSC::TRIG::TYPE::EDGE;
+  constexpr LABC::OSC::TRIG::CND  TRIGGER_CONDITION         = LABC::OSC::TRIG::CND::RISING;
+  constexpr double                MIN_TRIGGER_LEVEL         = MIN_VERTICAL_OFFSET;
+  constexpr double                MAX_TRIGGER_LEVEL         = MAX_VERTICAL_OFFSET;
+  constexpr double                TRIGGER_LEVEL             = 0.0;
 
   // ADC Info and Conversions
   constexpr unsigned          ADC_RESOLUTION_BITS           = 12;
@@ -324,13 +372,13 @@ class LAB_Parent_Data_Oscilloscope
     double            horizontal_offset = LAB_OSCILLOSCOPE::HORIZONTAL_OFFSET;
 
     // Trigger 
-    LE_OSC_TRIG_MODE  trig_mode         = LAB_OSCILLOSCOPE::TRIGGER_MODE;
-    unsigned          trig_source       = LAB_OSCILLOSCOPE::TRIGGER_SOURCE;
-    LE_OSC_TRIG_TYPE  trig_type         = LAB_OSCILLOSCOPE::TRIGGER_TYPE;
-    LE_OSC_TRIG_CND   trig_condition    = LAB_OSCILLOSCOPE::TRIGGER_CONDITION;
-    double            trig_level        = LAB_OSCILLOSCOPE::TRIGGER_LEVEL;
+    LABC::OSC::TRIG::MODE trig_mode       = LAB_OSCILLOSCOPE::TRIGGER_MODE;
+    unsigned              trig_source     = LAB_OSCILLOSCOPE::TRIGGER_SOURCE;
+    LABC::OSC::TRIG::TYPE trig_type       = LAB_OSCILLOSCOPE::TRIGGER_TYPE;
+    LABC::OSC::TRIG::CND  trig_condition  = LAB_OSCILLOSCOPE::TRIGGER_CONDITION;
+    double                trig_level      = LAB_OSCILLOSCOPE::TRIGGER_LEVEL;
 
-    bool              trig_flag_no_trig_found_yet = true;
+    bool                  trig_flag_no_trig_found_yet = true;
 
     // Display  
     LE::DISPLAY_MODE  disp_mode         = LAB_OSCILLOSCOPE::OSC_DISP_MODE;

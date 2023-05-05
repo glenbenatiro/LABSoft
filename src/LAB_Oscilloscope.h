@@ -17,7 +17,9 @@ class LAB_Oscilloscope
     AikaPi::Uncached m_uncached_memory;
     std::thread      m_trigger_thread;
 
-    // --- Functions ---
+    bool m_find_trigger_point = false;
+
+  private:
     // Setup
     void init_spi       ();
     void init_pwm       ();
@@ -39,10 +41,12 @@ class LAB_Oscilloscope
     void parse_raw_sample_buffer  ();
 
     // Trigger 
-    void  parse_trigger         (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
+    void  parse_trigger         (LABC::OSC::TRIG::MODE value);
     void  search_trigger_point  ();
+
+    void  check_int ();    
+
     bool  is_trigger_point      (unsigned buff, unsigned samp);
-    void  service_trigger       (unsigned buff, unsigned samp);
 
     // Display 
     LE::DISPLAY_MODE  calc_disp_mode  (double time_per_div);
@@ -53,17 +57,17 @@ class LAB_Oscilloscope
     bool      is_raw_buffer_being_written (unsigned buff);
      
     // Conversion
-    double    conv_raw_samp_buff_samp         (uint32_t sample, unsigned channel);
-    uint32_t  extract_chan_raw_samp_buff_samp (uint32_t sample, unsigned channel);
-    uint32_t  arrange_raw_chan_bits           (uint32_t sample);
-    double    arranged_bits_to_actual_value   (uint32_t abs_arranged_bits, bool sign);
+    constexpr double    conv_raw_samp_buff_samp         (uint32_t sample, unsigned channel);
+    constexpr uint32_t  extract_chan_raw_samp_buff_samp (uint32_t sample, unsigned channel);
+    constexpr uint32_t  arrange_raw_chan_bits           (uint32_t sample);
+    constexpr double    arranged_bits_to_actual_value   (uint32_t abs_arranged_bits, bool sign);
 
   public:
     LAB_Parent_Data_Oscilloscope  m_parent_data;
 
-    // --- Functions --- 
-    LAB_Oscilloscope  (LAB_Core *_LAB_Core, LAB *_LAB);
-   ~LAB_Oscilloscope  ();   
+  public:   
+    LAB_Oscilloscope (LAB_Core *_LAB_Core, LAB *_LAB);
+   ~LAB_Oscilloscope ();   
 
     // Master controls
     void run                    ();
@@ -89,13 +93,17 @@ class LAB_Oscilloscope
     double  horizontal_offset ();
 
     // Trigger 
-    void              trigger_mode    (LE_OSC_TRIG_MODE _LE_OSC_TRIG_MODE);
-    LE_OSC_TRIG_MODE  trigger_mode    ();
-    void              trigger_level   (double value);
-    double            trigger_level   ();
-    void              trigger_source  (unsigned chan);
-    double            trigger_source  ();
-
+    void                  trigger_mode      (LABC::OSC::TRIG::MODE value);
+    LABC::OSC::TRIG::MODE trigger_mode      () const;
+    void                  trigger_source    (unsigned chan);
+    double                trigger_source    () const;
+    void                  trigger_type      (LABC::OSC::TRIG::TYPE value);
+    LABC::OSC::TRIG::TYPE trigger_type      () const;
+    void                  trigger_condition (LABC::OSC::TRIG::CND value);
+    LABC::OSC::TRIG::CND  trigger_condition () const;
+    void                  trigger_level     (double value);
+    double                trigger_level     () const;
+    
     // Display 
     void              display_mode_frontend (LE::DISPLAY_MODE _DISPLAY_MODE); 
     LE::DISPLAY_MODE  display_mode          ();

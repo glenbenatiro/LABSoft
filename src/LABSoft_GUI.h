@@ -124,6 +124,18 @@ private:
   static void cb_oscilloscope_fl_choice_trigger_source(Fl_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_choice_trigger_source[];
 public:
+  Fl_Choice *oscilloscope_fl_choice_trigger_type;
+private:
+  inline void cb_oscilloscope_fl_choice_trigger_type_i(Fl_Choice*, void*);
+  static void cb_oscilloscope_fl_choice_trigger_type(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_trigger_type[];
+public:
+  Fl_Choice *oscilloscope_fl_choice_trigger_condition;
+private:
+  inline void cb_oscilloscope_fl_choice_trigger_condition_i(Fl_Choice*, void*);
+  static void cb_oscilloscope_fl_choice_trigger_condition(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_trigger_condition[];
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_trigger_level;
 private:
   inline void cb_oscilloscope_fl_input_choice_trigger_level_i(Fl_Input_Choice*, void*);
