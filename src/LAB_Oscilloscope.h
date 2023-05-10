@@ -17,8 +17,6 @@ class LAB_Oscilloscope
     AikaPi::Uncached m_uncached_memory;
     std::thread      m_trigger_thread;
 
-    bool m_find_trigger_point = false;
-
   private:
     // Setup
     void init_spi       ();
@@ -43,10 +41,7 @@ class LAB_Oscilloscope
     // Trigger 
     void  parse_trigger         (LABC::OSC::TRIG::MODE value);
     void  search_trigger_point  ();
-
-    void  check_int ();    
-
-    bool  is_trigger_point      (unsigned buff, unsigned samp);
+    void  create_trigger_block  ();
 
     // Display 
     LE::DISPLAY_MODE  calc_disp_mode  (double time_per_div);
@@ -112,7 +107,7 @@ class LAB_Oscilloscope
     bool  is_running              ();
     bool  has_enabled_channel     ();
     void  load_data_samples       ();
-    void  switch_dma_buffer       (int buffer);   
+    void  switch_dma_buffer       (LABC::DMA::BUFFER_COUNT buff_count);   
     void  update_dma_data         (int disp_mode);
     int   update_state            ();
 

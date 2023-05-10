@@ -10,135 +10,127 @@
 // #include <bitset>
 
 LAB_Logic_Analyzer::
-LAB_Logic_Analyzer (LAB_Core *_LAB_Core, LAB *_LAB)
+LAB_Logic_Analyzer (LAB_Core* _LAB_Core, LAB* _LAB)
+  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
 {
-  // PWM should be initialized already at this point in LAB
-  m_LAB_Core  = _LAB_Core;
-  m_LAB       = _LAB;
-
-  //init_logan_gpio_pins  ();
-  //init_logan_dma        ();
+  // init_pwm (); // or maybe init_pcm () ???
+  init_gpio_pins  ();
+  init_dma        ();
 }
 
 LAB_Logic_Analyzer::
 ~LAB_Logic_Analyzer ()
 {
-  m_LAB_Core->unmap_periph_mem (&m_uncached_dma_data_logan);
+
 }
 
 void LAB_Logic_Analyzer:: 
-init_logan_gpio_pins ()
+init_gpio_pins ()
 {
   for (int chan = 0; chan < LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS; chan++)
   {
-    m_LAB_Core->gpio_set (
-      LAB_PIN_LOGIC_ANALYZER[chan],
-      AP_GPIO_FUNC_INPUT,
-      AP_GPIO_PULL_DOWN
+    m_LAB_Core->gpio.set (
+      LABC::PIN::LOGIC_ANALYZER[chan],
+      AP::GPIO::FUNC::INPUT,
+      AP::GPIO::PULL::DOWN
     );
   }
 }
 
 void LAB_Logic_Analyzer:: 
-init_logan_dma ()
+init_dma ()
 {
-    // Reset GPIO store DMA chan
-  m_LAB_Core->dma_reset (LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE);
-
-  // Config DMA blocks
   config_dma_cb ();
 
-  // Start GPIO store DMA chan
-  AP_MemoryMap                *mp = &(m_uncached_dma_data_logan);
-  LAB_DMA_Data_Logic_Analyzer *dp = static_cast<LAB_DMA_Data_Logic_Analyzer *>(mp->virt);
+  AikaPi::Uncached&            mp = m_uncached_memory;
+  LAB_DMA_Data_Logic_Analyzer& dp = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(mp.virt ()));
 
-  m_LAB_Core->dma_start (
-    mp,
-     LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE,
-    &(dp->cbs[0]),
-    0
-  );
+  m_LAB_Core->dma.start (LABC::DMA::CHAN::LOGAN_GPIO_STORE, mp.bus (&dp.cbs[0]));
 }
 
 void LAB_Logic_Analyzer::
 config_dma_cb ()
 {
-  m_LAB_Core->map_uncached_mem  (
-    &m_uncached_dma_data_logan, 
-    LAB_LOGIC_ANALYZER::VC_MEM_SIZE
-  );
+  m_uncached_memory.map_uncached_mem (LAB_LOGIC_ANALYZER::VC_MEM_SIZE);
 
-  AP_MemoryMap& mp                      = m_uncached_dma_data_logan;
-  LAB_DMA_Data_Logic_Analyzer& dp       = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(mp.virt));
-  LAB_DMA_Data_Logic_Analyzer dma_data  = 
+  LAB_DMA_Data_Logic_Analyzer& uncached_dma_data =
+    *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
+
+  LAB_DMA_Data_Logic_Analyzer new_uncached_dma_data  = 
   {
     .cbs = 
-    {
-      // for dual buffer
+    { 
+      // Double buffer
+      // 0
       {
-        // CB0
-        LAB_DMA_TI_LOGAN_STORE, 
-        Utility::bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
-        Utility::bus (mp, &dp.rxd[0]),
-        (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
+        LABC::DMA::TI::LOGAN_STORE,
+        m_LAB_Core->spi.bus   (GPIO_GPLEV0),
+        m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
+        static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::bus (mp, &dp.cbs[1]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
       },
-      { // CB 1
-        LAB_DMA_TI_LOGAN_STORE, 
-        Utility::bus (mp, &dp.buffer_ok_flag),
-        Utility::bus (mp, &dp.status[0]),
-        4,
-        0,
-        Utility::bus (mp, &dp.cbs[2]),
-        0
-      },
-      { // CB2
-        LAB_DMA_TI_LOGAN_STORE, 
-        Utility::bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
-        Utility::bus (mp, &dp.rxd[1]),
-        (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
-        0,
-        Utility::bus (mp, &dp.cbs[3]),
-        0
-      },
-      { // CB 3
-        LAB_DMA_TI_LOGAN_STORE, 
-        Utility::bus (mp, &dp.buffer_ok_flag),
-        Utility::bus (mp, &dp.status[1]),
-        4,
-        0,
-        Utility::bus (mp, &dp.cbs[0]),
-        0
-      },
-
-
-
-      // for single buffer
+      // 1
       {
-        // CB4
-        LAB_DMA_TI_LOGAN_STORE, 
-        Utility::bus          (m_LAB_Core->m_regs_gpio, GPIO_GPLEV0),
-        Utility::bus (mp, &dp.rxd[0]),
-        (uint32_t)(4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
+        LABC::DMA::TI::LOGAN_STORE | AP::DMA::TI_DATA::INTEN,
+        m_uncached_memory.bus (&uncached_dma_data.buffer_ok_flag),
+        m_uncached_memory.bus (&uncached_dma_data.status[0]),
+        sizeof (uint32_t),
         0,
-        Utility::bus (mp, &dp.cbs[5]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[2]),
         0
       },
-      { // CB 5
-        LAB_DMA_TI_LOGAN_STORE, 
-        Utility::bus (mp, &dp.buffer_ok_flag),
-        Utility::bus (mp, &dp.status[0]),
-        4,
+      // 2
+      {
+        LABC::DMA::TI::LOGAN_STORE,
+        m_LAB_Core->spi.bus   (GPIO_GPLEV0),
+        m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
+        static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
-        Utility::bus (mp, &dp.cbs[4]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
+        0
+      },
+      // 3
+      {
+        LABC::DMA::TI::LOGAN_STORE | AP::DMA::TI_DATA::INTEN,
+        m_uncached_memory.bus (&uncached_dma_data.buffer_ok_flag),
+        m_uncached_memory.bus (&uncached_dma_data.status[1]),
+        sizeof (uint32_t),
+        0,
+        m_uncached_memory.bus (&uncached_dma_data.cbs[0]),
+        0
+      },
+
+      // Single buffer
+      // 4
+      {
+        LABC::DMA::TI::LOGAN_STORE,
+        m_LAB_Core->spi.bus   (GPIO_GPLEV0),
+        m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
+        static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
+        0,
+        m_uncached_memory.bus (&uncached_dma_data.cbs[5]),
+        0
+      },
+      // 5
+      {
+        LABC::DMA::TI::LOGAN_STORE | AP::DMA::TI_DATA::INTEN,
+        m_uncached_memory.bus (&uncached_dma_data.buffer_ok_flag),
+        m_uncached_memory.bus (&uncached_dma_data.status[0]),
+        sizeof (uint32_t),
+        0,
+        m_uncached_memory.bus (&uncached_dma_data.cbs[4]),
         0
       },
     },
   };
 
-  std::memcpy (&dp, &dma_data, sizeof (dma_data));
+  std::memcpy (
+    &uncached_dma_data, 
+    &new_uncached_dma_data, 
+    sizeof (new_uncached_dma_data)
+  );
 }
 
 void LAB_Logic_Analyzer:: 
@@ -168,51 +160,70 @@ sampling_rate (double value)
   m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
+LE::DISPLAY_MODE LAB_Logic_Analyzer:: 
+display_mode ()
+{
+  return (m_parent_data.disp_mode);
+}
+
 void LAB_Logic_Analyzer:: 
 load_data_samples ()
 {
-  LAB_DMA_Data_Logic_Analyzer *dma_data = 
-    static_cast<LAB_DMA_Data_Logic_Analyzer *>(m_uncached_dma_data_logan.virt);
+  fill_raw_sample_buffer  ();
+  parse_raw_sample_buffer ();
+}
+
+void LAB_Logic_Analyzer:: 
+fill_raw_sample_buffer ()
+{
+  LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
+    (m_uncached_memory.virt ()));
   
-  if (m_parent_data.disp_mode == LE::DISPLAY_MODE::SCREEN)
+  if (display_mode () == LE::DISPLAY_MODE::SCREEN)
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
-      (void *)(dma_data->rxd[0]),
-      4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
+      (void*)(dma_data.rxd[0]),
+      sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
     );
   }
-  else if (m_parent_data.disp_mode == LE::DISPLAY_MODE::REPEATED)
+  else if (display_mode () == LE::DISPLAY_MODE::REPEATED)
   {
     for (int buff = 0; buff < 2; buff++)
     {
-      std::memcpy (
-        m_parent_data.raw_sample_buffer.data (),
-        (void *)(dma_data->rxd[buff]),
-        4 * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
-      );
-
-      dma_data->status[buff] = 0;
-
-      if (dma_data->status[buff ^ 1]) // overrun!
+      if (dma_data.status[buff])
       {
-        dma_data->status[0] = dma_data->status[1] = 0;
+        std::memcpy (
+          m_parent_data.raw_sample_buffer.data (),
+          (void*)(dma_data.rxd[buff]),
+          sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
+        );
       }
+
+      // Check if the other buffer is also full. 
+      // If it is, then we have a buffer overflow (both buffers full).
+      if (dma_data.status[buff ^ 1])
+      {
+        dma_data.status[0] = dma_data.status[1] = 0;
+
+        break;
+      }
+
+      dma_data.status[buff] = 0;
     }
   }
-
-  parse_raw_sample_buffer ();
 }
 
 void LAB_Logic_Analyzer::
 parse_raw_sample_buffer()
 {
-  for (int samp_i = 0; samp_i < m_parent_data.raw_sample_buffer.size (); samp_i++)
+  for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
   {
-    for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
+    for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
     {
-      m_parent_data.channel_data[chan].samples[samp_i] = 
-        (m_parent_data.raw_sample_buffer[samp_i] >> LAB_PIN_LOGIC_ANALYZER[chan]) & 0x1;
+      m_parent_data.channel_data[chan].samples[samp] = 
+        (m_parent_data.raw_sample_buffer[samp] >> LABC::PIN::LOGIC_ANALYZER[chan])
+        & 0x1;
     }
   }
 }
@@ -220,63 +231,58 @@ parse_raw_sample_buffer()
 double LAB_Logic_Analyzer:: 
 time_per_division (double value, unsigned disp_num_cols)
 {
-  if (m_parent_data.time_per_division != value)
+  double            new_samp_count  = calc_samp_count (value, disp_num_cols);
+  double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
+  LE::DISPLAY_MODE  new_disp_mode   = calc_disp_mode  (value);
+
+  m_parent_data.time_per_division = value;
+  m_parent_data.w_samp_count      = new_samp_count;
+  m_parent_data.sampling_rate     = new_samp_rate;
+
+  //display_mode          (new_disp_mode);
+  //set_hw_sampling_rate  (m_parent_data.sampling_rate);
+}
+
+double LAB_Logic_Analyzer:: 
+calc_samp_count (double time_per_div, unsigned osc_disp_num_cols)
+{
+  if (time_per_div >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
   {
-    double new_samp_count;
-    double new_samp_rate;
-
-    // 1. Calculate the new count of samples
-    if (value >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
-    {
-      new_samp_count = LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES;
-    }
-    else 
-    {
-      new_samp_count = LAB_LOGIC_ANALYZER::MAX_SAMPLING_RATE * disp_num_cols *
-        value;
-    }
-
-    // 2. Calculate the new sampling rate
-    if (value <= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
-    {
-      new_samp_rate = LAB_LOGIC_ANALYZER::MAX_SAMPLING_RATE;
-    }
-    else 
-    {
-      new_samp_rate = (LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES) / 
-        (value * disp_num_cols);
-    }
-
-    // 3. Change the graph display mode if necessary
-    if (value >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_DISP_SCREEN)
-    {
-      if (m_parent_data.disp_mode != LE::DISPLAY_MODE::SCREEN)
-      {
-        m_parent_data.disp_mode = LE::DISPLAY_MODE::SCREEN;
-        switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE);
-      }
-    }
-    else 
-    {
-      if (m_parent_data.disp_mode != LE::DISPLAY_MODE::REPEATED)
-      {
-        m_parent_data.disp_mode = LE::DISPLAY_MODE::REPEATED;
-        switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE);
-      }
-    }
-
-    // 4. Set the new time per division, sample count, and sampling rate values
-    m_parent_data.time_per_division   = value;
-    m_parent_data.w_samp_count  = new_samp_count;
-    
-    // 5. If new sampling rate is different from current, change sampling rate
-    if (m_parent_data.sampling_rate != new_samp_rate)
-    {
-      sampling_rate (new_samp_rate);
-    }
+    return (LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES);
   }
+  else 
+  {
+    return (LAB_LOGIC_ANALYZER::MAX_SAMPLING_RATE * osc_disp_num_cols *
+      time_per_div);
+  }
+}
 
-  return value;
+double LAB_Logic_Analyzer:: 
+calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
+{
+  if (time_per_div <= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
+  {
+    return (LAB_LOGIC_ANALYZER::MAX_SAMPLING_RATE);
+  }
+  else 
+  {
+    return (
+      LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols)
+    );
+  }
+}
+
+LE::DISPLAY_MODE LAB_Logic_Analyzer:: 
+calc_disp_mode (double time_per_div)
+{
+  if (time_per_div >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_DISP_SCREEN)
+  {
+    return (LE::DISPLAY_MODE::SCREEN);
+  }
+  else 
+  {
+    return (LE::DISPLAY_MODE::REPEATED);
+  }
 }
 
 double LAB_Logic_Analyzer:: 
@@ -288,41 +294,40 @@ horizontal_offset (double value)
 }
 
 void LAB_Logic_Analyzer:: 
-switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS _LE_SPI_DMA_NUMBER_OF_BUFFERS)
+switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count)
 {
-  bool is_dma_pwm_pacing_running = false;
+  bool flag = false; 
 
-  if (!(m_LAB_Core->is_dma_paused (LABC::DMA::CHAN::PWM_PACING)))
-  {
-    is_dma_pwm_pacing_running = true;
-    m_LAB_Core->dma_pause (LABC::DMA::CHAN::PWM_PACING);
-  }
- 
-  // load the next cb depending on buffer
   LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
-    (m_uncached_dma_data_logan.virt));
+    (m_uncached_memory.virt ()));
   
-  volatile uint32_t& reg = *(Utility::reg (m_LAB_Core->m_regs_dma,
-    Utility::dma_chan_reg_offset (LABC::DMA::CHAN::OSC_RX, DMA_NEXTCONBK)));
-
-  if (_LE_SPI_DMA_NUMBER_OF_BUFFERS == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
+  // 1. Pause PWM pacing DMA chan if running
+  if (m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING))
   {
-    reg = Utility::bus (m_uncached_dma_data_logan, &dma_data.cbs[4]);
-  }
-  else // (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
-  {
-    reg = Utility::bus (m_uncached_dma_data_logan, &dma_data.cbs[0]);
+    flag = true;
+    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
-  // abort current DMA control block
-  m_LAB_Core->dma_abort (LABC::DMA::CHAN::OSC_RX);
+  // 2. Assign next control block depending on buffer
+  if (buff_count == LABC::DMA::BUFFER_COUNT::SINGLE)
+  { 
+    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[4]));
+  }
+  else if (buff_count == LABC::DMA::BUFFER_COUNT::DOUBLE)
+  {
+    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[0]));
+  }
 
-  // clear buffer status
+  // 3. Abort the current control block 
+  m_LAB_Core->dma.abort (LABC::DMA::CHAN::LOGAN_GPIO_STORE);
+
+  // 4. Clean buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
 
-  if (is_dma_pwm_pacing_running)
+  // 5. Run DMA channel if it was running
+  if (flag)
   {
-    m_LAB_Core->dma_play (LABC::DMA::CHAN::PWM_PACING);
+    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
 }
 

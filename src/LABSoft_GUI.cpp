@@ -444,17 +444,17 @@ void LABSoft_GUI::cb_voltmeter_fl_light_button_run_stop(Fl_Light_Button* o, void
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_voltmeter_fl_light_button_run_stop_i(o,v);
 }
 
-void LABSoft_GUI::cb_function_generator_fl_input_choice_wave_type_i(Fl_Input_Choice* o, long v) {
+void LABSoft_GUI::cb_function_generator_fl_choice_wave_type_i(Fl_Choice* o, long v) {
   m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);
 }
-void LABSoft_GUI::cb_function_generator_fl_input_choice_wave_type(Fl_Input_Choice* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_function_generator_fl_input_choice_wave_type_i(o,v);
+void LABSoft_GUI::cb_function_generator_fl_choice_wave_type(Fl_Choice* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_function_generator_fl_choice_wave_type_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_wave_type[] = {
+Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_choice_wave_type[] = {
  {"Sine", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"Square", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Triangle", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Square", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"DC", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
@@ -535,28 +535,6 @@ Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_period[] = {
  {"500 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"200 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"100 us", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {0,0,0,0,0,0,0,0,0}
-};
-
-void LABSoft_GUI::cb_function_generator_fl_input_choice_duty_cycle_i(Fl_Input_Choice* o, long v) {
-  m_LABSoft_Controller->m_Function_Generator.cb_duty_cycle (o, v);
-}
-void LABSoft_GUI::cb_function_generator_fl_input_choice_duty_cycle(Fl_Input_Choice* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_function_generator_fl_input_choice_duty_cycle_i(o,v);
-}
-
-Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_duty_cycle[] = {
- {"5 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"4 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"3 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"2 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"1 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"0 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"-1 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"-2 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"-3 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"-4 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"-5 V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -795,6 +773,7 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
         o->color(FL_LIGHT3);
         o->selection_color(FL_LIGHT2);
+        o->hide();
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 95, 120, 60, "Run");
           oscilloscope_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
           oscilloscope_fl_light_button_run_stop->color((Fl_Color)53);
@@ -1097,16 +1076,12 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Function Generator");
         o->color(FL_LIGHT3);
         o->selection_color(FL_LIGHT2);
-        o->hide();
-        { function_generator_fl_input_choice_wave_type = new Fl_Input_Choice(300, 140, 180, 60, "Wave Type");
-          function_generator_fl_input_choice_wave_type->box(FL_FLAT_BOX);
-          function_generator_fl_input_choice_wave_type->color((Fl_Color)53);
-          function_generator_fl_input_choice_wave_type->selection_color((Fl_Color)53);
-          function_generator_fl_input_choice_wave_type->callback((Fl_Callback*)cb_function_generator_fl_input_choice_wave_type, (void*)(0));
-          function_generator_fl_input_choice_wave_type->align(Fl_Align(FL_ALIGN_TOP));
-          function_generator_fl_input_choice_wave_type->menu(menu_function_generator_fl_input_choice_wave_type);
-          function_generator_fl_input_choice_wave_type->value (LABSOFT_FUNCTION_GENERATOR_WAVE_TYPE);
-        } // Fl_Input_Choice* function_generator_fl_input_choice_wave_type
+        { function_generator_fl_choice_wave_type = new Fl_Choice(300, 140, 180, 60, "Wave Type");
+          function_generator_fl_choice_wave_type->down_box(FL_BORDER_BOX);
+          function_generator_fl_choice_wave_type->callback((Fl_Callback*)cb_function_generator_fl_choice_wave_type, (void*)(0));
+          function_generator_fl_choice_wave_type->align(Fl_Align(FL_ALIGN_TOP));
+          function_generator_fl_choice_wave_type->menu(menu_function_generator_fl_choice_wave_type);
+        } // Fl_Choice* function_generator_fl_choice_wave_type
         { function_generator_fl_input_choice_amplitude = new Fl_Input_Choice(593, 140, 180, 60, "Amplitude");
           function_generator_fl_input_choice_amplitude->box(FL_FLAT_BOX);
           function_generator_fl_input_choice_amplitude->color((Fl_Color)53);
@@ -1136,16 +1111,7 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_input_choice_period->menu(menu_function_generator_fl_input_choice_period);
           function_generator_fl_input_choice_period->value (LABSOFT_FUNCTION_GENERATOR_PERIOD);
         } // Fl_Input_Choice* function_generator_fl_input_choice_period
-        { function_generator_fl_input_choice_duty_cycle = new Fl_Input_Choice(593, 240, 180, 60, "Duty Cycle");
-          function_generator_fl_input_choice_duty_cycle->box(FL_FLAT_BOX);
-          function_generator_fl_input_choice_duty_cycle->color((Fl_Color)53);
-          function_generator_fl_input_choice_duty_cycle->selection_color((Fl_Color)53);
-          function_generator_fl_input_choice_duty_cycle->callback((Fl_Callback*)cb_function_generator_fl_input_choice_duty_cycle, (void*)(0));
-          function_generator_fl_input_choice_duty_cycle->align(Fl_Align(FL_ALIGN_TOP));
-          function_generator_fl_input_choice_duty_cycle->menu(menu_function_generator_fl_input_choice_duty_cycle);
-          function_generator_fl_input_choice_duty_cycle->value (LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE);
-        } // Fl_Input_Choice* function_generator_fl_input_choice_duty_cycle
-        { function_generator_fl_input_choice_phase = new Fl_Input_Choice(880, 240, 180, 60, "Phase");
+        { function_generator_fl_input_choice_phase = new Fl_Input_Choice(593, 240, 180, 60, "Phase");
           function_generator_fl_input_choice_phase->box(FL_FLAT_BOX);
           function_generator_fl_input_choice_phase->color((Fl_Color)53);
           function_generator_fl_input_choice_phase->selection_color((Fl_Color)53);
@@ -1154,7 +1120,7 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_input_choice_phase->menu(menu_function_generator_fl_input_choice_phase);
           function_generator_fl_input_choice_phase->value (LABSOFT_FUNCTION_GENERATOR_PHASE);
         } // Fl_Input_Choice* function_generator_fl_input_choice_phase
-        { function_generator_fl_input_choice_offset = new Fl_Input_Choice(593, 350, 180, 60, "Vertical Offset");
+        { function_generator_fl_input_choice_offset = new Fl_Input_Choice(880, 240, 180, 60, "Vertical Offset");
           function_generator_fl_input_choice_offset->box(FL_FLAT_BOX);
           function_generator_fl_input_choice_offset->color((Fl_Color)53);
           function_generator_fl_input_choice_offset->selection_color((Fl_Color)53);

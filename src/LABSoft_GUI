@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {1049 703 1365 765} type Double color 55 visible
+      xywh {2369 190 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
@@ -51,8 +51,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope open
-          xywh {0 60 1366 708} color 54 selection_color 52
+          label Oscilloscope
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
@@ -952,7 +952,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_trigger {open
+          Fl_Group oscilloscope_fl_group_trigger {
             xywh {0 -4 1366 768}
           } {
             Fl_Box {} {
@@ -1056,7 +1056,7 @@ class LABSoft_GUI {open
                 xywh {40 40 36 21}
               }
               MenuItem {} {
-                label {100 mV} selected
+                label {100 mV}
                 xywh {50 50 36 21}
               }
               MenuItem {} {
@@ -1195,31 +1195,30 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Function Generator}
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label {Function Generator} open
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
-          Fl_Input_Choice function_generator_fl_input_choice_wave_type {
+          Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);}
-            xywh {300 140 180 60} box FLAT_BOX color 53 selection_color 53 align 1
-            code0 {function_generator_fl_input_choice_wave_type->value (LABSOFT_FUNCTION_GENERATOR_WAVE_TYPE);}
+            xywh {300 140 180 60} down_box BORDER_BOX align 1
           } {
             MenuItem {} {
               label Sine
-              xywh {10 140 36 21}
-            }
-            MenuItem {} {
-              label Square
-              xywh {20 140 36 21}
+              xywh {0 0 36 21}
             }
             MenuItem {} {
               label Triangle
-              xywh {30 140 36 21}
+              xywh {10 10 36 21}
+            }
+            MenuItem {} {
+              label Square
+              xywh {20 20 36 21}
             }
             MenuItem {} {
               label DC
-              xywh {40 140 36 21}
+              xywh {30 30 36 21}
             }
           }
           Fl_Input_Choice function_generator_fl_input_choice_amplitude {
@@ -1432,63 +1431,11 @@ class LABSoft_GUI {open
               xywh {80 240 36 21}
             }
           }
-          Fl_Input_Choice function_generator_fl_input_choice_duty_cycle {
-            label {Duty Cycle}
-            user_data 0 user_data_type long
-            callback {m_LABSoft_Controller->m_Function_Generator.cb_duty_cycle (o, v);}
-            xywh {593 240 180 60} box FLAT_BOX color 53 selection_color 53 align 1
-            code0 {function_generator_fl_input_choice_duty_cycle->value (LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE);}
-          } {
-            MenuItem {} {
-              label {5 V}
-              xywh {30 30 36 21}
-            }
-            MenuItem {} {
-              label {4 V}
-              xywh {40 40 36 21}
-            }
-            MenuItem {} {
-              label {3 V}
-              xywh {50 50 36 21}
-            }
-            MenuItem {} {
-              label {2 V}
-              xywh {60 60 36 21}
-            }
-            MenuItem {} {
-              label {1 V}
-              xywh {70 70 36 21}
-            }
-            MenuItem {} {
-              label {0 V}
-              xywh {80 80 36 21}
-            }
-            MenuItem {} {
-              label {-1 V}
-              xywh {90 90 36 21}
-            }
-            MenuItem {} {
-              label {-2 V}
-              xywh {100 100 36 21}
-            }
-            MenuItem {} {
-              label {-3 V}
-              xywh {110 110 36 21}
-            }
-            MenuItem {} {
-              label {-4 V}
-              xywh {120 120 36 21}
-            }
-            MenuItem {} {
-              label {-5 V}
-              xywh {130 130 36 21}
-            }
-          }
           Fl_Input_Choice function_generator_fl_input_choice_phase {
             label Phase
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_phase (o, v);}
-            xywh {880 240 180 60} box FLAT_BOX color 53 selection_color 53 align 1
+            xywh {593 240 180 60} box FLAT_BOX color 53 selection_color 53 align 1
             code0 {function_generator_fl_input_choice_phase->value (LABSOFT_FUNCTION_GENERATOR_PHASE);}
           } {
             MenuItem {} {
@@ -1544,7 +1491,7 @@ class LABSoft_GUI {open
             label {Vertical Offset}
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_offset (o, v);}
-            xywh {593 350 180 60} box FLAT_BOX color 53 selection_color 53 align 1
+            xywh {880 240 180 60} box FLAT_BOX color 53 selection_color 53 align 1
             code0 {function_generator_fl_input_choice_offset->value (LABSOFT_FUNCTION_GENERATOR_Y_OFFSET);}
           } {
             MenuItem {} {

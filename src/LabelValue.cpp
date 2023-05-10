@@ -14,7 +14,7 @@ LabelValue ()
 
 LabelValue::
 LabelValue (double          value, 
-            LABELVALUE_TYPE parse_input_as)
+            LabelValue::TYPE parse_input_as)
 {
   m_label_type          = parse_input_as;
   m_is_valid_label_text = parse_double_if_valid (value);
@@ -23,7 +23,7 @@ LabelValue (double          value,
 LabelValue::
 LabelValue (const char      *label, 
             double           reference,
-            LABELVALUE_TYPE  parse_input_as)
+            LabelValue::TYPE  parse_input_as)
 {
   std::string str (label);
 
@@ -34,7 +34,7 @@ LabelValue (const char      *label,
 
 LabelValue::
 LabelValue (const char      *label,
-            LABELVALUE_TYPE  parse_input_as)
+            LabelValue::TYPE  parse_input_as)
 {
   LabelValue (label, 0.0, parse_input_as);
 }
@@ -224,7 +224,7 @@ to_label_text (unsigned precision)
 }
 
 std::string LabelValue:: 
-to_label_text (LABELVALUE_TYPE parse_input_as, unsigned precision)
+to_label_text (LabelValue::TYPE parse_input_as, unsigned precision)
 {
   m_label_type = parse_input_as;
 
@@ -291,7 +291,7 @@ short_value ()
 
 // Setters
 void LabelValue::
-label_for (LABELVALUE_TYPE parse_output_as)
+label_for (LabelValue::TYPE parse_output_as)
 {
   m_label_type = parse_output_as;
 }

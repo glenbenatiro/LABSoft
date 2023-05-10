@@ -9,25 +9,37 @@
 class LAB_Function_Generator 
 {
   private: 
-    LAB_Core*                           m_LAB_Core;
-    std::array<LAB_AD9833, 1>           m_func_gen_ic;
-    std::array<LAB_MCP4XXX, 3>          m_digipot;
-    LAB_Parent_Data_Function_Generator  m_parent_data;
+    LAB_Core*   m_LAB_Core;
+    LAB_AD9833  m_func_gen_ic[LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    LAB_MCP4XXX m_digipot_amp[2 * LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    LAB_MCP4XXX m_digipot_offset[LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+  
+  private:
+    void init_state ();
+  
+  public:
+    LAB_Parent_Data_Function_Generator m_parent_data;
 
   public:
     LAB_Function_Generator      (LAB_Core* _LAB_Core);
 
-    void init_state             ();
-    void run_stop               (unsigned channel, bool         value);
-    void wave_type              (unsigned channel, LE_WAVE_TYPE _WAVETYPE);
-    void frequency              (unsigned channel, double       frequency);
-    void period                 (unsigned channel, double       period);
-    void amplitude              (unsigned channel, double       amplitude);
-    void vertical_offset        (unsigned channel, double       offset);
-    void duty_cycle             (unsigned channel, double       duty_cycle);
-    void phase                  (unsigned channel, double       phase);
-    void set_hw_amplitude       (unsigned channel, double       value);
-    void set_hw_vertical_offset (unsigned channel, double       value);
+    void run                    (unsigned channel);
+    void stop                   (unsigned channel);
+    void wave_type              (unsigned channel, LABC::FUNC_GEN::WAVE_TYPE value);
+    void amplitude              (unsigned channel, double value);
+    void frequency              (unsigned channel, double value);
+    void period                 (unsigned channel, double value);
+    void phase                  (unsigned channel, double value);
+    void vertical_offset        (unsigned channel, double value);
+    void set_hw_amplitude       (unsigned channel, double value);
+    void set_hw_vertical_offset (unsigned channel, double value);
+
+    LABC::FUNC_GEN::WAVE_TYPE wave_type (unsigned channel);
+    double amplitude                    (unsigned channel);
+    double frequency                    (unsigned channel);
+    double period                       (unsigned channel);
+    double phase                        (unsigned channel);
+    double vertical_offset              (unsigned channel);
 };
 
 #endif

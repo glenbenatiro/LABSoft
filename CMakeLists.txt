@@ -51,6 +51,7 @@ ADD_EXECUTABLE(LABSoft
   src/pugixml.cpp
   src/Defaults.cpp
 
+  lib/AD9833/AD9833.cpp
   lib/MCP4XXX/MCP4XXX.cpp
   src/LAB_MCP4XXX.cpp
 )

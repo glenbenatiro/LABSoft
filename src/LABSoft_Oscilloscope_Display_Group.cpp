@@ -141,7 +141,7 @@ update_voltage_per_division_labels (unsigned channel)
       double row_vpd = calc_row_voltage_per_division (a,
         LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS, chan);
       
-      LabelValue lv (row_vpd, LABELVALUE_TYPE::VOLTS);
+      LabelValue lv (row_vpd, LabelValue::TYPE::VOLTS);
 
       if (a == 0)
       {
@@ -179,7 +179,7 @@ update_time_per_division_labels ()
     double col_tpd = (a + col_half) * (m_parent_data_osc->time_per_division) + 
       (m_parent_data_osc->horizontal_offset);
     
-    LabelValue lv (col_tpd, LABELVALUE_TYPE::SECONDS);
+    LabelValue lv (col_tpd, LabelValue::TYPE::SECONDS);
     
     m_x_labels[a]->copy_label (lv.to_label_text ().c_str ());
   }
@@ -188,7 +188,7 @@ update_time_per_division_labels ()
 void LABSoft_Oscilloscope_Display_Group:: 
 update_upper_osc_disp_info ()
 {
-  LabelValue lv (m_parent_data_osc->sampling_rate, LABELVALUE_TYPE::HERTZ);
+  LabelValue lv (m_parent_data_osc->sampling_rate, LabelValue::TYPE::HERTZ);
 
   std::stringstream ss;
 

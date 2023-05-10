@@ -11,6 +11,7 @@
 #include <FL/fl_draw.H>
 
 #include "../lib/AikaPi/AikaPi.h"
+#include "../lib/AD9833/AD9833.h"
 
 // --- Enums ---
 
@@ -97,18 +98,35 @@ namespace LABC
 {
   namespace PIN
   {
-    constexpr unsigned PWM = 12;
-
+    // Oscilloscope
     constexpr unsigned OSC_MUX_SCALER_A0_CHAN_0   = 27;
     constexpr unsigned OSC_MUX_SCALER_A1_CHAN_0   = 22;
     constexpr unsigned OSC_MUX_SCALER_A0_CHAN_1   = 23;
     constexpr unsigned OSC_MUX_SCALER_A1_CHAN_1   = 24;
     constexpr unsigned OSC_COUPLING_SELECT_CHAN_0 = 14;
     constexpr unsigned OSC_COUPLING_SELECT_CHAN_1 = 15; 
+
+    // PWM
+    constexpr unsigned PWM = 12;
+
+    // Function Generator
+    constexpr int FUNC_GEN_IC_MOSI   = 2;
+    constexpr int FUNC_GEN_IC_MISO   = 3;
+    constexpr int FUNC_GEN_IC_SCLK   = 4;
+    constexpr int FUNC_GEN_IC_CS     = 14;
+
+    // Logic Analyzer
+    constexpr unsigned LOGIC_ANALYZER []          = {0, 1, 26};
   };
 
   namespace DMA
   {
+    enum class BUFFER_COUNT
+    {
+      SINGLE,
+      DOUBLE
+    };
+
     namespace TI
     {
       constexpr uint32_t OSC_PWM_PACING  = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::PWM))  
@@ -136,9 +154,10 @@ namespace LABC
 
     namespace CHAN
     {
-      constexpr unsigned PWM_PACING = 7;
-      constexpr unsigned OSC_RX     = 8;
-      constexpr unsigned OSC_TX     = 9;
+      constexpr unsigned PWM_PACING       = 7;
+      constexpr unsigned OSC_RX           = 8;
+      constexpr unsigned OSC_TX           = 9;
+      constexpr unsigned LOGAN_GPIO_STORE = 10;
     };
   };
 
@@ -181,6 +200,42 @@ namespace LABC
         EITHER
       };
     };    
+  };
+
+  namespace FUNC_GEN
+  {
+    enum class WAVE_TYPE
+    {
+      SINE,
+      TRIANGLE,
+      SQUARE,
+      SQUARE_HALF,
+      SQUARE_FULL,
+      DC
+    };
+
+    constexpr unsigned  NUMBER_OF_CHANNELS     = 1;
+    constexpr double    MIN_AMPLITUDE_DIGI_POT = -3.3; // V
+    constexpr double    MAX_AMPLITUDE_DIGI_POT =  3.3; // V
+    constexpr double    MIN_AMPLITUDE          = MIN_AMPLITUDE_DIGI_POT; // V
+    constexpr double    MAX_AMPLITUDE          = MAX_AMPLITUDE_DIGI_POT; // V
+    constexpr double    MIN_FREQUENCY          = AD9833::MIN_FREQUENCY; // Hz
+    constexpr double    MAX_FREQUENCY          = AD9833::MAX_FREQUENCY; // Hz
+    constexpr double    MIN_PERIOD             = 1.0 / MIN_FREQUENCY; // s
+    constexpr double    MAX_PERIOD             = 1.0 / MAX_FREQUENCY; // s
+    constexpr double    MIN_PHASE              = -360.0; // degrees
+    constexpr double    MAX_PHASE              =  360.0; // degrees
+    constexpr double    MIN_VERTICAL_OFFSET    = -5.0; // V
+    constexpr double    MAX_VERTICAL_OFFSET    =  5.0; // V
+
+    constexpr WAVE_TYPE _WAVE_TYPE             = WAVE_TYPE::SINE;
+    constexpr double    AMPLITUDE              = 1.0;
+    constexpr double    FREQUENCY              = 1'000.0;
+    constexpr double    PERIOD                 = 1.0 / FREQUENCY;
+    constexpr double    PHASE                  = 0.0;
+    constexpr double    VERTICAL_OFFSET        = 0.0;
+
+    constexpr double    IC_FREQUENCY           = 10'000.0; // Hz
   };
 };
 
@@ -345,8 +400,6 @@ namespace LAB_OSCILLOSCOPE
   constexpr double            MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
 }
 
-
-
 struct LAB_Channel_Data_Oscilloscope
 {
   // Channel
@@ -377,8 +430,26 @@ class LAB_Parent_Data_Oscilloscope
     LABC::OSC::TRIG::TYPE trig_type       = LAB_OSCILLOSCOPE::TRIGGER_TYPE;
     LABC::OSC::TRIG::CND  trig_condition  = LAB_OSCILLOSCOPE::TRIGGER_CONDITION;
     double                trig_level      = LAB_OSCILLOSCOPE::TRIGGER_LEVEL;
+    unsigned              trig_buffer     = 0;
+    unsigned              trig_index      = 0;
+
+    struct TriggerBuffers
+    {
+      std::array<
+        std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>,
+        LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS
+      > pre_trigger;
+
+      std::array<
+        std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES>,
+        LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS
+      > post_trigger;
+
+      std::array<uint32_t, LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES> assembled_block;
+    } trig_buffers;
 
     bool                  trig_flag_no_trig_found_yet = true;
+    bool                  find_trigger = false;
 
     // Display  
     LE::DISPLAY_MODE  disp_mode         = LAB_OSCILLOSCOPE::OSC_DISP_MODE;
@@ -475,35 +546,6 @@ enum LE_WAVE_TYPE
   LE_WAVE_TYPE_DC
 };
 
-namespace LAB_CONST
-{
-  namespace FUNC_GEN
-  {
-    constexpr unsigned      NUMBER_OF_CHANNELS      = 1;
-    constexpr double        SIG_GEN_FREQUENCY_MIN   = 0.1; // Hz
-    constexpr double        SIG_GEN_FREQUENCY_MAX   = 1'000'00; // Hz
-    constexpr double        DIGI_POT_AMPLITUDE_MIN  = -3.3; //V
-    constexpr double        DIGI_POT_AMPLITUDE_MAX  = 3.3; //V
-    constexpr double        FREQUENCY_MIN           = SIG_GEN_FREQUENCY_MIN;
-    constexpr double        FREQUENCY_MAX           = 1'000'000; // Hz
-    constexpr double        AMPLITUDE_MIN           = DIGI_POT_AMPLITUDE_MIN;
-    constexpr double        AMPLITUDE_MAX           = DIGI_POT_AMPLITUDE_MAX;
-    constexpr double        VERTICAL_OFFSET_MIN     = -5.0;
-    constexpr double        VERTICAL_OFFSET_MAX     = 5.0;
-    constexpr double        DUTY_CYCLE_MIN          = 0.0;
-    constexpr double        DUTY_CYCLE_MAX          = 100.0;
-    constexpr double        PHASE_MIN               = -360.0;
-    constexpr double        PHASE_MAX               = 360.0;
-    constexpr double        FREQUENCY               = 1'000; // Hz
-    constexpr double        PERIOD                  = 1.0 / FREQUENCY;
-    constexpr double        AMPLITUDE               = 1.0; // 1 volt
-    constexpr double        VERTICAL_OFFSET         = 0.0;
-    constexpr double        DUTY_CYCLE              = 50.0; // 50% duty cycle
-    constexpr double        PHASE                   = 0.0; // 0 degree phase = in phase
-    constexpr LE_WAVE_TYPE  WAVE_TYPE               = LE_WAVE_TYPE_SQUARE;
-  }
-}
-
 constexpr double SIG_GEN_MIN_FREQ   = 0.1; 
 constexpr double SIG_GEN_MAX_FREQ   = 12'500'000; 
 constexpr int    SIG_GEN_REF_CLK_HZ = 25'000'000; 
@@ -515,18 +557,17 @@ struct LAB_Channel_Data_Function_Generator
   bool is_enabled = false;
 
   // Parameters
-  LE_WAVE_TYPE  wave_type       = LAB_CONST::FUNC_GEN::WAVE_TYPE;
-  double        frequency       = LAB_CONST::FUNC_GEN::FREQUENCY;
-  double        period          = LAB_CONST::FUNC_GEN::PERIOD;
-  double        amplitude       = LAB_CONST::FUNC_GEN::AMPLITUDE;
-  double        vertical_offset = LAB_CONST::FUNC_GEN::VERTICAL_OFFSET;
-  double        duty_cycle      = LAB_CONST::FUNC_GEN::DUTY_CYCLE;
-  double        phase           = LAB_CONST::FUNC_GEN::PHASE;
+  LABC::FUNC_GEN::WAVE_TYPE wave_type       = LABC::FUNC_GEN::_WAVE_TYPE;
+  double                    frequency       = LABC::FUNC_GEN::FREQUENCY;
+  double                    period          = LABC::FUNC_GEN::PERIOD;
+  double                    amplitude       = LABC::FUNC_GEN::AMPLITUDE;
+  double                    vertical_offset = LABC::FUNC_GEN::VERTICAL_OFFSET;
+  double                    phase           = LABC::FUNC_GEN::PHASE;
 };
 
 struct LAB_Parent_Data_Function_Generator
 {
-  std::array <LAB_Channel_Data_Function_Generator, LAB_CONST::FUNC_GEN::NUMBER_OF_CHANNELS> channel_data;
+  std::array <LAB_Channel_Data_Function_Generator, LABC::FUNC_GEN::NUMBER_OF_CHANNELS> channel_data;
 };
 
 // LABSoft Function Generator
@@ -634,8 +675,9 @@ struct LAB_DMA_Data_Logic_Analyzer
   
   uint32_t  buffer_ok_flag = 0x1;
 
-  volatile uint32_t status[2] = {0},
-                    rxd[2][LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES] = {0};
+  volatile  uint32_t status [LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS];
+  volatile  uint32_t rxd    [LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS]
+                            [LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES];
 };
 
 // LABSoft Logic Analyzer Display Group

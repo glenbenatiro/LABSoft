@@ -29,8 +29,6 @@ LAB_Oscilloscope::
   m_LAB_Core->dma.reset (LABC::DMA::CHAN::OSC_RX);
   m_LAB_Core->dma.reset (LABC::DMA::CHAN::OSC_TX);
   m_LAB_Core->dma.reset (LABC::DMA::CHAN::PWM_PACING);
-
-  std::cout << "oscilloscope destructor" << std::endl;
 }
 
 void LAB_Oscilloscope:: 
@@ -131,7 +129,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
@@ -141,7 +139,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
         m_LAB_Core->spi.bus   (SPI_CS),
         m_uncached_memory.bus (&uncached_dma_data.status[0]),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[2]),
         0
@@ -151,7 +149,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
-        static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
         0
@@ -161,7 +159,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
         m_LAB_Core->spi.bus   (SPI_CS),
         m_uncached_memory.bus (&uncached_dma_data.status[1]),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[0]),
         0
@@ -173,7 +171,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         m_LAB_Core->spi.bus   (SPI_FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[5]),
         0
@@ -183,7 +181,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
         m_LAB_Core->spi.bus   (SPI_CS),
         m_uncached_memory.bus (&uncached_dma_data.status[0]),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[4]),
         0
@@ -195,7 +193,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_TX,
         m_uncached_memory.bus (&uncached_dma_data.txd),
         m_LAB_Core->spi.bus   (SPI_FIFO),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[6]),
         0
@@ -207,7 +205,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.pwm_duty_cycle),
         m_LAB_Core->pwm.bus   (PWM_FIF1),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[8]),
         0
@@ -217,7 +215,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.spi_cs_fifo_reset),
         m_LAB_Core->spi.bus   (SPI_CS),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[9]),
         0
@@ -227,7 +225,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.spi_samp_size),
         m_LAB_Core->spi.bus   (SPI_DLEN),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[10]),
         0
@@ -237,21 +235,25 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.spi_cs),
         m_LAB_Core->spi.bus   (SPI_CS),
-        4,
+        sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[7]),
         0
       },     
     },   
 
-    .spi_samp_size      = 4,    
+    .spi_samp_size      = sizeof (uint32_t),    
     .spi_cs             = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | LAB_OSCILLOSCOPE::ADC_SPI0_CHIP_ENABLE,
     .spi_cs_fifo_reset  = 0x00000030,
     .pwm_duty_cycle     = 0x0,
     .txd                = 0x0000ffff
   };
 
-  std::memcpy (&uncached_dma_data, &new_uncached_dma_data, sizeof (new_uncached_dma_data));
+  std::memcpy (
+    &uncached_dma_data, 
+    &new_uncached_dma_data, 
+    sizeof (new_uncached_dma_data)
+  );
 }
 
 LE::DISPLAY_MODE LAB_Oscilloscope:: 
@@ -391,6 +393,13 @@ coupling (unsigned        channel,
 }
 
 void LAB_Oscilloscope:: 
+load_data_samples ()
+{
+  fill_raw_sample_buffer  ();
+  parse_raw_sample_buffer ();
+}
+
+void LAB_Oscilloscope:: 
 fill_raw_sample_buffer ()
 {
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
@@ -401,41 +410,49 @@ fill_raw_sample_buffer ()
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
       (void*)(dma_data.rxd[0]),
-      4 *LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
+      sizeof (uint32_t) * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
     );
   }
   else if (disp_mode () == LE::DISPLAY_MODE::REPEATED)
   {
-    for (int a = 0; a < 2; a++)
+    for (int buff = 0; buff < 2; buff++)
     {
-      if (dma_data.status[a])
+      if (dma_data.status[buff])
       {
         std::memcpy (
           m_parent_data.raw_sample_buffer.data (),
-          (void*)(dma_data.rxd[a]),
-          4 * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
+          (void*)(dma_data.rxd[buff]),
+          sizeof (uint32_t) * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
         );
       }
 
       // Check if the other buffer is also full. 
       // If it is, then we have a buffer overflow (both buffers full).
-      if (dma_data.status[a ^ 1])
+      if (dma_data.status[buff ^ 1])
       {
         dma_data.status[0] = dma_data.status[1] = 0;
 
         break;
       }
 
-      dma_data.status[a] = 0;
+      dma_data.status[buff] = 0;
     }
   }
 }
 
 void LAB_Oscilloscope:: 
-load_data_samples ()
+parse_raw_sample_buffer ()
 {
-  fill_raw_sample_buffer  ();
-  parse_raw_sample_buffer ();
+  for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
+  {
+    for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
+    {
+      double actual_value = conv_raw_samp_buff_samp (
+        m_parent_data.raw_sample_buffer[samp], chan);
+      
+      m_parent_data.channel_data[chan].samples[samp] = actual_value;
+    }
+  }
 }
 
 /**
@@ -515,21 +532,6 @@ arranged_bits_to_actual_value (uint32_t abs_arranged_bits,
       LAB_OSCILLOSCOPE::CONVERSION_CONSTANT) - 
       LAB_OSCILLOSCOPE::CONVERSION_REFERENCE_VOLTAGE
     );
-  }
-}
-
-void LAB_Oscilloscope:: 
-parse_raw_sample_buffer ()
-{
-  for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
-  {
-    for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
-    {
-      double actual_value = conv_raw_samp_buff_samp (
-        m_parent_data.raw_sample_buffer[samp], chan);
-      
-      m_parent_data.channel_data[chan].samples[samp] = actual_value;
-    }
   }
 }
 
@@ -648,14 +650,14 @@ parse_trigger (LABC::OSC::TRIG::MODE value)
   {
     case LABC::OSC::TRIG::MODE::NONE:
     {
-      m_find_trigger_point = false;
+      m_parent_data.find_trigger = false;
       m_trigger_thread.join ();
       break;
     }
 
     case LABC::OSC::TRIG::MODE::NORMAL:
     {
-      m_find_trigger_point = true;
+      m_parent_data.find_trigger = true;
       m_trigger_thread = std::thread (&LAB_Oscilloscope::search_trigger_point, this);
       
       break;
@@ -676,168 +678,196 @@ parse_trigger (LABC::OSC::TRIG::MODE value)
 void LAB_Oscilloscope:: 
 search_trigger_point ()
 {
-  volatile uint32_t* int_reg = m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS);
-  
+  volatile uint32_t* int_reg          = m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS);
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
-  
-  bool filled_buffer      = 0;
-  uint32_t buff0_bus_addr = m_uncached_memory.bus (&dma_data.cbs[0]);
-  uint32_t buff1_bus_addr = m_uncached_memory.bus (&dma_data.cbs[2]);
 
-  uint32_t copy[2][2][LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES];
+  const uint32_t buff0_bus_addr = m_uncached_memory.bus (&dma_data.cbs[0]);
+  const uint32_t buff1_bus_addr = m_uncached_memory.bus (&dma_data.cbs[2]);
 
-  while (m_find_trigger_point)
+  bool    filled_buffer = 0;
+  bool    trigger_found = false;
+  double  samp          = 0.0;
+  double  before        = 0.0;
+
+  while (m_parent_data.find_trigger)
   {
-    /**
-     *  START TRIGGER CYCLE. EACH CYCLE SHOULD BE LESS THAN 10ms FOR A MAX
-     *  SAMPLING RATE OF 200'000Hz at 2000 SAMPLES! 
-     * 
-     *  TIME START.
-     */
-
-    // 1. Wait until the current buffer is filled by continually checking 
-    //    whether the interrupt status of the OSC RX DMA channel is asserted
-    if ((*int_reg >> LABC::DMA::CHAN::OSC_RX) & 0x1)
+    // x. Check if the store SPI CS control block has finished (interrupt asserted)
+    if (((*int_reg >> LABC::DMA::CHAN::OSC_RX) & 0x1) && !trigger_found)
     {
-      // 2, If buffer is filled, reset the interrupt flag
+      // x. Reset interrupt flag
       m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
 
-      // 3. Store the now current control block address, 
-      //    to know what buffer was filled
+      // x. Store the current control block address to know what buffer # was filled
       uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD));
 
-      // 4. Store a copy of both control blocks
+      // x. Store a copy of both volatile buffers
       std::memcpy (
-        copy[0], 
+        m_parent_data.trig_buffers.pre_trigger.data (),
         const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd)),
         sizeof (uint32_t) * LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS * LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
       );
 
-      // 5. Identify the buffer that was filled
+      // x. Identify the buffer that was filled
       if (curr_conblk_ad == buff0_bus_addr)
       {
         filled_buffer = 1;
       }
-      else 
+      else if (curr_conblk_ad == buff1_bus_addr)
       {
         filled_buffer = 0;
       }
 
-      // 6. Start searching for the trigger
-      for (int a = 0; a < 2000; a++)
+      // x. Search if trigger is present
+      switch (m_parent_data.trig_type)
       {
-        if (conv_raw_samp_buff_samp(copy[0][filled_buffer][a], 
-          m_parent_data.trig_source) == m_parent_data.trig_level)
+        case (LABC::OSC::TRIG::TYPE::EDGE):
         {
-          printf ("triggered!");
-          exit (0);
+          // x. Init start condition
+          before = conv_raw_samp_buff_samp (
+            m_parent_data.trig_buffers.pre_trigger[filled_buffer][0],
+            m_parent_data.trig_source
+          );
+
+          switch (m_parent_data.trig_condition)
+          {
+            case (LABC::OSC::TRIG::CND::RISING):
+            {
+              for (int a = 1; a < LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; a++)
+              {
+                double samp = conv_raw_samp_buff_samp (
+                  m_parent_data.trig_buffers.pre_trigger[filled_buffer][a],
+                  m_parent_data.trig_source
+                );
+
+                if ((samp >= m_parent_data.trig_level) && (before < m_parent_data.trig_level))
+                {
+                  m_parent_data.trig_index  = a;
+                  m_parent_data.trig_buffer = filled_buffer;
+                  trigger_found             = true;
+                  break;
+                }
+
+                before = samp;
+              }
+
+              break;
+            }
+
+            case (LABC::OSC::TRIG::CND::FALLING):
+            {
+              for (int a = 1; a < LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; a++)
+              {
+                double samp = conv_raw_samp_buff_samp (
+                  m_parent_data.trig_buffers.pre_trigger[filled_buffer][a],
+                  m_parent_data.trig_source
+                );
+
+                if ((samp <= m_parent_data.trig_level) && (before > m_parent_data.trig_level))
+                {
+                  m_parent_data.trig_index  = a;
+                  m_parent_data.trig_buffer = filled_buffer;
+                  trigger_found             = true;
+                  break;
+                }
+
+                before = samp;
+              }
+
+              break;
+            }
+
+            case (LABC::OSC::TRIG::CND::EITHER):
+            {
+              for (int a = 1; a < LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES; a++)
+              {
+                double samp = conv_raw_samp_buff_samp (
+                  m_parent_data.trig_buffers.pre_trigger[filled_buffer][a],
+                  m_parent_data.trig_source
+                );
+
+                if (((samp <= m_parent_data.trig_level) && (before > m_parent_data.trig_level)) || 
+                ((samp >= m_parent_data.trig_level) && (before < m_parent_data.trig_level)))
+                {
+                  m_parent_data.trig_index  = a;
+                  m_parent_data.trig_buffer = filled_buffer;
+                  trigger_found             = true;
+                  break;
+                }
+
+                before = samp;
+              }
+
+              break;
+            }
+          }
+
+          break;
         }
       }
 
-      if (true)
+      // x. Check if trigger was found
+      if (trigger_found)
       {
-        
-      }
-    }
+        // service trigger here
 
-    /**
-     *  END TRIGGER CYCLE. 
-     * 
-     *  TIME STOP. 
-     */
+        // create_trigger_block ();
+
+        trigger_found = false;
+      }
+
+      // x. Check if the DMA interrupt flag is asserted. If it is, that means 
+      //    we ran out of time; execution time >= 10ms. Throw.
+      if ((*int_reg >> LABC::DMA::CHAN::OSC_RX) & 0x1)
+      {
+        // throw (std::runtime_error ("Oscilloscope trigger too slow! >= 10ms"));
+        printf ("Oscilloscope trigger too slow! >= 10ms\n");
+      }
+
+      /**
+       *  END TRIGGER CYCLE. 
+       * 
+       *  TIME STOP. 
+       */
+    }
   }
 }
 
 void LAB_Oscilloscope:: 
-check_int ()
+create_trigger_block ()
 {
-  volatile uint32_t& int_reg = *(m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS));
-  uint32_t pre, post;
-
-  while (m_find_trigger_point)
+  static constexpr unsigned samp_half       = LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES / 2.0;
+  static constexpr unsigned samp_half_index = samp_half - 1;
+  static constexpr unsigned copy_size       = sizeof (uint32_t) * samp_half;
+  
+  if (m_parent_data.trig_index >= samp_half_index)
   {
-    if ((int_reg >> LABC::DMA::CHAN::OSC_RX) & 0x1)
-    {
-      post = m_LAB_Core->st.low ();
+    // create pre trigger buffer
+    std::memcpy (
+      m_parent_data.trig_buffers.assembled_block.data (),
+      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer].data () + 
+        (m_parent_data.trig_index - samp_half_index),
+      copy_size
+    );
 
-      printf ("%d\n", post - pre);
+    // create post trigger buffer
+    std::memcpy (
+      m_parent_data.trig_buffers.assembled_block.data () + (copy_size),
+      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer].data () + 
+        (m_parent_data.trig_index + 1),
+      copy_size
+    );
 
-      m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
-
-      pre = m_LAB_Core->st.low ();
-    }
+    // std::memcpy (
+    //   m_parent_data.raw_sample_buffer.data () + (copy_size),
+    //   m_parent_data.trig_buffer.post_
+    //   copy_size
+    // );
   }
-}
-
-void search_trigger_point_algo ()
-{
-  unsigned buffer = 0;
-
-  while (true)
+  else // (trix_index < samp_half_index)
   {
 
   }
-}
-
-bool LAB_Oscilloscope:: 
-is_trigger_point (unsigned buff,
-                  unsigned samp)
-{
-  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_memory.virt ()));
-
-  switch (m_parent_data.trig_type)
-  {
-    case (LABC::OSC::TRIG::TYPE::EDGE):
-    {
-      switch (m_parent_data.trig_condition)
-      {
-        case (LABC::OSC::TRIG::CND::RISING):
-        {
-          if (dma_data.rxd[buff][samp] > m_parent_data.trig_level)
-          {
-            return (true);
-          }
-          else 
-          {
-            return (false);
-          }
-
-          break;
-        }
-
-        case (LABC::OSC::TRIG::CND::FALLING):
-        {
-          if (dma_data.rxd[buff][samp] < m_parent_data.trig_level)
-          {
-            return (true);
-          }
-          else 
-          {
-            return (false);
-          }
-
-          break;
-        }
-
-        default:
-        {
-          break;
-        }
-      }
-
-      break;
-    }
-
-    default:
-    {
-      return (false);
-      break;
-    }
-  }
-
-  return (false);
 }
 
 void LAB_Oscilloscope:: 
@@ -947,13 +977,13 @@ display_mode (LE::DISPLAY_MODE _DISPLAY_MODE)
   {
     case LE::DISPLAY_MODE::REPEATED:
     {
-      switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE);
+      switch_dma_buffer (LABC::DMA::BUFFER_COUNT::DOUBLE);
       break;
     }
 
     case LE::DISPLAY_MODE::SCREEN:
     { 
-      switch_dma_buffer (LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE);
+      switch_dma_buffer (LABC::DMA::BUFFER_COUNT::SINGLE);
       break;
     }
 
@@ -985,7 +1015,7 @@ update_dma_data (int disp_mode)
 }
 
 void LAB_Oscilloscope:: 
-switch_dma_buffer (int buffer)
+switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count)
 {
   bool flag = false; 
 
@@ -1000,11 +1030,11 @@ switch_dma_buffer (int buffer)
   }
 
   // 2. Assign next control block depending on buffer
-  if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE)
+  if (buff_count == LABC::DMA::BUFFER_COUNT::SINGLE)
   { 
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
-  else if (buffer == LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE)
+  else if (buff_count == LABC::DMA::BUFFER_COUNT::DOUBLE)
   {
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
   }

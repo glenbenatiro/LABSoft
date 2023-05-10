@@ -83,16 +83,13 @@ cb_display_mode (Fl_Choice  *w,
 void LABSoft_Controller_Logic_Analyzer::
 display_update_cycle ()
 {
-  if (m_LAB->m_Logic_Analyzer.is_running ())
-  {
-    m_LAB->m_Logic_Analyzer.load_data_samples ();
+  m_LAB->m_Logic_Analyzer.load_data_samples ();
 
-    m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-      fill_pixel_points ();
-    
-    m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-      redraw ();
-  }
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
+    fill_pixel_points ();
+
+  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
+    redraw ();
 }
 
 // EOF

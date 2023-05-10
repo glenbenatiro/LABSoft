@@ -157,11 +157,11 @@ public:
   Fl_Group *voltmeter_fl_group_values;
   Fl_Output *voltmeter_fl_output_chan0_value;
   Fl_Output *voltmeter_fl_output_chan1_value;
-  Fl_Input_Choice *function_generator_fl_input_choice_wave_type;
+  Fl_Choice *function_generator_fl_choice_wave_type;
 private:
-  inline void cb_function_generator_fl_input_choice_wave_type_i(Fl_Input_Choice*, long);
-  static void cb_function_generator_fl_input_choice_wave_type(Fl_Input_Choice*, long);
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_wave_type[];
+  inline void cb_function_generator_fl_choice_wave_type_i(Fl_Choice*, long);
+  static void cb_function_generator_fl_choice_wave_type(Fl_Choice*, long);
+  static Fl_Menu_Item menu_function_generator_fl_choice_wave_type[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_amplitude;
 private:
@@ -180,12 +180,6 @@ private:
   inline void cb_function_generator_fl_input_choice_period_i(Fl_Input_Choice*, long);
   static void cb_function_generator_fl_input_choice_period(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_period[];
-public:
-  Fl_Input_Choice *function_generator_fl_input_choice_duty_cycle;
-private:
-  inline void cb_function_generator_fl_input_choice_duty_cycle_i(Fl_Input_Choice*, long);
-  static void cb_function_generator_fl_input_choice_duty_cycle(Fl_Input_Choice*, long);
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_duty_cycle[];
 public:
   Fl_Input_Choice *function_generator_fl_input_choice_phase;
 private:

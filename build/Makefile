@@ -142,6 +142,33 @@ LABSoft/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/build
 .PHONY : LABSoft/fast
 
+lib/AD9833/AD9833.o: lib/AD9833/AD9833.cpp.o
+
+.PHONY : lib/AD9833/AD9833.o
+
+# target to build an object file
+lib/AD9833/AD9833.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AD9833/AD9833.cpp.o
+.PHONY : lib/AD9833/AD9833.cpp.o
+
+lib/AD9833/AD9833.i: lib/AD9833/AD9833.cpp.i
+
+.PHONY : lib/AD9833/AD9833.i
+
+# target to preprocess a source file
+lib/AD9833/AD9833.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AD9833/AD9833.cpp.i
+.PHONY : lib/AD9833/AD9833.cpp.i
+
+lib/AD9833/AD9833.s: lib/AD9833/AD9833.cpp.s
+
+.PHONY : lib/AD9833/AD9833.s
+
+# target to generate assembly for a file
+lib/AD9833/AD9833.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AD9833/AD9833.cpp.s
+.PHONY : lib/AD9833/AD9833.cpp.s
+
 lib/AikaPi/AikaPi.o: lib/AikaPi/AikaPi.cpp.o
 
 .PHONY : lib/AikaPi/AikaPi.o
@@ -880,6 +907,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LABSoft"
+	@echo "... lib/AD9833/AD9833.o"
+	@echo "... lib/AD9833/AD9833.i"
+	@echo "... lib/AD9833/AD9833.s"
 	@echo "... lib/AikaPi/AikaPi.o"
 	@echo "... lib/AikaPi/AikaPi.i"
 	@echo "... lib/AikaPi/AikaPi.s"

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/LABSoft.dir/lib/AD9833/AD9833.cpp.o"
   "CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o"
   "CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o"
   "CMakeFiles/LABSoft.dir/src/Defaults.cpp.o"

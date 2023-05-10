@@ -4,23 +4,25 @@
 #include <string>
 #include <map>
 
-enum class LABELVALUE_TYPE
-{
-  NONE,
-  VOLTS_PER_DIVISION,
-  VOLTS,
-  SECONDS,
-  HERTZ
-};
-
 class LabelValue
 {
+  public:
+    enum class TYPE
+    {
+      NONE,
+      VOLTS_PER_DIVISION,
+      VOLTS,
+      SECONDS,
+      HERTZ,
+      DEGREES
+    };
+    
   private:
     double            m_actual_value        = 0.0;
     double            m_coefficient         = 0.0;
     int               m_exponent            = 0;
     std::string       m_unit_prefix         = " ";
-    LABELVALUE_TYPE   m_label_type          = LABELVALUE_TYPE::NONE;
+    TYPE              m_label_type          = TYPE::NONE;
     bool              m_is_valid_label_text = false;
     double            m_reference_value     = 0.0;
 
@@ -60,13 +62,14 @@ class LabelValue
         {"G", 9}    // giga
     };
 
-    std::map<LABELVALUE_TYPE, std::string> labelvalue_for_string_format =
+    std::map<TYPE, std::string> labelvalue_for_string_format =
     {
-      {LABELVALUE_TYPE::NONE,                ""},
-      {LABELVALUE_TYPE::VOLTS_PER_DIVISION,  "V/div"},
-      {LABELVALUE_TYPE::VOLTS,               "V"},
-      {LABELVALUE_TYPE::SECONDS,             "s"},
-      {LABELVALUE_TYPE::HERTZ,               "Hz"},
+      {TYPE::NONE,                ""},
+      {TYPE::VOLTS_PER_DIVISION,  "V/div"},
+      {TYPE::VOLTS,               "V"},
+      {TYPE::SECONDS,             "s"},
+      {TYPE::HERTZ,               "Hz"},
+      {TYPE::DEGREES,             "deg"}
     };
 
     bool        parse_widget_input_if_valid       (const std::string& str);
@@ -92,22 +95,22 @@ class LabelValue
     
     LabelValue (
       double          value, 
-      LABELVALUE_TYPE parse_input_as = LABELVALUE_TYPE::NONE
+      TYPE parse_input_as = TYPE::NONE
     );
 
     LabelValue (
       const char      *label, 
       double           reference,
-      LABELVALUE_TYPE  parse_input_as = LABELVALUE_TYPE::NONE
+      TYPE  parse_input_as = TYPE::NONE
     );
 
     LabelValue (
       const char      *label,
-      LABELVALUE_TYPE  parse_input_as = LABELVALUE_TYPE::NONE
+      TYPE  parse_input_as = TYPE::NONE
     );
 
     std::string to_label_text (unsigned precision = 3);
-    std::string to_label_text (LABELVALUE_TYPE _LABELVALUE_TYPE, unsigned precision = 3);
+    std::string to_label_text (TYPE _TYPE, unsigned precision = 3);
     
     // Getters
     double      actual_value        ();
@@ -119,7 +122,7 @@ class LabelValue
     std::string short_value         ();
 
     // Setters
-    void        label_for           (LABELVALUE_TYPE parse_output_as);
+    void        label_for           (TYPE parse_output_as);
 };
 
 #endif

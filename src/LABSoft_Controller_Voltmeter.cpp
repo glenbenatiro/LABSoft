@@ -54,10 +54,10 @@ display_update_cycle ()
       */ 
     }
 
-    LabelValue lv0 (lab.m_Voltmeter.m_samples[0], LABELVALUE_TYPE::VOLTS);
+    LabelValue lv0 (lab.m_Voltmeter.m_samples[0], LabelValue::TYPE::VOLTS);
     gui.voltmeter_fl_output_chan0_value->value (lv0.to_label_text ().c_str ());
     
-    LabelValue lv1 (lab.m_Voltmeter.m_samples[1], LABELVALUE_TYPE::VOLTS);
+    LabelValue lv1 (lab.m_Voltmeter.m_samples[1], LabelValue::TYPE::VOLTS);
     gui.voltmeter_fl_output_chan1_value->value (lv1.to_label_text ().c_str ());
   }
 }

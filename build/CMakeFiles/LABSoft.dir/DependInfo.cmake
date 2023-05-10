@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/glen/Desktop/LABSoft/lib/AD9833/AD9833.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/AD9833/AD9833.cpp.o"
   "/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.o"
   "/home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/lib/MCP4XXX/MCP4XXX.cpp.o"
   "/home/glen/Desktop/LABSoft/src/Defaults.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/Defaults.cpp.o"

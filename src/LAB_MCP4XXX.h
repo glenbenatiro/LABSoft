@@ -7,9 +7,6 @@
 class LAB_MCP4XXX : public MCP4XXX
 {
   // https://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf
-
-  private:
-
   public:
     LAB_MCP4XXX (MCP4XXX::PART_NUMBER part, MCP4XXX::RESISTANCE_VERSION resistance);
    ~LAB_MCP4XXX ();
