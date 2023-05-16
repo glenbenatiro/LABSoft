@@ -263,10 +263,8 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Oscilloscope_Display_Group.cpp.o: ../src/Labe
 
 CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../lib/AD9833/AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../lib/AikaPi/AikaPi.h
-CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_AD9833.cpp
 CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_AD9833.h
-CMakeFiles/LABSoft.dir/src/LAB_AD9833.cpp.o: ../src/LAB_Core.h
 
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../lib/AD9833/AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB_Circuit_Checker.cpp.o: ../lib/AikaPi/AikaPi.h

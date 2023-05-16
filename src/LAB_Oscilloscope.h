@@ -39,7 +39,7 @@ class LAB_Oscilloscope
     void parse_raw_sample_buffer  ();
 
     // Trigger 
-    void  parse_trigger         (LABC::OSC::TRIG::MODE value);
+    void  parse_trigger         (LABE::OSC::TRIG::MODE value);
     void  search_trigger_point  ();
     void  create_trigger_block  ();
 
@@ -76,26 +76,26 @@ class LAB_Oscilloscope
     double  voltage_per_division    (unsigned channel);
     void    vertical_offset         (unsigned channel, double value);
     double  vertical_offset         (unsigned channel);
-    void    scaling                 (unsigned channel, LE_OSC_SCALING _LE_OSC_SCALING);
-    void    coupling                (unsigned channel, LE_OSC_COUPLING _LE_OSC_COUPLING);
+    void    scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
+    void    coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
 
     // Horizontal
-    void    time_per_division (double value, unsigned osc_disp_num_cols = LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
+    void    time_per_division (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
     double  time_per_division ();
-    void    sampling_rate     (double value, unsigned osc_disp_num_cols = LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
+    void    sampling_rate     (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
     double  sampling_rate     ();
     void    horizontal_offset (double value);
     double  horizontal_offset ();
 
     // Trigger 
-    void                  trigger_mode      (LABC::OSC::TRIG::MODE value);
-    LABC::OSC::TRIG::MODE trigger_mode      () const;
+    void                  trigger_mode      (LABE::OSC::TRIG::MODE value);
+    LABE::OSC::TRIG::MODE trigger_mode      () const;
     void                  trigger_source    (unsigned chan);
     double                trigger_source    () const;
-    void                  trigger_type      (LABC::OSC::TRIG::TYPE value);
-    LABC::OSC::TRIG::TYPE trigger_type      () const;
-    void                  trigger_condition (LABC::OSC::TRIG::CND value);
-    LABC::OSC::TRIG::CND  trigger_condition () const;
+    void                  trigger_type      (LABE::OSC::TRIG::TYPE value);
+    LABE::OSC::TRIG::TYPE trigger_type      () const;
+    void                  trigger_condition (LABE::OSC::TRIG::CND value);
+    LABE::OSC::TRIG::CND  trigger_condition () const;
     void                  trigger_level     (double value);
     double                trigger_level     () const;
     

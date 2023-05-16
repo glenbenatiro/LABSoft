@@ -34,12 +34,12 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
         Fl_Box*,
         LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS + 1
       >,
-      LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS
+      LABC::OSC::NUMBER_OF_CHANNELS
     > m_y_labels;
    
     std::array<
       Fl_Box*, 
-      LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS
+      LABC::OSC::NUMBER_OF_CHANNELS
     > m_y_label_units;
 
     // --- Functions ---

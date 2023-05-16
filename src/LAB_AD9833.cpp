@@ -1,27 +1,24 @@
 #include "LAB_AD9833.h"
 
+#include <iostream>
+
 LAB_AD9833::
-LAB_AD9833 ()
-  : m_spi_bb (AikaPi::SPI_BB (
-    LABC::PIN::FUNC_GEN_IC_CS, 
-    LABC::PIN::FUNC_GEN_IC_MISO, 
-    LABC::PIN::FUNC_GEN_IC_MOSI, 
-    LABC::PIN::FUNC_GEN_IC_SCLK, 
-    LABC::FUNC_GEN::IC_FREQUENCY))
+LAB_AD9833 (unsigned CS, unsigned MISO, unsigned MOSI, unsigned SCLK, double baud)
+  : m_spi_bb (AikaPi::SPI_BB (CS, MISO, MOSI, SCLK, baud, AP::SPI::MODE::_2))
+  // according to AD9833 datasheet, data is sampled on clock falling edge,
+  // that's why SPI mode is 1
 {
-
-
+  reset ();
 }
 
-void LAB_AD9833:: 
-init (void*    controller,
-      unsigned spi_channel)
+LAB_AD9833::
+~LAB_AD9833 ()
 {
-
+  reset ();
 }
 
 void LAB_AD9833::
 spi_xfer (char* rxd, char* txd, unsigned length)
 {
-  // (static_cast<LAB_Core*>(m_controller))->
+  m_spi_bb.xfer (rxd, txd, length);
 }

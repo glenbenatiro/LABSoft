@@ -17,7 +17,7 @@ class LAB_Voltmeter
     bool  m_osc_chan_en_flag = false;
 
   public:
-    std::array <double, LAB_OSCILLOSCOPE::NUMBER_OF_CHANNELS> m_samples = {0};
+    std::array <double, LABC::OSC::NUMBER_OF_CHANNELS> m_samples = {0};
 
     LAB_Voltmeter (LAB_Core* _LAB_Core, LAB* _LAB);
 

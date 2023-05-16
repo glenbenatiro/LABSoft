@@ -4,16 +4,14 @@
 
 LAB_Function_Generator:: 
 LAB_Function_Generator (LAB_Core* _LAB_Core)
-  : m_LAB_Core       (_LAB_Core),
-    m_digipot_amp    {LAB_MCP4XXX (MCP4XXX::PART_NUMBER::MCP4161, MCP4XXX::RESISTANCE_VERSION::_503),
-                      LAB_MCP4XXX (MCP4XXX::PART_NUMBER::MCP4161, MCP4XXX::RESISTANCE_VERSION::_503)},
-    m_digipot_offset {(LAB_MCP4XXX (MCP4XXX::PART_NUMBER::MCP4161, MCP4XXX::RESISTANCE_VERSION::_503))}
+  : m_LAB_Core (_LAB_Core),
+    m_func_gen_ic {LAB_AD9833 (LABC::PIN::FUNC_GEN_IC_CS, 
+                               LABC::PIN::FUNC_GEN_IC_MISO,
+                               LABC::PIN::FUNC_GEN_IC_MOSI,
+                               LABC::PIN::FUNC_GEN_IC_SCLK,
+                               LABC::FUNC_GEN::IC_FREQUENCY)}
 {
-  m_digipot_amp[0].init (m_LAB_Core, 0);
-  m_digipot_amp[1].init (m_LAB_Core, 1);
-  m_digipot_offset[0].init (m_LAB_Core, 2);
 
-  m_digipot_amp[0].resistance (0, 10'000.0);
 }
 
 void LAB_Function_Generator::
@@ -124,6 +122,8 @@ set_hw_amplitude (unsigned channel,
   // Inverting amplifier. Vout = (-Rf/Rin) * Vin
   // Rf = digipot0 + digipot1
   // Rin = 1000 
+
+
 }
 
 void LAB_Function_Generator:: 

@@ -10,9 +10,9 @@ class LAB_Function_Generator
 {
   private: 
     LAB_Core*   m_LAB_Core;
-    LAB_AD9833  m_func_gen_ic[LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
-    LAB_MCP4XXX m_digipot_amp[2 * LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
-    LAB_MCP4XXX m_digipot_offset[LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    LAB_AD9833  m_func_gen_ic       [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    LAB_MCP4XXX m_digipot_amplitude [2 * LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    LAB_MCP4XXX m_digipot_offset    [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
   
   private:
     void init_state ();

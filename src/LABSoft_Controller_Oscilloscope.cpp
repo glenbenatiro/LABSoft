@@ -51,7 +51,7 @@ LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
    *    update the time per division, now given the number of columns of
    *    the LABSoft_Oscilloscope_Display widget.
    */
-  m_LAB->m_Oscilloscope.time_per_division (LAB_OSCILLOSCOPE::TIME_PER_DIVISION,
+  m_LAB->m_Oscilloscope.time_per_division (LABC::OSC::TIME_PER_DIVISION,
     LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
 }
 
@@ -97,8 +97,8 @@ cb_horizontal_offset (Fl_Input_Choice* w,
   if (lv.is_valid_label_text ())
   {
     if (LAB_DEFAULTS::isWithinRange (lv.actual_value (), 
-      LAB_OSCILLOSCOPE::MIN_HORIZONTAL_OFFSET,
-      LAB_OSCILLOSCOPE::MAX_HORIZONTAL_OFFSET))
+      LABC::OSC::MIN_HORIZONTAL_OFFSET,
+      LABC::OSC::MAX_HORIZONTAL_OFFSET))
     {
       m_LAB->m_Oscilloscope.horizontal_offset (lv.actual_value ());
     }
@@ -124,8 +124,8 @@ cb_voltage_per_division (Fl_Input_Choice* w,
   if (lv.is_valid_label_text ())
   {
     if (LAB_DEFAULTS::isWithinRange (lv.actual_value (), 
-      LAB_OSCILLOSCOPE::MIN_VOLTAGE_PER_DIVISION,
-      LAB_OSCILLOSCOPE::MAX_VOLTAGE_PER_DIVISION))
+      LABC::OSC::MIN_VOLTAGE_PER_DIVISION,
+      LABC::OSC::MAX_VOLTAGE_PER_DIVISION))
     {
       m_LAB->m_Oscilloscope.voltage_per_division (channel, lv.actual_value ());
     }
@@ -150,8 +150,8 @@ cb_vertical_offset (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_VERTICAL_OFFSET &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_VERTICAL_OFFSET)
+    if (lv.actual_value () >= LABC::OSC::MIN_VERTICAL_OFFSET &&
+      lv.actual_value () <= LABC::OSC::MAX_VERTICAL_OFFSET)
     {
       m_LAB->m_Oscilloscope.vertical_offset (channel, lv.actual_value ());
     }
@@ -216,8 +216,8 @@ cb_time_per_division (Fl_Input_Choice* w,
   
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_TIME_PER_DIVISION &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_TIME_PER_DIVISION)
+    if (lv.actual_value () >= LABC::OSC::MIN_TIME_PER_DIVISION &&
+      lv.actual_value () <= LABC::OSC::MAX_TIME_PER_DIVISION)
     {
       // Backend
       m_LAB->m_Oscilloscope.time_per_division (
@@ -249,8 +249,8 @@ cb_sampling_rate (Fl_Input_Choice* w,
   
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_SAMPLING_RATE &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE)
+    if (lv.actual_value () >= LABC::OSC::MIN_SAMPLING_RATE &&
+      lv.actual_value () <= LABC::OSC::MAX_SAMPLING_RATE)
     {
       // Backend
       m_LAB->m_Oscilloscope.sampling_rate (
@@ -378,8 +378,8 @@ cb_trigger_level (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LAB_OSCILLOSCOPE::MIN_TRIGGER_LEVEL &&
-      lv.actual_value () <= LAB_OSCILLOSCOPE::MAX_TRIGGER_LEVEL)
+    if (lv.actual_value () >= LABC::OSC::MIN_TRIGGER_LEVEL &&
+      lv.actual_value () <= LABC::OSC::MAX_TRIGGER_LEVEL)
     {
       m_LAB->m_Oscilloscope.trigger_level (lv.actual_value ());
     }

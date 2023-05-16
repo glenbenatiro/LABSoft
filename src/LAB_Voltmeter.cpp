@@ -24,7 +24,7 @@ run ()
     osc.osc_core_run_stop (true);
   }
 
-  osc.sampling_rate (LAB_OSCILLOSCOPE::MAX_SAMPLING_RATE);
+  osc.sampling_rate (LABC::OSC::MAX_SAMPLING_RATE);
   m_is_running = true; 
 }
 

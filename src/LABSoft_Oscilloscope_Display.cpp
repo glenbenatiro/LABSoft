@@ -185,7 +185,7 @@ reserve_pixel_points ()
     for (int a = 0; a < (m_parent_data_osc->channel_data.size ()); a++)
     {
       m_parent_data_osc->channel_data[a].pixel_points.reserve (
-        LAB_OSCILLOSCOPE::NUMBER_OF_SAMPLES
+        LABC::OSC::NUMBER_OF_SAMPLES
       );
     }
 
