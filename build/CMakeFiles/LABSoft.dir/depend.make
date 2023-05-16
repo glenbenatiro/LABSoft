@@ -312,7 +312,6 @@ CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Voltmeter.h
 
 CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: ../lib/MCP4XXX/MCP4XXX.h
-CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: ../src/LAB_Core.h
 CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: ../src/LAB_MCP4XXX.cpp
 CMakeFiles/LABSoft.dir/src/LAB_MCP4XXX.cpp.o: ../src/LAB_MCP4XXX.h
 

@@ -14,6 +14,7 @@ class AD9833
       SQUARE,
       SQUARE_HALF,
       SQUARE_FULL,
+      DC
     };
 
     static constexpr double   MAX_FREQUENCY             = 12'500'000.0;

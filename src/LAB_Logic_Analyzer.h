@@ -32,9 +32,7 @@ class LAB_Logic_Analyzer
 
     void run  ();
     void stop  ();
-    
-
-
+  
     // Horizontal
     double  time_per_division (double value, unsigned disp_num_cols);
     double  horizontal_offset (double value);

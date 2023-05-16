@@ -338,50 +338,50 @@ vertical_offset (unsigned channel,
 
 void LAB_Oscilloscope:: 
 scaling (unsigned           channel, 
-         LABE::OSC::SCALING value)
+         LABE::OSC::SCALING scaling)
 {
-  m_parent_data.channel_data[channel].scaling = value;
+  m_parent_data.channel_data[channel].scaling = scaling;
 
   unsigned a0, a1;
 
   if (channel == 0)
   {
-    a0 = LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_0;
-    a1 = LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_0;
+    a0 = LABC::PIN::OSC_MUX_SCALER_A0_CHAN_0;
+    a1 = LABC::PIN::OSC_MUX_SCALER_A1_CHAN_0;
   }
   else
   {
-    a0 = LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A0_CHANNEL_1;
-    a1 = LAB_PIN_OSCILLOSCOPE_MUX_SCALER_A1_CHANNEL_1;
+    a0 = LABC::PIN::OSC_MUX_SCALER_A0_CHAN_1;
+    a1 = LABC::PIN::OSC_MUX_SCALER_A1_CHAN_1;
   }
 
-  m_LAB_Core->gpio_write (a0, (value == LE_OSC_SCALING::FOURTH || 
-    value == LE_OSC_SCALING::UNITY) ? 1 : 0);
+  m_LAB_Core->gpio.write (a0, (scaling == LABE::OSC::SCALING::FOURTH || 
+    scaling == LABE::OSC::SCALING::UNITY) ? 1 : 0);
   
-  m_LAB_Core->gpio_write (a1, (value == LE_OSC_SCALING::FOURTH || 
-    value == LE_OSC_SCALING::HALF) ? 1 : 0);
+  m_LAB_Core->gpio.write (a1, (scaling == LABE::OSC::SCALING::FOURTH || 
+    scaling == LABE::OSC::SCALING::HALF) ? 1 : 0);
 }
 
 void LAB_Oscilloscope:: 
 coupling (unsigned            channel,
-          LABE::OSC::COUPLING value)
+          LABE::OSC::COUPLING coupling)
 {
-  m_parent_data.channel_data[channel].coupling = value;
+  m_parent_data.channel_data[channel].coupling = coupling;
 
-  unsigned pin = (channel == 0) ? LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_0 :
-    LAB_PIN_OSCILLOSCOPE_COUPLING_SELECT_CHANNEL_1;
+  unsigned pin = (channel == 0) ? LABC::PIN::OSC_COUPLING_SELECT_CHAN_0 :
+    LABC::PIN::OSC_COUPLING_SELECT_CHAN_1;
 
   switch (m_parent_data.channel_data[channel].coupling)
   {
     case LABE::OSC::COUPLING::AC:
     {
-      m_LAB_Core->gpio_set (pin, AP_GPIO_FUNC_INPUT, AP_GPIO_PULL_OFF);
+      m_LAB_Core->gpio.set (pin, AP::GPIO::FUNC::INPUT, AP::GPIO::PULL::OFF);
       break;
     }
 
     case LABE::OSC::COUPLING::DC:
     {
-      m_LAB_Core->gpio_set (pin, AP_GPIO_FUNC_OUTPUT, AP_GPIO_PULL_DOWN, 0);
+      m_LAB_Core->gpio.set (pin, AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
       break;
     }
 
@@ -644,18 +644,18 @@ horizontal_offset ()
 
 // Trigger
 void LAB_Oscilloscope:: 
-parse_trigger (LABC::OSC::TRIG::MODE value)
+parse_trigger (LABE::OSC::TRIG::MODE value)
 {
   switch (value)
   {
-    case LABC::OSC::TRIG::MODE::NONE:
+    case LABE::OSC::TRIG::MODE::NONE:
     {
       m_parent_data.find_trigger = false;
       m_trigger_thread.join ();
       break;
     }
 
-    case LABC::OSC::TRIG::MODE::NORMAL:
+    case LABE::OSC::TRIG::MODE::NORMAL:
     {
       m_parent_data.find_trigger = true;
       m_trigger_thread = std::thread (&LAB_Oscilloscope::search_trigger_point, this);
@@ -663,7 +663,7 @@ parse_trigger (LABC::OSC::TRIG::MODE value)
       break;
     }
 
-    case LABC::OSC::TRIG::MODE::AUTO:
+    case LABE::OSC::TRIG::MODE::AUTO:
     {
       break;
     }
@@ -844,14 +844,6 @@ search_trigger_point ()
   }
 }
 
-
-bool LAB_Oscilloscope:: 
-search_trigger_point (std::array<uint32_t, LABC::NUMBER_OF_SAMPLES>& buffer,
-                      unsien)
-{
-  if ()
-}
-
 void LAB_Oscilloscope:: 
 create_trigger_block ()
 {
@@ -935,7 +927,7 @@ create_trigger_block ()
 }
 
 void LAB_Oscilloscope:: 
-trigger_mode (LABC::OSC::TRIG::MODE value)
+trigger_mode (LABE::OSC::TRIG::MODE value)
 {
   m_parent_data.trig_mode = value;
 

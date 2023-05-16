@@ -145,9 +145,21 @@ wave_type (WAVE_TYPE value)
       
       break;
     }   
+    
+    case WAVE_TYPE::DC:
+    {
+      wave_type (WAVE_TYPE::SINE);
+      stop ();
+
+      break;
+    }
   }
 
-  update_ctrl_reg ();
+  if (value != WAVE_TYPE::DC)
+  {
+    update_ctrl_reg ();
+    run             ();
+  }  
 }
 
 void AD9833:: 

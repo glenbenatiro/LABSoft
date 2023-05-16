@@ -169,7 +169,7 @@ cb_ac_coupling (Fl_Light_Button *w,
                 long             channel)
 {
   m_LAB->m_Oscilloscope.coupling (static_cast<unsigned>(channel),
-    (w->value () == 0) ? LE_OSC_COUPLING::DC : LE_OSC_COUPLING::AC);
+    (w->value () == 0) ? LABE::OSC::COUPLING::DC : LABE::OSC::COUPLING::AC);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -178,27 +178,27 @@ cb_scaling (Fl_Choice *w,
 {
   std::string item (w->text ());
 
-  LE_OSC_SCALING scaling;
+  LABE::OSC::SCALING scaling;
 
   if (item == "x4")
   {
-    scaling = LE_OSC_SCALING::QUADRUPLE;
+    scaling = LABE::OSC::SCALING::QUADRUPLE;
   }
   else if (item == "x1")
   {
-    scaling = LE_OSC_SCALING::UNITY;
+    scaling = LABE::OSC::SCALING::UNITY;
   }
   else if (item == "x0.5")
   {
-    scaling = LE_OSC_SCALING::HALF;
+    scaling = LABE::OSC::SCALING::HALF;
   }
   else if (item == "x0.25")
   {
-    scaling = LE_OSC_SCALING::FOURTH;
+    scaling = LABE::OSC::SCALING::FOURTH;
   }
   else 
   {
-    scaling = LE_OSC_SCALING::UNITY;
+    scaling = LABE::OSC::SCALING::UNITY;
   }
 
   m_LAB->m_Oscilloscope.scaling (static_cast<unsigned>(channel), scaling);
@@ -274,20 +274,20 @@ void LABSoft_Controller_Oscilloscope::
 cb_trigger_mode (Fl_Choice* w,
                  void*      data)
 {
-  LABC::OSC::TRIG::MODE mode;
+  LABE::OSC::TRIG::MODE mode;
   std::string choice (w->text ());
 
   if (choice == "None")
   {
-    mode = LABC::OSC::TRIG::MODE::NONE;
+    mode = LABE::OSC::TRIG::MODE::NONE;
   }
   else if (choice == "Auto")
   { 
-    mode = LABC::OSC::TRIG::MODE::AUTO;
+    mode = LABE::OSC::TRIG::MODE::AUTO;
   }
   else if (choice == "Normal")
   {
-    mode = LABC::OSC::TRIG::MODE::NORMAL;
+    mode = LABE::OSC::TRIG::MODE::NORMAL;
   }
   else 
   {
@@ -328,12 +328,12 @@ void LABSoft_Controller_Oscilloscope::
 cb_trigger_type (Fl_Choice* w,
                  void*      data)
 {
-  LABC::OSC::TRIG::TYPE type;
+  LABE::OSC::TRIG::TYPE type;
   std::string choice (w->text ());
 
   if (choice == "Edge")
   {
-    type = LABC::OSC::TRIG::TYPE::EDGE;
+    type = LABE::OSC::TRIG::TYPE::EDGE;
   }
   
   m_LAB->m_Oscilloscope.trigger_type (type);
@@ -343,20 +343,20 @@ void LABSoft_Controller_Oscilloscope::
 cb_trigger_condition (Fl_Choice* w,
                       void*      data)
 {
-  LABC::OSC::TRIG::CND cnd;
+  LABE::OSC::TRIG::CND cnd;
   std::string choice (w->text ());
 
   if (choice == "Rising")
   {
-    cnd = LABC::OSC::TRIG::CND::RISING;
+    cnd = LABE::OSC::TRIG::CND::RISING;
   }
   else if (choice == "Falling")
   {
-    cnd = LABC::OSC::TRIG::CND::FALLING;
+    cnd = LABE::OSC::TRIG::CND::FALLING;
   }
   else if (choice == "Either")
   {
-    cnd = LABC::OSC::TRIG::CND::EITHER;
+    cnd = LABE::OSC::TRIG::CND::EITHER;
   }
   else 
   {
@@ -425,7 +425,7 @@ cb_display_mode (Fl_Choice* w,
 void LABSoft_Controller_Oscilloscope:: 
 update_trigger_panel_gui ()
 {
-  if (m_LAB->m_Oscilloscope.trigger_mode () == LABC::OSC::TRIG::MODE::NONE)
+  if (m_LAB->m_Oscilloscope.trigger_mode () == LABE::OSC::TRIG::MODE::NONE)
   {
     m_LABSoft_GUI->oscilloscope_fl_choice_trigger_source->deactivate ();
     m_LABSoft_GUI->oscilloscope_fl_choice_trigger_type->deactivate ();

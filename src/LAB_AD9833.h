@@ -10,7 +10,7 @@ class LAB_AD9833 : public AD9833
     AikaPi::SPI_BB m_spi_bb;
 
   public:
-          LAB_AD9833 (unsigned CS, unsigned MISO, unsigned MOSI, unsigned SCLK, double baud);
+          LAB_AD9833 (int CS, int MISO, int MOSI, int SCLK, double baud);
          ~LAB_AD9833 ();
 
     void  spi_xfer (char* rxd, char* txd, unsigned length);

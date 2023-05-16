@@ -32,23 +32,23 @@ cb_wave_type (Fl_Choice* w,
               long       channel)
 {
   std::string label (w->text ());
-  LABC::FUNC_GEN::WAVE_TYPE wave_type;
+  LABE::FUNC_GEN::WAVE_TYPE wave_type;
 
   if (label == "Sine")
   {
-    wave_type = LABC::FUNC_GEN::WAVE_TYPE::SINE;
+    wave_type = LABE::FUNC_GEN::WAVE_TYPE::SINE;
   }
   else if (label == "Triangle")
   {
-    wave_type = LABC::FUNC_GEN::WAVE_TYPE::TRIANGLE;
+    wave_type = LABE::FUNC_GEN::WAVE_TYPE::TRIANGLE;
   }
   else if (label == "Square")
   {
-    wave_type = LABC::FUNC_GEN::WAVE_TYPE::SQUARE;
+    wave_type = LABE::FUNC_GEN::WAVE_TYPE::SQUARE;
   }
   else if (label == "DC")
   {
-    wave_type = LABC::FUNC_GEN::WAVE_TYPE::DC;
+    wave_type = LABE::FUNC_GEN::WAVE_TYPE::DC;
   }
  
   m_LAB->m_Function_Generator.wave_type (channel, wave_type);

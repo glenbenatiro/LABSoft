@@ -134,6 +134,19 @@ namespace LABE
       AC = 1
     };
   };
+
+  namespace FUNC_GEN
+  {
+    enum class WAVE_TYPE
+    {
+      SINE,
+      TRIANGLE,
+      SQUARE,
+      SQUARE_HALF,
+      SQUARE_FULL,
+      DC
+    };
+  }
 };
 
 namespace LABC
@@ -153,7 +166,7 @@ namespace LABC
 
     // Function Generator
     constexpr int FUNC_GEN_IC_CS   = 13;
-    constexpr int FUNC_GEN_IC_MISO = -1; // not used
+    constexpr int FUNC_GEN_IC_MISO = 5; // not used
     constexpr int FUNC_GEN_IC_MOSI = 4;
     constexpr int FUNC_GEN_IC_SCLK = 6;
 
@@ -285,38 +298,28 @@ namespace LABC
 
   namespace FUNC_GEN
   {
-    enum class WAVE_TYPE
-    {
-      SINE,
-      TRIANGLE,
-      SQUARE,
-      SQUARE_HALF,
-      SQUARE_FULL,
-      DC
-    };
+    constexpr unsigned                  NUMBER_OF_CHANNELS      = 1;
+    constexpr double                    MIN_AMPLITUDE_DIGI_POT  = -3.3; // V
+    constexpr double                    MAX_AMPLITUDE_DIGI_POT  =  3.3; // V
+    constexpr double                    MIN_AMPLITUDE           = MIN_AMPLITUDE_DIGI_POT; // V
+    constexpr double                    MAX_AMPLITUDE           = MAX_AMPLITUDE_DIGI_POT; // V
+    constexpr double                    MIN_FREQUENCY           = AD9833::MIN_FREQUENCY; // Hz
+    constexpr double                    MAX_FREQUENCY           = AD9833::MAX_FREQUENCY; // Hz
+    constexpr double                    MIN_PERIOD              = 1.0 / MAX_FREQUENCY; // s
+    constexpr double                    MAX_PERIOD              = 1.0 / MIN_FREQUENCY; // s
+    constexpr double                    MIN_PHASE               = -360.0; // degrees
+    constexpr double                    MAX_PHASE               =  360.0; // degrees
+    constexpr double                    MIN_VERTICAL_OFFSET     = -5.0; // V
+    constexpr double                    MAX_VERTICAL_OFFSET     =  5.0; // V
 
-    constexpr unsigned  NUMBER_OF_CHANNELS     = 1;
-    constexpr double    MIN_AMPLITUDE_DIGI_POT = -3.3; // V
-    constexpr double    MAX_AMPLITUDE_DIGI_POT =  3.3; // V
-    constexpr double    MIN_AMPLITUDE          = MIN_AMPLITUDE_DIGI_POT; // V
-    constexpr double    MAX_AMPLITUDE          = MAX_AMPLITUDE_DIGI_POT; // V
-    constexpr double    MIN_FREQUENCY          = AD9833::MIN_FREQUENCY; // Hz
-    constexpr double    MAX_FREQUENCY          = AD9833::MAX_FREQUENCY; // Hz
-    constexpr double    MIN_PERIOD             = 1.0 / MIN_FREQUENCY; // s
-    constexpr double    MAX_PERIOD             = 1.0 / MAX_FREQUENCY; // s
-    constexpr double    MIN_PHASE              = -360.0; // degrees
-    constexpr double    MAX_PHASE              =  360.0; // degrees
-    constexpr double    MIN_VERTICAL_OFFSET    = -5.0; // V
-    constexpr double    MAX_VERTICAL_OFFSET    =  5.0; // V
+    constexpr LABE::FUNC_GEN::WAVE_TYPE WAVE_TYPE               = LABE::FUNC_GEN::WAVE_TYPE::SINE;
+    constexpr double                    AMPLITUDE               = 1.0;
+    constexpr double                    FREQUENCY               = 1'000.0;
+    constexpr double                    PERIOD                  = 1.0 / FREQUENCY;
+    constexpr double                    PHASE                   = 0.0;
+    constexpr double                    VERTICAL_OFFSET         = 0.0;
 
-    constexpr WAVE_TYPE _WAVE_TYPE             = WAVE_TYPE::SINE;
-    constexpr double    AMPLITUDE              = 1.0;
-    constexpr double    FREQUENCY              = 1'000.0;
-    constexpr double    PERIOD                 = 1.0 / FREQUENCY;
-    constexpr double    PHASE                  = 0.0;
-    constexpr double    VERTICAL_OFFSET        = 0.0;
-
-    constexpr double    IC_FREQUENCY           = 100'000.0; // Hz
+    constexpr double                    IC_FREQUENCY            = 100'000.0; // Hz
   };
 };
 
@@ -585,7 +588,7 @@ struct LAB_Channel_Data_Function_Generator
   bool is_enabled = false;
 
   // Parameters
-  LABC::FUNC_GEN::WAVE_TYPE wave_type       = LABC::FUNC_GEN::_WAVE_TYPE;
+  LABE::FUNC_GEN::WAVE_TYPE wave_type       = LABC::FUNC_GEN::WAVE_TYPE;
   double                    frequency       = LABC::FUNC_GEN::FREQUENCY;
   double                    period          = LABC::FUNC_GEN::PERIOD;
   double                    amplitude       = LABC::FUNC_GEN::AMPLITUDE;
@@ -603,11 +606,10 @@ struct LAB_Parent_Data_Function_Generator
 #define LABSOFT_FUNCTION_GENERATOR_TIME_PER_DIVISION   "1 s/div"
 #define LABSOFT_FUNCTION_GENERATOR_VERTICAL_OFFSET     "0 s"
 #define LABSOFT_FUNCTION_GENERATOR_WAVE_TYPE  "Sine"
-#define LABSOFT_FUNCTION_GENERATOR_FREQUENCY  "1 Hz"
-#define LABSOFT_FUNCTION_GENERATOR_PERIOD     "1 s"
+#define LABSOFT_FUNCTION_GENERATOR_FREQUENCY  "1 kHz"
+#define LABSOFT_FUNCTION_GENERATOR_PERIOD     "1 ms"
 #define LABSOFT_FUNCTION_GENERATOR_AMPLITUDE  "1 V"
 #define LABSOFT_FUNCTION_GENERATOR_Y_OFFSET   "0 V"
-#define LABSOFT_FUNCTION_GENERATOR_DUTY_CYCLE "50%"
 #define LABSOFT_FUNCTION_GENERATOR_PHASE      "0 deg"
 #define LABSOFT_FUNCTION_GENERATOR_SIGNAL_CHANNEL_NUMBER 0
 

@@ -157,7 +157,7 @@ sampling_rate (double value)
   // static_cast<LAB_DMA_Data_Oscilloscope *>(m_uncached_dma_data_logan.virt)->pwm_val = 
   //   (LAB_PWM_FREQUENCY * 2) / value;
 
-  m_LAB_Core->pwm_frequency (value, LAB_PWM_DUTY_CYCLE);
+  // m_LAB_Core->pwm.frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
 LE::DISPLAY_MODE LAB_Logic_Analyzer:: 
@@ -241,6 +241,8 @@ time_per_division (double value, unsigned disp_num_cols)
 
   //display_mode          (new_disp_mode);
   //set_hw_sampling_rate  (m_parent_data.sampling_rate);
+
+  return 0;
 }
 
 double LAB_Logic_Analyzer:: 

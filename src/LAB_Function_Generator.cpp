@@ -5,11 +5,20 @@
 LAB_Function_Generator:: 
 LAB_Function_Generator (LAB_Core* _LAB_Core)
   : m_LAB_Core (_LAB_Core),
-    m_func_gen_ic {LAB_AD9833 (LABC::PIN::FUNC_GEN_IC_CS, 
-                               LABC::PIN::FUNC_GEN_IC_MISO,
-                               LABC::PIN::FUNC_GEN_IC_MOSI,
-                               LABC::PIN::FUNC_GEN_IC_SCLK,
-                               LABC::FUNC_GEN::IC_FREQUENCY)}
+    m_func_gen_ic       {LAB_AD9833   (LABC::PIN::FUNC_GEN_IC_CS, 
+                                        LABC::PIN::FUNC_GEN_IC_MISO,
+                                        LABC::PIN::FUNC_GEN_IC_MOSI,
+                                        LABC::PIN::FUNC_GEN_IC_SCLK,
+                                        LABC::FUNC_GEN::IC_FREQUENCY)},
+    m_digipot_amplitude {LAB_MCP4XXX  (LAB_MCP4XXX::PART_NUMBER::MCP4161,
+                                        LAB_MCP4XXX::RESISTANCE_VERSION::_503,
+                                        0),
+                         LAB_MCP4XXX  (LAB_MCP4XXX::PART_NUMBER::MCP4161,
+                                        LAB_MCP4XXX::RESISTANCE_VERSION::_503,
+                                        1)},
+    m_digipot_offset    {LAB_MCP4XXX  (LAB_MCP4XXX::PART_NUMBER::MCP4161,
+                                        LAB_MCP4XXX::RESISTANCE_VERSION::_103,
+                                        2)}
 {
 
 }
@@ -34,32 +43,32 @@ stop (unsigned channel)
 
 void LAB_Function_Generator:: 
 wave_type (unsigned                  channel,
-           LABC::FUNC_GEN::WAVE_TYPE wave_type)
+           LABE::FUNC_GEN::WAVE_TYPE wave_type)
 {
   m_parent_data.channel_data[channel].wave_type = wave_type;
   AD9833::WAVE_TYPE ad9833_wave_type;
   
   switch (wave_type)
   {
-    case (LABC::FUNC_GEN::WAVE_TYPE::SINE):
+    case (LABE::FUNC_GEN::WAVE_TYPE::SINE):
     {
       ad9833_wave_type = AD9833::WAVE_TYPE::SINE;
       break;
     }
 
-    case (LABC::FUNC_GEN::WAVE_TYPE::TRIANGLE):
+    case (LABE::FUNC_GEN::WAVE_TYPE::TRIANGLE):
     {
       ad9833_wave_type = AD9833::WAVE_TYPE::TRIANGLE;
       break;
     }
 
-    case (LABC::FUNC_GEN::WAVE_TYPE::SQUARE):
+    case (LABE::FUNC_GEN::WAVE_TYPE::SQUARE):
     {
       ad9833_wave_type = AD9833::WAVE_TYPE::SQUARE;
       break;
     }
 
-    case (LABC::FUNC_GEN::WAVE_TYPE::DC):
+    case (LABE::FUNC_GEN::WAVE_TYPE::DC):
     {
       ad9833_wave_type = AD9833::WAVE_TYPE::DC;
       break;
@@ -122,8 +131,6 @@ set_hw_amplitude (unsigned channel,
   // Inverting amplifier. Vout = (-Rf/Rin) * Vin
   // Rf = digipot0 + digipot1
   // Rin = 1000 
-
-
 }
 
 void LAB_Function_Generator:: 
@@ -133,7 +140,7 @@ set_hw_vertical_offset (unsigned channel,
   
 }
 
-LABC::FUNC_GEN::WAVE_TYPE LAB_Function_Generator::
+LABE::FUNC_GEN::WAVE_TYPE LAB_Function_Generator::
 wave_type (unsigned channel)
 {
   return (m_parent_data.channel_data[channel].wave_type);
