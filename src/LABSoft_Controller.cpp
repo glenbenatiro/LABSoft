@@ -13,7 +13,7 @@ LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
     m_Circuit_Checker     (_LAB, _LABSoft_GUI)   
 {
   Fl::add_timeout (
-    LABSOFT_GENERAL::DISPLAY_UPDATE_RATE,
+    LABC::LABSOFT::DISPLAY_UPDATE_RATE,
     update_display,
     this
   );
@@ -39,5 +39,5 @@ update_display (void *data)
   // //           << " us" 
   // //           << std::endl;
 
-  Fl::repeat_timeout (LABSOFT_GENERAL::DISPLAY_UPDATE_RATE, update_display, data);  
+  Fl::repeat_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, data);  
 }

@@ -63,7 +63,7 @@ class LABSoft_GUI {open
             label Single
             xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
             xywh {24 84 800 660} box FLAT_BOX color 0
             class LABSoft_Oscilloscope_Display_Group
           } {
@@ -73,8 +73,8 @@ class LABSoft_GUI {open
               class LABSoft_Oscilloscope_Display
             }
             Fl_Box oscilloscope_fl_box_display_status {
-              label Auto
-              xywh {106 84 90 25} box BORDER_FRAME color 61 labelfont 1 labelsize 10 labelcolor 7
+              label Ready
+              xywh {106 84 90 25} box BORDER_FRAME color 1 labelfont 1 labelsize 10 labelcolor 7
             }
             Fl_Box oscilloscope_fl_box_upper_info_display {
               label {2000 samples at 200kHz}
@@ -952,7 +952,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_trigger {open
+          Fl_Group oscilloscope_fl_group_trigger {
             xywh {0 -4 1366 768}
           } {
             Fl_Box {} {
@@ -1025,7 +1025,7 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
               label Level
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);} selected
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);}
               xywh {1040 660 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
               code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);}
               code1 {oscilloscope_fl_input_choice_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}

@@ -9,7 +9,7 @@
 #include "Defaults.h"
 
 LABSoft_Controller_Oscilloscope::
-LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
+LABSoft_Controller_Oscilloscope (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
 {
   m_LAB         = _LAB;
   m_LABSoft_GUI = _LABSoft_GUI;
@@ -70,6 +70,8 @@ cb_run_stop (Fl_Light_Button *w,
     // 
     m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear ();
   }
+
+  update_gui_display_status ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -96,7 +98,7 @@ cb_horizontal_offset (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (LAB_DEFAULTS::isWithinRange (lv.actual_value (), 
+    if (LABF::is_within_range (lv.actual_value (), 
       LABC::OSC::MIN_HORIZONTAL_OFFSET,
       LABC::OSC::MAX_HORIZONTAL_OFFSET))
     {
@@ -123,7 +125,7 @@ cb_voltage_per_division (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (LAB_DEFAULTS::isWithinRange (lv.actual_value (), 
+    if (LABF::is_within_range (lv.actual_value (), 
       LABC::OSC::MIN_VOLTAGE_PER_DIVISION,
       LABC::OSC::MAX_VOLTAGE_PER_DIVISION))
     {
@@ -467,6 +469,34 @@ update_horizontal_widgets_gui ()
       (GUI_LBL::DISPLAY_MODE.at (m_LAB->m_Oscilloscope.display_mode ())).c_str ()
     )
   );
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+update_gui_info ()
+{
+
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+update_gui_display_status ()
+{
+  // check if stopped
+  if (!m_LAB->m_Oscilloscope.is_osc_frontend_running ())
+  {
+    m_LABSoft_GUI->oscilloscope_fl_box_display_status->color (
+      static_cast<uint32_t>(LABE::DISPLAY::COLOR::RED)
+    );
+
+    m_LABSoft_GUI->oscilloscope_fl_box_display_status->label ("Stop");
+  }
+  else 
+  {
+    m_LABSoft_GUI->oscilloscope_fl_box_display_status->color (
+      static_cast<uint32_t>(LABE::DISPLAY::COLOR::GREEN)
+    );
+
+    m_LABSoft_GUI->oscilloscope_fl_box_display_status->label ("Auto");
+  }
 }
 
 void LABSoft_Controller_Oscilloscope:: 

@@ -109,7 +109,7 @@ class LAB_Oscilloscope
     bool                  is_running              ();
     bool                  has_enabled_channel     ();
     void                  load_data_samples       ();
-    void                  switch_dma_buffer       (LABC::DMA::BUFFER_COUNT buff_count);   
+    void                  switch_dma_buffer       (LABE::DMA::BUFFER_COUNT buff_count);   
     void                  update_dma_data         (int disp_mode);
     int                   update_state            ();
 

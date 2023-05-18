@@ -807,9 +807,9 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_labsoft_oscilloscope_display_display->align(Fl_Align(FL_ALIGN_CENTER));
             oscilloscope_labsoft_oscilloscope_display_display->when(FL_WHEN_RELEASE);
           } // LABSoft_Oscilloscope_Display* oscilloscope_labsoft_oscilloscope_display_display
-          { oscilloscope_fl_box_display_status = new Fl_Box(106, 84, 90, 25, "Auto");
+          { oscilloscope_fl_box_display_status = new Fl_Box(106, 84, 90, 25, "Ready");
             oscilloscope_fl_box_display_status->box(FL_BORDER_FRAME);
-            oscilloscope_fl_box_display_status->color((Fl_Color)61);
+            oscilloscope_fl_box_display_status->color((Fl_Color)1);
             oscilloscope_fl_box_display_status->labelfont(1);
             oscilloscope_fl_box_display_status->labelsize(10);
             oscilloscope_fl_box_display_status->labelcolor(FL_BACKGROUND2_COLOR);

@@ -1,24 +1,25 @@
 #include "Defaults.h"
 
-namespace LAB_DEFAULTS
+bool LABF::
+compare_double (double a,
+                double b,
+                double epsilon)
 {
-  bool compareDouble (double a,
-                      double b,
-                      double epsilon)
-  {
-    return ((std::abs (a - b)) < epsilon);
-  }
+  return ((std::abs (a - b)) < epsilon);
+}
 
-  bool isWithinRange (double value,
-                      double min,
-                      double max)
+bool LABF:: 
+is_within_range (double value,
+                 double min,
+                 double max)
+{
+  if ((value <= max && value >= min) || compare_double (value, min) || 
+      compare_double (value, max))
   {
-    if ((value >= min && value <= max) || compareDouble (value, min) || 
-      compareDouble (value, max))
-    {
-      return (true);
-    }
-    
+    return (true);
+  }
+  else 
+  {
     return (false);
   }
 }

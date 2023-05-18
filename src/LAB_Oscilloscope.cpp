@@ -3,9 +3,6 @@
 #include <cstring>
 #include <iostream>
 
-// remove soon
-#include <chrono>
-
 #include "LAB.h"
 
 LAB_Oscilloscope:: 
@@ -243,7 +240,10 @@ config_dma_cb ()
     },   
 
     .spi_samp_size      = sizeof (uint32_t),    
-    .spi_cs             = SPI_CS_TA | SPI_CS_ADCS | SPI_CS_DMAEN | LABC::OSC::ADC_SPI_CHIP_ENABLE,
+    .spi_cs             = (1 <<  7) | // SPI CS TA
+                          (1 << 11) | // SPI CS ADCS
+                          (1 <<  8) | // SPI CS DMAEN
+                          LABC::OSC::ADC_SPI_CHIP_ENABLE,
     .spi_cs_fifo_reset  = 0x00000030,
     .pwm_duty_cycle     = 0x0,
     .txd                = 0x0000ffff
@@ -757,6 +757,8 @@ find_trigger_point_loop ()
       break;
     }
   }
+
+  printf ("sync OK\n");
   
   // ----------
   
@@ -793,6 +795,7 @@ find_trigger_point_loop ()
       // 6. Search for trigger
       if (find_trigger_point ())
       {
+        printf ("trig found!\n");
         create_trigger_frame ();
         m_parent_data.trig_frame_ready = true;
       }
@@ -1114,13 +1117,16 @@ trigger_level (double value)
       value >= LABC::OSC::MAX_TRIGGER_LEVEL)
   {
     m_parent_data.trig_level = value;
-    m_parent_data.trig_level_bits = AikaPi::Utility::normalize (
-      value,
-      LABC::OSC::MIN_TRIGGER_LEVEL,
-      LABC::OSC::MAX_TRIGGER_LEVEL,
-      0,
-      LABC::OSC::ADC_RESOLUTION_INT - 1
-    );
+    m_parent_data.trig_level_bits = 0;
+
+
+    // m_parent_data.trig_level_bits = AikaPi::Utility::normalize (
+    //   value,
+    //   LABC::OSC::MIN_TRIGGER_LEVEL,
+    //   LABC::OSC::MAX_TRIGGER_LEVEL,
+    //   0,
+    //   LABC::OSC::ADC_RESOLUTION_INT - 1
+    // );
   }
   else 
   {
@@ -1172,13 +1178,13 @@ display_mode (LABE::DISPLAY::MODE _DISPLAY_MODE)
   {
     case LABE::DISPLAY::MODE::REPEATED:
     {
-      switch_dma_buffer (LABC::DMA::BUFFER_COUNT::DOUBLE);
+      switch_dma_buffer (LABE::DMA::BUFFER_COUNT::DOUBLE);
       break;
     }
 
     case LABE::DISPLAY::MODE::SCREEN:
     { 
-      switch_dma_buffer (LABC::DMA::BUFFER_COUNT::SINGLE);
+      switch_dma_buffer (LABE::DMA::BUFFER_COUNT::SINGLE);
       break;
     }
 
@@ -1210,7 +1216,7 @@ update_dma_data (int disp_mode)
 }
 
 void LAB_Oscilloscope:: 
-switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count)
+switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
 {
   bool flag = false; 
 
@@ -1225,11 +1231,11 @@ switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count)
   }
 
   // 2. Assign next control block depending on buffer
-  if (buff_count == LABC::DMA::BUFFER_COUNT::SINGLE)
+  if (buff_count == LABE::DMA::BUFFER_COUNT::SINGLE)
   { 
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
-  else if (buff_count == LABC::DMA::BUFFER_COUNT::DOUBLE)
+  else if (buff_count == LABE::DMA::BUFFER_COUNT::DOUBLE)
   {
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
   }

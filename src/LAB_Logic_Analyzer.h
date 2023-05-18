@@ -52,7 +52,7 @@ class LAB_Logic_Analyzer
 
     //
     bool    is_running ();
-    void    switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count);
+    void    switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count);
 };
 
 #endif

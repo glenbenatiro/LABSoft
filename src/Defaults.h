@@ -13,70 +13,25 @@
 #include "../lib/AikaPi/AikaPi.h"
 #include "../lib/AD9833/AD9833.h"
 
-// --- Enums ---
-
-namespace LAB_DEFAULTS
+// LAB Functions
+namespace LABF
 {
-  bool compareDouble (double a, double b, double epsilon = 1e-9);
-  bool isWithinRange (double value, double min, double max);
-}
-
-enum LE_UNIT_PREFIX_EXP
-{
-  LE_UNIT_PREFIX_EXP_GIGA   = 9,
-  LE_UNIT_PREFIX_EXP_MEGA   = 6,
-  LE_UNIT_PREFIX_EXP_KILO   = 3,
-  LE_UNIT_PREFIX_EXP_NONE   = 0,
-  LE_UNIT_PREFIX_EXP_MILLI  = -3,
-  LE_UNIT_PREFIX_EXP_MICRO  = -6,
-  LE_UNIT_PREFIX_EXP_NANO   = -9
+  bool compare_double   (double a, double b, double epsilon = 1e-9);
+  bool is_within_range  (double value, double min, double max);
 };
 
-enum LE_UNIT
-{
-  LE_UNIT_NONE,
-  LE_UNIT_VOLT,
-  LE_UNIT_AMP,
-  LE_UNIT_OHM,
-  LE_UNIT_SEC,
-  LE_UNIT_HZ
-};
-
-enum LE_LABEL_TYPE
-{
-  LE_LABEL_TYPE_VOLTS_PER_DIVISION,
-  LE_LABEL_TYPE_TIME_PER_DIVISION
-};
-
-enum LE_SPI_DMA_NUMBER_OF_BUFFERS
-{
-  LE_SPI_DMA_NUMBER_OF_BUFFERS_SINGLE,
-  LE_SPI_DMA_NUMBER_OF_BUFFERS_DOUBLE
-};
-
-// --- General Raspberry Pi ---
-namespace LABSOFT_GENERAL
-{
-  constexpr float DISPLAY_UPDATE_RATE (1.0 / 25.0); // 25 fps
-}
-
-
-constexpr double LAB_PWM_FREQUENCY  = 100'000'000.0; 
-
-// because SPI core clock is fixed to 250MHz in boot/config.txt
-// this is a divisor of 32
-constexpr double LAB_SPI_FREQUENCY  = 10'000'000;  // final
-
-// --- PWM ---
-struct LAB_PWM_PACING_DMA_DATA 
-{ 
-  AP_DMA_CB cbs[15];
-
-  uint32_t pwm_val;
-};
-
+// LAB Enumerations
 namespace LABE
 {
+  namespace DMA
+  {
+    enum class BUFFER_COUNT
+    {
+      SINGLE,
+      DOUBLE
+    };
+  };
+  
   namespace DISPLAY
   {
     enum class MODE
@@ -84,6 +39,13 @@ namespace LABE
       SCREEN,
       REPEATED,
       SHIFT
+    };
+
+    enum class COLOR : uint32_t
+    {
+      RED     = 0xFF000000,
+      YELLOW  = 0xFFFF0000,
+      GREEN   = 0x00FF0000
     };
   };
   
@@ -141,8 +103,14 @@ namespace LABE
   }
 };
 
+// LAB Constants
 namespace LABC
 {
+  namespace LABSOFT
+  {
+    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 25.0; // 25 fps
+  }
+
   namespace PIN
   {
     // Oscilloscope
@@ -154,13 +122,13 @@ namespace LABC
     constexpr unsigned OSC_COUPLING_SELECT_CHAN_1 = 15; 
   
     // PWM
-    constexpr unsigned PWM = 12;
+    constexpr unsigned PWM                        = 12;
 
     // Function Generator
-    constexpr int FUNC_GEN_IC_CS   = 13;
-    constexpr int FUNC_GEN_IC_MISO = 5; // not used
-    constexpr int FUNC_GEN_IC_MOSI = 4;
-    constexpr int FUNC_GEN_IC_SCLK = 6;
+    constexpr int FUNC_GEN_IC_CS                  = 13;
+    constexpr int FUNC_GEN_IC_MISO                = 5; // not used
+    constexpr int FUNC_GEN_IC_MOSI                = 4;
+    constexpr int FUNC_GEN_IC_SCLK                = 6;
 
     // Logic Analyzer
     constexpr unsigned LOGIC_ANALYZER []          = {0, 1, 26};
@@ -168,12 +136,6 @@ namespace LABC
 
   namespace DMA
   {
-    enum class BUFFER_COUNT
-    {
-      SINGLE,
-      DOUBLE
-    };
-
     namespace TI
     {
       constexpr uint32_t OSC_PWM_PACING  = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::PWM))  
@@ -201,6 +163,8 @@ namespace LABC
 
     namespace CHAN
     {
+      // DMA channels in-use after reboot (3B+): 2, 3, 4, 6
+
       constexpr unsigned PWM_PACING       = 7;
       constexpr unsigned OSC_RX           = 8;
       constexpr unsigned OSC_TX           = 9;
@@ -210,6 +174,8 @@ namespace LABC
 
   namespace SPI
   {
+    // Please note that LABSoft requires the core clock to be fixed to 
+    // 250 MHz in boot/config.txt. This affects the divisor setting.
     constexpr double FREQUENCY = 10'000'000.0;
   };
 
@@ -221,6 +187,11 @@ namespace LABC
   namespace CLKMAN
   {
     constexpr double FREQUENCY = 100'000'000.0;
+  };
+
+  namespace DISPLAY
+  {
+    constexpr int DISPLAY_STATUS_BOX_TYPE = FL_BORDER_FRAME;
   };
 
   namespace OSC_DISPLAY
@@ -316,15 +287,6 @@ namespace LABC
   };
 };
 
-constexpr unsigned LAB_PWM_DMA_PACING_PWM_CHAN = 0;
-
-constexpr double LAB_PWM_DUTY_CYCLE = 50.0;
-constexpr int PWM_CHAN              = 1;
-constexpr unsigned PI_MAX_GPIO_PINS = 32; 
-constexpr int DEBUG                 = 1;
-constexpr int LAB_AUX_SPI_FREQUENCY = 100'000;
-
-constexpr float DISPLAY_UPDATE_RATE = (1.0 / 25.0); // in seconds, 25fps
 
 // Raspberry Pi Zero BCM Pin Assishift_bit_countgnments
 // https://pinout.xyz/
@@ -340,19 +302,6 @@ constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_MOSI                  = 4;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_MISO                  = 19;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_SCLK                  = 6;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_CS                    = 13;       
-
-// DMA Channel Use
-// dma channels in use after reboot 3b plus = 2 3 4 6
-constexpr unsigned  LAB_DMA_CHAN_PWM_PACING = 7;
-constexpr unsigned  LAB_DMA_CHAN_OSC_RX     = 8;
-constexpr unsigned  LAB_DMA_CHAN_OSC_TX     = 9;
-constexpr unsigned  LAB_DMA_CHAN_LOGIC_ANALYZER_GPIO_STORE  = 10;
-
-constexpr uint32_t LAB_DMA_TI_OSC_PWM_PACING  = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_WAIT_RESP;
-constexpr uint32_t LAB_DMA_TI_OSC_TX          = (DMA_TI_DREQ_SPI_TX << 16) | DMA_TI_DEST_DREQ | DMA_TI_WAIT_RESP | DMA_TI_SRC_INC;
-constexpr uint32_t LAB_DMA_TI_OSC_RX          = (DMA_TI_DREQ_SPI_RX << 16) | DMA_TI_SRC_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
-constexpr uint32_t LAB_DMA_TI_LOGAN_STORE     = (DMA_TI_DREQ_PWM << 16) | DMA_TI_DEST_DREQ | DMA_TI_DEST_INC | DMA_TI_WAIT_RESP;
-
 
 namespace GUI_LBL
 {
@@ -483,7 +432,7 @@ class LAB_Parent_Data_Oscilloscope
 
 struct LAB_DMA_Data_Oscilloscope
 {
-  AP_DMA_CB cbs[15];
+  AP::DMA::CTL_BLK cbs[15];
 
   uint32_t  spi_samp_size,
             spi_cs,
@@ -666,7 +615,7 @@ class LAB_Parent_Data_Logic_Analyzer
 
 struct LAB_DMA_Data_Logic_Analyzer
 {
-  AP_DMA_CB cbs[15];
+  AP::DMA::CTL_BLK cbs[15];
   
   uint32_t  buffer_ok_flag = 0x1;
 
@@ -693,7 +642,6 @@ constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_COLOR             
 constexpr int       LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_WIDTH             = 2;
 constexpr char*     LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_DASHES            = 0;
 constexpr double    LABSOFT_LOGIC_ANALYZER_DISPLAY_GRAPH_LINE_P2P_SPREAD        = 60.0; // in percent
-
 
 #endif
 

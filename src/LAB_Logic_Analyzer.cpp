@@ -64,7 +64,7 @@ config_dma_cb ()
       // 0
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->spi.bus   (GPIO_GPLEV0),
+        m_LAB_Core->spi.bus   (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
@@ -84,7 +84,7 @@ config_dma_cb ()
       // 2
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->spi.bus   (GPIO_GPLEV0),
+        m_LAB_Core->spi.bus   (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
         static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
@@ -106,7 +106,7 @@ config_dma_cb ()
       // 4
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->spi.bus   (GPIO_GPLEV0),
+        m_LAB_Core->spi.bus   (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
@@ -296,7 +296,7 @@ horizontal_offset (double value)
 }
 
 void LAB_Logic_Analyzer:: 
-switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count)
+switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
 {
   bool flag = false; 
 
@@ -311,11 +311,11 @@ switch_dma_buffer (LABC::DMA::BUFFER_COUNT buff_count)
   }
 
   // 2. Assign next control block depending on buffer
-  if (buff_count == LABC::DMA::BUFFER_COUNT::SINGLE)
+  if (buff_count == LABE::DMA::BUFFER_COUNT::SINGLE)
   { 
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
-  else if (buff_count == LABC::DMA::BUFFER_COUNT::DOUBLE)
+  else if (buff_count == LABE::DMA::BUFFER_COUNT::DOUBLE)
   {
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[0]));
   }

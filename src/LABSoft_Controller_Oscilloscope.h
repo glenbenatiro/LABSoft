@@ -11,11 +11,11 @@
 class LABSoft_Controller_Oscilloscope
 {
   private:
-    LAB         *m_LAB;
-    LABSoft_GUI *m_LABSoft_GUI;
+    LAB*          m_LAB;
+    LABSoft_GUI*  m_LABSoft_GUI;
 
   public:
-    LABSoft_Controller_Oscilloscope (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    LABSoft_Controller_Oscilloscope (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI);
     
     // Master controls
     void cb_run_stop                (Fl_Light_Button* w, void* data);
@@ -46,6 +46,9 @@ class LABSoft_Controller_Oscilloscope
     double  calc_sampling_rate           ();
     void    update_trigger_panel_gui       ();
     void    update_horizontal_widgets_gui  ();
+
+    void    update_gui_info ();
+    void    update_gui_display_status ();
 
     // Update Cycle
     void display_update_cycle ();
