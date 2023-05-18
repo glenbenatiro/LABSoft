@@ -51,8 +51,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label Oscilloscope
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label Oscilloscope open
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Light_Button oscilloscope_fl_light_button_run_stop {
             label Run
@@ -952,7 +952,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_trigger {
+          Fl_Group oscilloscope_fl_group_trigger {open
             xywh {0 -4 1366 768}
           } {
             Fl_Box {} {
@@ -997,13 +997,17 @@ class LABSoft_GUI {open
               xywh {1040 590 120 30} down_box BORDER_BOX align 1 deactivate
             } {
               MenuItem {} {
+                label Level
+                xywh {20 20 36 21}
+              }
+              MenuItem {} {
                 label Edge
                 xywh {10 10 36 21}
               }
             }
             Fl_Choice oscilloscope_fl_choice_trigger_condition {
               label Source
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);}
               xywh {1200 590 120 30} down_box BORDER_BOX align 1 deactivate
             } {
               MenuItem {} {
@@ -1021,7 +1025,7 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
               label Level
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);} selected
               xywh {1040 660 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
               code0 {oscilloscope_fl_input_choice_trigger_level->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL);}
               code1 {oscilloscope_fl_input_choice_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -1195,8 +1199,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group {} {
-          label {Function Generator} open
-          xywh {0 60 1366 708} color 54 selection_color 52
+          label {Function Generator}
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}

@@ -366,6 +366,7 @@ void LABSoft_GUI::cb_oscilloscope_fl_choice_trigger_type(Fl_Choice* o, void* v) 
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_trigger_type[] = {
+ {"Level", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Edge", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
@@ -773,7 +774,6 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
         o->color(FL_LIGHT3);
         o->selection_color(FL_LIGHT2);
-        o->hide();
         { oscilloscope_fl_light_button_run_stop = new Fl_Light_Button(1205, 95, 120, 60, "Run");
           oscilloscope_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
           oscilloscope_fl_light_button_run_stop->color((Fl_Color)53);
@@ -1076,6 +1076,7 @@ LABSoft_GUI::LABSoft_GUI() {
       { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Function Generator");
         o->color(FL_LIGHT3);
         o->selection_color(FL_LIGHT2);
+        o->hide();
         { function_generator_fl_choice_wave_type = new Fl_Choice(300, 140, 180, 60, "Wave Type");
           function_generator_fl_choice_wave_type->down_box(FL_BORDER_BOX);
           function_generator_fl_choice_wave_type->callback((Fl_Callback*)cb_function_generator_fl_choice_wave_type, (void*)(0));

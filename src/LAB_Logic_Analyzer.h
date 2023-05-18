@@ -39,8 +39,8 @@ class LAB_Logic_Analyzer
     void    sampling_rate     (double value);
 
     // Display
-    void              display_mode (LE::DISPLAY_MODE _DISPLAY_MODE); 
-    LE::DISPLAY_MODE  display_mode ();
+    void              display_mode (LABE::DISPLAY::MODE _DISPLAY_MODE); 
+    LABE::DISPLAY::MODE  display_mode ();
 
     // Get data/samples
     void              load_data_samples       ();
@@ -48,7 +48,7 @@ class LAB_Logic_Analyzer
     void              parse_raw_sample_buffer ();
     double            calc_samp_count         (double time_per_div, unsigned osc_disp_num_cols);
     double            calc_samp_rate          (double time_per_div, unsigned osc_disp_num_cols);
-    LE::DISPLAY_MODE  calc_disp_mode          (double time_per_div);
+    LABE::DISPLAY::MODE  calc_disp_mode          (double time_per_div);
 
     //
     bool    is_running ();

@@ -12,10 +12,11 @@ class LAB;
 class LAB_Oscilloscope 
 {
   private:
-    LAB*             m_LAB;
-    LAB_Core*        m_LAB_Core;
-    AikaPi::Uncached m_uncached_memory;
-    std::thread      m_trigger_thread;
+    LAB*              m_LAB;
+    LAB_Core*         m_LAB_Core;
+    AikaPi::Uncached  m_uncached_memory;
+    std::thread       m_trigger_thread;
+    std::thread       m_find_trigger_timer;
 
   private:
     // Setup
@@ -27,32 +28,33 @@ class LAB_Oscilloscope
     void config_dma_cb  ();
 
     // Master Controls
-    void master_run_stop (bool value);
+    void                master_run_stop                 (bool value);
   
     // Horizontal 
-    double calc_samp_count  (double time_per_division, unsigned osc_disp_num_cols);
-    double calc_samp_rate   (double time_per_div, unsigned osc_disp_num_cols);
-    LE::DISPLAY_MODE disp_mode ();
-
-    // Fill data
-    void fill_raw_sample_buffer   ();
-    void parse_raw_sample_buffer  ();
+    double              calc_samp_count                 (double time_per_division, unsigned osc_disp_num_cols);
+    double              calc_samp_rate                  (double time_per_div, unsigned osc_disp_num_cols);
+    LABE::DISPLAY::MODE disp_mode                       ();
 
     // Trigger 
-    void  parse_trigger         (LABE::OSC::TRIG::MODE value);
-    void  search_trigger_point  ();
-    void  create_trigger_block  ();
-
+    void                parse_trigger                   (LABE::OSC::TRIG::MODE value);
+    void                find_trigger_point_loop         ();
+    bool                find_trigger_point              ();
+    void                create_trigger_frame            ();
+    void                find_trigger_timeout_timer      ();
+  
     // Display 
-    LE::DISPLAY_MODE  calc_disp_mode  (double time_per_div);
-    void              display_mode    (LE::DISPLAY_MODE _DISPLAY_MODE);
+    LABE::DISPLAY::MODE calc_disp_mode                  (double time_per_div);
+    void                display_mode                    (LABE::DISPLAY::MODE _DISPLAY_MODE);
 
     // Other
-    void      set_hw_sampling_rate        (double value);
-    bool      is_raw_buffer_being_written (unsigned buff);
-     
-    // Conversion
+    void                set_hw_sampling_rate            (double value);
+    bool                is_raw_buffer_being_written     (unsigned buff);
+
+    // Data annd conversion
+    void                fill_raw_sample_buffer          ();
+    void                parse_raw_sample_buffer         ();
     constexpr double    conv_raw_samp_buff_samp         (uint32_t sample, unsigned channel);
+    constexpr double    conv_raw_samp_buff_arrange_bits (uint32_t sample, unsigned channel);
     constexpr uint32_t  extract_chan_raw_samp_buff_samp (uint32_t sample, unsigned channel);
     constexpr uint32_t  arrange_raw_chan_bits           (uint32_t sample);
     constexpr double    arranged_bits_to_actual_value   (uint32_t abs_arranged_bits, bool sign);
@@ -65,55 +67,55 @@ class LAB_Oscilloscope
    ~LAB_Oscilloscope ();   
 
     // Master controls
-    void run                    ();
-    void stop                   ();  
-    void osc_core_run_stop      (bool value);
-    void osc_frontend_run_stop  (bool value);
+    void                  run                     ();
+    void                  stop                    ();  
+    void                  osc_core_run_stop       (bool value);
+    void                  osc_frontend_run_stop   (bool value);
     
     // Vertical
-    void    channel_enable_disable  (unsigned channel, bool value);
-    void    voltage_per_division    (unsigned channel, double value);
-    double  voltage_per_division    (unsigned channel);
-    void    vertical_offset         (unsigned channel, double value);
-    double  vertical_offset         (unsigned channel);
-    void    scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
-    void    coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
+    void                  channel_enable_disable  (unsigned channel, bool value);
+    void                  voltage_per_division    (unsigned channel, double value);
+    double                voltage_per_division    (unsigned channel);
+    void                  vertical_offset         (unsigned channel, double value);
+    double                vertical_offset         (unsigned channel);
+    void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
+    void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
 
     // Horizontal
-    void    time_per_division (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    double  time_per_division ();
-    void    sampling_rate     (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    double  sampling_rate     ();
-    void    horizontal_offset (double value);
-    double  horizontal_offset ();
+    void                  time_per_division       (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    double                time_per_division       ();
+    void                  sampling_rate           (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    double                sampling_rate           ();
+    void                  horizontal_offset       (double value);
+    double                horizontal_offset       ();
 
     // Trigger 
-    void                  trigger_mode      (LABE::OSC::TRIG::MODE value);
-    LABE::OSC::TRIG::MODE trigger_mode      () const;
-    void                  trigger_source    (unsigned chan);
-    double                trigger_source    () const;
-    void                  trigger_type      (LABE::OSC::TRIG::TYPE value);
-    LABE::OSC::TRIG::TYPE trigger_type      () const;
-    void                  trigger_condition (LABE::OSC::TRIG::CND value);
-    LABE::OSC::TRIG::CND  trigger_condition () const;
-    void                  trigger_level     (double value);
-    double                trigger_level     () const;
+    void                  trigger_mode            (LABE::OSC::TRIG::MODE value);
+    LABE::OSC::TRIG::MODE trigger_mode            () const;
+    void                  trigger_source          (unsigned chan);
+    double                trigger_source          () const;
+    void                  trigger_type            (LABE::OSC::TRIG::TYPE value);
+    LABE::OSC::TRIG::TYPE trigger_type            () const;
+    void                  trigger_condition       (LABE::OSC::TRIG::CND value);
+    LABE::OSC::TRIG::CND  trigger_condition       () const;
+    void                  trigger_level           (double value);
+    double                trigger_level           () const;
     
     // Display 
-    void              display_mode_frontend (LE::DISPLAY_MODE _DISPLAY_MODE); 
-    LE::DISPLAY_MODE  display_mode          ();
+    void                  display_mode_frontend   (LABE::DISPLAY::MODE _DISPLAY_MODE); 
+    LABE::DISPLAY::MODE   display_mode            ();
        
     // State
-    bool  is_running              ();
-    bool  has_enabled_channel     ();
-    void  load_data_samples       ();
-    void  switch_dma_buffer       (LABC::DMA::BUFFER_COUNT buff_count);   
-    void  update_dma_data         (int disp_mode);
-    int   update_state            ();
+    bool                  is_running              ();
+    bool                  has_enabled_channel     ();
+    void                  load_data_samples       ();
+    void                  switch_dma_buffer       (LABC::DMA::BUFFER_COUNT buff_count);   
+    void                  update_dma_data         (int disp_mode);
+    int                   update_state            ();
 
     // Getters
-    bool    is_osc_frontend_running ();
-    bool    is_osc_core_running     ();
+    bool                  is_osc_frontend_running ();
+    bool                  is_osc_core_running     ();
 };
 
 #endif

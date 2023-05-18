@@ -335,6 +335,10 @@ cb_trigger_type (Fl_Choice* w,
   {
     type = LABE::OSC::TRIG::TYPE::EDGE;
   }
+  else if (choice == "Level")
+  {
+    type = LABE::OSC::TRIG::TYPE::LEVEL;
+  }
   
   m_LAB->m_Oscilloscope.trigger_type (type);
 }
@@ -394,15 +398,15 @@ cb_display_mode (Fl_Choice* w,
                  void*      data)
 {
   std::string str (w->text ());
-  LE::DISPLAY_MODE disp_mode;
+  LABE::DISPLAY::MODE disp_mode;
 
   if (str == "Repeated")
   {
-    disp_mode = LE::DISPLAY_MODE::REPEATED;
+    disp_mode = LABE::DISPLAY::MODE::REPEATED;
   }
   else if (str == "Screen")
   {
-    disp_mode = LE::DISPLAY_MODE::SCREEN;
+    disp_mode = LABE::DISPLAY::MODE::SCREEN;
   }
   else 
   {

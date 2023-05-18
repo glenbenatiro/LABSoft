@@ -160,7 +160,7 @@ sampling_rate (double value)
   // m_LAB_Core->pwm.frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
-LE::DISPLAY_MODE LAB_Logic_Analyzer:: 
+LABE::DISPLAY::MODE LAB_Logic_Analyzer:: 
 display_mode ()
 {
   return (m_parent_data.disp_mode);
@@ -179,7 +179,7 @@ fill_raw_sample_buffer ()
   LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
     (m_uncached_memory.virt ()));
   
-  if (display_mode () == LE::DISPLAY_MODE::SCREEN)
+  if (display_mode () == LABE::DISPLAY::MODE::SCREEN)
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
@@ -187,7 +187,7 @@ fill_raw_sample_buffer ()
       sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
     );
   }
-  else if (display_mode () == LE::DISPLAY_MODE::REPEATED)
+  else if (display_mode () == LABE::DISPLAY::MODE::REPEATED)
   {
     for (int buff = 0; buff < 2; buff++)
     {
@@ -233,7 +233,7 @@ time_per_division (double value, unsigned disp_num_cols)
 {
   double            new_samp_count  = calc_samp_count (value, disp_num_cols);
   double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
-  LE::DISPLAY_MODE  new_disp_mode   = calc_disp_mode  (value);
+  LABE::DISPLAY::MODE  new_disp_mode   = calc_disp_mode  (value);
 
   m_parent_data.time_per_division = value;
   m_parent_data.w_samp_count      = new_samp_count;
@@ -274,16 +274,16 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
   }
 }
 
-LE::DISPLAY_MODE LAB_Logic_Analyzer:: 
+LABE::DISPLAY::MODE LAB_Logic_Analyzer:: 
 calc_disp_mode (double time_per_div)
 {
   if (time_per_div >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_DISP_SCREEN)
   {
-    return (LE::DISPLAY_MODE::SCREEN);
+    return (LABE::DISPLAY::MODE::SCREEN);
   }
   else 
   {
-    return (LE::DISPLAY_MODE::REPEATED);
+    return (LABE::DISPLAY::MODE::REPEATED);
   }
 }
 

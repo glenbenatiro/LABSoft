@@ -9,6 +9,7 @@ class LAB_Core : public AikaPi
 
   public:
     LAB_Core ();
+   ~LAB_Core ();
 };
 
 #endif

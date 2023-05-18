@@ -5,3 +5,9 @@ LAB_Core () : AikaPi ()
 {
   
 }
+
+LAB_Core:: 
+~LAB_Core ()
+{
+  
+}
