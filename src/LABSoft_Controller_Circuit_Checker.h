@@ -15,6 +15,9 @@
 
 #include "LABSoft_GUI.h"
 
+// forward declare LABSoft_Controller
+class LABSoft_Controller;
+
 struct Signal
 {
   const char *type;
@@ -36,6 +39,9 @@ struct SignalChain
 
 class LABSoft_Controller_Circuit_Checker
 {
+  private:
+    LABSoft_Controller* m_LABSoft_Controller;
+
   public:
     LAB             *m_LAB;
     LABSoft_GUI     *m_LABSoft_GUI;
@@ -49,7 +55,9 @@ class LABSoft_Controller_Circuit_Checker
 
     pugi::xml_document m_xml_document;
 
-    LABSoft_Controller_Circuit_Checker (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    LABSoft_Controller_Circuit_Checker (LAB*                _LAB, 
+                                        LABSoft_GUI*        _LABSoft_GUI,
+                                        LABSoft_Controller* _LABSoft_Controller);
 
     // functions
     void log (const char *text);

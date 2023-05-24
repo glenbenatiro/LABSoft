@@ -2,9 +2,7 @@
 
 #include <sstream>
 
-#include <FL/Fl.H>
-
-#include "LABSoft_GUI.h"
+#include "LabelValue.h"
 
 LABSoft_Oscilloscope_Display_Group::
 LABSoft_Oscilloscope_Display_Group (int X, 
@@ -74,9 +72,10 @@ LABSoft_Oscilloscope_Display_Group (int X,
 void LABSoft_Oscilloscope_Display_Group:: 
 draw ()
 {
+  update_display_status ();
+
   draw_box      (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::BACKGROUND_COLOR);
   draw_children ();
-
   m_display->redraw ();
 }
 
@@ -217,6 +216,76 @@ bool LABSoft_Oscilloscope_Display_Group::
 is_approx_zero (double x, double epsilon)
 {
   return (std::abs (x) < epsilon);
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_display_status ()
+{
+  switch (m_parent_data_osc->status)
+  {
+    case (LABE::OSC::STATUS::READY):
+    {
+      m_display_status->label ("Ready");
+      m_display_status->color (static_cast<uint32_t>(LABE::DISPLAY::COLOR::RED));
+
+      break;
+    }
+
+    case (LABE::OSC::STATUS::STOP):
+    {
+      m_display_status->label ("Stop");
+      m_display_status->color (static_cast<uint32_t>(LABE::DISPLAY::COLOR::RED));
+
+      break;
+    }
+
+    case (LABE::OSC::STATUS::AUTO):
+    {
+      m_display_status->label ("Auto");
+      m_display_status->color (static_cast<uint32_t>(LABE::DISPLAY::COLOR::GREEN));
+
+      break;
+    }
+  }
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+channel_selector (unsigned channel)
+{
+  m_channel_selected = channel;
+
+  for (int a = 0; a < m_channel_selectors.size (); a++)
+  {
+    if (a == channel)
+    {
+      m_channel_selectors[a]->color       (LABC::DISPLAY::CHAN_COLORS[a]);
+      m_channel_selectors[a]->labelcolor  (0);
+      m_channel_selectors[a]->set         ();
+    }
+    else 
+    {
+      m_channel_selectors[a]->color       (0);
+      m_channel_selectors[a]->labelcolor  (LABC::DISPLAY::CHAN_COLORS[a]);
+      m_channel_selectors[a]->clear       ();
+    }
+  }
+
+  update_gui_vertical_offset ();
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_gui_vertical_offset ()
+{
+  m_vertical_offset->selection_color (LABC::DISPLAY::CHAN_COLORS[m_channel_selected]);
+
+  if (m_parent_data_osc->has_enabled_channels ())
+  {
+    m_vertical_offset->show ();
+  }
+  else 
+  {
+    m_vertical_offset->hide ();
+  }
 }
 
 // Setter

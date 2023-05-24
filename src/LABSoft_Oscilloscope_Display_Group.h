@@ -3,11 +3,12 @@
 
 #include <array>
 
-#include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Slider.H>
+#include <FL/Fl_Button.H>
 
 #include "Defaults.h"
-#include "LabelValue.h"
 #include "LABSoft_Oscilloscope_Display.h"
 
 // Forward declare LABSoft_GUI
@@ -18,12 +19,22 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
   private: 
     friend class LABSoft_Controller_Oscilloscope;
 
-    // --- Variables ---
-    Fl_Box* m_display_status      = nullptr;
-    Fl_Box* m_upper_info_display  = nullptr;
+    unsigned m_channel_selected = 0;
+
     LAB_Parent_Data_Oscilloscope* m_parent_data_osc = nullptr;
     LABSoft_Oscilloscope_Display* m_display         = nullptr;
 
+    Fl_Box*     m_display_status                    = nullptr;
+    Fl_Box*     m_upper_info_display                = nullptr;
+    Fl_Slider*  m_horizontal_offset                 = nullptr;
+    Fl_Slider*  m_vertical_offset                   = nullptr;
+    Fl_Slider*  m_trigger_level                     = nullptr;
+
+    std::array<
+      Fl_Button*,
+      LABC::OSC::NUMBER_OF_CHANNELS
+    > m_channel_selectors;
+    
     std::array<
       Fl_Box*, 
       LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS + 1
@@ -42,17 +53,14 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
       LABC::OSC::NUMBER_OF_CHANNELS
     > m_y_label_units;
 
-    // --- Functions ---
+  private:
     void    update_y_label_unit           (unsigned channel);
     bool    is_approx_zero                (double x, double epsilon = 1e-12);
     double  calc_row_voltage_per_division (int row, unsigned number_of_rows, LAB_Channel_Data_Oscilloscope& chan);
-
-    // Setter
-    void display (LABSoft_Oscilloscope_Display* _LABSoft_Oscilloscope_Display);
+    void    display (LABSoft_Oscilloscope_Display* _LABSoft_Oscilloscope_Display);
 
   public:    
-    // --- Functions --
-    LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char *label = 0);
+    LABSoft_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char* label = 0);
     
     // Draw
     void  draw ();
@@ -61,6 +69,7 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  load_osc_parent_data  (LAB_Parent_Data_Oscilloscope& parent_data);
     void  reserve_pixel_points  ();
     void  fill_pixel_points     ();
+    void channel_selector (unsigned channel);
 
     // Update data
     void  update_voltage_per_division_labels  ();
@@ -68,6 +77,10 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void  update_time_per_division_labels     ();
     void  update_upper_osc_disp_info          ();
     void  update_all_display_information      ();
+    void  update_display_status               ();   
+
+    // GUI updates
+    void update_gui_vertical_offset (); 
 
     // Getter
     LABSoft_Oscilloscope_Display* display ()

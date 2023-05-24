@@ -15,7 +15,7 @@ class LAB_Oscilloscope
     LAB*              m_LAB;
     LAB_Core*         m_LAB_Core;
     AikaPi::Uncached  m_uncached_memory;
-    std::thread       m_trigger_thread;
+    std::thread       m_thread_find_trigger;
     std::thread       m_find_trigger_timer;
 
   private:
@@ -29,11 +29,13 @@ class LAB_Oscilloscope
 
     // Master Controls
     void                master_run_stop                 (bool value);
+
+    // State 
+    void                update_status                   ();
   
     // Horizontal 
     double              calc_samp_count                 (double time_per_division, unsigned osc_disp_num_cols);
     double              calc_samp_rate                  (double time_per_div, unsigned osc_disp_num_cols);
-    LABE::DISPLAY::MODE disp_mode                       ();
 
     // Trigger 
     void                parse_trigger                   (LABE::OSC::TRIG::MODE value);
@@ -43,8 +45,7 @@ class LAB_Oscilloscope
     void                find_trigger_timeout_timer      ();
   
     // Display 
-    LABE::DISPLAY::MODE calc_disp_mode                  (double time_per_div);
-    void                display_mode                    (LABE::DISPLAY::MODE _DISPLAY_MODE);
+    LABE::DISPLAY::MODE calc_display_mode               (double time_per_div);
 
     // Other
     void                set_hw_sampling_rate            (double value);
@@ -79,6 +80,7 @@ class LAB_Oscilloscope
     void                  vertical_offset         (unsigned channel, double value);
     double                vertical_offset         (unsigned channel);
     void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
+    double                scaling_scaler          (unsigned channel);
     void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
 
     // Horizontal
@@ -102,7 +104,8 @@ class LAB_Oscilloscope
     double                trigger_level           () const;
     
     // Display 
-    void                  display_mode_frontend   (LABE::DISPLAY::MODE _DISPLAY_MODE); 
+    void                  display_mode_frontend   (LABE::DISPLAY::MODE _DISPLAY_MODE);
+    void                  display_mode            (LABE::DISPLAY::MODE _DISPLAY_MODE);
     LABE::DISPLAY::MODE   display_mode            ();
        
     // State
@@ -110,7 +113,7 @@ class LAB_Oscilloscope
     bool                  has_enabled_channel     ();
     void                  load_data_samples       ();
     void                  switch_dma_buffer       (LABE::DMA::BUFFER_COUNT buff_count);   
-    void                  update_dma_data         (int disp_mode);
+    void                  update_dma_data         (int display_mode);
     int                   update_state            ();
 
     // Getters

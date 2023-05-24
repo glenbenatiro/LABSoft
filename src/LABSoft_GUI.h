@@ -10,9 +10,10 @@ class LABSoft_Controller;
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Light_Button.H>
-#include <FL/Fl_Button.H>
 #include "LABSoft_Oscilloscope_Display_Group.h"
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Slider.H>
+#include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Output.H>
@@ -25,15 +26,34 @@ public:
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
   static Fl_Menu_Item menu_[];
+  Fl_Tabs *main_fl_tabs;
+private:
+  inline void cb_main_fl_tabs_i(Fl_Tabs*, void*);
+  static void cb_main_fl_tabs(Fl_Tabs*, void*);
+public:
+  Fl_Group *main_fl_group_oscilloscope_tab;
+  LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
+  LABSoft_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
+  Fl_Box *oscilloscope_fl_box_display_status;
+  Fl_Button *oscilloscope_fl_toggle_button_c1_selector;
+private:
+  inline void cb_oscilloscope_fl_toggle_button_c1_selector_i(Fl_Button*, long);
+  static void cb_oscilloscope_fl_toggle_button_c1_selector(Fl_Button*, long);
+public:
+  Fl_Button *oscilloscope_fl_toggle_button_c2_selector;
+private:
+  inline void cb_oscilloscope_fl_toggle_button_c2_selector_i(Fl_Button*, long);
+  static void cb_oscilloscope_fl_toggle_button_c2_selector(Fl_Button*, long);
+public:
+  Fl_Box *oscilloscope_fl_box_upper_info_display;
+  Fl_Slider *oscilloscope_fl_slider_horizontal_offset;
+  Fl_Slider *oscilloscope_fl_slider_vertical_offset;
+  Fl_Slider *oscilloscope_fl_slider_trigger_level;
   Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
 private:
   inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
   static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
-  LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
-  LABSoft_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
-  Fl_Box *oscilloscope_fl_box_display_status;
-  Fl_Box *oscilloscope_fl_box_upper_info_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;
 private:

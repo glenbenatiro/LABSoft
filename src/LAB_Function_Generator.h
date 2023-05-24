@@ -1,10 +1,10 @@
 #ifndef LAB_FUNCTION_GENERATOR_H
 #define LAB_FUNCTION_GENERATOR_H
 
+#include "Defaults.h"
 #include "LAB_Core.h"
 #include "LAB_AD9833.h"
 #include "LAB_MCP4XXX.h"
-#include "Defaults.h"
 
 class LAB_Function_Generator 
 {
@@ -16,12 +16,14 @@ class LAB_Function_Generator
   
   private:
     void init_state ();
+    void set_Rf     (unsigned channel, double value);
   
   public:
     LAB_Parent_Data_Function_Generator m_parent_data;
 
   public:
     LAB_Function_Generator      (LAB_Core* _LAB_Core);
+   ~LAB_Function_Generator      ();
 
     void run                    (unsigned channel);
     void stop                   (unsigned channel);

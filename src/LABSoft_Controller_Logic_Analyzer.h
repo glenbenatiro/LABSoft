@@ -8,15 +8,21 @@
 #include "LAB.h"
 #include "LABSoft_GUI.h"
 
+// forward declare LABSoft_Controller
+class LABSoft_Controller;
+
 class LABSoft_Controller_Logic_Analyzer
 {
   private:
-    LAB         *m_LAB;
-    LABSoft_GUI *m_LABSoft_GUI;
-    std::thread *m_thread_update_display;
+    LAB*                m_LAB;
+    LABSoft_GUI*        m_LABSoft_GUI;
+    LABSoft_Controller* m_LABSoft_Controller;
+    std::thread*        m_thread_update_display;
 
   public:
-    LABSoft_Controller_Logic_Analyzer (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI);
+    LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB, 
+                                       LABSoft_GUI*         _LABSoft_GUI,
+                                       LABSoft_Controller*  _LABSoft_Controller);
 
     void reserve_pixel_points ();
 

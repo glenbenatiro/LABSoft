@@ -109,6 +109,8 @@ unreset ()
 void AD9833:: 
 wave_type (WAVE_TYPE value)
 {
+  m_wave_type = value;
+  
   switch (value)
   {
     case WAVE_TYPE::SINE:
@@ -219,6 +221,41 @@ phase (double value, bool phase_reg)
   m_txbuff[1] = data & 0xFF;
 
   write_reg ();
+}
+
+double AD9833:: 
+amplitude ()
+{
+  double value;
+
+  switch (m_wave_type)
+  {
+    case (WAVE_TYPE::SINE):
+    case (WAVE_TYPE::TRIANGLE):
+    {
+      value = TYP_AMPLITUDE;
+
+      break;
+    }
+
+    case (WAVE_TYPE::SQUARE):
+    case (WAVE_TYPE::SQUARE_HALF):
+    case (WAVE_TYPE::SQUARE_FULL):
+    {
+      value = MAX_AMPLITUDE;
+
+      break;
+    }
+
+    case (WAVE_TYPE::DC):
+    {
+      value = MIN_AMPLITUDE;
+
+      break;
+    }
+  }
+
+  return (value);
 }
 
 // EOF

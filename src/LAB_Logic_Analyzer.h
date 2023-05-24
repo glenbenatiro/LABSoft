@@ -48,7 +48,7 @@ class LAB_Logic_Analyzer
     void              parse_raw_sample_buffer ();
     double            calc_samp_count         (double time_per_div, unsigned osc_disp_num_cols);
     double            calc_samp_rate          (double time_per_div, unsigned osc_disp_num_cols);
-    LABE::DISPLAY::MODE  calc_disp_mode          (double time_per_div);
+    LABE::DISPLAY::MODE  calc_display_mode          (double time_per_div);
 
     //
     bool    is_running ();

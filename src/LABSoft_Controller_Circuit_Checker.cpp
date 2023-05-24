@@ -1,11 +1,15 @@
 #include "LABSoft_Controller_Circuit_Checker.h"
 
-LABSoft_Controller_Circuit_Checker:: 
-LABSoft_Controller_Circuit_Checker (LAB *_LAB, LABSoft_GUI *_LABSoft_GUI)
-{
-  m_LAB = _LAB;
-  m_LABSoft_GUI = _LABSoft_GUI;
+#include "LABSoft_Controller.h"
 
+LABSoft_Controller_Circuit_Checker:: 
+LABSoft_Controller_Circuit_Checker (LAB*                _LAB, 
+                                    LABSoft_GUI*        _LABSoft_GUI,
+                                    LABSoft_Controller* _LABSoft_Controller)
+  : m_LAB                 (_LAB),
+    m_LABSoft_GUI         (_LABSoft_GUI),
+    m_LABSoft_Controller  (_LABSoft_Controller)
+{
   m_file_chooser = new Fl_File_Chooser (".",
                                         "LABSoft Circuit Checker File (*.labcc)",
                                         Fl_File_Chooser::SINGLE,

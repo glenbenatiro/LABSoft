@@ -7,13 +7,17 @@
 #include <FL/Fl.H>
 
 #include "Defaults.h"
+#include "LabelValue.h"
+#include "LABSoft_Controller.h"
 
 LABSoft_Controller_Oscilloscope::
-LABSoft_Controller_Oscilloscope (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
+LABSoft_Controller_Oscilloscope (LAB*                 _LAB, 
+                                 LABSoft_GUI*         _LABSoft_GUI,
+                                 LABSoft_Controller*  _LABSoft_Controller)
+  : m_LAB (_LAB),
+    m_LABSoft_GUI (_LABSoft_GUI), 
+    m_LABSoft_Controller (_LABSoft_Controller)
 {
-  m_LAB         = _LAB;
-  m_LABSoft_GUI = _LABSoft_GUI;
-
   /**
    * 1. Link the LABSoft_Oscilloscope_Display_Group widgets in the FLUID file
    *    to the LABSoft_Oscilloscope_Display_Group.h/cpp file class. Please 
@@ -66,12 +70,9 @@ cb_run_stop (Fl_Light_Button *w,
   else 
   {
     m_LAB->m_Oscilloscope.run ();
-
-    // 
-    m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear ();
   }
 
-  update_gui_display_status ();
+  update_gui_main ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -87,30 +88,13 @@ cb_channel_enable_disable (Fl_Light_Button* w,
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_horizontal_offset (Fl_Input_Choice* w, 
-                      void*            data)
+cb_ac_coupling (Fl_Light_Button *w, 
+                long             channel)
 {
-  LabelValue lv (
-    w->value (),
-    m_LAB->m_Oscilloscope.horizontal_offset (),
-    LabelValue::TYPE::SECONDS
-  );
+  bool value = w->value ();
 
-  if (lv.is_valid_label_text ())
-  {
-    if (LABF::is_within_range (lv.actual_value (), 
-      LABC::OSC::MIN_HORIZONTAL_OFFSET,
-      LABC::OSC::MAX_HORIZONTAL_OFFSET))
-    {
-      m_LAB->m_Oscilloscope.horizontal_offset (lv.actual_value ());
-    }
-  }
-
-  w->value (LabelValue (m_LAB->m_Oscilloscope.horizontal_offset ()).
-    to_label_text (LabelValue::TYPE::SECONDS).c_str ());
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_time_per_division_labels ();
+  m_LAB->m_Oscilloscope.coupling (channel, value ? 
+    LABE::OSC::COUPLING::DC : LABE::OSC::COUPLING::AC);
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -152,8 +136,9 @@ cb_vertical_offset (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::OSC::MIN_VERTICAL_OFFSET &&
-      lv.actual_value () <= LABC::OSC::MAX_VERTICAL_OFFSET)
+    if (LABF::is_within_range (lv.actual_value (),
+      LABC::OSC::MIN_VERTICAL_OFFSET,
+      LABC::OSC::MAX_VERTICAL_OFFSET))
     {
       m_LAB->m_Oscilloscope.vertical_offset (channel, lv.actual_value ());
     }
@@ -164,14 +149,6 @@ cb_vertical_offset (Fl_Input_Choice* w,
   
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_voltage_per_division_labels ();
-}
-
-void LABSoft_Controller_Oscilloscope::
-cb_ac_coupling (Fl_Light_Button *w, 
-                long             channel)
-{
-  m_LAB->m_Oscilloscope.coupling (static_cast<unsigned>(channel),
-    (w->value () == 0) ? LABE::OSC::COUPLING::DC : LABE::OSC::COUPLING::AC);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -203,7 +180,10 @@ cb_scaling (Fl_Choice *w,
     scaling = LABE::OSC::SCALING::UNITY;
   }
 
-  m_LAB->m_Oscilloscope.scaling (static_cast<unsigned>(channel), scaling);
+  m_LAB->m_Oscilloscope.scaling (channel, scaling);
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_voltage_per_division_labels ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -218,8 +198,9 @@ cb_time_per_division (Fl_Input_Choice* w,
   
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::OSC::MIN_TIME_PER_DIVISION &&
-      lv.actual_value () <= LABC::OSC::MAX_TIME_PER_DIVISION)
+    if (LABF::is_within_range (lv.actual_value (),
+      LABC::OSC::MIN_TIME_PER_DIVISION,
+      LABC::OSC::MAX_TIME_PER_DIVISION))
     {
       // Backend
       m_LAB->m_Oscilloscope.time_per_division (
@@ -240,8 +221,8 @@ cb_time_per_division (Fl_Input_Choice* w,
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-cb_sampling_rate (Fl_Input_Choice* w, 
-                  void*            data)
+cb_sampling_rate (Fl_Input_Choice*  w,
+                  void*             data)
 {
   LabelValue lv (
     w->value (),
@@ -251,8 +232,9 @@ cb_sampling_rate (Fl_Input_Choice* w,
   
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::OSC::MIN_SAMPLING_RATE &&
-      lv.actual_value () <= LABC::OSC::MAX_SAMPLING_RATE)
+    if (LABF::is_within_range (lv.actual_value (),
+      LABC::OSC::MIN_SAMPLING_RATE,
+      LABC::OSC::MAX_SAMPLING_RATE))
     {
       // Backend
       m_LAB->m_Oscilloscope.sampling_rate (
@@ -270,6 +252,74 @@ cb_sampling_rate (Fl_Input_Choice* w,
   
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_upper_osc_disp_info ();
+}
+
+
+void LABSoft_Controller_Oscilloscope::
+cb_horizontal_offset (Fl_Input_Choice* w, 
+                      void*            data)
+{
+  LabelValue lv (
+    w->value (),
+    m_LAB->m_Oscilloscope.horizontal_offset (),
+    LabelValue::TYPE::SECONDS
+  );
+
+  if (lv.is_valid_label_text ())
+  {
+    if (LABF::is_within_range (lv.actual_value (), 
+      LABC::OSC::MIN_HORIZONTAL_OFFSET,
+      LABC::OSC::MAX_HORIZONTAL_OFFSET))
+    {
+      m_LAB->m_Oscilloscope.horizontal_offset (lv.actual_value ());
+    }
+  }
+
+  w->value (LabelValue (m_LAB->m_Oscilloscope.horizontal_offset ()).
+    to_label_text (LabelValue::TYPE::SECONDS).c_str ());
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_time_per_division_labels ();
+}
+
+void LABSoft_Controller_Oscilloscope::
+cb_display_mode (Fl_Choice* w,  
+                 void*      data)
+{
+  std::string str (w->text ());
+  LABE::DISPLAY::MODE display_mode;
+
+  if (str == "Repeated")
+  {
+    display_mode = LABE::DISPLAY::MODE::REPEATED;
+  }
+  else if (str == "Screen")
+  {
+    display_mode = LABE::DISPLAY::MODE::SCREEN;
+  }
+  else 
+  {
+    throw (std::runtime_error ("Invalid display mode input."));
+  }
+
+  m_LAB->m_Oscilloscope.display_mode_frontend (display_mode);
+
+  // Frontend
+  update_horizontal_widgets_gui ();
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    update_time_per_division_labels ();
+  
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    update_upper_osc_disp_info ();
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_channel_selector (Fl_Toggle_Button*  w,
+                     long               channel)
+{
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+    channel_selector (channel);
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -293,7 +343,7 @@ cb_trigger_mode (Fl_Choice* w,
   }
   else 
   {
-
+    throw (std::runtime_error ("Invalid trigger mode input."));
   }
 
   // backend
@@ -320,7 +370,7 @@ cb_trigger_source (Fl_Choice* w,
   }
   else 
   {
-
+    throw (std::runtime_error ("Invalid trigger source input."));
   }
 
   m_LAB->m_Oscilloscope.trigger_source (source);
@@ -340,6 +390,10 @@ cb_trigger_type (Fl_Choice* w,
   else if (choice == "Level")
   {
     type = LABE::OSC::TRIG::TYPE::LEVEL;
+  }
+  else 
+  {
+    throw (std::runtime_error ("Invalid trigger type input."));
   }
   
   m_LAB->m_Oscilloscope.trigger_type (type);
@@ -366,7 +420,7 @@ cb_trigger_condition (Fl_Choice* w,
   }
   else 
   {
-
+    throw (std::runtime_error ("Invalid trigger condition input."));
   }
 
   m_LAB->m_Oscilloscope.trigger_condition (cnd);
@@ -384,8 +438,9 @@ cb_trigger_level (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::OSC::MIN_TRIGGER_LEVEL &&
-      lv.actual_value () <= LABC::OSC::MAX_TRIGGER_LEVEL)
+    if (LABF::is_within_range (lv.actual_value (),
+      LABC::OSC::MIN_TRIGGER_LEVEL,
+      LABC::OSC::MAX_TRIGGER_LEVEL))
     {
       m_LAB->m_Oscilloscope.trigger_level (lv.actual_value ());
     }
@@ -395,38 +450,40 @@ cb_trigger_level (Fl_Input_Choice* w,
     to_label_text (LabelValue::TYPE::VOLTS).c_str ());
 }
 
-void LABSoft_Controller_Oscilloscope::
-cb_display_mode (Fl_Choice* w,  
-                 void*      data)
+void LABSoft_Controller_Oscilloscope:: 
+display_update_cycle ()
 {
-  std::string str (w->text ());
-  LABE::DISPLAY::MODE disp_mode;
+  m_LAB->m_Oscilloscope.load_data_samples ();
 
-  if (str == "Repeated")
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    fill_pixel_points ();
+
+  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+    redraw ();
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+update_gui_main ()
+{
+  if (m_LAB->m_Oscilloscope.is_osc_frontend_running ())
   {
-    disp_mode = LABE::DISPLAY::MODE::REPEATED;
-  }
-  else if (str == "Screen")
-  {
-    disp_mode = LABE::DISPLAY::MODE::SCREEN;
+    m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear ();
+
+    m_LABSoft_Controller->tab_selection_color_toggle (
+      m_LABSoft_GUI->main_fl_group_oscilloscope_tab,
+      true
+    );
   }
   else 
   {
-    return;
+    m_LABSoft_Controller->tab_selection_color_toggle (
+      m_LABSoft_GUI->main_fl_group_oscilloscope_tab,
+      false
+    );
   }
 
-  m_LAB->m_Oscilloscope.display_mode_frontend (disp_mode);
-
-  // Frontend
-  update_horizontal_widgets_gui ();
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    update_time_per_division_labels ();
-  
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_upper_osc_disp_info ();
+  m_LABSoft_Controller->main_tab_selection_color ();
 }
-
 
 void LABSoft_Controller_Oscilloscope:: 
 update_trigger_panel_gui ()
@@ -471,46 +528,6 @@ update_horizontal_widgets_gui ()
   );
 }
 
-void LABSoft_Controller_Oscilloscope:: 
-update_gui_info ()
-{
-
-}
-
-void LABSoft_Controller_Oscilloscope:: 
-update_gui_display_status ()
-{
-  // check if stopped
-  if (!m_LAB->m_Oscilloscope.is_osc_frontend_running ())
-  {
-    m_LABSoft_GUI->oscilloscope_fl_box_display_status->color (
-      static_cast<uint32_t>(LABE::DISPLAY::COLOR::RED)
-    );
-
-    m_LABSoft_GUI->oscilloscope_fl_box_display_status->label ("Stop");
-  }
-  else 
-  {
-    m_LABSoft_GUI->oscilloscope_fl_box_display_status->color (
-      static_cast<uint32_t>(LABE::DISPLAY::COLOR::GREEN)
-    );
-
-    m_LABSoft_GUI->oscilloscope_fl_box_display_status->label ("Auto");
-  }
-}
-
-void LABSoft_Controller_Oscilloscope:: 
-display_update_cycle ()
-{
-  m_LAB->m_Oscilloscope.load_data_samples ();
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    fill_pixel_points ();
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    redraw ();
-}
-
 /**
  * This is needed as the whole definition of the
  * LABSoft_Oscilloscope_Display_Group class is split into two: inside the 
@@ -528,23 +545,31 @@ display_update_cycle ()
 void LABSoft_Controller_Oscilloscope::
 oscilloscope_display_group_init ()
 {
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    m_display_status = m_LABSoft_GUI->oscilloscope_fl_box_display_status;
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    m_upper_info_display = m_LABSoft_GUI->oscilloscope_fl_box_upper_info_display;
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    m_display = m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_display;
-
-
-  // Reposition y-axis labels and label units
   LABSoft_Oscilloscope_Display_Group& group = *(m_LABSoft_GUI->
     oscilloscope_labsoft_oscilloscope_display_group_display);
-  
-  LABSoft_Oscilloscope_Display& disp = *(m_LABSoft_GUI->
-    oscilloscope_labsoft_oscilloscope_display_display);
     
+  // 1. Link widgets from the FLUID file to the 
+  //    LABSoft_Oscilloscope_Display_Group class
+  group.m_display               = m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_display;
+  group.m_display_status        = m_LABSoft_GUI->oscilloscope_fl_box_display_status;
+  group.m_upper_info_display    = m_LABSoft_GUI->oscilloscope_fl_box_upper_info_display;
+  group.m_horizontal_offset     = m_LABSoft_GUI->oscilloscope_fl_slider_horizontal_offset;
+  group.m_vertical_offset       = m_LABSoft_GUI->oscilloscope_fl_slider_vertical_offset;
+  group.m_trigger_level         = m_LABSoft_GUI->oscilloscope_fl_slider_trigger_level;
+  group.m_channel_selectors[0]  = m_LABSoft_GUI->oscilloscope_fl_toggle_button_c1_selector;
+  group.m_channel_selectors[1]  = m_LABSoft_GUI->oscilloscope_fl_toggle_button_c2_selector;
+  
+  // 2. Initialize slider bounds and value
+  group.m_horizontal_offset->bounds  (0, group.m_display->w ());
+  group.m_horizontal_offset->value   (group.m_display->w () / 2.0);
+  group.m_vertical_offset->bounds    (0, group.m_display->h ());
+  group.m_vertical_offset->value     (group.m_display->h () / 2.0);
+  group.m_trigger_level->bounds      (0, group.m_display->h ());
+  group.m_trigger_level->value       (group.m_display->h () / 2.0);
+
+  // 3. Reposition y-axis labels and label units
+  LABSoft_Oscilloscope_Display& disp = *(group.m_display);
+  
   float row_height = (static_cast<float>(disp.h ())) / 
     LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS;
 
@@ -568,7 +593,7 @@ oscilloscope_display_group_init ()
     group.m_y_label_units[chan]->position (x_label_unit, y_label_unit);
   }
 
-  // Reposition x-axis labels 
+  // 4. Reposition x-axis labels 
   float column_width = (static_cast<float>(disp.w ())) / 
     LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
   

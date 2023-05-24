@@ -146,11 +146,8 @@ stop ()
 {
   //m_LAB_Core->pwm_stop (LAB_PWM_DMA_PACING_PWM_CHAN);
   m_parent_data.is_enabled = false;
-
 }
 
-// this changes PWM speed on board!! 
-// verify no other are affected
 void LAB_Logic_Analyzer:: 
 sampling_rate (double value)
 {
@@ -163,7 +160,7 @@ sampling_rate (double value)
 LABE::DISPLAY::MODE LAB_Logic_Analyzer:: 
 display_mode ()
 {
-  return (m_parent_data.disp_mode);
+  return (m_parent_data.display_mode);
 }
 
 void LAB_Logic_Analyzer:: 
@@ -183,8 +180,8 @@ fill_raw_sample_buffer ()
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
-      (void*)(dma_data.rxd[0]),
-      sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
+      const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
+      sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES
     );
   }
   else if (display_mode () == LABE::DISPLAY::MODE::REPEATED)
@@ -195,8 +192,8 @@ fill_raw_sample_buffer ()
       {
         std::memcpy (
           m_parent_data.raw_sample_buffer.data (),
-          (void*)(dma_data.rxd[buff]),
-          sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
+          const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[1])),
+          sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES
         );
       }
 
@@ -233,13 +230,13 @@ time_per_division (double value, unsigned disp_num_cols)
 {
   double            new_samp_count  = calc_samp_count (value, disp_num_cols);
   double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
-  LABE::DISPLAY::MODE  new_disp_mode   = calc_disp_mode  (value);
+  LABE::DISPLAY::MODE  new_display_mode   = calc_display_mode  (value);
 
   m_parent_data.time_per_division = value;
   m_parent_data.w_samp_count      = new_samp_count;
   m_parent_data.sampling_rate     = new_samp_rate;
 
-  //display_mode          (new_disp_mode);
+  //display_mode          (new_display_mode);
   //set_hw_sampling_rate  (m_parent_data.sampling_rate);
 
   return 0;
@@ -275,7 +272,7 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
 }
 
 LABE::DISPLAY::MODE LAB_Logic_Analyzer:: 
-calc_disp_mode (double time_per_div)
+calc_display_mode (double time_per_div)
 {
   if (time_per_div >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_DISP_SCREEN)
   {

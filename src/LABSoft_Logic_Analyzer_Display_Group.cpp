@@ -120,19 +120,10 @@ reserve_pixel_points ()
   }
 }
 
-int LABSoft_Logic_Analyzer_Display_Group::
+void LABSoft_Logic_Analyzer_Display_Group::
 fill_pixel_points ()
 {
-  if (!m_display)
-  {
-    return -1;
-  }
-  else 
-  {
-    m_display->fill_pixel_points ();
-
-    return 1;
-  }
+  m_display->fill_pixel_points ();
 }
 
 void LABSoft_Logic_Analyzer_Display_Group:: 

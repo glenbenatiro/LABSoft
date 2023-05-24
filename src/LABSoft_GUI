@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {2153 135 1365 765} type Double color 55 visible
+      xywh {2166 161 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
@@ -38,7 +38,8 @@ class LABSoft_GUI {open
           xywh {0 0 70 21}
         } {}
       }
-      Fl_Tabs {} {open
+      Fl_Tabs main_fl_tabs {
+        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
         xywh {0 30 1366 738} box FLAT_BOX color 55 selection_color 54
       } {
         Fl_Group {} {
@@ -50,19 +51,10 @@ class LABSoft_GUI {open
             xywh {0 0 1366 768} color 54 selection_color 7 labelsize 60 labelcolor 50
           }
         }
-        Fl_Group {} {
-          label Oscilloscope open
-          xywh {0 60 1366 708} color 54 selection_color 52
+        Fl_Group main_fl_group_oscilloscope_tab {
+          label Oscilloscope
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
-          Fl_Light_Button oscilloscope_fl_light_button_run_stop {
-            label Run
-            callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
-            xywh {1205 95 120 60} box GTK_UP_BOX color 53 selection_color 63 align 16
-          }
-          Fl_Button {} {
-            label Single
-            xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
-          }
           Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
             xywh {24 84 800 660} box FLAT_BOX color 0
             class LABSoft_Oscilloscope_Display_Group
@@ -76,10 +68,40 @@ class LABSoft_GUI {open
               label Ready
               xywh {106 84 90 25} box BORDER_FRAME color 1 labelfont 1 labelsize 10 labelcolor 7
             }
+            Fl_Button oscilloscope_fl_toggle_button_c1_selector {
+              label C1
+              user_data 0 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_channel_selector (0, v);}
+              xywh {200 84 25 25} type Toggle color 3 selection_color 3 labelsize 12
+            }
+            Fl_Button oscilloscope_fl_toggle_button_c2_selector {
+              label C2
+              user_data 1 user_data_type long
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_channel_selector (0, v);}
+              xywh {225 84 25 25} type Toggle color 0 selection_color 6 labelsize 12 labelcolor 6
+            }
             Fl_Box oscilloscope_fl_box_upper_info_display {
               label {2000 samples at 200kHz}
-              xywh {204 84 0 25} color 7 labelsize 10 labelcolor 7 align 8
+              xywh {260 84 0 25} color 7 labelsize 10 labelcolor 7 align 8
             }
+            Fl_Slider oscilloscope_fl_slider_horizontal_offset {
+              xywh {106 109 700 13} type Horizontal box NO_BOX color 0 selection_color 54 labelcolor 8 maximum 4095 step 1 value 2048
+            }
+            Fl_Slider oscilloscope_fl_slider_vertical_offset {
+              xywh {106 109 13 610} box NO_BOX color 0 selection_color 3 labelcolor 8 maximum 4095 step 1 value 2048
+            }
+            Fl_Slider oscilloscope_fl_slider_trigger_level {
+              xywh {793 109 13 610} box NO_BOX color 0 selection_color 3 labelcolor 8 maximum 4095 step 1 value 2048 hide
+            }
+          }
+          Fl_Light_Button oscilloscope_fl_light_button_run_stop {
+            label Run
+            callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
+            xywh {1205 95 120 60} box GTK_UP_BOX color 53 selection_color 63 align 16
+          }
+          Fl_Button {} {
+            label Single
+            xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
             xywh {0 0 1366 768} color 55
@@ -961,7 +983,7 @@ class LABSoft_GUI {open
             }
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
               label Mode
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);}
               xywh {1040 515 120 30} down_box BORDER_BOX color 53 selection_color 53 align 1
             } {
               MenuItem {} {
@@ -979,7 +1001,7 @@ class LABSoft_GUI {open
             }
             Fl_Choice oscilloscope_fl_choice_trigger_source {
               label Source
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_source (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_source (o, v);}
               xywh {1200 515 120 30} down_box BORDER_BOX align 1 deactivate
             } {
               MenuItem {} {
@@ -993,7 +1015,7 @@ class LABSoft_GUI {open
             }
             Fl_Choice oscilloscope_fl_choice_trigger_type {
               label Type
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_type (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_type (o, v);}
               xywh {1040 590 120 30} down_box BORDER_BOX align 1 deactivate
             } {
               MenuItem {} {
@@ -1006,7 +1028,7 @@ class LABSoft_GUI {open
               }
             }
             Fl_Choice oscilloscope_fl_choice_trigger_condition {
-              label Source
+              label Condition
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);}
               xywh {1200 590 120 30} down_box BORDER_BOX align 1 deactivate
             } {
@@ -1177,6 +1199,10 @@ class LABSoft_GUI {open
           label Voltmeter
           xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
+          Fl_Box {} {
+            label {This instrument can only measure DC voltages.}
+            xywh {665 376 35 17} labelsize 12
+          }
           Fl_Light_Button voltmeter_fl_light_button_run_stop {
             label Run
             callback {m_LABSoft_Controller->m_Voltmeter.cb_run_stop (o, v);}
@@ -1189,18 +1215,18 @@ class LABSoft_GUI {open
             Fl_Output voltmeter_fl_output_chan0_value {
               label {Channel 1 DC}
               user_data 0 user_data_type long
-              xywh {305 285 320 60} box GTK_DOWN_BOX color 55 labelsize 18 align 1 textsize 48
+              xywh {310 285 320 60} box GTK_DOWN_BOX color 55 labelsize 18 align 1 textsize 48
             }
             Fl_Output voltmeter_fl_output_chan1_value {
               label {Channel 2 DC}
               user_data 1 user_data_type long
-              xywh {775 285 320 60} box GTK_DOWN_BOX color 55 labelsize 18 align 1 textsize 48
+              xywh {750 285 320 60} box GTK_DOWN_BOX color 55 labelsize 18 align 1 textsize 48
             }
           }
         }
         Fl_Group {} {
-          label {Function Generator}
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label {Function Generator} open
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
@@ -1228,18 +1254,18 @@ class LABSoft_GUI {open
           Fl_Input_Choice function_generator_fl_input_choice_amplitude {
             label Amplitude
             user_data 0 user_data_type long
-            callback {m_LABSoft_Controller->m_Function_Generator.cb_amplitude (o, v);}
+            callback {m_LABSoft_Controller->m_Function_Generator.cb_amplitude (o, v);} open
             xywh {593 140 180 60} box FLAT_BOX color 53 selection_color 53 align 1
             code0 {function_generator_fl_input_choice_amplitude->value (LABSOFT_FUNCTION_GENERATOR_AMPLITUDE);}
             code1 {function_generator_fl_input_choice_amplitude->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code2 {function_generator_fl_input_choice_amplitude->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
           } {
             MenuItem {} {
-              label {5 V}
+              label {3.5 V}
               xywh {10 140 36 21}
             }
             MenuItem {} {
-              label {4 V}
+              label {3.3 V}
               xywh {20 140 36 21}
             }
             MenuItem {} {
@@ -1255,28 +1281,32 @@ class LABSoft_GUI {open
               xywh {50 140 36 21}
             }
             MenuItem {} {
-              label {0 V}
+              label {500 mV}
               xywh {60 140 36 21}
             }
             MenuItem {} {
-              label {-1 V}
-              xywh {70 140 36 21}
+              label {200 mV}
+              xywh {70 150 36 21}
             }
             MenuItem {} {
-              label {-2 V}
-              xywh {80 140 36 21}
+              label {100 mV} selected
+              xywh {80 160 36 21}
             }
             MenuItem {} {
-              label {-3 V}
-              xywh {90 140 36 21}
+              label {50 mV}
+              xywh {90 170 36 21}
             }
             MenuItem {} {
-              label {-4 V}
-              xywh {100 140 36 21}
+              label {20 mV}
+              xywh {100 180 36 21}
             }
             MenuItem {} {
-              label {-5 V}
-              xywh {110 140 36 21}
+              label {1 mV}
+              xywh {110 190 36 21}
+            }
+            MenuItem {} {
+              label {0 V}
+              xywh {150 230 36 21}
             }
           }
           Fl_Input_Choice function_generator_fl_input_choice_frequency {
@@ -1500,7 +1530,7 @@ class LABSoft_GUI {open
           Fl_Input_Choice function_generator_fl_input_choice_offset {
             label {Vertical Offset}
             user_data 0 user_data_type long
-            callback {m_LABSoft_Controller->m_Function_Generator.cb_offset (o, v);}
+            callback {m_LABSoft_Controller->m_Function_Generator.cb_vertical_offset (o, v);}
             xywh {880 240 180 60} box FLAT_BOX color 53 selection_color 53 align 1
             code0 {function_generator_fl_input_choice_offset->value (LABSOFT_FUNCTION_GENERATOR_Y_OFFSET);}
             code1 {function_generator_fl_input_choice_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}

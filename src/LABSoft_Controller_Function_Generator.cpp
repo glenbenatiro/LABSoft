@@ -1,16 +1,36 @@
 #include "LABSoft_Controller_Function_Generator.h"
 
+#include "LabelValue.h"
+#include "LABSoft_Controller.h"
+
 LABSoft_Controller_Function_Generator::
-LABSoft_Controller_Function_Generator (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
-  : m_LAB (_LAB), m_LABSoft_GUI (_LABSoft_GUI)
+LABSoft_Controller_Function_Generator (LAB*                 _LAB, 
+                                       LABSoft_GUI*         _LABSoft_GUI,
+                                       LABSoft_Controller*  _LABSoft_Controller)
+
+  : m_LAB                 (_LAB), 
+    m_LABSoft_GUI         (_LABSoft_GUI),
+    m_LABSoft_Controller  (_LABSoft_Controller)
 {
-  init_gui ();
+
 }
 
 void LABSoft_Controller_Function_Generator:: 
-init_gui ()
+init_state ()
 {
   
+}
+
+void LABSoft_Controller_Function_Generator:: 
+update_gui_frequency_elements ()
+{
+  m_LABSoft_GUI->function_generator_fl_input_choice_frequency->
+    value (LabelValue (m_LAB->m_Function_Generator.frequency (0)).
+    to_label_text (LabelValue::TYPE::HERTZ).c_str ());
+  
+  m_LABSoft_GUI->function_generator_fl_input_choice_period->
+    value (LabelValue (m_LAB->m_Function_Generator.period (0)).
+    to_label_text (LabelValue::TYPE::SECONDS).c_str ());
 }
 
 void LABSoft_Controller_Function_Generator::
@@ -66,8 +86,11 @@ cb_amplitude (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::FUNC_GEN::MIN_AMPLITUDE &&
-      lv.actual_value () <= LABC::FUNC_GEN::MAX_AMPLITUDE)
+    if (LABF::is_within_range (
+      lv.actual_value (),
+      LABC::FUNC_GEN::MIN_AMPLITUDE,
+      LABC::FUNC_GEN::MAX_AMPLITUDE
+    ))
     {
       m_LAB->m_Function_Generator.amplitude (channel, lv.actual_value ());
     }
@@ -90,15 +113,17 @@ cb_frequency (Fl_Input_Choice *w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::FUNC_GEN::MIN_FREQUENCY &&
-      lv.actual_value () <= LABC::FUNC_GEN::MAX_FREQUENCY)
+    if (LABF::is_within_range (
+      lv.actual_value (), 
+      LABC::FUNC_GEN::MIN_FREQUENCY,
+      LABC::FUNC_GEN::MAX_FREQUENCY
+    ))
     {
       m_LAB->m_Function_Generator.frequency (channel, lv.actual_value ());
     }
   }
 
-  w->value (LabelValue (m_LAB->m_Function_Generator.frequency (channel)).
-    to_label_text (LabelValue::TYPE::HERTZ).c_str ());
+  update_gui_frequency_elements ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -110,18 +135,20 @@ cb_period (Fl_Input_Choice* w,
     m_LAB->m_Function_Generator.period (channel),
     LabelValue::TYPE::SECONDS
   );
-
+  
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::FUNC_GEN::MIN_PERIOD &&
-      lv.actual_value () <= LABC::FUNC_GEN::MAX_PERIOD)
+    if (LABF::is_within_range (
+      lv.actual_value (), 
+      LABC::FUNC_GEN::MIN_PERIOD,
+      LABC::FUNC_GEN::MAX_PERIOD
+    ))
     {
       m_LAB->m_Function_Generator.period (channel, lv.actual_value ());
     }
   }
 
-  w->value (LabelValue (m_LAB->m_Function_Generator.period (channel)).
-    to_label_text (LabelValue::TYPE::SECONDS).c_str ());
+  update_gui_frequency_elements ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -136,8 +163,11 @@ cb_phase (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::FUNC_GEN::MIN_PHASE &&
-      lv.actual_value () <= LABC::FUNC_GEN::MAX_PHASE)
+    if (LABF::is_within_range (
+      lv.actual_value (), 
+      LABC::FUNC_GEN::MIN_PHASE,
+      LABC::FUNC_GEN::MAX_PHASE
+    ))
     {
       m_LAB->m_Function_Generator.phase (channel, lv.actual_value ());
     }
@@ -149,8 +179,8 @@ cb_phase (Fl_Input_Choice* w,
 
 
 void LABSoft_Controller_Function_Generator:: 
-cb_offset (Fl_Input_Choice* w, 
-           long             channel)
+cb_vertical_offset (Fl_Input_Choice*  w, 
+                    long              channel)
 {
   LabelValue lv (
     w->value (),
@@ -160,8 +190,11 @@ cb_offset (Fl_Input_Choice* w,
 
   if (lv.is_valid_label_text ())
   {
-    if (lv.actual_value () >= LABC::FUNC_GEN::MIN_VERTICAL_OFFSET &&
-      lv.actual_value () <= LABC::FUNC_GEN::MAX_VERTICAL_OFFSET)
+    if (LABF::is_within_range (
+      lv.actual_value (), 
+      LABC::FUNC_GEN::MIN_VERTICAL_OFFSET,
+      LABC::FUNC_GEN::MAX_VERTICAL_OFFSET
+    ))
     {
       m_LAB->m_Function_Generator.vertical_offset (channel, lv.actual_value ());
     }

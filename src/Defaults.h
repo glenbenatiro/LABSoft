@@ -12,12 +12,14 @@
 
 #include "../lib/AikaPi/AikaPi.h"
 #include "../lib/AD9833/AD9833.h"
+#include "../lib/MCP4XXX/MCP4XXX.h"
 
 // LAB Functions
 namespace LABF
 {
   bool compare_double   (double a, double b, double epsilon = 1e-9);
   bool is_within_range  (double value, double min, double max);
+  int  normalize        (int input, int min_input, int max_input, int min_output, int max_output);
 };
 
 // LAB Enumerations
@@ -87,6 +89,17 @@ namespace LABE
       DC = 0,
       AC = 1
     };
+
+    enum class STATUS
+    {
+      READY,
+      STOP,
+      CONFIG,
+      AUTO,
+      ARMED,
+      TRIGGERED,
+    };
+  
   };
 
   namespace FUNC_GEN
@@ -109,15 +122,21 @@ namespace LABC
   namespace LABSOFT
   {
     constexpr float DISPLAY_UPDATE_RATE = 1.0 / 25.0; // 25 fps
+
+    enum class FL_TAB_GROUP_COLOR : uint32_t
+    {
+      GREEN   = 63,
+      DEFAULT = 53
+    };
   }
 
   namespace PIN
   {
     // Oscilloscope
-    constexpr unsigned OSC_MUX_SCALER_A0_CHAN_0   = 27;
-    constexpr unsigned OSC_MUX_SCALER_A1_CHAN_0   = 22;
-    constexpr unsigned OSC_MUX_SCALER_A0_CHAN_1   = 23;
-    constexpr unsigned OSC_MUX_SCALER_A1_CHAN_1   = 24;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A0   = 27;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A1   = 22;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A0   = 23;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A1   = 24;
     constexpr unsigned OSC_COUPLING_SELECT_CHAN_0 = 14;
     constexpr unsigned OSC_COUPLING_SELECT_CHAN_1 = 15; 
   
@@ -192,6 +211,13 @@ namespace LABC
   namespace DISPLAY
   {
     constexpr int DISPLAY_STATUS_BOX_TYPE = FL_BORDER_FRAME;
+
+    static constexpr uint32_t CHAN_COLORS[] = {
+      3, // yellow
+      6, // cyan
+      2, // green
+      5, // purple
+    };
   };
 
   namespace OSC_DISPLAY
@@ -213,37 +239,6 @@ namespace LABC
     constexpr unsigned                  NUMBER_OF_BUFFERS             = 2;
     constexpr unsigned                  VC_MEM_SIZE                   = AP::RPI::PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH);
 
-    // Vertical
-    constexpr LABE::OSC::COUPLING       COUPLING                      = LABE::OSC::COUPLING::DC;
-    constexpr double                    MIN_VOLTAGE_PER_DIVISION      = 0.0001;
-    constexpr double                    MAX_VOLTAGE_PER_DIVISION      = 5.0;
-    constexpr double                    VOLTAGE_PER_DIVISION          = 1.0;
-    constexpr double                    MIN_VERTICAL_OFFSET           = -1.0 * MAX_VOLTAGE_PER_DIVISION * (OSC_DISPLAY::NUMBER_OF_ROWS / 2);
-    constexpr double                    MAX_VERTICAL_OFFSET           = -1.0 * MIN_VERTICAL_OFFSET;
-    constexpr double                    VERTICAL_OFFSET               = 0.0;
-    constexpr LABE::OSC::SCALING        SCALING                       = LABE::OSC::SCALING::UNITY;
-
-    // Horizontal
-    constexpr double                    MIN_TIME_PER_DIVISION         = 0.000001; // 1us
-    constexpr double                    MAX_TIME_PER_DIVISION         = 30.0;     // 30s
-    constexpr double                    TIME_PER_DIVISION             = 0.005;    
-    constexpr double                    MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    constexpr double                    MAX_SAMPLING_RATE             = 200'000;
-    constexpr double                    SAMPLING_RATE                 = NUMBER_OF_SAMPLES / (TIME_PER_DIVISION * OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    constexpr double                    MIN_HORIZONTAL_OFFSET         = -100.0; // -100s
-    constexpr double                    MAX_HORIZONTAL_OFFSET         = 100.0;  // +100s  
-    constexpr double                    HORIZONTAL_OFFSET             = 0.0;
-
-    // Trigger
-    constexpr LABE::OSC::TRIG::MODE     TRIGGER_MODE                  = LABE::OSC::TRIG::MODE::NONE;
-    constexpr unsigned                  TRIGGER_SOURCE                = 0; // Channel 1
-    constexpr LABE::OSC::TRIG::TYPE     TRIGGER_TYPE                  = LABE::OSC::TRIG::TYPE::EDGE;
-    constexpr LABE::OSC::TRIG::CND      TRIGGER_CONDITION             = LABE::OSC::TRIG::CND::RISING;
-    constexpr double                    MIN_TRIGGER_LEVEL             = MIN_VERTICAL_OFFSET;
-    constexpr double                    MAX_TRIGGER_LEVEL             = MAX_VERTICAL_OFFSET;
-    constexpr double                    TRIGGER_LEVEL                 = 0.0;
-    constexpr double                    FIND_TRIGGER_TIMEOUT          = 2; // seconds
-
     // ADC Info and Conversions   
     constexpr unsigned                  ADC_RESOLUTION_BITS           = 12; // MCP33111
     constexpr unsigned                  ADC_RESOLUTION_INT            = std::pow (2, ADC_RESOLUTION_BITS);  // 4096
@@ -254,6 +249,40 @@ namespace LABC
     constexpr uint32_t                  RAW_DATA_POST_SHIFT_MASK      = ((std::pow (2, RAW_DATA_SHIFT_BIT_COUNT)) - 1);
     constexpr unsigned                  ADC_SPI_CHIP_ENABLE           = 0;
 
+    // Vertical
+    constexpr LABE::OSC::COUPLING       COUPLING                      = LABE::OSC::COUPLING::DC;
+    constexpr double                    MAX_VOLTAGE_PER_DIVISION      = 5.0;    // 5 V
+    constexpr double                    MIN_VOLTAGE_PER_DIVISION      = 0.0001; // 100 uV
+    constexpr double                    VOLTAGE_PER_DIVISION          = 1.0;    // 1 V
+    constexpr double                    MAX_VERTICAL_OFFSET           = MAX_VOLTAGE_PER_DIVISION * 
+                                                                          (OSC_DISPLAY::NUMBER_OF_ROWS / 2.0); // 25 V
+    constexpr double                    MIN_VERTICAL_OFFSET           = -1.0 * MAX_VERTICAL_OFFSET; // -25 V
+    constexpr double                    VERTICAL_OFFSET               = 0.0;
+    constexpr LABE::OSC::SCALING        SCALING                       = LABE::OSC::SCALING::UNITY;
+
+    // Horizontal
+    constexpr double                    MAX_TIME_PER_DIVISION         = 30.0;     // 30s
+    constexpr double                    MIN_TIME_PER_DIVISION         = 0.000001; // 1us
+    constexpr double                    MAX_SAMPLING_RATE             = 200'000;  // 200 kHz
+    constexpr double                    MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * 
+                                                                          OSC_DISPLAY::NUMBER_OF_COLUMNS); // 6.67 Hz
+    constexpr double                    SAMPLING_RATE                 = 40'000;   // 40 kHz
+    constexpr double                    TIME_PER_DIVISION             = NUMBER_OF_SAMPLES / (SAMPLING_RATE *
+                                                                          OSC_DISPLAY::NUMBER_OF_COLUMNS); // 5 ms
+    constexpr double                    MAX_HORIZONTAL_OFFSET         = 100.0;    // +100s
+    constexpr double                    MIN_HORIZONTAL_OFFSET         = -100.0;   // -100s
+    constexpr double                    HORIZONTAL_OFFSET             = 0.0;
+
+    // Trigger
+    constexpr LABE::OSC::TRIG::MODE     TRIGGER_MODE                  = LABE::OSC::TRIG::MODE::NONE;
+    constexpr unsigned                  TRIGGER_SOURCE                = 0; // Channel 1
+    constexpr LABE::OSC::TRIG::TYPE     TRIGGER_TYPE                  = LABE::OSC::TRIG::TYPE::EDGE;
+    constexpr LABE::OSC::TRIG::CND      TRIGGER_CONDITION             = LABE::OSC::TRIG::CND::RISING;
+    constexpr double                    MAX_TRIGGER_LEVEL             = MAX_VERTICAL_OFFSET;
+    constexpr double                    MIN_TRIGGER_LEVEL             = MIN_VERTICAL_OFFSET;
+    constexpr double                    TRIGGER_LEVEL                 = 0.0;
+    constexpr double                    FIND_TRIGGER_TIMEOUT          = 2; // seconds
+
     // Display
     constexpr LABE::DISPLAY::MODE       OSC_DISP_MODE                 = LABE::DISPLAY::MODE::REPEATED;
     constexpr double                    MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * OSC_DISPLAY::NUMBER_OF_COLUMNS);
@@ -262,28 +291,44 @@ namespace LABC
 
   namespace FUNC_GEN
   {
-    constexpr unsigned                  NUMBER_OF_CHANNELS            = 1;
-    constexpr double                    MIN_AMPLITUDE_DIGI_POT        = -3.3; // V
-    constexpr double                    MAX_AMPLITUDE_DIGI_POT        =  3.3; // V
-    constexpr double                    MIN_AMPLITUDE                 = MIN_AMPLITUDE_DIGI_POT; // V
-    constexpr double                    MAX_AMPLITUDE                 = MAX_AMPLITUDE_DIGI_POT; // V
-    constexpr double                    MIN_FREQUENCY                 = AD9833::MIN_FREQUENCY; // Hz
-    constexpr double                    MAX_FREQUENCY                 = AD9833::MAX_FREQUENCY; // Hz
-    constexpr double                    MIN_PERIOD                    = 1.0 / MAX_FREQUENCY; // s
-    constexpr double                    MAX_PERIOD                    = 1.0 / MIN_FREQUENCY; // s
-    constexpr double                    MIN_PHASE                     = -360.0; // degrees
-    constexpr double                    MAX_PHASE                     =  360.0; // degrees
-    constexpr double                    MIN_VERTICAL_OFFSET           = -5.0; // V
-    constexpr double                    MAX_VERTICAL_OFFSET           =  5.0; // V
+    constexpr unsigned                  NUMBER_OF_CHANNELS      = 1;
+    constexpr double                    MAX_AMPLITUDE_DIGI_POT  = MCP4XXX::MAX_AMPLITUDE; // V
+    constexpr double                    MIN_AMPLITUDE_DIGI_POT  = MCP4XXX::MIN_AMPLITUDE; // V
+    constexpr double                    MAX_AMPLITUDE           = MCP4XXX::MAX_VDD_VOLTAGE_WRT_VSS; // V
+    constexpr double                    MIN_AMPLITUDE           = 0.1; // 100 mV
+    constexpr double                    MAX_FREQUENCY           = AD9833::MAX_FREQUENCY;  // Hz
+    constexpr double                    MIN_FREQUENCY           = AD9833::MIN_FREQUENCY;  // Hz
+    constexpr double                    MAX_PERIOD              = 1.0 / MIN_FREQUENCY;    // s
+    constexpr double                    MIN_PERIOD              = 1.0 / MAX_FREQUENCY;    // s
+    constexpr double                    MAX_PHASE               = 360.0;                  // degrees
+    constexpr double                    MIN_PHASE               = -360.0;                 // degrees
+    constexpr double                    MAX_VERTICAL_OFFSET     = 10075;                    // V
+    constexpr double                    MIN_VERTICAL_OFFSET     = 75;                   // V
 
-    constexpr LABE::FUNC_GEN::WAVE_TYPE WAVE_TYPE                     = LABE::FUNC_GEN::WAVE_TYPE::SINE;
-    constexpr double                    AMPLITUDE                     = 1.0;
-    constexpr double                    FREQUENCY                     = 1'000.0;
-    constexpr double                    PERIOD                        = 1.0 / FREQUENCY;
-    constexpr double                    PHASE                         = 0.0;
-    constexpr double                    VERTICAL_OFFSET               = 0.0;
+    constexpr LABE::FUNC_GEN::WAVE_TYPE WAVE_TYPE               = LABE::FUNC_GEN::WAVE_TYPE::SINE;
+    constexpr double                    AMPLITUDE               = 1.0;
+    constexpr double                    FREQUENCY               = 1'000.0;
+    constexpr double                    PERIOD                  = 1.0 / FREQUENCY;
+    constexpr double                    PHASE                   = 0.0;
+    constexpr double                    VERTICAL_OFFSET         = 0.0;
 
-    constexpr double                    IC_FREQUENCY                  = 100'000.0; // Hz
+    constexpr double                    IC_FREQUENCY            = 100'000.0;  // Hz
+
+    // see differential amplifier diagram here
+    // https://en.wikipedia.org/wiki/Operational_amplifier_applications#Differential_amplifier_.28difference_amplifier.29
+
+    constexpr double                    R1_RESISTANCE           = 1'000.0;  // ohms
+    constexpr double                    RF_RESISTANCE           = 1'000.0;  // ohms
+    constexpr double                    V1                      = 5.0;      // V   
+    constexpr double                    V2                      = 5.0;      // V
+    constexpr double                    ROFF_RESISTANCE         = static_cast<uint32_t>
+                                                                    (MCP4XXX::RESISTANCE_VERSION::_103); 
+                                                                 // total offset digi pot resistance       
+  };
+
+  namespace LOGAN
+  {
+    constexpr unsigned NUMBER_OF_SAMPLES = 2'000;
   };
 };
 
@@ -366,6 +411,7 @@ class LAB_Parent_Data_Oscilloscope
     // State 
     bool                  is_osc_core_running     = false; 
     bool                  is_osc_frontend_running = false;
+    LABE::OSC::STATUS     status                  = LABE::OSC::STATUS::READY;
 
     // Horizontal
     double                time_per_division       = LABC::OSC::TIME_PER_DIVISION;
@@ -373,7 +419,7 @@ class LAB_Parent_Data_Oscilloscope
     double                horizontal_offset       = LABC::OSC::HORIZONTAL_OFFSET;
 
     // Display
-    LABE::DISPLAY::MODE   disp_mode               = LABC::OSC::OSC_DISP_MODE;
+    LABE::DISPLAY::MODE   display_mode            = LABC::OSC::OSC_DISP_MODE;
 
     // Data/Samples
     double                w_samp_count            = LABC::OSC::NUMBER_OF_SAMPLES;
@@ -395,6 +441,7 @@ class LAB_Parent_Data_Oscilloscope
     LABE::OSC::TRIG::CND  trig_condition          = LABC::OSC::TRIGGER_CONDITION;
     double                trig_level              = LABC::OSC::TRIGGER_LEVEL;
     uint32_t              trig_level_bits         = (LABC::OSC::ADC_RESOLUTION_INT - 1) / 2;
+    unsigned              find_trig_sample_skip   = 4;
 
     unsigned              trig_buffer             = 0;
     unsigned              trig_index              = 0;
@@ -508,10 +555,13 @@ struct LAB_Channel_Data_Function_Generator
   double                    amplitude       = LABC::FUNC_GEN::AMPLITUDE;
   double                    vertical_offset = LABC::FUNC_GEN::VERTICAL_OFFSET;
   double                    phase           = LABC::FUNC_GEN::PHASE;
+  double                    Rf              = LABC::FUNC_GEN::RF_RESISTANCE;
 };
 
 struct LAB_Parent_Data_Function_Generator
 {
+  bool is_enabled = false;
+
   std::array <LAB_Channel_Data_Function_Generator, LABC::FUNC_GEN::NUMBER_OF_CHANNELS> channel_data;
 };
 
@@ -604,13 +654,15 @@ class LAB_Parent_Data_Logic_Analyzer
     double    horizontal_offset   = 0.0;
     unsigned  w_samp_count        = LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES;
 
-    std::array <uint32_t, 
-      LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES>   raw_sample_buffer;
+    std::array <
+      uint32_t, 
+      LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES
+    > raw_sample_buffer;
       
     std::array <LAB_Channel_Data_Logic_Analyzer, 
       LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS>  channel_data;
 
-    LABE::DISPLAY::MODE disp_mode  = LABE::DISPLAY::MODE::REPEATED;
+    LABE::DISPLAY::MODE display_mode  = LABE::DISPLAY::MODE::REPEATED;
 };
 
 struct LAB_DMA_Data_Logic_Analyzer

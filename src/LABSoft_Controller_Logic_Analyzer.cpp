@@ -1,14 +1,17 @@
 #include "LABSoft_Controller_Logic_Analyzer.h"
 
 #include "Defaults.h"
+#include "LabelValue.h"
+#include "LABSoft_Controller.h"
 
 LABSoft_Controller_Logic_Analyzer:: 
-LABSoft_Controller_Logic_Analyzer (LAB         *_LAB, 
-                                   LABSoft_GUI *_LABSoft_GUI)
+LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB, 
+                                   LABSoft_GUI*         _LABSoft_GUI,
+                                   LABSoft_Controller*  _LABSoft_Controller)
+  : m_LAB                 (_LAB),
+    m_LABSoft_GUI         (_LABSoft_GUI),
+    m_LABSoft_Controller  (_LABSoft_Controller)
 {
-  m_LAB = _LAB;
-  m_LABSoft_GUI = _LABSoft_GUI;
-  
   // Link the LAB_Logic_Analyzer_Parent_Data struct from LAB_Logic_Analyzer
   // to the LABSoft_Logic_Analyzer_Display_Group class in the GUI
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
