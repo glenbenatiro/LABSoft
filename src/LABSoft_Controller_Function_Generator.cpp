@@ -33,6 +33,15 @@ update_gui_frequency_elements ()
     to_label_text (LabelValue::TYPE::SECONDS).c_str ());
 }
 
+void LABSoft_Controller_Function_Generator:: 
+update_gui_main (bool value)
+{
+  m_LABSoft_Controller->tab_selection_color_toggle (
+    m_LABSoft_GUI->main_fl_group_function_generator_tab,
+    value
+  );
+}
+
 void LABSoft_Controller_Function_Generator::
 cb_run_stop (Fl_Light_Button* w, 
              long             channel)
@@ -40,10 +49,12 @@ cb_run_stop (Fl_Light_Button* w,
   if (w->value () == 0)
   {
     m_LAB->m_Function_Generator.stop (channel);
+    update_gui_main (false);
   }
   else
   {
     m_LAB->m_Function_Generator.run (channel);
+    update_gui_main (true);
   }
 }
 

@@ -178,3 +178,16 @@ void LABSoft_Controller_Circuit_Checker::
         }
     }
 }
+
+void LABSoft_Controller_Circuit_Checker:: 
+update_gui_main (bool value)
+{
+  {
+    m_LABSoft_Controller->tab_selection_color_toggle (
+      m_LABSoft_GUI->main_fl_group_function_generator_tab,
+      value
+    );
+  }
+}
+
+// EOF

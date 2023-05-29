@@ -15,20 +15,24 @@ LAB_Voltmeter (LAB_Core* _LAB_Core,
 void LAB_Voltmeter:: 
 run ()
 {
-  LAB_Oscilloscope& osc = m_LAB->m_Oscilloscope;
+  LAB_Oscilloscope& osc = m_LAB->m_Oscilloscope; 
 
   if (osc.is_osc_frontend_running ())
   {
     osc.osc_frontend_run_stop (false);
   }
 
-  if (! (osc.is_osc_core_running ()))
+  if (!osc.is_osc_core_running ())
   {
     osc.osc_core_run_stop (true);
   }
 
-  osc.sampling_rate (LABC::OSC::MAX_SAMPLING_RATE);
-  m_is_running = true; 
+  m_LAB_Core->pwm.frequency (
+    LABC::PWM::DMA_PACING_CHAN,
+    LABC::VOLTMETER::SAMPLING_RATE
+  );
+
+  m_is_running = true;
 }
 
 void LAB_Voltmeter:: 

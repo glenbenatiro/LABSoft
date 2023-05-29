@@ -10,6 +10,10 @@ Fl_Menu_Item menu_[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
+Fl_Button *simple_dc_fl_button_generate_file=(Fl_Button *)0;
+
+Fl_Input_Choice *simple_dc_fl_input_choice_amplitude=(Fl_Input_Choice *)0;
+
 Fl_Group *simple_wizard_fl_group_output=(Fl_Group *)0;
 
 Fl_Choice *simple_wizard_fl_input_choice_output_type=(Fl_Choice *)0;
@@ -68,10 +72,46 @@ int main(int argc, char **argv) {
         o->hide();
         o->end();
       } // Fl_Group* o
-      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Simple Wizard");
+      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Simple DC");
         o->box(FL_FLAT_BOX);
         o->color(FL_LIGHT3);
         o->selection_color((Fl_Color)53);
+        { simple_dc_fl_button_generate_file = new Fl_Button(563, 500, 240, 60, "Generate Circuit Checker File");
+          simple_dc_fl_button_generate_file->box(FL_GTK_UP_BOX);
+          simple_dc_fl_button_generate_file->color((Fl_Color)53);
+          simple_dc_fl_button_generate_file->align(Fl_Align(FL_ALIGN_WRAP));
+        } // Fl_Button* simple_dc_fl_button_generate_file
+        { Fl_Group* o = new Fl_Group(295, 246, 240, 120, "Input");
+          o->box(FL_FLAT_BOX);
+          o->color((Fl_Color)53);
+          { simple_dc_fl_input_choice_amplitude = new Fl_Input_Choice(355, 291, 120, 30, "Amplitude");
+            simple_dc_fl_input_choice_amplitude->align(Fl_Align(FL_ALIGN_TOP));
+          } // Fl_Input_Choice* simple_dc_fl_input_choice_amplitude
+          o->end();
+        } // Fl_Group* o
+        { Fl_Group* o = new Fl_Group(563, 246, 240, 120, "Output");
+          o->box(FL_FLAT_BOX);
+          o->color((Fl_Color)53);
+          { Fl_Input_Choice* o = new Fl_Input_Choice(623, 291, 120, 30, "Amplitude");
+            o->align(Fl_Align(FL_ALIGN_TOP));
+          } // Fl_Input_Choice* o
+          o->end();
+        } // Fl_Group* o
+        { Fl_Group* o = new Fl_Group(830, 246, 240, 120, "Settings");
+          o->box(FL_FLAT_BOX);
+          o->color((Fl_Color)53);
+          { Fl_Input_Choice* o = new Fl_Input_Choice(890, 291, 120, 30, "Threshold");
+            o->align(Fl_Align(FL_ALIGN_TOP));
+          } // Fl_Input_Choice* o
+          o->end();
+        } // Fl_Group* o
+        o->end();
+      } // Fl_Group* o
+      { Fl_Group* o = new Fl_Group(0, 60, 1366, 708, "Simple Waveform");
+        o->box(FL_FLAT_BOX);
+        o->color(FL_LIGHT3);
+        o->selection_color((Fl_Color)53);
+        o->hide();
         { simple_wizard_fl_group_output = new Fl_Group(170, 160, 250, 440, "Output");
           simple_wizard_fl_group_output->box(FL_FLAT_BOX);
           simple_wizard_fl_group_output->color(FL_LIGHT2);

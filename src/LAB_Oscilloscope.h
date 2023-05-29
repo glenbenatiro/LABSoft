@@ -32,6 +32,7 @@ class LAB_Oscilloscope
 
     // State 
     void                update_status                   ();
+    void                status                          (LABE::OSC::STATUS _STATUS);
   
     // Horizontal 
     double              calc_samp_count                 (double time_per_division, unsigned osc_disp_num_cols);
@@ -50,15 +51,16 @@ class LAB_Oscilloscope
     // Other
     void                set_hw_sampling_rate            (double value);
     bool                is_raw_buffer_being_written     (unsigned buff);
+    void                clear_dma_interrupt_flag        (unsigned dma_chan);
 
-    // Data annd conversion
+    // Data and conversion
     void                fill_raw_sample_buffer          ();
     void                parse_raw_sample_buffer         ();
-    constexpr double    conv_raw_samp_buff_samp         (uint32_t sample, unsigned channel);
-    constexpr double    conv_raw_samp_buff_arrange_bits (uint32_t sample, unsigned channel);
-    constexpr uint32_t  extract_chan_raw_samp_buff_samp (uint32_t sample, unsigned channel);
-    constexpr uint32_t  arrange_raw_chan_bits           (uint32_t sample);
-    constexpr double    arranged_bits_to_actual_value   (uint32_t abs_arranged_bits, bool sign);
+    constexpr double    conv_raw_buff_get_actual_value  (uint32_t sample, unsigned channel);
+    constexpr uint32_t  conv_raw_buff_get_arranged_bits (uint32_t sample, unsigned channel);
+    constexpr uint32_t  conv_raw_buff_xtract_chan       (uint32_t sample, unsigned channel);
+    constexpr uint32_t  conv_raw_buff_arrange_bits      (uint32_t sample);
+    constexpr double    conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, bool sign);
 
   public:
     LAB_Parent_Data_Oscilloscope  m_parent_data;
@@ -72,6 +74,7 @@ class LAB_Oscilloscope
     void                  stop                    ();  
     void                  osc_core_run_stop       (bool value);
     void                  osc_frontend_run_stop   (bool value);
+    void                  single                  ();
     
     // Vertical
     void                  channel_enable_disable  (unsigned channel, bool value);

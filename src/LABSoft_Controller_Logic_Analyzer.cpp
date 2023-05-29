@@ -15,7 +15,7 @@ LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB,
   // Link the LAB_Logic_Analyzer_Parent_Data struct from LAB_Logic_Analyzer
   // to the LABSoft_Logic_Analyzer_Display_Group class in the GUI
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-    load_logan_parent_data (&(m_LAB->m_Logic_Analyzer.m_parent_data));
+    load_logan_parent_data (m_LAB->m_Logic_Analyzer.m_parent_data);
   
   // reserve() the pixel point vectors in the LAB_Logic_Analyzer_Parent_Data
   // struct 
@@ -25,15 +25,17 @@ LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB,
 
 void LABSoft_Controller_Logic_Analyzer:: 
 cb_run_stop (Fl_Light_Button* w,
-            void*             data)
+             void*            data)
 {
   if (w->value () == 0)
   {
     m_LAB->m_Logic_Analyzer.stop ();
+    update_gui_main (false);
   }
   else 
   {
     m_LAB->m_Logic_Analyzer.run ();
+    update_gui_main (true);
   }
 }
 
@@ -93,6 +95,15 @@ display_update_cycle ()
 
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
     redraw ();
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+update_gui_main (bool value)
+{
+  m_LABSoft_Controller->tab_selection_color_toggle (
+    m_LABSoft_GUI->main_fl_group_logic_analyzer_tab,
+    value
+  );
 }
 
 // EOF

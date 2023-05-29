@@ -7,10 +7,13 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
+#include <FL/Fl_Button.H>
+extern Fl_Button *simple_dc_fl_button_generate_file;
+#include <FL/Fl_Input_Choice.H>
+extern Fl_Input_Choice *simple_dc_fl_input_choice_amplitude;
 extern Fl_Group *simple_wizard_fl_group_output;
 #include <FL/Fl_Choice.H>
 extern Fl_Choice *simple_wizard_fl_input_choice_output_type;
-#include <FL/Fl_Input_Choice.H>
 extern Fl_Input_Choice *simple_wizard_fl_input_choice_output_amplitude;
 extern Fl_Input_Choice *simple_wizard_fl_input_choice_output_frequency;
 extern Fl_Input_Choice *simple_wizard_fl_input_choice_output_duration;
@@ -19,7 +22,6 @@ extern Fl_Choice *simple_wizard_fl_choice_input_type;
 extern Fl_Input_Choice *simple_wizard_fl_input_choice_input_amplitude;
 extern Fl_Input_Choice *simple_wizard_fl_input_choice_input_frequency;
 extern Fl_Input_Choice *simple_wizard_fl_input_choice_input_duration;
-#include <FL/Fl_Button.H>
 extern Fl_Button *simple_wizard_fl_button_generate;
 extern Fl_Menu_Item menu_[];
 extern Fl_Menu_Item menu_simple_wizard_fl_input_choice_output_type[];

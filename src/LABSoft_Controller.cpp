@@ -61,14 +61,12 @@ main_tab_selection_color ()
     m_LABSoft_GUI->main_fl_tabs->value ()->selection_color ()
   );
 
-  m_LABSoft_GUI->main_fl_window->redraw ();
+  m_LABSoft_GUI->main_fl_tabs->redraw ();
 }
 
 void LABSoft_Controller:: 
 cb_main_fl_tabs (Fl_Tabs* w,
                  void*    data)
 {
-  // w->selection_color (w->value ()->selection_color ());
-
   main_tab_selection_color ();
 }

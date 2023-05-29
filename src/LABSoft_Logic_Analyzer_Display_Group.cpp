@@ -98,26 +98,17 @@ draw ()
 }
 
 void LABSoft_Logic_Analyzer_Display_Group::
-load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer *parent_data)
+load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer& parent_data)
 {
-  m_parent_data_logan = parent_data;
+  m_parent_data_logan = &parent_data;
 
   m_display->load_logan_parent_data (parent_data);
 }
 
-int LABSoft_Logic_Analyzer_Display_Group::
+void LABSoft_Logic_Analyzer_Display_Group::
 reserve_pixel_points ()
 {
-  if (!m_display)
-  {
-    return -1;
-  }
-  else 
-  {
-    m_display->reserve_pixel_points ();
-
-    return 1;
-  }
+  m_display->reserve_pixel_points ();
 }
 
 void LABSoft_Logic_Analyzer_Display_Group::

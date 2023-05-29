@@ -31,8 +31,8 @@ class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
     void draw ();
 
     // Load data
-    void  load_logan_parent_data  (LAB_Parent_Data_Logic_Analyzer *parent_data);
-    int   reserve_pixel_points    ();
+    void  load_logan_parent_data  (LAB_Parent_Data_Logic_Analyzer& parent_data);
+    void   reserve_pixel_points    ();
     void  fill_pixel_points       ();
 
     // Update data

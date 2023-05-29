@@ -76,6 +76,7 @@ draw ()
 
   draw_box      (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::BACKGROUND_COLOR);
   draw_children ();
+
   m_display->redraw ();
 }
 
@@ -99,15 +100,6 @@ fill_pixel_points ()
   m_display->fill_pixel_points ();
 }
 
-void LABSoft_Oscilloscope_Display_Group:: 
-update_voltage_per_division_labels ()
-{
-  for (int chan = 0; chan < m_parent_data_osc->channel_data.size (); chan++)
-  {
-    update_voltage_per_division_labels (chan);
-  }
-}
-
 double LABSoft_Oscilloscope_Display_Group:: 
 calc_row_voltage_per_division (int                            row, 
                                unsigned                       number_of_rows,
@@ -125,47 +117,6 @@ calc_row_voltage_per_division (int                            row,
   }
 
   return (row_vpd);
-}
-
-
-void LABSoft_Oscilloscope_Display_Group:: 
-update_voltage_per_division_labels (unsigned channel)
-{
-  if (m_parent_data_osc->channel_data[channel].is_enabled)
-  {
-    LAB_Channel_Data_Oscilloscope& chan = m_parent_data_osc->channel_data[channel];
-
-    for (int a = 0; a < m_y_labels[channel].size (); a++)
-    {
-      double row_vpd = calc_row_voltage_per_division (a,
-        LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS, chan);
-      
-      LabelValue lv (row_vpd, LabelValue::TYPE::VOLTS);
-
-      if (a == 0)
-      {
-        LabelValue unit_ref = lv; 
-
-        std::stringstream ss;
-        ss << unit_ref.unit_prefix () << unit_ref.label_for ();
-
-        m_y_label_units[channel]->copy_label (ss.str ().c_str ());
-        m_y_label_units[channel]->show ();
-      }
-
-      m_y_labels[channel][a]->copy_label (lv.short_value ().c_str ());
-      m_y_labels[channel][a]->show ();
-    }
-  }
-  else 
-  {
-    m_y_label_units[channel]->hide ();
-
-    for (int a = 0; a < m_y_labels[channel].size (); a++)
-    {
-      m_y_labels[channel][a]->hide ();
-    }
-  }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
@@ -201,7 +152,7 @@ update_upper_osc_disp_info ()
 void LABSoft_Oscilloscope_Display_Group:: 
 update_all_display_information ()
 {
-  update_voltage_per_division_labels  ();
+  update_gui_voltage_per_division  ();
   update_time_per_division_labels     ();
   update_upper_osc_disp_info          ();
 }
@@ -246,6 +197,12 @@ update_display_status ()
 
       break;
     }
+
+    case (LABE::OSC::STATUS::DONE):
+    {
+      m_display_status->label ("Done");
+      m_display_status->color (static_cast<uint32_t>(LABE::DISPLAY::COLOR::RED));
+    }
   }
 }
 
@@ -286,6 +243,62 @@ update_gui_vertical_offset ()
   {
     m_vertical_offset->hide ();
   }
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_gui_voltage_per_division (unsigned channel)
+{
+  if (m_parent_data_osc->channel_data[channel].is_enabled)
+  {
+    LAB_Channel_Data_Oscilloscope& chan = m_parent_data_osc->channel_data[channel];
+
+    for (int a = 0; a < m_y_labels[channel].size (); a++)
+    {
+      double row_vpd = calc_row_voltage_per_division (a,
+        LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS, chan);
+      
+      LabelValue lv (row_vpd, LabelValue::TYPE::VOLTS);
+
+      if (a == 0)
+      {
+        LabelValue unit_ref = lv; 
+
+        std::stringstream ss;
+        ss << unit_ref.unit_prefix () << unit_ref.label_for ();
+
+        m_y_label_units[channel]->copy_label (ss.str ().c_str ());
+        m_y_label_units[channel]->show ();
+      }
+
+      m_y_labels[channel][a]->copy_label (lv.short_value ().c_str ());
+      m_y_labels[channel][a]->show ();
+    }
+  }
+  else 
+  {
+    m_y_label_units[channel]->hide ();
+
+    for (int a = 0; a < m_y_labels[channel].size (); a++)
+    {
+      m_y_labels[channel][a]->hide ();
+    }
+  }
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_gui_voltage_per_division ()
+{
+  for (int chan = 0; chan < m_parent_data_osc->channel_data.size (); chan++)
+  {
+    update_gui_voltage_per_division (chan);
+  }
+}
+
+void LABSoft_Oscilloscope_Display_Group:: 
+update_gui_vertical_elements ()
+{
+  update_gui_vertical_offset      ();
+  update_gui_voltage_per_division ();
 }
 
 // Setter

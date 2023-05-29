@@ -31,6 +31,7 @@ private:
   inline void cb_main_fl_tabs_i(Fl_Tabs*, void*);
   static void cb_main_fl_tabs(Fl_Tabs*, void*);
 public:
+  Fl_Group *main_fl_group_home_tab;
   Fl_Group *main_fl_group_oscilloscope_tab;
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   LABSoft_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
@@ -53,6 +54,11 @@ public:
 private:
   inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
   static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
+  Fl_Button *oscilloscope_fl_button_single;
+private:
+  inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
 public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;
@@ -169,6 +175,7 @@ private:
   static void cb_oscilloscope_fl_choice_display_mode(Fl_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_choice_display_mode[];
 public:
+  Fl_Group *main_fl_group_voltmeter_tab;
   Fl_Light_Button *voltmeter_fl_light_button_run_stop;
 private:
   inline void cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
@@ -177,6 +184,7 @@ public:
   Fl_Group *voltmeter_fl_group_values;
   Fl_Output *voltmeter_fl_output_chan0_value;
   Fl_Output *voltmeter_fl_output_chan1_value;
+  Fl_Group *main_fl_group_function_generator_tab;
   Fl_Choice *function_generator_fl_choice_wave_type;
 private:
   inline void cb_function_generator_fl_choice_wave_type_i(Fl_Choice*, long);
@@ -218,6 +226,7 @@ private:
   inline void cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button*, long);
   static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, long);
 public:
+  Fl_Group *main_fl_group_logic_analyzer_tab;
   Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
 private:
   inline void cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
@@ -254,6 +263,7 @@ private:
   static Fl_Menu_Item menu_logic_analyzer_fl_choice_display_mode[];
 public:
   LABSoft_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
+  Fl_Group *main_fl_group_circuit_checker_tab;
   Fl_Button *circuit_checker_fl_button_choose_circuit_checker_file;
 private:
   inline void cb_circuit_checker_fl_button_choose_circuit_checker_file_i(Fl_Button*, void*);

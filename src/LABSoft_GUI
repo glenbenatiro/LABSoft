@@ -19,7 +19,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {2166 161 1365 765} type Double color 55 visible
+      xywh {391 257 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
@@ -42,7 +42,7 @@ class LABSoft_GUI {open
         callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
         xywh {0 30 1366 738} box FLAT_BOX color 55 selection_color 54
       } {
-        Fl_Group {} {
+        Fl_Group main_fl_group_home_tab {
           label Home
           xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
@@ -99,9 +99,10 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_run_stop (o, v);}
             xywh {1205 95 120 60} box GTK_UP_BOX color 53 selection_color 63 align 16
           }
-          Fl_Button {} {
+          Fl_Button oscilloscope_fl_button_single {
             label Single
-            xywh {1205 180 120 60} box GTK_UP_BOX color 53 deactivate
+            callback {m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);}
+            xywh {1205 180 120 60} box GTK_UP_BOX color 53
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
             xywh {0 0 1366 768} color 55
@@ -1195,7 +1196,7 @@ class LABSoft_GUI {open
             }
           }
         }
-        Fl_Group {} {
+        Fl_Group main_fl_group_voltmeter_tab {
           label Voltmeter
           xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
@@ -1224,9 +1225,9 @@ class LABSoft_GUI {open
             }
           }
         }
-        Fl_Group {} {
-          label {Function Generator} open
-          xywh {0 60 1366 708} color 54 selection_color 52
+        Fl_Group main_fl_group_function_generator_tab {
+          label {Function Generator}
+          xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
@@ -1289,7 +1290,7 @@ class LABSoft_GUI {open
               xywh {70 150 36 21}
             }
             MenuItem {} {
-              label {100 mV} selected
+              label {100 mV}
               xywh {80 160 36 21}
             }
             MenuItem {} {
@@ -1588,9 +1589,9 @@ class LABSoft_GUI {open
             xywh {533 450 300 60} box GTK_UP_BOX color 53 selection_color 63 labelsize 24 align 16
           }
         }
-        Fl_Group {} {
+        Fl_Group main_fl_group_logic_analyzer_tab {
           label {Logic Analyzer}
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Light_Button logic_analyzer_fl_light_button_run_stop {
             label Run
@@ -1952,7 +1953,7 @@ class LABSoft_GUI {open
             class LABSoft_Logic_Analyzer_Display_Group
           } {}
         }
-        Fl_Group {} {
+        Fl_Group main_fl_group_circuit_checker_tab {
           label {Circuit Checker}
           xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {

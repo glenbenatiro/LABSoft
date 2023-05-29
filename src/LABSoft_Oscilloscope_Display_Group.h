@@ -72,15 +72,18 @@ class LABSoft_Oscilloscope_Display_Group : public Fl_Group
     void channel_selector (unsigned channel);
 
     // Update data
-    void  update_voltage_per_division_labels  ();
-    void  update_voltage_per_division_labels  (unsigned channel);
+    
+    
     void  update_time_per_division_labels     ();
     void  update_upper_osc_disp_info          ();
     void  update_all_display_information      ();
     void  update_display_status               ();   
 
     // GUI updates
-    void update_gui_vertical_offset (); 
+    void  update_gui_vertical_offset      (); 
+    void  update_gui_voltage_per_division (unsigned channel);
+    void  update_gui_voltage_per_division ();
+    void  update_gui_vertical_elements    ();
 
     // Getter
     LABSoft_Oscilloscope_Display* display ()

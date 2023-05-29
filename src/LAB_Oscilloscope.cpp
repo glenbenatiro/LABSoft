@@ -2,6 +2,8 @@
 
 #include <cstring>
 #include <iostream>
+#include <bitset>
+#include <stdexcept>
 
 #include "LAB.h"
 
@@ -313,6 +315,20 @@ osc_frontend_run_stop (bool value)
 }
 
 void LAB_Oscilloscope:: 
+single ()
+{
+  if (!is_osc_core_running ())
+  {
+    osc_core_run_stop (true);
+  }
+  
+  // reset DMA OSC RX chan interrupt flag
+  m_LAB_Core->dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
+
+  m_parent_data.single = true;
+}
+
+void LAB_Oscilloscope:: 
 update_status ()
 {
   if (is_osc_frontend_running ())
@@ -323,6 +339,12 @@ update_status ()
   {
     m_parent_data.status = LABE::OSC::STATUS::STOP;
   }
+}
+
+void LAB_Oscilloscope:: 
+status (LABE::OSC::STATUS _STATUS)
+{
+  m_parent_data.status = _STATUS;
 }
 
 bool LAB_Oscilloscope:: 
@@ -454,7 +476,7 @@ load_data_samples ()
       if (m_parent_data.trig_frame_ready)
       {
         parse_raw_sample_buffer ();
-        m_parent_data.trig_frame_ready = false;
+        m_parent_data.trig_frame_ready  = false;
       }
 
       break;
@@ -467,11 +489,25 @@ load_data_samples ()
 
     case (LABE::OSC::TRIG::MODE::NONE):
     {
+      if (m_parent_data.single)
+      {
+        // wait until a buffer is filled
+        while (! (m_LAB_Core->dma.interrupt (LABC::DMA::CHAN::OSC_RX)));
+      }
+      
       fill_raw_sample_buffer  ();
       parse_raw_sample_buffer ();
 
       break;
     }
+  }
+
+  if (m_parent_data.single)
+  {
+    osc_core_run_stop (false);
+    status            (LABE::OSC::STATUS::DONE);
+
+    m_parent_data.single = false;
   }
 }
 
@@ -497,7 +533,7 @@ fill_raw_sample_buffer ()
       {
         std::memcpy (
           m_parent_data.raw_sample_buffer.data (),
-          const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[1])),
+          const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[buff])),
           sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
         );
       }
@@ -506,6 +542,8 @@ fill_raw_sample_buffer ()
       // If it is, then we have a buffer overflow (both buffers full).
       if (dma_data.status[buff ^ 1])
       {
+        // std::cout << "OVERFLOW!" << "\n";
+
         dma_data.status[0] = dma_data.status[1] = 0;
 
         break;
@@ -516,65 +554,44 @@ fill_raw_sample_buffer ()
   }
 }
 
-/**
- * @brief Parses the raw sample buffer. This converts the raw ADC bits to actual 
- *        voltage values and distributes them to the individual channel data
- *        samples buffer. 
- */
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  for (int samp = 0; samp < (m_parent_data.raw_sample_buffer.size ()); samp++)
+  for (int samp = 0; samp < m_parent_data.raw_sample_buffer.size (); samp++)
   {
-    for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
+    for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
     {
-      double actual_value = conv_raw_samp_buff_samp (m_parent_data.raw_sample_buffer[samp], chan);
-      
-      m_parent_data.channel_data[chan].samples[samp] = actual_value;
+      m_parent_data.channel_data[chan].samples[samp] = 
+        conv_raw_buff_get_actual_value (m_parent_data.raw_sample_buffer[samp], chan);
     }
   }
 }
 
-/**
- * @brief Given a uint32_t sample from the raw sample buffer, convert it to the
- *        selected channel's actual value.
- * 
- * @param sample  uint32_t sample from the raw sample buffer
- * @param channel channel of interest
- * @return voltage reading
- */
 constexpr double LAB_Oscilloscope:: 
-conv_raw_samp_buff_samp (uint32_t sample,
-                         unsigned channel)
+conv_raw_buff_get_actual_value (uint32_t  sample,
+                                unsigned  channel)
 {
-  uint32_t  arranged_bits     = conv_raw_samp_buff_arrange_bits (sample, channel);
-  bool      sign              = arranged_bits >> (LABC::OSC::ADC_RESOLUTION_BITS - 1);
-  uint32_t  abs_arranged_bits = arranged_bits & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
-  double    actual_value      = arranged_bits_to_actual_value   (abs_arranged_bits, sign);
+  uint32_t  raw_chan_bits     = conv_raw_buff_xtract_chan       (sample, channel);
+  uint32_t  arranged_bits     = conv_raw_buff_arrange_bits      (raw_chan_bits);
+  bool      sign              = arranged_bits >>                (LABC::OSC::ADC_RESOLUTION_BITS - 1);
+  uint32_t  abs_arranged_bits = arranged_bits &                 ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
+  double    actual_value      = conv_raw_buff_bits_actual_value (abs_arranged_bits, sign); 
 
   return (actual_value);
 }
 
-constexpr double LAB_Oscilloscope:: 
-conv_raw_samp_buff_arrange_bits (uint32_t sample, 
+constexpr uint32_t LAB_Oscilloscope:: 
+conv_raw_buff_get_arranged_bits (uint32_t sample,
                                  unsigned channel)
 {
-  uint32_t raw_chan_bits = extract_chan_raw_samp_buff_samp (sample, channel);
+  uint32_t raw_chan_bits = conv_raw_buff_xtract_chan (sample, channel);
 
-  return (arrange_raw_chan_bits (raw_chan_bits));
+  return (conv_raw_buff_arrange_bits (raw_chan_bits));
 }
 
-/**
- * @brief Given a uint32_t sample from the raw sample buffer, extract the raw
- *        bits of the given channel.
- * 
- * @param sample uint32_t sample from the raw sample buffer
- * @param channel channel of interest
- * @return raw bits of the given channel
- */
 constexpr uint32_t LAB_Oscilloscope::
-extract_chan_raw_samp_buff_samp (uint32_t sample,
-                                 unsigned channel)
+conv_raw_buff_xtract_chan (uint32_t sample,
+                           unsigned channel)
 {
   return (
     (sample >> (LABC::OSC::RAW_DATA_SHIFT_BIT_COUNT * channel)) &
@@ -582,31 +599,18 @@ extract_chan_raw_samp_buff_samp (uint32_t sample,
   );
 }
 
-/**
- * @brief Given a uint32_t containing the raw data bits of a channel extracted
- *        from the raw sample buffer, arrange it, taking into account the use
- *        of the MCP33111 ADC at 10 MHz SPI frequency.
- * 
- * @param sample raw channel bits
- * @return arranged raw channel bits (for MCP33111 ADC)
- */
 constexpr uint32_t LAB_Oscilloscope:: 
-arrange_raw_chan_bits (uint32_t sample)
+conv_raw_buff_arrange_bits (uint32_t sample)
 {
-  return (((sample & 0x7F) << 5) | ((sample & 0xF800) >> 11));
+  // at 250MHz GPU core speed and 10MHz SPI frequency
+  // return (((sample & 0x007F) << 5) | ((sample & 0xF800) >> 11));
+
+  // at 500MHz GPU core speed at 10MHz SPI frequency
+  return (((sample & 0xF000) >> 12) | ((sample & 0x00FF) << 4));
 }
 
-/**
- * @brief Given a proper, arranged raw channel bits from the raw sample buffer,
- *        convert it to the actual voltage value. Note that the arranged bits
- *        is minus one bit as the MSB was used as a sign bit.
- * 
- * @param abs_arranged_bits arranged bits, minus the MSB
- * @param sign sign of the arranged channel bits, taken from MSB
- * @return converted voltage value
- */
 constexpr double LAB_Oscilloscope::
-arranged_bits_to_actual_value (uint32_t abs_arranged_bits, 
+conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, 
                                bool     sign)
 {
   if (sign)
@@ -790,6 +794,8 @@ find_trigger_point_loop ()
 
   // sync_find_trigger_point_loop ();
 
+  status (LABE::OSC::STATUS::CONFIG);
+
   switch (m_parent_data.display_mode)
   {
     case LABE::DISPLAY::MODE::REPEATED:
@@ -805,7 +811,7 @@ find_trigger_point_loop ()
       // 3. Abort current control block
       m_LAB_Core->dma.reg_wbits (LABC::DMA::CHAN::OSC_RX, AP::DMA::CS, 1, 30);
 
-      std::this_thread::sleep_for (std::chrono::microseconds (10));
+      std::this_thread::sleep_for (std::chrono::microseconds (5));
 
       // 4. Unpause oscilloscope RX DMA channel
       m_LAB_Core->dma.run (LABC::DMA::CHAN::OSC_RX);  
@@ -829,41 +835,46 @@ find_trigger_point_loop ()
   }
   
   // ----------
+
+  status (LABE::OSC::STATUS::ARMED);
   
   while (m_parent_data.find_trigger)
   {
-    // 1. Check the oscilloscope RX DMA channel interrupt if it is asserted.
-    //    If it is, this means that a buffer was just fully written to.
-    if (((*(int_status) >> LABC::DMA::CHAN::OSC_RX)) & 0x1)
+    if (!m_parent_data.trig_found)
     {
-      // 2. Store the current control block running in the oscilloscope RX DMA 
-      //    engine. This is to know what buffer (0 or 1) was just filled.
-      uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD));
-
-      // 3. Reset the interrupt
-      m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
-
-      // 4. Store a copy of the uncached receive buffers
-      std::memcpy (
-        m_parent_data.trig_buffers.pre_trigger.data (),
-        const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd)),
-        sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::NUMBER_OF_SAMPLES
-      );
-
-      // 5. Identify the buffer that was filled 
-      if (curr_conblk_ad == buff0_cbs_addr[0] || curr_conblk_ad == buff0_cbs_addr[1])
+      // 1. Check the oscilloscope RX DMA channel interrupt if it is asserted.
+      //    If it is, this means that a buffer was just fully written to.
+      if (m_LAB_Core->dma.interrupt (LABC::DMA::CHAN::OSC_RX))
       {
-        m_parent_data.trig_buffer = 1;
-      }
-      else if (curr_conblk_ad == buff1_cbs_addr[0] || curr_conblk_ad == buff1_cbs_addr[1])
-      {
-        m_parent_data.trig_buffer = 0;
-      }
+        // 2. Store the current control block running in the oscilloscope RX DMA 
+        //    engine. This is to know what buffer (0 or 1) was just filled.
+        uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD));
 
-      // 6. Search for trigger
-      if (find_trigger_point ())
-      {
-        create_trigger_frame ();
+        // 3. Reset the interrupt
+        m_LAB_Core->dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
+
+        // 4. Store a copy of the uncached receive buffers
+        std::memcpy (
+          m_parent_data.trig_buffs.pre_trig.data (),
+          const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd)),
+          sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::NUMBER_OF_SAMPLES
+        );
+
+        // 5. Identify the buffer that was filled 
+        if (curr_conblk_ad == buff0_cbs_addr[0] || curr_conblk_ad == buff0_cbs_addr[1])
+        {
+          m_parent_data.trig_buff_index = 1;
+        }
+        else if (curr_conblk_ad == buff1_cbs_addr[0] || curr_conblk_ad == buff1_cbs_addr[1])
+        {
+          m_parent_data.trig_buff_index = 0;
+        }
+
+        // 6. Search for trigger
+        if (find_trigger_point ())
+        {
+          create_trigger_frame ();
+        }
       }
     }
   }
@@ -876,11 +887,11 @@ find_trigger_point ()
   {
     case (LABE::OSC::TRIG::TYPE::LEVEL):
     {
-      for (int a = 0; a < m_parent_data.trig_buffers.pre_trigger[m_parent_data.
-        trig_buffer].size (); a += m_parent_data.find_trig_sample_skip)
+      for (int a = 0; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
+        trig_buff_index].size (); a += m_parent_data.find_trig_sample_skip)
       {
-        uint32_t samp  = conv_raw_samp_buff_arrange_bits (
-          m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer][a], 
+        uint32_t samp  = conv_raw_buff_get_arranged_bits (
+          m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a], 
           m_parent_data.trig_source
         );
 
@@ -898,8 +909,8 @@ find_trigger_point ()
 
     case (LABE::OSC::TRIG::TYPE::EDGE):
     {
-      uint32_t prev = conv_raw_samp_buff_samp (
-        m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer][0],
+      uint32_t prev = conv_raw_buff_get_arranged_bits (
+        m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][0],
         m_parent_data.trig_source
       );
 
@@ -907,11 +918,11 @@ find_trigger_point ()
       {
         case (LABE::OSC::TRIG::CND::RISING):
         {
-          for (int a = 1; a < m_parent_data.trig_buffers.pre_trigger[m_parent_data.
-            trig_buffer].size (); a += m_parent_data.find_trig_sample_skip)
+          for (int a = 1; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
+            trig_buff_index].size (); a += m_parent_data.find_trig_sample_skip)
           {
-            double samp = conv_raw_samp_buff_arrange_bits (
-              m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer][a],
+            uint32_t samp = conv_raw_buff_get_arranged_bits (
+              m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a],
               m_parent_data.trig_source
             );
 
@@ -933,11 +944,11 @@ find_trigger_point ()
 
         case (LABE::OSC::TRIG::CND::FALLING):
         {
-          for (int a = 1; a < m_parent_data.trig_buffers.pre_trigger[m_parent_data.
-            trig_buffer].size (); a += m_parent_data.find_trig_sample_skip)
+          for (int a = 1; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
+            trig_buff_index].size (); a += m_parent_data.find_trig_sample_skip)
           {
-            double samp = conv_raw_samp_buff_arrange_bits (
-              m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer][a],
+            uint32_t samp = conv_raw_buff_get_arranged_bits (
+              m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a],
               m_parent_data.trig_source
             );
 
@@ -959,11 +970,11 @@ find_trigger_point ()
 
         case (LABE::OSC::TRIG::CND::EITHER):
         {
-          for (int a = 1; a < m_parent_data.trig_buffers.pre_trigger[m_parent_data.
-            trig_buffer].size (); a += 4)
+          for (int a = 1; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
+            trig_buff_index].size (); a += 4)
           {
-            double samp = conv_raw_samp_buff_arrange_bits (
-              m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer][a],
+            uint32_t samp = conv_raw_buff_get_arranged_bits (
+              m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a],
               m_parent_data.trig_source
             );
 
@@ -1008,14 +1019,14 @@ create_trigger_frame ()
     
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
-      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer].data () 
+      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () 
         + (m_parent_data.trig_index - samp_half_index),
       sizeof (uint32_t) * copy_count_0
     );
 
     std::memcpy (
       m_parent_data.raw_sample_buffer.data () + (copy_count_0),
-      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer].data () 
+      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () 
         + (m_parent_data.trig_index + 1),
       sizeof (uint32_t) * copy_count_1
     );
@@ -1024,7 +1035,7 @@ create_trigger_frame ()
 
     std::memcpy (
       m_parent_data.raw_sample_buffer.data () + (copy_count_0 + copy_count_1),
-      const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd[m_parent_data.trig_buffer ^ 1])),
+      const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd[m_parent_data.trig_buff_index ^ 1])),
       sizeof (uint32_t) * copy_count_2
     );
 
@@ -1038,20 +1049,20 @@ create_trigger_frame ()
                   
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
-      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer ^ 1].data () 
+      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index ^ 1].data () 
         + (LABC::OSC::NUMBER_OF_SAMPLES - copy_count_0),
       sizeof (uint32_t) * copy_count_0
     );
 
     std::memcpy (
       m_parent_data.raw_sample_buffer.data () + (copy_count_0),
-      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer].data (),
+      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data (),
       sizeof (uint32_t) * copy_count_1
     );
 
     std::memcpy (
       m_parent_data.raw_sample_buffer.data () + (copy_count_0 + copy_count_1),
-      m_parent_data.trig_buffers.pre_trigger[m_parent_data.trig_buffer].data () + 
+      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () + 
         (m_parent_data.trig_index + 1),
       sizeof (uint32_t) * copy_count_2
     );

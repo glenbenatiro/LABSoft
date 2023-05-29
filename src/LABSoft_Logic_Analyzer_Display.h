@@ -27,7 +27,7 @@ class LABSoft_Logic_Analyzer_Display : public Fl_Widget
     void resize         ();
 
     // Data load/init
-    void  load_logan_parent_data  (LAB_Parent_Data_Logic_Analyzer *parent_data);
+    void  load_logan_parent_data  (LAB_Parent_Data_Logic_Analyzer& parent_data);
     int   reserve_pixel_points    ();
     int   fill_pixel_points       ();
     int   calc_graph_line_coords  ();

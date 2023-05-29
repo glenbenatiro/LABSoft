@@ -68,6 +68,9 @@ class LABSoft_Controller_Circuit_Checker
     // callback functions
     void cb_fl_button_choose_circuit_checker_file (Fl_Button *w, void *data);
     void cb_fl_button_start_circuit_checking (Fl_Button *w, void *data);
+
+    // Update GUI
+    void update_gui_main (bool value);
 };
 
 #endif

@@ -47,7 +47,7 @@ write_reg ()
 {
   spi_xfer (m_rxbuff, m_txbuff, 2);
 
-  std::this_thread::sleep_for (std::chrono::microseconds (10));
+  std::this_thread::sleep_for (std::chrono::microseconds (5));
 }
 
 void AD9833::

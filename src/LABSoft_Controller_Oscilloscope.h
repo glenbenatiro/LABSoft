@@ -1,6 +1,7 @@
 #ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Toggle_Button.H>
 
@@ -24,6 +25,7 @@ class LABSoft_Controller_Oscilloscope
     
     // Master controls
     void cb_run_stop                      (Fl_Light_Button*   w, void* data);
+    void cb_single                        (Fl_Button*         w, void* data);
 
     // Vertical
     void cb_channel_enable_disable        (Fl_Light_Button*   w, long channel);
@@ -50,7 +52,7 @@ class LABSoft_Controller_Oscilloscope
 
     // GUI update
     void display_update_cycle             ();
-    void update_gui_main                  ();
+    void update_gui_main                  (bool value);
     void update_trigger_panel_gui         ();
     void update_horizontal_widgets_gui    ();
     

@@ -1,8 +1,9 @@
 #include "LABSoft_Controller_Oscilloscope.h"
 
-#include <iostream>
+#include <cmath>
 #include <string>
 #include <iomanip>
+#include <iostream>
 
 #include <FL/Fl.H>
 
@@ -60,19 +61,33 @@ LABSoft_Controller_Oscilloscope (LAB*                 _LAB,
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-cb_run_stop (Fl_Light_Button *w, 
-             void            *data)
+cb_run_stop (Fl_Light_Button* w, 
+             void*            data)
 {
-  if (w->value () == 0)
+  bool value = w->value ();
+
+  if (value)
   {
-    m_LAB->m_Oscilloscope.stop ();
+    m_LAB->m_Oscilloscope.run ();
+
+    m_LABSoft_Controller->m_Voltmeter.update_gui_main         (false);
+    m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear  ();
   }
   else 
   {
-    m_LAB->m_Oscilloscope.run ();
+    m_LAB->m_Oscilloscope.stop ();
   }
 
-  update_gui_main ();
+  update_gui_main (value);
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_single (Fl_Button* w,
+           void*      data)
+{
+  m_LABSoft_GUI->oscilloscope_fl_light_button_run_stop->clear ();
+
+  m_LAB->m_Oscilloscope.single ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -84,7 +99,7 @@ cb_channel_enable_disable (Fl_Light_Button* w,
   m_LAB->m_Oscilloscope.channel_enable_disable (channel, value);
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_voltage_per_division_labels ();
+    update_gui_vertical_elements ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -121,7 +136,7 @@ cb_voltage_per_division (Fl_Input_Choice* w,
     to_label_text (LabelValue::TYPE::VOLTS).c_str ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_voltage_per_division_labels ();
+    update_gui_vertical_elements ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -148,7 +163,7 @@ cb_vertical_offset (Fl_Input_Choice* w,
     to_label_text (LabelValue::TYPE::VOLTS).c_str ());
   
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_voltage_per_division_labels ();
+    update_gui_voltage_per_division ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -183,7 +198,7 @@ cb_scaling (Fl_Choice *w,
   m_LAB->m_Oscilloscope.scaling (channel, scaling);
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_voltage_per_division_labels ();
+    update_gui_voltage_per_division ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -460,29 +475,20 @@ display_update_cycle ()
 
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     redraw ();
+
+  if (m_LAB->m_Oscilloscope.m_parent_data.trig_found)
+  {
+    m_LAB->m_Oscilloscope.m_parent_data.trig_found = false;
+  }
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-update_gui_main ()
+update_gui_main (bool value)
 {
-  if (m_LAB->m_Oscilloscope.is_osc_frontend_running ())
-  {
-    m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear ();
-
-    m_LABSoft_Controller->tab_selection_color_toggle (
-      m_LABSoft_GUI->main_fl_group_oscilloscope_tab,
-      true
-    );
-  }
-  else 
-  {
-    m_LABSoft_Controller->tab_selection_color_toggle (
-      m_LABSoft_GUI->main_fl_group_oscilloscope_tab,
-      false
-    );
-  }
-
-  m_LABSoft_Controller->main_tab_selection_color ();
+  m_LABSoft_Controller->tab_selection_color_toggle (
+    m_LABSoft_GUI->main_fl_group_oscilloscope_tab,
+    value
+  );
 }
 
 void LABSoft_Controller_Oscilloscope:: 

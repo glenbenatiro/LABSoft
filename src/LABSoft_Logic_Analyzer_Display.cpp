@@ -1,9 +1,10 @@
 #include "LABSoft_Logic_Analyzer_Display.h"
 
+#include <cmath>
+#include <iostream>
+
 #include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
-
-#include <iostream>
 
 LABSoft_Logic_Analyzer_Display::
 LABSoft_Logic_Analyzer_Display (int X,
@@ -132,9 +133,9 @@ resize ()
 }
 
 void LABSoft_Logic_Analyzer_Display::
-load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer *parent_data)
+load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer& parent_data)
 {
-  m_parent_data_logan = parent_data;
+  m_parent_data_logan = &parent_data;
 }
 
 int LABSoft_Logic_Analyzer_Display::
@@ -231,7 +232,7 @@ fill_pixel_points ()
       }
     }
   }
-
+  
   return 1;
 }
 

@@ -8,11 +8,11 @@ Function {} {open
     label {LABChecker 0.1} open
     xywh {300 160 1366 768} type Double color 52 visible
   } {
-    Fl_Menu_Bar {} {open
+    Fl_Menu_Bar {} {
       xywh {0 0 1366 30} box FLAT_BOX color 54
     } {
       Submenu {} {
-        label File open
+        label File
         xywh {0 0 70 21}
       } {
         MenuItem {} {
@@ -33,11 +33,47 @@ Function {} {open
         xywh {0 60 1366 708} box FLAT_BOX color 54 selection_color 53 hide
       } {}
       Fl_Group {} {
-        label {Simple Wizard} open
+        label {Simple DC} open
         xywh {0 60 1366 708} box FLAT_BOX color 54 selection_color 53
       } {
-        Fl_Group simple_wizard_fl_group_output {
+        Fl_Button simple_dc_fl_button_generate_file {
+          label {Generate Circuit Checker File}
+          xywh {563 500 240 60} box GTK_UP_BOX color 53 align 128
+        }
+        Fl_Group {} {
+          label Input open
+          xywh {295 246 240 120} box FLAT_BOX color 53
+        } {
+          Fl_Input_Choice simple_dc_fl_input_choice_amplitude {
+            label Amplitude open
+            xywh {355 291 120 30} align 1
+          } {}
+        }
+        Fl_Group {} {
           label Output open
+          xywh {563 246 240 120} box FLAT_BOX color 53
+        } {
+          Fl_Input_Choice {} {
+            label Amplitude open
+            xywh {623 291 120 30} align 1
+          } {}
+        }
+        Fl_Group {} {
+          label Settings open
+          xywh {830 246 240 120} box FLAT_BOX color 53
+        } {
+          Fl_Input_Choice {} {
+            label Threshold open
+            xywh {890 291 120 30} align 1
+          } {}
+        }
+      }
+      Fl_Group {} {
+        label {Simple Waveform}
+        xywh {0 60 1366 708} box FLAT_BOX color 54 selection_color 53 hide
+      } {
+        Fl_Group simple_wizard_fl_group_output {
+          label Output
           xywh {170 160 250 440} box FLAT_BOX color 52
         } {
           Fl_Choice simple_wizard_fl_input_choice_output_type {

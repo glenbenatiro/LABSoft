@@ -21,8 +21,9 @@ class LABSoft_Controller_Voltmeter
                                   LABSoft_GUI*        _LABSoft_GUI,
                                   LABSoft_Controller* _LABSoft_Controller);
 
-    void cb_run_stop (Fl_Light_Button *w, void *data);
+    void cb_run_stop          (Fl_Light_Button *w, void *data);
     void display_update_cycle ();
+    void update_gui_main      (bool value);
 };
 
 #endif

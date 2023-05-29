@@ -1,7 +1,7 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
-#include <cmath>
+// #include <cmath>
 #include <vector>
 #include <array>
 #include <map>
@@ -98,6 +98,7 @@ namespace LABE
       AUTO,
       ARMED,
       TRIGGERED,
+      DONE
     };
   
   };
@@ -241,12 +242,12 @@ namespace LABC
 
     // ADC Info and Conversions   
     constexpr unsigned                  ADC_RESOLUTION_BITS           = 12; // MCP33111
-    constexpr unsigned                  ADC_RESOLUTION_INT            = std::pow (2, ADC_RESOLUTION_BITS);  // 4096
+    constexpr unsigned                  ADC_RESOLUTION_INT            = 1 << ADC_RESOLUTION_BITS;
     constexpr double                    ADC_REFERENCE_VOLTAGE         = 5.0; // 5 volts
     constexpr double                    CONVERSION_REFERENCE_VOLTAGE  = ADC_REFERENCE_VOLTAGE / 2.0;
     constexpr double                    CONVERSION_CONSTANT           = CONVERSION_REFERENCE_VOLTAGE / ((ADC_RESOLUTION_INT - 1) >> 1);
     constexpr unsigned                  RAW_DATA_SHIFT_BIT_COUNT      = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
-    constexpr uint32_t                  RAW_DATA_POST_SHIFT_MASK      = ((std::pow (2, RAW_DATA_SHIFT_BIT_COUNT)) - 1);
+    constexpr uint32_t                  RAW_DATA_POST_SHIFT_MASK      = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;
     constexpr unsigned                  ADC_SPI_CHIP_ENABLE           = 0;
 
     // Vertical
@@ -287,6 +288,11 @@ namespace LABC
     constexpr LABE::DISPLAY::MODE       OSC_DISP_MODE                 = LABE::DISPLAY::MODE::REPEATED;
     constexpr double                    MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * OSC_DISPLAY::NUMBER_OF_COLUMNS);
     constexpr double                    MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / OSC_DISPLAY::NUMBER_OF_COLUMNS;
+  };
+
+  namespace VOLTMETER
+  {
+    constexpr double SAMPLING_RATE = 50'000.0; // Hz
   };
 
   namespace FUNC_GEN
@@ -412,6 +418,7 @@ class LAB_Parent_Data_Oscilloscope
     bool                  is_osc_core_running     = false; 
     bool                  is_osc_frontend_running = false;
     LABE::OSC::STATUS     status                  = LABE::OSC::STATUS::READY;
+    bool                  single                  = false;
 
     // Horizontal
     double                time_per_division       = LABC::OSC::TIME_PER_DIVISION;
@@ -443,7 +450,7 @@ class LAB_Parent_Data_Oscilloscope
     uint32_t              trig_level_bits         = (LABC::OSC::ADC_RESOLUTION_INT - 1) / 2;
     unsigned              find_trig_sample_skip   = 4;
 
-    unsigned              trig_buffer             = 0;
+    unsigned              trig_buff_index             = 0;
     unsigned              trig_index              = 0;
     bool                  find_trigger            = false; 
     bool                  trig_frame_ready        = false;
@@ -454,7 +461,7 @@ class LAB_Parent_Data_Oscilloscope
       std::array<
         std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
-      > pre_trigger;
+      > pre_trig;
 
       std::array<
         std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
@@ -462,7 +469,7 @@ class LAB_Parent_Data_Oscilloscope
       > post_trigger;
 
       std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
-    } trig_buffers;      
+    } trig_buffs;      
 
   public:
     bool has_enabled_channels ()
