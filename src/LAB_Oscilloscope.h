@@ -15,6 +15,7 @@ class LAB_Oscilloscope
     LAB*              m_LAB;
     LAB_Core*         m_LAB_Core;
     AikaPi::Uncached  m_uncached_memory;
+    AikaPi::Uncached  m_uncached_memory_record;
     std::thread       m_thread_find_trigger;
     std::thread       m_find_trigger_timer;
 
@@ -44,6 +45,9 @@ class LAB_Oscilloscope
     bool                find_trigger_point              ();
     void                create_trigger_frame            ();
     void                find_trigger_timeout_timer      ();
+
+    // Record
+    void                init_record_dma                 ();
   
     // Display 
     LABE::DISPLAY::MODE calc_display_mode               (double time_per_div);
@@ -87,13 +91,15 @@ class LAB_Oscilloscope
     void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
 
     // Horizontal
-    void                  time_per_division       (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    double                time_per_division       ();
-    void                  sampling_rate           (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    double                sampling_rate           ();
     void                  horizontal_offset       (double value);
     double                horizontal_offset       ();
-
+    void                  time_per_division       (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    double                time_per_division       ();
+    void                  samples                 (unsigned value);
+    unsigned              samples                 ();
+    void                  sampling_rate           (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    double                sampling_rate           ();
+    
     // Trigger 
     void                  trigger_mode            (LABE::OSC::TRIG::MODE value);
     LABE::OSC::TRIG::MODE trigger_mode            () const;
@@ -105,6 +111,9 @@ class LAB_Oscilloscope
     LABE::OSC::TRIG::CND  trigger_condition       () const;
     void                  trigger_level           (double value);
     double                trigger_level           () const;
+
+    // Record
+    void                  record                  ();
     
     // Display 
     void                  display_mode_frontend   (LABE::DISPLAY::MODE _DISPLAY_MODE);

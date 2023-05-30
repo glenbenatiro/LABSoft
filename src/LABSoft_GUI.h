@@ -10,10 +10,10 @@ class LABSoft_Controller;
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
-#include "LABSoft_Oscilloscope_Display_Group.h"
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Slider.H>
 #include <FL/Fl_Light_Button.H>
+#include "LABSoft_Oscilloscope_Display_Group.h"
+#include <FL/Fl_Slider.H>
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Output.H>
@@ -33,6 +33,26 @@ private:
 public:
   Fl_Group *main_fl_group_home_tab;
   Fl_Group *main_fl_group_oscilloscope_tab;
+  Fl_Button *oscilloscope_fl_button_record;
+private:
+  inline void cb_oscilloscope_fl_button_record_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_record(Fl_Button*, void*);
+public:
+  Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
+private:
+  inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
+  Fl_Button *oscilloscope_fl_button_record_config;
+private:
+  inline void cb_oscilloscope_fl_button_record_config_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_record_config(Fl_Button*, void*);
+public:
+  Fl_Button *oscilloscope_fl_button_single;
+private:
+  inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
+public:
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   LABSoft_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
   Fl_Box *oscilloscope_fl_box_display_status;
@@ -50,16 +70,6 @@ public:
   Fl_Slider *oscilloscope_fl_slider_horizontal_offset;
   Fl_Slider *oscilloscope_fl_slider_vertical_offset;
   Fl_Slider *oscilloscope_fl_slider_trigger_level;
-  Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
-private:
-  inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
-public:
-  Fl_Button *oscilloscope_fl_button_single;
-private:
-  inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);
-  static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
-public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;
 private:
@@ -119,23 +129,29 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_1_scaling[];
 public:
   Fl_Group *oscilloscope_fl_group_horizontal;
+  Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;
+private:
+  inline void cb_oscilloscope_fl_input_choice_horizontal_offset_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_horizontal_offset(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_horizontal_offset[];
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_time_per_division;
 private:
   inline void cb_oscilloscope_fl_input_choice_time_per_division_i(Fl_Input_Choice*, void*);
   static void cb_oscilloscope_fl_input_choice_time_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_time_per_division[];
 public:
+  Fl_Input_Choice *oscilloscope_fl_input_choice_samples;
+private:
+  inline void cb_oscilloscope_fl_input_choice_samples_i(Fl_Input_Choice*, void*);
+  static void cb_oscilloscope_fl_input_choice_samples(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_samples[];
+public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_sampling_rate;
 private:
   inline void cb_oscilloscope_fl_input_choice_sampling_rate_i(Fl_Input_Choice*, void*);
   static void cb_oscilloscope_fl_input_choice_sampling_rate(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_sampling_rate[];
-public:
-  Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;
-private:
-  inline void cb_oscilloscope_fl_input_choice_horizontal_offset_i(Fl_Input_Choice*, void*);
-  static void cb_oscilloscope_fl_input_choice_horizontal_offset(Fl_Input_Choice*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_horizontal_offset[];
 public:
   Fl_Group *oscilloscope_fl_group_trigger;
   Fl_Choice *oscilloscope_fl_choice_trigger_mode;
@@ -281,5 +297,17 @@ public:
   Fl_Box *inner_height;
   Fl_Box *outer_height;
   Fl_Box *inner_height_crosswise;
+  Fl_Double_Window *oscilloscope_fl_window_record_config;
+  Fl_Group *oscilloscope_fl_group_record_config;
+  static Fl_Menu_Item menu_Samples[];
+  Fl_Button *oscilloscope_fl_button_record_config_start;
+private:
+  inline void cb_oscilloscope_fl_button_record_config_start_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_record_config_start(Fl_Button*, void*);
+public:
+  Fl_Button *oscilloscope_fl_button_record_config_cancel;
+private:
+  inline void cb_oscilloscope_fl_button_record_config_cancel_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_record_config_cancel(Fl_Button*, void*);
 };
 #endif

@@ -16,16 +16,8 @@ class LabelValue
       HERTZ,
       DEGREES
     };
-    
+  
   private:
-    double            m_actual_value        = 0.0;
-    double            m_coefficient         = 0.0;
-    int               m_exponent            = 0;
-    std::string       m_unit_prefix         = " ";
-    TYPE              m_label_type          = TYPE::NONE;
-    bool              m_is_valid_label_text = false;
-    double            m_reference_value     = 0.0;
-
     std::map<int, std::string> m_exp_to_si_prefix = 
     {
         {-9, "n"}, 
@@ -71,15 +63,26 @@ class LabelValue
       {TYPE::HERTZ,               "Hz"},
       {TYPE::DEGREES,             "deg"}
     };
+    
+  private:
+    double      m_actual_value        = 0.0;
+    double      m_coefficient         = 0.0;
+    int         m_exponent            = 0;
+    std::string m_unit_prefix         = " ";
+    TYPE        m_label_type          = TYPE::NONE;
+    bool        m_is_valid_label_text = false;
+    double      m_reference_value     = 0.0;
 
+  private:
     bool        parse_widget_input_if_valid       (const std::string& str);
-    bool        parse_double_if_valid             (double value);
+    bool        parse_double                      (double value);
     bool        parse_string_if_valid             (const std::string& str);
     double      calc_actual_value_using_reference (double actual_value, double reference);
     double      calc_actual_value                 (double coefficient, int exponent);
     int         calc_sci_exponent                 (std::string unit_prefix);
     void        calc_sci_coefficient_and_exponent (double value, double& coefficient, int& exponent);
     std::string calc_unit_prefix                  (int exponent);
+    void        debug                             ();
 
     // inline getters
     int correct_mod (int exponent, int modulo)
@@ -94,14 +97,14 @@ class LabelValue
     LabelValue ();
     
     LabelValue (
-      double          value, 
-      TYPE parse_input_as = TYPE::NONE
+      double  value, 
+      TYPE    parse_input_as = TYPE::NONE
     );
 
     LabelValue (
-      const char      *label, 
-      double           reference,
-      TYPE  parse_input_as = TYPE::NONE
+      const char* label, 
+      double      reference,
+      TYPE        parse_input_as = TYPE::NONE
     );
 
     LabelValue (

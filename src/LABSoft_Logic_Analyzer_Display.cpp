@@ -175,26 +175,26 @@ fill_pixel_points ()
 
   if (m_parent_data_logan->is_enabled)
   {
-    LAB_Parent_Data_Logic_Analyzer &pdat = *m_parent_data_logan;
+    LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data_logan;
 
-    for (int chan = 0; chan < (pdat.channel_data.size ()); chan++)
+    for (int chan = 0; chan < pdata.channel_data.size (); chan++)
     {
-      if (pdat.channel_data[chan].is_enabled)
+      if (pdata.channel_data[chan].is_enabled)
       {
-        LAB_Channel_Data_Logic_Analyzer &cdat = pdat.channel_data[chan];
-        std::vector<std::array<int, 2>> &pp   = cdat.pixel_points;
+        LAB_Channel_Data_Logic_Analyzer&  cdata = pdata.channel_data[chan];
+        std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
 
         pp.clear ();
 
-        if (pdat.w_samp_count >= w ())
+        if (pdata.w_samp_count >= w ())
         {
-          double samp_skip = static_cast<double>(cdat.samples.size () - 1) / 
+          double samp_skip = static_cast<double>(cdata.samples.size () - 1) / 
             static_cast<double>(w () - 1);
 
           for (int a = 0; a < (w () - 1); a++)
           {
-            bool curr = cdat.samples[samp_skip * a];
-            bool next = cdat.samples[samp_skip * (a + 1)];
+            bool curr = cdata.samples[samp_skip * a];
+            bool next = cdata.samples[samp_skip * (a + 1)];
 
             calc_next_pp (
               curr,
@@ -206,18 +206,18 @@ fill_pixel_points ()
             );
           }
         }
-        else // pdat.w_samp_count < w () 
+        else // pdata.w_samp_count < w () 
         {
           double pix_scale = static_cast<double>(w () - 1) /
-            static_cast<double>(pdat.w_samp_count - 1);
+            static_cast<double>(pdata.w_samp_count - 1);
 
-          double samp_start_index = (static_cast<double>(cdat.samples.size ()) /
-            2.0) - (static_cast<double>(pdat.w_samp_count) / 2.0);
+          double samp_start_index = (static_cast<double>(cdata.samples.size ()) /
+            2.0) - (static_cast<double>(pdata.w_samp_count) / 2.0);
 
-          for (int a = 0; a < (pdat.w_samp_count - 1); a++)
+          for (int a = 0; a < (pdata.w_samp_count - 1); a++)
           {
-            bool curr = cdat.samples[samp_start_index + a];
-            bool next = cdat.samples[samp_start_index + a + 1];
+            bool curr = cdata.samples[samp_start_index + a];
+            bool next = cdata.samples[samp_start_index + a + 1];
 
             calc_next_pp (
               curr,

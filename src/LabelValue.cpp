@@ -13,16 +13,16 @@ LabelValue ()
 }
 
 LabelValue::
-LabelValue (double          value, 
-            LabelValue::TYPE parse_input_as)
+LabelValue (double            value, 
+            LabelValue::TYPE  parse_input_as)
 {
   m_label_type          = parse_input_as;
-  m_is_valid_label_text = parse_double_if_valid (value);
+  m_is_valid_label_text = parse_double (value);
 }
 
 LabelValue::
-LabelValue (const char      *label, 
-            double           reference,
+LabelValue (const char*       label, 
+            double            reference,
             LabelValue::TYPE  parse_input_as)
 {
   std::string str (label);
@@ -30,6 +30,8 @@ LabelValue (const char      *label,
   m_label_type          = parse_input_as;  
   m_reference_value     = reference;
   m_is_valid_label_text = parse_widget_input_if_valid (str);
+
+  debug ();
 }
 
 LabelValue::
@@ -44,25 +46,32 @@ LabelValue (const char      *label,
 bool LabelValue:: 
 parse_widget_input_if_valid (const std::string& str)
 {
-  // 1. Check if the string is empty
+  // 1. Check if the string is empty.
+  //    If it is, return false.
   if (str.empty ())
+  {
     return (false);
+  }
 
-  // 2. Check if the first digit of the string is not a number,
-  //    not a dot, or not a dash (for negative)
-  if (! (std::isdigit (str[0]) || str[0] == '.' || str[0] == '-'))
+  // 2. Check if the first character is not a digit, not a period, or
+  //    not a dash. If it is, return false.
+  if (!(std::isdigit (str[0]) || str[0] == '.' || str[0] == '-'))
+  {
     return (false);
+  }
 
-  // 3. If no non-digit or non-dot is found, the string may most likely 
-  //    be a value. Else, further parse the string.
+  // 3. Check if there are any non-digit, non-dot, or non-dash characters
+  //    in the string. If there are none, the string may most likely be a value.
+  //    If there are, further parse the string.
   if (str.find_first_not_of ("0123456789.-") == std::string::npos)
   {
     try 
     {
       double value = std::stod (str);
-      return (parse_double_if_valid (value));
+
+      return (parse_double (value));
     }
-    catch (const std::invalid_argument& ia)
+    catch (const std::exception& e) // catch all possible errors
     {
       return (false);
     }
@@ -74,12 +83,8 @@ parse_widget_input_if_valid (const std::string& str)
 }
 
 bool LabelValue:: 
-parse_double_if_valid (double value)
+parse_double (double value)
 {
-  // do checking of double if valid here.
-  // if not, proceed straight away to parsing
-
-  // scale actual value using m_reference
   m_actual_value = calc_actual_value_using_reference (value, m_reference_value);
 
   calc_sci_coefficient_and_exponent (
@@ -96,23 +101,26 @@ parse_double_if_valid (double value)
 bool LabelValue:: 
 parse_string_if_valid (const std::string& str)
 {
-  // 1. Find the position of the first non-digit or non-dot character
+  // 1. Find the position of the first non-digit, non-dot, or non-dash character.
   unsigned nd_pos = str.find_first_not_of ("0123456789.-");
 
-  // 2. Assign the substring before the position as the coefficient
+  // 2. Assign the substring before the position as the coefficient.
   try 
   {
     m_coefficient = std::stod (str.substr (0, nd_pos));
   }
-  catch (const std::invalid_argument& ia)
+  catch (const std::exception& e) // catch all possible errors
   {
     return (false);
   }
 
-  // 3. Remove all possible whitespaces between the coefficient and the unit
+  // 3. Remove all possible whitespaces between the coefficient and the unit.
   std::string post_coeff  = str.substr (nd_pos);
   nd_pos                  = post_coeff.find_first_not_of (" \t\r\n");
   post_coeff              = post_coeff.substr (nd_pos);
+
+  std::cout << "string: " << post_coeff << std::endl;
+  std::cout << "string length: " << post_coeff.length () << std::endl;
 
   // 4.1 If the remaining string is equivalent to the labelvalue_for_string_format,
   //     this means that exponent is 0 = base value.
@@ -198,7 +206,7 @@ calc_sci_coefficient_and_exponent (double   value,
 
   // Extract coefficient and exponent from the string
   unsigned e_pos  = str.find_first_of ("eE");
-  coefficient     = std::stod (str.substr(0, e_pos));
+  coefficient     = std::stod (str.substr (0, e_pos));
   exponent        = std::stoi (str.substr (e_pos + 1));
 }
 
@@ -208,6 +216,20 @@ calc_unit_prefix (int exponent)
   // TO-DO: do bounds checking
 
   return (m_exp_to_si_prefix[exponent]);
+}
+
+void LabelValue:: 
+debug ()
+{
+  std::cout << "----------\n";
+  std::cout << "actual value    : " << m_actual_value                 << "\n";
+  std::cout << "coefficient     : " << m_coefficient                  << "\n";
+  std::cout << "exponent        : " << m_exponent                     << "\n";
+  std::cout << "unit prefix     : " << m_unit_prefix                  << "\n";
+  std::cout << "label type      : " << static_cast<int>(m_label_type) << "\n";
+  std::cout << "is valid        : " << m_is_valid_label_text          << "\n";
+  std::cout << "reference value : " << m_reference_value              << "\n";
+  std::cout << "----------\n";
 }
 
 std::string LabelValue:: 

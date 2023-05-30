@@ -27,7 +27,7 @@ LAB_Logic_Analyzer::
 void LAB_Logic_Analyzer:: 
 init_gpio_pins ()
 {
-  for (int chan = 0; chan < LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS; chan++)
+  for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
   {
     m_LAB_Core->gpio.set (
       LABC::PIN::LOGIC_ANALYZER[chan],
@@ -42,10 +42,10 @@ init_dma ()
 {
   config_dma_cb ();
 
-  AikaPi::Uncached&            mp = m_uncached_memory;
-  LAB_DMA_Data_Logic_Analyzer& dp = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(mp.virt ()));
+  AikaPi::Uncached&            un = m_uncached_memory;
+  LAB_DMA_Data_Logic_Analyzer& dd = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(un.virt ()));
 
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::LOGAN_GPIO_STORE, mp.bus (&dp.cbs[0]));
+  m_LAB_Core->dma.start (LABC::DMA::CHAN::LOGAN_GPIO_STORE, un.bus (&dd.cbs[0]));
 }
 
 void LAB_Logic_Analyzer::
@@ -64,7 +64,7 @@ config_dma_cb ()
       // 0
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->spi.bus   (AP::GPIO::GPLEV0),
+        m_LAB_Core->gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
@@ -84,7 +84,7 @@ config_dma_cb ()
       // 2
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->spi.bus   (AP::GPIO::GPLEV0),
+        m_LAB_Core->gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
         static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,
@@ -106,7 +106,7 @@ config_dma_cb ()
       // 4
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->spi.bus   (AP::GPIO::GPLEV0),
+        m_LAB_Core->gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES),
         0,

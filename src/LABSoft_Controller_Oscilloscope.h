@@ -35,9 +35,10 @@ class LABSoft_Controller_Oscilloscope
     void cb_scaling                       (Fl_Choice*         w, long channel);
 
     // Horizontal
-    void cb_time_per_division             (Fl_Input_Choice*   w, void* data);
-    void cb_sampling_rate                 (Fl_Input_Choice*   w, void* data);
     void cb_horizontal_offset             (Fl_Input_Choice*   w, void* data);
+    void cb_time_per_division             (Fl_Input_Choice*   w, void* data);
+    void cb_samples                       (Fl_Input_Choice*   w, void* data);
+    void cb_sampling_rate                 (Fl_Input_Choice*   w, void* data);
 
     // Trigger
     void cb_trigger_mode                  (Fl_Choice*         w, void* data);
@@ -45,6 +46,12 @@ class LABSoft_Controller_Oscilloscope
     void cb_trigger_type                  (Fl_Choice*         w, void* data);
     void cb_trigger_condition             (Fl_Choice*         w, void* data);
     void cb_trigger_level                 (Fl_Input_Choice*   w, void* data);
+
+    // Record
+    void cb_record                        (Fl_Button*         w, void* data);
+    void cb_record_config                 (Fl_Button*         w, void* data);
+    void cb_record_config_start           (Fl_Button*         w, void* data);
+    void cb_record_config_cancel          (Fl_Button*         w, void* data);
 
     // Display
     void cb_display_mode                  (Fl_Choice*         w, void* data);
@@ -58,6 +65,7 @@ class LABSoft_Controller_Oscilloscope
     
     // Extra
     void oscilloscope_display_group_init  ();
+    void init_gui_values ();
 };
 
 #endif

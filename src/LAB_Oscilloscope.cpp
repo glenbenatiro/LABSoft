@@ -87,12 +87,12 @@ init_dma ()
 {
   config_dma_cb ();
 
-  AikaPi::Uncached&          mp = m_uncached_memory;
-  LAB_DMA_Data_Oscilloscope& dp = *(static_cast<LAB_DMA_Data_Oscilloscope*>(mp.virt ()));
+  AikaPi::Uncached&          un = m_uncached_memory;
+  LAB_DMA_Data_Oscilloscope& dd = *(static_cast<LAB_DMA_Data_Oscilloscope*>(un.virt ()));
 
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::OSC_TX,     mp.bus (&dp.cbs[6]));
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::OSC_RX,     mp.bus (&dp.cbs[0]));
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::PWM_PACING, mp.bus (&dp.cbs[7]));
+  m_LAB_Core->dma.start (LABC::DMA::CHAN::OSC_TX,     un.bus (&dd.cbs[6]));
+  m_LAB_Core->dma.start (LABC::DMA::CHAN::OSC_RX,     un.bus (&dd.cbs[0]));
+  m_LAB_Core->dma.start (LABC::DMA::CHAN::PWM_PACING, un.bus (&dd.cbs[7]));
 }
 
 void LAB_Oscilloscope:: 
@@ -665,11 +665,9 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
   {
     return (LABC::OSC::MAX_SAMPLING_RATE);
   }
-  else 
+  else
   {
-    return (
-      LABC::OSC::NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols)
-    );
+    return (LABC::OSC::NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols));
   }
 }
 
@@ -701,6 +699,11 @@ time_per_division (double value, unsigned osc_disp_num_cols)
   set_hw_sampling_rate  (m_parent_data.sampling_rate);
 }
 
+void LAB_Oscilloscope:: 
+samples (unsigned value)
+{
+  
+}
 
 void LAB_Oscilloscope:: 
 sampling_rate (double value, unsigned osc_disp_num_cols)
@@ -1182,6 +1185,18 @@ trigger_level () const
   return (m_parent_data.trig_level);
 }
 
+void LAB_Oscilloscope:: 
+record ()
+{
+ // init_record_cb ();
+}
+
+//  void LAB_Oscilloscope::
+//  
+//  {
+//    // config_record_dma_cb ();
+//  }
+
 // Display
 void LAB_Oscilloscope:: 
 display_mode_frontend (LABE::DISPLAY::MODE _DISPLAY_MODE)
@@ -1198,6 +1213,11 @@ display_mode_frontend (LABE::DISPLAY::MODE _DISPLAY_MODE)
     {
       time_per_division (LABC::OSC::MIN_TIME_PER_DIV_NO_ZOOM);
       break;
+    }
+
+    case LABE::DISPLAY::MODE::RECORD:
+    {
+      stop ();
     }
 
     default:
@@ -1334,6 +1354,12 @@ double LAB_Oscilloscope::
 time_per_division ()
 {
   return (m_parent_data.time_per_division);
+}
+
+unsigned LAB_Oscilloscope:: 
+samples ()
+{
+  return (m_parent_data.samples);
 }
 
 double LAB_Oscilloscope:: 

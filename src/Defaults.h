@@ -40,7 +40,8 @@ namespace LABE
     {
       SCREEN,
       REPEATED,
-      SHIFT
+      SHIFT,
+      RECORD
     };
 
     enum class COLOR : uint32_t
@@ -175,10 +176,9 @@ namespace LABC
                                             | AP::DMA::TI_DATA::WAIT_RESP;
                                         
       constexpr uint32_t LOGAN_STORE     = (AP::DMA::TI_DATA::PERMAP (AP::DMA::PERIPH_DREQ::PWM))  
-                                            | AP::DMA::TI_DATA::DEST_DREQ      
-                                            | AP::DMA::TI_DATA::DEST_INC       
-                                            | AP::DMA::TI_DATA::WAIT_RESP
-                                            | AP::DMA::TI_DATA::INTEN;
+                                            | AP::DMA::TI_DATA::SRC_DREQ  
+                                            | AP::DMA::TI_DATA::DEST_INC  
+                                            | AP::DMA::TI_DATA::WAIT_RESP;
     };
 
     namespace CHAN
@@ -232,7 +232,9 @@ namespace LABC
   { 
     // General
     constexpr unsigned                  NUMBER_OF_CHANNELS            = 2;
-    constexpr unsigned                  NUMBER_OF_SAMPLES             = 2'000;
+    constexpr unsigned                  MAX_NUMBER_OF_SAMPLES         = 2'000;
+    constexpr unsigned                  MIN_NUMBER_OF_SAMPLES         = 20;
+    constexpr unsigned                  NUMBER_OF_SAMPLES             = MAX_NUMBER_OF_SAMPLES;
     constexpr unsigned                  SAMPLE_SIZE                   = sizeof (uint32_t); // bytes
 
     // Uncached Oscilloscope DMA Data Info
@@ -421,9 +423,10 @@ class LAB_Parent_Data_Oscilloscope
     bool                  single                  = false;
 
     // Horizontal
-    double                time_per_division       = LABC::OSC::TIME_PER_DIVISION;
-    double                sampling_rate           = LABC::OSC::SAMPLING_RATE;
     double                horizontal_offset       = LABC::OSC::HORIZONTAL_OFFSET;
+    double                time_per_division       = LABC::OSC::TIME_PER_DIVISION;
+    unsigned              samples                 = LABC::OSC::NUMBER_OF_SAMPLES;
+    double                sampling_rate           = LABC::OSC::SAMPLING_RATE;
 
     // Display
     LABE::DISPLAY::MODE   display_mode            = LABC::OSC::OSC_DISP_MODE;
@@ -470,6 +473,9 @@ class LAB_Parent_Data_Oscilloscope
 
       std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
     } trig_buffs;      
+
+    // Record
+    unsigned record_number_of_samples = 0;
 
   public:
     bool has_enabled_channels ()
@@ -667,7 +673,7 @@ class LAB_Parent_Data_Logic_Analyzer
     > raw_sample_buffer;
       
     std::array <LAB_Channel_Data_Logic_Analyzer, 
-      LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS>  channel_data;
+      LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS> channel_data;
 
     LABE::DISPLAY::MODE display_mode  = LABE::DISPLAY::MODE::REPEATED;
 };
