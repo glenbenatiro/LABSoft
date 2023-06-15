@@ -442,28 +442,35 @@ coupling (unsigned            channel,
 {
   m_parent_data.channel_data[channel].coupling = coupling;
 
-  unsigned pin = (channel == 0) ? LABC::PIN::OSC_COUPLING_SELECT_CHAN_0 :
-    LABC::PIN::OSC_COUPLING_SELECT_CHAN_1;
+  unsigned pin;
 
-  switch (m_parent_data.channel_data[channel].coupling)
+  switch (channel)
   {
-    case LABE::OSC::COUPLING::AC:
+    case (0):
     {
-      m_LAB_Core->gpio.set (pin, AP::GPIO::FUNC::INPUT, AP::GPIO::PULL::OFF);
+      pin = LABC::PIN::OSC_COUPLING_SELECT_CHAN_0;
       break;
     }
 
-    case LABE::OSC::COUPLING::DC:
+    case (1):
     {
-      m_LAB_Core->gpio.set (pin, AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
+      pin = LABC::PIN::OSC_COUPLING_SELECT_CHAN_1;
       break;
     }
 
     default:
     {
+      throw (std::out_of_range ("Invalid channel selected in LAB_Oscilloscope::coupling."));
       break;
     }
   }
+
+  m_LAB_Core->gpio.set (
+    pin, 
+    AP::GPIO::FUNC::OUTPUT, 
+    AP::GPIO::PULL::OFF,
+    m_parent_data.channel_data[channel].coupling == LABE::OSC::COUPLING::AC ? 0 : 1 // ??
+  );
 }
 
 void LAB_Oscilloscope:: 
@@ -1188,14 +1195,8 @@ trigger_level () const
 void LAB_Oscilloscope:: 
 record ()
 {
- // init_record_cb ();
+//   config_dma_cb_record ();
 }
-
-//  void LAB_Oscilloscope::
-//  
-//  {
-//    // config_record_dma_cb ();
-//  }
 
 // Display
 void LAB_Oscilloscope:: 

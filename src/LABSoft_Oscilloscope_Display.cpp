@@ -38,42 +38,143 @@ draw ()
 void LABSoft_Oscilloscope_Display:: 
 draw_grid ()
 {
-  // set color
-  fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY::GRID_COLOR);
-
-  // draw grid outer box
+  // 1. Set line color and style
+  fl_color      (LABC::OSC_DISPLAY::COLOR::GRID);
   fl_line_style (FL_SOLID, 0, NULL);
-  fl_line (x (), y(), x () + w (), y ());                 // up
-  fl_line (x () + w (), y (), x () + w (), y () + h ());  // right
-  fl_line (x () + w (), y () + h (), x (), y () + h ());  // down
-  fl_line (x (), y () + h (), x (), y ());                // left
 
-  // Draw rows
-  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS - 1); a++)
+  // 2. Draw outer box
+  fl_line (x ()       , y ()       , x () + w (), y ()       ); // up
+  fl_line (x () + w (), y ()       , x () + w (), y () + h ()); // right
+  fl_line (x () + w (), y () + h (), x ()       , y () + h ()); // down
+  fl_line (x ()       , y () + h (), x ()       , y ()       ); // left
+
+  // 3. Draw rows
+  for (int row = 0; row < (LABC::OSC_DISPLAY::NUMBER_OF_ROWS - 1); row++)
   {
-    if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS / 2) - 1))
+    if (row == ((LABC::OSC_DISPLAY::NUMBER_OF_ROWS / 2) - 1))
+    {
       fl_line_style (FL_DASH, 0, NULL);
+    }
     else 
+    {
       fl_line_style (FL_DOT, 0, NULL);
+    }
 
-    int Y = round ((a + 1) * ((float)h () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS)) + y ();
+    int Y = std::round ((row + 1) * (static_cast<float>(h ()) / static_cast<float>
+      (LABC::OSC_DISPLAY::NUMBER_OF_ROWS))) + y ();
+    
     fl_line (x (), Y, x () + w (), Y);
   }
 
-  // draw columns 
-  for (int a = 0; a < (LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS - 1); a++)
+  // 4. Draw columns
+  for (int col = 0; col < (LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS - 1); col++)
+  {
+    if (col == ((LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS / 2) - 1))
     {
-      if (a == ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS / 2) - 1))
-        fl_line_style (FL_DASH, 0, NULL);
-      else 
-        fl_line_style (FL_DOT, 0, NULL);
-
-      int X = round ((a + 1) * ((float)w () / (float)LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS)) + x ();
-      fl_line (X, y (), X, y () + h ());
+      fl_line_style (FL_DASH, 0, NULL);
     }
-  
-  // reset color
-  fl_line_style (0);
+    else 
+    {
+      fl_line_style (FL_DOT, 0, NULL);
+    }
+
+    int X = std::round ((col + 1) * (static_cast<float>(w ()) / static_cast<float>
+      (LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS))) + x ();
+
+    fl_line (X, y (), X, y () + h ());
+  }
+
+  // 5. Draw upper and lower x-axis ticks
+  fl_line_style (FL_SOLID, 0, NULL);
+
+  for (int Y = y (); Y <= (y () + h ()); Y += h ())
+  {
+    double major_width = static_cast<double>(w ()) / LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
+    double minor_width = major_width / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
+
+    for (int X = x (); X < (x () + w ()); X += major_width)
+    {
+      for (int i = 0; i < LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
+      {
+        if (i == (LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS / 2))
+        {
+          fl_line (
+            X + (i * minor_width),
+            Y,
+            X + (i * minor_width),
+            Y == y () ? Y + LABC::OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH :
+              Y - LABC::OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH
+          );
+        }
+        else 
+        {
+          fl_line (
+            X + (i * minor_width),
+            Y,
+            X + (i * minor_width),
+            Y == y () ? Y + LABC::OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH :
+              Y - LABC::OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH
+          );
+        }
+      }
+
+      fl_line (
+        X,
+        Y, 
+        X, 
+        Y == y () ? Y + LABC::OSC_DISPLAY::X_AXIS_MAJOR_TICK_LENGTH : 
+          Y - LABC::OSC_DISPLAY::X_AXIS_MAJOR_TICK_LENGTH 
+      );
+    }
+  }
+
+  // 6. Draw left and right y-axis ticks
+  fl_line_style (FL_SOLID, 0, NULL);
+
+  for (int X = x (); X <= (x () + w ()); X += w ())
+  {
+    double major_height = static_cast<double>(h ()) / LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
+    double minor_height = major_height / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
+
+    for (int Y = y (); Y < (y () + h ()); Y += major_height)
+    {
+      for (int i = 0; i < LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
+      {
+        if (i == (LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS / 2))
+        {
+          fl_line (
+            X,
+            Y + (i * minor_height),
+            X == x () ? X + LABC::OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH :
+              X - LABC::OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH,
+            Y + (i * minor_height)
+          );
+        }
+        else 
+        {
+          fl_line (
+            X,
+            Y + (i * minor_height),
+            X == x () ? X + LABC::OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH :
+              X - LABC::OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH,
+            Y + (i * minor_height)
+          );
+        }
+      }
+
+      fl_line (
+        X,
+        Y,
+        X == x () ? X + LABC::OSC_DISPLAY::Y_AXIS_MAJOR_TICK_LENGTH :
+          X - LABC::OSC_DISPLAY::Y_AXIS_MAJOR_TICK_LENGTH,
+        Y
+      );
+    }
+  }
+
+  // 7. Reset line color and style
+  fl_color      (0);
+  fl_line_style (FL_SOLID, 0, NULL);
 }
 
 int LABSoft_Oscilloscope_Display:: 

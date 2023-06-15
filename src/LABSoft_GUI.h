@@ -14,8 +14,8 @@ class LABSoft_Controller;
 #include <FL/Fl_Light_Button.H>
 #include "LABSoft_Oscilloscope_Display_Group.h"
 #include <FL/Fl_Slider.H>
-#include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Output.H>
 #include "LABSoft_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>
@@ -69,6 +69,10 @@ public:
   Fl_Box *oscilloscope_fl_box_upper_info_display;
   Fl_Slider *oscilloscope_fl_slider_horizontal_offset;
   Fl_Slider *oscilloscope_fl_slider_vertical_offset;
+private:
+  inline void cb_oscilloscope_fl_slider_vertical_offset_i(Fl_Slider*, void*);
+  static void cb_oscilloscope_fl_slider_vertical_offset(Fl_Slider*, void*);
+public:
   Fl_Slider *oscilloscope_fl_slider_trigger_level;
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;
@@ -80,6 +84,12 @@ public:
 private:
   inline void cb_oscilloscope_fl_light_button_channel_0_ac_coupling_i(Fl_Light_Button*, long);
   static void cb_oscilloscope_fl_light_button_channel_0_ac_coupling(Fl_Light_Button*, long);
+public:
+  Fl_Choice *oscilloscope_fl_choice_channel_0_scaling;
+private:
+  inline void cb_oscilloscope_fl_choice_channel_0_scaling_i(Fl_Choice*, long);
+  static void cb_oscilloscope_fl_choice_channel_0_scaling(Fl_Choice*, long);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_0_scaling[];
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_0_voltage_per_division;
 private:
@@ -93,12 +103,6 @@ private:
   static void cb_oscilloscope_fl_input_choice_channel_0_vertical_offset(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_0_vertical_offset[];
 public:
-  Fl_Choice *oscilloscope_fl_choice_channel_0_scaling;
-private:
-  inline void cb_oscilloscope_fl_choice_channel_0_scaling_i(Fl_Choice*, long);
-  static void cb_oscilloscope_fl_choice_channel_0_scaling(Fl_Choice*, long);
-  static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_0_scaling[];
-public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_1;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_1_enable;
 private:
@@ -109,6 +113,12 @@ public:
 private:
   inline void cb_oscilloscope_fl_light_button_channel_1_ac_coupling_i(Fl_Light_Button*, long);
   static void cb_oscilloscope_fl_light_button_channel_1_ac_coupling(Fl_Light_Button*, long);
+public:
+  Fl_Choice *oscilloscope_fl_choice_channel_1_scaling;
+private:
+  inline void cb_oscilloscope_fl_choice_channel_1_scaling_i(Fl_Choice*, long);
+  static void cb_oscilloscope_fl_choice_channel_1_scaling(Fl_Choice*, long);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_1_scaling[];
 public:
   Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_voltage_per_division;
 private:
@@ -121,12 +131,6 @@ private:
   inline void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset_i(Fl_Input_Choice*, long);
   static void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[];
-public:
-  Fl_Choice *oscilloscope_fl_choice_channel_1_scaling;
-private:
-  inline void cb_oscilloscope_fl_choice_channel_1_scaling_i(Fl_Choice*, long);
-  static void cb_oscilloscope_fl_choice_channel_1_scaling(Fl_Choice*, long);
-  static Fl_Menu_Item menu_oscilloscope_fl_choice_channel_1_scaling[];
 public:
   Fl_Group *oscilloscope_fl_group_horizontal;
   Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;

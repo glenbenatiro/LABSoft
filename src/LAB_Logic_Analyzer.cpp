@@ -226,23 +226,6 @@ parse_raw_sample_buffer()
 }
 
 double LAB_Logic_Analyzer:: 
-time_per_division (double value, unsigned disp_num_cols)
-{
-  double            new_samp_count  = calc_samp_count (value, disp_num_cols);
-  double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
-  LABE::DISPLAY::MODE  new_display_mode   = calc_display_mode  (value);
-
-  m_parent_data.time_per_division = value;
-  m_parent_data.w_samp_count      = new_samp_count;
-  m_parent_data.sampling_rate     = new_samp_rate;
-
-  //display_mode          (new_display_mode);
-  //set_hw_sampling_rate  (m_parent_data.sampling_rate);
-
-  return 0;
-}
-
-double LAB_Logic_Analyzer:: 
 calc_samp_count (double time_per_div, unsigned osc_disp_num_cols)
 {
   if (time_per_div >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_NO_ZOOM)
@@ -284,12 +267,38 @@ calc_display_mode (double time_per_div)
   }
 }
 
-double LAB_Logic_Analyzer:: 
+void LAB_Logic_Analyzer:: 
 horizontal_offset (double value)
 {
   m_parent_data.horizontal_offset = value;
+}
 
-  return (value);
+double LAB_Logic_Analyzer:: 
+horizontal_offset () const
+{
+  return (m_parent_data.horizontal_offset);
+}
+
+void LAB_Logic_Analyzer:: 
+time_per_division (double value, unsigned disp_num_cols)
+{
+  double            new_samp_count  = calc_samp_count (value, disp_num_cols);
+  double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
+  LABE::DISPLAY::MODE  new_display_mode   = calc_display_mode  (value);
+
+  m_parent_data.time_per_division = value;
+  m_parent_data.w_samp_count      = new_samp_count;
+  m_parent_data.sampling_rate     = new_samp_rate;
+
+  //display_mode          (new_display_mode);
+  //set_hw_sampling_rate  (m_parent_data.sampling_rate);
+}
+
+
+double LAB_Logic_Analyzer:: 
+time_per_division () const
+{
+  return (m_parent_data.time_per_division);
 }
 
 void LAB_Logic_Analyzer:: 

@@ -52,30 +52,6 @@ LAB_Logic_Analyzer.h
 LAB_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LAB_Circuit_Checker.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft.cpp
-LABSoft.h
-/home/glen/Desktop/LABSoft/src/LABSoft.h
-FL/Fl.H
--
-
-/home/glen/Desktop/LABSoft/src/LABSoft.h
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB.h
-LABSoft_GUI.h
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.cpp
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
-FL/Fl.H
--
-Defaults.h
-/home/glen/Desktop/LABSoft/src/Defaults.h
-
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
 FL/Fl_Tabs.H
 -
@@ -93,12 +69,6 @@ LABSoft_Controller_Logic_Analyzer.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Logic_Analyzer.h
 LABSoft_Controller_Circuit_Checker.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.h
-
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.cpp
-LABSoft_Controller_Circuit_Checker.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.h
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller_Circuit_Checker.h
 iostream
@@ -210,12 +180,6 @@ LAB.h
 LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI.cpp
-LABSoft_GUI.h
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller.h
-
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI.h
 FL/Fl.H
 -
@@ -239,9 +203,9 @@ LABSoft_Oscilloscope_Display_Group.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
 FL/Fl_Slider.H
 -
-FL/Fl_Input_Choice.H
--
 FL/Fl_Choice.H
+-
+FL/Fl_Input_Choice.H
 -
 FL/Fl_Output.H
 -
@@ -259,6 +223,20 @@ FL/Fl_Widget.H
 -
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.cpp
+LABSoft_Logic_Analyzer_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Logic_Analyzer_Display_Group.h
 array
@@ -279,6 +257,14 @@ FL/Fl_Widget.H
 -
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.cpp
+LABSoft_Oscilloscope_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
+sstream
+-
+LabelValue.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Oscilloscope_Display_Group.h
 array
@@ -346,15 +332,31 @@ LAB_Core.h
 Defaults.h
 /home/glen/Desktop/LABSoft/src/Defaults.h
 
+/home/glen/Desktop/LABSoft/src/LabelValue.cpp
+LabelValue.h
 /home/glen/Desktop/LABSoft/src/LabelValue.h
-string
+cmath
 -
-map
+vector
+-
+iomanip
+-
+sstream
+-
+utility
+-
+iostream
+-
+algorithm
 -
 
-/home/glen/Desktop/LABSoft/src/main.cpp
-LABSoft.h
-/home/glen/Desktop/LABSoft/src/LABSoft.h
+/home/glen/Desktop/LABSoft/src/LabelValue.h
+map
+-
+string
+-
+vector
+-
 
 /home/glen/Desktop/LABSoft/src/pugiconfig.hpp
 

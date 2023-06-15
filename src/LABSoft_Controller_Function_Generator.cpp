@@ -26,11 +26,11 @@ update_gui_frequency_elements ()
 {
   m_LABSoft_GUI->function_generator_fl_input_choice_frequency->
     value (LabelValue (m_LAB->m_Function_Generator.frequency (0)).
-    to_label_text (LabelValue::TYPE::HERTZ).c_str ());
+    to_label_text (LabelValue::UNIT::HERTZ).c_str ());
   
   m_LABSoft_GUI->function_generator_fl_input_choice_period->
     value (LabelValue (m_LAB->m_Function_Generator.period (0)).
-    to_label_text (LabelValue::TYPE::SECONDS).c_str ());
+    to_label_text (LabelValue::UNIT::SECONDS).c_str ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -92,7 +92,7 @@ cb_amplitude (Fl_Input_Choice* w,
   LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.amplitude (channel),
-    LabelValue::TYPE::VOLTS
+    LabelValue::UNIT::VOLTS
   );
 
   if (lv.is_valid_label_text ())
@@ -108,7 +108,7 @@ cb_amplitude (Fl_Input_Choice* w,
   }
 
   w->value (LabelValue (m_LAB->m_Function_Generator.amplitude (channel)).
-    to_label_text (LabelValue::TYPE::VOLTS).c_str ());
+    to_label_text (LabelValue::UNIT::VOLTS).c_str ());
 }
 
 
@@ -119,7 +119,7 @@ cb_frequency (Fl_Input_Choice *w,
   LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.frequency (channel),
-    LabelValue::TYPE::HERTZ
+    LabelValue::UNIT::HERTZ
   );
 
   if (lv.is_valid_label_text ())
@@ -144,7 +144,7 @@ cb_period (Fl_Input_Choice* w,
   LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.period (channel),
-    LabelValue::TYPE::SECONDS
+    LabelValue::UNIT::SECONDS
   );
   
   if (lv.is_valid_label_text ())
@@ -169,7 +169,7 @@ cb_phase (Fl_Input_Choice* w,
   LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.phase (channel),
-    LabelValue::TYPE::DEGREES
+    LabelValue::UNIT::DEGREES
   );
 
   if (lv.is_valid_label_text ())
@@ -185,7 +185,7 @@ cb_phase (Fl_Input_Choice* w,
   }
 
   w->value (LabelValue (m_LAB->m_Function_Generator.phase (channel)).
-    to_label_text (LabelValue::TYPE::DEGREES).c_str ());
+    to_label_text (LabelValue::UNIT::DEGREES).c_str ());
 }
 
 
@@ -196,7 +196,7 @@ cb_vertical_offset (Fl_Input_Choice*  w,
   LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.vertical_offset (channel),
-    LabelValue::TYPE::VOLTS
+    LabelValue::UNIT::VOLTS
   );
 
   if (lv.is_valid_label_text ())
@@ -212,7 +212,7 @@ cb_vertical_offset (Fl_Input_Choice*  w,
   }
 
   w->value (LabelValue (m_LAB->m_Function_Generator.vertical_offset (channel)).
-    to_label_text (LabelValue::TYPE::VOLTS).c_str ());
+    to_label_text (LabelValue::UNIT::VOLTS).c_str ());
 }
 
 // EOF

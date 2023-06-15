@@ -221,12 +221,6 @@ namespace LABC
     };
   };
 
-  namespace OSC_DISPLAY
-  {
-    constexpr unsigned NUMBER_OF_ROWS     = 10;
-    constexpr unsigned NUMBER_OF_COLUMNS  = 10;
-  };
-
   // Oscilloscope
   namespace OSC
   { 
@@ -253,29 +247,31 @@ namespace LABC
     constexpr unsigned                  ADC_SPI_CHIP_ENABLE           = 0;
 
     // Vertical
-    constexpr LABE::OSC::COUPLING       COUPLING                      = LABE::OSC::COUPLING::DC;
+    constexpr unsigned                  DISPLAY_NUMBER_OF_ROWS        = 10;
+    constexpr LABE::OSC::COUPLING       COUPLING                      = LABE::OSC::COUPLING::AC;
     constexpr double                    MAX_VOLTAGE_PER_DIVISION      = 5.0;    // 5 V
     constexpr double                    MIN_VOLTAGE_PER_DIVISION      = 0.0001; // 100 uV
     constexpr double                    VOLTAGE_PER_DIVISION          = 1.0;    // 1 V
     constexpr double                    MAX_VERTICAL_OFFSET           = MAX_VOLTAGE_PER_DIVISION * 
-                                                                          (OSC_DISPLAY::NUMBER_OF_ROWS / 2.0); // 25 V
+                                                                          (DISPLAY_NUMBER_OF_ROWS / 2.0); // 25 V
     constexpr double                    MIN_VERTICAL_OFFSET           = -1.0 * MAX_VERTICAL_OFFSET; // -25 V
     constexpr double                    VERTICAL_OFFSET               = 0.0;
     constexpr LABE::OSC::SCALING        SCALING                       = LABE::OSC::SCALING::UNITY;
 
     // Horizontal
+    constexpr unsigned                  DISPLAY_NUMBER_OF_COLUMNS     = 10;
+    constexpr double                    MAX_HORIZONTAL_OFFSET         = 100.0;    // +100s
+    constexpr double                    MIN_HORIZONTAL_OFFSET         = -100.0;   // -100s
+    constexpr double                    HORIZONTAL_OFFSET             = 0.0;
     constexpr double                    MAX_TIME_PER_DIVISION         = 30.0;     // 30s
     constexpr double                    MIN_TIME_PER_DIVISION         = 0.000001; // 1us
     constexpr double                    MAX_SAMPLING_RATE             = 200'000;  // 200 kHz
     constexpr double                    MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * 
-                                                                          OSC_DISPLAY::NUMBER_OF_COLUMNS); // 6.67 Hz
+                                                                          DISPLAY_NUMBER_OF_COLUMNS); // 6.67 Hz
     constexpr double                    SAMPLING_RATE                 = 40'000;   // 40 kHz
     constexpr double                    TIME_PER_DIVISION             = NUMBER_OF_SAMPLES / (SAMPLING_RATE *
-                                                                          OSC_DISPLAY::NUMBER_OF_COLUMNS); // 5 ms
-    constexpr double                    MAX_HORIZONTAL_OFFSET         = 100.0;    // +100s
-    constexpr double                    MIN_HORIZONTAL_OFFSET         = -100.0;   // -100s
-    constexpr double                    HORIZONTAL_OFFSET             = 0.0;
-
+                                                                          DISPLAY_NUMBER_OF_COLUMNS); // 5 ms
+    
     // Trigger
     constexpr LABE::OSC::TRIG::MODE     TRIGGER_MODE                  = LABE::OSC::TRIG::MODE::NONE;
     constexpr unsigned                  TRIGGER_SOURCE                = 0; // Channel 1
@@ -288,8 +284,26 @@ namespace LABC
 
     // Display
     constexpr LABE::DISPLAY::MODE       OSC_DISP_MODE                 = LABE::DISPLAY::MODE::REPEATED;
-    constexpr double                    MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * OSC_DISPLAY::NUMBER_OF_COLUMNS);
-    constexpr double                    MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / OSC_DISPLAY::NUMBER_OF_COLUMNS;
+    constexpr double                    MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                    MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / DISPLAY_NUMBER_OF_COLUMNS;
+  };
+
+  namespace OSC_DISPLAY
+  {
+    constexpr unsigned NUMBER_OF_ROWS                 = OSC::DISPLAY_NUMBER_OF_ROWS;
+    constexpr unsigned NUMBER_OF_COLUMNS              = OSC::DISPLAY_NUMBER_OF_COLUMNS;
+    constexpr unsigned NUMBER_OF_MINOR_TICKS          = 10;
+    constexpr unsigned X_AXIS_MAJOR_TICK_LENGTH       = 20;
+    constexpr unsigned X_AXIS_SEMI_MAJOR_TICK_LENGTH  = 10;
+    constexpr unsigned X_AXIS_MINOR_TICK_LENGTH       = 5;
+    constexpr unsigned Y_AXIS_MAJOR_TICK_LENGTH       = 12;
+    constexpr unsigned Y_AXIS_SEMI_MAJOR_TICK_LENGTH  = 6;
+    constexpr unsigned Y_AXIS_MINOR_TICK_LENGTH       = 3;
+
+    namespace COLOR
+    {
+      constexpr uint32_t GRID = 46;
+    };
   };
 
   namespace VOLTMETER

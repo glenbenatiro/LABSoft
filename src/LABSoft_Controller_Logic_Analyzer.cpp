@@ -57,9 +57,13 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_time_per_division (Fl_Input_Choice *w,
                       void            *data)
 {
-  LabelValue _LabelValue (w->value ());
+  LabelValue lv (
+    w->value (),
+    m_LAB->m_Logic_Analyzer.time_per_division (),
+    LabelValue::UNIT::SECONDS_PER_DIVISION
+  );
 
-  m_LAB->m_Logic_Analyzer.time_per_division (_LabelValue.actual_value (),
+  m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value (),
     LABSOFT_LOGIC_ANALYZER_DISPLAY_NUMBER_OF_COLUMNS);
 
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
@@ -70,9 +74,13 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_horizontal_offset (Fl_Input_Choice *w,
                       void            *data)
 {
-  LabelValue _LabelValue (w->value ());
+  LabelValue lv (
+    w->value (),
+    m_LAB->m_Logic_Analyzer.horizontal_offset (),
+    LabelValue::UNIT::SECONDS
+  );
 
-  m_LAB->m_Logic_Analyzer.horizontal_offset (_LabelValue.actual_value ());
+  m_LAB->m_Logic_Analyzer.horizontal_offset (lv.actual_value ());
 
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
     update_time_per_division_labels ();

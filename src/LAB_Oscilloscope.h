@@ -47,7 +47,8 @@ class LAB_Oscilloscope
     void                find_trigger_timeout_timer      ();
 
     // Record
-    void                init_record_dma                 ();
+    void                config_dma_cb_record            ();
+
   
     // Display 
     LABE::DISPLAY::MODE calc_display_mode               (double time_per_div);

@@ -1,131 +1,114 @@
 #ifndef LABELVALUE_H
 #define LABELVALUE_H
 
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 class LabelValue
 {
   public:
-    enum class TYPE
+    enum class UNIT
     {
       NONE,
-      VOLTS_PER_DIVISION,
+      DIV,
       VOLTS,
+      VOLTS_PER_DIVISION,
       SECONDS,
+      SECONDS_PER_DIVISION,
       HERTZ,
       DEGREES
     };
   
   private:
-    std::map<int, std::string> m_exp_to_si_prefix = 
-    {
-        {-9, "n"}, 
-        {-8, "n"},
-        {-7, "n"},
-        {-6, "u"},
-        {-5, "u"},
-        {-4, "u"},
-        {-3, "m"},
-        {-2, "m"},
-        {-1, "m"},
-        { 0, " "}, 
-        { 1, " "},
-        { 2, " "}, 
-        { 3, "k"},
-        { 4, "k"},
-        { 5, "k"},   
-        { 6, "M"},  
-        { 7, "M"},
-        { 8, "M"},
-        { 9, "G"},
-        {10, "G"},
-        {11, "G"},
-    };
+    static std::map<std::string, int>   m_map_unit_prefix_to_exponent;
+    static std::map<std::string, UNIT>  m_map_unit_string_to_unit;
+    static std::map<std::string, UNIT>  m_map_unit_string_to_unit_lowercase;
+    static std::map<UNIT, std::string>  m_map_unit_to_unit_string;
 
-    std::map<std::string, int> m_si_prefix_to_exp = 
+    struct Min_Max_Map_Key_length
     {
-        {"n", -9},  // nano
-        {"u", -6},  // micro
-        {"m", -3},  // milli
-        {" ", 0},   // (none)
-        {"k", 3},   // kilo
-        {"M", 6},   // mega
-        {"G", 9}    // giga
-    };
-
-    std::map<TYPE, std::string> labelvalue_for_string_format =
-    {
-      {TYPE::NONE,                ""},
-      {TYPE::VOLTS_PER_DIVISION,  "V/div"},
-      {TYPE::VOLTS,               "V"},
-      {TYPE::SECONDS,             "s"},
-      {TYPE::HERTZ,               "Hz"},
-      {TYPE::DEGREES,             "deg"}
+      unsigned shortest = 0;
+      unsigned longest = 0;
     };
     
   private:
-    double      m_actual_value        = 0.0;
-    double      m_coefficient         = 0.0;
+    static Min_Max_Map_Key_length m_min_max_unit_prefix_to_exponent;
+    static Min_Max_Map_Key_length m_min_max_unit_string_to_unit;
+    static unsigned               m_largest_exponent;  
+    std::vector<std::string>      m_unit_string_matches;    
+
     int         m_exponent            = 0;
-    std::string m_unit_prefix         = " ";
-    TYPE        m_label_type          = TYPE::NONE;
     bool        m_is_valid_label_text = false;
-    double      m_reference_value     = 0.0;
+    UNIT        m_unit                = UNIT::NONE;
+    double      m_coefficient         = 0.0;
+    double      m_reference           = 0.0;
+    double      m_actual_value        = 0.0;
+    std::string m_raw_string          = "0";
+    std::string m_unit_prefix         = "";
 
   private:
-    bool        parse_widget_input_if_valid       (const std::string& str);
+    int         correct_mod                       (int exponent, int modulo) const;
+    bool        parse_input_if_valid              (std::string& str);
+    bool        parse_string_if_valid             (std::string& str);
     bool        parse_double                      (double value);
-    bool        parse_string_if_valid             (const std::string& str);
-    double      calc_actual_value_using_reference (double actual_value, double reference);
-    double      calc_actual_value                 (double coefficient, int exponent);
-    int         calc_sci_exponent                 (std::string unit_prefix);
+    double      calc_actual_value_using_reference (double value, double reference);
     void        calc_sci_coefficient_and_exponent (double value, double& coefficient, int& exponent);
-    std::string calc_unit_prefix                  (int exponent);
+    std::string calc_unit_prefix                  (int exponent) const;
+    int         calc_sci_exponent                 (std::string& unit_prefix) const;
     void        debug                             ();
+    void        removeWhitespaces                 (std::string& str);
 
-    // inline getters
-    int correct_mod (int exponent, int modulo)
-    {
-      int ret = exponent < 0 ? ((exponent % modulo + modulo) % modulo) :
-        (exponent % modulo);
+    static std::string  str_to_lower_case           (std::string& str);
 
-      return (ret);
-    }
-  
+    template <typename ValueType>
+    static void map_str_keys_to_lower_case  
+    (std::map<std::string, ValueType>& src_map, std::map<std::string, ValueType>& dest_map);
+
+    template <typename KeyType, typename ValueType>
+    static std::map<KeyType, ValueType> reverse_map 
+    (const std::map<KeyType, ValueType>& map);
+     
+    
+
+    template <typename ValueType>
+    unsigned check_for_match 
+    (const std::string& str, std::map<std::string, ValueType>& map, unsigned max_str_length);
+    
+    template <typename KeyType>
+    static unsigned calc_largest_exponent 
+    (const std::map<KeyType, int>& map);
+
+    template <typename ValueType>
+    void find_matches_reverse 
+    (const std::string& str, std::map<std::string, ValueType>& map, 
+    Min_Max_Map_Key_length key_length, std::vector<std::string>& unit_vector);
+
+    // Run once functions (for caching)
+    template <typename ValueType>
+    static Min_Max_Map_Key_length find_min_map_key_length 
+    (const std::map<std::string, ValueType>& map);
+    
   public: 
     LabelValue ();
-    
-    LabelValue (
-      double  value, 
-      TYPE    parse_input_as = TYPE::NONE
-    );
+    LabelValue (double value, UNIT unit = UNIT::NONE);
+    LabelValue (const char* label, double reference = 0.0, UNIT unit = UNIT::NONE);
+    LabelValue (const char* label, UNIT unit = UNIT::NONE, double reference = 0.0);
 
-    LabelValue (
-      const char* label, 
-      double      reference,
-      TYPE        parse_input_as = TYPE::NONE
-    );
+    std::string to_label_text       (unsigned precision = 3);
+    std::string to_label_text       (UNIT unit, unsigned precision = 3);
 
-    LabelValue (
-      const char      *label,
-      TYPE  parse_input_as = TYPE::NONE
-    );
+    void        label_for           (UNIT parse_output_as);
 
-    std::string to_label_text (unsigned precision = 3);
-    std::string to_label_text (TYPE _TYPE, unsigned precision = 3);
-    
-    // Getters
-    double      actual_value        ();
-    double      coefficient         ();
     int         exponent            ();
-    char        unit_prefix         ();
-    std::string label_for           ();
     bool        is_valid_label_text ();
-    std::string short_value         ();
-
-    // Setters
-    void        label_for           (TYPE parse_output_as);
+    UNIT        unit                ();
+    double      coefficient         ();
+    double      reference_value     ();
+    double      actual_value        ();
+    std::string raw_string          ();
+    std::string unit_string         ();
+    std::string unit_prefix         ();    
 };
 
 #endif

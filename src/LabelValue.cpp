@@ -1,69 +1,81 @@
 #include "LabelValue.h"
 
+#include <cmath>
+#include <vector>
 #include <iomanip>
 #include <sstream>
-#include <cmath>
-
+#include <utility>
 #include <iostream>
+#include <algorithm>
+
+// ----------
+// Static Values
+
+LabelValue::Min_Max_Map_Key_length LabelValue::m_min_max_unit_prefix_to_exponent  = 
+  LabelValue::find_min_map_key_length (LabelValue::m_map_unit_prefix_to_exponent);
+
+LabelValue::Min_Max_Map_Key_length LabelValue::m_min_max_unit_string_to_unit = 
+  LabelValue::find_min_map_key_length (LabelValue::m_map_unit_string_to_unit);
+
+unsigned LabelValue::m_largest_exponent = 
+  LabelValue::calc_largest_exponent (LabelValue::m_map_unit_prefix_to_exponent);
+
+std::map<LabelValue::UNIT, std::string> LabelValue::m_map_unit_to_unit_string = 
+  LabelValue::reverse_map (m_map_unit_string_to_unit);
+
+std::map<std::string, LabelValue::UNIT> LabelValue::m_map_unit_string_to_unit_lowercase = 
+  LabelValue::map_str_keys_to_lower_case (m_)
+
+// ----------
 
 LabelValue:: 
 LabelValue ()
 {
-  
+
 }
 
 LabelValue::
 LabelValue (double            value, 
-            LabelValue::TYPE  parse_input_as)
+            LabelValue::UNIT  unit) : LabelValue ()
 {
-  m_label_type          = parse_input_as;
+  m_unit                = unit;
   m_is_valid_label_text = parse_double (value);
 }
 
-LabelValue::
-LabelValue (const char*       label, 
-            double            reference,
-            LabelValue::TYPE  parse_input_as)
+LabelValue:: 
+LabelValue (const char* label,
+            double      reference,
+            UNIT        unit) : LabelValue ()
 {
-  std::string str (label);
-
-  m_label_type          = parse_input_as;  
-  m_reference_value     = reference;
-  m_is_valid_label_text = parse_widget_input_if_valid (str);
+  m_raw_string          = std::string (label);
+  m_reference           = reference;
+  m_unit                = unit;
+  m_is_valid_label_text = parse_input_if_valid (m_raw_string);
 
   debug ();
 }
 
-LabelValue::
-LabelValue (const char      *label,
-            LabelValue::TYPE  parse_input_as)
+LabelValue:: 
+LabelValue (const char* label,
+            UNIT        unit,
+            double      reference)
 {
-  LabelValue (label, 0.0, parse_input_as);
+  LabelValue (label, reference, unit);
 }
 
-//
+inline int LabelValue:: 
+correct_mod (int exponent,
+             int modulo) const
+{
+  return (
+    exponent < 0 ? ((exponent % modulo + modulo) % modulo) : (exponent % modulo)
+  );
+}
 
 bool LabelValue:: 
-parse_widget_input_if_valid (const std::string& str)
+parse_input_if_valid (std::string& str)
 {
-  // 1. Check if the string is empty.
-  //    If it is, return false.
-  if (str.empty ())
-  {
-    return (false);
-  }
-
-  // 2. Check if the first character is not a digit, not a period, or
-  //    not a dash. If it is, return false.
-  if (!(std::isdigit (str[0]) || str[0] == '.' || str[0] == '-'))
-  {
-    return (false);
-  }
-
-  // 3. Check if there are any non-digit, non-dot, or non-dash characters
-  //    in the string. If there are none, the string may most likely be a value.
-  //    If there are, further parse the string.
-  if (str.find_first_not_of ("0123456789.-") == std::string::npos)
+  if (str.find_first_not_of ("0123456789.-+") == std::string::npos)
   {
     try 
     {
@@ -71,7 +83,7 @@ parse_widget_input_if_valid (const std::string& str)
 
       return (parse_double (value));
     }
-    catch (const std::exception& e) // catch all possible errors
+    catch (const std::exception& e) 
     {
       return (false);
     }
@@ -83,68 +95,89 @@ parse_widget_input_if_valid (const std::string& str)
 }
 
 bool LabelValue:: 
-parse_double (double value)
+parse_string_if_valid (std::string& str)
 {
-  m_actual_value = calc_actual_value_using_reference (value, m_reference_value);
+  // 1. Remove all whitespaces in the string
+  removeWhitespaces (str);
 
-  calc_sci_coefficient_and_exponent (
-    m_actual_value, 
-    m_coefficient, 
-    m_exponent
-  );
+  // 2. Find the position of the first non-digit, 
+  //    non-dot, or non-sign character
+  unsigned pos = str.find_first_not_of ("0123456789.+-");
 
-  m_unit_prefix = calc_unit_prefix (m_exponent);
-
-  return (true);
-}
-
-bool LabelValue:: 
-parse_string_if_valid (const std::string& str)
-{
-  // 1. Find the position of the first non-digit, non-dot, or non-dash character.
-  unsigned nd_pos = str.find_first_not_of ("0123456789.-");
-
-  // 2. Assign the substring before the position as the coefficient.
+  // 3. Assign the substring before pos as the coefficient
   try 
   {
-    m_coefficient = std::stod (str.substr (0, nd_pos));
+    m_coefficient = std::stod (str.substr (0, pos));
   }
-  catch (const std::exception& e) // catch all possible errors
+  catch (const std::exception& e)
   {
     return (false);
   }
 
-  // 3. Remove all possible whitespaces between the coefficient and the unit.
-  std::string post_coeff  = str.substr (nd_pos);
-  nd_pos                  = post_coeff.find_first_not_of (" \t\r\n");
-  post_coeff              = post_coeff.substr (nd_pos);
+  // 4. If what was left after getting the coefficient is an empty string,
+  //    return true
+  std::string post_coeff = str.substr (pos);
 
-  std::cout << "string: " << post_coeff << std::endl;
-  std::cout << "string length: " << post_coeff.length () << std::endl;
-
-  // 4.1 If the remaining string is equivalent to the labelvalue_for_string_format,
-  //     this means that exponent is 0 = base value.
-  if (post_coeff == labelvalue_for_string_format[m_label_type])
+  if (post_coeff.empty ())
   {
-    m_unit_prefix = " ";
+    return (true);
+  }
+
+  // 5. Get unit string/s
+  find_matches_reverse (post_coeff, m_map_unit_string_to_unit,
+    m_min_max_unit_string_to_unit, m_unit_string_matches);
+
+  // 6.
+  std::string post_unit_string;
+
+  if (m_unit_string_matches.empty ())
+  {
+    if (m_unit != LabelValue::UNIT::NONE)
+    {
+      return (false);
+    }
+
+    post_unit_string = post_coeff;
   }
   else 
   {
-    std::string poss_unit   = post_coeff.substr (0, 1);
-    std::string poss_format = post_coeff.substr (1);
 
-    auto it = m_si_prefix_to_exp.find (poss_unit);
+  }
 
-    if (it != m_si_prefix_to_exp.end () && 
-      poss_format == labelvalue_for_string_format[m_label_type])
-    {
-      m_unit_prefix = poss_unit;
-    }
-    else 
+
+    
+
+
+  if (m_unit_string_matches.empty ())
+  {
+    if (m_unit != LabelValue::UNIT::NONE)
     {
       return (false);
     }
   }
+
+  // 6. If there was no unit string found, this means the remaining string
+  //    (post_coeff) might most likely be just the unit prefix
+  std::string post_unit_string;
+
+  if (m_unit_string_matches.empty ())
+  {
+    m_unit            = LabelValue::UNIT::NONE;
+    post_unit_string  = post_coeff;
+  }
+
+  // 7. If there was a unit string found, "subtract" the longest value in the
+  //    m_unit_matches vector with the post_coeff string to get the possible
+  //    unit prefix string
+  else 
+  {
+    unsigned us_pos   = post_coeff.find (m_unit_string_matches.back ());
+    post_unit_string  = post_coeff.substr (0, us_pos);
+  }
+
+  // 8. 
+
+  // 8. Get unit string
 
   m_exponent      = calc_sci_exponent (m_unit_prefix);
   m_actual_value  = calc_actual_value (m_coefficient, m_exponent);
@@ -152,46 +185,43 @@ parse_string_if_valid (const std::string& str)
   return (true);
 }
 
+bool LabelValue:: 
+parse_double (double value)
+{
+  m_actual_value = calc_actual_value_using_reference (value, m_reference);
+
+  calc_sci_coefficient_and_exponent (m_actual_value, m_coefficient, m_exponent);
+
+  m_unit_prefix = calc_unit_prefix (m_exponent);
+
+  return (true);
+}
+
 double LabelValue:: 
-calc_actual_value_using_reference (double actual_value, 
+calc_actual_value_using_reference (double value, 
                                    double reference)
 {
   if (reference == 0.0)
   {
-    return (actual_value);
+    return (value);
   }
   else 
   {
-    int     temp_exp;
-    double  temp_coeff;
-  
-    // Get the unit prefix of the reference value
-    calc_sci_coefficient_and_exponent (
-      reference, 
-      temp_coeff, 
-      temp_exp
-    );
+    double  temp_coeff  = 0.0;
+    int     temp_exp    = 0;
+    
+    // 1. Get the coefficient and exponent of the 
+    //    reference value's scientific notation
+    calc_sci_coefficient_and_exponent (reference, temp_coeff, temp_exp);
 
-    // Using the unit prefix, get the unit prefix integer
-    int pow_exp = calc_sci_exponent (calc_unit_prefix (temp_exp));
+    // 2. Using the exponent, get the unit prefix
+    std::string temp_unit_prefix = calc_unit_prefix (temp_exp);
 
-    return (actual_value * std::pow (10, pow_exp));
+    // 3. Using the unit prefix, get the exponent
+    int pow_exp = calc_sci_exponent (temp_unit_prefix);
+
+    return (value * std::pow (10, pow_exp));
   }
-}
-
-double LabelValue:: 
-calc_actual_value (double coefficient, 
-                   int    exponent)
-{
-  return (coefficient * std::pow (10, exponent));
-}
-
-int LabelValue:: 
-calc_sci_exponent (std::string unit_prefix)
-{
-  // TO-DO: do bounds checking
-
-  return (m_si_prefix_to_exp[unit_prefix]);
 }
 
 void LabelValue::
@@ -199,23 +229,63 @@ calc_sci_coefficient_and_exponent (double   value,
                                    double&  coefficient,
                                    int&     exponent)
 {
-  // Convert value to a string representation of its scientific notation
+  // 1. Convert the value to a string representation of its scientific notation
   std::stringstream ss;
-  ss << std::scientific << std::setprecision (12) << value;
+  ss << std::scientific << std::setprecision (m_largest_exponent) << value;
   std::string str = ss.str ();
 
-  // Extract coefficient and exponent from the string
-  unsigned e_pos  = str.find_first_of ("eE");
+  // 2. Extract the coefficient and exponent from the string representation
+  unsigned e_pos  = str.find_first_of ("Ee");
   coefficient     = std::stod (str.substr (0, e_pos));
   exponent        = std::stoi (str.substr (e_pos + 1));
 }
 
 std::string LabelValue:: 
-calc_unit_prefix (int exponent)
+calc_unit_prefix (int exponent) const
 {
-  // TO-DO: do bounds checking
+  switch (exponent)
+  {
+    case -9:
+    case -8:
+    case -7:
+      return ("n");
 
-  return (m_exp_to_si_prefix[exponent]);
+    case -6:
+    case -5:
+    case -4:
+      return ("u");
+
+    case -3:
+    case -2:
+    case -1:
+      return ("m");
+    
+    case 0:
+    case 1:
+    case 2:
+      return ("");
+    
+    case 3:
+    case 4:
+    case 5:
+      return ("k");
+
+    case 6:
+    case 7:
+    case 8:
+      return ("M");
+    
+    case 9:
+    case 10:
+    case 11:
+      return ("G");
+  }
+}
+
+int LabelValue:: 
+calc_sci_exponent (std::string& unit_prefix) const
+{
+  return (m_map_unit_prefix_to_exponent.at (unit_prefix));
 }
 
 void LabelValue:: 
@@ -228,8 +298,120 @@ debug ()
   std::cout << "unit prefix     : " << m_unit_prefix                  << "\n";
   std::cout << "label type      : " << static_cast<int>(m_label_type) << "\n";
   std::cout << "is valid        : " << m_is_valid_label_text          << "\n";
-  std::cout << "reference value : " << m_reference_value              << "\n";
+  std::cout << "reference value : " << m_reference              << "\n";
   std::cout << "----------\n";
+}
+
+void LabelValue:: 
+removeWhitespaces (std::string& str)
+{
+  str.erase (std::remove_if (str.begin (), str.end (), ::isspace), str.end ());
+}
+
+std::string LabelValue:: 
+strToLowerCase (std::string& str)
+{
+  std::string str_lower = str;
+
+  std::transform (str_lower.begin (), str_lower.end (), str_lower.begin (),
+    [](unsigned char c) {return std::tolower (c);});
+  
+  return (std::string);
+}
+
+template <typename KeyType, typename ValueType>
+std::map<KeyType, ValueType> LabelValue::
+reverse_map (const std::map<KeyType, ValueType>& map)
+{
+  std::map<ValueType, KeyType> reversed_map;
+
+  for (const auto& pair : map)
+  {
+    reversed_map[pair.second] = pair.first;
+  }
+
+  return (reversed_map);
+}
+
+template <typename ValueType>
+LabelValue::Min_Max_Map_Key_length LabelValue:: 
+find_min_map_key_length (const std::map<std::string, ValueType>& map)
+{
+  unsigned min = 0;
+  unsigned max = 0;
+
+  for (auto it = map.begin (); it != map.end (); ++it)
+  {
+    const std::string& key = it->first;
+
+    if (it == map.begin ())
+    {
+      min = key.length ();
+      max = key.length ();
+    }
+
+    min = (key.length () < min ) ? key.length () : min;
+    max = (key.length () > max ) ? key.length () : max;
+  }
+
+  return (LabelValue::Min_Max_Map_Key_length {min, max});
+}
+
+template <typename ValueType>
+unsigned LabelValue:: 
+check_for_match (const  std::string&                      str, 
+                        std::map<std::string, ValueType>& map,
+                        unsigned                          max_str_length)
+{
+  for (int i = 1; i <= (max_str_length + 1); i++)
+  {
+    std::string substr = str.substr (0, i);
+
+    typename std::map<std::string, ValueType>::iterator it = map.find (substr);
+
+    if (it != map.end ())
+    {
+      return (i);
+    }
+  }
+
+  return (-1);
+}
+
+template <typename KeyType>
+unsigned LabelValue:: 
+calc_largest_exponent (const std::map<KeyType, int>& map)
+{
+  int x = 0;
+
+  for (const auto& pair : map)
+  {
+    x = (std::abs(pair.second) > x) ? std::abs(pair.second) : x;
+  }
+
+  return (x);
+}
+
+template <typename ValueType>
+void LabelValue:: 
+find_matches_reverse (const std::string&                      str,
+                            std::map<std::string, ValueType>& map,
+                            Min_Max_Map_Key_length            key_length,
+                            std::vector<std::string>&         unit_vector)
+{
+  std::string str_lower = strToLowerCase (str);
+
+  for (int i = key_length.min; i <= str.length () && i <= key_length.max; i++)
+  {
+    std::string substr = str_lower.substr (str.length () - i, str.length () + 1);
+
+    typename std::map<std::string, ValueType>::iterator it = map.find (substr);
+
+    if (it != map.end ())
+    {
+      unit_vector.emplace_back (substr);
+    }
+  }
 }
 
 std::string LabelValue:: 
@@ -246,19 +428,35 @@ to_label_text (unsigned precision)
 }
 
 std::string LabelValue:: 
-to_label_text (LabelValue::TYPE parse_input_as, unsigned precision)
+to_label_text (LabelValue::UNIT parse_input_as, unsigned precision)
 {
   m_label_type = parse_input_as;
 
   return (to_label_text ());
 }
 
-// Getters
-
-double LabelValue:: 
-actual_value ()
+void LabelValue::
+label_for (LabelValue::UNIT parse_output_as)
 {
-  return (m_actual_value);
+  m_label_type = parse_output_as;
+}
+
+int LabelValue:: 
+exponent ()
+{
+  return (m_exponent);
+}
+
+bool LabelValue::
+is_valid_label_text ()
+{
+  return (m_is_valid_label_text);
+}
+
+LabelValue::UNIT LabelValue:: 
+unit ()
+{
+  return (m_unit);
 }
 
 double LabelValue:: 
@@ -267,10 +465,10 @@ coefficient ()
   return (m_coefficient);
 }
 
-int LabelValue:: 
-exponent ()
+double LabelValue:: 
+actual_value ()
 {
-  return (m_exponent);
+  return (m_actual_value);
 }
 
 char LabelValue:: 
@@ -283,12 +481,6 @@ std::string LabelValue::
 label_for ()
 {
   return (labelvalue_for_string_format[m_label_type]);
-}
-
-bool LabelValue::
-is_valid_label_text ()
-{
-  return (m_is_valid_label_text);
 }
 
 std::string LabelValue::
@@ -311,11 +503,10 @@ short_value ()
   return (ss.str ());
 }
 
-// Setters
-void LabelValue::
-label_for (LabelValue::TYPE parse_output_as)
+std::string LabelValue:: 
+unit_prefix ()
 {
-  m_label_type = parse_output_as;
+  return ();
 }
 
 // EOF

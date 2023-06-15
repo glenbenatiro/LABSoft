@@ -1,0 +1,66 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0305
+header_name {.h}
+code_name {.cpp}
+decl {class LabelValue_Controller;} {public global
+}
+
+decl {\#include "LabelValue_Controller.h"} {private global
+}
+
+class LabelValue_GUI {open
+} {
+  decl {LabelValue_Controller* controller;} {public local
+  }
+  Function {LabelValue_GUI()} {open
+  } {
+    Fl_Window window {
+      label LabelValue open
+      xywh {340 312 480 260} type Double visible
+    } {
+      Fl_Group {} {open
+        xywh {0 0 480 260}
+      } {
+        Fl_Input_Choice input {
+          label Input
+          callback {controller->cb_input (o, v);} open
+          xywh {49 70 120 30} align 1
+          code0 {input->when (FL_WHEN_ENTER_KEY | FL_WHEN_RELEASE);}
+          code1 {input->input ()->when (FL_WHEN_ENTER_KEY | FL_WHEN_RELEASE);}
+        } {}
+        Fl_Choice choice {
+          label {Parse as} open
+          xywh {49 151 120 30} down_box BORDER_BOX align 1
+        } {
+          MenuItem {} {
+            label {V/div}
+            xywh {0 0 36 21}
+          }
+          MenuItem {} {
+            label {s/div}
+            xywh {10 10 36 21}
+          }
+          MenuItem {} {
+            label s
+            xywh {20 20 36 21}
+          }
+          MenuItem {} {
+            label Hz
+            xywh {30 30 36 21}
+          }
+          MenuItem {} {
+            label deg
+            xywh {40 40 36 21}
+          }
+          MenuItem {} {
+            xywh {50 50 36 21}
+          }
+        }
+        Fl_Output output {
+          label Output
+          xywh {292 69 120 30} align 1
+        }
+      }
+    }
+  }
+}

@@ -34,8 +34,10 @@ class LAB_Logic_Analyzer
     void stop  ();
   
     // Horizontal
-    double  time_per_division (double value, unsigned disp_num_cols);
-    double  horizontal_offset (double value);
+    void    horizontal_offset (double value);
+    double  horizontal_offset () const;
+    void    time_per_division (double value, unsigned disp_num_cols);
+    double  time_per_division () const;    
     void    sampling_rate     (double value);
 
     // Display
