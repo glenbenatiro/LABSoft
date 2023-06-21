@@ -87,7 +87,7 @@ LABSoft_Logic_Analyzer_Display_Group
   
   end ();
 
-  // update_time_per_division_labels ();
+  // update_gui_time_per_division ();
 }
 
 void LABSoft_Logic_Analyzer_Display_Group::
@@ -118,7 +118,7 @@ fill_pixel_points ()
 }
 
 void LABSoft_Logic_Analyzer_Display_Group:: 
-update_time_per_division_labels ()
+update_gui_time_per_division ()
 {
 
 }

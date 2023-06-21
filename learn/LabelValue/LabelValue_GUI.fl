@@ -33,16 +33,20 @@ class LabelValue_GUI {open
           xywh {49 151 120 30} down_box BORDER_BOX align 1
         } {
           MenuItem {} {
+            label V
+            xywh {10 10 36 21}
+          }
+          MenuItem {} {
             label {V/div}
             xywh {0 0 36 21}
           }
           MenuItem {} {
-            label {s/div}
-            xywh {10 10 36 21}
-          }
-          MenuItem {} {
             label s
             xywh {20 20 36 21}
+          }
+          MenuItem {} {
+            label {s/div}
+            xywh {10 10 36 21}
           }
           MenuItem {} {
             label Hz

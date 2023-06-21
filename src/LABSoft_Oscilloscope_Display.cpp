@@ -17,8 +17,8 @@ LABSoft_Oscilloscope_Display (int X,
                               int H,
                               const char *label) 
   : Fl_Widget (X, Y, W, H, label)                                               
-{ 
-  
+{
+  calc_cached_drawing_values ();
 }
 
 LABSoft_Oscilloscope_Display:: 
@@ -27,11 +27,42 @@ LABSoft_Oscilloscope_Display::
 
 }
 
+int LABSoft_Oscilloscope_Display::
+handle (int event)
+{
+  switch (event)
+  {
+    case (FL_MOUSEWHEEL):
+    {
+      if (Fl::belowmouse () == this)
+      {
+        do_callback ();
+      }
+
+      return (1);
+    }
+
+    case (FL_PUSH):
+    {
+      do_callback ();
+
+      return (1);
+    }
+
+    case (FL_DRAG):
+    {
+      do_callback ();
+
+      return (1);
+    }
+  }
+}
+
 void LABSoft_Oscilloscope_Display:: 
 draw ()
 {
-  draw_box (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY::BACKGROUND_COLOR);
-  draw_grid ();
+  draw_box      (FL_FLAT_BOX, LABSOFT_OSCILLOSCOPE_DISPLAY::BACKGROUND_COLOR);
+  draw_grid     ();
   draw_channels ();
 }
 
@@ -39,7 +70,7 @@ void LABSoft_Oscilloscope_Display::
 draw_grid ()
 {
   // 1. Set line color and style
-  fl_color      (LABC::OSC_DISPLAY::COLOR::GRID);
+  fl_color      (LABC::OSC_DISPLAY::GRID_COLOR);
   fl_line_style (FL_SOLID, 0, NULL);
 
   // 2. Draw outer box
@@ -51,7 +82,7 @@ draw_grid ()
   // 3. Draw rows
   for (int row = 0; row < (LABC::OSC_DISPLAY::NUMBER_OF_ROWS - 1); row++)
   {
-    if (row == ((LABC::OSC_DISPLAY::NUMBER_OF_ROWS / 2) - 1))
+    if (row == LABC::OSC_DISPLAY::MID_ROW_INDEX)
     {
       fl_line_style (FL_DASH, 0, NULL);
     }
@@ -60,8 +91,7 @@ draw_grid ()
       fl_line_style (FL_DOT, 0, NULL);
     }
 
-    int Y = std::round ((row + 1) * (static_cast<float>(h ()) / static_cast<float>
-      (LABC::OSC_DISPLAY::NUMBER_OF_ROWS))) + y ();
+    int Y = std::round ((row + 1) * m_row_height) + y ();
     
     fl_line (x (), Y, x () + w (), Y);
   }
@@ -69,7 +99,7 @@ draw_grid ()
   // 4. Draw columns
   for (int col = 0; col < (LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS - 1); col++)
   {
-    if (col == ((LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS / 2) - 1))
+    if (col == LABC::OSC_DISPLAY::MID_COLUMN_INDEX)
     {
       fl_line_style (FL_DASH, 0, NULL);
     }
@@ -78,8 +108,7 @@ draw_grid ()
       fl_line_style (FL_DOT, 0, NULL);
     }
 
-    int X = std::round ((col + 1) * (static_cast<float>(w ()) / static_cast<float>
-      (LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS))) + x ();
+    int X = std::round ((col + 1) * m_column_width) + x ();
 
     fl_line (X, y (), X, y () + h ());
   }
@@ -89,19 +118,16 @@ draw_grid ()
 
   for (int Y = y (); Y <= (y () + h ()); Y += h ())
   {
-    double major_width = static_cast<double>(w ()) / LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
-    double minor_width = major_width / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
-
-    for (int X = x (); X < (x () + w ()); X += major_width)
+    for (int X = x (); X < (x () + w ()); X += m_column_width)
     {
       for (int i = 0; i < LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
       {
         if (i == (LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS / 2))
         {
           fl_line (
-            X + (i * minor_width),
+            X + (i * m_x_axis_minor_ticks_width),
             Y,
-            X + (i * minor_width),
+            X + (i * m_x_axis_minor_ticks_width),
             Y == y () ? Y + LABC::OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH :
               Y - LABC::OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH
           );
@@ -109,9 +135,9 @@ draw_grid ()
         else 
         {
           fl_line (
-            X + (i * minor_width),
+            X + (i * m_x_axis_minor_ticks_width),
             Y,
-            X + (i * minor_width),
+            X + (i * m_x_axis_minor_ticks_width),
             Y == y () ? Y + LABC::OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH :
               Y - LABC::OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH
           );
@@ -133,10 +159,7 @@ draw_grid ()
 
   for (int X = x (); X <= (x () + w ()); X += w ())
   {
-    double major_height = static_cast<double>(h ()) / LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
-    double minor_height = major_height / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
-
-    for (int Y = y (); Y < (y () + h ()); Y += major_height)
+    for (int Y = y (); Y < (y () + h ()); Y += m_row_height)
     {
       for (int i = 0; i < LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
       {
@@ -144,20 +167,20 @@ draw_grid ()
         {
           fl_line (
             X,
-            Y + (i * minor_height),
+            Y + (i * m_y_axis_minor_ticks_height),
             X == x () ? X + LABC::OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH :
               X - LABC::OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH,
-            Y + (i * minor_height)
+            Y + (i * m_y_axis_minor_ticks_height)
           );
         }
         else 
         {
           fl_line (
             X,
-            Y + (i * minor_height),
+            Y + (i * m_y_axis_minor_ticks_height),
             X == x () ? X + LABC::OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH :
               X - LABC::OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH,
-            Y + (i * minor_height)
+            Y + (i * m_y_axis_minor_ticks_height)
           );
         }
       }
@@ -177,145 +200,128 @@ draw_grid ()
   fl_line_style (FL_SOLID, 0, NULL);
 }
 
-int LABSoft_Oscilloscope_Display:: 
+void LABSoft_Oscilloscope_Display:: 
 draw_channels () 
 {
-  if (!m_parent_data_osc)
+  if (m_parent_data == nullptr)
   {
-    return -1;
+    return;
   }
 
-  if (!(m_parent_data_osc->has_enabled_channels ()))
+  if (!m_parent_data->has_enabled_channels ())
   {
-    return -2;
+    return;
   }
 
   // ---
- 
-  fl_push_clip (x (), y (), w (), h ());
 
-  LAB_Parent_Data_Oscilloscope  &pdata = *m_parent_data_osc;
-  int samp_count = (pdata.w_samp_count < w () ? pdata.w_samp_count : w ()) - 1;
+  fl_push_clip  (x (), y (), w (), h ());
+  
+  LAB_Parent_Data_Oscilloscope &pdata = *m_parent_data;
 
-  for (int chan = 0; chan < (m_parent_data_osc->channel_data.size ()); chan++)
+  unsigned samp_count = (pdata.samples < w () ? pdata.samples : w ()) - 1;
+
+  for (unsigned chan = 0; chan < (pdata.channel_data.size ()); chan++)
   {
-    LAB_Channel_Data_Oscilloscope &c_data = pdata.channel_data[chan];
-    std::vector<std::array<int, 2>> &pp   = c_data.pixel_points;
-
-    if (c_data.is_enabled)
+    if (pdata.channel_data[chan].is_enabled)
     {
-      fl_color (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP::CHANNEL_COLORS[chan]);
+      std::vector<std::array<int, 2>> &pp = pdata.channel_data[chan].pixel_points;
 
-      if (pdata.w_samp_count <= LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_THRESHOLD)
+      // Because of how line styles are implemented on Win32 systems, 
+      // you must set the line style after setting the drawing color. 
+      // If you set the color after the style, style settings will be lost.
+      fl_color      (LABC::DISPLAY::CHAN_COLORS[chan]);
+      fl_line_style (FL_SOLID, 0, 0);
+
+      if (pdata.samples <= LABC::OSC_DISPLAY::SAMPLE_MARKING_THRESHOLD)
       {
-        for (int samp_i = 0; samp_i < samp_count; samp_i++)
+        for (unsigned i = 0; i < samp_count; i++)
         {
-          fl_line_style (
-            FL_SOLID,
-            0,
-            0
-          );
-
-          fl_line (
-            pp[samp_i][0], 
-            pp[samp_i][1], 
-            pp[samp_i + 1][0], 
-            pp[samp_i + 1][1]
-          );
-
-          fl_line_style (
-            FL_SOLID,
-            LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_THICKNESS,
-            0
-          );
-
-          // Draw the sample markers
-          fl_line (
-            // vertical
-            pp[samp_i][0],
-            pp[samp_i][1] + LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
-            pp[samp_i][0],
-            pp[samp_i][1] - LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE
-          );
-
-          fl_line (
-            // horizontal
-            pp[samp_i][0] + LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
-            pp[samp_i][1],
-            pp[samp_i][0] - LABSOFT_OSCILLOSCOPE_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
-            pp[samp_i][1]
-          );
+          fl_line             (pp[i][0], pp[i][1], pp[i + 1][0], pp[i + 1][1]);
+          draw_sample_marker  (pp[i][0], pp[i][1]);
         }
       }
       else 
       {
-        for (int samp_i = 0; samp_i < samp_count; samp_i++)
+        for (unsigned i = 0; i < samp_count; i++)
         {
-          fl_line (
-            pp[samp_i][0], 
-            pp[samp_i][1], 
-            pp[samp_i + 1][0], 
-            pp[samp_i + 1][1]
-          );
+          fl_line (pp[i][0], pp[i][1], pp[i + 1][0], pp[i + 1][1]);
         }
-      }  
+      }
     }
   }
 
+  fl_color      (0);
   fl_line_style (0);
-  fl_pop_clip();
+  fl_pop_clip   ();
+}
 
-  return (1);
+void LABSoft_Oscilloscope_Display:: 
+draw_sample_marker (int x, int y)
+{
+  // Vertical
+  fl_line (
+    x,
+    y + LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+    x,
+    y - LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE
+  );
+
+  // Horizontal
+  fl_line (
+    x + LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+    y,
+    x - LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+    y
+  );
+}
+
+void LABSoft_Oscilloscope_Display:: 
+calc_cached_drawing_values ()
+{
+  m_column_width              = static_cast<float>(w ()) / LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
+  m_row_height                = static_cast<float>(h ()) / LABC::OSC_DISPLAY::NUMBER_OF_ROWS;
+  m_x_axis_minor_ticks_width  = m_column_width / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
+  m_y_axis_minor_ticks_height = m_row_height / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
+  m_display_half_height       = static_cast<float>(h ()) / 2.0;
+  m_display_height_midline    = std::round (y () + m_display_half_height);
 }
 
 void LABSoft_Oscilloscope_Display::
 load_osc_parent_data (LAB_Parent_Data_Oscilloscope& parent_data)
 {
-  m_parent_data_osc = &parent_data;
+  m_parent_data = &parent_data;
 }
 
-int LABSoft_Oscilloscope_Display::
+void LABSoft_Oscilloscope_Display::
 reserve_pixel_points ()
 {
-  if (!m_parent_data_osc)
-  {
-    return -1;
-  }
-  else 
-  {
-    for (int a = 0; a < (m_parent_data_osc->channel_data.size ()); a++)
-    {
-      m_parent_data_osc->channel_data[a].pixel_points.reserve (
-        LABC::OSC::NUMBER_OF_SAMPLES
-      );
-    }
+  LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data;
 
-    return 1;
+  for (int a = 0; a < pdata.channel_data.size (); a++)
+  {
+    pdata.channel_data[a].pixel_points.reserve (LABC::OSC::NUMBER_OF_SAMPLES);
   }
 }
-
 
 void LABSoft_Oscilloscope_Display::
 fill_pixel_points ()
 {
-  LAB_Parent_Data_Oscilloscope& pdata = *(m_parent_data_osc);
-  double  osc_disp_vert_half           = h () / 2.0;
-  int     osc_disp_vert_midline        = std::round (y () + osc_disp_vert_half);
+  LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data;
 
   for (int chan = 0; chan < pdata.channel_data.size (); chan++)
   {
     LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
     std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
 
-    double vertical_scaler = (osc_disp_vert_half) / 
-      ((LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS / 2.0) * 
-      cdata.voltage_per_division);
+    double vertical_scaler = (m_display_half_height) / 
+      (LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF * cdata.voltage_per_division);
     
     double x_offset = calc_x_offset (chan);
 
-    if (pdata.w_samp_count >= w ())
+    if (pdata.samples >= w ())
     {
-      double skipper = (static_cast<double>(pdata.w_samp_count) - 1.0) / w ();
+      double skipper = (static_cast<double>(pdata.samples) - 1.0) / w ();
     
       for (int samp = 0; samp <= w (); samp++)
       {
@@ -324,41 +330,62 @@ fill_pixel_points ()
         double curr_samp = (cdata.samples[std::round (skipper * samp)]) + 
           cdata.vertical_offset;
         
-        if (curr_samp == 0.0)
+        if (LABF::compare_double (curr_samp, 0.0))
         {
-          pp[samp][1] = osc_disp_vert_midline;
+          pp[samp][1] = m_display_height_midline;
         }
         else 
         {
-          pp[samp][1] = std::round (osc_disp_vert_midline - 
+          pp[samp][1] = std::round (m_display_height_midline - 
             (curr_samp * vertical_scaler));
         }
       }
     }
     else 
     {
-      double scaler = w () / (static_cast<double>(pdata.w_samp_count) - 1.0);
+      double scaler = w () / (static_cast<double>(pdata.samples) - 1);
 
-      double first_samp_index = (static_cast<double>(cdata.samples.size ()) - 
-        static_cast<double>(pdata.w_samp_count)) / 2.0;
-      
-      for (int samp = 0; samp < pdata.w_samp_count; samp++)
+      unsigned first_samp_index = ((cdata.samples.size () / 2.0) - 
+        (pdata.samples / 2.0)) - 1.0;
+
+      for (int samp = 0; samp < pdata.samples; samp++)
       {
         pp[samp][0] = std::round (x () + (samp * scaler) + x_offset);
 
         double curr_samp = (cdata.samples[first_samp_index + samp]) + 
           cdata.vertical_offset;
         
-        if (curr_samp == 0.0)
+        if (LABF::compare_double (curr_samp, 0.0))
         {
-          pp[samp][1] = osc_disp_vert_midline;
+          pp[samp][1] = m_display_height_midline;
         }
         else 
         {
-          pp[samp][1] = std::round (osc_disp_vert_midline - 
+          pp[samp][1] = std::round (m_display_height_midline - 
             (curr_samp * vertical_scaler));
         }
       }
+
+      // double first_samp_index = (static_cast<double>(cdata.samples.size ()) - 
+      //   static_cast<double>(pdata.samples)) / 2.0;
+      
+      // for (int samp = 0; samp < pdata.samples; samp++)
+      // {
+      //   pp[samp][0] = std::round (x () + (samp * scaler) + x_offset);
+
+      //   double curr_samp = (cdata.samples[first_samp_index + samp]) + 
+      //     cdata.vertical_offset;
+        
+      //   if (curr_samp == 0.0)
+      //   {
+      //     pp[samp][1] = m_display_height_midline;
+      //   }
+      //   else 
+      //   {
+      //     pp[samp][1] = std::round (m_display_height_midline - 
+      //       (curr_samp * vertical_scaler));
+      //   }
+      // }
     }
   }
 }
@@ -366,8 +393,8 @@ fill_pixel_points ()
 double LABSoft_Oscilloscope_Display:: 
 calc_x_offset (unsigned channel)
 {
-  double curr_off = m_parent_data_osc->horizontal_offset;
-  double curr_tpd = m_parent_data_osc->time_per_division;
+  double curr_off = m_parent_data->horizontal_offset;
+  double curr_tpd = m_parent_data->time_per_division;
 
   if (curr_off == 0.0)
   { 
@@ -375,13 +402,47 @@ calc_x_offset (unsigned channel)
   }
   else 
   {
-    double col_width = static_cast<double>(w ()) / 
-      LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS;
-
-    double offset_pix = (-1.0 * col_width * (curr_off / curr_tpd));
+    double offset_pix = (-1.0 * m_column_width * (curr_off / curr_tpd));
 
     return (offset_pix);
   }
+}
+
+void LABSoft_Oscilloscope_Display:: 
+mouse_down_start (int X, int Y)
+{
+  m_mouse_down_start_x = X;
+  m_mouse_down_start_y = Y;
+} 
+
+int LABSoft_Oscilloscope_Display:: 
+mouse_down_start_x ()
+{
+  return (m_mouse_down_start_x);
+}
+
+int LABSoft_Oscilloscope_Display:: 
+mouse_down_start_y ()
+{
+  return (m_mouse_down_start_y);
+}
+
+int LABSoft_Oscilloscope_Display::
+calc_time_per_div_scaler (int drag_x)
+{
+  return ((m_mouse_down_start_x - drag_x) / m_x_axis_minor_ticks_width);
+}
+
+void LABSoft_Oscilloscope_Display:: 
+pre_drag_horizontal_offset (double value)
+{
+  m_pre_drag_horizontal_offset = value;
+}
+
+double LABSoft_Oscilloscope_Display:: 
+pre_drag_horizontal_offset ()
+{
+  return (m_pre_drag_horizontal_offset);
 }
 
 // EOF

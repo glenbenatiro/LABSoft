@@ -2,6 +2,7 @@
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Toggle_Button.H>
 
@@ -48,21 +49,25 @@ class LABSoft_Controller_Oscilloscope
     void cb_trigger_condition             (Fl_Choice*         w, void* data);
     void cb_trigger_level                 (Fl_Input_Choice*   w, void* data);
 
-    // Record
+    // Record/Export
     void cb_record                        (Fl_Button*         w, void* data);
     void cb_record_config                 (Fl_Button*         w, void* data);
     void cb_record_config_start           (Fl_Button*         w, void* data);
     void cb_record_config_cancel          (Fl_Button*         w, void* data);
+    void cb_export                        (Fl_Menu_Item*      w, void* data);
+
+    // Mode
+    void cb_mode                          (Fl_Choice*         w, void* data);
+    void cb_channel_selector              (Fl_Toggle_Button*  w, long channel);
 
     // Display
-    void cb_display_mode                  (Fl_Choice*         w, void* data);
-    void cb_channel_selector              (Fl_Toggle_Button*  w, long channel);
+    void cb_display                       (LABSoft_Oscilloscope_Display* w, void* data);
 
     // GUI update
     void display_update_cycle             ();
     void update_gui_main                  (bool value);
     void update_trigger_panel_gui         ();
-    void update_horizontal_widgets_gui    ();
+    void update_gui_horizontal            ();
     
     // Extra
     void oscilloscope_display_group_init  ();

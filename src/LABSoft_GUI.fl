@@ -19,15 +19,19 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label LABSoft open
-      xywh {2342 174 1365 765} type Double color 55 visible
+      xywh {413 91 1365 765} type Double color 55 visible
     } {
-      Fl_Menu_Bar {} {
+      Fl_Menu_Bar {} {open
         xywh {0 0 1366 30} box FLAT_BOX color 54
       } {
         Submenu {} {
-          label File
+          label File open
           xywh {0 0 70 21}
         } {
+          MenuItem main_menuitem_export {
+            label Export
+            xywh {10 10 36 21}
+          }
           MenuItem {} {
             label Exit
             xywh {0 0 36 21}
@@ -39,11 +43,11 @@ class LABSoft_GUI {open
         } {}
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
+        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);}
         xywh {0 30 1366 738} box FLAT_BOX color 55 selection_color 54
       } {
         Fl_Group main_fl_group_home_tab {
-          label Home
+          label Home open
           xywh {0 60 1366 708} color 54 selection_color 52 hide
         } {
           Fl_Box {} {
@@ -53,7 +57,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_oscilloscope_tab {
           label Oscilloscope open
-          xywh {0 60 1366 708} color 54 selection_color 52
+          xywh {0 60 1366 768} color 54 selection_color 52
         } {
           Fl_Button oscilloscope_fl_button_record {
             label Record
@@ -75,11 +79,12 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);}
             xywh {1205 180 120 60} box GTK_UP_BOX color 53
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
             xywh {24 84 800 660} box FLAT_BOX color 0
             class LABSoft_Oscilloscope_Display_Group
           } {
             Fl_Box oscilloscope_labsoft_oscilloscope_display_display {
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_display (o, v);}
               xywh {106 109 700 610} box FLAT_BOX color 37
               code0 {\#include "LABSoft_Oscilloscope_Display_Group.h"}
               class LABSoft_Oscilloscope_Display
@@ -116,8 +121,8 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
-            label {Channel 1}
-            xywh {845 95 160 360} box FLAT_BOX color 52
+            label {Channel 1} open
+            xywh {845 95 160 360} box ROUNDED_FRAME color 52
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_0_enable {
               label {Ch. 1 Enable}
@@ -353,8 +358,8 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_1 {
-            label {Channel 2} selected
-            xywh {1015 95 160 360} box FLAT_BOX color 52
+            label {Channel 2}
+            xywh {1015 95 160 360} box ROUNDED_FRAME color 52
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
               label {Ch. 2 Enable}
@@ -591,14 +596,14 @@ class LABSoft_GUI {open
           }
           Fl_Group oscilloscope_fl_group_horizontal {
             label Horizontal
-            xywh {845 480 160 240} box FLAT_BOX color 52
+            xywh {845 480 160 240} box ROUNDED_FRAME color 52
           } {
             Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
               label {Horizontal Offset}
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);}
               xywh {865 510 120 30} box FLAT_BOX color 53 selection_color 53 align 1
-              code1 {oscilloscope_fl_input_choice_horizontal_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-              code2 {oscilloscope_fl_input_choice_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code0 {oscilloscope_fl_input_choice_horizontal_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code1 {oscilloscope_fl_input_choice_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
               MenuItem {} {
                 label 100s
@@ -809,112 +814,128 @@ class LABSoft_GUI {open
               label {Time per Division}
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);}
               xywh {865 565 120 30} box FLAT_BOX color 53 selection_color 53 align 1
-              code1 {oscilloscope_fl_input_choice_time_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-              code2 {oscilloscope_fl_input_choice_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code0 {oscilloscope_fl_input_choice_time_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code1 {oscilloscope_fl_input_choice_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
               MenuItem {} {
-                label {30 s}
+                label {200 s/div}
+                xywh {937 619 36 21}
+              }
+              MenuItem {} {
+                label {120 s/div}
+                xywh {927 609 36 21}
+              }
+              MenuItem {} {
+                label {100 s/div}
+                xywh {917 599 36 21}
+              }
+              MenuItem {} {
+                label {60 s/div}
+                xywh {947 629 36 21}
+              }
+              MenuItem {} {
+                label {30 s/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {20 s}
+                label {20 s/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {10 s}
+                label {10 s/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {5 s}
+                label {5 s/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {2 s}
+                label {2 s/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {1 s}
+                label {1 s/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {500 ms}
+                label {500 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {200 ms}
+                label {200 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {100 ms}
+                label {100 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {50 ms}
+                label {50 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {20 ms}
+                label {20 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {10 ms}
+                label {10 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {5 ms}
+                label {5 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {2 ms}
+                label {2 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {1 ms}
+                label {1 ms/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {500 us}
+                label {500 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {200 us}
+                label {200 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {100 us}
+                label {100 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {50 us}
+                label {50 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {20 us}
+                label {20 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {10 us}
+                label {10 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {5 us}
+                label {5 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {2 us}
+                label {2 us/div}
                 xywh {907 589 36 21}
               }
               MenuItem {} {
-                label {1 us}
+                label {1 us/div}
                 xywh {907 589 36 21}
               }
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_samples {
               label Samples
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_samples (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_samples (o, v);}
               xywh {865 620 120 30} box FLAT_BOX color 53 selection_color 53 align 1
-              code1 {oscilloscope_fl_input_choice_samples->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-              code2 {oscilloscope_fl_input_choice_samples->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code0 {oscilloscope_fl_input_choice_samples->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code1 {oscilloscope_fl_input_choice_samples->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
               MenuItem {} {
                 label 2000
@@ -949,8 +970,8 @@ class LABSoft_GUI {open
               label {Sampling Rate}
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_sampling_rate (o, v);}
               xywh {865 675 120 30} box FLAT_BOX color 53 selection_color 53 align 1
-              code1 {oscilloscope_fl_input_choice_sampling_rate->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-              code2 {oscilloscope_fl_input_choice_sampling_rate->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code0 {oscilloscope_fl_input_choice_sampling_rate->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code1 {oscilloscope_fl_input_choice_sampling_rate->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             } {
               MenuItem {} {
                 label {6.67 Hz}
@@ -1011,12 +1032,9 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
-            xywh {0 -4 1366 768}
+            label Trigger
+            xywh {1015 480 330 240} box ROUNDED_FRAME color 52
           } {
-            Fl_Box {} {
-              label Trigger
-              xywh {1015 480 330 240} box FLAT_BOX color 52 align 1
-            }
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
               label Mode
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);}
@@ -1208,28 +1226,26 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_display {
-            xywh {0 0 1366 768} labeltype NO_LABEL
+            xywh {1185 279 160 176} box ROUNDED_FRAME color 52 labeltype NO_LABEL
           } {
-            Fl_Box {} {
-              label Display
-              xywh {1185 279 160 176} box FLAT_BOX color 52 align 1
-            }
-            Fl_Choice oscilloscope_fl_choice_display_mode {
+            Fl_Choice oscilloscope_fl_choice_mode {
               label Mode
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_display_mode (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_mode (o, v);}
               xywh {1205 312 120 30} down_box BORDER_BOX color 53 selection_color 53 align 1
-              code0 {oscilloscope_fl_choice_display_mode->value (LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE);}
             } {
               MenuItem {} {
                 label Repeated
+                user_data {LABE::OSC::MODE::REPEATED}
                 xywh {0 0 36 21}
               }
               MenuItem {} {
                 label Screen
+                user_data {LABE::OSC::MODE::SCREEN}
                 xywh {0 0 36 21}
               }
               MenuItem {} {
                 label Record
+                user_data {LABE::OSC::MODE::RECORD}
                 xywh {10 10 36 21}
               }
             }
@@ -2035,9 +2051,9 @@ class LABSoft_GUI {open
     }
     Fl_Window oscilloscope_fl_window_record_config {
       label {Record Configuration}
-      xywh {2083 411 360 300} type Double visible
+      xywh {1954 57 360 300} type Double visible
     } {
-      Fl_Group oscilloscope_fl_group_record_config {open
+      Fl_Group oscilloscope_fl_group_record_config {
         xywh {0 0 360 300} box UP_BOX color 54
       } {
         Fl_Choice {} {
@@ -2131,6 +2147,60 @@ class LABSoft_GUI {open
           callback {m_LABSoft_Controller->m_Oscilloscope.cb_record_config_cancel (o, v);}
           xywh {200 210 120 60} box GTK_UP_BOX color 53
         }
+      }
+    }
+    Fl_Window oscilloscope_fl_window_export {
+      label {Oscilloscope - Export} open
+      xywh {2143 288 720 420} type Double color 54 visible
+    } {
+      Fl_Choice {} {
+        label {Source:} open
+        xywh {25 30 300 30} down_box BORDER_BOX selection_color 49 align 5
+      } {
+        MenuItem {} {
+          label Oscilloscope
+          xywh {0 0 36 21}
+        }
+        MenuItem {} {
+          label {Channel 1}
+          xywh {10 10 36 21}
+        }
+        MenuItem {} {
+          label {Channel 2}
+          xywh {20 20 36 21}
+        }
+      }
+      Fl_Group {} {
+        label Options open
+        xywh {25 90 300 251} box ROUNDED_FRAME align 5
+      } {
+        Fl_Check_Button {} {
+          label Comments
+          xywh {45 110 70 15} down_box GTK_DOWN_BOX color 54
+        }
+        Fl_Check_Button {} {
+          label Headers
+          xywh {45 140 70 15} down_box GTK_DOWN_BOX color 54
+        }
+      }
+      Fl_Group oscilloscope_export_fl_group_output {open
+        xywh {350 30 340 310} box BORDER_FRAME align 5
+      } {
+        Fl_Text_Display {} {selected
+          xywh {353 33 334 100} box FLAT_BOX
+        }
+      }
+      Fl_Button oscilloscope_export_fl_button_copy_to_clipboard {
+        label {Copy to Clipboard}
+        xywh {25 360 300 30} box GTK_UP_BOX color 55
+      }
+      Fl_Button oscilloscope_export_fl_button_save {
+        label Save
+        xywh {490 360 90 30} box GTK_UP_BOX color 55
+      }
+      Fl_Button oscilloscope_export_fl_button_cancel {
+        label Cancel
+        xywh {600 360 90 30} box GTK_UP_BOX color 55
       }
     }
   }

@@ -27,23 +27,11 @@ namespace LABE
 {
   namespace DMA
   {
-    enum class BUFFER_COUNT
-    {
-      SINGLE,
-      DOUBLE
-    };
+    
   };
   
   namespace DISPLAY
   {
-    enum class MODE
-    {
-      SCREEN,
-      REPEATED,
-      SHIFT,
-      RECORD
-    };
-
     enum class COLOR : uint32_t
     {
       RED     = 0xFF000000,
@@ -75,14 +63,27 @@ namespace LABE
         FALLING,
         EITHER
       };
-    }
+    };
+
+    enum class BUFFER_COUNT
+    {
+      SINGLE,
+      DOUBLE
+    };
+
+    enum class MODE
+    {
+      REPEATED,
+      SCREEN,
+      RECORD
+    };
 
     enum class SCALING
     {
-      QUADRUPLE = 0,
-      UNITY     = 1,
-      HALF      = 2,
-      FOURTH    = 4
+      QUADRUPLE,
+      UNITY,
+      HALF,
+      FOURTH 
     };
 
     enum class COUPLING
@@ -114,6 +115,22 @@ namespace LABE
       SQUARE_HALF,
       SQUARE_FULL,
       DC
+    };
+  }
+
+  namespace LOGAN
+  {
+    enum class BUFFER_COUNT
+    {
+      SINGLE,
+      DOUBLE
+    };
+
+    enum class MODE
+    {
+      REPEATED,
+      SCREEN,
+      RECORD
     };
   }
 };
@@ -225,85 +242,92 @@ namespace LABC
   namespace OSC
   { 
     // General
-    constexpr unsigned                  NUMBER_OF_CHANNELS            = 2;
-    constexpr unsigned                  MAX_NUMBER_OF_SAMPLES         = 2'000;
-    constexpr unsigned                  MIN_NUMBER_OF_SAMPLES         = 20;
-    constexpr unsigned                  NUMBER_OF_SAMPLES             = MAX_NUMBER_OF_SAMPLES;
-    constexpr unsigned                  SAMPLE_SIZE                   = sizeof (uint32_t); // bytes
+    constexpr unsigned                  NUMBER_OF_CHANNELS              = 2;
+    constexpr unsigned                  NUMBER_OF_SAMPLES               = 2'000;
+    constexpr unsigned                  SAMPLE_SIZE                     = sizeof (uint32_t); // bytes
 
     // Uncached Oscilloscope DMA Data Info
-    constexpr unsigned                  BUFFER_LENGTH                 = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
-    constexpr unsigned                  NUMBER_OF_BUFFERS             = 2;
-    constexpr unsigned                  VC_MEM_SIZE                   = AP::RPI::PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH);
+    constexpr unsigned                  BUFFER_LENGTH                   = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
+    constexpr unsigned                  NUMBER_OF_BUFFERS               = 2;
+    constexpr unsigned                  VC_MEM_SIZE                     = AP::RPI::PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH);
 
     // ADC Info and Conversions   
-    constexpr unsigned                  ADC_RESOLUTION_BITS           = 12; // MCP33111
-    constexpr unsigned                  ADC_RESOLUTION_INT            = 1 << ADC_RESOLUTION_BITS;
-    constexpr double                    ADC_REFERENCE_VOLTAGE         = 5.0; // 5 volts
-    constexpr double                    CONVERSION_REFERENCE_VOLTAGE  = ADC_REFERENCE_VOLTAGE / 2.0;
-    constexpr double                    CONVERSION_CONSTANT           = CONVERSION_REFERENCE_VOLTAGE / ((ADC_RESOLUTION_INT - 1) >> 1);
-    constexpr unsigned                  RAW_DATA_SHIFT_BIT_COUNT      = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
-    constexpr uint32_t                  RAW_DATA_POST_SHIFT_MASK      = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;
-    constexpr unsigned                  ADC_SPI_CHIP_ENABLE           = 0;
+    constexpr unsigned                  ADC_RESOLUTION_BITS             = 12; // MCP33111
+    constexpr unsigned                  ADC_RESOLUTION_INT              = 1 << ADC_RESOLUTION_BITS;
+    constexpr double                    ADC_REFERENCE_VOLTAGE           = 5.0; // 5 volts
+    constexpr double                    CONVERSION_REFERENCE_VOLTAGE    = ADC_REFERENCE_VOLTAGE / 2.0;
+    constexpr double                    CONVERSION_CONSTANT             = CONVERSION_REFERENCE_VOLTAGE / ((ADC_RESOLUTION_INT - 1) >> 1);
+    constexpr unsigned                  RAW_DATA_SHIFT_BIT_COUNT        = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
+    constexpr uint32_t                  RAW_DATA_POST_SHIFT_MASK        = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;
+    constexpr unsigned                  ADC_SPI_CHIP_ENABLE             = 0;
 
     // Vertical
-    constexpr unsigned                  DISPLAY_NUMBER_OF_ROWS        = 10;
-    constexpr LABE::OSC::COUPLING       COUPLING                      = LABE::OSC::COUPLING::AC;
-    constexpr double                    MAX_VOLTAGE_PER_DIVISION      = 5.0;    // 5 V
-    constexpr double                    MIN_VOLTAGE_PER_DIVISION      = 0.0001; // 100 uV
-    constexpr double                    VOLTAGE_PER_DIVISION          = 1.0;    // 1 V
-    constexpr double                    MAX_VERTICAL_OFFSET           = MAX_VOLTAGE_PER_DIVISION * 
+    constexpr unsigned                  DISPLAY_NUMBER_OF_ROWS          = 10;
+    constexpr LABE::OSC::COUPLING       COUPLING                        = LABE::OSC::COUPLING::AC;
+    constexpr double                    MAX_VOLTAGE_PER_DIVISION        = 5.0;    // 5 V
+    constexpr double                    MIN_VOLTAGE_PER_DIVISION        = 0.0001; // 100 uV
+    constexpr double                    VOLTAGE_PER_DIVISION            = 1.0;    // 1 V
+    constexpr double                    MAX_VERTICAL_OFFSET             = MAX_VOLTAGE_PER_DIVISION * 
                                                                           (DISPLAY_NUMBER_OF_ROWS / 2.0); // 25 V
-    constexpr double                    MIN_VERTICAL_OFFSET           = -1.0 * MAX_VERTICAL_OFFSET; // -25 V
-    constexpr double                    VERTICAL_OFFSET               = 0.0;
-    constexpr LABE::OSC::SCALING        SCALING                       = LABE::OSC::SCALING::UNITY;
+    constexpr double                    MIN_VERTICAL_OFFSET             = -1.0 * MAX_VERTICAL_OFFSET; // -25 V
+    constexpr double                    VERTICAL_OFFSET                 = 0.0;
+    constexpr LABE::OSC::SCALING        SCALING                         = LABE::OSC::SCALING::UNITY;
 
     // Horizontal
-    constexpr unsigned                  DISPLAY_NUMBER_OF_COLUMNS     = 10;
-    constexpr double                    MAX_HORIZONTAL_OFFSET         = 100.0;    // +100s
-    constexpr double                    MIN_HORIZONTAL_OFFSET         = -100.0;   // -100s
-    constexpr double                    HORIZONTAL_OFFSET             = 0.0;
-    constexpr double                    MAX_TIME_PER_DIVISION         = 30.0;     // 30s
-    constexpr double                    MIN_TIME_PER_DIVISION         = 0.000001; // 1us
-    constexpr double                    MAX_SAMPLING_RATE             = 200'000;  // 200 kHz
-    constexpr double                    MIN_SAMPLING_RATE             = NUMBER_OF_SAMPLES / (MAX_TIME_PER_DIVISION * 
-                                                                          DISPLAY_NUMBER_OF_COLUMNS); // 6.67 Hz
-    constexpr double                    SAMPLING_RATE                 = 40'000;   // 40 kHz
-    constexpr double                    TIME_PER_DIVISION             = NUMBER_OF_SAMPLES / (SAMPLING_RATE *
-                                                                          DISPLAY_NUMBER_OF_COLUMNS); // 5 ms
+    constexpr unsigned              DISPLAY_NUMBER_OF_COLUMNS       = 10;
+    constexpr double                MAX_SAMPLING_RATE               = 200'000.0;  // Hz
+    constexpr double                MIN_SAMPLING_RATE               = 1.0;        // Hz
+    constexpr double                SAMPLING_RATE                   = 40'000.0;   // Hz
+    constexpr unsigned              MAX_SAMPLES                     = NUMBER_OF_SAMPLES;
+    constexpr unsigned              MAX_SAMPLES_RECORDING           = 1'000'000;  
+    constexpr unsigned              MIN_SAMPLES                     = 2;
+    constexpr unsigned              SAMPLES                         = MAX_SAMPLES;
+    constexpr double                MAX_TIME_PER_DIVISION           = MAX_SAMPLES / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                MAX_TIME_PER_DIVISION_RECORDING = MAX_SAMPLES_RECORDING / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                MIN_TIME_PER_DIVISION           = MIN_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                MIN_TIME_PER_DIVISION_SCREEN    = 1.0 / DISPLAY_NUMBER_OF_COLUMNS;
+    constexpr double                MIN_TIME_PER_DIVISION_NO_ZOOM   = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                TIME_PER_DIVISION               = SAMPLES / (SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);  
+    constexpr double                MAX_HORIZONTAL_OFFSET           = MAX_SAMPLES / MIN_SAMPLING_RATE;  
+    constexpr double                MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
+    constexpr double                HORIZONTAL_OFFSET               = 0.0;
+
+    // Mode
+    constexpr LABE::OSC::MODE       MODE                            = (TIME_PER_DIVISION < MIN_TIME_PER_DIVISION_SCREEN) ? 
+                                                                        LABE::OSC::MODE::REPEATED : LABE::OSC::MODE::SCREEN;
     
     // Trigger
-    constexpr LABE::OSC::TRIG::MODE     TRIGGER_MODE                  = LABE::OSC::TRIG::MODE::NONE;
-    constexpr unsigned                  TRIGGER_SOURCE                = 0; // Channel 1
-    constexpr LABE::OSC::TRIG::TYPE     TRIGGER_TYPE                  = LABE::OSC::TRIG::TYPE::EDGE;
-    constexpr LABE::OSC::TRIG::CND      TRIGGER_CONDITION             = LABE::OSC::TRIG::CND::RISING;
-    constexpr double                    MAX_TRIGGER_LEVEL             = MAX_VERTICAL_OFFSET;
-    constexpr double                    MIN_TRIGGER_LEVEL             = MIN_VERTICAL_OFFSET;
-    constexpr double                    TRIGGER_LEVEL                 = 0.0;
-    constexpr double                    FIND_TRIGGER_TIMEOUT          = 2; // seconds
+    constexpr LABE::OSC::TRIG::MODE TRIGGER_MODE                    = LABE::OSC::TRIG::MODE::NONE;
+    constexpr unsigned              TRIGGER_SOURCE                  = 0; // Channel 1
+    constexpr LABE::OSC::TRIG::TYPE TRIGGER_TYPE                    = LABE::OSC::TRIG::TYPE::EDGE;
+    constexpr LABE::OSC::TRIG::CND  TRIGGER_CONDITION               = LABE::OSC::TRIG::CND::RISING;
+    constexpr double                MAX_TRIGGER_LEVEL               = MAX_VERTICAL_OFFSET;
+    constexpr double                MIN_TRIGGER_LEVEL               = MIN_VERTICAL_OFFSET;
+    constexpr double                TRIGGER_LEVEL                   = 0.0;
+    constexpr double                FIND_TRIGGER_TIMEOUT            = 2; // seconds
 
     // Display
-    constexpr LABE::DISPLAY::MODE       OSC_DISP_MODE                 = LABE::DISPLAY::MODE::REPEATED;
-    constexpr double                    MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
-    constexpr double                    MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / DISPLAY_NUMBER_OF_COLUMNS;
+    constexpr double                MIN_TIME_PER_DIV_NO_ZOOM        = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
   };
 
   namespace OSC_DISPLAY
   {
-    constexpr unsigned NUMBER_OF_ROWS                 = OSC::DISPLAY_NUMBER_OF_ROWS;
-    constexpr unsigned NUMBER_OF_COLUMNS              = OSC::DISPLAY_NUMBER_OF_COLUMNS;
-    constexpr unsigned NUMBER_OF_MINOR_TICKS          = 10;
-    constexpr unsigned X_AXIS_MAJOR_TICK_LENGTH       = 20;
-    constexpr unsigned X_AXIS_SEMI_MAJOR_TICK_LENGTH  = 10;
-    constexpr unsigned X_AXIS_MINOR_TICK_LENGTH       = 5;
-    constexpr unsigned Y_AXIS_MAJOR_TICK_LENGTH       = 12;
-    constexpr unsigned Y_AXIS_SEMI_MAJOR_TICK_LENGTH  = 6;
-    constexpr unsigned Y_AXIS_MINOR_TICK_LENGTH       = 3;
-
-    namespace COLOR
-    {
-      constexpr uint32_t GRID = 46;
-    };
+    constexpr unsigned  NUMBER_OF_ROWS                  = OSC::DISPLAY_NUMBER_OF_ROWS;
+    constexpr unsigned  NUMBER_OF_COLUMNS               = OSC::DISPLAY_NUMBER_OF_COLUMNS;
+    constexpr unsigned  MID_COLUMN_INDEX                = (NUMBER_OF_COLUMNS / 2) - 1;
+    constexpr unsigned  MID_ROW_INDEX                   = (NUMBER_OF_ROWS / 2) - 1;
+    constexpr double    NUMBER_OF_ROWS_HALF             = NUMBER_OF_ROWS / 2.0;             
+    constexpr unsigned  NUMBER_OF_MINOR_TICKS           = 10;
+    constexpr unsigned  X_AXIS_MAJOR_TICK_LENGTH        = 20;
+    constexpr unsigned  X_AXIS_SEMI_MAJOR_TICK_LENGTH   = 10;
+    constexpr unsigned  X_AXIS_MINOR_TICK_LENGTH        = 5;
+    constexpr unsigned  Y_AXIS_MAJOR_TICK_LENGTH        = 12;
+    constexpr unsigned  Y_AXIS_SEMI_MAJOR_TICK_LENGTH   = 6;
+    constexpr unsigned  Y_AXIS_MINOR_TICK_LENGTH        = 3;
+    constexpr unsigned  SAMPLE_MARKING_THRESHOLD        = 40;
+    constexpr unsigned  SAMPLE_MARKING_AMPLITUDE        = 5;
+    constexpr unsigned  SAMPLE_MARKING_THICKNESS        = 1;
+    constexpr uint32_t GRID_COLOR                       = 46; // light gray
   };
 
   namespace VOLTMETER
@@ -351,6 +375,13 @@ namespace LABC
   namespace LOGAN
   {
     constexpr unsigned NUMBER_OF_SAMPLES = 2'000;
+
+    // Horizontal
+    constexpr unsigned          DISPLAY_NUMBER_OF_COLUMNS     = 10;
+    
+    // Mode
+    constexpr LABE::LOGAN::MODE MODE                          = LABE::LOGAN::MODE::REPEATED;
+    constexpr double            MIN_TIME_PER_DIVISION_SCREEN  = 1.0 / DISPLAY_NUMBER_OF_COLUMNS; 
   };
 };
 
@@ -370,13 +401,16 @@ constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_MISO                  = 19;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_SCLK                  = 6;
 constexpr unsigned LAB_PIN_FUNC_GEN_SIG_GEN_CS                    = 13;       
 
-namespace GUI_LBL
+namespace GUI_LABEL
 {
-  static std::map <LABE::DISPLAY::MODE, std::string> DISPLAY_MODE = 
+  namespace OSC
   {
-    {LABE::DISPLAY::MODE::SCREEN,    "Screen"},
-    {LABE::DISPLAY::MODE::REPEATED,  "Repeated"}
+    static std::map<LABE::OSC::MODE, std::string> MODE = 
+  {
+    {LABE::OSC::MODE::SCREEN,   "Screen"},
+    {LABE::OSC::MODE::REPEATED, "Repeated"}
   };
+  }
 }
 
 namespace LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP
@@ -411,53 +445,64 @@ namespace LABSOFT_OSCILLOSCOPE_DISPLAY
   constexpr int       GRID_COLOR                = FL_WHITE;     
 }
 
+// --- Oscilloscope ---
+
+// 1.
 struct LAB_Channel_Data_Oscilloscope
 {
-  // Channel
-  bool            is_enabled            = false;
+  // State
+  bool                is_enabled            = false;
 
   // Vertical
-  double              voltage_per_division = LABC::OSC::VOLTAGE_PER_DIVISION;
-  double              vertical_offset      = LABC::OSC::VERTICAL_OFFSET;
-  LABE::OSC::SCALING  scaling              = LABC::OSC::SCALING;
-  LABE::OSC::COUPLING coupling             = LABC::OSC::COUPLING;
+  double              voltage_per_division  = LABC::OSC::VOLTAGE_PER_DIVISION;
+  double              vertical_offset       = LABC::OSC::VERTICAL_OFFSET;
+  LABE::OSC::SCALING  scaling               = LABC::OSC::SCALING;
+  LABE::OSC::COUPLING coupling              = LABC::OSC::COUPLING;
 
-  // Data/Samples
-  std::array  <double, LABC::OSC::NUMBER_OF_SAMPLES> samples;
-  std::vector <std::array<int, 2>>                          pixel_points;
+  // Data/Samples/Pixels
+  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  samples;
+  std::vector<double>                               recording_samples;
+  std::vector<std::array<int, 2>>                   pixel_points;
 };
 
+// 2.
 class LAB_Parent_Data_Oscilloscope
 {
   public:    
     // State 
     bool                  is_osc_core_running     = false; 
     bool                  is_osc_frontend_running = false;
-    LABE::OSC::STATUS     status                  = LABE::OSC::STATUS::READY;
     bool                  single                  = false;
+    LABE::OSC::STATUS     status                  = LABE::OSC::STATUS::READY;
+    
+    // Mode
+    LABE::OSC::MODE       mode                      = LABC::OSC::MODE;
+    LABE::OSC::MODE       last_mode_before_repeated = mode; 
 
     // Horizontal
-    double                horizontal_offset       = LABC::OSC::HORIZONTAL_OFFSET;
-    double                time_per_division       = LABC::OSC::TIME_PER_DIVISION;
-    unsigned              samples                 = LABC::OSC::NUMBER_OF_SAMPLES;
-    double                sampling_rate           = LABC::OSC::SAMPLING_RATE;
+    double    horizontal_offset               = LABC::OSC::HORIZONTAL_OFFSET;
+    double    time_per_division               = LABC::OSC::TIME_PER_DIVISION;
+    double    time_per_division_last_repeated = time_per_division;
+    unsigned  samples                         = LABC::OSC::NUMBER_OF_SAMPLES;
+    double    sampling_rate                   = LABC::OSC::SAMPLING_RATE;
 
-    // Display
-    LABE::DISPLAY::MODE   display_mode            = LABC::OSC::OSC_DISP_MODE;
-
-    // Data/Samples
-    double                w_samp_count            = LABC::OSC::NUMBER_OF_SAMPLES;
+    // Data/Samples/Pixels
+    std::vector<uint32_t> recording_raw_sample_buffer;
 
     std::array<
       uint32_t, 
       LABC::OSC::NUMBER_OF_SAMPLES
-    > raw_sample_buffer;
+    > raw_sample_buffer;              
 
-    std::array <
+    std::array<
       LAB_Channel_Data_Oscilloscope, 
       LABC::OSC::NUMBER_OF_CHANNELS
     > channel_data;
 
+    double                w_samp_count            = LABC::OSC::NUMBER_OF_SAMPLES;
+
+
+  
     // Trigger 
     LABE::OSC::TRIG::MODE trig_mode               = LABC::OSC::TRIGGER_MODE;
     unsigned              trig_source             = LABC::OSC::TRIGGER_SOURCE;
@@ -467,7 +512,7 @@ class LAB_Parent_Data_Oscilloscope
     uint32_t              trig_level_bits         = (LABC::OSC::ADC_RESOLUTION_INT - 1) / 2;
     unsigned              find_trig_sample_skip   = 4;
 
-    unsigned              trig_buff_index             = 0;
+    unsigned              trig_buff_index         = 0;
     unsigned              trig_index              = 0;
     bool                  find_trigger            = false; 
     bool                  trig_frame_ready        = false;
@@ -488,19 +533,19 @@ class LAB_Parent_Data_Oscilloscope
       std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
     } trig_buffs;      
 
-    // Record
-    unsigned record_number_of_samples = 0;
 
   public:
     bool has_enabled_channels ()
     {
-      for (int a = 0; a < channel_data.size (); a++)
+      for (const auto& e : channel_data)
       {
-        if (channel_data[a].is_enabled)
-          return true;
+        if (e.is_enabled)
+        {
+          return (true);
+        }
       }
 
-      return false;
+      return (false);
     }
 };
 
@@ -520,6 +565,7 @@ struct LAB_DMA_Data_Oscilloscope
                         [LABC::OSC::NUMBER_OF_SAMPLES];
 };
 
+
 // LABSoft Oscilloscope Display Group
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VOLTAGE_PER_DIVISION = "1 V";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_CHANNEL_0_VERTICAL_OFFSET      = "0 V";
@@ -529,8 +575,6 @@ constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TIME_PER_DIVISION      
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_SAMPLING_RATE                  = "40 kHz";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_HORIZONTAL_OFFSET              = "0 s";
 constexpr const char* LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_TRIGGER_LEVEL                  = "0 V";
-constexpr int         LABSOFT_OSCILLOSCOPE_DISPLAY_GROUP_DISPLAY_MODE                   = (LABC::OSC::TIME_PER_DIVISION >= LABC::OSC::MIN_TIME_PER_DIV_DISP_SCREEN) ? 1 : 0; // 0 is repeated, 1 is screen
-
 
 // --- LAB Voltmeter ---
 
@@ -629,9 +673,9 @@ namespace LAB_LOGIC_ANALYZER
   constexpr double            HORIZONTAL_OFFSET             = 0.0;
 
   // Display
-  constexpr LABE::DISPLAY::MODE  OSC_DISP_MODE                 = LABE::DISPLAY::MODE::REPEATED;
-  constexpr double            MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS);
-  constexpr double            MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS;
+  constexpr LABE::LOGAN::MODE  OSC_DISP_MODE                 = LABE::LOGAN::MODE::REPEATED;
+  constexpr double                      MIN_TIME_PER_DIV_NO_ZOOM      = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS);
+  constexpr double                      MIN_TIME_PER_DIV_DISP_SCREEN  = 1.0 / LABSOFT_LOGIC_ANALYZER_DISPLAY::NUMBER_OF_COLUMNS;
 
   // Uncached Logic Analyzer DMA Data Info
   constexpr unsigned BUFFER_LENGTH        = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
@@ -675,8 +719,15 @@ class LAB_Parent_Data_Logic_Analyzer
       return false;
     }
 
+    // State
     bool      is_enabled          = false;
+
+    // Mode
+    LABE::LOGAN::MODE mode = LABC::LOGAN::MODE;
+
+    // Horizontal
     double    sampling_rate       = LAB_LOGIC_ANALYZER::SAMPLING_RATE;
+    
     double    time_per_division   = 0.0;
     double    horizontal_offset   = 0.0;
     unsigned  w_samp_count        = LAB_LOGIC_ANALYZER::NUMBER_OF_SAMPLES;
@@ -688,8 +739,6 @@ class LAB_Parent_Data_Logic_Analyzer
       
     std::array <LAB_Channel_Data_Logic_Analyzer, 
       LAB_LOGIC_ANALYZER::NUMBER_OF_CHANNELS> channel_data;
-
-    LABE::DISPLAY::MODE display_mode  = LABE::DISPLAY::MODE::REPEATED;
 };
 
 struct LAB_DMA_Data_Logic_Analyzer

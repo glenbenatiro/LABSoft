@@ -32,6 +32,10 @@ class LAB_Logic_Analyzer
 
     void run  ();
     void stop  ();
+
+    // Mode
+    void                        mode (LABE::LOGAN::MODE mode);
+    LABE::LOGAN::MODE  mode ();
   
     // Horizontal
     void    horizontal_offset (double value);
@@ -40,21 +44,17 @@ class LAB_Logic_Analyzer
     double  time_per_division () const;    
     void    sampling_rate     (double value);
 
-    // Display
-    void              display_mode (LABE::DISPLAY::MODE _DISPLAY_MODE); 
-    LABE::DISPLAY::MODE  display_mode ();
-
     // Get data/samples
-    void              load_data_samples       ();
-    void              fill_raw_sample_buffer  ();
-    void              parse_raw_sample_buffer ();
-    double            calc_samp_count         (double time_per_div, unsigned osc_disp_num_cols);
-    double            calc_samp_rate          (double time_per_div, unsigned osc_disp_num_cols);
-    LABE::DISPLAY::MODE  calc_display_mode          (double time_per_div);
+    void                load_data_samples       ();
+    void                fill_raw_sample_buffer  ();
+    void                parse_raw_sample_buffer ();
+    double              calc_samp_count         (double time_per_div, unsigned osc_disp_num_cols);
+    double              calc_samp_rate          (double time_per_div, unsigned osc_disp_num_cols);
+    LABE::LOGAN::MODE   calc_mode               (double time_per_division);
 
     //
     bool    is_running ();
-    void    switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count);
+    void    dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count);
 };
 
 #endif

@@ -36,7 +36,7 @@ class LABSoft_Logic_Analyzer_Display_Group : public Fl_Group
     void  fill_pixel_points       ();
 
     // Update data
-    void update_time_per_division_labels ();
+    void update_gui_time_per_division ();
 };
 
 #endif 

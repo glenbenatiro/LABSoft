@@ -83,7 +83,7 @@ draw ()
 void LABSoft_Oscilloscope_Display_Group:: 
 load_osc_parent_data (LAB_Parent_Data_Oscilloscope& parent_data)
 {
-  m_parent_data_osc = &parent_data;
+  m_parent_data = &parent_data;
 
   m_display->load_osc_parent_data (parent_data);
 }
@@ -105,11 +105,9 @@ calc_row_voltage_per_division (int                            row,
                                unsigned                       number_of_rows,
                                LAB_Channel_Data_Oscilloscope& chan)
 {
-  double row_vpd = (
-    (-1 * chan.voltage_per_division) * 
+  double row_vpd = ((-1 * chan.voltage_per_division) * 
     (row - (static_cast<double>(number_of_rows) / 2.0)) - 
-    (chan.vertical_offset)
-  );
+    (chan.vertical_offset));
 
   if (is_approx_zero (row_vpd))
   {
@@ -120,29 +118,29 @@ calc_row_voltage_per_division (int                            row,
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
-update_time_per_division_labels ()
+update_gui_time_per_division ()
 {
   double col_half = (LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS / 2.0) * -1;
 
   for (int a = 0; a < m_x_labels.size (); a++)
   {
-    double col_tpd = (a + col_half) * (m_parent_data_osc->time_per_division) + 
-      (m_parent_data_osc->horizontal_offset);
+    double col_tpd = (a + col_half) * (m_parent_data->time_per_division) + 
+      (m_parent_data->horizontal_offset);
     
-    LabelValue lv (col_tpd, LabelValue::UNIT::SECONDS);
+    LabelValue lv (col_tpd, LabelValue::UNIT::SECOND);
     
     m_x_labels[a]->copy_label (lv.to_label_text ().c_str ());
   }
 }
 
 void LABSoft_Oscilloscope_Display_Group:: 
-update_upper_osc_disp_info ()
+update_gui_upper_left_info ()
 {
-  LabelValue lv (m_parent_data_osc->sampling_rate, LabelValue::UNIT::HERTZ);
+  LabelValue lv (m_parent_data->sampling_rate);
 
   std::stringstream ss;
 
-  ss  << m_parent_data_osc->w_samp_count
+  ss  << m_parent_data->samples 
       << " samples at "
       << lv.to_label_text ();
 
@@ -153,14 +151,8 @@ void LABSoft_Oscilloscope_Display_Group::
 update_all_display_information ()
 {
   update_gui_voltage_per_division  ();
-  update_time_per_division_labels     ();
-  update_upper_osc_disp_info          ();
-}
-
-void LABSoft_Oscilloscope_Display_Group:: 
-update_y_label_unit (unsigned channel)
-{
-
+  update_gui_time_per_division     ();
+  update_gui_upper_left_info          ();
 }
 
 bool LABSoft_Oscilloscope_Display_Group::   
@@ -172,7 +164,7 @@ is_approx_zero (double x, double epsilon)
 void LABSoft_Oscilloscope_Display_Group:: 
 update_display_status ()
 {
-  switch (m_parent_data_osc->status)
+  switch (m_parent_data->status)
   {
     case (LABE::OSC::STATUS::READY):
     {
@@ -235,7 +227,7 @@ update_gui_vertical_offset ()
 {
   m_vertical_offset->selection_color (LABC::DISPLAY::CHAN_COLORS[m_channel_selected]);
 
-  if (m_parent_data_osc->has_enabled_channels ())
+  if (m_parent_data->has_enabled_channels ())
   {
     m_vertical_offset->show ();
   }
@@ -248,16 +240,16 @@ update_gui_vertical_offset ()
 void LABSoft_Oscilloscope_Display_Group:: 
 update_gui_voltage_per_division (unsigned channel)
 {
-  if (m_parent_data_osc->channel_data[channel].is_enabled)
+  if (m_parent_data->channel_data[channel].is_enabled)
   {
-    LAB_Channel_Data_Oscilloscope& chan = m_parent_data_osc->channel_data[channel];
+    LAB_Channel_Data_Oscilloscope& chan = m_parent_data->channel_data[channel];
 
     for (int a = 0; a < m_y_labels[channel].size (); a++)
     {
       double row_vpd = calc_row_voltage_per_division (a,
         LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_ROWS, chan);
       
-      LabelValue lv (row_vpd, LabelValue::UNIT::VOLTS);
+      LabelValue lv (row_vpd, LabelValue::UNIT::VOLT);
 
       if (a == 0)
       {
@@ -288,7 +280,7 @@ update_gui_voltage_per_division (unsigned channel)
 void LABSoft_Oscilloscope_Display_Group:: 
 update_gui_voltage_per_division ()
 {
-  for (int chan = 0; chan < m_parent_data_osc->channel_data.size (); chan++)
+  for (int chan = 0; chan < m_parent_data->channel_data.size (); chan++)
   {
     update_gui_voltage_per_division (chan);
   }

@@ -1,5 +1,5 @@
 #include "LabelValue_Controller.h"
-#include "LabelValue.h"
+#include "../../src/LabelValue.h"
 
 #include <iostream>
 
@@ -19,8 +19,8 @@ cb_input (Fl_Input_Choice* w, void* data)
   LabelValue::UNIT unit = LabelValue::get_unit_from_unit_string (choice_text);
 
   LabelValue lv (
-    w->value (),
-    lab->value (),
+    w->value    (),
+    lab->value  (),
     unit
   );
 
@@ -29,7 +29,10 @@ cb_input (Fl_Input_Choice* w, void* data)
     lab->value (lv.actual_value ());
   }
 
-  gui->output->value (lv.to_label_text ().c_str ());
+  LabelValue newval (lab->value ());
+
+  gui->output->value (newval.to_label_text (unit).c_str ());
+  gui->input->value (newval.to_label_text (unit).c_str ());
 
   lv.debug ();
 }

@@ -19,6 +19,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Output.H>
 #include "LABSoft_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>
+#include <FL/Fl_Check_Button.H>
 
 class LABSoft_GUI {
 public:
@@ -26,6 +27,7 @@ public:
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
   static Fl_Menu_Item menu_[];
+  static Fl_Menu_Item *main_menuitem_export;
   Fl_Tabs *main_fl_tabs;
 private:
   inline void cb_main_fl_tabs_i(Fl_Tabs*, void*);
@@ -55,6 +57,10 @@ private:
 public:
   LABSoft_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   LABSoft_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
+private:
+  inline void cb_oscilloscope_labsoft_oscilloscope_display_display_i(LABSoft_Oscilloscope_Display*, void*);
+  static void cb_oscilloscope_labsoft_oscilloscope_display_display(LABSoft_Oscilloscope_Display*, void*);
+public:
   Fl_Box *oscilloscope_fl_box_display_status;
   Fl_Button *oscilloscope_fl_toggle_button_c1_selector;
 private:
@@ -189,11 +195,11 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_trigger_level[];
 public:
   Fl_Group *oscilloscope_fl_group_display;
-  Fl_Choice *oscilloscope_fl_choice_display_mode;
+  Fl_Choice *oscilloscope_fl_choice_mode;
 private:
-  inline void cb_oscilloscope_fl_choice_display_mode_i(Fl_Choice*, void*);
-  static void cb_oscilloscope_fl_choice_display_mode(Fl_Choice*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_choice_display_mode[];
+  inline void cb_oscilloscope_fl_choice_mode_i(Fl_Choice*, void*);
+  static void cb_oscilloscope_fl_choice_mode(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_oscilloscope_fl_choice_mode[];
 public:
   Fl_Group *main_fl_group_voltmeter_tab;
   Fl_Light_Button *voltmeter_fl_light_button_run_stop;
@@ -313,5 +319,12 @@ public:
 private:
   inline void cb_oscilloscope_fl_button_record_config_cancel_i(Fl_Button*, void*);
   static void cb_oscilloscope_fl_button_record_config_cancel(Fl_Button*, void*);
+public:
+  Fl_Double_Window *oscilloscope_fl_window_export;
+  static Fl_Menu_Item menu_Source[];
+  Fl_Group *oscilloscope_export_fl_group_output;
+  Fl_Button *oscilloscope_export_fl_button_copy_to_clipboard;
+  Fl_Button *oscilloscope_export_fl_button_save;
+  Fl_Button *oscilloscope_export_fl_button_cancel;
 };
 #endif

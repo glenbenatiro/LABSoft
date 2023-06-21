@@ -14,10 +14,12 @@ class LAB_Oscilloscope
   private:
     LAB*              m_LAB;
     LAB_Core*         m_LAB_Core;
+
     AikaPi::Uncached  m_uncached_memory;
-    AikaPi::Uncached  m_uncached_memory_record;
+
+
     std::thread       m_thread_find_trigger;
-    std::thread       m_find_trigger_timer;
+    std::thread       m_find_trigger_timer;    
 
   private:
     // Setup
@@ -34,11 +36,21 @@ class LAB_Oscilloscope
     // State 
     void                update_status                   ();
     void                status                          (LABE::OSC::STATUS _STATUS);
+
+    // Mode
+    void                set_mode                        (LABE::OSC::MODE mode);
+    void                dma_buffer_count                (LABE::OSC::BUFFER_COUNT buffer_count);
   
     // Horizontal 
-    double              calc_samp_count                 (double time_per_division, unsigned osc_disp_num_cols);
-    double              calc_samp_rate                  (double time_per_div, unsigned osc_disp_num_cols);
-
+    double              calc_samp_count                 (double sampling_rate, double time_per_div);
+    double              calc_sampling_rate              (unsigned samples, double time_per_division);
+    double              calc_time_per_division          (unsigned samples, double sampling_rate);
+    LABE::OSC::MODE     calc_mode                       (double time_per_division);
+    void                set_time_per_division           (double value);
+    void                set_time_per_division           (unsigned samples, double sampling_rate);
+    void                set_samples                     (unsigned samples);
+    void                set_sampling_rate               (double value);
+  
     // Trigger 
     void                parse_trigger                   (LABE::OSC::TRIG::MODE value);
     void                find_trigger_point_loop         ();
@@ -49,12 +61,7 @@ class LAB_Oscilloscope
     // Record
     void                config_dma_cb_record            ();
 
-  
-    // Display 
-    LABE::DISPLAY::MODE calc_display_mode               (double time_per_div);
-
     // Other
-    void                set_hw_sampling_rate            (double value);
     bool                is_raw_buffer_being_written     (unsigned buff);
     void                clear_dma_interrupt_flag        (unsigned dma_chan);
 
@@ -62,10 +69,12 @@ class LAB_Oscilloscope
     void                fill_raw_sample_buffer          ();
     void                parse_raw_sample_buffer         ();
     constexpr double    conv_raw_buff_get_actual_value  (uint32_t sample, unsigned channel);
-    constexpr uint32_t  conv_raw_buff_get_arranged_bits (uint32_t sample, unsigned channel);
     constexpr uint32_t  conv_raw_buff_xtract_chan       (uint32_t sample, unsigned channel);
     constexpr uint32_t  conv_raw_buff_arrange_bits      (uint32_t sample);
-    constexpr double    conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, bool sign);
+    constexpr uint32_t  reverse_arranged_bits           (uint32_t arranged_bits);
+    constexpr double    conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, bool sign);    
+    constexpr uint32_t  conv_raw_buff_get_arranged_bits (uint32_t sample, unsigned channel);
+    void                reset_dma_process               ();
 
   public:
     LAB_Parent_Data_Oscilloscope  m_parent_data;
@@ -80,7 +89,11 @@ class LAB_Oscilloscope
     void                  osc_core_run_stop       (bool value);
     void                  osc_frontend_run_stop   (bool value);
     void                  single                  ();
-    
+
+    // Mode 
+    void                  mode                    (LABE::OSC::MODE mode);
+    LABE::OSC::MODE       mode                    ();
+
     // Vertical
     void                  channel_enable_disable  (unsigned channel, bool value);
     void                  voltage_per_division    (unsigned channel, double value);
@@ -88,17 +101,16 @@ class LAB_Oscilloscope
     void                  vertical_offset         (unsigned channel, double value);
     double                vertical_offset         (unsigned channel);
     void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
-    double                scaling_scaler          (unsigned channel);
     void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
 
     // Horizontal
     void                  horizontal_offset       (double value);
     double                horizontal_offset       ();
-    void                  time_per_division       (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    void                  time_per_division       (double value);
     double                time_per_division       ();
     void                  samples                 (unsigned value);
     unsigned              samples                 ();
-    void                  sampling_rate           (double value, unsigned osc_disp_num_cols = LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    void                  sampling_rate           (double value);
     double                sampling_rate           ();
     
     // Trigger 
@@ -114,18 +126,13 @@ class LAB_Oscilloscope
     double                trigger_level           () const;
 
     // Record
-    void                  record                  ();
-    
-    // Display 
-    void                  display_mode_frontend   (LABE::DISPLAY::MODE _DISPLAY_MODE);
-    void                  display_mode            (LABE::DISPLAY::MODE _DISPLAY_MODE);
-    LABE::DISPLAY::MODE   display_mode            ();
-       
+    void                  record_start            ();
+    void                  record_init             ();
+
     // State
     bool                  is_running              ();
     bool                  has_enabled_channel     ();
-    void                  load_data_samples       ();
-    void                  switch_dma_buffer       (LABE::DMA::BUFFER_COUNT buff_count);   
+    void                  load_data_samples       (); 
     void                  update_dma_data         (int display_mode);
     int                   update_state            ();
 

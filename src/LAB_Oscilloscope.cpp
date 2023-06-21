@@ -98,16 +98,13 @@ init_dma ()
 void LAB_Oscilloscope:: 
 init_state ()
 {
-  // per channel
   for (int a = 0; a < m_parent_data.channel_data.size (); a++)
   {
     scaling   (a, m_parent_data.channel_data[a].scaling);
     coupling  (a, m_parent_data.channel_data[a].coupling);
   }
 
-  // as entire oscilloscope
-  time_per_division (m_parent_data.time_per_division, 
-    LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
+  time_per_division (m_parent_data.time_per_division);
 }
 
 void LAB_Oscilloscope:: 
@@ -140,7 +137,7 @@ config_dma_cb ()
         m_uncached_memory.bus (&uncached_dma_data.status[0]),
         sizeof (uint32_t),
         0,
-        m_uncached_memory.bus (&uncached_dma_data.cbs[2]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[0]),
         0
       },
       // 2
@@ -258,11 +255,6 @@ config_dma_cb ()
   );
 }
 
-LABE::DISPLAY::MODE LAB_Oscilloscope:: 
-display_mode ()
-{
-  return (m_parent_data.display_mode);
-}
 
 void LAB_Oscilloscope:: 
 run ()
@@ -379,8 +371,6 @@ void LAB_Oscilloscope::
 scaling (unsigned           channel, 
          LABE::OSC::SCALING scaling)
 {
-  m_parent_data.channel_data[channel].scaling = scaling;
-
   unsigned a0, a1;
 
   if (channel == 0)
@@ -399,49 +389,14 @@ scaling (unsigned           channel,
   
   m_LAB_Core->gpio.write (a1, (scaling == LABE::OSC::SCALING::FOURTH || 
     scaling == LABE::OSC::SCALING::HALF) ? 1 : 0);
-}
 
-double LAB_Oscilloscope:: 
-scaling_scaler (unsigned channel)
-{
-  double scaler;
-
-  switch (m_parent_data.channel_data[channel].scaling)
-  {
-    case (LABE::OSC::SCALING::FOURTH):
-    {
-      scaler = 0.25;
-      break;
-    }
-
-    case (LABE::OSC::SCALING::HALF):
-    {
-      scaler = 0.5;
-      break;
-    }
-
-    case (LABE::OSC::SCALING::UNITY):
-    {
-      scaler = 1.0;
-      break;
-    }
-
-    case (LABE::OSC::SCALING::QUADRUPLE):
-    {
-      scaler = 4.0;
-      break;
-    }
-  }
-
-  return (scaler);
+  m_parent_data.channel_data[channel].scaling = scaling;
 }
 
 void LAB_Oscilloscope:: 
 coupling (unsigned            channel,
           LABE::OSC::COUPLING coupling)
 {
-  m_parent_data.channel_data[channel].coupling = coupling;
-
   unsigned pin;
 
   switch (channel)
@@ -463,12 +418,14 @@ coupling (unsigned            channel,
       throw (std::out_of_range ("Invalid channel selected in LAB_Oscilloscope::coupling."));
       break;
     }
+
+    m_parent_data.channel_data[channel].coupling = coupling;
   }
 
   m_LAB_Core->gpio.set (
     pin, 
     AP::GPIO::FUNC::OUTPUT, 
-    AP::GPIO::PULL::OFF,
+    AP::GPIO::PULL::DOWN,
     m_parent_data.channel_data[channel].coupling == LABE::OSC::COUPLING::AC ? 0 : 1 // ??
   );
 }
@@ -476,45 +433,59 @@ coupling (unsigned            channel,
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
-  switch (m_parent_data.trig_mode)
+  switch (mode ())
   {
-    case (LABE::OSC::TRIG::MODE::NORMAL):
+    case (LABE::OSC::MODE::REPEATED):
+    case (LABE::OSC::MODE::SCREEN):
     {
-      if (m_parent_data.trig_frame_ready)
+      switch (m_parent_data.trig_mode)
       {
-        parse_raw_sample_buffer ();
-        m_parent_data.trig_frame_ready  = false;
+        case (LABE::OSC::TRIG::MODE::NORMAL):
+        {
+          if (m_parent_data.trig_frame_ready)
+          {
+            parse_raw_sample_buffer ();
+            m_parent_data.trig_frame_ready  = false;
+          }
+
+          break;
+        }
+
+        case (LABE::OSC::TRIG::MODE::AUTO):
+        {
+          break;
+        }
+
+        case (LABE::OSC::TRIG::MODE::NONE):
+        {
+          if (m_parent_data.single)
+          {
+            // wait until a buffer is filled
+            while (! (m_LAB_Core->dma.interrupt (LABC::DMA::CHAN::OSC_RX)));
+          }
+          
+          fill_raw_sample_buffer  ();
+          parse_raw_sample_buffer ();
+
+          break;
+        }
       }
 
-      break;
-    }
-
-    case (LABE::OSC::TRIG::MODE::AUTO):
-    {
-      break;
-    }
-
-    case (LABE::OSC::TRIG::MODE::NONE):
-    {
       if (m_parent_data.single)
       {
-        // wait until a buffer is filled
-        while (! (m_LAB_Core->dma.interrupt (LABC::DMA::CHAN::OSC_RX)));
+        osc_core_run_stop (false);
+        status            (LABE::OSC::STATUS::DONE);
+
+        m_parent_data.single = false;
       }
-      
-      fill_raw_sample_buffer  ();
-      parse_raw_sample_buffer ();
 
       break;
     }
-  }
 
-  if (m_parent_data.single)
-  {
-    osc_core_run_stop (false);
-    status            (LABE::OSC::STATUS::DONE);
-
-    m_parent_data.single = false;
+    case (LABE::OSC::MODE::RECORD):
+    {
+      break;
+    }
   }
 }
 
@@ -524,39 +495,47 @@ fill_raw_sample_buffer ()
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
 
-  if (display_mode () == LABE::DISPLAY::MODE::SCREEN)
+  switch (mode ())
   {
-    std::memcpy (
-      m_parent_data.raw_sample_buffer.data (),
-      const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
-      sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
-    );
-  }
-  else if (display_mode () == LABE::DISPLAY::MODE::REPEATED)
-  {
-    for (int buff = 0; buff < 2; buff++)
+    case (LABE::OSC::MODE::SCREEN):
     {
-      if (dma_data.status[buff])
+      std::memcpy (
+        m_parent_data.raw_sample_buffer.data (),
+        const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
+        sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
+      );
+
+      break;
+    }
+
+    case (LABE::OSC::MODE::REPEATED):
+    {
+      for (int buff = 0; buff < 2; buff++)
       {
-        std::memcpy (
-          m_parent_data.raw_sample_buffer.data (),
-          const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[buff])),
-          sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
-        );
+        if (dma_data.status[buff])
+        {
+          std::memcpy (
+            m_parent_data.raw_sample_buffer.data (),
+            const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[buff])),
+            sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
+          );
+        }
+
+        // Check if the other buffer is also full.
+        // If it is, then we have a buffer overflow (both buffers full).
+        if (dma_data.status[buff ^ 1])
+        {
+          // std::cout << "OVERFLOW!" << "\n";
+
+          dma_data.status[0] = dma_data.status[1] = 0;
+
+          break;
+        }
+
+        dma_data.status[buff] = 0;
       }
 
-      // Check if the other buffer is also full.
-      // If it is, then we have a buffer overflow (both buffers full).
-      if (dma_data.status[buff ^ 1])
-      {
-        // std::cout << "OVERFLOW!" << "\n";
-
-        dma_data.status[0] = dma_data.status[1] = 0;
-
-        break;
-      }
-
-      dma_data.status[buff] = 0;
+      break;
     }
   }
 }
@@ -587,15 +566,6 @@ conv_raw_buff_get_actual_value (uint32_t  sample,
   return (actual_value);
 }
 
-constexpr uint32_t LAB_Oscilloscope:: 
-conv_raw_buff_get_arranged_bits (uint32_t sample,
-                                 unsigned channel)
-{
-  uint32_t raw_chan_bits = conv_raw_buff_xtract_chan (sample, channel);
-
-  return (conv_raw_buff_arrange_bits (raw_chan_bits));
-}
-
 constexpr uint32_t LAB_Oscilloscope::
 conv_raw_buff_xtract_chan (uint32_t sample,
                            unsigned channel)
@@ -616,9 +586,15 @@ conv_raw_buff_arrange_bits (uint32_t sample)
   return (((sample & 0xF000) >> 12) | ((sample & 0x00FF) << 4));
 }
 
+constexpr uint32_t LAB_Oscilloscope:: 
+reverse_arranged_bits (uint32_t arranged_bits)
+{
+  return (((arranged_bits & 0x000F) << 12) | ((arranged_bits & 0xFFF0) >> 4));
+}
+
 constexpr double LAB_Oscilloscope::
 conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, 
-                               bool     sign)
+                                 bool     sign)
 {
   if (sign)
   {
@@ -631,6 +607,69 @@ conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits,
       LABC::OSC::CONVERSION_CONSTANT) - 
       LABC::OSC::CONVERSION_REFERENCE_VOLTAGE
     );
+  }
+}
+
+constexpr uint32_t LAB_Oscilloscope:: 
+conv_raw_buff_get_arranged_bits (uint32_t sample,
+                                 unsigned channel)
+{
+  uint32_t raw_chan_bits = conv_raw_buff_xtract_chan (sample, channel);
+
+  return (conv_raw_buff_arrange_bits (raw_chan_bits));
+}
+
+void LAB_Oscilloscope:: 
+reset_dma_process ()
+{
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_memory.virt ()));
+
+  bool is_running = m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING);
+
+  // 1. Check if DMA is running. It is, pause it
+  if (is_running)
+  {
+    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+  }
+
+  // 2. Reset the DMA engine to the first control block, depending on the buffer
+  switch (mode ())
+  {
+    case (LABE::OSC::MODE::REPEATED): // dual buffer
+    {
+      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+        m_uncached_memory.bus (&dma_data.cbs[0]));
+
+      break;
+    }
+
+    case (LABE::OSC::MODE::SCREEN): // single buffer
+    {
+      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+        m_uncached_memory.bus (&dma_data.cbs[4]));
+
+      break;
+    }
+  }
+
+  // 3. Abort the current control block
+  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+
+  // 4. Reset the DMA status flags
+  dma_data.status[0] = dma_data.status[1] = 0;
+
+  // 5. Reset the 2D DMA OSC RX array
+  std::memset (
+    const_cast<void*>(static_cast<volatile void*>(dma_data.rxd)),
+    reverse_arranged_bits (LABC::OSC::ADC_RESOLUTION_INT / 2),
+    sizeof (dma_data.rxd)
+  );
+
+  // 6. Run DMA if it was running
+  if (is_running)
+  {
+    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
 }
 
@@ -652,85 +691,63 @@ has_enabled_channel ()
 }
 
 double LAB_Oscilloscope:: 
-calc_samp_count (double time_per_div, unsigned osc_disp_num_cols)
+calc_samp_count (double sampling_rate, double time_per_div)
 {
-  if (time_per_div >= LABC::OSC::MIN_TIME_PER_DIV_NO_ZOOM)
+  double new_sample_count = sampling_rate * 
+    LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS * time_per_div;
+
+  if (new_sample_count > LABC::OSC::MAX_SAMPLES)
   {
-    return (LABC::OSC::NUMBER_OF_SAMPLES);
+    return (LABC::OSC::MAX_SAMPLES);
   }
   else 
   {
-    return (LABC::OSC::MAX_SAMPLING_RATE * osc_disp_num_cols *
-      time_per_div);
+    return (new_sample_count);
   }
 }
 
 double LAB_Oscilloscope:: 
-calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
+calc_sampling_rate (unsigned  samples,
+                    double    time_per_division)
 {
-  if (time_per_div <= LABC::OSC::MIN_TIME_PER_DIV_NO_ZOOM)
+  double new_sampling_rate = samples / (time_per_division * 
+    LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
+
+  if (new_sampling_rate > LABC::OSC::MAX_SAMPLING_RATE)
   {
     return (LABC::OSC::MAX_SAMPLING_RATE);
   }
-  else
-  {
-    return (LABC::OSC::NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols));
-  }
-}
-
-LABE::DISPLAY::MODE LAB_Oscilloscope:: 
-calc_display_mode (double time_per_div)
-{
-  if (time_per_div >= LABC::OSC::MIN_TIME_PER_DIV_DISP_SCREEN)
-  {
-    return (LABE::DISPLAY::MODE::SCREEN);
-  }
   else 
   {
-    return (LABE::DISPLAY::MODE::REPEATED);
+    return (new_sampling_rate);
   }
 }
 
-void LAB_Oscilloscope:: 
-time_per_division (double value, unsigned osc_disp_num_cols)
+double LAB_Oscilloscope::
+calc_time_per_division (unsigned  samples, 
+                        double    sampling_rate)
 {
-  double            new_samp_count  = calc_samp_count (value, osc_disp_num_cols);
-  double            new_samp_rate   = calc_samp_rate  (value, osc_disp_num_cols);
-  LABE::DISPLAY::MODE  new_display_mode   = calc_display_mode  (value);
-
-  m_parent_data.time_per_division = value;
-  m_parent_data.w_samp_count      = new_samp_count;
-  m_parent_data.sampling_rate     = new_samp_rate;
-
-  display_mode          (new_display_mode);
-  set_hw_sampling_rate  (m_parent_data.sampling_rate);
+  return (samples / (sampling_rate * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS));
 }
 
-void LAB_Oscilloscope:: 
-samples (unsigned value)
+LABE::OSC::MODE LAB_Oscilloscope:: 
+calc_mode (double time_per_division)
 {
-  
+  LABE::OSC::MODE mode;
+
+  if (time_per_division < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN)
+  {
+    mode = LABE::OSC::MODE::REPEATED;
+  }
+  else
+  {
+    mode = m_parent_data.last_mode_before_repeated;
+  }
+
+  return (mode);
 }
 
-void LAB_Oscilloscope:: 
-sampling_rate (double value, unsigned osc_disp_num_cols)
-{
-  double tpd = LABC::OSC::NUMBER_OF_SAMPLES / (value * osc_disp_num_cols);  
-  
-  time_per_division (tpd, osc_disp_num_cols);
-}
-
-void LAB_Oscilloscope:: 
-set_hw_sampling_rate (double value)
-{
-  m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
-
-  // Set duty cycle to 50%
-  uint32_t fifo_data = m_LAB_Core->pwm.range (LABC::PWM::DMA_PACING_CHAN) / 2.0;
-
-  static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ())->
-    pwm_duty_cycle = fifo_data;
-}
+// --- Horizontal ---
 
 void LAB_Oscilloscope:: 
 horizontal_offset (double value)
@@ -744,7 +761,106 @@ horizontal_offset ()
   return (m_parent_data.horizontal_offset);
 }
 
-// Trigger
+void LAB_Oscilloscope:: 
+time_per_division (double value)
+{
+  if (!(LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
+    LABC::OSC::MAX_TIME_PER_DIVISION)))
+  {
+    return;
+  }
+
+  //
+
+  double new_sampling_rate = calc_sampling_rate (LABC::OSC::MAX_SAMPLES, value);
+
+  if (value < LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM)
+  {
+    unsigned new_sample_count = calc_samp_count (m_parent_data.sampling_rate, value);
+    set_samples (new_sample_count);
+  } 
+
+  set_sampling_rate     (new_sampling_rate);
+  set_time_per_division (value);
+
+  reset_dma_process ();
+}
+
+void LAB_Oscilloscope:: 
+set_time_per_division (double value)
+{
+  m_parent_data.time_per_division = value;
+
+  set_mode (calc_mode (value));
+}
+
+void LAB_Oscilloscope:: 
+set_time_per_division (unsigned samples,
+                       double   sampling_rate)
+{
+  set_time_per_division (calc_time_per_division (samples, sampling_rate));
+}
+
+void LAB_Oscilloscope:: 
+samples (unsigned value)
+{
+  if (!(LABF::is_within_range (value, LABC::OSC::MIN_SAMPLES, 
+    LABC::OSC::MAX_SAMPLES_RECORDING)))
+  {
+    return;
+  }
+
+  if ((m_parent_data.mode != LABE::OSC::MODE::RECORD) && 
+    (value > LABC::OSC::MAX_SAMPLES))
+  {
+    return;
+  }
+
+  // 
+
+  set_samples           (value);
+  set_time_per_division (value, m_parent_data.sampling_rate);
+}
+
+void LAB_Oscilloscope:: 
+set_samples (unsigned samples)
+{
+  m_parent_data.samples = samples;
+}
+
+void LAB_Oscilloscope:: 
+sampling_rate (double value)
+{
+  if (!(LABF::is_within_range (value, LABC::OSC::MIN_SAMPLING_RATE,
+    LABC::OSC::MAX_SAMPLING_RATE)))
+  {
+    return;
+  }
+
+  //
+
+  set_time_per_division (m_parent_data.samples, value);
+  set_sampling_rate     (value);
+}
+
+void LAB_Oscilloscope:: 
+set_sampling_rate (double value)
+{
+  // 1. Change the source frequency of the PWM peripheral
+  m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
+
+  // 2. Set the DMA PWM duty cycle to 50%
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_memory.virt ()));
+
+  dma_data.pwm_duty_cycle = (m_LAB_Core->pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
+
+  // 3. Store the sampling rate
+  m_parent_data.sampling_rate = value;
+}
+
+// --- Trigger ---
+
 void LAB_Oscilloscope:: 
 parse_trigger (LABE::OSC::TRIG::MODE value)
 {
@@ -806,9 +922,9 @@ find_trigger_point_loop ()
 
   status (LABE::OSC::STATUS::CONFIG);
 
-  switch (m_parent_data.display_mode)
+  switch (m_parent_data.mode)
   {
-    case LABE::DISPLAY::MODE::REPEATED:
+    case (LABE::OSC::MODE::REPEATED):
     {
       // 1. Pause osc RX DMA channel
       m_LAB_Core->dma.pause (LABC::DMA::CHAN::OSC_RX);
@@ -838,7 +954,7 @@ find_trigger_point_loop ()
       break;
     }
 
-    case LABE::DISPLAY::MODE::SCREEN:
+    case (LABE::OSC::MODE::SCREEN):
     {
       break;
     }
@@ -1109,6 +1225,24 @@ find_trigger_timeout_timer ()
 }
 
 void LAB_Oscilloscope:: 
+config_dma_cb_record ()
+{
+  // LAB_DMA_Data_Oscilloscope dma_data = 
+  // {
+  //   .cbs = 
+  //   {
+  //     LABC::DMA::TI::OSC_RX,
+  //     m_LAB_Core->spi.bus (AP::SPI::FIFO),
+
+  //     static_cast<uint32_t> (sizeof (uint32_t) * m_parent_data.samples),
+  //     0,
+  //     0,
+  //     0
+  //   }
+  // }
+}
+
+void LAB_Oscilloscope:: 
 trigger_mode (LABE::OSC::TRIG::MODE value)
 {
   m_parent_data.trig_mode = value;
@@ -1192,66 +1326,78 @@ trigger_level () const
   return (m_parent_data.trig_level);
 }
 
-void LAB_Oscilloscope:: 
-record ()
+void LAB_Oscilloscope::
+record_start ()
 {
-//   config_dma_cb_record ();
+  // record_init ();
+
+  // // x. Stop PWM
+  // stop ();
+
+  // // x. Pause OSC RX DMA engine
+  // m_LAB_Core->dma.pause (LABC::DMA::CHAN::OSC_RX);
+
+  // // x. 
+  // m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, c)
+
+
+
+  // // x. Start PWM
+  // run ();
+
+  // // x. Copy raw samples from DMA buffer
+  // std::memcpy (
+  //   m_parent_data.recording_raw_sample_buffer.data (),
+  //   const_cast<const void*>(static_cast<volatile void*>(&(dma_data.rxd))),
+  //   sizeof (uint32_t) * m_parent_data.samples
+  // );
+
+  // // x.
 }
 
-// Display
 void LAB_Oscilloscope:: 
-display_mode_frontend (LABE::DISPLAY::MODE _DISPLAY_MODE)
+record_init ()
 {
-  switch (_DISPLAY_MODE)
-  {
-    case LABE::DISPLAY::MODE::SCREEN:
-    {
-      time_per_division (LABC::OSC::MIN_TIME_PER_DIV_DISP_SCREEN);
-      break;
-    }
-
-    case LABE::DISPLAY::MODE::REPEATED:
-    {
-      time_per_division (LABC::OSC::MIN_TIME_PER_DIV_NO_ZOOM);
-      break;
-    }
-
-    case LABE::DISPLAY::MODE::RECORD:
-    {
-      stop ();
-    }
-
-    default:
-    {
-      break;
-    }
-  }
+  // x. 
+  m_parent_data.recording_raw_sample_buffer.reserve (LABC::OSC::MAX_SAMPLES_RECORDING);
 }
+
+// --- Mode ---
 
 void LAB_Oscilloscope::   
-display_mode (LABE::DISPLAY::MODE _DISPLAY_MODE)
+mode (LABE::OSC::MODE mode)
 {
-  switch (_DISPLAY_MODE)
+  switch (mode)
   {
-    case LABE::DISPLAY::MODE::REPEATED:
+    case (LABE::OSC::MODE::REPEATED):
     {
-      switch_dma_buffer (LABE::DMA::BUFFER_COUNT::DOUBLE);
       break;
     }
 
-    case LABE::DISPLAY::MODE::SCREEN:
-    { 
-      switch_dma_buffer (LABE::DMA::BUFFER_COUNT::SINGLE);
+    case (LABE::OSC::MODE::SCREEN):
+    {
+      if (time_per_division () < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN)
+      {
+        time_per_division (LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN);
+      }
+
       break;
     }
 
-    default:
+    case (LABE::OSC::MODE::RECORD):
     {
+      stop ();
       break;
     }
   }
 
-  m_parent_data.display_mode = _DISPLAY_MODE;
+  set_mode (mode);
+}
+
+LABE::OSC::MODE LAB_Oscilloscope:: 
+mode ()
+{
+  return (m_parent_data.mode);
 }
 
 void LAB_Oscilloscope:: 
@@ -1273,9 +1419,40 @@ update_dma_data (int display_mode)
 }
 
 void LAB_Oscilloscope:: 
-switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
+set_mode (LABE::OSC::MODE mode)
 {
-  bool flag = false; 
+  if (m_parent_data.mode != mode)
+  {
+    if (time_per_division () >= LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN)
+    {
+      m_parent_data.last_mode_before_repeated = mode;
+    }
+
+    switch (mode)
+    {
+      case (LABE::OSC::MODE::REPEATED):
+      {
+        dma_buffer_count  (LABE::OSC::BUFFER_COUNT::DOUBLE);
+
+        break;
+      }
+
+      case (LABE::OSC::MODE::SCREEN):
+      {
+        dma_buffer_count  (LABE::OSC::BUFFER_COUNT::SINGLE);
+
+        break;
+      }
+    }
+
+    m_parent_data.mode = mode; 
+  }
+}
+
+void LAB_Oscilloscope:: 
+dma_buffer_count (LABE::OSC::BUFFER_COUNT buffer_count)
+{
+  bool is_running = false; 
 
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
@@ -1283,16 +1460,16 @@ switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
   // 1. Pause PWM pacing if running
   if (m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING))
   {
-    flag = true;
+    is_running = true;
     m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
   // 2. Assign next control block depending on buffer
-  if (buff_count == LABE::DMA::BUFFER_COUNT::SINGLE)
+  if (buffer_count == LABE::OSC::BUFFER_COUNT::SINGLE)
   { 
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
-  else if (buff_count == LABE::DMA::BUFFER_COUNT::DOUBLE)
+  else if (buffer_count == LABE::OSC::BUFFER_COUNT::DOUBLE)
   {
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
   }
@@ -1304,7 +1481,7 @@ switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
   dma_data.status[0] = dma_data.status[1] = 0;
 
   // 5. Run DMA channel if it was running
-  if (flag)
+  if (is_running)
   {
     m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
   }

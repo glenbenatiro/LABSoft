@@ -6,7 +6,7 @@
 // compile by
 /**
 
-g++ `fltk-config --cxxflags` main.cpp LabelValue.cpp LabelValue_Test.cpp LabelValue_GUI.cpp LabelValue_Controller.cpp LAB.cpp -o LabelValue_Test `fltk-config --ldflags`
+g++ `fltk-config --cxxflags` main.cpp ../../src/LabelValue.cpp LabelValue_Test.cpp LabelValue_GUI.cpp LabelValue_Controller.cpp LAB.cpp -o LabelValue_Test `fltk-config --ldflags`
 
 */
 

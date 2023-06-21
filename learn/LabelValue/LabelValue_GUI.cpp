@@ -11,9 +11,10 @@ void LabelValue_GUI::cb_input(Fl_Input_Choice* o, void* v) {
 }
 
 Fl_Menu_Item LabelValue_GUI::menu_choice[] = {
+ {"V", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"V/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},

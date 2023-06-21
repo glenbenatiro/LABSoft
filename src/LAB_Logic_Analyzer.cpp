@@ -157,12 +157,6 @@ sampling_rate (double value)
   // m_LAB_Core->pwm.frequency (value, LAB_PWM_DUTY_CYCLE);
 }
 
-LABE::DISPLAY::MODE LAB_Logic_Analyzer:: 
-display_mode ()
-{
-  return (m_parent_data.display_mode);
-}
-
 void LAB_Logic_Analyzer:: 
 load_data_samples ()
 {
@@ -176,7 +170,7 @@ fill_raw_sample_buffer ()
   LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
     (m_uncached_memory.virt ()));
   
-  if (display_mode () == LABE::DISPLAY::MODE::SCREEN)
+  if (mode () == LABE::LOGAN::MODE::SCREEN)
   {
     std::memcpy (
       m_parent_data.raw_sample_buffer.data (),
@@ -184,7 +178,7 @@ fill_raw_sample_buffer ()
       sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES
     );
   }
-  else if (display_mode () == LABE::DISPLAY::MODE::REPEATED)
+  else if (mode () == LABE::LOGAN::MODE::REPEATED)
   {
     for (int buff = 0; buff < 2; buff++)
     {
@@ -254,17 +248,34 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
   }
 }
 
-LABE::DISPLAY::MODE LAB_Logic_Analyzer:: 
-calc_display_mode (double time_per_div)
+LABE::LOGAN::MODE LAB_Logic_Analyzer:: 
+calc_mode (double time_per_division)
 {
-  if (time_per_div >= LAB_LOGIC_ANALYZER::MIN_TIME_PER_DIV_DISP_SCREEN)
+  LABE::LOGAN::MODE mode;
+
+  if (time_per_division < LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN)
   {
-    return (LABE::DISPLAY::MODE::SCREEN);
-  }
-  else 
+    mode = LABE::LOGAN::MODE::REPEATED;
+  } 
+  else if (m_parent_data.time_per_division < LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN &&
+    time_per_division >= LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN)
   {
-    return (LABE::DISPLAY::MODE::REPEATED);
+    mode = LABE::LOGAN::MODE::SCREEN;
   }
+
+  return (mode);
+}
+
+void LAB_Logic_Analyzer:: 
+mode (LABE::LOGAN::MODE mode)
+{
+
+}
+
+LABE::LOGAN::MODE LAB_Logic_Analyzer:: 
+mode ()
+{
+  return (m_parent_data.mode);
 }
 
 void LAB_Logic_Analyzer:: 
@@ -284,7 +295,7 @@ time_per_division (double value, unsigned disp_num_cols)
 {
   double            new_samp_count  = calc_samp_count (value, disp_num_cols);
   double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
-  LABE::DISPLAY::MODE  new_display_mode   = calc_display_mode  (value);
+  //LABE::OSC::MODE  new_display_mode   = calc_display_mode  (value);
 
   m_parent_data.time_per_division = value;
   m_parent_data.w_samp_count      = new_samp_count;
@@ -302,7 +313,7 @@ time_per_division () const
 }
 
 void LAB_Logic_Analyzer:: 
-switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
+dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count)
 {
   bool flag = false; 
 
@@ -317,11 +328,11 @@ switch_dma_buffer (LABE::DMA::BUFFER_COUNT buff_count)
   }
 
   // 2. Assign next control block depending on buffer
-  if (buff_count == LABE::DMA::BUFFER_COUNT::SINGLE)
+  if (buffer_count == LABE::LOGAN::BUFFER_COUNT::SINGLE)
   { 
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
-  else if (buff_count == LABE::DMA::BUFFER_COUNT::DOUBLE)
+  else if (buffer_count == LABE::LOGAN::BUFFER_COUNT::DOUBLE)
   {
     m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[0]));
   }
