@@ -392,7 +392,7 @@ cb_display (LABSoft_Oscilloscope_Display* w,
 
       double new_horizontal_offset = disp.pre_drag_horizontal_offset () + scaler_time;
 
-      if (LABF::compare_double (new_horizontal_offset, 0.0))
+      if (LABF::is_equal (new_horizontal_offset, 0.0))
       {
         new_horizontal_offset = 0.0;
       }

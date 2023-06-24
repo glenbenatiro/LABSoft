@@ -1,4 +1,4 @@
-#ifndef LAB_OSCILLOSCOPE_H
+.30#ifndef LAB_OSCILLOSCOPE_H
 #define LAB_OSCILLOSCOPE_H
 
 #include <thread>

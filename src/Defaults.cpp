@@ -1,7 +1,7 @@
 #include "Defaults.h"
 
 bool LABF::
-compare_double (double a,
+is_equal (double a,
                 double b,
                 double epsilon)
 {
@@ -13,8 +13,8 @@ is_within_range (double value,
                  double min,
                  double max)
 {
-  if ((value <= max && value >= min) || compare_double (value, min) || 
-      compare_double (value, max))
+  if ((value <= max && value >= min) || is_equal (value, min) || 
+      is_equal (value, max))
   {
     return (true);
   }

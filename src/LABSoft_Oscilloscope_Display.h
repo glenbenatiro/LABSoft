@@ -24,7 +24,9 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     double  m_pre_drag_horizontal_offset  = 0.0; 
   
   private:
-    int handle (int event);
+    int handle            (int event);
+    int calc_samp_y_coord (double sample, double y_scaler);
+    double  calc_y_scaler (double voltage_per_division);
 
   public:
      // --- Functions ---
@@ -42,6 +44,8 @@ class LABSoft_Oscilloscope_Display : public Fl_Widget
     void  load_osc_parent_data          (LAB_Parent_Data_Oscilloscope& parent_data);
     void  reserve_pixel_points          ();
     void  fill_pixel_points             ();
+    void  fill_pixel_points_osc_running ();
+    void  fill_pixel_points_osc_stopped ();
 
     // For horizontal offset
     double  calc_x_offset               (unsigned channel);

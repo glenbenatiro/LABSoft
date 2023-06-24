@@ -137,7 +137,7 @@ config_dma_cb ()
         m_uncached_memory.bus (&uncached_dma_data.status[0]),
         sizeof (uint32_t),
         0,
-        m_uncached_memory.bus (&uncached_dma_data.cbs[0]),
+        m_uncached_memory.bus (&uncached_dma_data.cbs[2]),
         0
       },
       // 2
@@ -265,7 +265,7 @@ run ()
   }
 
   time_per_division (m_parent_data.time_per_division);
-  master_run_stop (true);
+  master_run_stop   (true);
 
   update_status ();
 }
@@ -358,6 +358,11 @@ voltage_per_division (unsigned  channel,
                       double    value)
 {
   m_parent_data.channel_data[channel].voltage_per_division = value;
+
+  if (mode () != LABE::OSC::MODE::REPEATED)
+  {
+    reset_dma_process ();
+  }
 }
 
 void LAB_Oscilloscope:: 
@@ -492,6 +497,13 @@ load_data_samples ()
 void LAB_Oscilloscope:: 
 fill_raw_sample_buffer ()
 {
+  if (!is_osc_core_running ())
+  {
+    return;
+  }
+
+  //
+
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
 
@@ -502,7 +514,7 @@ fill_raw_sample_buffer ()
       std::memcpy (
         m_parent_data.raw_sample_buffer.data (),
         const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
-        sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
+        sizeof (uint32_t) * m_parent_data.samples
       );
 
       break;
@@ -517,7 +529,7 @@ fill_raw_sample_buffer ()
           std::memcpy (
             m_parent_data.raw_sample_buffer.data (),
             const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[buff])),
-            sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES
+            sizeof (uint32_t) * m_parent_data.samples
           );
         }
 
@@ -543,7 +555,17 @@ fill_raw_sample_buffer ()
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  for (int samp = 0; samp < m_parent_data.raw_sample_buffer.size (); samp++)
+  if (!is_osc_core_running ())
+  {
+    return;
+  }
+
+  //
+
+  m_parent_data.time_per_division_raw_buffer  = m_parent_data.time_per_division;
+  m_parent_data.samples_raw_buffer            = m_parent_data.samples; 
+
+  for (int samp = 0; samp < m_parent_data.samples; samp++)
   {
     for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
     {
@@ -782,8 +804,6 @@ time_per_division (double value)
 
   set_sampling_rate     (new_sampling_rate);
   set_time_per_division (value);
-
-  reset_dma_process ();
 }
 
 void LAB_Oscilloscope:: 
@@ -792,6 +812,8 @@ set_time_per_division (double value)
   m_parent_data.time_per_division = value;
 
   set_mode (calc_mode (value));
+
+  reset_dma_process ();
 }
 
 void LAB_Oscilloscope:: 
@@ -826,6 +848,13 @@ void LAB_Oscilloscope::
 set_samples (unsigned samples)
 {
   m_parent_data.samples = samples;
+
+  LAB_DMA_Data_Oscilloscope& uncached_dma_data = 
+    *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
+  
+  uncached_dma_data.cbs[0].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * samples);
+  uncached_dma_data.cbs[2].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * samples);
+  uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * samples);
 }
 
 void LAB_Oscilloscope:: 

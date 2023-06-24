@@ -24,7 +24,6 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft.cpp
   src/LAB.cpp
 
-  lib/AikaPi/AikaPi.cpp
   src/LAB_Core.cpp
   src/LAB_Oscilloscope.cpp
   src/LAB_Voltmeter.cpp
@@ -45,15 +44,18 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Logic_Analyzer_Display_Group.cpp
   src/LABSoft_Logic_Analyzer_Display.cpp
 
+  lib/AikaPi/AikaPi.cpp
+  lib/AD9833/AD9833.cpp
+  lib/MCP4XXX/MCP4XXX.cpp
+  lib/MCP23S17.cpp
+
   src/LAB_AD9833.cpp
+  src/LAB_MCP4XXX.cpp
+  src/LAB_MCP23S17.cpp
 
   src/LabelValue.cpp
   src/pugixml.cpp
   src/Defaults.cpp
-
-  lib/AD9833/AD9833.cpp
-  lib/MCP4XXX/MCP4XXX.cpp
-  src/LAB_MCP4XXX.cpp
 )
 
 TARGET_LINK_LIBRARIES(LABSoft PRIVATE fltk Threads::Threads ) # notice fltk here

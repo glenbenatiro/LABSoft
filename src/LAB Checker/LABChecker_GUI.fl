@@ -1,0 +1,127 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0305
+header_name {.h}
+code_name {.cxx}
+Function {} {open
+} {
+  Fl_Window main_fl_window {
+    label {LABChecker 0.1} open
+    xywh {0 0 1366 768} type Double color 52 visible
+  } {
+    Fl_Menu_Bar {} {
+      xywh {0 0 1366 30} box FLAT_BOX color 54
+    } {
+      Submenu {} {
+        label File
+        xywh {0 0 70 21}
+      } {
+        MenuItem {} {
+          label Exit
+          xywh {5 5 36 21}
+        }
+      }
+      MenuItem {} {
+        label Settings
+        xywh {10 10 36 21}
+      }
+    }
+    Fl_Tabs {} {open
+      xywh {0 30 1366 738} box FLAT_BOX color 54 selection_color 54
+    } {
+      Fl_Group {} {
+        label {Analog Checker - Simple DC}
+        xywh {0 60 1366 708} box FLAT_BOX color 54 selection_color 54 hide
+      } {
+        Fl_Group {} {
+          label Input
+          xywh {398 155 180 350} box ROUNDED_FRAME
+        } {
+          Fl_Input_Choice simple_dc_fl_input_choice_dc_output {
+            label {DC Output} open
+            xywh {428 205 120 25} align 1
+          } {}
+        }
+        Fl_Group {} {
+          label Output open
+          xywh {793 150 180 350} box ROUNDED_FRAME
+        } {
+          Fl_Input_Choice simple_dc_fl_input_choice_dc_input {
+            label {Expected DC Input} open
+            xywh {823 205 120 25} align 1
+          } {}
+          Fl_Input_Choice simple_dc_fl_input_choice_samples {
+            label Samples open
+            xywh {823 275 120 25} align 1
+          } {}
+          Fl_Input_Choice simple_dc_fl_input_choice_sampling_rate {
+            label {Sampling Rate} open
+            xywh {823 345 120 25} align 1
+          } {}
+          Fl_Input_Choice simple_dc_fl_input_choice_base {
+            label Base open
+            xywh {823 415 120 25} align 1
+          } {}
+        }
+        Fl_Button simple_dc_fl_button_create_file {
+          label {Create File}
+          xywh {608 555 150 60} box GTK_UP_BOX color 55
+        }
+      }
+      Fl_Group {} {
+        label {Digital Checker} open
+        xywh {0 60 1366 708} box FLAT_BOX color 54
+      } {
+        Fl_Group {} {
+          label Inputs open
+          xywh {60 120 180 180} box ROUNDED_FRAME
+        } {
+          Fl_Choice {} {
+            label Bits
+            xywh {90 155 120 30} down_box BORDER_BOX align 1
+          } {
+            MenuItem {} {
+              label 1
+              xywh {165 199 36 21}
+            }
+            MenuItem {} {
+              label 2
+              xywh {156 199 36 21}
+            }
+            MenuItem {} {
+              label 3
+              xywh {146 199 36 21}
+            }
+            MenuItem {} {
+              label 4
+              xywh {137 199 36 21}
+            }
+            MenuItem {} {
+              label 5
+              xywh {128 199 36 21}
+            }
+            MenuItem {} {
+              label 6
+              xywh {118 199 36 21}
+            }
+            MenuItem {} {
+              label 7
+              xywh {109 199 36 21}
+            }
+            MenuItem {} {
+              label 8
+              xywh {100 199 36 21}
+            }
+          }
+          Fl_Input_Choice {} {
+            label {Outputs (Max: 0)} open
+            xywh {90 235 120 30} align 1
+          } {}
+        }
+        Fl_Button simple_dc_fl_button_create_file {
+          label {Create File}
+          xywh {608 650 150 60} box GTK_UP_BOX color 55
+        }
+      }
+    }
+  }
+}

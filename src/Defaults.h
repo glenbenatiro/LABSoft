@@ -17,7 +17,7 @@
 // LAB Functions
 namespace LABF
 {
-  bool compare_double   (double a, double b, double epsilon = 1e-9);
+  bool is_equal   (double a, double b, double epsilon = 1e-9);
   bool is_within_range  (double value, double min, double max);
   int  normalize        (int input, int min_input, int max_input, int min_output, int max_output);
 };
@@ -470,20 +470,22 @@ class LAB_Parent_Data_Oscilloscope
 {
   public:    
     // State 
-    bool                  is_osc_core_running     = false; 
-    bool                  is_osc_frontend_running = false;
-    bool                  single                  = false;
-    LABE::OSC::STATUS     status                  = LABE::OSC::STATUS::READY;
+    bool              is_osc_core_running     = false; 
+    bool              is_osc_frontend_running = false;
+    bool              single                  = false;
+    LABE::OSC::STATUS status                  = LABE::OSC::STATUS::READY;
     
     // Mode
-    LABE::OSC::MODE       mode                      = LABC::OSC::MODE;
-    LABE::OSC::MODE       last_mode_before_repeated = mode; 
+    LABE::OSC::MODE mode                      = LABC::OSC::MODE;
+    LABE::OSC::MODE last_mode_before_repeated = mode; 
 
     // Horizontal
     double    horizontal_offset               = LABC::OSC::HORIZONTAL_OFFSET;
     double    time_per_division               = LABC::OSC::TIME_PER_DIVISION;
     double    time_per_division_last_repeated = time_per_division;
+    double    time_per_division_raw_buffer    = time_per_division;
     unsigned  samples                         = LABC::OSC::NUMBER_OF_SAMPLES;
+    unsigned  samples_raw_buffer              = samples;
     double    sampling_rate                   = LABC::OSC::SAMPLING_RATE;
 
     // Data/Samples/Pixels
