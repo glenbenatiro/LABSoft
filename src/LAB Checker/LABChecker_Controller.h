@@ -1,6 +1,0 @@
-#ifndef LABCHECKER_CONTROLLER_H
-#define LABCHECKER_CONTROLLER_H
-
-
-
-#endif

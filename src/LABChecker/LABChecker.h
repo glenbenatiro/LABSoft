@@ -8,6 +8,7 @@
 class LABChecker
 {
   private:
+    LABChecker_Main       m_LABChecker_Main;
     LABChecker_GUI        m_LABChecker_GUI;
     LABChecker_Controller m_LABChecker_Controller;
 
