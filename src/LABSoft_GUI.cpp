@@ -828,6 +828,27 @@ void LABSoft_GUI::cb_circuit_checker_fl_button_start_circuit_checking(Fl_Button*
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_circuit_checker_fl_button_start_circuit_checking_i(o,v);
 }
 
+void LABSoft_GUI::cb_digital_circuit_checker_fl_button_load_file_i(Fl_Button* o, void* v) {
+  m_LABSoft_Controller->m_Digital_Circuit_Checker.cb_load_file (o, v);
+}
+void LABSoft_GUI::cb_digital_circuit_checker_fl_button_load_file(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_digital_circuit_checker_fl_button_load_file_i(o,v);
+}
+
+void LABSoft_GUI::cb_digital_circuit_checker_fl_button_unload_file_i(Fl_Button* o, void* v) {
+  m_LABSoft_Controller->m_Digital_Circuit_Checker.cb_unload_file (o, v);
+}
+void LABSoft_GUI::cb_digital_circuit_checker_fl_button_unload_file(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_digital_circuit_checker_fl_button_unload_file_i(o,v);
+}
+
+void LABSoft_GUI::cb_digital_circuit_checker_fl_button_run_checker_i(Fl_Button* o, void* v) {
+  m_LABSoft_Controller->m_Digital_Circuit_Checker.cb_run_checker (o, v);
+}
+void LABSoft_GUI::cb_digital_circuit_checker_fl_button_run_checker(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_digital_circuit_checker_fl_button_run_checker_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_Samples[] = {
  {"1 Mi", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"512 Ki", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -1423,6 +1444,55 @@ LABSoft_GUI::LABSoft_GUI() {
       { main_fl_group_digital_circuit_checker_tab = new Fl_Group(0, 60, 1366, 708, "Digital Circuit Checker");
         main_fl_group_digital_circuit_checker_tab->color(FL_LIGHT3);
         main_fl_group_digital_circuit_checker_tab->selection_color(FL_LIGHT2);
+        { Fl_Group* o = new Fl_Group(40, 100, 210, 300);
+          o->box(FL_ROUNDED_FRAME);
+          { digital_circuit_checker_fl_button_load_file = new Fl_Button(70, 120, 150, 60, "Load File");
+            digital_circuit_checker_fl_button_load_file->box(FL_GTK_UP_BOX);
+            digital_circuit_checker_fl_button_load_file->color((Fl_Color)53);
+            digital_circuit_checker_fl_button_load_file->callback((Fl_Callback*)cb_digital_circuit_checker_fl_button_load_file);
+            digital_circuit_checker_fl_button_load_file->align(Fl_Align(FL_ALIGN_WRAP));
+          } // Fl_Button* digital_circuit_checker_fl_button_load_file
+          { digital_circuit_checker_fl_output_selected_file = new Fl_Output(70, 205, 150, 30, "Selected File");
+            digital_circuit_checker_fl_output_selected_file->align(Fl_Align(FL_ALIGN_TOP));
+          } // Fl_Output* digital_circuit_checker_fl_output_selected_file
+          { digital_circuit_checker_fl_button_unload_file = new Fl_Button(70, 250, 150, 60, "Unload File");
+            digital_circuit_checker_fl_button_unload_file->box(FL_GTK_UP_BOX);
+            digital_circuit_checker_fl_button_unload_file->color((Fl_Color)53);
+            digital_circuit_checker_fl_button_unload_file->callback((Fl_Callback*)cb_digital_circuit_checker_fl_button_unload_file);
+            digital_circuit_checker_fl_button_unload_file->align(Fl_Align(FL_ALIGN_WRAP));
+          } // Fl_Button* digital_circuit_checker_fl_button_unload_file
+          { digital_circuit_checker_fl_button_run_checker = new Fl_Button(70, 320, 150, 60, "Run Checker");
+            digital_circuit_checker_fl_button_run_checker->box(FL_GTK_UP_BOX);
+            digital_circuit_checker_fl_button_run_checker->color((Fl_Color)53);
+            digital_circuit_checker_fl_button_run_checker->callback((Fl_Callback*)cb_digital_circuit_checker_fl_button_run_checker);
+            digital_circuit_checker_fl_button_run_checker->align(Fl_Align(FL_ALIGN_WRAP));
+          } // Fl_Button* digital_circuit_checker_fl_button_run_checker
+          o->end();
+        } // Fl_Group* o
+        { digital_circuit_checker_labchecker_gui_digital_output_table_table = new LABChecker_GUI_Digital_Output_Table(285, 100, 1040, 539, "Input/Output Table");
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->box(FL_THIN_DOWN_FRAME);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->color(FL_LIGHT2);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->selection_color(FL_BACKGROUND_COLOR);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->labeltype(FL_NORMAL_LABEL);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->labelfont(0);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->labelsize(14);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->labelcolor(FL_FOREGROUND_COLOR);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->align(Fl_Align(FL_ALIGN_TOP));
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->when(FL_WHEN_RELEASE);
+          digital_circuit_checker_labchecker_gui_digital_output_table_table->end();
+        } // LABChecker_GUI_Digital_Output_Table* digital_circuit_checker_labchecker_gui_digital_output_table_table
+        { Fl_Group* o = new Fl_Group(40, 430, 210, 208);
+          o->box(FL_ROUNDED_FRAME);
+          { digital_circuit_checker_fl_output_results = new Fl_Output(70, 460, 150, 30, "Results");
+            digital_circuit_checker_fl_output_results->align(Fl_Align(FL_ALIGN_TOP));
+          } // Fl_Output* digital_circuit_checker_fl_output_results
+          { digital_circuit_checker_fl_button_export_results = new Fl_Button(70, 555, 150, 60, "Export Results");
+            digital_circuit_checker_fl_button_export_results->box(FL_GTK_UP_BOX);
+            digital_circuit_checker_fl_button_export_results->color((Fl_Color)53);
+            digital_circuit_checker_fl_button_export_results->align(Fl_Align(FL_ALIGN_WRAP));
+          } // Fl_Button* digital_circuit_checker_fl_button_export_results
+          o->end();
+        } // Fl_Group* o
         main_fl_group_digital_circuit_checker_tab->end();
       } // Fl_Group* main_fl_group_digital_circuit_checker_tab
       main_fl_tabs->end();

@@ -13,6 +13,7 @@
 #include "../lib/AikaPi/AikaPi.h"
 #include "../lib/AD9833/AD9833.h"
 #include "../lib/MCP4XXX/MCP4XXX.h"
+#include "../lib/MCP23S17/MCP23S17.h"
 
 // LAB Functions
 namespace LABF
@@ -169,7 +170,14 @@ namespace LABC
     constexpr int FUNC_GEN_IC_SCLK                = 6;
 
     // Logic Analyzer
-    constexpr unsigned LOGIC_ANALYZER []          = {0, 1, 26};
+    constexpr unsigned LOGIC_ANALYZER []          = {0, 25, 26};
+
+    // Digital Circuit Checker
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_CS   = 25;
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MISO = 12;
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MOSI = 3;
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_SCLK = 2;
+
   };
 
   namespace DMA
@@ -382,6 +390,13 @@ namespace LABC
     // Mode
     constexpr LABE::LOGAN::MODE MODE                          = LABE::LOGAN::MODE::REPEATED;
     constexpr double            MIN_TIME_PER_DIVISION_SCREEN  = 1.0 / DISPLAY_NUMBER_OF_COLUMNS; 
+  };
+
+  namespace DIGITAL_CIRCUIT_CHECKER
+  {
+    constexpr MCP23S17::PORT  INPUT_PORT    = MCP23S17::PORT::B;
+    constexpr MCP23S17::PORT  OUTPUT_PORT   = MCP23S17::PORT::A;
+    constexpr double          IC_FREQUENCY  = 100'000.0; // Hz
   };
 };
 

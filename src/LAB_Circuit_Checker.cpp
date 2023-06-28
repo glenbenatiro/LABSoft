@@ -21,15 +21,17 @@ parse_circuit_checker_file ()
 void LAB_Circuit_Checker:: 
 perform_check ()
 {
-  double wait_time = 0.0;
+  // double wait_time = 0.0;
 
-  std::array<uint8_t, 10> output;
-  std::array<uint8_t, 10> input;
+  // std::array<uint8_t, 10> output;
+  // std::array<uint8_t, 10> input;
 
-  for (unsigned a = 0; a < output.size (); a++)
-  {
-    std::this_thread::sleep_for (std::chrono::seconds (wait_time));
+  // for (unsigned a = 0; a < output.size (); a++)
+  // {
+  //   std::this_thread::sleep_for (std::chrono::seconds (wait_time));
 
-    input[a] = m_expander.read_port ()
-  }
+  //   input[a] = m_expander.read_port ()
+  // }
 }
+
+// EOF

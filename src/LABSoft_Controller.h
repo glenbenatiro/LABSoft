@@ -11,6 +11,7 @@
 #include "LABSoft_Controller_Function_Generator.h"
 #include "LABSoft_Controller_Logic_Analyzer.h"
 #include "LABSoft_Controller_Circuit_Checker.h"
+#include "LABSoft_Controller_Digital_Circuit_Checker.h"
 
 class LABSoft_Controller
 {
@@ -19,11 +20,12 @@ class LABSoft_Controller
     LABSoft_GUI*  m_LABSoft_GUI;
   
   public:
-    LABSoft_Controller_Oscilloscope        m_Oscilloscope;             
-    LABSoft_Controller_Voltmeter           m_Voltmeter;
-    LABSoft_Controller_Function_Generator  m_Function_Generator;
-    LABSoft_Controller_Logic_Analyzer      m_Logic_Analyzer;
-    LABSoft_Controller_Circuit_Checker     m_Circuit_Checker;
+    LABSoft_Controller_Oscilloscope             m_Oscilloscope;             
+    LABSoft_Controller_Voltmeter                m_Voltmeter;
+    LABSoft_Controller_Function_Generator       m_Function_Generator;
+    LABSoft_Controller_Logic_Analyzer           m_Logic_Analyzer;
+    LABSoft_Controller_Circuit_Checker          m_Circuit_Checker;
+    LABSoft_Controller_Digital_Circuit_Checker  m_Digital_Circuit_Checker;
 
   private:      
     static void update_display (void *data);     

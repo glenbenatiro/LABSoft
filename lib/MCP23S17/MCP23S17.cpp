@@ -3,7 +3,7 @@
 MCP23S17:: 
 MCP23S17 (uint8_t hw_addr_bits)
 {
-
+  m_hardware_address = hw_addr_bits;
 }
 
 void MCP23S17:: 
@@ -22,6 +22,13 @@ spi_write (char*    txd,
   char rxd[length];
 
   spi_xfer (rxd, txd, length);
+}
+
+void MCP23S17:: 
+spi_write_mcp  (char*     rxd, 
+                unsigned  length)
+{
+
 }
 
 // Setter
@@ -44,23 +51,17 @@ opcode () const
 }
 
 void MCP23S17:: 
-direction (MCP23S17::PORT       ort,
+direction (MCP23S17::PORT       port,
            unsigned             pin,
-           MCP23S17::DIRECITON  direction)
+           MCP23S17::DIRECTION  direction)
 {
 
 }
 
-
 uint8_t MCP23S17:: 
 read_port (MCP23S17::PORT port)
 {
-
-
-
-  uint8_t data;
-
-  spi_read_mcp ()
+  return (0);
 }
 
 void MCP23S17:: 
@@ -68,7 +69,8 @@ write_port (MCP23S17::PORT  port,
             uint8_t         data)
 {
   bool    port_bool = static_cast<bool>(port);
-  uint8_t addr      = port_bool ? MCP23S17::ADDR0::GPIOB : MCP23S17::ADDR0::GPIOA;
+  uint8_t addr      = static_cast<uint8_t>(port_bool ? MCP23S17::ADDR0::GPIOB : 
+                        MCP23S17::ADDR0::GPIOA);
 
-  spi_write_mcp (data, 1);
+  spi_write_mcp ((char*)(data), 1);
 }

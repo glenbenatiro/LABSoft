@@ -42,45 +42,10 @@ binary_vector_to_decimal (const std::vector<int>& bin_vec)
 }
 
 void LABChecker_Main:: 
-parse_char_vec_row_to_binary (const std::vector<char>& char_vec,
-                                    std::vector<int>&  bin_vec)
-{
-  bin_vec.resize (char_vec.size ());
-
-  for (size_t col = 0; col < char_vec.size (); col++)
-  {
-    char c = char_vec[col];
-
-    if (c == 'X' || c == '0')
-    {
-      bin_vec[col] = 0;
-    }
-    else if (c == '1')
-    {
-      bin_vec[col] = 1;
-    }
-    else 
-    {
-      throw (std::domain_error ("Invalid value found in char to binary conversion."));
-    }
-  }
-}
-
-unsigned LABChecker_Main:: 
-parse_char_vec_row_to_int (const std::vector<char>& char_vec_row)
-{
-  std::vector<int> bin_vec;
-
-  parse_char_vec_row_to_binary (char_vec_row, bin_vec);
-
-  return (binary_vector_to_decimal (bin_vec));
-}
-
-void LABChecker_Main:: 
 save_xml_file (       pugi::xml_document& doc,
                const  std::string&        save_path)
 {
-  std::string extension = ".xml";
+  std::string extension = ".labcc";
   std::string path      = save_path;
 
   if (save_path.length () < extension.length () || save_path.compare (
@@ -100,28 +65,39 @@ create_file_digital (const std::vector<std::vector<char>>& inputs,
 {
   pugi::xml_document  doc;
   pugi::xml_node      root = doc.append_child ("root");
-  pugi::xml_node      data = root.append_child ("data");
+
+  //
+
+  pugi::xml_node metadata = root.append_child ("metadata");
+
+  metadata.append_child ("input_bits")
+          .append_child (pugi::node_pcdata)
+          .set_value (std::to_string (inputs[0].size ()).c_str ());
+  
+  metadata.append_child ("output_bits")
+          .append_child (pugi::node_pcdata)
+          .set_value (std::to_string (outputs[0].size ()).c_str ());
+
+  //
+
+  pugi::xml_node data = root.append_child ("data");
 
   for (size_t row = 0; row < inputs.size (); ++row)
   {
     // 1. Node
     pugi::xml_node data_pair = data.append_child ("data_pair");
   
-    // 2. Input
-    unsigned input_val = parse_char_vec_row_to_int (inputs[row]);
-    
+    // 2. Input   
     pugi::xml_node input_node = data_pair.append_child ("input");
 
-    input_node.append_child (pugi::node_pcdata).set_value (
-      std::to_string (input_val).c_str ());
+    input_node.append_child (pugi::node_pcdata).set_value (std::string 
+      (inputs[row].begin (), inputs[row].end ()).c_str ());
 
     // 3. Output
-    unsigned output_val = parse_char_vec_row_to_int (outputs[row]);
-
     pugi::xml_node output_node = data_pair.append_child ("output");
 
-    output_node.append_child (pugi::node_pcdata).set_value (
-      std::to_string (output_val).c_str ());  
+    output_node.append_child (pugi::node_pcdata).set_value (std::string 
+      (outputs[row].begin (), outputs[row].end ()).c_str ());  
   }  
 
   save_xml_file (doc, save_path);

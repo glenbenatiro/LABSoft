@@ -20,7 +20,7 @@ class LAB_Circuit_Checker
   public:
     LAB*          m_LAB;
     LAB_Core*     m_LAB_Core;
-    LAB_MCP23S17  m_expander;
+    // LAB_MCP23S17  m_expander;
 
     LAB_Circuit_Checker (LAB_Core *_LAB_Core, LAB *_LAB);
 

@@ -5,19 +5,19 @@
 
 class MCP23S17
 {
-  private:
+  public:
     enum class PORT
     {
       A = 0,
       B = 1
     };
 
+  private:
     enum class DIRECTION
     {
       OUTPUT  = 0,
       INPUT   = 1
     };
-
 
     enum class ADDR0 // ADDR_IOCON_BANK_0
     {
@@ -49,6 +49,7 @@ class MCP23S17
   
   private:
     uint8_t m_hardware_address;
+    uint8_t m_opcode;
 
   private:
     void spi_read       (char* rxd, unsigned length);
@@ -57,9 +58,6 @@ class MCP23S17
 
   protected:
     virtual void spi_xfer (char* rxd, char* txd, unsigned length) = 0;
-
-  private:
-
 
   public:
     MCP23S17 (uint8_t hw_addr_bits);

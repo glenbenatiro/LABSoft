@@ -19,6 +19,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Output.H>
 #include "LABSoft_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>
+#include "LABChecker_GUI_Digital_Output_Table.h"
 #include <FL/Fl_Check_Button.H>
 
 class LABSoft_GUI {
@@ -304,6 +305,25 @@ public:
   Fl_Output *circuit_checker_fl_output_similarity_score;
   Fl_Text_Display *circuit_checker_fl_text_display_logger;
   Fl_Group *main_fl_group_digital_circuit_checker_tab;
+  Fl_Button *digital_circuit_checker_fl_button_load_file;
+private:
+  inline void cb_digital_circuit_checker_fl_button_load_file_i(Fl_Button*, void*);
+  static void cb_digital_circuit_checker_fl_button_load_file(Fl_Button*, void*);
+public:
+  Fl_Output *digital_circuit_checker_fl_output_selected_file;
+  Fl_Button *digital_circuit_checker_fl_button_unload_file;
+private:
+  inline void cb_digital_circuit_checker_fl_button_unload_file_i(Fl_Button*, void*);
+  static void cb_digital_circuit_checker_fl_button_unload_file(Fl_Button*, void*);
+public:
+  Fl_Button *digital_circuit_checker_fl_button_run_checker;
+private:
+  inline void cb_digital_circuit_checker_fl_button_run_checker_i(Fl_Button*, void*);
+  static void cb_digital_circuit_checker_fl_button_run_checker(Fl_Button*, void*);
+public:
+  LABChecker_GUI_Digital_Output_Table *digital_circuit_checker_labchecker_gui_digital_output_table_table;
+  Fl_Output *digital_circuit_checker_fl_output_results;
+  Fl_Button *digital_circuit_checker_fl_button_export_results;
   Fl_Double_Window *oscilloscope_fl_window_record_config;
   Fl_Group *oscilloscope_fl_group_record_config;
   static Fl_Menu_Item menu_Samples[];

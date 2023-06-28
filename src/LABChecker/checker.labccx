@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<root>
+	<data>
+		<data_pair>
+			<input>0</input>
+			<output>4</output>
+		</data_pair>
+		<data_pair>
+			<input>1</input>
+			<output>2</output>
+		</data_pair>
+		<data_pair>
+			<input>2</input>
+			<output>1</output>
+		</data_pair>
+		<data_pair>
+			<input>3</input>
+			<output>7</output>
+		</data_pair>
+	</data>
+</root>

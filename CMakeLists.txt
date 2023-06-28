@@ -30,6 +30,7 @@ ADD_EXECUTABLE(LABSoft
   src/LAB_Function_Generator.cpp
   src/LAB_Logic_Analyzer.cpp
   src/LAB_Circuit_Checker.cpp
+  src/LAB_Digital_Circuit_Checker.cpp
 
   src/LABSoft_Controller.cpp
   src/LABSoft_Controller_Oscilloscope.cpp
@@ -37,17 +38,19 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Controller_Function_Generator.cpp
   src/LABSoft_Controller_Logic_Analyzer.cpp
   src/LABSoft_Controller_Circuit_Checker.cpp
+  src/LABSoft_Controller_Digital_Circuit_Checker.cpp
 
   src/LABSoft_GUI.cpp
   src/LABSoft_Oscilloscope_Display_Group.cpp
   src/LABSoft_Oscilloscope_Display.cpp
   src/LABSoft_Logic_Analyzer_Display_Group.cpp
   src/LABSoft_Logic_Analyzer_Display.cpp
+  src/LABChecker_GUI_Digital_Output_Table.cpp
 
   lib/AikaPi/AikaPi.cpp
   lib/AD9833/AD9833.cpp
   lib/MCP4XXX/MCP4XXX.cpp
-  lib/MCP23S17.cpp
+  lib/MCP23S17/MCP23S17.cpp
 
   src/LAB_AD9833.cpp
   src/LAB_MCP4XXX.cpp

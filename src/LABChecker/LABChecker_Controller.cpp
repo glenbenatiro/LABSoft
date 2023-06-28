@@ -94,7 +94,7 @@ void LABChecker_Controller::
 cb_digital_create_file (Fl_Button*  w, 
                         void*       data)
 {
-  std::string file_name ("ccfile.xml");
+  std::string file_name ("checker.labcc");
 
   Fl_Native_File_Chooser chooser;
 

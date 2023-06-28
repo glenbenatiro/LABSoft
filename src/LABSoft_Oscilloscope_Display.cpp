@@ -76,7 +76,7 @@ double LABSoft_Oscilloscope_Display::
 calc_y_scaler (double voltage_per_division)
 {
   double y_scaler = m_display_half_height / 
-    (LABC::OSC::DISPLAY::NUMBER_OF_ROWS_HALF * voltage_per_division);
+    (LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF * voltage_per_division);
 
   return (y_scaler);
 }
@@ -313,10 +313,10 @@ fill_pixel_points_osc_running ()
 
         for (unsigned a = 0; a <= w (); a++)
         {
-          double samp = cdata.samples[std::round (a * samp_skipper)] + cdata.vertical_offset;
+          double sample = cdata.samples[std::round (a * samp_skipper)] + cdata.vertical_offset;
 
           pp[a][0] = std::round   (x () + a + x_offset);
-          pp[a][1] = calc_y_coord (sample, y_scaler);
+          pp[a][1] = calc_samp_y_coord (sample, y_scaler);
         }
       }
       else 
@@ -325,10 +325,10 @@ fill_pixel_points_osc_running ()
 
         for (unsigned a = 0; a < pdata.samples; a++)
         {
-          double samp = cdata.samples[samp] + cdata.vertical_offset;
+          double sample = cdata.samples[a] + cdata.vertical_offset;
 
           pp[a][0] = std::round   (x () + (a * x_skipper) + x_offset);
-          pp[a][1] = calc_y_coord (sample, y_scaler);
+          pp[a][1] = calc_samp_y_coord (sample, y_scaler);
         }
       }
     }
@@ -342,46 +342,48 @@ fill_pixel_points_osc_stopped ()
 
   double  tpd     = pdata.time_per_division;
   double  tpd_raw = pdata.time_per_division_raw_buffer;
+
+  fill_pixel_points_osc_running ();
   
-  if (LABF::is_equal (tpd, tpd_raw))
-  {
-    fill_pixel_points_osc_running ();
-  }
-  else 
-  {
-    double scaler = tpd_raw / tpd;
+  // if (LABF::is_equal (tpd, tpd_raw))
+  // {
+  //   fill_pixel_points_osc_running ();
+  // }
+  // else 
+  // {
+  //   double scaler = tpd_raw / tpd;
 
-    if (tpd > tpd_raw) // zoom out
-    {
-      unsigned  pix_count   = w () * scaler;
-      double    samp_scaler = pdata.samples / pix_scaler;
+  //   if (tpd > tpd_raw) // zoom out
+  //   {
+  //     unsigned  pix_count   = w () * scaler;
+  //     double    samp_scaler = pdata.samples / scaler;
 
-      for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
-      {
+  //     for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
+  //     {
 
 
-        LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
-        std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
+  //       LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
+  //       std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
 
-        for (unsigned a = 0; a < pix_count; a++)
-        {
-          double samp = cdata.samples[std::round (a * samp_scaler)];
+  //       for (unsigned a = 0; a < pix_count; a++)
+  //       {
+  //         double samp = cdata.samples[std::round (a * samp_scaler)];
 
-          pp[a][0] = (x () + x_offset);
-          pp[a][1] = 
-        }
-      }
-    }
-    else // (tpd < tpd_raw) 
-    {
-      unsigned samp_count = 
+  //         pp[a][0] = (x () + x_offset);
+  //         pp[a][1] = 
+  //       }
+  //     }
+  //   }
+  //   else // (tpd < tpd_raw) 
+  //   {
+  //     unsigned samp_count = 
 
-      for ()
-      {
+  //     for ()
+  //     {
 
-      }
-    }
-  }
+  //     }
+  //   }
+  // }
 }
 
 void LABSoft_Oscilloscope_Display:: 

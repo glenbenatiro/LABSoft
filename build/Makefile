@@ -196,6 +196,33 @@ lib/AikaPi/AikaPi.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/AikaPi/AikaPi.cpp.s
 .PHONY : lib/AikaPi/AikaPi.cpp.s
 
+lib/MCP23S17/MCP23S17.o: lib/MCP23S17/MCP23S17.cpp.o
+
+.PHONY : lib/MCP23S17/MCP23S17.o
+
+# target to build an object file
+lib/MCP23S17/MCP23S17.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/MCP23S17/MCP23S17.cpp.o
+.PHONY : lib/MCP23S17/MCP23S17.cpp.o
+
+lib/MCP23S17/MCP23S17.i: lib/MCP23S17/MCP23S17.cpp.i
+
+.PHONY : lib/MCP23S17/MCP23S17.i
+
+# target to preprocess a source file
+lib/MCP23S17/MCP23S17.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/MCP23S17/MCP23S17.cpp.i
+.PHONY : lib/MCP23S17/MCP23S17.cpp.i
+
+lib/MCP23S17/MCP23S17.s: lib/MCP23S17/MCP23S17.cpp.s
+
+.PHONY : lib/MCP23S17/MCP23S17.s
+
+# target to generate assembly for a file
+lib/MCP23S17/MCP23S17.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/lib/MCP23S17/MCP23S17.cpp.s
+.PHONY : lib/MCP23S17/MCP23S17.cpp.s
+
 lib/MCP4XXX/MCP4XXX.o: lib/MCP4XXX/MCP4XXX.cpp.o
 
 .PHONY : lib/MCP4XXX/MCP4XXX.o
@@ -277,6 +304,33 @@ src/LAB.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB.cpp.s
 .PHONY : src/LAB.cpp.s
 
+src/LABChecker_GUI_Digital_Output_Table.o: src/LABChecker_GUI_Digital_Output_Table.cpp.o
+
+.PHONY : src/LABChecker_GUI_Digital_Output_Table.o
+
+# target to build an object file
+src/LABChecker_GUI_Digital_Output_Table.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABChecker_GUI_Digital_Output_Table.cpp.o
+.PHONY : src/LABChecker_GUI_Digital_Output_Table.cpp.o
+
+src/LABChecker_GUI_Digital_Output_Table.i: src/LABChecker_GUI_Digital_Output_Table.cpp.i
+
+.PHONY : src/LABChecker_GUI_Digital_Output_Table.i
+
+# target to preprocess a source file
+src/LABChecker_GUI_Digital_Output_Table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABChecker_GUI_Digital_Output_Table.cpp.i
+.PHONY : src/LABChecker_GUI_Digital_Output_Table.cpp.i
+
+src/LABChecker_GUI_Digital_Output_Table.s: src/LABChecker_GUI_Digital_Output_Table.cpp.s
+
+.PHONY : src/LABChecker_GUI_Digital_Output_Table.s
+
+# target to generate assembly for a file
+src/LABChecker_GUI_Digital_Output_Table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABChecker_GUI_Digital_Output_Table.cpp.s
+.PHONY : src/LABChecker_GUI_Digital_Output_Table.cpp.s
+
 src/LABSoft.o: src/LABSoft.cpp.o
 
 .PHONY : src/LABSoft.o
@@ -357,6 +411,33 @@ src/LABSoft_Controller_Circuit_Checker.s: src/LABSoft_Controller_Circuit_Checker
 src/LABSoft_Controller_Circuit_Checker.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Circuit_Checker.cpp.s
 .PHONY : src/LABSoft_Controller_Circuit_Checker.cpp.s
+
+src/LABSoft_Controller_Digital_Circuit_Checker.o: src/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
+
+.PHONY : src/LABSoft_Controller_Digital_Circuit_Checker.o
+
+# target to build an object file
+src/LABSoft_Controller_Digital_Circuit_Checker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
+.PHONY : src/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
+
+src/LABSoft_Controller_Digital_Circuit_Checker.i: src/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
+
+.PHONY : src/LABSoft_Controller_Digital_Circuit_Checker.i
+
+# target to preprocess a source file
+src/LABSoft_Controller_Digital_Circuit_Checker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
+.PHONY : src/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
+
+src/LABSoft_Controller_Digital_Circuit_Checker.s: src/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
+
+.PHONY : src/LABSoft_Controller_Digital_Circuit_Checker.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller_Digital_Circuit_Checker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
+.PHONY : src/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
 
 src/LABSoft_Controller_Function_Generator.o: src/LABSoft_Controller_Function_Generator.cpp.o
 
@@ -682,6 +763,33 @@ src/LAB_Core.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Core.cpp.s
 .PHONY : src/LAB_Core.cpp.s
 
+src/LAB_Digital_Circuit_Checker.o: src/LAB_Digital_Circuit_Checker.cpp.o
+
+.PHONY : src/LAB_Digital_Circuit_Checker.o
+
+# target to build an object file
+src/LAB_Digital_Circuit_Checker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Digital_Circuit_Checker.cpp.o
+.PHONY : src/LAB_Digital_Circuit_Checker.cpp.o
+
+src/LAB_Digital_Circuit_Checker.i: src/LAB_Digital_Circuit_Checker.cpp.i
+
+.PHONY : src/LAB_Digital_Circuit_Checker.i
+
+# target to preprocess a source file
+src/LAB_Digital_Circuit_Checker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Digital_Circuit_Checker.cpp.i
+.PHONY : src/LAB_Digital_Circuit_Checker.cpp.i
+
+src/LAB_Digital_Circuit_Checker.s: src/LAB_Digital_Circuit_Checker.cpp.s
+
+.PHONY : src/LAB_Digital_Circuit_Checker.s
+
+# target to generate assembly for a file
+src/LAB_Digital_Circuit_Checker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Digital_Circuit_Checker.cpp.s
+.PHONY : src/LAB_Digital_Circuit_Checker.cpp.s
+
 src/LAB_Function_Generator.o: src/LAB_Function_Generator.cpp.o
 
 .PHONY : src/LAB_Function_Generator.o
@@ -735,6 +843,33 @@ src/LAB_Logic_Analyzer.s: src/LAB_Logic_Analyzer.cpp.s
 src/LAB_Logic_Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Logic_Analyzer.cpp.s
 .PHONY : src/LAB_Logic_Analyzer.cpp.s
+
+src/LAB_MCP23S17.o: src/LAB_MCP23S17.cpp.o
+
+.PHONY : src/LAB_MCP23S17.o
+
+# target to build an object file
+src/LAB_MCP23S17.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP23S17.cpp.o
+.PHONY : src/LAB_MCP23S17.cpp.o
+
+src/LAB_MCP23S17.i: src/LAB_MCP23S17.cpp.i
+
+.PHONY : src/LAB_MCP23S17.i
+
+# target to preprocess a source file
+src/LAB_MCP23S17.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP23S17.cpp.i
+.PHONY : src/LAB_MCP23S17.cpp.i
+
+src/LAB_MCP23S17.s: src/LAB_MCP23S17.cpp.s
+
+.PHONY : src/LAB_MCP23S17.s
+
+# target to generate assembly for a file
+src/LAB_MCP23S17.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_MCP23S17.cpp.s
+.PHONY : src/LAB_MCP23S17.cpp.s
 
 src/LAB_MCP4XXX.o: src/LAB_MCP4XXX.cpp.o
 
@@ -913,6 +1048,9 @@ help:
 	@echo "... lib/AikaPi/AikaPi.o"
 	@echo "... lib/AikaPi/AikaPi.i"
 	@echo "... lib/AikaPi/AikaPi.s"
+	@echo "... lib/MCP23S17/MCP23S17.o"
+	@echo "... lib/MCP23S17/MCP23S17.i"
+	@echo "... lib/MCP23S17/MCP23S17.s"
 	@echo "... lib/MCP4XXX/MCP4XXX.o"
 	@echo "... lib/MCP4XXX/MCP4XXX.i"
 	@echo "... lib/MCP4XXX/MCP4XXX.s"
@@ -922,6 +1060,9 @@ help:
 	@echo "... src/LAB.o"
 	@echo "... src/LAB.i"
 	@echo "... src/LAB.s"
+	@echo "... src/LABChecker_GUI_Digital_Output_Table.o"
+	@echo "... src/LABChecker_GUI_Digital_Output_Table.i"
+	@echo "... src/LABChecker_GUI_Digital_Output_Table.s"
 	@echo "... src/LABSoft.o"
 	@echo "... src/LABSoft.i"
 	@echo "... src/LABSoft.s"
@@ -931,6 +1072,9 @@ help:
 	@echo "... src/LABSoft_Controller_Circuit_Checker.o"
 	@echo "... src/LABSoft_Controller_Circuit_Checker.i"
 	@echo "... src/LABSoft_Controller_Circuit_Checker.s"
+	@echo "... src/LABSoft_Controller_Digital_Circuit_Checker.o"
+	@echo "... src/LABSoft_Controller_Digital_Circuit_Checker.i"
+	@echo "... src/LABSoft_Controller_Digital_Circuit_Checker.s"
 	@echo "... src/LABSoft_Controller_Function_Generator.o"
 	@echo "... src/LABSoft_Controller_Function_Generator.i"
 	@echo "... src/LABSoft_Controller_Function_Generator.s"
@@ -967,12 +1111,18 @@ help:
 	@echo "... src/LAB_Core.o"
 	@echo "... src/LAB_Core.i"
 	@echo "... src/LAB_Core.s"
+	@echo "... src/LAB_Digital_Circuit_Checker.o"
+	@echo "... src/LAB_Digital_Circuit_Checker.i"
+	@echo "... src/LAB_Digital_Circuit_Checker.s"
 	@echo "... src/LAB_Function_Generator.o"
 	@echo "... src/LAB_Function_Generator.i"
 	@echo "... src/LAB_Function_Generator.s"
 	@echo "... src/LAB_Logic_Analyzer.o"
 	@echo "... src/LAB_Logic_Analyzer.i"
 	@echo "... src/LAB_Logic_Analyzer.s"
+	@echo "... src/LAB_MCP23S17.o"
+	@echo "... src/LAB_MCP23S17.i"
+	@echo "... src/LAB_MCP23S17.s"
 	@echo "... src/LAB_MCP4XXX.o"
 	@echo "... src/LAB_MCP4XXX.i"
 	@echo "... src/LAB_MCP4XXX.s"

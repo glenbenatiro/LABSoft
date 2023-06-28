@@ -55,7 +55,8 @@ init_pwm ()
   m_LAB_Core->pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LABC::OSC::SAMPLING_RATE);
   m_LAB_Core->pwm.duty_cycle    (LABC::PWM::DMA_PACING_CHAN, 50.0);
 
-  m_LAB_Core->gpio.set          (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  // PWM pin (BCM pin 12) is in use by digital circuit checker
+  // m_LAB_Core->gpio.set (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
 }
 
 void LAB_Oscilloscope::
