@@ -39,14 +39,14 @@ void LABChecker_GUI_Digital_Input_Table::
 init_table_dimensions ()
 {
   row_header        (1);
-  row_header_width  (70);
+  row_header_width  (COL_WIDTH);
   row_resize        (0);
-  row_height_all    (25);
+  row_height_all    (ROW_HEIGHT);
 
   col_header        (1);
-  col_header_height (25);
+  col_header_height (ROW_HEIGHT);
   col_resize        (0);
-  col_width_all     (70);
+  col_width_all     (COL_WIDTH);
 
   set_selection     (0, 0, 0, 0);
   // tab_cell_nav      (1);
@@ -242,6 +242,11 @@ set_value_hide ()
       str = "0";
     }
 
+    if (str == "x")
+    {
+      str = "X";
+    }
+
     set_vector_value (str[0], m_row_edit, m_col_edit);
   }
 
@@ -349,7 +354,7 @@ draw_cell (LABChecker_GUI_Digital_Input_Table::TableContext context,
         }
 
         fl_color  (FL_BLACK);
-        fl_font   (fl_font () | FL_BOLD, fl_size ());
+        fl_font   (FL_HELVETICA_BOLD, fl_size ());
         fl_draw   (s, X, Y, W, H, FL_ALIGN_CENTER);
       }
       fl_pop_clip   ();
@@ -369,7 +374,7 @@ draw_cell (LABChecker_GUI_Digital_Input_Table::TableContext context,
 
       fl_push_clip  (X, Y, W, H);
       {
-        fl_font     (fl_font (), fl_size ());
+        fl_font     (FL_HELVETICA, fl_size ());
         fl_draw_box (FL_THIN_DOWN_BOX, X, Y, W, H, is_selected (R, C) ? COLOR_SELECTED_CELL : FL_WHITE);
         fl_color    (FL_BLACK);   
         fl_draw     (s, X, Y, W, H, FL_ALIGN_INSIDE | FL_ALIGN_CENTER);
@@ -439,9 +444,12 @@ output_bits (unsigned value)
 void LABChecker_GUI_Digital_Input_Table::
 output_count (unsigned value)
 {
-  m_output_count = (value > m_max_output_count) ? m_max_output_count : value;
+  if (value >= 1)
+  {
+    m_output_count = (value > m_max_output_count) ? m_max_output_count : value;
 
-  recalculate_and_resize ();
+    recalculate_and_resize ();
+  }
 }
 
 unsigned LABChecker_GUI_Digital_Input_Table:: 
@@ -462,6 +470,16 @@ max_output_count () const
   return (m_max_output_count);
 }
 
+std::vector<std::vector<char>>& LABChecker_GUI_Digital_Input_Table:: 
+inputs ()
+{
+  return (m_inputs);
+}
 
+std::vector<std::vector<char>>& LABChecker_GUI_Digital_Input_Table:: 
+outputs ()
+{
+  return (m_outputs);
+}
 
 // EOF 

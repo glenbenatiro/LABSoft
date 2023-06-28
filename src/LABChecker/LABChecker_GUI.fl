@@ -82,7 +82,7 @@ class LABChecker_GUI {open
           xywh {0 60 1366 708} box FLAT_BOX color 54
         } {
           Fl_Group {} {
-            label Settings open
+            label Settings
             xywh {60 120 180 240} box ROUNDED_FRAME
           } {
             Fl_Choice digital_fl_choice_input_bits {
@@ -171,11 +171,12 @@ class LABChecker_GUI {open
           }
           Fl_Button digital_fl_button_create_file {
             label {Create File}
+            callback {m_LABChecker_Controller->cb_digital_create_file (o, v);}
             xywh {608 650 150 60} box GTK_UP_BOX color 55
           }
           Fl_Table digital_labchecker_gui_digital_input_table_table {
             label Outputs
-            xywh {290 118 1020 500} color 53 selection_color 53
+            xywh {290 118 1020 500} color 51 selection_color 53
             code0 {\#include "LABChecker_GUI_Digital_Input_Table.h"}
             class LABChecker_GUI_Digital_Input_Table
           } {}

@@ -9,9 +9,11 @@
 class LABChecker_GUI_Digital_Input_Table : public Fl_Table
 {
   private:
-    int COLOR_HEADER_ROW_INPUT  = 95;
-    int COLOR_HEADER_ROW_OUTPUT = 79;
-    int COLOR_SELECTED_CELL     = 247;
+    int       COLOR_HEADER_ROW_INPUT  = 95;
+    int       COLOR_HEADER_ROW_OUTPUT = 79;
+    int       COLOR_SELECTED_CELL     = 247;
+    unsigned  ROW_HEIGHT              = 25;
+    unsigned  COL_WIDTH               = 30;
 
   private:
     Fl_Input* m_input;
@@ -62,9 +64,11 @@ class LABChecker_GUI_Digital_Input_Table : public Fl_Table
     void output_count (unsigned value);
 
     // Getter
-    unsigned input_bits       () const;
-    unsigned output_count     () const;
-    unsigned max_output_count () const;
+    unsigned                        input_bits        () const;
+    unsigned                        output_count      () const;
+    unsigned                        max_output_count  () const;
+    std::vector<std::vector<char>>& inputs            ();
+    std::vector<std::vector<char>>& outputs           ();
 };
 
 #endif

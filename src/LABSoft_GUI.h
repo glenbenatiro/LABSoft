@@ -303,10 +303,7 @@ public:
   Fl_Output *circuit_checker_fl_output_selected_circuit_checker_file;
   Fl_Output *circuit_checker_fl_output_similarity_score;
   Fl_Text_Display *circuit_checker_fl_text_display_logger;
-  Fl_Group *alignment_guides;
-  Fl_Box *inner_height;
-  Fl_Box *outer_height;
-  Fl_Box *inner_height_crosswise;
+  Fl_Group *main_fl_group_digital_circuit_checker_tab;
   Fl_Double_Window *oscilloscope_fl_window_record_config;
   Fl_Group *oscilloscope_fl_group_record_config;
   static Fl_Menu_Item menu_Samples[];

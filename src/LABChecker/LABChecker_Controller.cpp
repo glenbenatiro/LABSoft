@@ -1,5 +1,6 @@
 #include "LABChecker_Controller.h"
 
+#include <string>
 #include <iostream>
 
 LABChecker_Controller:: 
@@ -7,6 +8,8 @@ LABChecker_Controller (LABChecker_Main* main, LABChecker_GUI* gui)
 {
   m_LABChecker_Main = main;
   m_LABChecker_GUI  = gui;
+
+  init_gui ();
 }
 
 void LABChecker_Controller:: 
@@ -86,3 +89,40 @@ cb_digital_output_count (Fl_Input*  w,
 
   update_gui_digital_output_count (table.output_count ());
 }
+
+void LABChecker_Controller:: 
+cb_digital_create_file (Fl_Button*  w, 
+                        void*       data)
+{
+  std::string file_name ("ccfile.xml");
+
+  Fl_Native_File_Chooser chooser;
+
+  chooser.title       ("Save Circuit Checker File...");
+  chooser.type        (Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
+  chooser.directory   ("/");
+  chooser.preset_file (file_name.c_str ());
+  chooser.options     (Fl_Native_File_Chooser::NEW_FOLDER | 
+                        Fl_Native_File_Chooser::SAVEAS_CONFIRM);
+  
+  switch (chooser.show ())
+  {
+    case (1): // cancel
+    {
+
+      break;
+    }
+
+    default: 
+    {
+      LABChecker_GUI_Digital_Input_Table& table = *(m_LABChecker_GUI->
+        digital_labchecker_gui_digital_input_table_table);
+
+      m_LABChecker_Main->create_file_digital (table.inputs (), table.outputs (), chooser.filename ());
+
+      break;
+    }
+  }  
+}
+
+// EOF

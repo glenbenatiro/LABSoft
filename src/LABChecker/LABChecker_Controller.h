@@ -4,8 +4,10 @@
 #include "LABChecker_Main.h"
 #include "LABChecker_GUI.h"
 
-#include <FL/Fl_Choice.H>
 #include <FL/Fl_Input.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Native_File_Chooser.H>
 
 class LABChecker_Controller 
 {
@@ -25,6 +27,7 @@ class LABChecker_Controller
     void cb_digital_input_bits    (Fl_Choice* w, void* data);
     void cb_digital_output_bits   (Fl_Choice* w, void* data);
     void cb_digital_output_count  (Fl_Input*  w, void* data);
+    void cb_digital_create_file   (Fl_Button* w, void* data);
 };
 
 #endif

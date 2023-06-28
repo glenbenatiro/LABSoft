@@ -56,6 +56,13 @@ void LABChecker_GUI::cb_digital_fl_input_output_count(Fl_Input* o, void* v) {
   ((LABChecker_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_digital_fl_input_output_count_i(o,v);
 }
 
+void LABChecker_GUI::cb_digital_fl_button_create_file_i(Fl_Button* o, void* v) {
+  m_LABChecker_Controller->cb_digital_create_file (o, v);
+}
+void LABChecker_GUI::cb_digital_fl_button_create_file(Fl_Button* o, void* v) {
+  ((LABChecker_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_digital_fl_button_create_file_i(o,v);
+}
+
 LABChecker_GUI::LABChecker_GUI() {
   { main_fl_window = new Fl_Double_Window(1365, 765, "LABChecker 0.1");
     main_fl_window->color(FL_LIGHT2);
@@ -132,10 +139,11 @@ LABChecker_GUI::LABChecker_GUI() {
         { digital_fl_button_create_file = new Fl_Button(608, 650, 150, 60, "Create File");
           digital_fl_button_create_file->box(FL_GTK_UP_BOX);
           digital_fl_button_create_file->color((Fl_Color)55);
+          digital_fl_button_create_file->callback((Fl_Callback*)cb_digital_fl_button_create_file);
         } // Fl_Button* digital_fl_button_create_file
         { digital_labchecker_gui_digital_input_table_table = new LABChecker_GUI_Digital_Input_Table(290, 118, 1020, 500, "Outputs");
           digital_labchecker_gui_digital_input_table_table->box(FL_THIN_DOWN_FRAME);
-          digital_labchecker_gui_digital_input_table_table->color((Fl_Color)53);
+          digital_labchecker_gui_digital_input_table_table->color((Fl_Color)51);
           digital_labchecker_gui_digital_input_table_table->selection_color((Fl_Color)53);
           digital_labchecker_gui_digital_input_table_table->labeltype(FL_NORMAL_LABEL);
           digital_labchecker_gui_digital_input_table_table->labelfont(0);

@@ -898,6 +898,7 @@ LABSoft_GUI::LABSoft_GUI() {
       { main_fl_group_oscilloscope_tab = new Fl_Group(0, 60, 1366, 768, "Oscilloscope");
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
+        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_fl_button_record = new Fl_Button(1205, 95, 120, 60, "Record");
           oscilloscope_fl_button_record->box(FL_GTK_UP_BOX);
           oscilloscope_fl_button_record->color((Fl_Color)53);
@@ -1385,10 +1386,11 @@ LABSoft_GUI::LABSoft_GUI() {
         } // LABSoft_Logic_Analyzer_Display_Group* logic_analyzer_labsoft_logic_analyzer_display_group_display
         main_fl_group_logic_analyzer_tab->end();
       } // Fl_Group* main_fl_group_logic_analyzer_tab
-      { main_fl_group_circuit_checker_tab = new Fl_Group(0, 60, 1366, 708, "Circuit Checker");
+      { main_fl_group_circuit_checker_tab = new Fl_Group(0, 60, 1366, 708, "Analog Circuit Checker");
         main_fl_group_circuit_checker_tab->color(FL_LIGHT3);
         main_fl_group_circuit_checker_tab->selection_color(FL_LIGHT2);
         main_fl_group_circuit_checker_tab->hide();
+        main_fl_group_circuit_checker_tab->deactivate();
         { circuit_checker_fl_button_choose_circuit_checker_file = new Fl_Button(203, 180, 300, 120, "Choose Circuit   Checker File");
           circuit_checker_fl_button_choose_circuit_checker_file->box(FL_GTK_UP_BOX);
           circuit_checker_fl_button_choose_circuit_checker_file->color((Fl_Color)53);
@@ -1418,25 +1420,13 @@ LABSoft_GUI::LABSoft_GUI() {
         } // Fl_Text_Display* circuit_checker_fl_text_display_logger
         main_fl_group_circuit_checker_tab->end();
       } // Fl_Group* main_fl_group_circuit_checker_tab
+      { main_fl_group_digital_circuit_checker_tab = new Fl_Group(0, 60, 1366, 708, "Digital Circuit Checker");
+        main_fl_group_digital_circuit_checker_tab->color(FL_LIGHT3);
+        main_fl_group_digital_circuit_checker_tab->selection_color(FL_LIGHT2);
+        main_fl_group_digital_circuit_checker_tab->end();
+      } // Fl_Group* main_fl_group_digital_circuit_checker_tab
       main_fl_tabs->end();
     } // Fl_Tabs* main_fl_tabs
-    { alignment_guides = new Fl_Group(0, 0, 1366, 768);
-      alignment_guides->hide();
-      alignment_guides->deactivate();
-      { inner_height = new Fl_Box(0, 35, 1366, 366);
-        inner_height->box(FL_UP_FRAME);
-        inner_height->color(FL_RED);
-      } // Fl_Box* inner_height
-      { outer_height = new Fl_Box(0, 0, 1366, 384);
-        outer_height->box(FL_DOWN_FRAME);
-        outer_height->color(FL_YELLOW);
-      } // Fl_Box* outer_height
-      { inner_height_crosswise = new Fl_Box(0, 0, 683, 768);
-        inner_height_crosswise->box(FL_UP_FRAME);
-        inner_height_crosswise->color(FL_RED);
-      } // Fl_Box* inner_height_crosswise
-      alignment_guides->end();
-    } // Fl_Group* alignment_guides
     main_fl_window->end();
   } // Fl_Double_Window* main_fl_window
   { oscilloscope_fl_window_record_config = new Fl_Double_Window(360, 300, "Record Configuration");

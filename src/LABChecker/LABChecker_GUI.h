@@ -44,6 +44,10 @@ private:
   static void cb_digital_fl_input_output_count(Fl_Input*, void*);
 public:
   Fl_Button *digital_fl_button_create_file;
+private:
+  inline void cb_digital_fl_button_create_file_i(Fl_Button*, void*);
+  static void cb_digital_fl_button_create_file(Fl_Button*, void*);
+public:
   LABChecker_GUI_Digital_Input_Table *digital_labchecker_gui_digital_input_table_table;
 };
 #endif

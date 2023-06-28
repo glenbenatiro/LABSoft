@@ -21,11 +21,11 @@ class LABSoft_GUI {open
       label LABSoft open
       xywh {413 91 1365 765} type Double color 55 visible
     } {
-      Fl_Menu_Bar {} {open
+      Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
       } {
         Submenu {} {
-          label File open
+          label File
           xywh {0 0 70 21}
         } {
           MenuItem main_menuitem_export {
@@ -43,7 +43,7 @@ class LABSoft_GUI {open
         } {}
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);}
+        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
         xywh {0 30 1366 738} box FLAT_BOX color 55 selection_color 54
       } {
         Fl_Group main_fl_group_home_tab {
@@ -56,8 +56,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_oscilloscope_tab {
-          label Oscilloscope open
-          xywh {0 60 1366 768} color 54 selection_color 52
+          label Oscilloscope
+          xywh {0 60 1366 768} color 54 selection_color 52 hide
         } {
           Fl_Button oscilloscope_fl_button_record {
             label Record
@@ -121,7 +121,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
-            label {Channel 1} open
+            label {Channel 1}
             xywh {845 95 160 360} box ROUNDED_FRAME color 52
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_0_enable {
@@ -2009,8 +2009,8 @@ class LABSoft_GUI {open
           } {}
         }
         Fl_Group main_fl_group_circuit_checker_tab {
-          label {Circuit Checker}
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label {Analog Circuit Checker}
+          xywh {0 60 1366 708} color 54 selection_color 52 hide deactivate
         } {
           Fl_Button circuit_checker_fl_button_choose_circuit_checker_file {
             label {Choose Circuit   Checker File}
@@ -2034,19 +2034,10 @@ class LABSoft_GUI {open
             xywh {203 340 960 240} box GTK_DOWN_BOX color 55
           }
         }
-      }
-      Fl_Group alignment_guides {
-        xywh {0 0 1366 768} hide deactivate
-      } {
-        Fl_Box inner_height {
-          xywh {0 35 1366 366} box UP_FRAME color 88
-        }
-        Fl_Box outer_height {
-          xywh {0 0 1366 384} box DOWN_FRAME color 95
-        }
-        Fl_Box inner_height_crosswise {
-          xywh {0 0 683 768} box UP_FRAME color 88
-        }
+        Fl_Group main_fl_group_digital_circuit_checker_tab {
+          label {Digital Circuit Checker} open
+          xywh {0 60 1366 708} color 54 selection_color 52
+        } {}
       }
     }
     Fl_Window oscilloscope_fl_window_record_config {
@@ -2150,7 +2141,7 @@ class LABSoft_GUI {open
       }
     }
     Fl_Window oscilloscope_fl_window_export {
-      label {Oscilloscope - Export} open
+      label {Oscilloscope - Export}
       xywh {2143 288 720 420} type Double color 54 visible
     } {
       Fl_Choice {} {
@@ -2186,7 +2177,7 @@ class LABSoft_GUI {open
       Fl_Group oscilloscope_export_fl_group_output {open
         xywh {350 30 340 310} box BORDER_FRAME align 5
       } {
-        Fl_Text_Display {} {selected
+        Fl_Text_Display {} {
           xywh {353 33 334 100} box FLAT_BOX
         }
       }
