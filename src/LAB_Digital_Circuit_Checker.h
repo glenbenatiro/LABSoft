@@ -61,15 +61,16 @@ class LAB_Digital_Circuit_Checker
     double                          m_score_percent     = 0.0;
 
   private:
-    void init_gpio_pins       ();
-    bool acquire_file_lock    (const std::string& path);
-    bool release_file_lock    (const std::string& path);
-    void clear_vectors        ();
-    void load_metadata        ();
-    void load_data_pairs      ();
-    void load_data_from_file  ();
-    void perform_check        ();
-    void calculate_scores     ();
+    void init_gpio_pins                   ();
+    bool acquire_file_lock                (const std::string& path);
+    bool release_file_lock                (const std::string& path);
+    void clear_vectors                    ();
+    void load_metadata                    ();
+    void load_data_pairs                  ();
+    void load_data_from_file              ();
+    void perform_check                    ();
+    void calculate_scores                 ();
+    void generate_char_actual_outputs_vec ();
 
   public:
     LAB_Digital_Circuit_Checker (LAB_Core* _LAB_Core, LAB* _LAB);

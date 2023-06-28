@@ -80,7 +80,7 @@ get_vector_value (unsigned R,
     }
     else 
     {
-      return (m_actual_outputs[R][(m_output_bits - 1) - (outputs_col - m_output_bits)]);
+      return (m_actual_outputs[R][((m_output_bits - 1) - outputs_col) + m_output_bits]);
     }
   }
 }
@@ -230,10 +230,6 @@ display_results (LAB_Digital_Circuit_Checker::ScoreData score_data)
   recalculate_and_resize ();
 
   m_values_loaded = true;
-
-  redraw ();
-
-  // m_values_loaded = false;
 }
 
 void LABChecker_GUI_Digital_Output_Table:: 

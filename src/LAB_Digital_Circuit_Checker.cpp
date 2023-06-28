@@ -180,11 +180,11 @@ perform_check ()
   {
     m_hw_io.write_port (LABC::DIGITAL_CIRCUIT_CHECKER::INPUT_PORT, m_inputs[i]);
 
-    std::this_thread::sleep_for (std::chrono::milliseconds (250));
+    std::this_thread::sleep_for (std::chrono::milliseconds (100));
 
     m_actual_outputs[i] = m_hw_io.read_port (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT);
 
-    std::this_thread::sleep_for (std::chrono::milliseconds (250));
+    std::this_thread::sleep_for (std::chrono::milliseconds (100));
   }
 }
 
@@ -206,6 +206,27 @@ calculate_scores ()
 }
 
 void LAB_Digital_Circuit_Checker:: 
+generate_char_actual_outputs_vec ()
+{
+  m_char_actual_outputs.resize (m_char_outputs.size ());
+
+  for (size_t row = 0; row < m_char_actual_outputs.size (); row++)
+  {
+    std::vector<char> vec;
+    uint8_t           row_val = m_actual_outputs[row];
+
+    for (int a = 7; a >= 0; a--)
+    {
+      char c = ((row_val >> a) & 1) ? '1' : '0';
+    
+      vec.push_back (c);
+    }
+
+    m_char_actual_outputs[row] = vec;
+  }
+}
+
+void LAB_Digital_Circuit_Checker:: 
 run_checker ()
 {
   if (!m_is_file_loaded)
@@ -219,17 +240,13 @@ run_checker ()
 
   m_are_results_ready = false;
 
-  m_xml_doc.load_file (m_file_path.c_str ());
-
-  load_data_from_file ();
-
-  perform_check ();
-
-  calculate_scores ();
+  m_xml_doc.load_file               (m_file_path.c_str ());
+  load_data_from_file               (); 
+  perform_check                     ();
+  calculate_scores                  ();
+  generate_char_actual_outputs_vec  ();
 
   m_are_results_ready = true;
-
-  std::cout << "run checker done!" << "\n";
 }
 
 LAB_Digital_Circuit_Checker::ScoreData LAB_Digital_Circuit_Checker:: 
