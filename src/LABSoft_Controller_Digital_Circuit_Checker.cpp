@@ -144,6 +144,8 @@ cb_run_checker (Fl_Button*  w,
       // Update table
       m_LABSoft_GUI->digital_circuit_checker_labchecker_gui_digital_output_table_table->
         display_results (score_data);
+
+      fl_message ("Checking done.");
     }    
   }
   catch (const std::exception& e)

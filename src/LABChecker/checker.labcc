@@ -2,24 +2,40 @@
 <root>
 	<metadata>
 		<input_bits>3</input_bits>
-		<output_bits>2</output_bits>
+		<output_bits>3</output_bits>
 	</metadata>
 	<data>
 		<data_pair>
-			<input>10X</input>
-			<output>00</output>
+			<input>110</input>
+			<output>XXX</output>
 		</data_pair>
 		<data_pair>
-			<input>0X1</input>
-			<output>10</output>
+			<input>1X0</input>
+			<output>1X1</output>
+		</data_pair>
+		<data_pair>
+			<input>010</input>
+			<output>X01</output>
 		</data_pair>
 		<data_pair>
 			<input>X00</input>
-			<output>01</output>
+			<output>110</output>
 		</data_pair>
 		<data_pair>
-			<input>X11</input>
-			<output>11</output>
+			<input>000</input>
+			<output>000</output>
+		</data_pair>
+		<data_pair>
+			<input>000</input>
+			<output>000</output>
+		</data_pair>
+		<data_pair>
+			<input>000</input>
+			<output>000</output>
+		</data_pair>
+		<data_pair>
+			<input>000</input>
+			<output>000</output>
 		</data_pair>
 	</data>
 </root>

@@ -139,22 +139,19 @@ load_data_from_file ()
 void LAB_Digital_Circuit_Checker:: 
 load_file (const std::string& path)
 {
-  if (!m_is_file_loaded)
+  pugi::xml_parse_result res = m_xml_doc.load_file (path.c_str ());
+
+  if (!res)
   {
-    pugi::xml_parse_result res = m_xml_doc.load_file (path.c_str ());
+    throw (std::domain_error ("Invalid or corrupted LAB Circuit Checker file."));
+  }
+  else 
+  {
+    m_file_path = path;
 
-    if (!res)
-    {
-      throw (std::domain_error ("Invalid or corrupted LAB Circuit Checker file."));
-    }
-    else 
-    {
-      m_file_path = path;
+    acquire_file_lock (m_file_path);
 
-      acquire_file_lock (m_file_path);
-
-      m_is_file_loaded = true;
-    }
+    m_is_file_loaded = true;
   }
 }
 
