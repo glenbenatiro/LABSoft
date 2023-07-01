@@ -19,12 +19,11 @@ class LABChecker_GUI_Digital_Output_Table : public Fl_Table
     unsigned  COL_WIDTH                       = 30;
 
   private:
-    bool      m_values_loaded     = false;
-    unsigned  m_number_of_rows    = 1;
-    unsigned  m_number_of_cols    = 2;
-    unsigned  m_input_bits        = 1;
-    unsigned  m_output_bits       = 1;
-    unsigned  m_output_count      = 2;
+    unsigned  m_number_of_rows  = 0;
+    unsigned  m_number_of_cols  = 0;
+    unsigned  m_input_bits      = 0;
+    unsigned  m_output_bits     = 0;
+    unsigned  m_output_count    = 0;
 
     std::vector<uint8_t> m_input_vals;
     std::vector<uint8_t> m_output_vals;
@@ -48,15 +47,17 @@ class LABChecker_GUI_Digital_Output_Table : public Fl_Table
     void  recalculate_rows_and_cols ();
     void  recalculate_and_resize    ();
     char  get_vector_value          (unsigned R, unsigned C) const;
+    void  clear_vectors             ();
+    void  reset_vars                ();
 
   public:
     LABChecker_GUI_Digital_Output_Table (int X, int Y, int W, int H, const char* label = 0);
    ~LABChecker_GUI_Digital_Output_Table ();
 
-    // Setter
     void resize           (unsigned new_number_of_rows, unsigned new_number_of_cols);
     void display_results  (LAB_Digital_Circuit_Checker::ScoreData score_data);
     void load_data        (LAB_Digital_Circuit_Checker::ScoreData score_data);
+    void reset            ();
 };
 
 #endif

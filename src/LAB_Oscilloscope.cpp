@@ -358,10 +358,11 @@ void LAB_Oscilloscope::
 voltage_per_division (unsigned  channel, 
                       double    value)
 {
-  m_parent_data.channel_data[channel].voltage_per_division = value;
-
-  if (mode () != LABE::OSC::MODE::REPEATED)
+  if (LABF::is_within_range (value, LABC::OSC::MIN_VOLTAGE_PER_DIVISION, 
+    LABC::OSC::MAX_VOLTAGE_PER_DIVISION))
   {
+    m_parent_data.channel_data[channel].voltage_per_division = value;
+
     reset_dma_process ();
   }
 }
@@ -424,15 +425,15 @@ coupling (unsigned            channel,
       throw (std::out_of_range ("Invalid channel selected in LAB_Oscilloscope::coupling."));
       break;
     }
-
-    m_parent_data.channel_data[channel].coupling = coupling;
   }
 
+  m_parent_data.channel_data[channel].coupling = coupling;
+
   m_LAB_Core->gpio.set (
-    pin, 
+    pin,
     AP::GPIO::FUNC::OUTPUT, 
-    AP::GPIO::PULL::DOWN,
-    m_parent_data.channel_data[channel].coupling == LABE::OSC::COUPLING::AC ? 0 : 1 // ??
+    AP::GPIO::PULL::OFF,
+    (coupling == LABE::OSC::COUPLING::AC) ? 0 : 1
   );
 }
 

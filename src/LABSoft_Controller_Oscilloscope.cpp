@@ -110,9 +110,7 @@ void LABSoft_Controller_Oscilloscope::
 cb_ac_coupling (Fl_Light_Button*  w, 
                 long              channel)
 {
-  bool value = w->value ();
-
-  m_LAB->m_Oscilloscope.coupling (channel, value ? 
+  m_LAB->m_Oscilloscope.coupling (channel, static_cast<bool>(w->value ()) ? 
     LABE::OSC::COUPLING::AC : LABE::OSC::COUPLING::DC);
 }
 
@@ -128,12 +126,7 @@ cb_voltage_per_division (Fl_Input_Choice* w,
 
   if (lv.is_valid ())
   {
-    if (LABF::is_within_range (lv.actual_value (), 
-      LABC::OSC::MIN_VOLTAGE_PER_DIVISION,
-      LABC::OSC::MAX_VOLTAGE_PER_DIVISION))
-    {
-      m_LAB->m_Oscilloscope.voltage_per_division (channel, lv.actual_value ());
-    }
+    m_LAB->m_Oscilloscope.voltage_per_division (channel, lv.actual_value ());
   }
 
   w->value (LabelValue (m_LAB->m_Oscilloscope.voltage_per_division (channel)).
@@ -352,7 +345,7 @@ cb_channel_selector (Fl_Toggle_Button*  w,
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_display (LABSoft_Oscilloscope_Display* w, 
+fcb_display (LABSoft_Oscilloscope_Display* w, 
             void*                         data)
 {
   switch (Fl::event ())

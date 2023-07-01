@@ -20,9 +20,8 @@ LABChecker_GUI_Digital_Output_Table (int         X,
 {
   end ();
 
-  init_table_dimensions     ();
-  recalculate_rows_and_cols ();
-  resize                    (m_number_of_rows, m_number_of_cols);
+  init_table_dimensions ();
+  reset                 ();
 }
 
 LABChecker_GUI_Digital_Output_Table:: 
@@ -83,6 +82,27 @@ get_vector_value (unsigned R,
       return (m_actual_outputs[R][((m_output_bits - 1) - outputs_col) + m_output_bits]);
     }
   }
+}
+
+void LABChecker_GUI_Digital_Output_Table:: 
+clear_vectors ()
+{
+  m_input_vals          .clear ();
+  m_output_vals         .clear ();
+  m_actual_output_vals  .clear ();
+  m_inputs              .clear ();
+  m_outputs             .clear ();
+  m_actual_outputs      .clear ();
+}
+
+void LABChecker_GUI_Digital_Output_Table:: 
+reset_vars ()
+{
+  m_number_of_rows  = 0;
+  m_number_of_cols  = 0;
+  m_input_bits      = 0;
+  m_output_bits     = 0;
+  m_output_count    = 0;
 }
 
 void LABChecker_GUI_Digital_Output_Table:: 
@@ -175,14 +195,7 @@ draw_cell (LABChecker_GUI_Digital_Output_Table::TableContext context,
     // 5. CONTEXT_CELL - whenever a data cell in the table needs to be drawn
     case (LABChecker_GUI_Digital_Output_Table::TableContext::CONTEXT_CELL):
     {
-      if (m_values_loaded)
-      {
-        std::snprintf (s, sizeof (s), "%c", get_vector_value (R, C));
-      }
-      else 
-      {
-        std::snprintf (s, sizeof (s), "X");
-      }
+      std::snprintf (s, sizeof (s), "%c", get_vector_value (R, C));
 
       fl_push_clip  (X, Y, W, H);
       {
@@ -228,8 +241,6 @@ display_results (LAB_Digital_Circuit_Checker::ScoreData score_data)
   load_data (score_data);
 
   recalculate_and_resize ();
-
-  m_values_loaded = true;
 }
 
 void LABChecker_GUI_Digital_Output_Table:: 
@@ -246,6 +257,14 @@ load_data (LAB_Digital_Circuit_Checker::ScoreData score_data)
   m_inputs              = score_data.char_inputs;
   m_outputs             = score_data.char_outputs;
   m_actual_outputs      = score_data.char_actual_outputs;
+}
+
+void LABChecker_GUI_Digital_Output_Table:: 
+reset ()
+{
+  clear_vectors           ();
+  reset_vars              ();
+  recalculate_and_resize  ();
 }
 
 // EOF 

@@ -49,6 +49,16 @@ display_results (const LAB_Digital_Circuit_Checker::ScoreData score_data)
 }
 
 void LABSoft_Controller_Digital_Circuit_Checker:: 
+update_gui_reset ()
+{
+  LABSoft_GUI& gui = *m_LABSoft_GUI;
+
+  gui.digital_circuit_checker_labchecker_gui_digital_output_table_table->reset ();
+  gui.digital_circuit_checker_fl_output_selected_file->value ("");
+  gui.digital_circuit_checker_fl_output_results->value ("");
+}
+
+void LABSoft_Controller_Digital_Circuit_Checker:: 
 cb_load_file (Fl_Button*  w, 
               void*       data)
 {
@@ -81,6 +91,8 @@ cb_load_file (Fl_Button*  w,
 
           if (file_extension == "labcc")
           {
+            update_gui_reset ();
+
             selected_file.value (get_filename_from_path (path).c_str ());
 
             m_LAB->m_Digital_Circuit_Checker.load_file (path);
@@ -121,8 +133,7 @@ cb_unload_file (Fl_Button*  w,
 {
   m_LAB->m_Digital_Circuit_Checker.unload_file ();
 
-  m_LABSoft_GUI->digital_circuit_checker_fl_output_selected_file->value ("");
-  m_LABSoft_GUI->digital_circuit_checker_fl_output_results->value ("");
+  update_gui_reset ();
 }
 
 void LABSoft_Controller_Digital_Circuit_Checker:: 

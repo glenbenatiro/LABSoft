@@ -21,7 +21,8 @@ class LABSoft_Controller_Digital_Circuit_Checker
 
   private:
     std::string get_filename_from_path  (const std::string& path);
-    void        display_results         (const LAB_Digital_Circuit_Checker::ScoreData score_data); 
+    void        display_results         (const LAB_Digital_Circuit_Checker::ScoreData score_data);
+    void        update_gui_reset        (); 
 
   public:
     LABSoft_Controller_Digital_Circuit_Checker (LAB*                _LAB,

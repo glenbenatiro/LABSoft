@@ -143,6 +143,8 @@ load_file (const std::string& path)
 
   if (!res)
   {
+    unload_file ();
+
     throw (std::domain_error ("Invalid or corrupted LAB Circuit Checker file."));
   }
   else 
