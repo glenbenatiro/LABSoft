@@ -71,7 +71,7 @@ create_input_widget (unsigned W,
 void LABChecker_GUI_Digital_Input_Table:: 
 event_callback2 ()
 {
-  int R = callback_row ();
+  int R = callback_row (); 
   int C = callback_col ();
 
   LABChecker_GUI_Digital_Input_Table::TableContext context = callback_context ();
@@ -144,6 +144,27 @@ event_callback2 ()
 }
 
 void LABChecker_GUI_Digital_Input_Table:: 
+input_cb2 ()
+{
+  set_value_hide ();
+
+  if (Fl::event_key () == FL_Enter)
+  {
+    if (m_col_edit < (cols () - 1))
+    {
+      start_editing (m_row_edit, m_col_edit + 1);
+    }
+    else 
+    {
+      if (m_row_edit < (rows () - 1))
+      {
+        start_editing (m_row_edit + 1, 0);
+      }
+    }
+  }
+}
+
+void LABChecker_GUI_Digital_Input_Table:: 
 recalculate_rows_and_cols ()
 {
   m_number_of_rows = m_output_count;
@@ -197,7 +218,7 @@ void LABChecker_GUI_Digital_Input_Table::
 input_cb (Fl_Widget*  w,
           void*       v) 
 {	
-  (static_cast<LABChecker_GUI_Digital_Input_Table*>(v))->set_value_hide ();
+  (static_cast<LABChecker_GUI_Digital_Input_Table*>(v))->input_cb2 ();
 }
 
 void LABChecker_GUI_Digital_Input_Table:: 

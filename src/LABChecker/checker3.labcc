@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<root>
+	<metadata>
+		<input_bits>3</input_bits>
+		<output_bits>5</output_bits>
+	</metadata>
+	<data>
+		<data_pair>
+			<input>01X</input>
+			<output>X0000</output>
+		</data_pair>
+		<data_pair>
+			<input>0X0</input>
+			<output>1X0XX</output>
+		</data_pair>
+		<data_pair>
+			<input>1X0</input>
+			<output>00100</output>
+		</data_pair>
+		<data_pair>
+			<input>10X</input>
+			<output>10010</output>
+		</data_pair>
+		<data_pair>
+			<input>XXX</input>
+			<output>XXXXX</output>
+		</data_pair>
+	</data>
+</root>

@@ -12,14 +12,35 @@ class MCP23S17
       B = 1
     };
 
-  private:
-    enum class DIRECTION
+    enum class DIRECTION : bool
     {
       OUTPUT  = 0,
       INPUT   = 1
     };
 
-    enum class ADDR0 // ADDR_IOCON_BANK_0
+  private:
+    enum class OPERATION
+    {
+      READ  = 1,
+      WRITE = 0
+    };
+
+    enum class REGISTER
+    {
+      IODIR   = 0,
+      IPOL    = 1,
+      GPINTEN = 2,
+      DEFVAL  = 3,
+      INTCON  = 4,
+      IOCON   = 5,
+      GPPU    = 6,
+      INTF    = 7,
+      INTCAP  = 8,
+      GPIO    = 9,
+      OLAT    = 0xA,
+    };
+
+    enum class ADDR_BANK_0 
     {
       IODIRA    = 0x00,
       IODIRB    = 0x01,
@@ -45,19 +66,21 @@ class MCP23S17
       OLATB     = 0x15
     };
 
-    const uint8_t CLIENT_ADDRESS_HEADER = 0x20;
+    const uint8_t CLIENT_ADDRESS_HEADER = 0x40;
   
   private:
     uint8_t m_hardware_address;
     uint8_t m_opcode;
+    bool    m_IOCON_BANK = 0;
 
   private:
-    void spi_read       (char* rxd, unsigned length);
-    void spi_write      (char* txd, unsigned length);
-    void spi_write_mcp  (char* rxd, unsigned length);
+    uint8_t control_byte  (OPERATION op) const;
+    void    mcp_write     (REGISTER reg, PORT port, uint8_t data);
+    uint8_t mcp_read      (REGISTER reg, PORT port);
+    uint8_t bank_address  (REGISTER reg, PORT port);
 
   protected:
-    virtual void spi_xfer (char* rxd, char* txd, unsigned length) = 0;
+    virtual void spi_xfer (uint8_t* rxd, uint8_t* txd, unsigned length) = 0;
 
   public:
     MCP23S17 (uint8_t hw_addr_bits);
@@ -69,10 +92,10 @@ class MCP23S17
     uint8_t hardware_address  () const;
     uint8_t opcode            () const;
 
-    void direction (PORT port, unsigned pin, DIRECTION direction);
-
-    uint8_t read_port   (PORT port);
-    void    write_port  (PORT port, uint8_t data);
+    void    write     (PORT port, uint8_t data);
+    uint8_t read      (PORT port);
+    void    direction (PORT port, DIRECTION direction);
+    void    direction (PORT port, uint8_t pin, DIRECTION direction);
 };
 
 #endif

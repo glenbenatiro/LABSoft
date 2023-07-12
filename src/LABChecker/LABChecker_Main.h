@@ -9,9 +9,13 @@
 class LABChecker_Main
 {
   private:
-    std::string getCurrentDateTimeString      ();
-    unsigned    binary_vector_to_decimal      (const std::vector<int>& bin_vec);
-    void        save_xml_file                 (pugi::xml_document& doc, const std::string& save_path);
+    // FOR EXAMPLE ONLY! TECHNICALLY UNSECURE.
+    std::string KEY = "thequickbrownfox"; 
+
+  private:
+    unsigned  binary_vector_to_decimal      (const std::vector<int>& bin_vec);
+    void      save_xml_file                 (pugi::xml_document& doc, const std::string& save_path);
+    void      encrypt_and_save              (pugi::xml_document& doc, const std::string& save_path);
 
   public:
     void create_file_digital (const std::vector<std::vector<char>>& inputs,

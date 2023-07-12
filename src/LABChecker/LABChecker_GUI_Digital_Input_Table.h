@@ -45,6 +45,7 @@ class LABChecker_GUI_Digital_Input_Table : public Fl_Table
     void  done_editing              ();
     void  create_input_widget       (unsigned W, unsigned H);
     void  event_callback2           ();
+    void  input_cb2                 ();
     void  recalculate_rows_and_cols ();
     void  recalculate_and_resize    ();
     char  get_vector_value          (unsigned R, unsigned C) const;
