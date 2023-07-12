@@ -34,6 +34,7 @@ ADD_EXECUTABLE(LABSoft
   src/LAB/LAB_Logic_Analyzer.cpp
   src/LAB/LAB_Circuit_Checker.cpp
   src/LAB/LAB_Digital_Circuit_Checker.cpp
+  src/LAB/LAB_LABChecker_Digital.cpp
 
   src/LABSoft_Controller/LABSoft_Controller.cpp
   src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp
@@ -42,16 +43,18 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp
   src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp
   src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp
+  src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
+  src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp
 
   src/LABSoft_GUI/LABSoft_GUI.cpp
   src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp
   src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
   src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp
   src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
-  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp  
-  src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp
+  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp
   src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp
   src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp
+  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp
   
   src/LAB_Libraries/LAB_AD9833.cpp
   src/LAB_Libraries/LAB_MCP4XXX.cpp

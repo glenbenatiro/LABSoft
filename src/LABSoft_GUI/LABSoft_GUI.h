@@ -22,6 +22,8 @@ class LABSoft_Controller;
 #include "LABSoft_GUI_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>
 #include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"
+#include <FL/Fl_Input.H>
+#include "LABSoft_GUI_LABChecker_Digital_Input_Table.h"
 #include <FL/Fl_Check_Button.H>
 
 class LABSoft_GUI {
@@ -31,6 +33,14 @@ public:
   Fl_Double_Window *main_fl_window;
   static Fl_Menu_Item menu_[];
   static Fl_Menu_Item *main_menuitem_export;
+private:
+  inline void cb_Exit_i(Fl_Menu_*, void*);
+  static void cb_Exit(Fl_Menu_*, void*);
+  inline void cb_Browse_i(Fl_Menu_*, void*);
+  static void cb_Browse(Fl_Menu_*, void*);
+  inline void cb_About_i(Fl_Menu_*, void*);
+  static void cb_About(Fl_Menu_*, void*);
+public:
   Fl_Tabs *main_fl_tabs;
 private:
   inline void cb_main_fl_tabs_i(Fl_Tabs*, void*);
@@ -106,11 +116,11 @@ private:
   static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
   static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division[];
 public:
-  Fl_Input_Choice *oscilloscope_fl_input_choice_channel_0_vertical_offset;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset;
 private:
-  inline void cb_oscilloscope_fl_input_choice_channel_0_vertical_offset_i(Fl_Input_Choice*, long);
-  static void cb_oscilloscope_fl_input_choice_channel_0_vertical_offset(Fl_Input_Choice*, long);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_0_vertical_offset[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset[];
 public:
   Fl_Group *oscilloscope_fl_group_vertical_channel_1;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_1_enable;
@@ -135,11 +145,11 @@ private:
   static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_voltage_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
   static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_voltage_per_division[];
 public:
-  Fl_Input_Choice *oscilloscope_fl_input_choice_channel_1_vertical_offset;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_vertical_offset;
 private:
-  inline void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset_i(Fl_Input_Choice*, long);
-  static void cb_oscilloscope_fl_input_choice_channel_1_vertical_offset(Fl_Input_Choice*, long);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_channel_1_vertical_offset[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_vertical_offset_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_vertical_offset(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_vertical_offset[];
 public:
   Fl_Group *oscilloscope_fl_group_horizontal;
   Fl_Input_Choice *oscilloscope_fl_input_choice_horizontal_offset;
@@ -326,6 +336,30 @@ public:
   LABSoft_GUI_LABChecker_Digital_Output_Table *digital_circuit_checker_labchecker_gui_digital_output_table_table;
   Fl_Output *digital_circuit_checker_fl_output_results;
   Fl_Button *digital_circuit_checker_fl_button_export_results;
+  Fl_Group *main_fl_group_labchecker_digital;
+  Fl_Choice *digital_fl_choice_input_bits;
+private:
+  inline void cb_digital_fl_choice_input_bits_i(Fl_Choice*, void*);
+  static void cb_digital_fl_choice_input_bits(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_digital_fl_choice_input_bits[];
+public:
+  Fl_Choice *digital_fl_choice_output_bits;
+private:
+  inline void cb_digital_fl_choice_output_bits_i(Fl_Choice*, void*);
+  static void cb_digital_fl_choice_output_bits(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_digital_fl_choice_output_bits[];
+public:
+  Fl_Input *digital_fl_input_output_count;
+private:
+  inline void cb_digital_fl_input_output_count_i(Fl_Input*, void*);
+  static void cb_digital_fl_input_output_count(Fl_Input*, void*);
+public:
+  Fl_Button *digital_fl_button_create_file;
+private:
+  inline void cb_digital_fl_button_create_file_i(Fl_Button*, void*);
+  static void cb_digital_fl_button_create_file(Fl_Button*, void*);
+public:
+  LABSoft_GUI_LABChecker_Digital_Input_Table *labchecker_digital_labsoft_gui_labchecker_digital_input_table_table;
   Fl_Double_Window *oscilloscope_fl_window_record_config;
   Fl_Group *oscilloscope_fl_group_record_config;
   static Fl_Menu_Item menu_Samples[];
@@ -345,5 +379,9 @@ public:
   Fl_Button *oscilloscope_export_fl_button_copy_to_clipboard;
   Fl_Button *oscilloscope_export_fl_button_save;
   Fl_Button *oscilloscope_export_fl_button_cancel;
+  Fl_Double_Window *main_fl_window_about;
+private:
+  inline void cb_Close_i(Fl_Button*, void*);
+  static void cb_Close(Fl_Button*, void*);
 };
 #endif

@@ -1,4 +1,4 @@
-#include "LABChecker_Main.h"
+#include "LAB_LABChecker_Digital.h"
 
 #include <chrono>
 #include <string>
@@ -12,7 +12,15 @@
 #include <openssl/rand.h>
 #include <openssl/aes.h>
 
-unsigned LABChecker_Main:: 
+LAB_LABChecker_Digital:: 
+LAB_LABChecker_Digital (LAB_Core* _LAB_Core, 
+                        LAB*      _LAB)
+  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
+{
+
+}
+
+unsigned LAB_LABChecker_Digital:: 
 binary_vector_to_decimal (const std::vector<int>& bin_vec)
 {
   unsigned decimal  = 0;
@@ -28,7 +36,7 @@ binary_vector_to_decimal (const std::vector<int>& bin_vec)
   return (decimal);
 }
 
-void LABChecker_Main:: 
+void LAB_LABChecker_Digital:: 
 save_xml_file (       pugi::xml_document& doc,
                const  std::string&        save_path)
 {
@@ -42,12 +50,12 @@ save_xml_file (       pugi::xml_document& doc,
     path += extension;
   }
 
-  encrypt_and_save (doc, path);
+  // encrypt_and_save (doc, path);
 
-  // doc.save_file (path.c_str ());
+  doc.save_file (path.c_str ());
 }
 
-void LABChecker_Main:: 
+void LAB_LABChecker_Digital:: 
 encrypt_and_save (      pugi::xml_document& doc, 
                   const std::string&        save_path)
 {
@@ -119,7 +127,7 @@ encrypt_and_save (      pugi::xml_document& doc,
   }
 }
 
-void LABChecker_Main:: 
+void LAB_LABChecker_Digital:: 
 create_file_digital (const std::vector<std::vector<char>>& inputs,
                      const std::vector<std::vector<char>>& outputs,
                      const std::string&                    save_path)

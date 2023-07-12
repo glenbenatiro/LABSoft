@@ -8,6 +8,7 @@
 #include "LAB_Logic_Analyzer.h"
 #include "LAB_Circuit_Checker.h"
 #include "LAB_Digital_Circuit_Checker.h"
+#include "LAB_LABChecker_Digital.h"
 
 class LAB
 {
@@ -22,6 +23,7 @@ class LAB
     LAB_Logic_Analyzer          m_Logic_Analyzer;
     LAB_Circuit_Checker         m_Circuit_Checker;   
     LAB_Digital_Circuit_Checker m_Digital_Circuit_Checker;
+    LAB_LABChecker_Digital      m_LABChecker_Digital;
 };
 
 #endif

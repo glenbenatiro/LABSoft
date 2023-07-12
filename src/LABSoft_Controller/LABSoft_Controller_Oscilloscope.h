@@ -1,12 +1,10 @@
 #ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
-#include <FL/Fl_Toggle_Button.H>
+#include "FL/Fl_Toggle_Button.H"
 
 #include "../LAB/LAB.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
-
-#include "../LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
 // forward declare LABSoft_Controller
 class LABSoft_Controller;
@@ -36,13 +34,13 @@ class LABSoft_Controller_Oscilloscope
     void cb_single                        (Fl_Button*         w, void* data);
 
     // Vertical
-    void cb_channel_enable_disable        (Fl_Light_Button*                   w, long   channel);
-    void cb_ac_coupling                   (Fl_Light_Button*                   w, long   channel);
-    void cb_voltage_per_division          (Fl_Input_Choice*                   w, long   channel);
-    void cb_vertical_offset               (Fl_Input_Choice*                   w, long   channel);
-    void cb_fl_slider_vertical_offset     (Fl_Slider*                         w, void*  data);
-    void cb_scaling                       (LABSoft_GUI_Fl_Choice_With_Scroll* w, long   channel);
-
+    void cb_channel_enable_disable        (Fl_Light_Button*                         w, long   channel);
+    void cb_ac_coupling                   (Fl_Light_Button*                         w, long   channel);
+    void cb_scaling                       (LABSoft_GUI_Fl_Choice_With_Scroll*       w, long   channel);
+    void cb_voltage_per_division          (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, long   channel);
+    void cb_vertical_offset               (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, long   channel);
+    void cb_fl_slider_vertical_offset     (Fl_Slider*                               w, void*  data);
+    
     // Horizontal
     void cb_horizontal_offset             (Fl_Input_Choice*   w, void* data);
     void cb_time_per_division             (Fl_Input_Choice*   w, void* data);

@@ -24,9 +24,9 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Widget
     double  m_pre_drag_horizontal_offset  = 0.0; 
   
   private:
-    int handle            (int event);
-    int calc_samp_y_coord (double sample, double y_scaler);
-    double  calc_y_scaler (double voltage_per_division);
+    int     handle            (int event);
+    int     calc_samp_y_coord (double sample, double y_scaler);
+    double  calc_y_scaler     (double voltage_per_division);
 
   public:
      // --- Functions ---

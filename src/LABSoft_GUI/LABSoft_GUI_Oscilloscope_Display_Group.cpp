@@ -48,18 +48,6 @@ LABSoft_GUI_Oscilloscope_Display_Group (int X,
     }
   }
 
-  // 3. Add voltage per division scrollers. Add this after y-labels so that
-  //    this will be on top of the y-labels.
-  for (int chan = 0; chan < m_voltage_per_division_scrollers.size (); chan++)
-  {    
-    LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller* scroller = 
-      new LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller (0, 0, 1, 1, "");
-    
-    scroller->user_data (reinterpret_cast<void*>(chan));
-
-    m_voltage_per_division_scrollers[chan] = scroller;
-  }
-
   // Add a small label at the top of each y-axis label column, denoting the
   // voltage per division unit
   for (int chan = 0; chan < m_y_label_units.size (); chan++)

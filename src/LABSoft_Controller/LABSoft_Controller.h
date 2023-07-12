@@ -12,6 +12,8 @@
 #include "LABSoft_Controller_Logic_Analyzer.h"
 #include "LABSoft_Controller_Circuit_Checker.h"
 #include "LABSoft_Controller_Digital_Circuit_Checker.h"
+#include "LABSoft_Controller_Main_Window.h"
+#include "LABSoft_Controller_LABChecker_Digital.h"
 
 class LABSoft_Controller
 {
@@ -26,6 +28,8 @@ class LABSoft_Controller
     LABSoft_Controller_Logic_Analyzer           m_Logic_Analyzer;
     LABSoft_Controller_Circuit_Checker          m_Circuit_Checker;
     LABSoft_Controller_Digital_Circuit_Checker  m_Digital_Circuit_Checker;
+    LABSoft_Controller_Main_Window              m_Main_Window;
+    LABSoft_Controller_LABChecker_Digital       m_LABChecker_Digital;
 
   private:      
     static void update_display (void *data);     

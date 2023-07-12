@@ -2,6 +2,9 @@
 
 #include "FL/Fl.H"
 
+// temp, delete after
+#include <iostream>
+
 LABSoft_GUI_Fl_Choice_With_Scroll:: 
 LABSoft_GUI_Fl_Choice_With_Scroll (int          X,
                                    int          Y,
@@ -13,7 +16,6 @@ LABSoft_GUI_Fl_Choice_With_Scroll (int          X,
 
 }
 
-// private
 void LABSoft_GUI_Fl_Choice_With_Scroll:: 
 mouse_wheel_cb (int scroll_amount)
 {
@@ -22,10 +24,11 @@ mouse_wheel_cb (int scroll_amount)
   if (!(new_index < 0 || new_index >= size ()))
   {
     value (new_index);
+
+    do_callback ();
   }
 }
 
-// protected
 int LABSoft_GUI_Fl_Choice_With_Scroll:: 
 handle (int e)
 {
@@ -33,9 +36,11 @@ handle (int e)
   {
     case (FL_MOUSEWHEEL):
     {
-      mouse_wheel_cb (Fl::event_dy ());
+      std::cout << "I am in Fl_Choice_With_Scroll. Label under me is: " << Fl::belowmouse ()->label () << "\n";
+      
+      mouse_wheel_cb (Fl::event_dy ()); 
 
-      return (1);
+      return (1);      
     }
 
     default:
@@ -44,5 +49,3 @@ handle (int e)
     }
   }
 }
-
-// EOF 

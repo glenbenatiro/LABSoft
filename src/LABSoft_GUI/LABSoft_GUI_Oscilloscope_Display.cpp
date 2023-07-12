@@ -34,12 +34,18 @@ handle (int event)
   {
     case (FL_MOUSEWHEEL):
     {
+      std::cout << "I am in Oscilloscope_Display. Label under me is: " << Fl::belowmouse ()->label () << "\n";
+
       if (Fl::belowmouse () == this)
       {
         do_callback ();
-      }
 
-      return (1);
+        return (1);
+      }
+      else 
+      {
+        return (0);
+      }
     }
 
     case (FL_PUSH):

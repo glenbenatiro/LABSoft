@@ -10,7 +10,6 @@
 
 #include "../Utility/Defaults.h"
 #include "LABSoft_GUI_Oscilloscope_Display.h"
-#include "LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.h"
 
 // Forward declare LABSoft_GUI
 class LABSoft_GUI;
@@ -53,11 +52,6 @@ class LABSoft_GUI_Oscilloscope_Display_Group : public Fl_Group
       Fl_Box*, 
       LABC::OSC::NUMBER_OF_CHANNELS
     > m_y_label_units;
-
-    std::array<
-      LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller*,
-      LABC::OSC::NUMBER_OF_CHANNELS
-    > m_voltage_per_division_scrollers;
 
   private:
     // Draw

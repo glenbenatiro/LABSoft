@@ -5,22 +5,14 @@
 
 class LABSoft_GUI_Fl_Input_Choice_With_Scroll : public Fl_Input_Choice
 {
-  public:
-    enum class SCROLL_DIRECTION
-    {
-      UP    = -1,
-      DOWN
-    };
+  private:
+    void mouse_wheel_cb (int scroll_amount);
 
   protected:
     int handle (int e);
 
-
   public: 
     LABSoft_GUI_Fl_Input_Choice_With_Scroll (int X, int Y, int W, int H, const char* label = 0);
-
-    void scroll_menu (SCROLL_DIRECTION direction);
-    void scroll_cb ();
 };
 
 #endif

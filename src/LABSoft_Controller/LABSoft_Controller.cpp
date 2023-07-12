@@ -13,7 +13,9 @@ LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
     m_Function_Generator      (_LAB, _LABSoft_GUI, this),
     m_Logic_Analyzer          (_LAB, _LABSoft_GUI, this),
     m_Circuit_Checker         (_LAB, _LABSoft_GUI, this),
-    m_Digital_Circuit_Checker (_LAB, _LABSoft_GUI, this) 
+    m_Digital_Circuit_Checker (_LAB, _LABSoft_GUI, this),
+    m_Main_Window             (_LAB, _LABSoft_GUI, this),
+    m_LABChecker_Digital      (_LAB, _LABSoft_GUI, this)
 {
   Fl::add_timeout (
     LABC::LABSOFT::DISPLAY_UPDATE_RATE,

@@ -385,6 +385,33 @@ src/LAB/LAB_Function_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.s
 .PHONY : src/LAB/LAB_Function_Generator.cpp.s
 
+src/LAB/LAB_LABChecker_Digital.o: src/LAB/LAB_LABChecker_Digital.cpp.o
+
+.PHONY : src/LAB/LAB_LABChecker_Digital.o
+
+# target to build an object file
+src/LAB/LAB_LABChecker_Digital.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.o
+.PHONY : src/LAB/LAB_LABChecker_Digital.cpp.o
+
+src/LAB/LAB_LABChecker_Digital.i: src/LAB/LAB_LABChecker_Digital.cpp.i
+
+.PHONY : src/LAB/LAB_LABChecker_Digital.i
+
+# target to preprocess a source file
+src/LAB/LAB_LABChecker_Digital.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.i
+.PHONY : src/LAB/LAB_LABChecker_Digital.cpp.i
+
+src/LAB/LAB_LABChecker_Digital.s: src/LAB/LAB_LABChecker_Digital.cpp.s
+
+.PHONY : src/LAB/LAB_LABChecker_Digital.s
+
+# target to generate assembly for a file
+src/LAB/LAB_LABChecker_Digital.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.s
+.PHONY : src/LAB/LAB_LABChecker_Digital.cpp.s
+
 src/LAB/LAB_Logic_Analyzer.o: src/LAB/LAB_Logic_Analyzer.cpp.o
 
 .PHONY : src/LAB/LAB_Logic_Analyzer.o
@@ -601,6 +628,33 @@ src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
 
+src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.o: src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
+
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.o
+
+# target to build an object file
+src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
+
+src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.i: src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i
+
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.i
+
+# target to preprocess a source file
+src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i
+
+src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.s: src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s
+
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s
+
 src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o: src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o
 
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o
@@ -627,6 +681,33 @@ src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.s: src/LABSoft_Controll
 src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s
+
+src/LABSoft_Controller/LABSoft_Controller_Main_Window.o: src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
+
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.o
+
+# target to build an object file
+src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
+
+src/LABSoft_Controller/LABSoft_Controller_Main_Window.i: src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i
+
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.i
+
+# target to preprocess a source file
+src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i
+
+src/LABSoft_Controller/LABSoft_Controller_Main_Window.s: src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s
+
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s
+.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s
 
 src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.o: src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o
 
@@ -763,6 +844,33 @@ src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.s
 
+src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.o: src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.i: src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.s: src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.s
+
 src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.o: src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp.o
 
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.o
@@ -897,33 +1005,6 @@ src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.s: src/LABSoft_GUI/LABSof
 src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s
-
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.o: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.o
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.o
-
-# target to build an object file
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.o
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.o
-
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.i: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.i
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.i
-
-# target to preprocess a source file
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.i
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.i
-
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.s: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.s
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.s
-
-# target to generate assembly for a file
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.s
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.cpp.s
 
 src/LAB_Libraries/LAB_AD9833.o: src/LAB_Libraries/LAB_AD9833.cpp.o
 
@@ -1150,6 +1231,9 @@ help:
 	@echo "... src/LAB/LAB_Function_Generator.o"
 	@echo "... src/LAB/LAB_Function_Generator.i"
 	@echo "... src/LAB/LAB_Function_Generator.s"
+	@echo "... src/LAB/LAB_LABChecker_Digital.o"
+	@echo "... src/LAB/LAB_LABChecker_Digital.i"
+	@echo "... src/LAB/LAB_LABChecker_Digital.s"
 	@echo "... src/LAB/LAB_Logic_Analyzer.o"
 	@echo "... src/LAB/LAB_Logic_Analyzer.i"
 	@echo "... src/LAB/LAB_Logic_Analyzer.s"
@@ -1174,9 +1258,15 @@ help:
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s"
+	@echo "... src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.o"
+	@echo "... src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.i"
+	@echo "... src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.s"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.s"
+	@echo "... src/LABSoft_Controller/LABSoft_Controller_Main_Window.o"
+	@echo "... src/LABSoft_Controller/LABSoft_Controller_Main_Window.i"
+	@echo "... src/LABSoft_Controller/LABSoft_Controller_Main_Window.s"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.s"
@@ -1192,6 +1282,9 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.s"
@@ -1207,9 +1300,6 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.s"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.o"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.i"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Voltage_Per_Division_Scroller.s"
 	@echo "... src/LAB_Libraries/LAB_AD9833.o"
 	@echo "... src/LAB_Libraries/LAB_AD9833.i"
 	@echo "... src/LAB_Libraries/LAB_AD9833.s"

@@ -1,12 +1,12 @@
-#ifndef LABCHECKER_GUI_DIGITAL_INPUT_TABLE
-#define LABCHECKER_GUI_DIGITAL_INPUT_TABLE
+#ifndef LABSOFT_GUI_LABCHECKER_DIGITAL_INPUT_TABLE
+#define LABSOFT_GUI_LABCHECKER_DIGITAL_INPUT_TABLE
 
 #include <vector>
 
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Table.H>
 
-class LABChecker_GUI_Digital_Input_Table : public Fl_Table
+class LABSoft_GUI_LABChecker_Digital_Input_Table : public Fl_Table
 {
   private:
     int       COLOR_HEADER_ROW_INPUT  = 95;
@@ -55,8 +55,8 @@ class LABChecker_GUI_Digital_Input_Table : public Fl_Table
     static void input_cb        (Fl_Widget*,void* v);
 
   public:
-    LABChecker_GUI_Digital_Input_Table (int X, int Y, int W, int H, const char* label = 0);
-   ~LABChecker_GUI_Digital_Input_Table ();
+    LABSoft_GUI_LABChecker_Digital_Input_Table (int X, int Y, int W, int H, const char* label = 0);
+   ~LABSoft_GUI_LABChecker_Digital_Input_Table ();
 
     // Setter
     void resize       (unsigned new_number_of_rows, unsigned new_number_of_cols);

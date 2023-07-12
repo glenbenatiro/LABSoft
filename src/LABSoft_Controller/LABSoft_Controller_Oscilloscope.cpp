@@ -136,17 +136,6 @@ init_gui ()
       group.m_y_label_units[chan]->position (x_label_unit, y_label_unit);
     }
   }
-
-  // 3. 
-  for (unsigned chan = 0; chan < group.m_voltage_per_division_scrollers.size (); chan++)
-  {
-    group.m_voltage_per_division_scrollers[chan]->resize (
-      (group.m_y_labels[chan][0])->x (),
-      (group.m_y_labels[chan][0])->y (),
-      LABC::OSC_DISPLAY_GROUP::AXIS_LABEL_SIZE,
-      group.display ().h ()
-    );
-  }
     
   // 4. Reposition x-axis labels 
   {
@@ -221,8 +210,8 @@ cb_ac_coupling (Fl_Light_Button*  w,
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_voltage_per_division (Fl_Input_Choice* w, 
-                        long              channel)
+cb_voltage_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, 
+                        long                                      channel)
 {
   LabelValue lv (
     w->value (),
@@ -243,8 +232,8 @@ cb_voltage_per_division (Fl_Input_Choice* w,
 }
 
 void LABSoft_Controller_Oscilloscope::
-cb_vertical_offset (Fl_Input_Choice* w, 
-                    long             channel)
+cb_vertical_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll*  w, 
+                    long                                      channel)
 { 
   LabelValue lv (
     w->value (),
@@ -465,7 +454,6 @@ cb_display (LABSoft_GUI_Oscilloscope_Display* w,
 
       m_LAB->m_Oscilloscope.time_per_division (time_per_division);
   
-
       break;
     }
 
@@ -787,7 +775,7 @@ init_gui_values ()
   );
 
   // Channel 0 Vertical Offset
-  gui.oscilloscope_fl_input_choice_channel_0_vertical_offset->value (
+  gui.oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset->value (
     LabelValue (osc.vertical_offset (0)).to_label_text (
     LabelValue::UNIT::VOLT).c_str ()
   );
@@ -811,7 +799,7 @@ init_gui_values ()
   );
 
   // Channel 1 Vertical Offset
-  gui.oscilloscope_fl_input_choice_channel_1_vertical_offset->value (
+  gui.oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_vertical_offset->value (
     LabelValue (osc.vertical_offset (1)).to_label_text (
     LabelValue::UNIT::VOLT).c_str ()
   );
