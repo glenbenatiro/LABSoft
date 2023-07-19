@@ -2,9 +2,6 @@
 version 1.0305
 header_name {.h}
 code_name {.cpp}
-decl {\#include "../Utility/Defaults.h"} {public global
-}
-
 decl {\#include "../LABSoft_Controller/LABSoft_Controller.h"} {private global
 }
 
@@ -24,14 +21,14 @@ class LABSoft_GUI {open
   Function {LABSoft_GUI()} {open
   } {
     Fl_Window main_fl_window {
-      label {LABSoft (for Educators)}
+      label {LABSoft (for Educators)} open
       xywh {225 166 1365 765} type Double color 55 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1366 30} box FLAT_BOX color 54
       } {
         Submenu {} {
-          label Workspace
+          label Workspace open
           xywh {0 0 70 21}
         } {
           MenuItem main_menuitem_export {
@@ -65,7 +62,7 @@ class LABSoft_GUI {open
         }
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
+        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);}
         xywh {0 30 1366 738} box FLAT_BOX color 55 selection_color 54
       } {
         Fl_Group main_fl_group_home_tab {
@@ -78,8 +75,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_oscilloscope_tab {
-          label Oscilloscope
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          label Oscilloscope open
+          xywh {0 60 1366 708} color 54 selection_color 52
         } {
           Fl_Button oscilloscope_fl_button_record {
             label Record
@@ -101,7 +98,7 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Oscilloscope.cb_single (o, v);}
             xywh {1205 180 120 60} box GTK_UP_BOX color 53
           }
-          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {open
+          Fl_Group oscilloscope_labsoft_oscilloscope_display_group_display {
             xywh {24 84 800 660} box FLAT_BOX color 0
             code0 {\#include "LABSoft_GUI_Oscilloscope_Display_Group.h"}
             class LABSoft_GUI_Oscilloscope_Display_Group
@@ -141,7 +138,7 @@ class LABSoft_GUI {open
               xywh {106 109 13 610} box NO_BOX color 0 selection_color 3 labelcolor 8 maximum 4095 step 1 value 2048
             }
             Fl_Slider oscilloscope_fl_slider_trigger_level {
-              xywh {793 109 13 610} box NO_BOX color 0 selection_color 3 labelcolor 8 maximum 4095 step 1 value 2048 hide
+              xywh {793 109 13 610} box NO_BOX color 0 selection_color 3 labelcolor 8 maximum 4095 step 1 value 2048 deactivate
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
@@ -1071,12 +1068,12 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
-            label Trigger
+            label Trigger open
             xywh {1015 480 330 240} box ROUNDED_FRAME color 52
           } {
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
               label Mode
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);} open
               xywh {1040 515 120 30} down_box BORDER_BOX color 53 selection_color 53 align 1
             } {
               MenuItem {} {
@@ -1084,12 +1081,12 @@ class LABSoft_GUI {open
                 xywh {0 0 36 21}
               }
               MenuItem {} {
-                label Auto
-                xywh {20 20 36 21}
-              }
-              MenuItem {} {
                 label Normal
                 xywh {30 30 36 21}
+              }
+              MenuItem {} {
+                label Auto
+                xywh {20 20 36 21} deactivate
               }
             }
             Fl_Choice oscilloscope_fl_choice_trigger_source {
@@ -1108,13 +1105,9 @@ class LABSoft_GUI {open
             }
             Fl_Choice oscilloscope_fl_choice_trigger_type {
               label Type
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_type (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_type (o, v);} open
               xywh {1040 590 120 30} down_box BORDER_BOX align 1 deactivate
             } {
-              MenuItem {} {
-                label Level
-                xywh {20 20 36 21}
-              }
               MenuItem {} {
                 label Edge
                 xywh {10 10 36 21}
@@ -1122,7 +1115,7 @@ class LABSoft_GUI {open
             }
             Fl_Choice oscilloscope_fl_choice_trigger_condition {
               label Condition
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);} open
               xywh {1200 590 120 30} down_box BORDER_BOX align 1 deactivate
             } {
               MenuItem {} {
@@ -1140,7 +1133,7 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
               label Level
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);} open
               xywh {1040 660 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
               code0 {oscilloscope_fl_input_choice_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code1 {oscilloscope_fl_input_choice_trigger_level->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -2111,8 +2104,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_labchecker_digital {
-          label {LABChecker - Digital} open
-          xywh {0 60 1366 708} color 54
+          label {LABChecker - Digital}
+          xywh {0 60 1366 708} color 54 hide
         } {
           Fl_Group {} {
             label Settings open

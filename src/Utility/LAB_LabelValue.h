@@ -1,11 +1,11 @@
-#ifndef LABELVALUE_H
-#define LABELVALUE_H
+#ifndef LAB_LABELVALUE_H
+#define LAB_LABELVALUE_H
 
 #include <map>
 #include <string>
 #include <vector>
 
-class LabelValue
+class LAB_LabelValue
 {
   public:
     enum class UNIT
@@ -78,9 +78,9 @@ class LabelValue
     int         correct_mod                       (int exponent, int modulo) const;
 
   public:
-    LabelValue (double value, UNIT unit = UNIT::NONE);
-    LabelValue (const char* input, UNIT none = UNIT::NONE);
-    LabelValue (const char* input, double reference, UNIT unit = UNIT::NONE);
+    LAB_LabelValue (double value, UNIT unit = UNIT::NONE);
+    LAB_LabelValue (const char* input, UNIT none = UNIT::NONE);
+    LAB_LabelValue (const char* input, double reference, UNIT unit = UNIT::NONE);
 
     // Setter
     void unit (UNIT unit);

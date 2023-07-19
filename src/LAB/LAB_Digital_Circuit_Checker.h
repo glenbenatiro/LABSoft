@@ -2,15 +2,14 @@
 #define LAB_DIGITAL_CIRCUIT_CHECKER_H
 
 #include <string>
+#include <vector>
 #include <cstdint>
 
-#include "../Utility/pugixml.hpp"
-
 #include "LAB_Core.h"
-#include "../Utility/Defaults.h"
+#include "../Utility/pugixml.hpp"
 #include "../LAB_Libraries/LAB_MCP23S17.h"
 
-// Forward declare LAB, include #LAB.h in cpp file
+// forward declare LAB, #include in .cpp file
 class LAB;
 
 class LAB_Digital_Circuit_Checker 

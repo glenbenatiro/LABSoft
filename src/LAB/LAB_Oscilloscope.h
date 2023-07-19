@@ -4,9 +4,10 @@
 #include <thread>
 
 #include "LAB_Core.h"
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Definitions.h"
+#include "../Utility/LAB_Enumerations.h"
 
-// forward declare LAB, include LAB.h in cpp file
+// forward declare LAB, #include in .cpp file
 class LAB;
 
 class LAB_Oscilloscope 
@@ -14,10 +15,7 @@ class LAB_Oscilloscope
   private:
     LAB*              m_LAB;
     LAB_Core*         m_LAB_Core;
-
     AikaPi::Uncached  m_uncached_memory;
-
-
     std::thread       m_thread_find_trigger;
     std::thread       m_find_trigger_timer;    
 
@@ -66,18 +64,19 @@ class LAB_Oscilloscope
     void                clear_dma_interrupt_flag        (unsigned dma_chan);
 
     // Data and conversion
-    void                fill_raw_sample_buffer          ();
-    void                parse_raw_sample_buffer         ();
-    constexpr double    conv_raw_buff_get_actual_value  (uint32_t sample, unsigned channel);
-    constexpr uint32_t  conv_raw_buff_xtract_chan       (uint32_t sample, unsigned channel);
-    constexpr uint32_t  conv_raw_buff_arrange_bits      (uint32_t sample);
-    constexpr uint32_t  reverse_arranged_bits           (uint32_t arranged_bits);
-    constexpr double    conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, bool sign);    
-    constexpr uint32_t  conv_raw_buff_get_arranged_bits (uint32_t sample, unsigned channel);
-    void                reset_dma_process               ();
+    void                fill_raw_sample_buffer                ();
+    void                parse_raw_sample_buffer               ();
+    constexpr double    conv_raw_buff_samp_to_actual_value    (uint32_t raw_buff_samp, unsigned channel);
+    constexpr uint32_t  extract_chan_bits_from_raw_buff_samp  (uint32_t raw_buff_samp, unsigned channel);
+    constexpr uint32_t  arrange_raw_chan_bits                 (uint32_t raw_chan_bits);
+    constexpr double    conv_raw_chan_bits_to_actual_value    (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
+    constexpr uint32_t  reverse_arranged_bits                 (uint32_t arranged_bits);
+    constexpr uint32_t  conv_raw_buff_get_arranged_bits       (uint32_t sample, unsigned channel);
+    void                reset_dma_process                     ();
+
 
   public:
-    LAB_Parent_Data_Oscilloscope  m_parent_data;
+    LAB_Parent_Data_Oscilloscope m_parent_data;
 
   public:   
     LAB_Oscilloscope (LAB_Core *_LAB_Core, LAB *_LAB);

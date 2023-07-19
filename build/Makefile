@@ -1087,59 +1087,59 @@ src/LAB_Libraries/LAB_MCP4XXX.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_MCP4XXX.cpp.s
 .PHONY : src/LAB_Libraries/LAB_MCP4XXX.cpp.s
 
-src/Utility/Defaults.o: src/Utility/Defaults.cpp.o
+src/Utility/LAB_LabelValue.o: src/Utility/LAB_LabelValue.cpp.o
 
-.PHONY : src/Utility/Defaults.o
-
-# target to build an object file
-src/Utility/Defaults.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/Defaults.cpp.o
-.PHONY : src/Utility/Defaults.cpp.o
-
-src/Utility/Defaults.i: src/Utility/Defaults.cpp.i
-
-.PHONY : src/Utility/Defaults.i
-
-# target to preprocess a source file
-src/Utility/Defaults.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/Defaults.cpp.i
-.PHONY : src/Utility/Defaults.cpp.i
-
-src/Utility/Defaults.s: src/Utility/Defaults.cpp.s
-
-.PHONY : src/Utility/Defaults.s
-
-# target to generate assembly for a file
-src/Utility/Defaults.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/Defaults.cpp.s
-.PHONY : src/Utility/Defaults.cpp.s
-
-src/Utility/LabelValue.o: src/Utility/LabelValue.cpp.o
-
-.PHONY : src/Utility/LabelValue.o
+.PHONY : src/Utility/LAB_LabelValue.o
 
 # target to build an object file
-src/Utility/LabelValue.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LabelValue.cpp.o
-.PHONY : src/Utility/LabelValue.cpp.o
+src/Utility/LAB_LabelValue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.o
+.PHONY : src/Utility/LAB_LabelValue.cpp.o
 
-src/Utility/LabelValue.i: src/Utility/LabelValue.cpp.i
+src/Utility/LAB_LabelValue.i: src/Utility/LAB_LabelValue.cpp.i
 
-.PHONY : src/Utility/LabelValue.i
+.PHONY : src/Utility/LAB_LabelValue.i
 
 # target to preprocess a source file
-src/Utility/LabelValue.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LabelValue.cpp.i
-.PHONY : src/Utility/LabelValue.cpp.i
+src/Utility/LAB_LabelValue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.i
+.PHONY : src/Utility/LAB_LabelValue.cpp.i
 
-src/Utility/LabelValue.s: src/Utility/LabelValue.cpp.s
+src/Utility/LAB_LabelValue.s: src/Utility/LAB_LabelValue.cpp.s
 
-.PHONY : src/Utility/LabelValue.s
+.PHONY : src/Utility/LAB_LabelValue.s
 
 # target to generate assembly for a file
-src/Utility/LabelValue.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LabelValue.cpp.s
-.PHONY : src/Utility/LabelValue.cpp.s
+src/Utility/LAB_LabelValue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.s
+.PHONY : src/Utility/LAB_LabelValue.cpp.s
+
+src/Utility/LAB_Utility_Functions.o: src/Utility/LAB_Utility_Functions.cpp.o
+
+.PHONY : src/Utility/LAB_Utility_Functions.o
+
+# target to build an object file
+src/Utility/LAB_Utility_Functions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_Utility_Functions.cpp.o
+.PHONY : src/Utility/LAB_Utility_Functions.cpp.o
+
+src/Utility/LAB_Utility_Functions.i: src/Utility/LAB_Utility_Functions.cpp.i
+
+.PHONY : src/Utility/LAB_Utility_Functions.i
+
+# target to preprocess a source file
+src/Utility/LAB_Utility_Functions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_Utility_Functions.cpp.i
+.PHONY : src/Utility/LAB_Utility_Functions.cpp.i
+
+src/Utility/LAB_Utility_Functions.s: src/Utility/LAB_Utility_Functions.cpp.s
+
+.PHONY : src/Utility/LAB_Utility_Functions.s
+
+# target to generate assembly for a file
+src/Utility/LAB_Utility_Functions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_Utility_Functions.cpp.s
+.PHONY : src/Utility/LAB_Utility_Functions.cpp.s
 
 src/Utility/pugixml.o: src/Utility/pugixml.cpp.o
 
@@ -1309,12 +1309,12 @@ help:
 	@echo "... src/LAB_Libraries/LAB_MCP4XXX.o"
 	@echo "... src/LAB_Libraries/LAB_MCP4XXX.i"
 	@echo "... src/LAB_Libraries/LAB_MCP4XXX.s"
-	@echo "... src/Utility/Defaults.o"
-	@echo "... src/Utility/Defaults.i"
-	@echo "... src/Utility/Defaults.s"
-	@echo "... src/Utility/LabelValue.o"
-	@echo "... src/Utility/LabelValue.i"
-	@echo "... src/Utility/LabelValue.s"
+	@echo "... src/Utility/LAB_LabelValue.o"
+	@echo "... src/Utility/LAB_LabelValue.i"
+	@echo "... src/Utility/LAB_LabelValue.s"
+	@echo "... src/Utility/LAB_Utility_Functions.o"
+	@echo "... src/Utility/LAB_Utility_Functions.i"
+	@echo "... src/Utility/LAB_Utility_Functions.s"
 	@echo "... src/Utility/pugixml.o"
 	@echo "... src/Utility/pugixml.i"
 	@echo "... src/Utility/pugixml.s"

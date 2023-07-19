@@ -1,15 +1,13 @@
 #include "LAB_Voltmeter.h"
+
 #include "LAB.h"
 
-// remove soon
-#include <iostream>
-
-LAB_Voltmeter::
-LAB_Voltmeter (LAB_Core* _LAB_Core, 
-               LAB*      _LAB)
+LAB_Voltmeter:: 
+LAB_Voltmeter (LAB_Core*  _LAB_Core,
+               LAB*       _LAB)
+  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
 {
-  m_LAB_Core  = _LAB_Core;
-  m_LAB       = _LAB;
+
 }
 
 void LAB_Voltmeter:: 

@@ -1,4 +1,4 @@
-#include "LabelValue.h"
+#include "LAB_LabelValue.h"
 
 #include <cmath>
 #include <iomanip>
@@ -8,7 +8,7 @@
 
 // --- Initialize static member variables ---
 
-std::map<LabelValue::UNIT, std::string> LabelValue::m_unit_to_unit_string = 
+std::map<LAB_LabelValue::UNIT, std::string> LAB_LabelValue::m_unit_to_unit_string = 
 {
   {UNIT::VOLT               , "V"},
   {UNIT::VOLT_PER_DIVISION  , "V/div"},
@@ -19,7 +19,7 @@ std::map<LabelValue::UNIT, std::string> LabelValue::m_unit_to_unit_string =
   {UNIT::NONE               , ""}
 };
 
-std::map<std::string, int> LabelValue::m_unit_prefix_to_exponent = 
+std::map<std::string, int> LAB_LabelValue::m_unit_prefix_to_exponent = 
 {
   // Base 10
   {"n", -9},
@@ -37,37 +37,37 @@ std::map<std::string, int> LabelValue::m_unit_prefix_to_exponent =
 
 };
 
-std::map<std::string, LabelValue::UNIT> LabelValue::m_unit_string_to_unit = 
-  invert_map (LabelValue::m_unit_to_unit_string);
+std::map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_to_unit = 
+  invert_map (LAB_LabelValue::m_unit_to_unit_string);
 
-std::map<std::string, LabelValue::UNIT> LabelValue::m_unit_string_lowercase_to_unit =
+std::map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_lowercase_to_unit =
   lowercase_map (m_unit_string_to_unit);
 
-LabelValue::KeyLengths LabelValue::m_keylengths_unit_prefix_to_exponent = 
+LAB_LabelValue::KeyLengths LAB_LabelValue::m_keylengths_unit_prefix_to_exponent = 
   find_map_keylengths (m_unit_prefix_to_exponent);
 
 // ----------
 
-LabelValue:: 
-LabelValue (double           value,
-            LabelValue::UNIT unit)
+LAB_LabelValue:: 
+LAB_LabelValue (double           value,
+            LAB_LabelValue::UNIT unit)
 {
   m_unit      = unit;
   m_is_valid  = parse_input_double (value);
 }
 
-LabelValue:: 
-LabelValue (const char*             input,
-                  LabelValue::UNIT  unit)
-  : LabelValue (input, 0.0, unit)
+LAB_LabelValue:: 
+LAB_LabelValue (const char*             input,
+                  LAB_LabelValue::UNIT  unit)
+  : LAB_LabelValue (input, 0.0, unit)
 {
   debug ();
 }
 
-LabelValue::
-LabelValue (const char*       input,
+LAB_LabelValue::
+LAB_LabelValue (const char*       input,
             double            reference,
-            LabelValue::UNIT  unit)
+            LAB_LabelValue::UNIT  unit)
 {
   m_raw_string  = std::string (input);
   m_reference   = reference;
@@ -78,7 +78,7 @@ LabelValue (const char*       input,
 }
 
 template <typename Key, typename Value>
-std::map<Value, Key> LabelValue::
+std::map<Value, Key> LAB_LabelValue::
 invert_map (const std::map<Key, Value>& map)
 {
   std::map<Value, Key> new_map;
@@ -92,7 +92,7 @@ invert_map (const std::map<Key, Value>& map)
 }
 
 template <typename Value>
-std::map<std::string, Value> LabelValue::
+std::map<std::string, Value> LAB_LabelValue::
 lowercase_map (const std::map<std::string, Value>& map)
 {
   std::map<std::string, Value> new_map;
@@ -106,10 +106,10 @@ lowercase_map (const std::map<std::string, Value>& map)
 }
 
 template <typename Value>
-LabelValue::KeyLengths LabelValue:: 
+LAB_LabelValue::KeyLengths LAB_LabelValue:: 
 find_map_keylengths (const std::map<std::string, Value>& map)
 {
-  LabelValue::KeyLengths keylengths;
+  LAB_LabelValue::KeyLengths keylengths;
 
   for (const std::pair<std::string, Value>& pair : map)
   {
@@ -130,7 +130,7 @@ find_map_keylengths (const std::map<std::string, Value>& map)
   return (keylengths);
 }
 
-std::string LabelValue:: 
+std::string LAB_LabelValue:: 
 to_lowercase (const std::string& input)
 {
   std::string lowercase_str = input;
@@ -145,13 +145,13 @@ to_lowercase (const std::string& input)
   return (lowercase_str);
 }
 
-void LabelValue:: 
+void LAB_LabelValue:: 
 remove_whitespaces (std::string& str)
 {
   str.erase (std::remove_if (str.begin (), str.end (), ::isspace), str.end ());
 }
 
-bool LabelValue:: 
+bool LAB_LabelValue:: 
 parse_input (const std::string& str)
 {
   if (str.find_first_not_of ("0123456789.+-") == std::string::npos)
@@ -171,7 +171,7 @@ parse_input (const std::string& str)
   }
 } 
 
-bool LabelValue:: 
+bool LAB_LabelValue:: 
 parse_input_string (const std::string& str)
 {
   std::string copy = str;
@@ -209,7 +209,7 @@ parse_input_string (const std::string& str)
   {
     try
     {
-      LabelValue::UNIT unit = m_unit_string_lowercase_to_unit.at (post_coeff);
+      LAB_LabelValue::UNIT unit = m_unit_string_lowercase_to_unit.at (post_coeff);
 
       if (unit != m_unit)
       {
@@ -228,7 +228,7 @@ parse_input_string (const std::string& str)
   return (true);
 }
 
-void LabelValue:: 
+void LAB_LabelValue:: 
 find_unit_prefix_match (const std::string& str)
 {
   KeyLengths& kl          = m_keylengths_unit_prefix_to_exponent;
@@ -250,11 +250,11 @@ find_unit_prefix_match (const std::string& str)
   // 2.
   if (unit_prefix.length () > 1)
   {
-    m_base = LabelValue::BASE::TWO;
+    m_base = LAB_LabelValue::BASE::TWO;
   }
   else 
   {
-    m_base = LabelValue::BASE::TEN;
+    m_base = LAB_LabelValue::BASE::TEN;
   }
 
   // 3.
@@ -265,7 +265,7 @@ find_unit_prefix_match (const std::string& str)
   }
 }
 
-void LabelValue:: 
+void LAB_LabelValue:: 
 remove_from_string (const std::string& to_remove, std::string& str)
 {
   unsigned pos = str.find (to_remove);
@@ -276,7 +276,7 @@ remove_from_string (const std::string& to_remove, std::string& str)
   }
 }
 
-bool LabelValue:: 
+bool LAB_LabelValue:: 
 parse_input_double (double value)
 {
   m_actual_value = calc_actual_value_using_reference (value, m_reference);
@@ -288,7 +288,7 @@ parse_input_double (double value)
   return (true);
 }
 
-double LabelValue:: 
+double LAB_LabelValue:: 
 calc_actual_value_using_reference (double value,
                                    double reference)
 {
@@ -315,7 +315,7 @@ calc_actual_value_using_reference (double value,
   }
 }
 
-void LabelValue:: 
+void LAB_LabelValue:: 
 calc_coefficient_and_exponent (double value, double& coefficient, int& exponent)
 {
   // 1. Convert the value to a string representation of its scientific notation
@@ -329,7 +329,7 @@ calc_coefficient_and_exponent (double value, double& coefficient, int& exponent)
   exponent        = std::stoi (str.substr (e_pos + 1));
 }
 
-std::string LabelValue:: 
+std::string LAB_LabelValue:: 
 calc_unit_prefix (int exponent)
 {
   std::string unit_prefix;
@@ -382,13 +382,13 @@ calc_unit_prefix (int exponent)
   return (unit_prefix);
 }
 
-int LabelValue:: 
+int LAB_LabelValue:: 
 calc_exponent_from_unit_prefix (const std::string& unit_prefix) const
 {
   return (m_unit_prefix_to_exponent.at (unit_prefix));
 }
 
-int LabelValue::
+int LAB_LabelValue::
 correct_mod (int exponent, 
              int modulo) const
 {
@@ -396,38 +396,38 @@ correct_mod (int exponent,
 }
 
 // Setter
-void LabelValue:: 
-unit (LabelValue::UNIT unit)
+void LAB_LabelValue:: 
+unit (LAB_LabelValue::UNIT unit)
 {
   m_unit = unit;
 }
 
 // Getter
-bool LabelValue::
+bool LAB_LabelValue::
 is_valid () const
 {
   return (m_is_valid);
 }
 
-double LabelValue:: 
+double LAB_LabelValue:: 
 actual_value () const
 {
   return (m_actual_value);
 }
 
-std::string LabelValue:: 
+std::string LAB_LabelValue:: 
 unit_prefix () const
 {
   return (m_unit_prefix);
 }
 
-std::string LabelValue:: 
+std::string LAB_LabelValue:: 
 unit_string () const
 {
   return (m_unit_to_unit_string[m_unit]);
 }
 
-std::string LabelValue::
+std::string LAB_LabelValue::
 to_label_text (unsigned precision) const
 {
   std::stringstream ss;
@@ -441,7 +441,7 @@ to_label_text (unsigned precision) const
   return (ss.str ());
 }
 
-std::string LabelValue::
+std::string LAB_LabelValue::
 to_label_text (UNIT     unit, 
                unsigned precision)
 {
@@ -450,7 +450,7 @@ to_label_text (UNIT     unit,
   return (to_label_text (precision));
 }
 
-void LabelValue:: 
+void LAB_LabelValue:: 
 debug () const
 {
   std::cout << "----------\n";
@@ -465,12 +465,12 @@ debug () const
   std::cout << "----------\n\n";
 }
 
-LabelValue::UNIT LabelValue:: 
+LAB_LabelValue::UNIT LAB_LabelValue:: 
 get_unit_from_unit_string (const char* string)
 {
   std::string str = to_lowercase (std::string (string));
 
-  std::map<std::string, LabelValue::UNIT>::iterator it = 
+  std::map<std::string, LAB_LabelValue::UNIT>::iterator it = 
     m_unit_string_lowercase_to_unit.find (str);
 
   if (it != m_unit_string_lowercase_to_unit.end ())

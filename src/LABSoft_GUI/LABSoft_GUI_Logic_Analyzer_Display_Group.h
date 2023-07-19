@@ -3,11 +3,11 @@
 
 #include <array>
 
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Menu_Button.H>
-#include <FL/Fl_Box.H>
 
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Constants.h"
 #include "LABSoft_GUI_Logic_Analyzer_Display.h"
 
 class LABSoft_GUI_Logic_Analyzer_Display_Group : public Fl_Group

@@ -9,7 +9,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Native_File_Chooser.H>
 
-// forward declare LABSoft_Controller
+// forward declare LABSoft_Controller, #include in .cpp file
 class LABSoft_Controller;
 
 class LABSoft_Controller_Digital_Circuit_Checker

@@ -1,17 +1,11 @@
 #include "LAB_Digital_Circuit_Checker.h"
 
-#include <chrono>
-#include <string>
-#include <thread>
 #include <fstream>
 #include <cstring>
 #include <sstream>
 #include <iostream>
-#include <unistd.h>
 #include <algorithm>
-#include <stdexcept>
 #include <sys/stat.h>
-
 
 #include <openssl/aes.h>
 #include <openssl/rand.h>
@@ -142,9 +136,12 @@ load_data_from_file ()
 void LAB_Digital_Circuit_Checker:: 
 load_file (const std::string& path)
 {
-  std::string decrypted_xml = decrypt_xml (path);
+  // std::string decrypted_xml = decrypt_xml (path);
+  // pugi::xml_parse_result res = m_xml_doc.load_string (decrypted_xml.c_str ());
 
-  pugi::xml_parse_result res = m_xml_doc.load_string (decrypted_xml.c_str ());
+  pugi::xml_document doc;
+
+  pugi::xml_parse_result res = doc.load_file (path.c_str ());
 
   if (!res)
   {

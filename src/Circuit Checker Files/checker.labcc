@@ -7,7 +7,7 @@
 	<data>
 		<data_pair>
 			<input>00</input>
-			<output>X0</output>
+			<output>01</output>
 		</data_pair>
 		<data_pair>
 			<input>10</input>
@@ -15,7 +15,7 @@
 		</data_pair>
 		<data_pair>
 			<input>01</input>
-			<output>01</output>
+			<output>X1</output>
 		</data_pair>
 		<data_pair>
 			<input>11</input>

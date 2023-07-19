@@ -3,7 +3,7 @@
 
 #include <FL/Fl_Widget.H>
 
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Definitions.h"
 
 class LABSoft_GUI_Oscilloscope_Display : public Fl_Widget
 { 
@@ -30,8 +30,8 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Widget
 
   public:
      // --- Functions ---
-    LABSoft_GUI_Oscilloscope_Display        (int X, int Y, int W, int H, const char *label = 0);
-   ~LABSoft_GUI_Oscilloscope_Display        ();
+    LABSoft_GUI_Oscilloscope_Display    (int X, int Y, int W, int H, const char *label = 0);
+   ~LABSoft_GUI_Oscilloscope_Display    ();
     
     // Draw
     void draw                           ();

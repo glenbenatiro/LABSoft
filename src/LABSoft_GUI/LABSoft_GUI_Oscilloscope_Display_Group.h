@@ -8,7 +8,7 @@
 #include <FL/Fl_Slider.H>
 #include <FL/Fl_Button.H>
 
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Constants.h"
 #include "LABSoft_GUI_Oscilloscope_Display.h"
 
 // Forward declare LABSoft_GUI
@@ -28,7 +28,7 @@ class LABSoft_GUI_Oscilloscope_Display_Group : public Fl_Group
     Fl_Box*     m_upper_info_display                = nullptr;
     Fl_Slider*  m_horizontal_offset                 = nullptr;
     Fl_Slider*  m_vertical_offset                   = nullptr;
-    Fl_Slider*  m_trigger_level                     = nullptr;
+    Fl_Slider*  m_fl_slider_trigger_level           = nullptr;
 
     std::array<
       Fl_Button*,
@@ -57,31 +57,32 @@ class LABSoft_GUI_Oscilloscope_Display_Group : public Fl_Group
     // Draw
     void  draw ();
 
-    void    update_gui_y_label_unit           (unsigned channel);
+    void    update_gui_y_label_unit       (unsigned channel);
     bool    is_approx_zero                (double x, double epsilon = 1e-12);
     double  calc_row_voltage_per_division (int row, unsigned number_of_rows, LAB_Channel_Data_Oscilloscope& chan);
-    void    display (LABSoft_GUI_Oscilloscope_Display* _LABSoft_GUI_Oscilloscope_Display);
+    void    display                       (LABSoft_GUI_Oscilloscope_Display* _LABSoft_GUI_Oscilloscope_Display);
 
   public:    
-    LABSoft_GUI_Oscilloscope_Display_Group (int X, int Y, int W, int H, const char* label = 0);
+    LABSoft_GUI_Oscilloscope_Display_Group    (int X, int Y, int W, int H, const char* label = 0);
     
     // Load data
-    void  load_osc_parent_data            (LAB_Parent_Data_Oscilloscope& parent_data);
-    void  reserve_pixel_points            ();
-    void  fill_pixel_points               ();
-    void channel_selector                 (unsigned channel);
+    void  load_osc_parent_data                (LAB_Parent_Data_Oscilloscope& parent_data);
+    void  reserve_pixel_points                ();
+    void  fill_pixel_points                   ();
+    void channel_selector                     (unsigned channel);
 
     // Update data
-    void  update_gui_time_per_division    ();
-    void  update_gui_upper_left_info      ();
-    void  update_all_display_information  ();
-    void  update_display_status           ();   
+    void  update_gui_time_per_division        ();
+    void  update_gui_upper_left_info          ();
+    void  update_all_display_information      ();
+    void  update_display_status               ();   
 
     // GUI updates
-    void  update_gui_vertical_offset      (); 
-    void  update_gui_voltage_per_division (unsigned channel);
-    void  update_gui_voltage_per_division ();
-    void  update_gui_vertical_elements    ();
+    void  update_gui_vertical_offset          (); 
+    void  update_gui_voltage_per_division     (unsigned channel);
+    void  update_gui_voltage_per_division     ();
+    void  update_gui_vertical_elements        ();
+    void  update_gui_fl_slider_trigger_level  ();
 
     // Getter
     LABSoft_GUI_Oscilloscope_Display& display ()

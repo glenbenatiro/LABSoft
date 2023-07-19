@@ -8,7 +8,8 @@
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Constants.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LABSoft_GUI_Oscilloscope_Display::
 LABSoft_GUI_Oscilloscope_Display (int X,

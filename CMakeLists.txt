@@ -60,9 +60,9 @@ ADD_EXECUTABLE(LABSoft
   src/LAB_Libraries/LAB_MCP4XXX.cpp
   src/LAB_Libraries/LAB_MCP23S17.cpp
 
-  src/Utility/LabelValue.cpp
+  src/Utility/LAB_LabelValue.cpp
   src/Utility/pugixml.cpp
-  src/Utility/Defaults.cpp
+  src/Utility/LAB_Utility_Functions.cpp
 
   lib/AikaPi/AikaPi.cpp
   lib/AD9833/AD9833.cpp

@@ -1,14 +1,20 @@
 #ifndef LAB_FUNCTION_GENERATOR_H
 #define LAB_FUNCTION_GENERATOR_H
 
-#include "../Utility/Defaults.h"
 #include "LAB_Core.h"
+#include "../Utility/LAB_Constants.h"
+#include "../Utility/LAB_Definitions.h"
+#include "../Utility/LAB_Enumerations.h"
 #include "../LAB_Libraries/LAB_AD9833.h"
 #include "../LAB_Libraries/LAB_MCP4XXX.h"
+
+// forward declare LAB, #include in .cpp file
+class LAB;
 
 class LAB_Function_Generator 
 {
   private: 
+    LAB*        m_LAB;
     LAB_Core*   m_LAB_Core;
     LAB_AD9833  m_func_gen_ic       [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
     LAB_MCP4XXX m_digipot_amplitude [2 * LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
@@ -22,7 +28,7 @@ class LAB_Function_Generator
     LAB_Parent_Data_Function_Generator m_parent_data;
 
   public:
-    LAB_Function_Generator      (LAB_Core* _LAB_Core);
+    LAB_Function_Generator      (LAB_Core* _LAB_Core, LAB* _LAB);
    ~LAB_Function_Generator      ();
 
     void run                    (unsigned channel);

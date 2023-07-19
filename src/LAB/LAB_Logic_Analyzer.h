@@ -1,10 +1,11 @@
 #ifndef LAB_LOGIC_ANALYZER_H
 #define LAB_LOGIC_ANALYZER_H
 
-#include "../Utility/Defaults.h"
 #include "LAB_Core.h"
+#include "../Utility/LAB_Enumerations.h"
+#include "../Utility/LAB_Definitions.h"
 
-// Forward declare LAB, include #LAB.h in cpp file
+// forward declare LAB, #include in .cpp file
 class LAB;
 
 class LAB_Logic_Analyzer

@@ -1,7 +1,8 @@
 #include "LABSoft_Controller_Function_Generator.h"
 
-#include "../Utility/LabelValue.h"
 #include "LABSoft_Controller.h"
+#include "../Utility/LAB_LabelValue.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LABSoft_Controller_Function_Generator::
 LABSoft_Controller_Function_Generator (LAB*                 _LAB, 
@@ -25,12 +26,12 @@ void LABSoft_Controller_Function_Generator::
 update_gui_frequency_elements ()
 {
   m_LABSoft_GUI->function_generator_fl_input_choice_frequency->
-    value (LabelValue (m_LAB->m_Function_Generator.frequency (0)).
-    to_label_text (LabelValue::UNIT::HERTZ).c_str ());
+    value (LAB_LabelValue (m_LAB->m_Function_Generator.frequency (0)).
+    to_label_text (LAB_LabelValue::UNIT::HERTZ).c_str ());
   
   m_LABSoft_GUI->function_generator_fl_input_choice_period->
-    value (LabelValue (m_LAB->m_Function_Generator.period (0)).
-    to_label_text (LabelValue::UNIT::SECOND).c_str ());
+    value (LAB_LabelValue (m_LAB->m_Function_Generator.period (0)).
+    to_label_text (LAB_LabelValue::UNIT::SECOND).c_str ());
 }
 
 void LABSoft_Controller_Function_Generator:: 
@@ -89,10 +90,10 @@ void LABSoft_Controller_Function_Generator::
 cb_amplitude (Fl_Input_Choice* w, 
               long             channel)
 {
-  LabelValue lv (
+  LAB_LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.amplitude (channel),
-    LabelValue::UNIT::VOLT
+    LAB_LabelValue::UNIT::VOLT
   );
 
   if (lv.is_valid ())
@@ -107,8 +108,8 @@ cb_amplitude (Fl_Input_Choice* w,
     }
   }
 
-  w->value (LabelValue (m_LAB->m_Function_Generator.amplitude (channel)).
-    to_label_text (LabelValue::UNIT::VOLT).c_str ());
+  w->value (LAB_LabelValue (m_LAB->m_Function_Generator.amplitude (channel)).
+    to_label_text (LAB_LabelValue::UNIT::VOLT).c_str ());
 }
 
 
@@ -116,10 +117,10 @@ void LABSoft_Controller_Function_Generator::
 cb_frequency (Fl_Input_Choice *w, 
               long             channel)
 {
-  LabelValue lv (
+  LAB_LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.frequency (channel),
-    LabelValue::UNIT::HERTZ
+    LAB_LabelValue::UNIT::HERTZ
   );
 
   if (lv.is_valid ())
@@ -141,10 +142,10 @@ void LABSoft_Controller_Function_Generator::
 cb_period (Fl_Input_Choice* w, 
            long             channel)
 {
-  LabelValue lv (
+  LAB_LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.period (channel),
-    LabelValue::UNIT::SECOND
+    LAB_LabelValue::UNIT::SECOND
   );
   
   if (lv.is_valid ())
@@ -166,10 +167,10 @@ void LABSoft_Controller_Function_Generator::
 cb_phase (Fl_Input_Choice* w, 
           long             channel)
 {
-  LabelValue lv (
+  LAB_LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.phase (channel),
-    LabelValue::UNIT::DEGREE
+    LAB_LabelValue::UNIT::DEGREE
   );
 
   if (lv.is_valid ())
@@ -184,8 +185,8 @@ cb_phase (Fl_Input_Choice* w,
     }
   }
 
-  w->value (LabelValue (m_LAB->m_Function_Generator.phase (channel)).
-    to_label_text (LabelValue::UNIT::DEGREE).c_str ());
+  w->value (LAB_LabelValue (m_LAB->m_Function_Generator.phase (channel)).
+    to_label_text (LAB_LabelValue::UNIT::DEGREE).c_str ());
 }
 
 
@@ -193,10 +194,10 @@ void LABSoft_Controller_Function_Generator::
 cb_vertical_offset (Fl_Input_Choice*  w, 
                     long              channel)
 {
-  LabelValue lv (
+  LAB_LabelValue lv (
     w->value (),
     m_LAB->m_Function_Generator.vertical_offset (channel),
-    LabelValue::UNIT::VOLT
+    LAB_LabelValue::UNIT::VOLT
   );
 
   if (lv.is_valid ())
@@ -211,8 +212,8 @@ cb_vertical_offset (Fl_Input_Choice*  w,
     }
   }
 
-  w->value (LabelValue (m_LAB->m_Function_Generator.vertical_offset (channel)).
-    to_label_text (LabelValue::UNIT::VOLT).c_str ());
+  w->value (LAB_LabelValue (m_LAB->m_Function_Generator.vertical_offset (channel)).
+    to_label_text (LAB_LabelValue::UNIT::VOLT).c_str ());
 }
 
 // EOF

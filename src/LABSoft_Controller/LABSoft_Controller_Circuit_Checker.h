@@ -14,7 +14,7 @@
 #include "../LAB/LAB.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 
-// forward declare LABSoft_Controller
+// forward declare LABSoft_Controller, #include in .cpp file
 class LABSoft_Controller;
 
 struct Signal

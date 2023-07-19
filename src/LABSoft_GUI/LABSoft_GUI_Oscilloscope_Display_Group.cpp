@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "../Utility/LabelValue.h"
+#include "../Utility/LAB_LabelValue.h"
 
 LABSoft_GUI_Oscilloscope_Display_Group::
 LABSoft_GUI_Oscilloscope_Display_Group (int X, 
@@ -127,7 +127,7 @@ update_gui_time_per_division ()
     double col_tpd = (a + col_half) * (m_parent_data->time_per_division) + 
       (m_parent_data->horizontal_offset);
     
-    LabelValue lv (col_tpd, LabelValue::UNIT::SECOND);
+    LAB_LabelValue lv (col_tpd, LAB_LabelValue::UNIT::SECOND);
     
     m_x_labels[a]->copy_label (lv.to_label_text ().c_str ());
   }
@@ -136,7 +136,7 @@ update_gui_time_per_division ()
 void LABSoft_GUI_Oscilloscope_Display_Group:: 
 update_gui_upper_left_info ()
 {
-  LabelValue lv (m_parent_data->sampling_rate);
+  LAB_LabelValue lv (m_parent_data->sampling_rate);
 
   std::stringstream ss;
 
@@ -249,11 +249,11 @@ update_gui_voltage_per_division (unsigned channel)
       double row_vpd = calc_row_voltage_per_division (a,
         LABC::OSC::DISPLAY_NUMBER_OF_ROWS, chan);
       
-      LabelValue lv (row_vpd, LabelValue::UNIT::VOLT);
+      LAB_LabelValue lv (row_vpd, LAB_LabelValue::UNIT::VOLT);
 
       if (a == 0)
       {
-        LabelValue unit_ref = lv; 
+        LAB_LabelValue unit_ref = lv; 
 
         std::stringstream ss;
         ss << unit_ref.unit_prefix () << unit_ref.unit_string ();
@@ -289,8 +289,26 @@ update_gui_voltage_per_division ()
 void LABSoft_GUI_Oscilloscope_Display_Group:: 
 update_gui_vertical_elements ()
 {
-  update_gui_vertical_offset      ();
-  update_gui_voltage_per_division ();
+  update_gui_vertical_offset          ();
+  update_gui_voltage_per_division     ();
+  update_gui_fl_slider_trigger_level  ();
+}
+
+void LABSoft_GUI_Oscilloscope_Display_Group:: 
+update_gui_fl_slider_trigger_level ()
+{
+  LAB_Parent_Data_Oscilloscope&   pdata = *(m_parent_data);
+  LAB_Channel_Data_Oscilloscope&  cdata = pdata.channel_data[pdata.trig_source];
+  Fl_Slider&                      w     = *(m_fl_slider_trigger_level);
+
+  //
+
+  double max_vpd_abs  = cdata.voltage_per_division * LABC::OSC::DISPLAY_NUMBER_OF_ROWS_HALF;
+  double max_vpd      = max_vpd_abs + cdata.vertical_offset;
+  double min_vpd      = (-1 * max_vpd_abs) + cdata.vertical_offset;
+
+  w.bounds  (max_vpd, min_vpd);
+  w.value   (pdata.trigger_level);
 }
 
 // Setter

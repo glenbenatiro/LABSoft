@@ -1,12 +1,13 @@
 #ifndef LABSOFT_LOGIC_ANALYZER_DISPLAY
 #define LABSOFT_LOGIC_ANALYZER_DISPLAY
 
-#include <vector>
 #include <array>
+#include <vector>
 
 #include <FL/Fl_Widget.H>
 
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Constants.h"
+#include "../Utility/LAB_Definitions.h"
 
 class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Widget
 {

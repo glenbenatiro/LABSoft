@@ -1,7 +1,5 @@
 #include "LAB_AD9833.h"
 
-#include <iostream>
-
 LAB_AD9833::
 LAB_AD9833 (int CS, int MISO, int MOSI, int SCLK, double baud)
   : m_spi_bb (AikaPi::SPI_BB (CS, MISO, MOSI, SCLK, baud, AP::SPI::MODE::_2))

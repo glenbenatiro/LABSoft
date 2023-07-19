@@ -1,4 +1,6 @@
-#include "Defaults.h"
+#include "LAB_Utility_Functions.h"
+
+#include <cmath>
 
 bool LABF::
 is_equal (double a,

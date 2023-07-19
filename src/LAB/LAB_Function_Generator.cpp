@@ -3,8 +3,9 @@
 #include <iostream>
 
 LAB_Function_Generator:: 
-LAB_Function_Generator (LAB_Core* _LAB_Core)
+LAB_Function_Generator (LAB_Core* _LAB_Core, LAB* _LAB)
   : m_LAB_Core (_LAB_Core),
+    m_LAB (_LAB),
     m_func_gen_ic       {LAB_AD9833   (LABC::PIN::FUNC_GEN_IC_CS, 
                                         LABC::PIN::FUNC_GEN_IC_MISO,
                                         LABC::PIN::FUNC_GEN_IC_MOSI,

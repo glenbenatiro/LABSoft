@@ -2,7 +2,7 @@
 
 #include <FL/Fl.H>
 
-#include "../Utility/Defaults.h"
+#include "../Utility/LAB_Constants.h"
 
 LABSoft_Controller:: 
 LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)

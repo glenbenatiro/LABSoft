@@ -31,7 +31,9 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o
@@ -52,7 +54,9 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Core.cpp.o
@@ -77,7 +81,9 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o
@@ -90,16 +96,14 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.o
- /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
- /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_LABChecker_Digital.cpp
  /home/glen/Desktop/LABSoft/src/LAB/LAB_LABChecker_Digital.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o
@@ -120,7 +124,9 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o
@@ -141,7 +147,10 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o
@@ -162,7 +171,9 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
@@ -202,7 +213,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o
@@ -241,7 +254,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.o
@@ -280,7 +295,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
@@ -319,7 +336,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o
@@ -358,8 +377,11 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Genera
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
@@ -390,7 +412,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digi
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o
@@ -429,8 +453,10 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
@@ -461,7 +487,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o
@@ -500,8 +528,11 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
@@ -540,8 +571,10 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o
@@ -580,7 +613,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp.o
@@ -593,16 +628,13 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Tabl
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp.o
- /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
- /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
@@ -612,7 +644,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
@@ -621,8 +655,10 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
@@ -630,7 +666,10 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
@@ -639,8 +678,10 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_AD9833.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
@@ -656,16 +697,12 @@ CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_MCP4XXX.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.cpp
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
-CMakeFiles/LABSoft.dir/src/Utility/Defaults.cpp.o
- /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
- /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
- /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.cpp
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
-CMakeFiles/LABSoft.dir/src/Utility/LabelValue.cpp.o
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.cpp
- /home/glen/Desktop/LABSoft/src/Utility/LabelValue.h
+CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.o
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.cpp
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
+CMakeFiles/LABSoft.dir/src/Utility/LAB_Utility_Functions.cpp.o
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.cpp
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/Utility/pugixml.cpp.o
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.cpp
@@ -706,7 +743,9 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
  /home/glen/Desktop/LABSoft/src/main.cpp

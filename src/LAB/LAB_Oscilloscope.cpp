@@ -1,11 +1,9 @@
 #include "LAB_Oscilloscope.h"
 
 #include <cstring>
-#include <iostream>
-#include <bitset>
-#include <stdexcept>
 
 #include "LAB.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LAB_Oscilloscope:: 
 LAB_Oscilloscope (LAB_Core* _LAB_Core, LAB* _LAB) 
@@ -446,76 +444,41 @@ coupling (unsigned channel)
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
-  switch (mode ())
+  switch (m_parent_data.trigger_mode)
   {
-    case (LABE::OSC::MODE::REPEATED):
-    case (LABE::OSC::MODE::SCREEN):
+    case (LABE::OSC::TRIG::MODE::NONE):
     {
-      switch (m_parent_data.trig_mode)
+      fill_raw_sample_buffer  ();
+      parse_raw_sample_buffer ();
+
+      break;
+    }
+
+    case (LABE::OSC::TRIG::MODE::NORMAL):
+    {
+      if (m_parent_data.trigger_frame_ready)
       {
-        case (LABE::OSC::TRIG::MODE::NORMAL):
-        {
-          if (m_parent_data.trig_frame_ready)
-          {
-            parse_raw_sample_buffer ();
-            m_parent_data.trig_frame_ready  = false;
-          }
-
-          break;
-        }
-
-        case (LABE::OSC::TRIG::MODE::AUTO):
-        {
-          break;
-        }
-
-        case (LABE::OSC::TRIG::MODE::NONE):
-        {
-          if (m_parent_data.single)
-          {
-            // wait until a buffer is filled
-            while (! (m_LAB_Core->dma.interrupt (LABC::DMA::CHAN::OSC_RX)));
-          }
-          
-          fill_raw_sample_buffer  ();
-          parse_raw_sample_buffer ();
-
-          break;
-        }
-      }
-
-      if (m_parent_data.single)
-      {
-        osc_core_run_stop (false);
-        status            (LABE::OSC::STATUS::DONE);
-
-        m_parent_data.single = false;
+        parse_raw_sample_buffer ();
       }
 
       break;
     }
 
-    case (LABE::OSC::MODE::RECORD):
+    case (LABE::OSC::TRIG::MODE::AUTO):
     {
       break;
     }
-  }
+  }  
 }
 
 void LAB_Oscilloscope:: 
 fill_raw_sample_buffer ()
 {
-  if (!is_osc_core_running ())
-  {
-    return;
-  }
+  LAB_DMA_Data_Oscilloscope& dma_data = *(
+    static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ())
+  );
 
-  //
-
-  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_memory.virt ()));
-
-  switch (mode ())
+  switch (m_parent_data.mode)
   {
     case (LABE::OSC::MODE::SCREEN):
     {
@@ -578,42 +541,73 @@ parse_raw_sample_buffer ()
     for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
     {
       m_parent_data.channel_data[chan].samples[samp] = 
-        conv_raw_buff_get_actual_value (m_parent_data.raw_sample_buffer[samp], chan);
+        conv_raw_buff_samp_to_actual_value (m_parent_data.raw_sample_buffer[samp], chan);
+
+      // For debug
+      // if (samp == 0 && chan == 0)
+      // {
+      //   uint32_t raw_chan_bits = extract_chan_bits_from_raw_buff_samp (m_parent_data.raw_sample_buffer[samp], chan);
+
+      //   std::cout << std::bitset <16> (raw_chan_bits);
+      //   std::cout << " - " << (arrange_raw_chan_bits (raw_chan_bits));
+      //   std::cout << " - " << conv_raw_buff_samp_to_actual_value (m_parent_data.raw_sample_buffer[samp], chan);
+      //   std::cout << "\n";
+      // }
     }
   }
 }
 
 constexpr double LAB_Oscilloscope:: 
-conv_raw_buff_get_actual_value (uint32_t  sample,
-                                unsigned  channel)
+conv_raw_buff_samp_to_actual_value (uint32_t  raw_buff_samp,
+                                    unsigned  channel)
 {
-  uint32_t  raw_chan_bits     = conv_raw_buff_xtract_chan       (sample, channel);
-  uint32_t  arranged_bits     = conv_raw_buff_arrange_bits      (raw_chan_bits);
-  bool      sign              = arranged_bits >>                (LABC::OSC::ADC_RESOLUTION_BITS - 1);
-  uint32_t  abs_arranged_bits = arranged_bits &                 ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
-  double    actual_value      = conv_raw_buff_bits_actual_value (abs_arranged_bits, sign); 
+  uint32_t  raw_chan_bits         = extract_chan_bits_from_raw_buff_samp (raw_buff_samp, channel);
+  uint32_t  arranged_bits         = arrange_raw_chan_bits (raw_chan_bits);
+  bool      arranged_bits_sign    = (arranged_bits >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
+  uint32_t  arranged_bits_abs_val = arranged_bits & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
+  double    actual_value          = conv_raw_chan_bits_to_actual_value (arranged_bits_abs_val, arranged_bits_sign); 
 
   return (actual_value);
 }
 
 constexpr uint32_t LAB_Oscilloscope::
-conv_raw_buff_xtract_chan (uint32_t sample,
-                           unsigned channel)
+extract_chan_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
+                                      unsigned channel)
 {
   return (
-    (sample >> (LABC::OSC::RAW_DATA_SHIFT_BIT_COUNT * channel)) &
+    (raw_buff_samp >> (LABC::OSC::RAW_DATA_SHIFT_BIT_COUNT * channel)) &
       LABC::OSC::RAW_DATA_POST_SHIFT_MASK
   );
 }
 
 constexpr uint32_t LAB_Oscilloscope:: 
-conv_raw_buff_arrange_bits (uint32_t sample)
+arrange_raw_chan_bits (uint32_t raw_chan_bits)
 {
+  // all of these were determined using manual testing
+
   // at 250MHz GPU core speed and 10MHz SPI frequency
   // return (((sample & 0x007F) << 5) | ((sample & 0xF800) >> 11));
 
   // at 500MHz GPU core speed at 10MHz SPI frequency
-  return (((sample & 0xF000) >> 12) | ((sample & 0x00FF) << 4));
+  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+}
+
+constexpr double LAB_Oscilloscope::
+conv_raw_chan_bits_to_actual_value (uint32_t arranged_bits_abs_val, 
+                                    bool     arranged_bits_sign)
+{
+  if (arranged_bits_sign)
+  {
+    return (static_cast<double>(arranged_bits_abs_val) *
+      LABC::OSC::CONVERSION_CONSTANT);
+  }
+  else 
+  {
+    return ((static_cast<double>(arranged_bits_abs_val) * 
+      LABC::OSC::CONVERSION_CONSTANT) - 
+      LABC::OSC::CONVERSION_REFERENCE_VOLTAGE
+    );
+  }
 }
 
 constexpr uint32_t LAB_Oscilloscope:: 
@@ -622,31 +616,13 @@ reverse_arranged_bits (uint32_t arranged_bits)
   return (((arranged_bits & 0x000F) << 12) | ((arranged_bits & 0xFFF0) >> 4));
 }
 
-constexpr double LAB_Oscilloscope::
-conv_raw_buff_bits_actual_value (uint32_t abs_arranged_bits, 
-                                 bool     sign)
-{
-  if (sign)
-  {
-    return (static_cast<double>(abs_arranged_bits) *
-      LABC::OSC::CONVERSION_CONSTANT);
-  }
-  else 
-  {
-    return ((static_cast<double>(abs_arranged_bits) * 
-      LABC::OSC::CONVERSION_CONSTANT) - 
-      LABC::OSC::CONVERSION_REFERENCE_VOLTAGE
-    );
-  }
-}
-
 constexpr uint32_t LAB_Oscilloscope:: 
 conv_raw_buff_get_arranged_bits (uint32_t sample,
                                  unsigned channel)
 {
-  uint32_t raw_chan_bits = conv_raw_buff_xtract_chan (sample, channel);
+  uint32_t raw_chan_bits = extract_chan_bits_from_raw_buff_samp (sample, channel);
 
-  return (conv_raw_buff_arrange_bits (raw_chan_bits));
+  return (arrange_raw_chan_bits (raw_chan_bits));
 }
 
 void LAB_Oscilloscope:: 
@@ -1003,7 +979,7 @@ find_trigger_point_loop ()
   
   while (m_parent_data.find_trigger)
   {
-    if (!m_parent_data.trig_found)
+    if (!m_parent_data.trigger_found)
     {
       // 1. Check the oscilloscope RX DMA channel interrupt if it is asserted.
       //    If it is, this means that a buffer was just fully written to.
@@ -1058,10 +1034,10 @@ find_trigger_point ()
           m_parent_data.trig_source
         );
 
-        if (samp >= m_parent_data.trig_level_bits)
+        if (samp >= m_parent_data.trigger_level_raw_bits)
         {
           m_parent_data.trig_index = a;
-          m_parent_data.trig_found = true;
+          m_parent_data.trigger_found = true;
 
           return (true);
         }
@@ -1089,10 +1065,10 @@ find_trigger_point ()
               m_parent_data.trig_source
             );
 
-            if ((samp >= m_parent_data.trig_level_bits) && (prev < m_parent_data.trig_level_bits))
+            if ((samp >= m_parent_data.trigger_level_raw_bits) && (prev < m_parent_data.trigger_level_raw_bits))
             {
               m_parent_data.trig_index = a;
-              m_parent_data.trig_found = true;
+              m_parent_data.trigger_found = true;
 
               return (true);
             }
@@ -1115,10 +1091,10 @@ find_trigger_point ()
               m_parent_data.trig_source
             );
 
-            if ((samp <= m_parent_data.trig_level_bits) && (prev > m_parent_data.trig_level_bits))
+            if ((samp <= m_parent_data.trigger_level_raw_bits) && (prev > m_parent_data.trigger_level_raw_bits))
             {
               m_parent_data.trig_index = a;
-              m_parent_data.trig_found = true;
+              m_parent_data.trigger_found = true;
 
               return (true);
             }
@@ -1141,11 +1117,11 @@ find_trigger_point ()
               m_parent_data.trig_source
             );
 
-            if (((samp <= m_parent_data.trig_level_bits) && (prev > m_parent_data.trig_level_bits)) ||
-                ((samp >= m_parent_data.trig_level_bits) && (prev < m_parent_data.trig_level_bits)))
+            if (((samp <= m_parent_data.trigger_level_raw_bits) && (prev > m_parent_data.trigger_level_raw_bits)) ||
+                ((samp >= m_parent_data.trigger_level_raw_bits) && (prev < m_parent_data.trigger_level_raw_bits)))
             {
               m_parent_data.trig_index = a;
-              m_parent_data.trig_found = true;
+              m_parent_data.trigger_found = true;
 
               return (true);
             }
@@ -1231,7 +1207,7 @@ create_trigger_frame ()
     );
   }
 
-  m_parent_data.trig_frame_ready = true;
+  m_parent_data.trigger_frame_ready = true;
 }
 
 void LAB_Oscilloscope:: 
@@ -1239,22 +1215,22 @@ find_trigger_timeout_timer ()
 {
   // uint32_t start    = m_LAB_Core->st.low ();
   // uint32_t timeout  = start + (LABC::OSC::) 
-  // while (m_parent_data.trig_mode == LABE::OSC::TRIG::MODE::AUTO)
+  // while (m_parent_data.trigger_mode == LABE::OSC::TRIG::MODE::AUTO)
   // {
   //   {
   //     uint32_t start    = m_LAB_Core->st.low ();
   //     uint32_t timeout  = 0;
 
-  //     while (!m_parent_data.trig_found)
+  //     while (!m_parent_data.trigger_found)
   //     {
   //       if (m_LAB_Core->st.low () >= timeout)
   //       {
   //         m_parent_data.find_trig_timeout = true;
   //       }
 
-  //       while (!m_parent_data.trig_found);
+  //       while (!m_parent_data.trigger_found);
 
-  //       m_parent_data.trig_found = false;
+  //       m_parent_data.trigger_found = false;
   //       m_parent_data.find_trig_timeout = false;
   //     }
   //   }
@@ -1282,15 +1258,15 @@ config_dma_cb_record ()
 void LAB_Oscilloscope:: 
 trigger_mode (LABE::OSC::TRIG::MODE value)
 {
-  m_parent_data.trig_mode = value;
+  m_parent_data.trigger_mode = value;
 
-  parse_trigger (m_parent_data.trig_mode);
+  parse_trigger (m_parent_data.trigger_mode);
 }
 
 LABE::OSC::TRIG::MODE LAB_Oscilloscope:: 
 trigger_mode () const
 {
-  return (m_parent_data.trig_mode);
+  return (m_parent_data.trigger_mode);
 }
 
 void LAB_Oscilloscope:: 
@@ -1341,8 +1317,8 @@ trigger_level (double value)
     LABC::OSC::MAX_TRIGGER_LEVEL
   ))
   {
-    m_parent_data.trig_level = value;
-    m_parent_data.trig_level = LABF::normalize (
+    m_parent_data.trigger_level = value;
+    m_parent_data.trigger_level_raw_bits = LABF::normalize (
       value,
       LABC::OSC::MIN_TRIGGER_LEVEL,
       LABC::OSC::MAX_TRIGGER_LEVEL,
@@ -1360,7 +1336,7 @@ trigger_level (double value)
 double LAB_Oscilloscope::    
 trigger_level () const
 {
-  return (m_parent_data.trig_level);
+  return (m_parent_data.trigger_level);
 }
 
 void LAB_Oscilloscope::

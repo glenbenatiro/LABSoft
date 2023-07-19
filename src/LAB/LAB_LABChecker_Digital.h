@@ -4,11 +4,10 @@
 #include <string>
 #include <vector>
 
-#include "../Utility/pugixml.hpp"
-#include "../Utility/Defaults.h"
 #include "LAB_Core.h"
+#include "../Utility/pugixml.hpp"
 
-// Forward declare LAB, include #LAB.h in cpp file
+// forward declare LAB, #include in .cpp file
 class LAB;
 
 class LAB_LABChecker_Digital

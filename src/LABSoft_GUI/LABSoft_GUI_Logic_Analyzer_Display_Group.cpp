@@ -6,7 +6,7 @@
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 
-#include "../Utility/LabelValue.h"
+#include "../Utility/LAB_LabelValue.h"
 
 LABSoft_GUI_Logic_Analyzer_Display_Group::
 LABSoft_GUI_Logic_Analyzer_Display_Group 

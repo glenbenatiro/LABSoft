@@ -445,8 +445,8 @@ void LABSoft_GUI::cb_oscilloscope_fl_choice_trigger_mode(Fl_Choice* o, void* v) 
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_trigger_mode[] = {
  {"None", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"Auto", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Normal", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Auto", 0,  0, 0, 1, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -471,7 +471,6 @@ void LABSoft_GUI::cb_oscilloscope_fl_choice_trigger_type(Fl_Choice* o, void* v) 
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_trigger_type[] = {
- {"Level", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Edge", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
@@ -1003,7 +1002,6 @@ LABSoft_GUI::LABSoft_GUI() {
       { main_fl_group_oscilloscope_tab = new Fl_Group(0, 60, 1366, 708, "Oscilloscope");
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
-        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_fl_button_record = new Fl_Button(1205, 95, 120, 60, "Record");
           oscilloscope_fl_button_record->box(FL_GTK_UP_BOX);
           oscilloscope_fl_button_record->color((Fl_Color)53);
@@ -1106,7 +1104,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_fl_slider_trigger_level->maximum(4095);
             oscilloscope_fl_slider_trigger_level->step(1);
             oscilloscope_fl_slider_trigger_level->value(2048);
-            oscilloscope_fl_slider_trigger_level->hide();
+            oscilloscope_fl_slider_trigger_level->deactivate();
           } // Fl_Slider* oscilloscope_fl_slider_trigger_level
           oscilloscope_labsoft_oscilloscope_display_group_display->end();
         } // LABSoft_GUI_Oscilloscope_Display_Group* oscilloscope_labsoft_oscilloscope_display_group_display
@@ -1599,6 +1597,7 @@ LABSoft_GUI::LABSoft_GUI() {
       } // Fl_Group* main_fl_group_digital_circuit_checker_tab
       { main_fl_group_labchecker_digital = new Fl_Group(0, 60, 1366, 708, "LABChecker - Digital");
         main_fl_group_labchecker_digital->color(FL_LIGHT3);
+        main_fl_group_labchecker_digital->hide();
         { Fl_Group* o = new Fl_Group(60, 120, 180, 240, "Settings");
           o->box(FL_ROUNDED_FRAME);
           { digital_fl_choice_input_bits = new Fl_Choice(95, 160, 120, 30, "Input Bits");

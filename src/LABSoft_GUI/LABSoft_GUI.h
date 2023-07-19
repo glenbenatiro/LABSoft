@@ -3,7 +3,6 @@
 #ifndef LABSoft_GUI_h
 #define LABSoft_GUI_h
 #include <FL/Fl.H>
-#include "../Utility/Defaults.h"
 #include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 #include "LABSoft_GUI_Fl_Choice_With_Scroll.h"
 class LABSoft_Controller;

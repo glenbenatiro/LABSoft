@@ -1,12 +1,12 @@
 #ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
-#include "FL/Fl_Toggle_Button.H"
+#include <FL/Fl_Toggle_Button.H>
 
 #include "../LAB/LAB.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 
-// forward declare LABSoft_Controller
+// forward declare LABSoft_Controller, #include in .cpp file
 class LABSoft_Controller;
 
 class LABSoft_Controller_Oscilloscope
@@ -17,12 +17,11 @@ class LABSoft_Controller_Oscilloscope
     LABSoft_Controller* m_LABSoft_Controller;
 
   private: 
-    void init         ();
-    void link_widgets ();
-    void init_gui     ();
+    void init                             ();
+    void link_widgets                     ();
+    void init_gui                         ();
     void oscilloscope_display_group_init  ();
-    void init_gui_values ();
-    
+    void init_gui_values                  ();
 
   public:
     LABSoft_Controller_Oscilloscope (LAB*                 _LAB, 
