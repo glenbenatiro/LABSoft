@@ -21,9 +21,9 @@ class LAB_Function_Generator
     LAB_MCP4XXX m_digipot_offset    [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
   
   private:
-    void init_state ();
-    void set_Rf     (unsigned channel, double value);
-  
+    void init_gpio_pins ();
+    void set_Rf         (unsigned channel, double value);
+    
   public:
     LAB_Parent_Data_Function_Generator m_parent_data;
 

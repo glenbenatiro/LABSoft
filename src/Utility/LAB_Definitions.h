@@ -36,6 +36,7 @@ class LAB_Parent_Data_Oscilloscope
     // Mode
     LABE::OSC::MODE mode                      = LABC::OSC::MODE;
     LABE::OSC::MODE last_mode_before_repeated = mode; 
+    bool            auto_mode_frame_ready     = false;
 
     // Horizontal
     double    horizontal_offset               = LABC::OSC::HORIZONTAL_OFFSET;
@@ -52,7 +53,7 @@ class LAB_Parent_Data_Oscilloscope
     std::array<
       uint32_t, 
       LABC::OSC::NUMBER_OF_SAMPLES
-    > raw_sample_buffer;              
+    > raw_data_buffer;              
 
     std::array<
       LAB_Channel_Data_Oscilloscope, 
@@ -62,6 +63,10 @@ class LAB_Parent_Data_Oscilloscope
     double                w_samp_count            = LABC::OSC::NUMBER_OF_SAMPLES;
   
     // Trigger 
+    bool                  find_trigger            = false; 
+    bool                  trigger_frame_ready     = false;
+    bool                  trigger_found           = false;
+    bool                  find_trigger_timeout    = false;
     LABE::OSC::TRIG::MODE trigger_mode            = LABC::OSC::TRIGGER_MODE;
     unsigned              trig_source             = LABC::OSC::TRIGGER_SOURCE;
     LABE::OSC::TRIG::TYPE trig_type               = LABC::OSC::TRIGGER_TYPE;
@@ -71,10 +76,9 @@ class LAB_Parent_Data_Oscilloscope
     unsigned              find_trig_sample_skip   = 10;
     unsigned              trig_buff_index         = 0;
     unsigned              trig_index              = 0;
-    bool                  find_trigger            = false; 
-    bool                  trigger_frame_ready     = false;
-    bool                  trigger_found           = false;
-    bool                  find_trigger_timeout    = false;
+    
+    // Debug
+    unsigned              buffer_overflow_count   = 0;
 
     struct TriggerBuffers
     {
@@ -147,8 +151,8 @@ struct LAB_Parent_Data_Function_Generator
 
 struct LAB_Channel_Data_Logic_Analyzer
 {
-  bool      is_enabled                        = true;
-  unsigned  raw_sample_buffer_working_size      = 0;
+  bool      is_enabled                      = true;
+  unsigned  raw_sample_buffer_working_size  = 0;
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
@@ -170,25 +174,30 @@ class LAB_Parent_Data_Logic_Analyzer
     }
 
     // State
-    bool      is_enabled          = false;
+    bool      is_logan_core_running = false;
+    bool      is_enabled            = false;
 
     // Mode
     LABE::LOGAN::MODE mode = LABC::LOGAN::MODE;
 
     // Horizontal
     double    sampling_rate       = LABC::LOGAN::SAMPLING_RATE;
-    
     double    time_per_division   = 0.0;
     double    horizontal_offset   = 0.0;
+    unsigned  samples             = LABC::LOGAN::NUMBER_OF_SAMPLES;
     unsigned  w_samp_count        = LABC::LOGAN::NUMBER_OF_SAMPLES;
 
     std::array <
       uint32_t, 
       LABC::LOGAN::NUMBER_OF_SAMPLES
-    > raw_sample_buffer;
+    > raw_data_buffer;
       
     std::array <LAB_Channel_Data_Logic_Analyzer, 
       LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
+    
+    // Trigger 
+    bool                    find_trigger   = false;
+    LABE::LOGAN::TRIG::MODE trigger_mode  = LABC::LOGAN::TRIGGER_MODE;
 };
 
 struct LAB_DMA_Data_Logic_Analyzer

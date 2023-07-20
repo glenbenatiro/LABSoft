@@ -35,11 +35,10 @@ init_spi ()
   m_LAB_Core->spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
   m_LAB_Core->spi.frequency   (LABC::SPI::FREQUENCY);
 
-  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::CE0,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::CE1,  AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
-  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (AP::RPI::PIN::SPI::SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_ADC_CS,   AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_ADC_MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_ADC_MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_ADC_SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
 }
 
 void LAB_Oscilloscope:: 
@@ -441,6 +440,7 @@ coupling (unsigned channel)
   return (m_parent_data.channel_data[channel].coupling);
 }
 
+
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
@@ -466,6 +466,11 @@ load_data_samples ()
 
     case (LABE::OSC::TRIG::MODE::AUTO):
     {
+      if (m_parent_data.auto_mode_frame_ready)
+      {
+        parse_raw_sample_buffer ();
+      }
+
       break;
     }
   }  
@@ -483,7 +488,7 @@ fill_raw_sample_buffer ()
     case (LABE::OSC::MODE::SCREEN):
     {
       std::memcpy (
-        m_parent_data.raw_sample_buffer.data (),
+        m_parent_data.raw_data_buffer.data (),
         const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
         sizeof (uint32_t) * m_parent_data.samples
       );
@@ -498,7 +503,7 @@ fill_raw_sample_buffer ()
         if (dma_data.status[buff])
         {
           std::memcpy (
-            m_parent_data.raw_sample_buffer.data (),
+            m_parent_data.raw_data_buffer.data (),
             const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[buff])),
             sizeof (uint32_t) * m_parent_data.samples
           );
@@ -509,6 +514,7 @@ fill_raw_sample_buffer ()
         if (dma_data.status[buff ^ 1])
         {
           // std::cout << "OVERFLOW!" << "\n";
+          m_parent_data.buffer_overflow_count++;
 
           dma_data.status[0] = dma_data.status[1] = 0;
 
@@ -541,16 +547,16 @@ parse_raw_sample_buffer ()
     for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
     {
       m_parent_data.channel_data[chan].samples[samp] = 
-        conv_raw_buff_samp_to_actual_value (m_parent_data.raw_sample_buffer[samp], chan);
+        conv_raw_buff_samp_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
 
       // For debug
       // if (samp == 0 && chan == 0)
       // {
-      //   uint32_t raw_chan_bits = extract_chan_bits_from_raw_buff_samp (m_parent_data.raw_sample_buffer[samp], chan);
+      //   uint32_t raw_chan_bits = extract_chan_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
 
       //   std::cout << std::bitset <16> (raw_chan_bits);
       //   std::cout << " - " << (arrange_raw_chan_bits (raw_chan_bits));
-      //   std::cout << " - " << conv_raw_buff_samp_to_actual_value (m_parent_data.raw_sample_buffer[samp], chan);
+      //   std::cout << " - " << conv_raw_buff_samp_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
       //   std::cout << "\n";
       // }
     }
@@ -762,7 +768,7 @@ horizontal_offset (double value)
 }
 
 double LAB_Oscilloscope:: 
-horizontal_offset ()
+horizontal_offset () const
 {
   return (m_parent_data.horizontal_offset);
 }
@@ -829,16 +835,16 @@ samples (unsigned value)
 }
 
 void LAB_Oscilloscope:: 
-set_samples (unsigned samples)
+set_samples (unsigned value)
 {
-  m_parent_data.samples = samples;
+  m_parent_data.samples = value;
 
   LAB_DMA_Data_Oscilloscope& uncached_dma_data = 
     *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
   
-  uncached_dma_data.cbs[0].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * samples);
-  uncached_dma_data.cbs[2].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * samples);
-  uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * samples);
+  uncached_dma_data.cbs[0].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
+  uncached_dma_data.cbs[2].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
+  uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
 }
 
 void LAB_Oscilloscope:: 
@@ -875,14 +881,17 @@ set_sampling_rate (double value)
 // --- Trigger ---
 
 void LAB_Oscilloscope:: 
-parse_trigger (LABE::OSC::TRIG::MODE value)
+parse_trigger_mode ()
 {
-  switch (value)
+  switch (m_parent_data.trigger_mode)
   {
     case (LABE::OSC::TRIG::MODE::NONE):
     {
-      m_parent_data.find_trigger = false;
-      m_thread_find_trigger.join ();
+      if (m_thread_find_trigger.joinable ())
+      {
+        m_parent_data.find_trigger = false;
+        m_thread_find_trigger.join ();
+      }
 
       break;
     }
@@ -891,7 +900,8 @@ parse_trigger (LABE::OSC::TRIG::MODE value)
     {
       if (!m_thread_find_trigger.joinable ())
       {
-        m_thread_find_trigger  = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
+        m_parent_data.find_trigger = true;
+        m_thread_find_trigger = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
       }
 
       break;
@@ -899,8 +909,11 @@ parse_trigger (LABE::OSC::TRIG::MODE value)
 
     case (LABE::OSC::TRIG::MODE::NORMAL):
     {
-      m_parent_data.find_trigger  = true;
-      m_thread_find_trigger       = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
+      if (!m_thread_find_trigger.joinable ())
+      {
+        m_parent_data.find_trigger = true;
+        m_thread_find_trigger = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
+      }
 
       break;
     }
@@ -1157,14 +1170,14 @@ create_trigger_frame ()
               copy_count_2  = samp_half - copy_count_1;
     
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data (),
+      m_parent_data.raw_data_buffer.data (),
       m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () 
         + (m_parent_data.trig_index - samp_half_index),
       sizeof (uint32_t) * copy_count_0
     );
 
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data () + (copy_count_0),
+      m_parent_data.raw_data_buffer.data () + (copy_count_0),
       m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () 
         + (m_parent_data.trig_index + 1),
       sizeof (uint32_t) * copy_count_1
@@ -1173,7 +1186,7 @@ create_trigger_frame ()
     while (!((*(m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS)) >> LABC::DMA::CHAN::OSC_RX) & 0x1));
 
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data () + (copy_count_0 + copy_count_1),
+      m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
       const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd[m_parent_data.trig_buff_index ^ 1])),
       sizeof (uint32_t) * copy_count_2
     );
@@ -1187,20 +1200,20 @@ create_trigger_frame ()
               copy_count_0 = samp_half - copy_count_1;
                   
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data (),
+      m_parent_data.raw_data_buffer.data (),
       m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index ^ 1].data () 
         + (LABC::OSC::NUMBER_OF_SAMPLES - copy_count_0),
       sizeof (uint32_t) * copy_count_0
     );
 
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data () + (copy_count_0),
+      m_parent_data.raw_data_buffer.data () + (copy_count_0),
       m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data (),
       sizeof (uint32_t) * copy_count_1
     );
 
     std::memcpy (
-      m_parent_data.raw_sample_buffer.data () + (copy_count_0 + copy_count_1),
+      m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
       m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () + 
         (m_parent_data.trig_index + 1),
       sizeof (uint32_t) * copy_count_2
@@ -1260,7 +1273,7 @@ trigger_mode (LABE::OSC::TRIG::MODE value)
 {
   m_parent_data.trigger_mode = value;
 
-  parse_trigger (m_parent_data.trigger_mode);
+  parse_trigger_mode ();
 }
 
 LABE::OSC::TRIG::MODE LAB_Oscilloscope:: 
@@ -1542,19 +1555,19 @@ vertical_offset (unsigned channel)
 }
 
 double LAB_Oscilloscope:: 
-time_per_division ()
+time_per_division () const
 {
   return (m_parent_data.time_per_division);
 }
 
 unsigned LAB_Oscilloscope:: 
-samples ()
+samples () const
 {
   return (m_parent_data.samples);
 }
 
 double LAB_Oscilloscope:: 
-sampling_rate ()
+sampling_rate () const
 {
   return (m_parent_data.sampling_rate);
 }

@@ -7,6 +7,7 @@
 #include "LABSoft_Controller.h"
 #include "../Utility/LAB_LabelValue.h"
 #include "../Utility/LAB_Utility_Functions.h"
+#include "../Utility/LABSoft_GUI_Label_Values.h"
 
 LABSoft_Controller_Oscilloscope::
 LABSoft_Controller_Oscilloscope (LAB*                 _LAB, 
@@ -733,7 +734,7 @@ update_gui_horizontal ()
   // 6. Display Mode
   m_LABSoft_GUI->oscilloscope_fl_choice_mode->value (
     m_LABSoft_GUI->oscilloscope_fl_choice_mode->find_index (
-      (LABSOFT_GUI_LABEL_VALUES::OSC::MODE.at (m_LAB->m_Oscilloscope.mode ())).c_str ()
+      (LABS_GUI_VALUES::OSC::MODE.at (m_LAB->m_Oscilloscope.mode ())).c_str ()
     )
   );
 
@@ -751,7 +752,7 @@ init_gui_values ()
   // --- Mode ---
   Fl_Choice* w = m_LABSoft_GUI->oscilloscope_fl_choice_mode;
 
-  w->value (w->find_index (LABSOFT_GUI_LABEL_VALUES::OSC::MODE.at (m_LAB->
+  w->value (w->find_index (LABS_GUI_VALUES::OSC::MODE.at (m_LAB->
     m_Oscilloscope.mode ()).c_str ()));
 
   // --- Vertical ---
@@ -765,7 +766,7 @@ init_gui_values ()
   LABSoft_GUI_Fl_Choice_With_Scroll* temp_0 = 
     gui.oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling;
   
-  temp_0->value (temp_0->find_index (LABSOFT_GUI_LABEL_VALUES::OSC::SCALING.at (
+  temp_0->value (temp_0->find_index (LABS_GUI_VALUES::OSC::SCALING.at (
     m_LAB->m_Oscilloscope.channel_data (0).scaling).c_str ()));
 
   // Channel 0 Voltage per Division
@@ -789,7 +790,7 @@ init_gui_values ()
   LABSoft_GUI_Fl_Choice_With_Scroll* temp_1 = 
     gui.oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_1_scaling;
   
-  temp_1->value (temp_1->find_index (LABSOFT_GUI_LABEL_VALUES::OSC::SCALING.at (
+  temp_1->value (temp_1->find_index (LABS_GUI_VALUES::OSC::SCALING.at (
     m_LAB->m_Oscilloscope.channel_data (1).scaling).c_str ()));
 
   // Channel 1 Voltage per Division
@@ -826,6 +827,12 @@ init_gui_values ()
   );
 
   // --- Trigger ---
+
+  
+  gui.oscilloscope_fl_input_choice_trigger_level->value (
+    LAB_LabelValue (osc.trigger_level ()).to_label_text (
+    LAB_LabelValue::UNIT::VOLT).c_str ()
+  );
 }
 
 void LABSoft_Controller_Oscilloscope:: 

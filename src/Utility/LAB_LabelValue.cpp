@@ -58,10 +58,10 @@ LAB_LabelValue (double           value,
 
 LAB_LabelValue:: 
 LAB_LabelValue (const char*             input,
-                  LAB_LabelValue::UNIT  unit)
+                LAB_LabelValue::UNIT  unit)
   : LAB_LabelValue (input, 0.0, unit)
 {
-  debug ();
+  // debug ();
 }
 
 LAB_LabelValue::
@@ -74,7 +74,7 @@ LAB_LabelValue (const char*       input,
   m_unit        = unit;
   m_is_valid    = parse_input (m_raw_string);
 
-  debug ();
+  // debug ();
 }
 
 template <typename Key, typename Value>

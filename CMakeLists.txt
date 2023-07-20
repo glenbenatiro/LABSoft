@@ -55,6 +55,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp
   src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp
   src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.cpp
   
   src/LAB_Libraries/LAB_AD9833.cpp
   src/LAB_Libraries/LAB_MCP4XXX.cpp

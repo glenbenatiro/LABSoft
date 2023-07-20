@@ -3,6 +3,7 @@
 #include "LABSoft_Controller.h"
 #include "../Utility/LAB_LabelValue.h"
 #include "../Utility/LAB_Utility_Functions.h"
+#include "../Utility/LABSoft_GUI_Label_Values.h"
 
 LABSoft_Controller_Function_Generator::
 LABSoft_Controller_Function_Generator (LAB*                 _LAB, 
@@ -13,13 +14,45 @@ LABSoft_Controller_Function_Generator (LAB*                 _LAB,
     m_LABSoft_GUI         (_LABSoft_GUI),
     m_LABSoft_Controller  (_LABSoft_Controller)
 {
-
+  init_gui_values ();
 }
 
 void LABSoft_Controller_Function_Generator:: 
-init_state ()
+init_gui_values ()
 {
-  
+  LAB_Function_Generator& gen = m_LAB->m_Function_Generator;
+  LABSoft_GUI&            gui = *m_LABSoft_GUI;
+
+  // Channel 0
+  Fl_Choice& w = *(gui.function_generator_fl_choice_wave_type);
+
+  w.value (w.find_index (LABS_GUI_VALUES::FUNC_GEN::WAVE_TYPE.at 
+    (gen.wave_type (0)).c_str ()));
+
+  gui.function_generator_fl_input_choice_amplitude->value (
+    LAB_LabelValue (gen.amplitude (0)).to_label_text 
+    (LAB_LabelValue::UNIT::VOLT).c_str ()
+  );
+
+  gui.function_generator_fl_input_choice_frequency->value (
+    LAB_LabelValue (gen.frequency (0)).to_label_text 
+    (LAB_LabelValue::UNIT::HERTZ).c_str ()
+  );
+
+  gui.function_generator_fl_input_choice_period->value (
+    LAB_LabelValue (gen.period (0)).to_label_text
+    (LAB_LabelValue::UNIT::SECOND).c_str ()
+  );
+
+  gui.function_generator_fl_input_choice_phase->value (
+    LAB_LabelValue (gen.phase (0)).to_label_text 
+    (LAB_LabelValue::UNIT::DEGREE).c_str ()
+  );
+
+  gui.function_generator_fl_input_choice_vertical_offset->value (
+    LAB_LabelValue (gen.vertical_offset (0)).to_label_text
+    (LAB_LabelValue::UNIT::VOLT).c_str ()
+  );
 }
 
 void LABSoft_Controller_Function_Generator:: 

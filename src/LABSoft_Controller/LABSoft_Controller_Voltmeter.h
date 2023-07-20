@@ -15,6 +15,9 @@ class LABSoft_Controller_Voltmeter
     LAB*                m_LAB;
     LABSoft_GUI*        m_LABSoft_GUI;
     LABSoft_Controller* m_LABSoft_Controller;
+
+  private:
+    void init_gui_values ();
     
   public:
     LABSoft_Controller_Voltmeter (LAB*                _LAB, 

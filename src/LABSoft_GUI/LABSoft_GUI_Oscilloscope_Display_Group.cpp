@@ -74,7 +74,7 @@ draw ()
 {
   update_display_status ();
 
-  draw_box      (FL_FLAT_BOX, LABC::OSC_DISPLAY_GROUP::BACKGROUND_COLOR);
+  draw_box      (FL_THIN_DOWN_BOX, LABC::OSC_DISPLAY_GROUP::BACKGROUND_COLOR);
   draw_children ();
 
   m_display->redraw ();

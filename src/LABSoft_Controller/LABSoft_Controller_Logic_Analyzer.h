@@ -24,15 +24,21 @@ class LABSoft_Controller_Logic_Analyzer
                                        LABSoft_GUI*         _LABSoft_GUI,
                                        LABSoft_Controller*  _LABSoft_Controller);
 
+    void init                 ();
     void reserve_pixel_points ();
+    void init_gui_values      ();
 
     // callback functions
-    void cb_run_stop          (Fl_Light_Button *w, void *data);
-    void cb_memory_depth      (Fl_Input_Choice *w, void *data);
-    void cb_sampling_rate     (Fl_Input_Choice *w, void *data);
-    void cb_time_per_division (Fl_Input_Choice *w, void *data);
-    void cb_horizontal_offset (Fl_Input_Choice *w, void *data);
-    void cb_display_mode      (Fl_Choice       *w, void *data);
+    void cb_run_stop          (Fl_Light_Button* w, void* data);
+    void cb_single            (Fl_Button*       w, void* data);
+    void cb_samples           (Fl_Input_Choice* w, void* data);
+    void cb_sampling_rate     (Fl_Input_Choice* w, void* data);
+    void cb_time_per_division (Fl_Input_Choice* w, void* data);
+    void cb_horizontal_offset (Fl_Input_Choice* w, void* data);
+    void cb_display_mode      (Fl_Choice*       w, void* data);
+
+    // Trigger
+    void cb_trigger_mode      (Fl_Choice* w, void* data);
 
     // Display update cycle
     void display_update_cycle ();

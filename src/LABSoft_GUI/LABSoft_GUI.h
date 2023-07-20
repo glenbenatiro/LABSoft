@@ -18,6 +18,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Menu_Button.H>
 #include "LABSoft_GUI_Logic_Analyzer_Display_Group.h"
 #include <FL/Fl_Text_Display.H>
 #include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"
@@ -253,11 +254,11 @@ private:
   static void cb_function_generator_fl_input_choice_phase(Fl_Input_Choice*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
 public:
-  Fl_Input_Choice *function_generator_fl_input_choice_offset;
+  Fl_Input_Choice *function_generator_fl_input_choice_vertical_offset;
 private:
-  inline void cb_function_generator_fl_input_choice_offset_i(Fl_Input_Choice*, long);
-  static void cb_function_generator_fl_input_choice_offset(Fl_Input_Choice*, long);
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_offset[];
+  inline void cb_function_generator_fl_input_choice_vertical_offset_i(Fl_Input_Choice*, long);
+  static void cb_function_generator_fl_input_choice_vertical_offset(Fl_Input_Choice*, long);
+  static Fl_Menu_Item menu_function_generator_fl_input_choice_vertical_offset[];
 public:
   Fl_Light_Button *function_generator_fl_light_button_run_stop;
 private:
@@ -270,17 +271,33 @@ private:
   inline void cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
   static void cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
-  Fl_Input_Choice *logic_analyzer_fl_input_choice_memory_depth;
+  Fl_Button *logic_analyzer_fl_button_single;
 private:
-  inline void cb_logic_analyzer_fl_input_choice_memory_depth_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_memory_depth(Fl_Input_Choice*, void*);
-  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_memory_depth[];
+  inline void cb_logic_analyzer_fl_button_single_i(Fl_Button*, void*);
+  static void cb_logic_analyzer_fl_button_single(Fl_Button*, void*);
 public:
-  Fl_Input_Choice *logic_analyzer_fl_input_choice_sampling_rate;
+  Fl_Menu_Button *logic_analyzer_menu_button_add_channel;
+  static Fl_Menu_Item menu_logic_analyzer_menu_button_add_channel[];
+  Fl_Menu_Button *logic_analyzer_fl_menu_button_remove_channel;
+  static Fl_Menu_Item menu_logic_analyzer_fl_menu_button_remove_channel[];
+  static Fl_Menu_Item *Clear;
+  Fl_Choice *logic_analyzer_fl_choice_display_mode;
 private:
-  inline void cb_logic_analyzer_fl_input_choice_sampling_rate_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_sampling_rate(Fl_Input_Choice*, void*);
-  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sampling_rate[];
+  inline void cb_logic_analyzer_fl_choice_display_mode_i(Fl_Choice*, void*);
+  static void cb_logic_analyzer_fl_choice_display_mode(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_logic_analyzer_fl_choice_display_mode[];
+public:
+  Fl_Choice *logic_analyzer_fl_choice_trigger_mode;
+private:
+  inline void cb_logic_analyzer_fl_choice_trigger_mode_i(Fl_Choice*, void*);
+  static void cb_logic_analyzer_fl_choice_trigger_mode(Fl_Choice*, void*);
+  static Fl_Menu_Item menu_logic_analyzer_fl_choice_trigger_mode[];
+public:
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_horizontal_offset;
+private:
+  inline void cb_logic_analyzer_fl_input_choice_horizontal_offset_i(Fl_Input_Choice*, void*);
+  static void cb_logic_analyzer_fl_input_choice_horizontal_offset(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_horizontal_offset[];
 public:
   Fl_Input_Choice *logic_analyzer_fl_input_choice_time_per_division;
 private:
@@ -288,17 +305,17 @@ private:
   static void cb_logic_analyzer_fl_input_choice_time_per_division(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_time_per_division[];
 public:
-  Fl_Input_Choice *logic_analyzer_fl_input_choice_position;
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_samples;
 private:
-  inline void cb_logic_analyzer_fl_input_choice_position_i(Fl_Input_Choice*, void*);
-  static void cb_logic_analyzer_fl_input_choice_position(Fl_Input_Choice*, void*);
-  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_position[];
+  inline void cb_logic_analyzer_fl_input_choice_samples_i(Fl_Input_Choice*, void*);
+  static void cb_logic_analyzer_fl_input_choice_samples(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_samples[];
 public:
-  Fl_Choice *logic_analyzer_fl_choice_display_mode;
+  Fl_Input_Choice *logic_analyzer_fl_input_choice_sampling_rate;
 private:
-  inline void cb_logic_analyzer_fl_choice_display_mode_i(Fl_Choice*, void*);
-  static void cb_logic_analyzer_fl_choice_display_mode(Fl_Choice*, void*);
-  static Fl_Menu_Item menu_logic_analyzer_fl_choice_display_mode[];
+  inline void cb_logic_analyzer_fl_input_choice_sampling_rate_i(Fl_Input_Choice*, void*);
+  static void cb_logic_analyzer_fl_input_choice_sampling_rate(Fl_Input_Choice*, void*);
+  static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sampling_rate[];
 public:
   LABSoft_GUI_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
   Fl_Group *main_fl_group_circuit_checker_tab;

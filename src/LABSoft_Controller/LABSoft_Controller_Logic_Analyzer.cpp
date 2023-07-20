@@ -12,15 +12,55 @@ LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB,
     m_LABSoft_GUI         (_LABSoft_GUI),
     m_LABSoft_Controller  (_LABSoft_Controller)
 {
-  // Link the LAB_Logic_Analyzer_Parent_Data struct from LAB_Logic_Analyzer
-  // to the LABSoft_GUI_Logic_Analyzer_Display_Group class in the GUI
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-    load_logan_parent_data (m_LAB->m_Logic_Analyzer.m_parent_data);
+  init ();
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+init ()
+{
+  LABSoft_GUI& gui = *m_LABSoft_GUI;
+
+  LABSoft_GUI_Logic_Analyzer_Display_Group& group = 
+    *(gui.logic_analyzer_labsoft_logic_analyzer_display_group_display);
   
-  // reserve() the pixel point vectors in the LAB_Logic_Analyzer_Parent_Data
-  // struct 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-    reserve_pixel_points ();
+  LAB_Logic_Analyzer& logan = m_LAB->m_Logic_Analyzer;
+
+  // 1.
+  group.load_logan_parent_data (logan.m_parent_data);
+
+  // 2. 
+  group.reserve_pixel_points ();
+
+  // 3. 
+  init_gui_values ();  
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+init_gui_values ()
+{
+  LAB_Logic_Analyzer& logan = m_LAB->m_Logic_Analyzer;
+  LABSoft_GUI&        gui   = *m_LABSoft_GUI;  
+
+  // Horizontal
+  gui.logic_analyzer_fl_input_choice_horizontal_offset->value (
+    LAB_LabelValue (logan.horizontal_offset ()).to_label_text (
+    LAB_LabelValue::UNIT::SECOND).c_str ()
+  );
+
+  gui.logic_analyzer_fl_input_choice_time_per_division->value (
+    LAB_LabelValue (logan.time_per_division ()).to_label_text (
+    LAB_LabelValue::UNIT::SECOND_PER_DIVISION).c_str ()
+  );
+
+  gui.logic_analyzer_fl_input_choice_samples->value (
+    LAB_LabelValue (logan.samples ()).to_label_text (
+    LAB_LabelValue::UNIT::NONE).c_str ()
+  );
+
+  gui.logic_analyzer_fl_input_choice_sampling_rate->value (
+    LAB_LabelValue (logan.sampling_rate ()).to_label_text (
+    LAB_LabelValue::UNIT::HERTZ).c_str ()
+  );
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -40,8 +80,15 @@ cb_run_stop (Fl_Light_Button* w,
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_memory_depth (Fl_Input_Choice *w,
-                 void            *data)
+cb_single (Fl_Button* w,
+           void*      data)
+{
+  
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_samples (Fl_Input_Choice*  w,
+            void*             data)
 {
 
 }
@@ -63,8 +110,7 @@ cb_time_per_division (Fl_Input_Choice *w,
     LAB_LabelValue::UNIT::SECOND_PER_DIVISION
   );
 
-  m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value (),
-    LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS);
+  m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value ());
 
   m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
     update_gui_time_per_division ();
@@ -93,16 +139,47 @@ cb_display_mode (Fl_Choice  *w,
 
 }
 
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_trigger_mode (Fl_Choice* w, 
+                 void*      data)
+{
+  LABE::LOGAN::TRIG::MODE mode;
+  std::string choice (w->text ());
+
+  if (choice == "None")
+  {
+    mode = LABE::LOGAN::TRIG::MODE::NONE;
+  }
+  else if (choice == "Auto")
+  { 
+    mode = LABE::LOGAN::TRIG::MODE::AUTO;
+  }
+  else if (choice == "Normal")
+  {
+    mode = LABE::LOGAN::TRIG::MODE::NORMAL;
+  }
+  else 
+  {
+    throw (std::runtime_error ("Invalid trigger mode input."));
+  }
+
+  m_LAB->m_Logic_Analyzer.trigger_mode (mode);
+}
+
 void LABSoft_Controller_Logic_Analyzer::
 display_update_cycle ()
 {
-  m_LAB->m_Logic_Analyzer.load_data_samples ();
+  // 1. 
+  m_LAB->m_Logic_Analyzer.fill_channel_samples_buffer ();
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-    fill_pixel_points ();
+  // 2.
+  LABSoft_GUI_Logic_Analyzer_Display_Group& display = *(m_LABSoft_GUI->
+    logic_analyzer_labsoft_logic_analyzer_display_group_display);
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display-> 
-    redraw ();
+  display.fill_pixel_points ();
+
+  // 3.
+  display.redraw ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

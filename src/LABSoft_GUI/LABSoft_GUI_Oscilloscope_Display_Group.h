@@ -69,7 +69,7 @@ class LABSoft_GUI_Oscilloscope_Display_Group : public Fl_Group
     void  load_osc_parent_data                (LAB_Parent_Data_Oscilloscope& parent_data);
     void  reserve_pixel_points                ();
     void  fill_pixel_points                   ();
-    void channel_selector                     (unsigned channel);
+    void  channel_selector                     (unsigned channel);
 
     // Update data
     void  update_gui_time_per_division        ();

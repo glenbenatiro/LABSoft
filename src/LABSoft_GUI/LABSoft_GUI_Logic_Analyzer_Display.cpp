@@ -27,8 +27,8 @@ LABSoft_GUI_Logic_Analyzer_Display::
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 draw ()
 {
-  draw_box (FL_FLAT_BOX, LABC::LOGAN_DISPLAY::BG_COLOR);
-  draw_grid ();
+  draw_box      (FL_FLAT_BOX, LABC::LOGAN_DISPLAY::BG_COLOR);
+  draw_grid     ();
   draw_channels ();
 }
 
@@ -36,16 +36,12 @@ void LABSoft_GUI_Logic_Analyzer_Display::
 draw_grid ()
 {
   double column_width = static_cast<double>(w ()) / 
-    static_cast<double>(LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS);
-
-  double row_height   = static_cast<double>(h ()) / 
-    static_cast<double>(LABC::LOGAN::NUMBER_OF_CHANNELS);
+    LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
 
   fl_color      (LABC::LOGAN_DISPLAY::GRID_COLOR);
   fl_line_style (FL_DOT);
 
-  // draw columns
-  for (int col = 1; col < LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++)
+  for (unsigned col = 1; col < LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++)
   {
     fl_line (
       x () + (col * column_width),
@@ -55,8 +51,7 @@ draw_grid ()
     );
   }
 
-  // draw rows
-  for (int row = 1; row <= LABC::LOGAN::NUMBER_OF_CHANNELS; row++)
+  for (unsigned row = 1; row <= m_channel_list.size (); row++)
   {
     if (row == LABC::LOGAN::NUMBER_OF_CHANNELS)
     {
@@ -69,61 +64,58 @@ draw_grid ()
 
     fl_line (
       x (),
-      y () + (row * row_height),
+      y () + (row * m_row_height),
       x () + w (),
-      y () + (row * row_height)
+      y () + (row * m_row_height)
     );
   }
 }
 
-int LABSoft_GUI_Logic_Analyzer_Display:: 
+void LABSoft_GUI_Logic_Analyzer_Display:: 
 draw_channels ()
 {
-  if (!m_parent_data_logan)
+  if (m_parent_data == nullptr)
   {
-    return -1;
+    return;
   }
 
-  if (!m_parent_data_logan->has_enabled_channels ())
+  if (!m_parent_data->has_enabled_channels ())
   {
-    return -2;
+    return;
   }
 
-  //
+  // ----------
 
-  if (m_parent_data_logan->is_enabled)
-  {
-    
-    fl_push_clip (x (), y (), w (), h ());
+  fl_push_clip (x (), y (), w (), h ());
 
-    LAB_Parent_Data_Logic_Analyzer &pdat  = *m_parent_data_logan;
+  LAB_Parent_Data_Logic_Analyzer &pdata = *m_parent_data;
 
-    fl_color (LABC::LOGAN_DISPLAY::GRAPH_LINE_COLOR);
+  unsigned samp_count = (pdata.samples < w () ? pdata.samples : w ()) - 1;
+
+  // Because of how line styles are implemented on Win32 systems, 
+  // you must set the line style after setting the drawing color. 
+  // If you set the color after the style, style settings will be lost    
+  fl_color (LABC::LOGAN_DISPLAY::GRAPH_LINE_COLOR);
         
-    fl_line_style (
-      LABC::LOGAN_DISPLAY::GRAPH_LINE_STYLE,
-      LABC::LOGAN_DISPLAY::GRAPH_LINE_WIDTH,
-      0
-    );
+  fl_line_style (LABC::LOGAN_DISPLAY::GRAPH_LINE_STYLE,
+    LABC::LOGAN_DISPLAY::GRAPH_LINE_WIDTH, 0);
 
-    for (int chan = 0; chan < (pdat.channel_data.size ()); chan++)
+  for (unsigned chan = 0; chan < (pdata.channel_data.size ()); chan++)
+  {
+    if (pdata.channel_data[chan].is_enabled)
     {
-      if (pdat.channel_data[chan].is_enabled)
+      std::vector<std::array<int, 2>> &pp = pdata.channel_data[chan].pixel_points;
+
+      for (unsigned a = 0; a < samp_count; a++)
       {
-        std::vector<std::array<int, 2>> &pp = pdat.channel_data[chan].pixel_points;
-  
-        for (int a = 0; a < (pp.size () - 1); a++)
-        {
-          fl_line (pp[a][0], pp[a][1], pp[a + 1][0], pp[a + 1][1]);
-        }
+        fl_line (pp[a][0], pp[a][1], pp[a + 1][0], pp[a + 1][1]);
       }
     }
-
-    fl_line_style (0);
-    fl_pop_clip();
   }
-  
-  return 1;
+
+  fl_color      (0);
+  fl_line_style (0);
+  fl_pop_clip   ();
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
@@ -132,116 +124,15 @@ resize ()
   calc_graph_line_coords ();
 }
 
-void LABSoft_GUI_Logic_Analyzer_Display::
-load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer& parent_data)
-{
-  m_parent_data_logan = &parent_data;
-}
-
-int LABSoft_GUI_Logic_Analyzer_Display::
-reserve_pixel_points ()
-{
-  if (!m_parent_data_logan)
-  {
-    return -1;
-  }
-
-  // 
-
-  for (int a = 0; a < (m_parent_data_logan->channel_data.size ()); a++)
-  {
-    m_parent_data_logan->channel_data[a].pixel_points.reserve (
-      LABC::LOGAN::NUMBER_OF_SAMPLES * 2
-    );
-  }
-
-  return 1;
-}
-
-int LABSoft_GUI_Logic_Analyzer_Display::
-fill_pixel_points ()
-{
-  if (!m_parent_data_logan)
-  {
-    return -1;
-  }
-
-  if (!m_parent_data_logan->has_enabled_channels ())
-  {
-    return -2;
-  }
-
-  //
-
-  if (m_parent_data_logan->is_enabled)
-  {
-    LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data_logan;
-
-    for (int chan = 0; chan < pdata.channel_data.size (); chan++)
-    {
-      if (pdata.channel_data[chan].is_enabled)
-      {
-        LAB_Channel_Data_Logic_Analyzer&  cdata = pdata.channel_data[chan];
-        std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
-
-        pp.clear ();
-
-        if (pdata.w_samp_count >= w ())
-        {
-          double samp_skip = static_cast<double>(cdata.samples.size () - 1) / 
-            static_cast<double>(w () - 1);
-
-          for (int a = 0; a < (w () - 1); a++)
-          {
-            bool curr = cdata.samples[samp_skip * a];
-            bool next = cdata.samples[samp_skip * (a + 1)];
-
-            calc_next_pp (
-              curr,
-              next,
-              x () + a + 1,
-              chan,
-              pp,
-              a
-            );
-          }
-        }
-        else // pdata.w_samp_count < w () 
-        {
-          double pix_scale = static_cast<double>(w () - 1) /
-            static_cast<double>(pdata.w_samp_count - 1);
-
-          double samp_start_index = (static_cast<double>(cdata.samples.size ()) /
-            2.0) - (static_cast<double>(pdata.w_samp_count) / 2.0);
-
-          for (int a = 0; a < (pdata.w_samp_count - 1); a++)
-          {
-            bool curr = cdata.samples[samp_start_index + a];
-            bool next = cdata.samples[samp_start_index + a + 1];
-
-            calc_next_pp (
-              curr,
-              next,
-              x () + (pix_scale * a),
-              chan,
-              pp,
-              a
-            );
-          }
-        }
-      }
-    }
-  }
-  
-  return 1;
-}
-
-int LABSoft_GUI_Logic_Analyzer_Display:: 
+/**
+ * Calculate and cache the y-coordinates of the logic 0 and 1 values 
+ * of all channels to avoid costly calculations per redraw
+ */ 
+void LABSoft_GUI_Logic_Analyzer_Display:: 
 calc_graph_line_coords ()
 {
-  double row_height = static_cast<double>(h ()) /
-    static_cast<double>(LABC::LOGAN::NUMBER_OF_CHANNELS);
-  
+  double row_height = static_cast<double>(h ()) / (LABC::LOGAN::NUMBER_OF_CHANNELS);
+
   double row_height_half = row_height / 2.0;
 
   double row_graph_amp = row_height * 
@@ -256,19 +147,17 @@ calc_graph_line_coords ()
     m_graph_line_coords[chan][1] = y () + (chan * row_height) + 
       row_height_half - row_graph_amp;
   }
-
-  return 1;
 }
 
-int LABSoft_GUI_Logic_Analyzer_Display:: 
-calc_next_pp (bool  curr,
-              bool  next,
-              int   next_x_coord,
-              int   chan,
-              std::vector<std::array<int, 2>> &pp,
-              int   index)
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+calc_next_pp (bool  curr,                           // current logic value
+              bool  next,                           // next logic value
+              int   next_x_coord,                   // x-coord of next logic value
+              int   chan,                           // current logan channel to draw
+              int   curr_index,                     // index of the current sample (0 to sample_count)
+              std::vector<std::array<int, 2>> &pp)  // pixel point of the current logan channel                               
 {
-  if (index == 0)
+  if (curr_index == 0)
   {
     pp.emplace_back (
       std::array<int, 2> {x (), m_graph_line_coords[chan][curr]}
@@ -293,8 +182,108 @@ calc_next_pp (bool  curr,
       );
     }
   }
+}
 
-  return 1;
+void LABSoft_GUI_Logic_Analyzer_Display::
+load_logan_parent_data (LAB_Parent_Data_Logic_Analyzer& parent_data)
+{
+  m_parent_data = &parent_data;
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+reserve_pixel_points ()
+{
+  LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data;
+
+  for (int a = 0; a < pdata.channel_data.size (); a++)
+  {
+    pdata.channel_data[a].pixel_points.reserve (LABC::LOGAN::NUMBER_OF_SAMPLES * 2);
+  }
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+fill_pixel_points ()
+{
+  if (m_parent_data->is_logan_core_running)
+  {
+    fill_pixel_points_logan_running ();
+  }
+  else 
+  {
+    fill_pixel_points_logan_stopped ();
+  }
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+fill_pixel_points_logan_running ()
+{
+  LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data;
+
+  for (unsigned chan = 0; chan < (pdata.channel_data.size ()); chan++)
+  {
+    if (pdata.channel_data[chan].is_enabled)
+    {
+      LAB_Channel_Data_Logic_Analyzer&  cdata = pdata.channel_data[chan];
+      std::vector<std::array<int, 2>>&  pp    = cdata.pixel_points;
+
+      pp.clear ();
+
+      if (pdata.samples >= w ())
+      {
+        double samp_skipper = (pdata.samples - 1) / static_cast<double>(w ());
+
+        for (int a = 0; a <= w (); a++)
+        {
+          bool curr = cdata.samples[samp_skipper * a];
+          bool next = cdata.samples[samp_skipper * (a + 1)];
+
+          calc_next_pp (curr, next, x () + a + 1, chan, a, pp);
+        }
+      }
+      else
+      {
+        double x_skipper = static_cast<double>(w ()) / (pdata.samples - 1);
+
+        for (unsigned a = 0; a < pdata.samples; a++)
+        {
+          bool curr = cdata.samples[a];
+          bool next = cdata.samples[a + 1];
+
+          calc_next_pp (curr, next, x () + (x_skipper * a), chan, a, pp);
+        }
+      }
+    }
+  }
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+fill_pixel_points_logan_stopped ()
+{
+
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+add_channel (unsigned channel)
+{
+  m_channel_list.push_back (channel);
+
+  resize_rows ();
+}
+
+/**
+ * Set the height of each row. Should be called from 
+ * display group to mach the height of each channel button
+ */
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+row_height (unsigned value)
+{
+  m_row_height = value;
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+resize_rows ()
+{
+
 }
 
 // EOF

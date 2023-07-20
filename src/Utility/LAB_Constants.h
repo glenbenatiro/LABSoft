@@ -29,32 +29,50 @@ namespace LABC
 
   namespace PIN
   {
+    // Make sure nothing conflicts here!
+
     // Oscilloscope
-    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A0     = 27;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A1     = 22;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A0     = 23;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A1     = 24;
-    constexpr unsigned OSC_COUPLING_SELECT_CHAN_0   = 14;
-    constexpr unsigned OSC_COUPLING_SELECT_CHAN_1   = 15; 
+    constexpr unsigned OSC_ADC_SCLK                       = 11;
+    constexpr unsigned OSC_ADC_MOSI                       = 10;
+    constexpr unsigned OSC_ADC_MISO                       = 9;
+    constexpr unsigned OSC_ADC_CS                         = 8;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A0           = 27;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A1           = 22;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A0           = 23;
+    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A1           = 24;
+    constexpr unsigned OSC_COUPLING_SELECT_CHAN_0         = 14;
+    constexpr unsigned OSC_COUPLING_SELECT_CHAN_1         = 15; 
   
     // PWM
-    constexpr unsigned PWM                          = 12;
+    constexpr unsigned PWM                                = 12;
 
     // Function Generator
-    constexpr int FUNC_GEN_IC_CS                    = 13;
-    constexpr int FUNC_GEN_IC_MISO                  = 5; // not used
-    constexpr int FUNC_GEN_IC_MOSI                  = 4;
-    constexpr int FUNC_GEN_IC_SCLK                  = 6;
+    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_CS            = 13;
+    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_MISO          = 5;
+    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_MOSI          = 4;
+    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_SCLK          = 6;
+    constexpr unsigned FUNC_GEN_AUX_SPI_SCLK              = 21;
+    constexpr unsigned FUNC_GEN_AUX_SPI_MOSI              = 20;
+    constexpr unsigned FUNC_GEN_AUX_SPI_MISO              = 19;
+    constexpr unsigned FUNC_GEN_AUX_SPI_CS_DIGIPOT_AMP_0  = 18; 
+    constexpr unsigned FUNC_GEN_AUX_SPI_CS_DIGIPOT_AMP_1  = 17; 
+    constexpr unsigned FUNC_GEN_AUX_SPI_CS_DIGIPOT_OFFSET = 16;
 
     // Logic Analyzer
-    constexpr unsigned LOGIC_ANALYZER []            = {0, 1, 26, 7};
+    //constexpr unsigned LOGIC_ANALYZER []                  = {7, 1, 0, 26};
+
+    // Yes, GPIO pins 5 and 19 are used in Function Generator.
+    // These are not used in Function Gen. MISOs for digipots.
+    // I'm relying on the fact that LAB_Logic_Analyzer is the
+    // last to be initialized, after Function Generator. 
+    // So LAB_Logic_Analyzer's GPIO pin init is called last.
+    constexpr unsigned LOGIC_ANALYZER []                  = {1, 5, 19, 26};
 
     // Digital Circuit Checker
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_CS   = 25;
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MISO = 12;
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MOSI = 3;
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_SCLK = 2;
-
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_CS         = 25;
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MISO       = 12;
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MOSI       = 3;
+    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_SCLK       = 2;
   };
 
   namespace DMA
@@ -301,7 +319,7 @@ namespace LABC
     constexpr double                  TIME_PER_DIVISION               = SAMPLES / (SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);  
     constexpr double                  MAX_HORIZONTAL_OFFSET           = MAX_SAMPLES / MIN_SAMPLING_RATE;  
     constexpr double                  MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
-    constexpr double                  HORIZONTAL_OFFSET               = 0.0;
+    constexpr double                  POSITION                        = 0.0;
 
     // Mode
     constexpr LABE::LOGAN::MODE       MODE                            = (TIME_PER_DIVISION < MIN_TIME_PER_DIVISION_SCREEN) ? 
@@ -333,12 +351,21 @@ namespace LABC
 
   namespace LOGAN_DISPLAY_GROUP
   {
-    constexpr int X_LABEL_STRIP_HEIGHT       = 30;
-    constexpr int CHANNEL_MENU_BUTTON_WIDTH  = 120;
-    constexpr int X_LABEL_TOP_MARGIN         = 5;
-    constexpr int X_LAST_LABEL_OFFSET        = 18;
-    constexpr int X_LABEL_SIZE               = 10;
-    constexpr int X_LABEL_COLOR              = FL_FOREGROUND_COLOR;
+    constexpr int       X_LABEL_STRIP_HEIGHT  = 30;
+    constexpr int       X_LABEL_TOP_MARGIN    = 5;
+    constexpr int       X_LAST_LABEL_OFFSET   = 18;
+    constexpr int       X_LABEL_SIZE          = 10;
+    constexpr int       X_LABEL_COLOR         = FL_FOREGROUND_COLOR;
+    constexpr unsigned  CHANNEL_BUTTON_HEIGHT = 60;
+    constexpr unsigned  CHANNEL_BUTTON_WIDTH  = 180;
+
+    static constexpr uint32_t CHANNEL_COLORS[] = 
+    {
+      212, // light pink
+      60, // green
+      152, // violet
+      122 // brick?
+    };
   }
 
   namespace DIGITAL_CIRCUIT_CHECKER
@@ -348,25 +375,5 @@ namespace LABC
     constexpr double          IC_FREQUENCY  = 100'000.0; // Hz
   };
 };
-
-namespace LABSOFT_GUI_LABEL_VALUES
-{
-  namespace OSC
-  {
-    static std::map<LABE::OSC::SCALING, std::string> SCALING = 
-    {
-      {LABE::OSC::SCALING::QUADRUPLE, "x4"},
-      {LABE::OSC::SCALING::UNITY,     "x1"},
-      {LABE::OSC::SCALING::HALF,      "x0.5"},
-      {LABE::OSC::SCALING::FOURTH,    "x0.25"}
-    };
-
-    static std::map<LABE::OSC::MODE, std::string> MODE = 
-    {
-      {LABE::OSC::MODE::SCREEN,   "Screen"},
-      {LABE::OSC::MODE::REPEATED, "Repeated"}
-    };
-  }
-}
 
 #endif

@@ -11,7 +11,16 @@ LABSoft_Controller_Voltmeter (LAB*                _LAB,
     m_LABSoft_GUI         (_LABSoft_GUI),
     m_LABSoft_Controller  (_LABSoft_Controller)
 {
+  init_gui_values ();
+}
 
+void LABSoft_Controller_Voltmeter:: 
+init_gui_values ()
+{
+  LABSoft_GUI& gui = *m_LABSoft_GUI;
+
+  gui.voltmeter_fl_output_chan0_value->value ("- . - -");
+  gui.voltmeter_fl_output_chan1_value->value ("- . - -");
 }
 
 void LABSoft_Controller_Voltmeter:: 

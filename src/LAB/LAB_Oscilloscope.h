@@ -46,11 +46,11 @@ class LAB_Oscilloscope
     LABE::OSC::MODE     calc_mode                       (double time_per_division);
     void                set_time_per_division           (double value);
     void                set_time_per_division           (unsigned samples, double sampling_rate);
-    void                set_samples                     (unsigned samples);
+    void                set_samples                     (unsigned value);
     void                set_sampling_rate               (double value);
   
     // Trigger 
-    void                parse_trigger                   (LABE::OSC::TRIG::MODE value);
+    void                parse_trigger_mode              ();
     void                find_trigger_point_loop         ();
     bool                find_trigger_point              ();
     void                create_trigger_frame            ();
@@ -105,13 +105,13 @@ class LAB_Oscilloscope
 
     // Horizontal
     void                  horizontal_offset       (double value);
-    double                horizontal_offset       ();
+    double                horizontal_offset       () const;
     void                  time_per_division       (double value);
-    double                time_per_division       ();
+    double                time_per_division       () const;
     void                  samples                 (unsigned value);
-    unsigned              samples                 ();
+    unsigned              samples                 () const;
     void                  sampling_rate           (double value);
-    double                sampling_rate           ();
+    double                sampling_rate           () const;
     
     // Trigger 
     void                  trigger_mode            (LABE::OSC::TRIG::MODE value);

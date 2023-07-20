@@ -13,16 +13,18 @@ class LABSoft_Controller;
 
 class LABSoft_Controller_Function_Generator
 {
-  public:
+  private:
     LAB*                m_LAB;
     LABSoft_GUI*        m_LABSoft_GUI;
     LABSoft_Controller* m_LABSoft_Controller;
+  
+  private:
+    void init_gui_values (); 
 
   public:
     LABSoft_Controller_Function_Generator (LAB*                 _LAB, 
                                            LABSoft_GUI*         _LABSoft_GUI,
                                            LABSoft_Controller*  _LABSoft_Controller);
-    void init_state                       (); 
     void update_gui_frequency_elements    ();
     void update_gui_main                  (bool value);
 

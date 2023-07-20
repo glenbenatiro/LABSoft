@@ -1,6 +1,8 @@
 #ifndef LAB_LOGIC_ANALYZER_H
 #define LAB_LOGIC_ANALYZER_H
 
+#include <thread>
+
 #include "LAB_Core.h"
 #include "../Utility/LAB_Enumerations.h"
 #include "../Utility/LAB_Definitions.h"
@@ -14,6 +16,7 @@ class LAB_Logic_Analyzer
     LAB*              m_LAB;
     LAB_Core*         m_LAB_Core;
     AikaPi::Uncached  m_uncached_memory;
+    std::thread        m_thread_find_trigger;
 
     bool m_is_running = false;
 
@@ -23,6 +26,16 @@ class LAB_Logic_Analyzer
     void init_gpio_pins ();
     void init_dma       ();
     void config_dma_cb  ();  
+
+    void fill_raw_data_buffer_using_uncached_data_buffer ();
+    void parse_raw_data_buffer ();
+
+    // Horizontal
+    void set_samples (unsigned value);
+
+    // Trigger 
+    void parse_trigger_mode       ();
+    void find_trigger_point_loop  ();
 
   public:
     LAB_Parent_Data_Logic_Analyzer m_parent_data;
@@ -35,17 +48,22 @@ class LAB_Logic_Analyzer
     void stop  ();
 
     // Mode
-    void                        mode (LABE::LOGAN::MODE mode);
-    LABE::LOGAN::MODE  mode ();
+    void              mode (LABE::LOGAN::MODE mode);
+    LABE::LOGAN::MODE mode ();
   
     // Horizontal
-    void    horizontal_offset (double value);
-    double  horizontal_offset () const;
-    void    time_per_division (double value, unsigned disp_num_cols);
-    double  time_per_division () const;    
-    void    sampling_rate     (double value);
+    void                  horizontal_offset       (double value);
+    double                horizontal_offset       () const;
+    void                  time_per_division       (double value);
+    double                time_per_division       () const;
+    void                  samples                 (unsigned value);
+    unsigned              samples                 () const;
+    void                  sampling_rate           (double value);
+    double                sampling_rate           () const;
 
     // Get data/samples
+    void fill_channel_samples_buffer  ();
+
     void                load_data_samples       ();
     void                fill_raw_sample_buffer  ();
     void                parse_raw_sample_buffer ();
@@ -56,6 +74,10 @@ class LAB_Logic_Analyzer
     //
     bool    is_running ();
     void    dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count);
+
+    // Trigger
+    void                    trigger_mode  (LABE::LOGAN::TRIG::MODE value);
+    LABE::LOGAN::TRIG::MODE trigger_mode  () const;
 };
 
 #endif

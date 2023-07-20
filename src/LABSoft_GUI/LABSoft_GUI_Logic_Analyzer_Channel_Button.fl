@@ -1,0 +1,43 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0305
+header_name {.h}
+code_name {.cpp}
+widget_class LABSoft_GUI_Logic_Analyzer_Channel_Button {open
+  xywh {2058 161 180 60} type Double box GTK_UP_BOX color 53 visible
+} {
+  Fl_Input fl_input_name {
+    xywh {0 0 80 60} box THIN_DOWN_BOX color 52
+  }
+  Fl_Output fl_output_pin {
+    xywh {80 0 60 60} box THIN_DOWN_BOX color 95
+  }
+  Fl_Menu_Button fl_menu_button_trigger {
+    label X
+    xywh {140 0 40 60} box GTK_UP_BOX color 53
+  } {
+    MenuItem {} {
+      label {X - Ignore}
+      xywh {0 0 36 21}
+    }
+    MenuItem {} {
+      label {0 - Low}
+      xywh {10 10 36 21}
+    }
+    MenuItem {} {
+      label {1 - High}
+      xywh {20 20 36 21}
+    }
+    MenuItem {} {
+      label {^ - Rise}
+      xywh {30 30 36 21}
+    }
+    MenuItem {} {
+      label {v - Fall}
+      xywh {40 40 36 21}
+    }
+    MenuItem {} {
+      label {| - Edge}
+      xywh {50 50 36 21}
+    }
+  }
+}

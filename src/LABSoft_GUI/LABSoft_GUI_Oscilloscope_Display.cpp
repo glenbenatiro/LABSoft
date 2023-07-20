@@ -243,7 +243,7 @@ draw_channels ()
     return;
   }
 
-  // ---
+  // ----------
 
   fl_push_clip  (x (), y (), w (), h ());
   

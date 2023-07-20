@@ -6,10 +6,10 @@ LAB_Function_Generator::
 LAB_Function_Generator (LAB_Core* _LAB_Core, LAB* _LAB)
   : m_LAB_Core (_LAB_Core),
     m_LAB (_LAB),
-    m_func_gen_ic       {LAB_AD9833   (LABC::PIN::FUNC_GEN_IC_CS, 
-                                        LABC::PIN::FUNC_GEN_IC_MISO,
-                                        LABC::PIN::FUNC_GEN_IC_MOSI,
-                                        LABC::PIN::FUNC_GEN_IC_SCLK,
+    m_func_gen_ic       {LAB_AD9833   (LABC::PIN::FUNC_GEN_BB_SPI_MAIN_CS, 
+                                        LABC::PIN::FUNC_GEN_BB_SPI_MAIN_MISO,
+                                        LABC::PIN::FUNC_GEN_BB_SPI_MAIN_MOSI,
+                                        LABC::PIN::FUNC_GEN_BB_SPI_MAIN_SCLK,
                                         LABC::FUNC_GEN::IC_FREQUENCY)},
     m_digipot_amplitude {LAB_MCP4XXX  (LAB_MCP4XXX::PART_NUMBER::MCP4161,
                                         LAB_MCP4XXX::RESISTANCE_VERSION::_503,
@@ -21,7 +21,7 @@ LAB_Function_Generator (LAB_Core* _LAB_Core, LAB* _LAB)
                                         LAB_MCP4XXX::RESISTANCE_VERSION::_103,
                                         2)}
 {
-
+  init_gpio_pins ();
 }
 
 LAB_Function_Generator:: 
@@ -30,10 +30,15 @@ LAB_Function_Generator::
   
 }
 
-void LAB_Function_Generator::
-init_state ()
+void LAB_Function_Generator:: 
+init_gpio_pins ()
 {
-  
+  m_LAB_Core->gpio.set (LABC::PIN::FUNC_GEN_AUX_SPI_SCLK,              AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (LABC::PIN::FUNC_GEN_AUX_SPI_MOSI,              AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::OFF);
+  m_LAB_Core->gpio.set (LABC::PIN::FUNC_GEN_AUX_SPI_MISO,              AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::DOWN);
+  m_LAB_Core->gpio.set (LABC::PIN::FUNC_GEN_AUX_SPI_CS_DIGIPOT_AMP_0,  AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
+  m_LAB_Core->gpio.set (LABC::PIN::FUNC_GEN_AUX_SPI_CS_DIGIPOT_AMP_1,  AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
+  m_LAB_Core->gpio.set (LABC::PIN::FUNC_GEN_AUX_SPI_CS_DIGIPOT_OFFSET, AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
 }
 
 void LAB_Function_Generator::
