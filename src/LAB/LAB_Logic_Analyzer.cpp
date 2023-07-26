@@ -150,26 +150,26 @@ stop ()
 void LAB_Logic_Analyzer:: 
 fill_channel_samples_buffer ()
 {
-  switch (trigger_mode ())
-  {
-    case (LABE::LOGAN::TRIG::MODE::NONE):
-    {
-      fill_raw_data_buffer_using_uncached_data_buffer (); 
-      parse_raw_data_buffer ();
+  // switch (trigger_mode ())
+  // {
+  //   case (LABE::LOGAN::TRIG::MODE::NONE):
+  //   {
+  //     fill_raw_data_buffer_using_uncached_data_buffer (); 
+  //     parse_raw_data_buffer ();
 
-      break;
-    }
+  //     break;
+  //   }
 
-    case (LABE::LOGAN::TRIG::MODE::NORMAL):
-    {
-      break;
-    }
+  //   case (LABE::LOGAN::TRIG::MODE::NORMAL):
+  //   {
+  //     break;
+  //   }
 
-    case (LABE::LOGAN::TRIG::MODE::AUTO):
-    {
-      break;
-    }
-  }
+  //   case (LABE::LOGAN::TRIG::MODE::AUTO):
+  //   {
+  //     break;
+  //   }
+  // }
 }
 
 void LAB_Logic_Analyzer:: 
@@ -406,6 +406,12 @@ calc_mode (double time_per_division)
   return (mode);
 }
 
+LAB_Parent_Data_Logic_Analyzer& LAB_Logic_Analyzer:: 
+parent_data ()
+{
+  return (m_parent_data);
+}
+
 void LAB_Logic_Analyzer:: 
 mode (LABE::LOGAN::MODE mode)
 {
@@ -522,9 +528,9 @@ is_running ()
 }
 
 void LAB_Logic_Analyzer:: 
-trigger (unsigned channel, LABE::LOGAN::TRIG::TYPE type)
+trigger (unsigned channel, LABE::LOGAN::TRIG::CND condition)
 {
-  
+
 }
 
 // EOF

@@ -16,11 +16,13 @@ class LAB_Logic_Analyzer
     LAB*              m_LAB;
     LAB_Core*         m_LAB_Core;
     AikaPi::Uncached  m_uncached_memory;
-    std::thread        m_thread_find_trigger;
+    std::thread       m_thread_find_trigger;
 
     bool m_is_running = false;
 
     int m_curr_screen_buffer = 0;
+
+    LAB_Parent_Data_Logic_Analyzer m_parent_data;
 
   private:
     void init_gpio_pins ();
@@ -38,14 +40,14 @@ class LAB_Logic_Analyzer
     void find_trigger_point_loop  ();
 
   public:
-    LAB_Parent_Data_Logic_Analyzer m_parent_data;
-
-  public:
     LAB_Logic_Analyzer (LAB_Core* _LAB_Core, LAB* _LAB);
    ~LAB_Logic_Analyzer ();
 
     void run  ();
     void stop  ();
+
+    // Data 
+    LAB_Parent_Data_Logic_Analyzer& parent_data ();
 
     // Mode
     void              mode (LABE::LOGAN::MODE mode);
@@ -76,7 +78,7 @@ class LAB_Logic_Analyzer
     void    dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count);
 
     // Trigger
-    void trigger (unsigned channel, LABE::LOGAN::TRIG::TYPE type);
+    void trigger (unsigned channel, LABE::LOGAN::TRIG::CND condition);
 };
 
 #endif

@@ -107,17 +107,14 @@ namespace LABE
         NORMAL
       };
 
-      enum class TYPE
-      {
-        LEVEL,
-        EDGE
-      };
-
       enum class CND
       {
-        RISING,
-        FALLING,
-        EITHER
+        IGNORE,
+        LOW_LEVEL,
+        HIGH_LEVEL,
+        RISING_EDGE,
+        FALLING_EDGE,
+        EITHER_EDGE
       };
     };
 

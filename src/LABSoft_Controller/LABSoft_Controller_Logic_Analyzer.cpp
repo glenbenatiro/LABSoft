@@ -16,24 +16,14 @@ LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB,
     m_LABSoft_Controller  (_LABSoft_Controller)
 {
   init ();
+  init_gui_values ();  
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
 init ()
 {
-  LABSoft_GUI&                        gui     = *m_LABSoft_GUI;
-  LAB_Logic_Analyzer&                 logan   = m_LAB->m_Logic_Analyzer;
-  LABSoft_GUI_Logic_Analyzer_Display& display = 
-    *(gui.logic_analyzer_labsoft_gui_logic_analyzer_display);  
-
-  // 1.
-  display.load_logic_analyzer_parent_data (logan.m_parent_data);
-
-  // 2. 
-  display.reserve_pixel_points ();
-
-  // 3. 
-  init_gui_values ();  
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
+    load_logic_analyzer_parent_data (m_LAB->m_Logic_Analyzer.parent_data ());
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -65,6 +55,11 @@ init_gui_values ()
 
   gui.logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->
     number_of_channels (LABC::LOGAN::NUMBER_OF_CHANNELS);
+
+  for (unsigned chan = 0; chan < LABC::LOGAN::NUMBER_OF_CHANNELS; chan++)
+  {
+    gui.logic_analyzer_labsoft_gui_logic_analyzer_display->add_channel (chan);
+  }
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -167,7 +162,7 @@ cb_trigger_mode (Fl_Choice* w,
     throw (std::runtime_error ("Invalid trigger mode input."));
   }
 
-  m_LAB->m_Logic_Analyzer.trigger_mode (mode);
+  //m_LAB->m_Logic_Analyzer.trigger_mode (mode);
 }
 
 void LABSoft_Controller_Logic_Analyzer::

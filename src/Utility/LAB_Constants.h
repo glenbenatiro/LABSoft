@@ -327,9 +327,6 @@ namespace LABC
     
     // Trigger
     constexpr LABE::LOGAN::TRIG::MODE TRIGGER_MODE                    = LABE::LOGAN::TRIG::MODE::NONE;
-    constexpr unsigned                TRIGGER_SOURCE                  = 0; // Channel 1
-    constexpr LABE::LOGAN::TRIG::TYPE TRIGGER_TYPE                    = LABE::LOGAN::TRIG::TYPE::EDGE;
-    constexpr LABE::LOGAN::TRIG::CND  TRIGGER_CONDITION               = LABE::LOGAN::TRIG::CND::RISING;
     constexpr double                  FIND_TRIGGER_TIMEOUT            = 2; // seconds
 
     // Display
