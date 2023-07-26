@@ -76,8 +76,7 @@ class LAB_Logic_Analyzer
     void    dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count);
 
     // Trigger
-    void                    trigger_mode  (LABE::LOGAN::TRIG::MODE value);
-    LABE::LOGAN::TRIG::MODE trigger_mode  () const;
+    void trigger (unsigned channel, LABE::LOGAN::TRIG::TYPE type);
 };
 
 #endif

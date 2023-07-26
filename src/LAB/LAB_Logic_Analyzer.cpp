@@ -522,17 +522,9 @@ is_running ()
 }
 
 void LAB_Logic_Analyzer:: 
-trigger_mode (LABE::LOGAN::TRIG::MODE value)
+trigger (unsigned channel, LABE::LOGAN::TRIG::TYPE type)
 {
-  m_parent_data.trigger_mode = value;
-
-  parse_trigger_mode ();
-}
-
-LABE::LOGAN::TRIG::MODE LAB_Logic_Analyzer:: 
-trigger_mode () const
-{
-  return (m_parent_data.trigger_mode);
+  
 }
 
 // EOF

@@ -1,0 +1,71 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0305
+header_name {.h}
+code_name {.cxx}
+widget_class UserInterface {open
+  xywh {2488 299 1300 540} type Double color 54 visible
+} {
+  Fl_Group time_per_division_labels_strip {open
+    xywh {0 510 1300 30} box FLAT_BOX color 95
+  } {}
+  Fl_Group top_info_strip {open
+    xywh {0 0 1300 30} box FLAT_BOX color 95
+  } {}
+  Fl_Browser {} {
+    xywh {0 30 1300 480}
+  }
+  Fl_Group {channel widget} {open
+    xywh {0 30 1300 60} box THIN_DOWN_BOX color 87
+  } {
+    Fl_Menu_Button {} {
+      label x open
+      xywh {200 30 40 60} box GTK_UP_BOX color 53
+    } {}
+    Fl_Group m_fl_group_channel_info {
+      xywh {0 30 240 60} box THIN_DOWN_BOX color 94
+    } {
+      Fl_Output m_fl_output_name {
+        xywh {20 30 90 60}
+      }
+      Fl_Button m_button_channel_info_setting {
+        label {\\}
+        xywh {110 30 30 60} box GTK_UP_BOX color 53
+      }
+      Fl_Output m_fl_output_dio_pin {
+        xywh {140 30 60 60} color 79
+      }
+      Fl_Menu_Button m_fl_menu_button_trigger_mode {
+        label x
+        xywh {200 30 40 60} box GTK_UP_BOX color 53
+      } {
+        MenuItem {} {
+          label {X Ignore}
+          xywh {0 0 36 21}
+        }
+        MenuItem {} {
+          label {0 Low}
+          xywh {10 10 36 21}
+        }
+        MenuItem {} {
+          label {1 High}
+          xywh {20 20 36 21}
+        }
+        MenuItem {} {
+          label {▲ Rise}
+          xywh {30 30 36 21}
+        }
+        MenuItem {} {
+          label {▼ Fall}
+          xywh {40 40 36 21}
+        }
+        MenuItem {} {
+          label {↕ Edge}
+          xywh {50 50 36 21}
+        }
+      }
+    }
+    Fl_Group m_fl_widget_channel_graph {
+      xywh {240 30 1060 60} box THIN_DOWN_BOX color 132
+    } {}
+  }
+}

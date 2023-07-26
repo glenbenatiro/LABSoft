@@ -7,7 +7,6 @@
 #include "LABSoft_GUI_Fl_Choice_With_Scroll.h"
 class LABSoft_Controller;
 #include <FL/Fl_Double_Window.H>
-#include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
@@ -19,28 +18,20 @@ class LABSoft_Controller;
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Menu_Button.H>
-#include "LABSoft_GUI_Logic_Analyzer_Display_Group.h"
+#include "LABSoft_GUI_Logic_Analyzer_Display.h"
 #include <FL/Fl_Text_Display.H>
 #include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"
 #include <FL/Fl_Input.H>
 #include "LABSoft_GUI_LABChecker_Digital_Input_Table.h"
+#include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Check_Button.H>
+#include "LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"
 
 class LABSoft_GUI {
 public:
   LABSoft_Controller *m_LABSoft_Controller; 
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
-  static Fl_Menu_Item menu_[];
-  static Fl_Menu_Item *main_menuitem_export;
-private:
-  inline void cb_Exit_i(Fl_Menu_*, void*);
-  static void cb_Exit(Fl_Menu_*, void*);
-  inline void cb_Browse_i(Fl_Menu_*, void*);
-  static void cb_Browse(Fl_Menu_*, void*);
-  inline void cb_About_i(Fl_Menu_*, void*);
-  static void cb_About(Fl_Menu_*, void*);
-public:
   Fl_Tabs *main_fl_tabs;
 private:
   inline void cb_main_fl_tabs_i(Fl_Tabs*, void*);
@@ -276,11 +267,18 @@ private:
   inline void cb_logic_analyzer_fl_button_single_i(Fl_Button*, void*);
   static void cb_logic_analyzer_fl_button_single(Fl_Button*, void*);
 public:
-  Fl_Menu_Button *logic_analyzer_menu_button_add_channel;
-  static Fl_Menu_Item menu_logic_analyzer_menu_button_add_channel[];
+  Fl_Menu_Button *logic_analyzer_fl_menu_button_add_channel;
+  static Fl_Menu_Item menu_logic_analyzer_fl_menu_button_add_channel[];
+private:
+  inline void cb_Signal_i(Fl_Menu_*, void*);
+  static void cb_Signal(Fl_Menu_*, void*);
+public:
   Fl_Menu_Button *logic_analyzer_fl_menu_button_remove_channel;
   static Fl_Menu_Item menu_logic_analyzer_fl_menu_button_remove_channel[];
-  static Fl_Menu_Item *Clear;
+private:
+  inline void cb_Clear_i(Fl_Menu_*, void*);
+  static void cb_Clear(Fl_Menu_*, void*);
+public:
   Fl_Choice *logic_analyzer_fl_choice_display_mode;
 private:
   inline void cb_logic_analyzer_fl_choice_display_mode_i(Fl_Choice*, void*);
@@ -317,7 +315,7 @@ private:
   static void cb_logic_analyzer_fl_input_choice_sampling_rate(Fl_Input_Choice*, void*);
   static Fl_Menu_Item menu_logic_analyzer_fl_input_choice_sampling_rate[];
 public:
-  LABSoft_GUI_Logic_Analyzer_Display_Group *logic_analyzer_labsoft_logic_analyzer_display_group_display;
+  LABSoft_GUI_Logic_Analyzer_Display *logic_analyzer_labsoft_gui_logic_analyzer_display;
   Fl_Group *main_fl_group_circuit_checker_tab;
   Fl_Button *circuit_checker_fl_button_choose_circuit_checker_file;
 private:
@@ -376,6 +374,16 @@ private:
   static void cb_digital_fl_button_create_file(Fl_Button*, void*);
 public:
   LABSoft_GUI_LABChecker_Digital_Input_Table *labchecker_digital_labsoft_gui_labchecker_digital_input_table_table;
+  static Fl_Menu_Item menu_[];
+  static Fl_Menu_Item *main_menuitem_export;
+private:
+  inline void cb_Exit_i(Fl_Menu_*, void*);
+  static void cb_Exit(Fl_Menu_*, void*);
+  inline void cb_Browse_i(Fl_Menu_*, void*);
+  static void cb_Browse(Fl_Menu_*, void*);
+  inline void cb_About_i(Fl_Menu_*, void*);
+  static void cb_About(Fl_Menu_*, void*);
+public:
   Fl_Double_Window *oscilloscope_fl_window_record_config;
   Fl_Group *oscilloscope_fl_group_record_config;
   static Fl_Menu_Item menu_Samples[];
@@ -399,5 +407,10 @@ public:
 private:
   inline void cb_Close_i(Fl_Button*, void*);
   static void cb_Close(Fl_Button*, void*);
+public:
+  LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window *logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window;
+private:
+  inline void cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window_i(LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window*, void*);
+  static void cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window(LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window*, void*);
 };
 #endif

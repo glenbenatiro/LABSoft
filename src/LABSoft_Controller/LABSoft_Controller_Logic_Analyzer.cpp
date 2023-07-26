@@ -4,6 +4,9 @@
 #include "../Utility/LAB_Constants.h"
 #include "../Utility/LAB_LabelValue.h"
 
+// delete soon
+#include <iostream>
+
 LABSoft_Controller_Logic_Analyzer:: 
 LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB, 
                                    LABSoft_GUI*         _LABSoft_GUI,
@@ -18,18 +21,16 @@ LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB,
 void LABSoft_Controller_Logic_Analyzer:: 
 init ()
 {
-  LABSoft_GUI& gui = *m_LABSoft_GUI;
-
-  LABSoft_GUI_Logic_Analyzer_Display_Group& group = 
-    *(gui.logic_analyzer_labsoft_logic_analyzer_display_group_display);
-  
-  LAB_Logic_Analyzer& logan = m_LAB->m_Logic_Analyzer;
+  LABSoft_GUI&                        gui     = *m_LABSoft_GUI;
+  LAB_Logic_Analyzer&                 logan   = m_LAB->m_Logic_Analyzer;
+  LABSoft_GUI_Logic_Analyzer_Display& display = 
+    *(gui.logic_analyzer_labsoft_gui_logic_analyzer_display);  
 
   // 1.
-  group.load_logan_parent_data (logan.m_parent_data);
+  display.load_logic_analyzer_parent_data (logan.m_parent_data);
 
   // 2. 
-  group.reserve_pixel_points ();
+  display.reserve_pixel_points ();
 
   // 3. 
   init_gui_values ();  
@@ -61,6 +62,9 @@ init_gui_values ()
     LAB_LabelValue (logan.sampling_rate ()).to_label_text (
     LAB_LabelValue::UNIT::HERTZ).c_str ()
   );
+
+  gui.logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->
+    number_of_channels (LABC::LOGAN::NUMBER_OF_CHANNELS);
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -112,8 +116,8 @@ cb_time_per_division (Fl_Input_Choice *w,
 
   m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value ());
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-    update_gui_time_per_division ();
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
+    update_gui_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -128,8 +132,8 @@ cb_horizontal_offset (Fl_Input_Choice *w,
 
   m_LAB->m_Logic_Analyzer.horizontal_offset (lv.actual_value ());
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-    update_gui_time_per_division ();
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
+    update_gui_time_per_division_labels ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -173,8 +177,8 @@ display_update_cycle ()
   m_LAB->m_Logic_Analyzer.fill_channel_samples_buffer ();
 
   // 2.
-  LABSoft_GUI_Logic_Analyzer_Display_Group& display = *(m_LABSoft_GUI->
-    logic_analyzer_labsoft_logic_analyzer_display_group_display);
+  LABSoft_GUI_Logic_Analyzer_Display& display = *(m_LABSoft_GUI->
+    logic_analyzer_labsoft_gui_logic_analyzer_display);
 
   display.fill_pixel_points ();
 
@@ -189,6 +193,61 @@ update_gui_main (bool value)
     m_LABSoft_GUI->main_fl_group_logic_analyzer_tab,
     value
   );
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_add_channel_selection (Fl_Menu_* w, void* data)
+{
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window
+    ->show_as_modal ();
+}
+
+void LABSoft_Controller_Logic_Analyzer::
+cb_add_channel_signal (LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* w, void* data)
+{
+  Fl_Input&         i = *(w->m_name);
+  Fl_Multi_Browser& b = *(w->m_multi_browser);
+
+  LABSoft_GUI_Logic_Analyzer_Display& disp = 
+    *(m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display);
+
+  char      label[20];
+  unsigned  added_count = 0;
+
+  for (unsigned line = b.size (); line > 0; line--)
+  {
+    if ((b.selected (line)) == 1)
+    {
+      // create label
+      if (*(i.value ()) == '\0')
+      {
+        std::snprintf (label, sizeof (label), "DIO %d", b.data (line));
+      }
+      else 
+      {
+        if (added_count == 0)
+        {
+          std::snprintf (label, sizeof (label), "%s", i.value ());
+        }
+        else 
+        {
+          std::snprintf (label, sizeof (label), "%s%d", i.value (), added_count + 1);
+        }
+      }
+
+      // add channel
+      disp.add_channel (reinterpret_cast<unsigned>(b.data (line)), label);
+
+      // increment
+      added_count++;
+    }
+  }
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_clear_channels (Fl_Menu_* w, void* data)
+{
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->clear_channels ();
 }
 
 // EOF

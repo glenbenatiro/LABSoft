@@ -338,6 +338,29 @@ namespace LABC
 
   namespace LOGAN_DISPLAY
   {
+    // the length of the info strip locatd at the top of the display.
+    // this affects the height of the display status box and the sampling info box
+    constexpr unsigned TOP_INFO_STRIP_HEIGHT                  = 25; 
+    constexpr unsigned DISPLAY_STATUS_BOX_HEIGHT              = TOP_INFO_STRIP_HEIGHT;
+    constexpr unsigned DISPLAY_STATUS_BOX_WIDTH               = 90;
+    constexpr unsigned CHANNEL_BUTTON_HEIGHT                  = 60;
+    constexpr unsigned CHANNEL_BUTTON_WIDTH                   = 180;
+    constexpr unsigned INTERNAL_DISPLAY_BG_COLOR              = FL_WHITE;
+
+    constexpr unsigned TIME_PER_DIVISION_LABELS_STRIP_HEIGHT  = 30;
+    constexpr unsigned TIME_PER_DIVISION_LABELS_TOP_MARGIN    = 5;
+    constexpr unsigned TIME_PER_DIVISION_LABELS_COLOR         = FL_FOREGROUND_COLOR;
+    constexpr unsigned TIME_PER_DIVISION_LABELS_SIZE          = 10;
+    constexpr unsigned TIME_PER_DIVSION_LABELS_LAST_OFFSET    = 18;
+
+    static constexpr uint32_t CHANNEL_COLORS[] = 
+    {
+      212, // light pink
+      60, // green
+      152, // violet
+      122 // brick?
+    };
+
     constexpr unsigned  NUMBER_OF_COLUMNS        = LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
     constexpr int       BG_COLOR                 = FL_WHITE;
     constexpr int       GROUP_NUMBER_OF_CHANNELS = LOGAN::NUMBER_OF_CHANNELS;
@@ -352,20 +375,11 @@ namespace LABC
   namespace LOGAN_DISPLAY_GROUP
   {
     constexpr int       X_LABEL_STRIP_HEIGHT  = 30;
-    constexpr int       X_LABEL_TOP_MARGIN    = 5;
-    constexpr int       X_LAST_LABEL_OFFSET   = 18;
     constexpr int       X_LABEL_SIZE          = 10;
-    constexpr int       X_LABEL_COLOR         = FL_FOREGROUND_COLOR;
     constexpr unsigned  CHANNEL_BUTTON_HEIGHT = 60;
     constexpr unsigned  CHANNEL_BUTTON_WIDTH  = 180;
 
-    static constexpr uint32_t CHANNEL_COLORS[] = 
-    {
-      212, // light pink
-      60, // green
-      152, // violet
-      122 // brick?
-    };
+    
   }
 
   namespace DIGITAL_CIRCUIT_CHECKER

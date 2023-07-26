@@ -24,50 +24,13 @@ class LABSoft_GUI {open
       label {LABSoft (for Educators)} open
       xywh {2250 190 1365 765} type Double color 55 visible
     } {
-      Fl_Menu_Bar {} {
-        xywh {0 0 1366 30} box FLAT_BOX color 54
-      } {
-        Submenu {} {
-          label Workspace open
-          xywh {0 0 70 21}
-        } {
-          MenuItem main_menuitem_export {
-            label Export
-            xywh {10 10 36 21}
-          }
-          MenuItem {} {
-            label Exit
-            callback {m_LABSoft_Controller->m_Main_Window.cb_workspace_exit (o, v);}
-            xywh {0 0 36 21}
-          }
-        }
-        Submenu {} {
-          label Settings
-          xywh {0 0 70 21}
-        } {}
-        Submenu {} {
-          label Help
-          xywh {15 15 70 21}
-        } {
-          MenuItem {} {
-            label Browse
-            callback {m_LABSoft_Controller->m_Main_Window.cb_help_about (o, v);}
-            xywh {10 10 36 21}
-          }
-          MenuItem {} {
-            label About
-            callback {m_LABSoft_Controller->m_Main_Window.cb_help_about (o, v);}
-            xywh {0 0 36 21}
-          }
-        }
-      }
       Fl_Tabs main_fl_tabs {
         callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
-        xywh {0 30 1366 738} box FLAT_BOX color 55 selection_color 54
+        xywh {0 30 1366 768} box FLAT_BOX color 55 selection_color 54
       } {
         Fl_Group main_fl_group_home_tab {
           label Home
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          xywh {0 60 1366 768} color 54 selection_color 52 hide
         } {
           Fl_Box {} {
             label {LABSoft 1.0}
@@ -1284,7 +1247,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_voltmeter_tab {
           label Voltmeter
-          xywh {0 60 1366 708} color 54 selection_color 52 hide
+          xywh {0 60 1366 768} color 54 selection_color 52 hide
         } {
           Fl_Box {} {
             label {This instrument can only measure DC voltages.}
@@ -1318,7 +1281,7 @@ class LABSoft_GUI {open
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
             user_data 0 user_data_type long
-            callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);} open
+            callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);}
             xywh {300 140 180 60} down_box BORDER_BOX align 1
           } {
             MenuItem {} {
@@ -1684,21 +1647,23 @@ class LABSoft_GUI {open
             callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_single (o, v);}
             xywh {24 80 120 60} box GTK_UP_BOX color 53
           }
-          Fl_Menu_Button logic_analyzer_menu_button_add_channel {
-            label {+}
+          Fl_Menu_Button logic_analyzer_fl_menu_button_add_channel {
+            label {+} open
             xywh {24 155 60 30} box GTK_UP_BOX color 53
           } {
             MenuItem {} {
-              label Item
+              label Signal
+              callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_add_channel_selection (o, v);}
               xywh {0 0 36 21}
             }
           }
           Fl_Menu_Button logic_analyzer_fl_menu_button_remove_channel {
-            label {-}
+            label {-} open
             xywh {100 155 60 30} box GTK_UP_BOX color 53
           } {
-            MenuItem Clear {
-              label item
+            MenuItem {} {
+              label Clear
+              callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_clear_channels (o, v);}
               xywh {10 10 36 21}
             }
           }
@@ -1986,90 +1951,90 @@ class LABSoft_GUI {open
             xywh {1220 155 120 30} box FLAT_BOX color 53 selection_color 53 align 1
           } {
             MenuItem {} {
-              label {50 kHz}
+              label {50 kHz} selected
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {20 kHz}
+              label {20 kHz} selected
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {10 kHz}
+              label {10 kHz} selected
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {5 kHz}
+              label {5 kHz} selected
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {2 kHz}
+              label {2 kHz} selected
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {1 kHz}
+              label {1 kHz} selected
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {6.67 Hz}
+              label {6.67 Hz} selected
               xywh {160 160 36 21}
             }
             MenuItem {} {
-              label {16.67 Hz}
+              label {16.67 Hz} selected
               xywh {130 130 36 21}
             }
             MenuItem {} {
-              label {40 Hz}
+              label {40 Hz} selected
               xywh {110 110 36 21}
             }
             MenuItem {} {
-              label {100 Hz}
+              label {100 Hz} selected
               xywh {100 100 36 21}
             }
             MenuItem {} {
-              label {200 Hz}
+              label {200 Hz} selected
               xywh {90 90 36 21}
             }
             MenuItem {} {
-              label {400 Hz}
+              label {400 Hz} selected
               xywh {80 80 36 21}
             }
             MenuItem {} {
-              label {1 kHz}
+              label {1 kHz} selected
               xywh {70 70 36 21}
             }
             MenuItem {} {
-              label {2 kHz}
+              label {2 kHz} selected
               xywh {80 80 36 21}
             }
             MenuItem {} {
-              label {4 kHz}
+              label {4 kHz} selected
               xywh {90 90 36 21}
             }
             MenuItem {} {
-              label {10 kHz}
+              label {10 kHz} selected
               xywh {100 100 36 21}
             }
             MenuItem {} {
-              label {20 kHz}
+              label {20 kHz} selected
               xywh {110 110 36 21}
             }
             MenuItem {} {
-              label {40 kHz}
+              label {40 kHz} selected
               xywh {120 120 36 21}
             }
             MenuItem {} {
-              label {100 kHz}
+              label {100 kHz} selected
               xywh {150 150 36 21}
             }
             MenuItem {} {
-              label {200 kHz}
+              label {200 kHz} selected
               xywh {140 140 36 21}
             }
           }
-          Fl_Group logic_analyzer_labsoft_logic_analyzer_display_group_display {
-            xywh {24 202 1318 540} box DOWN_BOX color 7
-            code0 {\#include "LABSoft_GUI_Logic_Analyzer_Display_Group.h"}
-            class LABSoft_GUI_Logic_Analyzer_Display_Group
+          Fl_Group logic_analyzer_labsoft_gui_logic_analyzer_display {selected
+            xywh {20 205 1318 540} box DOWN_BOX color 7
+            code0 {\#include "LABSoft_GUI_Logic_Analyzer_Display.h"}
+            class LABSoft_GUI_Logic_Analyzer_Display
           } {}
         }
         Fl_Group main_fl_group_circuit_checker_tab {
@@ -2249,10 +2214,47 @@ class LABSoft_GUI {open
           } {}
         }
       }
+      Fl_Menu_Bar {} {
+        xywh {0 0 1366 30} box FLAT_BOX color 54
+      } {
+        Submenu {} {
+          label Workspace open
+          xywh {0 0 70 21}
+        } {
+          MenuItem main_menuitem_export {
+            label Export
+            xywh {10 10 36 21}
+          }
+          MenuItem {} {
+            label Exit
+            callback {m_LABSoft_Controller->m_Main_Window.cb_workspace_exit (o, v);}
+            xywh {0 0 36 21}
+          }
+        }
+        Submenu {} {
+          label Settings
+          xywh {0 0 70 21}
+        } {}
+        Submenu {} {
+          label Help
+          xywh {15 15 70 21}
+        } {
+          MenuItem {} {
+            label Browse
+            callback {m_LABSoft_Controller->m_Main_Window.cb_help_about (o, v);}
+            xywh {10 10 36 21}
+          }
+          MenuItem {} {
+            label About
+            callback {m_LABSoft_Controller->m_Main_Window.cb_help_about (o, v);}
+            xywh {0 0 36 21}
+          }
+        }
+      }
     }
     Fl_Window oscilloscope_fl_window_record_config {
       label {Record Configuration}
-      xywh {0 0 360 300} type Double hide
+      xywh {2084 187 360 300} type Double hide
     } {
       Fl_Group oscilloscope_fl_group_record_config {open
         xywh {0 0 360 300} box UP_BOX color 54
@@ -2406,7 +2408,7 @@ class LABSoft_GUI {open
     }
     Fl_Window main_fl_window_about {
       label LABSoft
-      xywh {2110 321 420 300} type Double color 54 hide
+      xywh {8 31 420 300} type Double color 54 hide
     } {
       Fl_Box {} {
         label LABSoft
@@ -2430,5 +2432,11 @@ class LABSoft_GUI {open
         xywh {310 250 90 30} box GTK_UP_BOX color 53
       }
     }
+    Fl_Window logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window {
+      callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_add_channel_signal (o, v);}
+      xywh {8 31 120 100} type Double hide
+      code0 {\#include "LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"}
+      class LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window
+    } {}
   }
 }

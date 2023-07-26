@@ -43,6 +43,10 @@ class LABSoft_Controller_Logic_Analyzer
     // Display update cycle
     void display_update_cycle ();
     void update_gui_main      (bool value);
+
+    void cb_add_channel_selection (Fl_Menu_* w, void* data);
+    void cb_add_channel_signal (LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* w, void* data);
+    void cb_clear_channels (Fl_Menu_* w, void* data);
 };
 
 #endif

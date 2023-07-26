@@ -898,6 +898,33 @@ src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp.s
 
+src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.o: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.i: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.s: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.s
+
 src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.o: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.cpp.o
 
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.o
@@ -951,33 +978,6 @@ src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.s: src/LABSoft_GUI/LABSoft_GU
 src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.s
-
-src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.o: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.o
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.o
-
-# target to build an object file
-src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.o
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.o
-
-src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.i: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.i
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.i
-
-# target to preprocess a source file
-src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.i
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.i
-
-src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.s: src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.s
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.s
-
-# target to generate assembly for a file
-src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.s
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.cpp.s
 
 src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o
 
@@ -1315,15 +1315,15 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Channel_Button.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.s"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.o"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.i"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display_Group.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.s"
