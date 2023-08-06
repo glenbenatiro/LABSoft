@@ -1,6 +1,8 @@
 #include "LAB_Oscilloscope.h"
 
 #include <cstring>
+#include <bitset>
+#include <iostream>
 
 #include "LAB.h"
 #include "../Utility/LAB_Utility_Functions.h"
@@ -60,23 +62,23 @@ void LAB_Oscilloscope::
 init_gpio_pins ()
 {
   // scaling
-  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_CHAN_0_A0, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_C0_A0, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 1);
 
-  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_CHAN_0_A1, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_C0_A1, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 
-  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_CHAN_1_A0, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_C1_A0, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 1);
 
-  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_SCALER_CHAN_1_A1, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_MUX_C1_A1, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 
   // coupling
-  m_LAB_Core->gpio.set (LABC::PIN::OSC_COUPLING_SELECT_CHAN_0, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_RELAY_C0, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 
-  m_LAB_Core->gpio.set (LABC::PIN::OSC_COUPLING_SELECT_CHAN_1, 
+  m_LAB_Core->gpio.set (LABC::PIN::OSC_RELAY_C1, 
     AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, 0);
 }
 
@@ -379,13 +381,13 @@ scaling (unsigned           channel,
 
   if (channel == 0)
   {
-    a0 = LABC::PIN::OSC_MUX_SCALER_CHAN_0_A0;
-    a1 = LABC::PIN::OSC_MUX_SCALER_CHAN_0_A1;
+    a0 = LABC::PIN::OSC_MUX_C0_A0;
+    a1 = LABC::PIN::OSC_MUX_C0_A1;
   }
   else
   {
-    a0 = LABC::PIN::OSC_MUX_SCALER_CHAN_1_A0;
-    a1 = LABC::PIN::OSC_MUX_SCALER_CHAN_1_A1;
+    a0 = LABC::PIN::OSC_MUX_C1_A0;
+    a1 = LABC::PIN::OSC_MUX_C1_A1;
   }
 
   m_LAB_Core->gpio.write (a0, (scaling == LABE::OSC::SCALING::FOURTH || 
@@ -407,13 +409,13 @@ coupling (unsigned            channel,
   {
     case (0):
     {
-      pin = LABC::PIN::OSC_COUPLING_SELECT_CHAN_0;
+      pin = LABC::PIN::OSC_RELAY_C0;
       break;
     }
 
     case (1):
     {
-      pin = LABC::PIN::OSC_COUPLING_SELECT_CHAN_1;
+      pin = LABC::PIN::OSC_RELAY_C1;
       break;
     }
 
@@ -539,18 +541,20 @@ parse_raw_sample_buffer ()
 
   //
 
-  m_parent_data.time_per_division_raw_buffer  = m_parent_data.time_per_division;
-  m_parent_data.samples_raw_buffer            = m_parent_data.samples; 
+  LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
 
-  for (int samp = 0; samp < m_parent_data.samples; samp++)
+  pdata.time_per_division_raw_buffer  = pdata.time_per_division;
+  pdata.samples_raw_buffer            = pdata.samples; 
+
+  for (int samp = 0; samp < pdata.samples; samp++)
   {
-    for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
+    for (int chan = 0; chan < pdata.channel_data.size (); chan++)
     {
-      m_parent_data.channel_data[chan].samples[samp] = 
-        conv_raw_buff_samp_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
+      pdata.channel_data[chan].samples[samp] = 
+        conv_raw_buff_samp_to_actual_value (pdata.raw_data_buffer[samp], chan);
 
       // For debug
-      // if (samp == 0 && chan == 0)
+      // if (samp == 0 && chan == 1)
       // {
       //   uint32_t raw_chan_bits = extract_chan_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
 
@@ -595,7 +599,11 @@ arrange_raw_chan_bits (uint32_t raw_chan_bits)
   // return (((sample & 0x007F) << 5) | ((sample & 0xF800) >> 11));
 
   // at 500MHz GPU core speed at 10MHz SPI frequency
-  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+  // return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+
+  // 
+  // ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
+  return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
 }
 
 constexpr double LAB_Oscilloscope::

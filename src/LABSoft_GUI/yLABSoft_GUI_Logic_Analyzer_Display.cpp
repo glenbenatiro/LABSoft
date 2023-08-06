@@ -158,7 +158,7 @@ fill_pixel_points_logan_stopped ()
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Internal:: 
-calc_graph_line_coords ()
+calc_graph_line_coords ()m
 {
   double row_height = static_cast<double>(h ()) / (LABC::LOGAN::NUMBER_OF_CHANNELS);
 

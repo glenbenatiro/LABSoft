@@ -29,8 +29,8 @@ class LAB_Logic_Analyzer
     void init_dma       ();
     void config_dma_cb  ();  
 
-    void fill_raw_data_buffer_using_uncached_data_buffer ();
-    void parse_raw_data_buffer ();
+    void fill_raw_sample_buffer_from_dma_buffer ();
+    void parse_raw_sample_buffer                ();
 
     // Horizontal
     void set_samples (unsigned value);
@@ -45,6 +45,9 @@ class LAB_Logic_Analyzer
 
     void run  ();
     void stop  ();
+    
+    // State
+    bool is_running () const;
 
     // Data 
     LAB_Parent_Data_Logic_Analyzer& parent_data ();
@@ -64,20 +67,16 @@ class LAB_Logic_Analyzer
     double                sampling_rate           () const;
 
     // Get data/samples
-    void fill_channel_samples_buffer  ();
-
     void                load_data_samples       ();
-    void                fill_raw_sample_buffer  ();
-    void                parse_raw_sample_buffer ();
     double              calc_samp_count         (double time_per_div, unsigned osc_disp_num_cols);
     double              calc_samp_rate          (double time_per_div, unsigned osc_disp_num_cols);
     LABE::LOGAN::MODE   calc_mode               (double time_per_division);
 
     //
-    bool    is_running ();
     void    dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count);
 
     // Trigger
+    void trigger_mode  (LABE::LOGAN::TRIG::MODE value);
     void trigger (unsigned channel, LABE::LOGAN::TRIG::CND condition);
 };
 

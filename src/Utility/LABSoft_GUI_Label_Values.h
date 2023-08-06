@@ -35,6 +35,16 @@ namespace LABS_GUI_VALUES
       {LABE::FUNC_GEN::WAVE_TYPE::TRIANGLE, "Triangle"}
     };
   };
+
+  namespace LOGAN
+  {
+    static std::map<std::string, LABE::LOGAN::TRIG::MODE> TRIG_MODE_s = 
+    {
+      {"None",    LABE::LOGAN::TRIG::MODE::NONE},
+      {"Normal",  LABE::LOGAN::TRIG::MODE::NORMAL},
+      {"Auto",    LABE::LOGAN::TRIG::MODE::AUTO}
+    };
+  }
 }
 
 #endif

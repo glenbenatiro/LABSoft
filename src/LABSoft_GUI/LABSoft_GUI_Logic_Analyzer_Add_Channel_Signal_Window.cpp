@@ -21,7 +21,7 @@ init_children_guis ()
   m_name->maximum_size (20);
 
   m_multi_browser = new Fl_Multi_Browser (15, 60, 210, 240);
-  m_multi_browser->when (FL_WHEN_CHANGED | FL_WHEN_NOT_CHANGED | FL_WHEN_ENTER_KEY_ALWAYS);
+  m_multi_browser->when (FL_WHEN_CHANGED | FL_WHEN_NOT_CHANGED);
   m_multi_browser->callback ((Fl_Callback*)(cb_multi_browser_static));
 
   m_add = new Fl_Button (90, 315, 60, 30, "Add"); 
@@ -87,8 +87,8 @@ cb_add (Fl_Button* w, void* data)
 {
   hide_as_modal ();
 
-  reinterpret_cast<LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window*>
-    (w->parent ())->do_callback ();
+  (reinterpret_cast<LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window*>
+    (w->parent ()))->do_callback ();
 
   reset_state ();
 }

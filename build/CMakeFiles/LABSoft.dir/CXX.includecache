@@ -25,15 +25,19 @@ cstdint
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
 LABSoft_GUI_Logic_Analyzer_Display.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
+cmath
+-
 iostream
 -
+../Utility/LAB_Defaults.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
-list
--
 array
 -
 vector
+-
+FL/Fl_Pack.H
 -
 FL/Fl_Box.H
 -
@@ -43,9 +47,9 @@ FL/Fl_Button.H
 -
 FL/Fl_Output.H
 -
-FL/Fl_Widget.H
+FL/Fl_Scroll.H
 -
-FL/Fl_Browser_.H
+FL/Fl_Widget.H
 -
 FL/Fl_Menu_Item.H
 -
@@ -53,6 +57,8 @@ FL/Fl_Menu_Button.H
 -
 ../Utility/LAB_Definitions.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+../Utility/LAB_Defaults.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
 
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
 map
@@ -73,6 +79,10 @@ FL/Enumerations.H
 /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
 LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
+LAB_Constants.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
 
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
 array

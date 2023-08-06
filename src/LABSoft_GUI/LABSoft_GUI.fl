@@ -1648,7 +1648,7 @@ class LABSoft_GUI {open
             xywh {24 80 120 60} box GTK_UP_BOX color 53
           }
           Fl_Menu_Button logic_analyzer_fl_menu_button_add_channel {
-            label {+} open
+            label {+}
             xywh {24 155 60 30} box GTK_UP_BOX color 53
           } {
             MenuItem {} {
@@ -1658,7 +1658,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Menu_Button logic_analyzer_fl_menu_button_remove_channel {
-            label {-} open
+            label {-}
             xywh {100 155 60 30} box GTK_UP_BOX color 53
           } {
             MenuItem {} {
@@ -1683,7 +1683,7 @@ class LABSoft_GUI {open
           }
           Fl_Choice logic_analyzer_fl_choice_trigger_mode {
             label {Trigger Mode}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode (o, v);}
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode (o, v);} open
             xywh {320 155 120 30} down_box BORDER_BOX align 1
           } {
             MenuItem {} {
@@ -1696,7 +1696,7 @@ class LABSoft_GUI {open
             }
             MenuItem {} {
               label Auto
-              xywh {60 60 36 21}
+              xywh {60 60 36 21} deactivate
             }
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_horizontal_offset {
@@ -1951,88 +1951,88 @@ class LABSoft_GUI {open
             xywh {1220 155 120 30} box FLAT_BOX color 53 selection_color 53 align 1
           } {
             MenuItem {} {
-              label {50 kHz} selected
+              label {50 kHz}
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {20 kHz} selected
+              label {20 kHz}
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {10 kHz} selected
+              label {10 kHz}
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {5 kHz} selected
+              label {5 kHz}
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {2 kHz} selected
+              label {2 kHz}
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {1 kHz} selected
+              label {1 kHz}
               xywh {729 100 36 21}
             }
             MenuItem {} {
-              label {6.67 Hz} selected
+              label {6.67 Hz}
               xywh {160 160 36 21}
             }
             MenuItem {} {
-              label {16.67 Hz} selected
+              label {16.67 Hz}
               xywh {130 130 36 21}
             }
             MenuItem {} {
-              label {40 Hz} selected
+              label {40 Hz}
               xywh {110 110 36 21}
             }
             MenuItem {} {
-              label {100 Hz} selected
+              label {100 Hz}
               xywh {100 100 36 21}
             }
             MenuItem {} {
-              label {200 Hz} selected
+              label {200 Hz}
               xywh {90 90 36 21}
             }
             MenuItem {} {
-              label {400 Hz} selected
+              label {400 Hz}
               xywh {80 80 36 21}
             }
             MenuItem {} {
-              label {1 kHz} selected
+              label {1 kHz}
               xywh {70 70 36 21}
             }
             MenuItem {} {
-              label {2 kHz} selected
+              label {2 kHz}
               xywh {80 80 36 21}
             }
             MenuItem {} {
-              label {4 kHz} selected
+              label {4 kHz}
               xywh {90 90 36 21}
             }
             MenuItem {} {
-              label {10 kHz} selected
+              label {10 kHz}
               xywh {100 100 36 21}
             }
             MenuItem {} {
-              label {20 kHz} selected
+              label {20 kHz}
               xywh {110 110 36 21}
             }
             MenuItem {} {
-              label {40 kHz} selected
+              label {40 kHz}
               xywh {120 120 36 21}
             }
             MenuItem {} {
-              label {100 kHz} selected
+              label {100 kHz}
               xywh {150 150 36 21}
             }
             MenuItem {} {
-              label {200 kHz} selected
+              label {200 kHz}
               xywh {140 140 36 21}
             }
           }
-          Fl_Group logic_analyzer_labsoft_gui_logic_analyzer_display {selected
-            xywh {20 205 1318 540} box DOWN_BOX color 7
+          Fl_Group logic_analyzer_labsoft_gui_logic_analyzer_display {
+            xywh {33 205 1300 540} box DOWN_BOX color 7
             code0 {\#include "LABSoft_GUI_Logic_Analyzer_Display.h"}
             class LABSoft_GUI_Logic_Analyzer_Display
           } {}
@@ -2218,7 +2218,7 @@ class LABSoft_GUI {open
         xywh {0 0 1366 30} box FLAT_BOX color 54
       } {
         Submenu {} {
-          label Workspace open
+          label Workspace
           xywh {0 0 70 21}
         } {
           MenuItem main_menuitem_export {
@@ -2434,7 +2434,7 @@ class LABSoft_GUI {open
     }
     Fl_Window logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window {
       callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_add_channel_signal (o, v);}
-      xywh {8 31 120 100} type Double hide
+      xywh {8 31 120 100} type Double color 255 hide
       code0 {\#include "LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"}
       class LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window
     } {}

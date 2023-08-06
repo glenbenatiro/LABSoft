@@ -18,10 +18,10 @@ LAB_Digital_Circuit_Checker::
 LAB_Digital_Circuit_Checker (LAB_Core* _LAB_Core, LAB* _LAB)
   : m_LAB_Core    (_LAB_Core), 
     m_LAB         (_LAB),
-    m_hw_expander (LABC::PIN::DIGITAL_CIRCUIT_CHECKER_CS,
-                  LABC::PIN::DIGITAL_CIRCUIT_CHECKER_MISO,
-                  LABC::PIN::DIGITAL_CIRCUIT_CHECKER_MOSI,
-                  LABC::PIN::DIGITAL_CIRCUIT_CHECKER_SCLK,
+    m_hw_expander (LABC::PIN::DCC_XPAND_CS,
+                  LABC::PIN::DCC_XPAND_MISO,
+                  LABC::PIN::DCC_XPAND_MOSI,
+                  LABC::PIN::DCC_XPAND_SCLK,
                   LABC::DIGITAL_CIRCUIT_CHECKER::IC_FREQUENCY,
                   0)
 {

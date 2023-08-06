@@ -29,50 +29,45 @@ namespace LABC
 
   namespace PIN
   {
-    // Make sure nothing conflicts here!
+    // oscilloscope
+    constexpr unsigned OSC_ADC_SCLK   = 11;
+    constexpr unsigned OSC_ADC_MOSI   = 10;
+    constexpr unsigned OSC_ADC_MISO   = 9;
+    constexpr unsigned OSC_ADC_CS     = 8;
+    constexpr unsigned OSC_MUX_C0_A0  = 27;
+    constexpr unsigned OSC_MUX_C0_A1  = 22;
+    constexpr unsigned OSC_MUX_C1_A0  = 23;
+    constexpr unsigned OSC_MUX_C1_A1  = 24;
+    constexpr unsigned OSC_RELAY_C0   = 14;
+    constexpr unsigned OSC_RELAY_C1   = 15; 
 
-    // Oscilloscope
-    constexpr unsigned OSC_ADC_SCLK                       = 11;
-    constexpr unsigned OSC_ADC_MOSI                       = 10;
-    constexpr unsigned OSC_ADC_MISO                       = 9;
-    constexpr unsigned OSC_ADC_CS                         = 8;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A0           = 27;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_0_A1           = 22;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A0           = 23;
-    constexpr unsigned OSC_MUX_SCALER_CHAN_1_A1           = 24;
-    constexpr unsigned OSC_COUPLING_SELECT_CHAN_0         = 14;
-    constexpr unsigned OSC_COUPLING_SELECT_CHAN_1         = 15; 
-  
-    // PWM
-    constexpr unsigned PWM                                = 12;
+    // function generator
+    constexpr unsigned FG_PWG_CS      = 13;
+    constexpr unsigned FG_PWG_MISO    = 5;
+    constexpr unsigned FG_PWG_MOSI    = 4;
+    constexpr unsigned FG_PWG_SCLK    = 6;
+    constexpr unsigned FG_DPOTS_SCLK  = 21;
+    constexpr unsigned FG_DPOTS_MOSI  = 20;
+    constexpr unsigned FG_DPOTS_MISO  = 19;
+    constexpr unsigned FG_DPOT0_CS    = 18; 
+    constexpr unsigned FG_DPOT1_CS    = 17; 
+    constexpr unsigned FG_DPOT2_CS    = 16;
 
-    // Function Generator
-    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_CS            = 13;
-    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_MISO          = 5;
-    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_MOSI          = 4;
-    constexpr unsigned FUNC_GEN_BB_SPI_MAIN_SCLK          = 6;
-    constexpr unsigned FUNC_GEN_AUX_SPI_SCLK              = 21;
-    constexpr unsigned FUNC_GEN_AUX_SPI_MOSI              = 20;
-    constexpr unsigned FUNC_GEN_AUX_SPI_MISO              = 19;
-    constexpr unsigned FUNC_GEN_AUX_SPI_CS_DIGIPOT_AMP_0  = 18; 
-    constexpr unsigned FUNC_GEN_AUX_SPI_CS_DIGIPOT_AMP_1  = 17; 
-    constexpr unsigned FUNC_GEN_AUX_SPI_CS_DIGIPOT_OFFSET = 16;
-
-    // Logic Analyzer
-    //constexpr unsigned LOGIC_ANALYZER []                  = {7, 1, 0, 26};
+    // logic analyzer
 
     // Yes, GPIO pins 5 and 19 are used in Function Generator.
-    // These are not used in Function Gen. MISOs for digipots.
+    // These are not used in Function Gen MISOs for digipots.
     // I'm relying on the fact that LAB_Logic_Analyzer is the
     // last to be initialized, after Function Generator. 
     // So LAB_Logic_Analyzer's GPIO pin init is called last.
-    constexpr unsigned LOGIC_ANALYZER []                  = {1, 5, 19, 26};
 
-    // Digital Circuit Checker
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_CS         = 25;
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MISO       = 12;
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_MOSI       = 3;
-    constexpr unsigned DIGITAL_CIRCUIT_CHECKER_SCLK       = 2;
+    constexpr unsigned LOGIC_ANALYZER[] = {1, 5, 19, 26};   
+
+    // digital circuit checker
+    constexpr unsigned DCC_XPAND_CS   = 25;
+    constexpr unsigned DCC_XPAND_MISO = 12;
+    constexpr unsigned DCC_XPAND_MOSI = 3;
+    constexpr unsigned DCC_XPAND_SCLK = 2;
   };
 
   namespace DMA
@@ -335,9 +330,7 @@ namespace LABC
 
   namespace LOGAN_DISPLAY
   {
-    // the length of the info strip locatd at the top of the display.
-    // this affects the height of the display status box and the sampling info box
-    constexpr unsigned TOP_INFO_STRIP_HEIGHT                  = 25; 
+    constexpr unsigned TOP_INFO_STRIP_HEIGHT                  = 30; 
     constexpr unsigned DISPLAY_STATUS_BOX_HEIGHT              = TOP_INFO_STRIP_HEIGHT;
     constexpr unsigned DISPLAY_STATUS_BOX_WIDTH               = 90;
     constexpr unsigned CHANNEL_BUTTON_HEIGHT                  = 60;
@@ -358,26 +351,41 @@ namespace LABC
       122 // brick?
     };
 
+    constexpr int     CHANNEL_HEIGHT                    = 60;
+    constexpr int     CHANNEL_DRAGGER_WIDTH             = 20;
+    constexpr int     CHANNEL_NAME_WIDTH                = 90;
+    constexpr int     CHANNEL_SETTING_WIDTH             = 30;
+    constexpr int     CHANNEL_DIO_WIDTH                 = 60;
+    constexpr int     CHANNEL_TRIGGER_WIDTH             = 40;
+    constexpr int     CHANNEL_INFO_WIDTH                = CHANNEL_DRAGGER_WIDTH + 
+                                                          CHANNEL_NAME_WIDTH + 
+                                                          CHANNEL_SETTING_WIDTH + 
+                                                          CHANNEL_DIO_WIDTH + 
+                                                          CHANNEL_TRIGGER_WIDTH;
+    constexpr double  CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD = 60.0; // in percent, with the graph widget height as max
+
+    constexpr Fl_Boxtype  GRAPH_BOX         = FL_THIN_DOWN_BOX;
+    constexpr unsigned    GRAPH_BG_COLOR    = 7;
+    constexpr unsigned    GRAPH_LINE_COLOR  = FL_BLACK;
+    constexpr int         GRAPH_LINE_STYLE  = FL_SOLID;
+    constexpr int         GRAPH_LINE_WIDTH         = 2;
+    constexpr char*       GRAPH_LINE_DASHES = 0;
+
     constexpr unsigned  NUMBER_OF_COLUMNS        = LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
     constexpr int       BG_COLOR                 = FL_WHITE;
     constexpr int       GROUP_NUMBER_OF_CHANNELS = LOGAN::NUMBER_OF_CHANNELS;
     constexpr int       GRID_COLOR               = FL_BLACK;
-    constexpr int       GRAPH_LINE_STYLE         = FL_SOLID;
-    constexpr int       GRAPH_LINE_COLOR         = FL_BLACK;
-    constexpr int       GRAPH_LINE_WIDTH         = 2;
-    constexpr char*     GRAPH_LINE_DASHES        = 0;
-    constexpr double    GRAPH_LINE_P2P_SPREAD    = 60.0; // in percent
   };
 
-  namespace LOGAN_DISPLAY_GROUP
-  {
-    constexpr int       X_LABEL_STRIP_HEIGHT  = 30;
-    constexpr int       X_LABEL_SIZE          = 10;
-    constexpr unsigned  CHANNEL_BUTTON_HEIGHT = 60;
-    constexpr unsigned  CHANNEL_BUTTON_WIDTH  = 180;
+  // namespace LOGAN_DISPLAY_GROUP
+  // {
+  //   constexpr int       X_LABEL_STRIP_HEIGHT  = 30;
+  //   constexpr int       X_LABEL_SIZE          = 10;
+  //   constexpr unsigned  CHANNEL_BUTTON_HEIGHT = 60;
+  //   constexpr unsigned  CHANNEL_BUTTON_WIDTH  = 180;
 
     
-  }
+  // }
 
   namespace DIGITAL_CIRCUIT_CHECKER
   {

@@ -3,9 +3,7 @@
 #include "LABSoft_Controller.h"
 #include "../Utility/LAB_Constants.h"
 #include "../Utility/LAB_LabelValue.h"
-
-// delete soon
-#include <iostream>
+#include "../Utility/LABSoft_GUI_Label_Values.h"
 
 LABSoft_Controller_Logic_Analyzer:: 
 LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB, 
@@ -16,7 +14,7 @@ LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB,
     m_LABSoft_Controller  (_LABSoft_Controller)
 {
   init ();
-  init_gui_values ();  
+  init_gui_values ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -142,43 +140,22 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_trigger_mode (Fl_Choice* w, 
                  void*      data)
 {
-  LABE::LOGAN::TRIG::MODE mode;
   std::string choice (w->text ());
 
-  if (choice == "None")
-  {
-    mode = LABE::LOGAN::TRIG::MODE::NONE;
-  }
-  else if (choice == "Auto")
-  { 
-    mode = LABE::LOGAN::TRIG::MODE::AUTO;
-  }
-  else if (choice == "Normal")
-  {
-    mode = LABE::LOGAN::TRIG::MODE::NORMAL;
-  }
-  else 
-  {
-    throw (std::runtime_error ("Invalid trigger mode input."));
-  }
-
-  //m_LAB->m_Logic_Analyzer.trigger_mode (mode);
+  m_LAB->m_Logic_Analyzer.trigger_mode 
+    (LABS_GUI_VALUES::LOGAN::TRIG_MODE_s[choice]);
 }
 
 void LABSoft_Controller_Logic_Analyzer::
 display_update_cycle ()
 {
-  // 1. 
-  m_LAB->m_Logic_Analyzer.fill_channel_samples_buffer ();
+  if (m_LAB->m_Logic_Analyzer.is_running ())
+  {
+    m_LAB->m_Logic_Analyzer.load_data_samples ();
+  }
 
-  // 2.
-  LABSoft_GUI_Logic_Analyzer_Display& display = *(m_LABSoft_GUI->
-    logic_analyzer_labsoft_gui_logic_analyzer_display);
-
-  display.fill_pixel_points ();
-
-  // 3.
-  display.redraw ();
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
+    update_display ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -242,7 +219,7 @@ cb_add_channel_signal (LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* w, 
 void LABSoft_Controller_Logic_Analyzer:: 
 cb_clear_channels (Fl_Menu_* w, void* data)
 {
-  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->clear_channels ();
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->clear_all_channels ();
 }
 
 // EOF

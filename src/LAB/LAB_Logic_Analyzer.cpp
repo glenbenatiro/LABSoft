@@ -13,6 +13,9 @@ LAB_Logic_Analyzer (LAB_Core* _LAB_Core, LAB* _LAB)
   // init_pwm (); // or maybe init_pcm () ???
   init_gpio_pins  ();
   init_dma        ();
+
+  // m_LAB_Core->gpio.set_event_detect (LABC::PIN::LOGIC_ANALYZER[1],
+  //   AP::GPIO::EVENT::RISING_EDGE, true);
 }
 
 LAB_Logic_Analyzer::
@@ -133,47 +136,29 @@ config_dma_cb ()
 void LAB_Logic_Analyzer:: 
 run ()
 {
-  // in the meantime, use PWM triggering
-  //m_LAB_Core->pwm_start (LAB_PWM_DMA_PACING_PWM_CHAN);
-  m_parent_data.is_enabled = true;
-  m_parent_data.is_logan_core_running = true;
+  m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
+
+  m_parent_data.is_backend_running     = true;
+  m_parent_data.is_frontend_running = true;
 }
 
 void LAB_Logic_Analyzer:: 
 stop ()
 {
-  //m_LAB_Core->pwm_stop (LAB_PWM_DMA_PACING_PWM_CHAN);
-  m_parent_data.is_enabled = false;
-  m_parent_data.is_logan_core_running = false;
+  m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
+
+  m_parent_data.is_backend_running     = false;
+  m_parent_data.is_frontend_running = false;
 }
 
-void LAB_Logic_Analyzer:: 
-fill_channel_samples_buffer ()
+bool LAB_Logic_Analyzer:: 
+is_running () const
 {
-  // switch (trigger_mode ())
-  // {
-  //   case (LABE::LOGAN::TRIG::MODE::NONE):
-  //   {
-  //     fill_raw_data_buffer_using_uncached_data_buffer (); 
-  //     parse_raw_data_buffer ();
-
-  //     break;
-  //   }
-
-  //   case (LABE::LOGAN::TRIG::MODE::NORMAL):
-  //   {
-  //     break;
-  //   }
-
-  //   case (LABE::LOGAN::TRIG::MODE::AUTO):
-  //   {
-  //     break;
-  //   }
-  // }
+  return (m_parent_data.is_backend_running);
 }
 
 void LAB_Logic_Analyzer:: 
-fill_raw_data_buffer_using_uncached_data_buffer ()
+fill_raw_sample_buffer_from_dma_buffer ()
 {
   LAB_DMA_Data_Logic_Analyzer& dma_data = 
     *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
@@ -218,18 +203,18 @@ fill_raw_data_buffer_using_uncached_data_buffer ()
 }
 
 void LAB_Logic_Analyzer:: 
-parse_raw_data_buffer ()
+parse_raw_sample_buffer ()
 {
   LAB_Parent_Data_Logic_Analyzer& pdata = m_parent_data;
 
-  for (unsigned samp = 0; samp < (m_parent_data.raw_data_buffer.size ()); samp++)
+  for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
-    for (unsigned chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
+    for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
     {
       pdata.channel_data[chan].samples[samp] = 
         (pdata.raw_data_buffer[samp] >> LABC::PIN::LOGIC_ANALYZER[chan]) & 0x1;    
 
-      // For debug
+      // // For debug
       // if (samp == 0 && chan == 0)
       // {
       //   std::cout << std::bitset <32> (pdata.raw_data_buffer[samp]) << "\n";
@@ -294,67 +279,46 @@ parse_trigger_mode ()
 void LAB_Logic_Analyzer:: 
 find_trigger_point_loop ()
 {
+  while (m_parent_data.find_trigger)
+  {
+    std::this_thread::sleep_for (std::chrono::duration<double, std::milli>(10));
 
+    std::cout << m_LAB_Core->st.low () << "\n";
+  }
 }
+
 
 void LAB_Logic_Analyzer:: 
 load_data_samples ()
 {
-  fill_raw_sample_buffer  ();
-  parse_raw_sample_buffer ();
-}
-
-void LAB_Logic_Analyzer:: 
-fill_raw_sample_buffer ()
-{
-  LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
-    (m_uncached_memory.virt ()));
-  
-  if (mode () == LABE::LOGAN::MODE::SCREEN)
+  switch (m_parent_data.trigger_mode)
   {
-    std::memcpy (
-      m_parent_data.raw_data_buffer.data (),
-      const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
-      sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES
-    );
-  }
-  else if (mode () == LABE::LOGAN::MODE::REPEATED)
-  {
-    for (int buff = 0; buff < 2; buff++)
+    case (LABE::LOGAN::TRIG::MODE::NONE):
     {
-      if (dma_data.status[buff])
-      {
-        std::memcpy (
-          m_parent_data.raw_data_buffer.data (),
-          const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[1])),
-          sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES
-        );
-      }
+      fill_raw_sample_buffer_from_dma_buffer  ();
+      parse_raw_sample_buffer                 ();  
 
-      // Check if the other buffer is also full. 
-      // If it is, then we have a buffer overflow (both buffers full).
-      if (dma_data.status[buff ^ 1])
-      {
-        dma_data.status[0] = dma_data.status[1] = 0;
-
-        break;
-      }
-
-      dma_data.status[buff] = 0;
+      break;
     }
-  }
-}
 
-void LAB_Logic_Analyzer::
-parse_raw_sample_buffer()
-{
-  for (int samp = 0; samp < (m_parent_data.raw_data_buffer.size ()); samp++)
-  {
-    for (int chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
+    case (LABE::LOGAN::TRIG::MODE::NORMAL):
     {
-      m_parent_data.channel_data[chan].samples[samp] = 
-        (m_parent_data.raw_data_buffer[samp] >> LABC::PIN::LOGIC_ANALYZER[chan])
-        & 0x1;
+      if (m_parent_data.trigger_frame_ready)
+      {
+        parse_raw_sample_buffer ();
+      }
+
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::MODE::AUTO):
+    {
+      if (m_parent_data.trigger_frame_ready)
+      {
+        parse_raw_sample_buffer ();
+      }
+
+      break;
     }
   }
 }
@@ -521,16 +485,18 @@ dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count)
   }
 }
 
-bool LAB_Logic_Analyzer:: 
-is_running ()
-{
-  return (m_parent_data.is_enabled);
-}
-
 void LAB_Logic_Analyzer:: 
 trigger (unsigned channel, LABE::LOGAN::TRIG::CND condition)
 {
 
+}
+
+void LAB_Logic_Analyzer:: 
+trigger_mode (LABE::LOGAN::TRIG::MODE value)
+{
+  m_parent_data.trigger_mode = value;
+
+  parse_trigger_mode ();
 }
 
 // EOF

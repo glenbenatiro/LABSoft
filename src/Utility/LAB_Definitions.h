@@ -174,8 +174,8 @@ class LAB_Parent_Data_Logic_Analyzer
     }
 
     // State
-    bool      is_logan_core_running = false;
-    bool      is_enabled            = false;
+    bool is_backend_running      = false;
+    bool is_frontend_running  = false;
 
     // Mode
     LABE::LOGAN::MODE mode = LABC::LOGAN::MODE;
@@ -196,8 +196,9 @@ class LAB_Parent_Data_Logic_Analyzer
       LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
     
     // Trigger 
-    bool                    find_trigger   = false;
-    LABE::LOGAN::TRIG::MODE trigger_mode  = LABC::LOGAN::TRIGGER_MODE;
+    bool                    find_trigger        = false;
+    bool                    trigger_frame_ready = false;
+    LABE::LOGAN::TRIG::MODE trigger_mode        = LABC::LOGAN::TRIGGER_MODE;
 };
 
 struct LAB_DMA_Data_Logic_Analyzer

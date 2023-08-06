@@ -722,7 +722,7 @@ void LABSoft_GUI::cb_logic_analyzer_fl_choice_trigger_mode(Fl_Choice* o, void* v
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_choice_trigger_mode[] = {
  {"None", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Normal", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"Auto", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Auto", 0,  0, 0, 1, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -1560,7 +1560,7 @@ LABSoft_GUI::LABSoft_GUI() {
           logic_analyzer_fl_input_choice_sampling_rate->align(Fl_Align(FL_ALIGN_TOP));
           logic_analyzer_fl_input_choice_sampling_rate->menu(menu_logic_analyzer_fl_input_choice_sampling_rate);
         } // Fl_Input_Choice* logic_analyzer_fl_input_choice_sampling_rate
-        { logic_analyzer_labsoft_gui_logic_analyzer_display = new LABSoft_GUI_Logic_Analyzer_Display(20, 205, 1318, 540);
+        { logic_analyzer_labsoft_gui_logic_analyzer_display = new LABSoft_GUI_Logic_Analyzer_Display(33, 205, 1300, 540);
           logic_analyzer_labsoft_gui_logic_analyzer_display->box(FL_DOWN_BOX);
           logic_analyzer_labsoft_gui_logic_analyzer_display->color(FL_BACKGROUND2_COLOR);
           logic_analyzer_labsoft_gui_logic_analyzer_display->selection_color(FL_BACKGROUND_COLOR);
@@ -1818,7 +1818,7 @@ LABSoft_GUI::LABSoft_GUI() {
   } // Fl_Double_Window* main_fl_window_about
   { logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window = new LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window(120, 100);
     logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->box(FL_FLAT_BOX);
-    logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->color(FL_BACKGROUND_COLOR);
+    logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->color(FL_WHITE);
     logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->selection_color(FL_BACKGROUND_COLOR);
     logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->labeltype(FL_NO_LABEL);
     logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->labelfont(0);
