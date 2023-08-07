@@ -665,6 +665,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h

@@ -127,6 +127,7 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     Fl_Scroll*                m_scroll;  
     std::vector<ChanWidget*>  m_channel_widgets;
     std::array<int, 2>        m_graph_base_line_coords;
+    Fl_Box*                   m_status;
     
     std::array<
       Fl_Box*,
@@ -152,11 +153,11 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     LABSoft_GUI_Logic_Analyzer_Display (int X, int Y, int W, int H, const char* label = 0);
    ~LABSoft_GUI_Logic_Analyzer_Display ();
 
-    void load_logic_analyzer_parent_data      (LAB_Parent_Data_Logic_Analyzer& pdata);
-    void add_channel                          (unsigned channel, const char* name = 0);
-    void clear_all_channels                   ();
-    void update_gui_time_per_division_labels  ();
-    void update_display                       ();
+    void load_logic_analyzer_parent_data  (LAB_Parent_Data_Logic_Analyzer& pdata);
+    void add_channel                      (unsigned channel, const char* name = 0);
+    void clear_all_channels               ();
+    void update_gui_time_per_division     ();
+    void update_display                   ();
 };
 
 #endif

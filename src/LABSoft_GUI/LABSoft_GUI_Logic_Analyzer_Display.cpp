@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../Utility/LAB_Defaults.h"
+#include "../Utility/LAB_LabelValue.h"
 
 Fl_Menu_Item ChanWidget::menu_m_fl_menu_button_trigger_mode[] = {
  {"X Ignore", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -66,6 +67,8 @@ draw_signal ()
       pp[a + 1][1] + m_graph_offset
     );
   }
+
+  fl_line_style (0);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph:: 
@@ -155,7 +158,7 @@ init_child_widgets ()
         LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
       );
 
-      m_fl_output_dio_pin->color          (79);
+      m_fl_output_dio_pin->color (79);
     }
     {
       m_fl_menu_button_trigger_mode = new Fl_Menu_Button  (
@@ -316,15 +319,15 @@ draw_grid ()
   fl_color (LABC::LOGAN_DISPLAY::GRID_COLOR);
 
   // Columns
-  for (unsigned col = 0; col <= LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++)
+  for (unsigned col = 0; col < LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++)
   {
-    if (col == (LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS / 2))
+    if (col == 0)
+    {
+      fl_line_style (FL_SOLID); 
+    }
+    else if (col == (LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS / 2))
     {
       fl_line_style (FL_DASH);
-    }
-    else if (col == 0 || col == LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS)
-    {
-      fl_line_style (FL_SOLID);
     }
     else 
     {
@@ -338,6 +341,8 @@ draw_grid ()
       y () + h ()
     );
   }
+
+  fl_line_style (0);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay:: 
@@ -619,6 +624,8 @@ void LABSoft_GUI_Logic_Analyzer_Display::
 load_logic_analyzer_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
 {
   m_parent_data = &pdata;
+
+  update_gui_time_per_division ();
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
@@ -661,9 +668,19 @@ clear_all_channels ()
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
-update_gui_time_per_division_labels ()
+update_gui_time_per_division ()
 {
+  double col_half = (LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS / 2.0) * -1;
 
+  for (unsigned a = 0; a < m_time_per_division_labels.size (); a++)
+  {
+    double col_tpd = (a + col_half) * (m_parent_data->time_per_division) + 
+      (m_parent_data->horizontal_offset);
+
+    LAB_LabelValue lv (col_tpd, LAB_LabelValue::UNIT::SECOND);
+    
+    m_time_per_division_labels[a]->copy_label (lv.to_label_text ().c_str ());
+  }
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 

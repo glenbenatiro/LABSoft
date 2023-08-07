@@ -311,10 +311,8 @@ namespace LABC
     constexpr double                  MIN_TIME_PER_DIVISION           = MIN_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MIN_TIME_PER_DIVISION_SCREEN    = 1.0 / DISPLAY_NUMBER_OF_COLUMNS;
     constexpr double                  MIN_TIME_PER_DIVISION_NO_ZOOM   = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
-    constexpr double                  TIME_PER_DIVISION               = SAMPLES / (SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);  
     constexpr double                  MAX_HORIZONTAL_OFFSET           = MAX_SAMPLES / MIN_SAMPLING_RATE;  
     constexpr double                  MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
-    constexpr double                  POSITION                        = 0.0;
 
     // Mode
     constexpr LABE::LOGAN::MODE       MODE                            = (TIME_PER_DIVISION < MIN_TIME_PER_DIVISION_SCREEN) ? 
@@ -330,18 +328,18 @@ namespace LABC
 
   namespace LOGAN_DISPLAY
   {
-    constexpr unsigned TOP_INFO_STRIP_HEIGHT                  = 30; 
-    constexpr unsigned DISPLAY_STATUS_BOX_HEIGHT              = TOP_INFO_STRIP_HEIGHT;
-    constexpr unsigned DISPLAY_STATUS_BOX_WIDTH               = 90;
-    constexpr unsigned CHANNEL_BUTTON_HEIGHT                  = 60;
-    constexpr unsigned CHANNEL_BUTTON_WIDTH                   = 180;
-    constexpr unsigned INTERNAL_DISPLAY_BG_COLOR              = FL_WHITE;
+    constexpr unsigned  TOP_INFO_STRIP_HEIGHT                 = 30; 
+    constexpr unsigned  DISPLAY_STATUS_BOX_HEIGHT             = TOP_INFO_STRIP_HEIGHT;
+    constexpr unsigned  DISPLAY_STATUS_BOX_WIDTH              = 90;
+    constexpr unsigned  CHANNEL_BUTTON_HEIGHT                 = 60;
+    constexpr unsigned  CHANNEL_BUTTON_WIDTH                  = 180;
+    constexpr unsigned  INTERNAL_DISPLAY_BG_COLOR             = FL_WHITE;
 
-    constexpr unsigned TIME_PER_DIVISION_LABELS_STRIP_HEIGHT  = 30;
-    constexpr unsigned TIME_PER_DIVISION_LABELS_TOP_MARGIN    = 5;
-    constexpr unsigned TIME_PER_DIVISION_LABELS_COLOR         = FL_FOREGROUND_COLOR;
-    constexpr unsigned TIME_PER_DIVISION_LABELS_SIZE          = 10;
-    constexpr unsigned TIME_PER_DIVSION_LABELS_LAST_OFFSET    = 18;
+    constexpr unsigned  TIME_PER_DIVISION_LABELS_STRIP_HEIGHT = 30;
+    constexpr unsigned  TIME_PER_DIVISION_LABELS_TOP_MARGIN   = 5;
+    constexpr unsigned  TIME_PER_DIVISION_LABELS_COLOR        = FL_FOREGROUND_COLOR;
+    constexpr unsigned  TIME_PER_DIVISION_LABELS_SIZE         = 10;
+    constexpr unsigned  TIME_PER_DIVSION_LABELS_LAST_OFFSET   = 20;
 
     static constexpr uint32_t CHANNEL_COLORS[] = 
     {
@@ -351,18 +349,18 @@ namespace LABC
       122 // brick?
     };
 
-    constexpr int     CHANNEL_HEIGHT                    = 60;
-    constexpr int     CHANNEL_DRAGGER_WIDTH             = 20;
-    constexpr int     CHANNEL_NAME_WIDTH                = 90;
-    constexpr int     CHANNEL_SETTING_WIDTH             = 30;
-    constexpr int     CHANNEL_DIO_WIDTH                 = 60;
-    constexpr int     CHANNEL_TRIGGER_WIDTH             = 40;
-    constexpr int     CHANNEL_INFO_WIDTH                = CHANNEL_DRAGGER_WIDTH + 
-                                                          CHANNEL_NAME_WIDTH + 
-                                                          CHANNEL_SETTING_WIDTH + 
-                                                          CHANNEL_DIO_WIDTH + 
-                                                          CHANNEL_TRIGGER_WIDTH;
-    constexpr double  CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD = 60.0; // in percent, with the graph widget height as max
+    constexpr int       CHANNEL_HEIGHT                         = 60;
+    constexpr int       CHANNEL_DRAGGER_WIDTH                  = 20;
+    constexpr int       CHANNEL_NAME_WIDTH                     = 90;
+    constexpr int       CHANNEL_SETTING_WIDTH                  = 30;
+    constexpr int       CHANNEL_DIO_WIDTH                      = 60;
+    constexpr int       CHANNEL_TRIGGER_WIDTH                  = 40;
+    constexpr int       CHANNEL_INFO_WIDTH                     = CHANNEL_DRAGGER_WIDTH + 
+                                                                  CHANNEL_NAME_WIDTH + 
+                                                                  CHANNEL_SETTING_WIDTH + 
+                                                                  CHANNEL_DIO_WIDTH + 
+                                                                  CHANNEL_TRIGGER_WIDTH;
+    constexpr double  CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD       = 60.0; // in percent, with the graph widget height as max
 
     constexpr Fl_Boxtype  GRAPH_BOX         = FL_THIN_DOWN_BOX;
     constexpr unsigned    GRAPH_BG_COLOR    = 7;
@@ -375,6 +373,8 @@ namespace LABC
     constexpr int       BG_COLOR                 = FL_WHITE;
     constexpr int       GROUP_NUMBER_OF_CHANNELS = LOGAN::NUMBER_OF_CHANNELS;
     constexpr int       GRID_COLOR               = FL_BLACK;
+
+    constexpr int       STATUS_WIDTH                          = 90;
   };
 
   // namespace LOGAN_DISPLAY_GROUP
