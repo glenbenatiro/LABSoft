@@ -192,18 +192,6 @@ FL/Fl_Native_File_Chooser.H
 ../LABSoft_GUI/LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp
-LABSoft_Controller_Logic_Analyzer.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.h
-LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
-../Utility/LAB_Constants.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
-../Utility/LAB_LabelValue.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
-../Utility/LABSoft_GUI_Label_Values.h
-/home/glen/Desktop/LABSoft/src/Utility/LABSoft_GUI_Label_Values.h
-
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.h
 FL/Fl_Light_Button.H
 -
@@ -320,10 +308,26 @@ FL/Fl_Window.H
 FL/Fl_Multi_Browser.H
 -
 
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
+LABSoft_GUI_Logic_Analyzer_Display.h
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
+cmath
+-
+iostream
+-
+../LABSoft_Controller/LABSoft_Controller.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
+../Utility/LAB_Defaults.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
+../Utility/LAB_LabelValue.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
+
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
 array
 -
 vector
+-
+functional
 -
 FL/Fl_Pack.H
 -
@@ -388,14 +392,6 @@ LABSoft_GUI_Oscilloscope_Display.h
 ../../lib/AikaPi/AikaPi.h
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
 
-/home/glen/Desktop/LABSoft/src/Utility/LABSoft_GUI_Label_Values.h
-map
--
-string
--
-LAB_Enumerations.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
-
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
 map
 -
@@ -427,6 +423,8 @@ vector
 -
 LAB_Constants.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+LAB_Defaults.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
 LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 

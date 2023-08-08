@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 
+#include "../LABSoft_Controller/LABSoft_Controller.h"
 #include "../Utility/LAB_Defaults.h"
 #include "../Utility/LAB_LabelValue.h"
 
@@ -145,8 +146,8 @@ init_child_widgets ()
         LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
       );
       
-      m_fl_button_channel_info_setting->box             (FL_GTK_UP_BOX);
-      m_fl_button_channel_info_setting->color           (53);
+      m_fl_button_channel_info_setting->box   (FL_GTK_UP_BOX);
+      m_fl_button_channel_info_setting->color (53);
     }
     {
       m_fl_output_dio_pin = new Fl_Output (
@@ -235,6 +236,13 @@ cb_fl_menu_button_trigger_mode (Fl_Menu_Button* w, void* data)
   }
 
   w->copy_label (new_label);
+
+  // m_fl_group_channel_info -> LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget ->
+  // m_pack -> m_scroll -> LABSoft_GUI_Logic_Analyzer_Display
+  Fl_Widget* disp = parent ()->parent ()->parent ()->parent ()->parent ();
+
+  ((LABSoft_GUI_Logic_Analyzer_Display*)(disp))->controller ().
+    m_Logic_Analyzer.cb_trigger_mode_channel (w, nullptr);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget:: 
@@ -626,6 +634,18 @@ load_logic_analyzer_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
   m_parent_data = &pdata;
 
   update_gui_time_per_division ();
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+controller (LABSoft_Controller& controller)
+{
+  m_LABSoft_Controller = &controller;
+}
+
+LABSoft_Controller& LABSoft_GUI_Logic_Analyzer_Display:: 
+controller () const 
+{
+  return (*m_LABSoft_Controller);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 

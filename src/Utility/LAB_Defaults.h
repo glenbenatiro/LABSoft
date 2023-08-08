@@ -7,12 +7,13 @@ namespace LABD
 {
   namespace LOGAN 
   {
+    constexpr double    SAMPLING_RATE     = 40'000; // Hz
+    constexpr unsigned  SAMPLES           = LABC::LOGAN::MAX_SAMPLES;
+    constexpr double    TIME_PER_DIVISION = SAMPLES / (SAMPLING_RATE * LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS);  
     constexpr double    HORIZONTAL_OFFSET = 0.0;
-    constexpr double    TIME_PER_DIVISION = LABC::LOGAN::SAMPLES / 
-                                            (LABC::LOGAN::SAMPLING_RATE * 
-                                            LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS);  
-    constexpr unsigned  samples            
-
+    
+    constexpr LABE::LOGAN::MODE MODE      = (TIME_PER_DIVISION < LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN) ? 
+                                              LABE::LOGAN::MODE::REPEATED : LABE::LOGAN::MODE::SCREEN;
   };
 
   namespace LOGAN_DISPLAY

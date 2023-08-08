@@ -31,6 +31,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o: ../src/Utility/pugiconfig.hpp
@@ -54,6 +55,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/LAB_Libraries/L
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o: ../src/Utility/pugiconfig.hpp
@@ -81,6 +83,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/LAB_Lib
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o: ../src/Utility/pugiconfig.hpp
@@ -96,6 +99,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/LAB/LAB_Func
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.o: ../src/Utility/LAB_Enumerations.h
 
@@ -124,6 +128,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Libraries/LA
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o: ../src/Utility/pugiconfig.hpp
@@ -147,6 +152,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/LAB_Libraries/LAB_
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../src/Utility/LAB_Utility_Functions.h
@@ -171,6 +177,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/LAB_Libraries/LAB_AD9
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o: ../src/Utility/pugiconfig.hpp
@@ -658,13 +665,44 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o:
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../lib/AikaPi/AikaPi.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../lib/MCP23S17/MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../lib/MCP4XXX/MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Core.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Digital_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_LABChecker_Digital.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Logic_Analyzer.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB/LAB_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Main_Window.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_LabelValue.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/pugiconfig.hpp
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/pugixml.hpp
 
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../lib/AD9833/AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../lib/AikaPi/AikaPi.h
@@ -673,6 +711,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: .
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Utility_Functions.h
@@ -685,6 +724,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/Utility/LAB_Enumerations.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o: ../src/Utility/LAB_LabelValue.h

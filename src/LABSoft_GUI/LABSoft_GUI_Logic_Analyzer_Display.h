@@ -3,6 +3,7 @@
 
 #include <array>
 #include <vector>
+#include <functional>
 
 #include <FL/Fl_Pack.H>
 #include <FL/Fl_Box.H>
@@ -17,6 +18,7 @@
 #include "../Utility/LAB_Definitions.h"
 #include "../Utility/LAB_Defaults.h"
 
+class LABSoft_Controller;
 class LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph;
 class LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget;
 class LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay;
@@ -119,15 +121,18 @@ class LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay : public Fl_Widget
 class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
 {
   private:
+    // data
     DisplayData                     m_display_data;
     LAB_Parent_Data_Logic_Analyzer* m_parent_data;
+    LABSoft_Controller*             m_LABSoft_Controller;
 
-    Fl_Pack*                  m_pack;           
-    Overlay*                  m_overlay;
-    Fl_Scroll*                m_scroll;  
-    std::vector<ChanWidget*>  m_channel_widgets;
-    std::array<int, 2>        m_graph_base_line_coords;
-    Fl_Box*                   m_status;
+    // gui
+    Fl_Pack*                        m_pack;           
+    Overlay*                        m_overlay;
+    Fl_Scroll*                      m_scroll;  
+    std::vector<ChanWidget*>        m_channel_widgets;
+    std::array<int, 2>              m_graph_base_line_coords;
+    Fl_Box*                         m_status;
     
     std::array<
       Fl_Box*,
@@ -154,6 +159,8 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
    ~LABSoft_GUI_Logic_Analyzer_Display ();
 
     void load_logic_analyzer_parent_data  (LAB_Parent_Data_Logic_Analyzer& pdata);
+    void controller                       (LABSoft_Controller& controller);
+    LABSoft_Controller& controller        () const;
     void add_channel                      (unsigned channel, const char* name = 0);
     void clear_all_channels               ();
     void update_gui_time_per_division     ();

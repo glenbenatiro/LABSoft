@@ -17,11 +17,7 @@ LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
     m_Main_Window             (_LAB, _LABSoft_GUI, this),
     m_LABChecker_Digital      (_LAB, _LABSoft_GUI, this)
 {
-  Fl::add_timeout (
-    LABC::LABSOFT::DISPLAY_UPDATE_RATE,
-    update_display,
-    this
-  );
+  Fl::add_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, this);
 }
 
 void LABSoft_Controller::

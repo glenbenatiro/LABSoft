@@ -51,6 +51,7 @@ init_gui_values ()
     LAB_LabelValue::UNIT::HERTZ).c_str ()
   );
 
+  // Display
   gui.logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->
     number_of_channels (LABC::LOGAN::NUMBER_OF_CHANNELS);
 
@@ -137,13 +138,20 @@ cb_display_mode (Fl_Choice  *w,
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_trigger_mode (Fl_Choice* w, 
-                 void*      data)
+cb_trigger_mode_display (Fl_Choice* w, 
+                         void*      data)
 {
   std::string choice (w->text ());
 
   m_LAB->m_Logic_Analyzer.trigger_mode 
     (LABS_GUI_VALUES::LOGAN::TRIG_MODE_s[choice]);
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_trigger_mode_channel (Fl_Menu_Button* w,
+                         void*           data)
+{
+  std::cout << "cb_trigger_mode_channel!" << "\n";
 }
 
 void LABSoft_Controller_Logic_Analyzer::

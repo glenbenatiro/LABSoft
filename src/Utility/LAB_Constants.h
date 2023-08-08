@@ -301,11 +301,9 @@ namespace LABC
     constexpr unsigned                DISPLAY_NUMBER_OF_COLUMNS       = 10;
     constexpr double                  MAX_SAMPLING_RATE               = 200'000.0;  // Hz
     constexpr double                  MIN_SAMPLING_RATE               = 1.0;        // Hz
-    constexpr double                  SAMPLING_RATE                   = 40'000.0;   // Hz
     constexpr unsigned                MAX_SAMPLES                     = NUMBER_OF_SAMPLES;
     constexpr unsigned                MAX_SAMPLES_RECORDING           = 1'000'000;  
     constexpr unsigned                MIN_SAMPLES                     = 2;
-    constexpr unsigned                SAMPLES                         = MAX_SAMPLES;
     constexpr double                  MAX_TIME_PER_DIVISION           = MAX_SAMPLES / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MAX_TIME_PER_DIVISION_RECORDING = MAX_SAMPLES_RECORDING / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MIN_TIME_PER_DIVISION           = MIN_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
@@ -313,10 +311,6 @@ namespace LABC
     constexpr double                  MIN_TIME_PER_DIVISION_NO_ZOOM   = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MAX_HORIZONTAL_OFFSET           = MAX_SAMPLES / MIN_SAMPLING_RATE;  
     constexpr double                  MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
-
-    // Mode
-    constexpr LABE::LOGAN::MODE       MODE                            = (TIME_PER_DIVISION < MIN_TIME_PER_DIVISION_SCREEN) ? 
-                                                                        LABE::LOGAN::MODE::REPEATED : LABE::LOGAN::MODE::SCREEN;
     
     // Trigger
     constexpr LABE::LOGAN::TRIG::MODE TRIGGER_MODE                    = LABE::LOGAN::TRIG::MODE::NONE;

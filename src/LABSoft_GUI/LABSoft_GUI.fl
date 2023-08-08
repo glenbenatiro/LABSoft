@@ -1683,7 +1683,7 @@ class LABSoft_GUI {open
           }
           Fl_Choice logic_analyzer_fl_choice_trigger_mode {
             label {Trigger Mode}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode (o, v);} open
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode_display (o, v);}
             xywh {320 155 120 30} down_box BORDER_BOX align 1
           } {
             MenuItem {} {
@@ -1913,7 +1913,7 @@ class LABSoft_GUI {open
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_samples {
             label Samples
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_samples (o, v);}
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_samples (o, v);} selected
             xywh {1220 95 120 30} box FLAT_BOX color 53 selection_color 53 align 1 deactivate
           } {
             MenuItem {} {
@@ -1947,7 +1947,7 @@ class LABSoft_GUI {open
           }
           Fl_Input_Choice logic_analyzer_fl_input_choice_sampling_rate {
             label {Sampling Rate}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_sampling_rate (o, v);} selected
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_sampling_rate (o, v);}
             xywh {1220 155 120 30} box FLAT_BOX color 53 selection_color 53 align 1
           } {
             MenuItem {} {

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "LAB_Constants.h"
+#include "LAB_Defaults.h"
 #include "LAB_Enumerations.h"
 
 struct LAB_Channel_Data_Oscilloscope
@@ -178,28 +179,15 @@ class LAB_Parent_Data_Logic_Analyzer
     bool is_frontend_running  = false;
 
     // Mode
-    LABE::LOGAN::MODE mode = LABC::LOGAN::MODE;
+    LABE::LOGAN::MODE mode = LABD::LOGAN::MODE;
 
     // Horizontal
     double    horizontal_offset             = LABD::LOGAN::HORIZONTAL_OFFSET;
     double    time_per_division             = LABD::LOGAN::TIME_PER_DIVISION;
     double    time_per_division_raw_buffer  = time_per_division;
-    unsigned  samples                       = 
-
-    double    sampling_rate       = LABC::LOGAN::SAMPLING_RATE;
-    double    time_per_division   = 0.0;
-    double    horizontal_offset   = 0.0;
-    unsigned  samples             = LABC::LOGAN::NUMBER_OF_SAMPLES;
-    unsigned  w_samp_count        = LABC::LOGAN::NUMBER_OF_SAMPLES;
-
-    double    horizontal_offset               = LABC::OSC::HORIZONTAL_OFFSET;
-    double    time_per_division               = LABC::OSC::TIME_PER_DIVISION;
-    double    time_per_division_last_repeated = time_per_division;
-    double    time_per_division_raw_buffer    = time_per_division;
-    unsigned  samples                         = LABC::OSC::NUMBER_OF_SAMPLES;
-    unsigned  samples_raw_buffer              = samples;
-    double    sampling_rate                   = LABC::OSC::SAMPLING_RATE;
-
+    unsigned  samples                       = LABD::LOGAN::SAMPLES;
+    unsigned  samples_raw_buffer            = samples;
+    double    sampling_rate                 = LABD::LOGAN::SAMPLING_RATE;
 
     std::array <
       uint32_t, 
