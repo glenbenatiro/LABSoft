@@ -51,8 +51,8 @@ namespace LABS_GUI_VALUES
     static std::unordered_map<std::string, LABE::LOGAN::TRIG::CND> TRIG_CND_s = 
     {
       {"X Ignore",          LABE::LOGAN::TRIG::CND::IGNORE},
-      {"0 Low",             LABE::LOGAN::TRIG::CND::LOW_LEVEL},
-      {"1 High",            LABE::LOGAN::TRIG::CND::HIGH_LEVEL},
+      {"0 Low",             LABE::LOGAN::TRIG::CND::LOW},
+      {"1 High",            LABE::LOGAN::TRIG::CND::HIGH},
       {"\342\226\262 Rise", LABE::LOGAN::TRIG::CND::RISING_EDGE},
       {"\342\226\274 Fall", LABE::LOGAN::TRIG::CND::FALLING_EDGE},
       {"\342\206\225 Edge", LABE::LOGAN::TRIG::CND::EITHER_EDGE},

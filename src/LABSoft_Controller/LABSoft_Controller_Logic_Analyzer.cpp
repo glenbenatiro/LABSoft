@@ -151,12 +151,11 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_trigger_condition (Fl_Menu_Button* w,
                       void*           data)
 {
-  LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget* chan = 
-    (LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget*)(data);
+  ChanWidget* chan    = static_cast<ChanWidget*>(data);
+  unsigned    channel = chan->channel ();
 
-  unsigned channel                = chan->channel ();
-  LABE::LOGAN::TRIG::CND trig_cnd = LABS_GUI_VALUES::LOGAN_DISPLAY::TRIG_CND_s.
-                                      at (std::string (w->text ()));
+  LABE::LOGAN::TRIG::CND trig_cnd = 
+    LABS_GUI_VALUES::LOGAN_DISPLAY::TRIG_CND_s.at (std::string (w->text ()));
 
   m_LAB->m_Logic_Analyzer.trigger_condition (channel, trig_cnd);
 }

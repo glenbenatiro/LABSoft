@@ -110,8 +110,8 @@ namespace LABE
       enum class CND
       {
         IGNORE,
-        LOW_LEVEL,
-        HIGH_LEVEL,
+        LOW,
+        HIGH,
         RISING_EDGE,
         FALLING_EDGE,
         EITHER_EDGE

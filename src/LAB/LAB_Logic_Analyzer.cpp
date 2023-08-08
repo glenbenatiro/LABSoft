@@ -236,6 +236,55 @@ set_samples (unsigned value)
   uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
 }
 
+void LAB_Logic_Analyzer:: 
+set_trigger_condition (unsigned               gpio_pin, 
+                       LABE::LOGAN::TRIG::CND condition)
+{ 
+  AP::GPIO::EVENT event;
+
+  switch (condition)
+  {
+    case (LABE::LOGAN::TRIG::CND::IGNORE):
+    {
+      return;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::LOW):
+    {
+      event = AP::GPIO::EVENT::LOW;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::HIGH):
+    {
+      event = AP::GPIO::EVENT::HIGH;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::RISING_EDGE):
+    {
+      event = AP::GPIO::EVENT::RISING_EDGE;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::FALLING_EDGE):
+    {
+      event = AP::GPIO::EVENT::FALLING_EDGE;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::EITHER_EDGE):
+    {
+      set_trigger_condition (gpio_pin, LABE::LOGAN::TRIG::CND::RISING_EDGE);
+      set_trigger_condition (gpio_pin, LABE::LOGAN::TRIG::CND::FALLING_EDGE);
+
+      return;
+    }
+  }
+
+  m_LAB_Core->gpio.set_event_detect (gpio_pin, event, 1);
+}
+
 void LAB_Logic_Analyzer::
 parse_trigger_mode ()
 {
@@ -496,55 +545,11 @@ trigger_mode (LABE::LOGAN::TRIG::MODE value)
 void LAB_Logic_Analyzer:: 
 trigger_condition (unsigned channel, LABE::LOGAN::TRIG::CND condition)
 {  
-  unsigned gpio_pin  = LABC::PIN::LOGIC_ANALYZER[channel];
-
-  // clear trigger condition. the pin 
-  // should only have one active trigger condition
-  m_LAB_Core->gpio.clear_event_detect_status (gpio_pin);
-  
-  AP::GPIO::EVENT event;
-
-  switch (condition)
-  {
-    case (LABE::LOGAN::TRIG::CND::IGNORE):
-    {
-      event = AP::GPIO::EVENT::IGNORE;
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::CND::LOW_LEVEL):
-    {
-      event = AP::GPIO::EVENT::LOW_LEVEL;
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::CND::HIGH_LEVEL):
-    {
-      event = AP::GPIO::EVENT::HIGH_LEVEL;
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::CND::RISING_EDGE):
-    {
-      event = AP::GPIO::EVENT::RISING_EDGE;
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::CND::FALLING_EDGE):
-    {
-      event = AP::GPIO::EVENT::FALLING_EDGE;
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::CND::EITHER_EDGE):
-    {
-      event = AP::GPIO::EVENT::EITHER_EDGE;
-      break;
-    }
-  }
+  unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[channel];
 
   m_LAB_Core->gpio.clear_all_event_detect (gpio_pin);
-  m_LAB_Core->gpio.set_event_detect (gpio_pin, event, 1);
+
+  set_trigger_condition (gpio_pin, condition);
 }
 
 // EOF

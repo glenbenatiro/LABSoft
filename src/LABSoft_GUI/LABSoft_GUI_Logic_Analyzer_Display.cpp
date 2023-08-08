@@ -176,7 +176,7 @@ init_child_widgets ()
       m_fl_menu_button_trigger_mode->box      (FL_GTK_UP_BOX);
       m_fl_menu_button_trigger_mode->color    (53);
       m_fl_menu_button_trigger_mode->menu     (menu_m_fl_menu_button_trigger_mode);
-      m_fl_menu_button_trigger_mode->callback ((Fl_Callback*)(cb_fl_menu_button_trigger_mode_static));
+      m_fl_menu_button_trigger_mode->callback (cb_fl_menu_button_trigger_mode_static, this);
     }
   }
 
@@ -205,10 +205,12 @@ draw ()
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget:: 
-cb_fl_menu_button_trigger_mode (Fl_Menu_Button* w, void* data)
+cb_fl_menu_button_trigger_mode (Fl_Widget* w, void* data)
 {
+  Fl_Menu_Button* menu_button = static_cast<Fl_Menu_Button*>(w);
+
   const char* new_label;
-  const char* text = w->text ();
+  const char* text = menu_button->text ();
 
   if (text == "X Ignore")
   {
@@ -235,26 +237,25 @@ cb_fl_menu_button_trigger_mode (Fl_Menu_Button* w, void* data)
     new_label = "\342\206\225";
   }
 
-  w->copy_label (new_label);
+  menu_button->copy_label (new_label);
 
   // parent hierarchy from fl menu button
   // m_fl_group_channel_info -> LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget ->
-  // m_pack -> m_scroll -> LABSoft_GUI_Logic_Analyzer_Display
+  // m_pack -> m_scroll -> Disp
 
-  LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget* chan = 
-    (LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget*)(parent ()->parent ());
+  ChanWidget* chan = static_cast<ChanWidget*>(data);
+  Disp*       disp = static_cast<Disp*>(chan->parent ()->parent ()->parent ());
 
-  LABSoft_GUI_Logic_Analyzer_Display* disp = 
-    (LABSoft_GUI_Logic_Analyzer_Display*)(chan->parent ()->parent ()->parent ());
-
-  disp->controller ().m_Logic_Analyzer.cb_trigger_condition (w, (void*)(chan));
+  disp->controller ().m_Logic_Analyzer.
+    cb_trigger_condition (menu_button, static_cast<void*>(chan));
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget:: 
-cb_fl_menu_button_trigger_mode_static (Fl_Menu_Button* w, void* data)
+cb_fl_menu_button_trigger_mode_static (Fl_Widget* w, void* data)
 {
-  ((LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget*)(w->parent ()))->
-    cb_fl_menu_button_trigger_mode (w, data);
+  ChanWidget* chan_widget = static_cast<ChanWidget*>(data);
+
+  chan_widget->cb_fl_menu_button_trigger_mode (w, data);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget:: 
@@ -364,7 +365,7 @@ display_data (DisplayData& display_data)
   m_display_data = &display_data;
 }
 
-// ========== LABSoft_GUI_Logic_Analyzer_Display ==========
+// ========== Disp ==========
 
 LABSoft_GUI_Logic_Analyzer_Display::
 LABSoft_GUI_Logic_Analyzer_Display (int X, int Y, int W, int H, const char* label)

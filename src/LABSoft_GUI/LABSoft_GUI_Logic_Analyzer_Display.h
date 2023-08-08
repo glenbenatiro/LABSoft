@@ -19,15 +19,13 @@
 #include "../Utility/LAB_Defaults.h"
 
 class LABSoft_Controller;
-class LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph;
-class LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget;
-class LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay;
 
+using ChanGraph   = class LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph;
+using ChanWidget  = class LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget;
+using DispOverlay = class LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay;
+using Disp        = class LABSoft_GUI_Logic_Analyzer_Display;
 using PixelPoints = std::array<std::vector<std::array<int, 2>>, 
                       LABC::LOGAN::NUMBER_OF_CHANNELS>;
-using ChanGraph   = LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph;
-using ChanWidget  = LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget;
-using Overlay     = LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay;
 
 struct DisplayData
 {
@@ -81,9 +79,9 @@ class LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget : public Fl_Group
   private:
     void init_child_widgets ();
     void draw ();
-    void cb_fl_menu_button_trigger_mode (Fl_Menu_Button* w, void* data);
+    void cb_fl_menu_button_trigger_mode (Fl_Widget* w, void* data);
 
-    static void cb_fl_menu_button_trigger_mode_static (Fl_Menu_Button* w, void* data);
+    static void cb_fl_menu_button_trigger_mode_static (Fl_Widget* w, void* data);
 
   public:
     LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget (int X, int Y, int W, int H, const char* label = 0);
@@ -128,7 +126,7 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
 
     // gui
     Fl_Pack*                        m_pack;           
-    Overlay*                        m_overlay;
+    DispOverlay*                        m_overlay;
     Fl_Scroll*                      m_scroll;  
     std::vector<ChanWidget*>        m_channel_widgets;
     std::array<int, 2>              m_graph_base_line_coords;

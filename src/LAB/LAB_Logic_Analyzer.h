@@ -36,6 +36,7 @@ class LAB_Logic_Analyzer
     void set_samples (unsigned value);
 
     // Trigger 
+    void set_trigger_condition (unsigned gpio_pin, LABE::LOGAN::TRIG::CND condition);
     void parse_trigger_mode       ();
     void find_trigger_point_loop  ();
 
