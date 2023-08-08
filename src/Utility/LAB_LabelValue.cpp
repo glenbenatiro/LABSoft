@@ -8,7 +8,7 @@
 
 // --- Initialize static member variables ---
 
-std::map<LAB_LabelValue::UNIT, std::string> LAB_LabelValue::m_unit_to_unit_string = 
+std::unordered_map<LAB_LabelValue::UNIT, std::string> LAB_LabelValue::m_unit_to_unit_string = 
 {
   {UNIT::VOLT               , "V"},
   {UNIT::VOLT_PER_DIVISION  , "V/div"},
@@ -19,7 +19,7 @@ std::map<LAB_LabelValue::UNIT, std::string> LAB_LabelValue::m_unit_to_unit_strin
   {UNIT::NONE               , ""}
 };
 
-std::map<std::string, int> LAB_LabelValue::m_unit_prefix_to_exponent = 
+std::unordered_map<std::string, int> LAB_LabelValue::m_unit_prefix_to_exponent = 
 {
   // Base 10
   {"n", -9},
@@ -37,10 +37,10 @@ std::map<std::string, int> LAB_LabelValue::m_unit_prefix_to_exponent =
 
 };
 
-std::map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_to_unit = 
+std::unordered_map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_to_unit = 
   invert_map (LAB_LabelValue::m_unit_to_unit_string);
 
-std::map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_lowercase_to_unit =
+std::unordered_map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_lowercase_to_unit =
   lowercase_map (m_unit_string_to_unit);
 
 LAB_LabelValue::KeyLengths LAB_LabelValue::m_keylengths_unit_prefix_to_exponent = 
@@ -78,10 +78,10 @@ LAB_LabelValue (const char*       input,
 }
 
 template <typename Key, typename Value>
-std::map<Value, Key> LAB_LabelValue::
-invert_map (const std::map<Key, Value>& map)
+std::unordered_map<Value, Key> LAB_LabelValue::
+invert_map (const std::unordered_map<Key, Value>& map)
 {
-  std::map<Value, Key> new_map;
+  std::unordered_map<Value, Key> new_map;
 
   for (const std::pair<Key, Value> entry : map)
   {
@@ -92,10 +92,10 @@ invert_map (const std::map<Key, Value>& map)
 }
 
 template <typename Value>
-std::map<std::string, Value> LAB_LabelValue::
-lowercase_map (const std::map<std::string, Value>& map)
+std::unordered_map<std::string, Value> LAB_LabelValue::
+lowercase_map (const std::unordered_map<std::string, Value>& map)
 {
-  std::map<std::string, Value> new_map;
+  std::unordered_map<std::string, Value> new_map;
 
   for (const std::pair<std::string, Value> entry : map)
   {
@@ -107,7 +107,7 @@ lowercase_map (const std::map<std::string, Value>& map)
 
 template <typename Value>
 LAB_LabelValue::KeyLengths LAB_LabelValue:: 
-find_map_keylengths (const std::map<std::string, Value>& map)
+find_map_keylengths (const std::unordered_map<std::string, Value>& map)
 {
   LAB_LabelValue::KeyLengths keylengths;
 
@@ -239,7 +239,7 @@ find_unit_prefix_match (const std::string& str)
   {
     std::string substr = str.substr (0, a + 1);
 
-    std::map<std::string, int>::iterator it = m_unit_prefix_to_exponent.find (substr);
+    std::unordered_map<std::string, int>::iterator it = m_unit_prefix_to_exponent.find (substr);
 
     if (it != m_unit_prefix_to_exponent.end ())
     {
@@ -470,7 +470,7 @@ get_unit_from_unit_string (const char* string)
 {
   std::string str = to_lowercase (std::string (string));
 
-  std::map<std::string, LAB_LabelValue::UNIT>::iterator it = 
+  std::unordered_map<std::string, LAB_LabelValue::UNIT>::iterator it = 
     m_unit_string_lowercase_to_unit.find (str);
 
   if (it != m_unit_string_lowercase_to_unit.end ())

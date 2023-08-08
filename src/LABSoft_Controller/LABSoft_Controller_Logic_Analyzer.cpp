@@ -138,8 +138,8 @@ cb_display_mode (Fl_Choice  *w,
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_trigger_mode_display (Fl_Choice* w, 
-                         void*      data)
+cb_trigger_mode (Fl_Choice* w, 
+                 void*      data)
 {
   std::string choice (w->text ());
 
@@ -148,10 +148,17 @@ cb_trigger_mode_display (Fl_Choice* w,
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_trigger_mode_channel (Fl_Menu_Button* w,
-                         void*           data)
+cb_trigger_condition (Fl_Menu_Button* w,
+                      void*           data)
 {
-  std::cout << "cb_trigger_mode_channel!" << "\n";
+  LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget* chan = 
+    (LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget*)(data);
+
+  unsigned channel                = chan->channel ();
+  LABE::LOGAN::TRIG::CND trig_cnd = LABS_GUI_VALUES::LOGAN_DISPLAY::TRIG_CND_s.
+                                      at (std::string (w->text ()));
+
+  m_LAB->m_Logic_Analyzer.trigger_condition (channel, trig_cnd);
 }
 
 void LABSoft_Controller_Logic_Analyzer::

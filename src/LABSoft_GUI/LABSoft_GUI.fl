@@ -1683,7 +1683,7 @@ class LABSoft_GUI {open
           }
           Fl_Choice logic_analyzer_fl_choice_trigger_mode {
             label {Trigger Mode}
-            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode_display (o, v);}
+            callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode (o, v);}
             xywh {320 155 120 30} down_box BORDER_BOX align 1
           } {
             MenuItem {} {

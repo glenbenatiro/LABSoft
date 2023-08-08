@@ -38,8 +38,8 @@ class LABSoft_Controller_Logic_Analyzer
     void cb_display_mode      (Fl_Choice*       w, void* data);
 
     // Trigger
-    void cb_trigger_mode_display (Fl_Choice* w, void* data);
-    void cb_trigger_mode_channel (Fl_Menu_Button* w, void* data);
+    void cb_trigger_mode (Fl_Choice* w, void* data);
+    void cb_trigger_condition (Fl_Menu_Button* w, void *data);
 
     // Display update cycle
     void display_update_cycle ();

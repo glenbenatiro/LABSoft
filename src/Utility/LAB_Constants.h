@@ -1,7 +1,7 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 
 #include <FL/fl_draw.H>

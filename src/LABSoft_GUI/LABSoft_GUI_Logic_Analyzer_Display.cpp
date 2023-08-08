@@ -237,12 +237,17 @@ cb_fl_menu_button_trigger_mode (Fl_Menu_Button* w, void* data)
 
   w->copy_label (new_label);
 
+  // parent hierarchy from fl menu button
   // m_fl_group_channel_info -> LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget ->
   // m_pack -> m_scroll -> LABSoft_GUI_Logic_Analyzer_Display
-  Fl_Widget* disp = parent ()->parent ()->parent ()->parent ()->parent ();
 
-  ((LABSoft_GUI_Logic_Analyzer_Display*)(disp))->controller ().
-    m_Logic_Analyzer.cb_trigger_mode_channel (w, nullptr);
+  LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget* chan = 
+    (LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget*)(parent ()->parent ());
+
+  LABSoft_GUI_Logic_Analyzer_Display* disp = 
+    (LABSoft_GUI_Logic_Analyzer_Display*)(chan->parent ()->parent ()->parent ());
+
+  disp->controller ().m_Logic_Analyzer.cb_trigger_condition (w, (void*)(chan));
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget:: 

@@ -713,7 +713,7 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_choice_display_mode[] = {
 };
 
 void LABSoft_GUI::cb_logic_analyzer_fl_choice_trigger_mode_i(Fl_Choice* o, void* v) {
-  m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode_display (o, v);
+  m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode (o, v);
 }
 void LABSoft_GUI::cb_logic_analyzer_fl_choice_trigger_mode(Fl_Choice* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_logic_analyzer_fl_choice_trigger_mode_i(o,v);

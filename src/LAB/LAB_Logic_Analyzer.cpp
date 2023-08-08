@@ -283,7 +283,7 @@ find_trigger_point_loop ()
   {
     std::this_thread::sleep_for (std::chrono::duration<double, std::milli>(10));
 
-    std::cout << m_LAB_Core->st.low () << "\n";
+    std::cout << m_LAB_Core->gpio.event_detect_status () << "\n";
   }
 }
 
@@ -486,17 +486,65 @@ dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count)
 }
 
 void LAB_Logic_Analyzer:: 
-trigger (unsigned channel, LABE::LOGAN::TRIG::CND condition)
-{
-
-}
-
-void LAB_Logic_Analyzer:: 
 trigger_mode (LABE::LOGAN::TRIG::MODE value)
 {
   m_parent_data.trigger_mode = value;
 
   parse_trigger_mode ();
+}
+
+void LAB_Logic_Analyzer:: 
+trigger_condition (unsigned channel, LABE::LOGAN::TRIG::CND condition)
+{  
+  unsigned gpio_pin  = LABC::PIN::LOGIC_ANALYZER[channel];
+
+  // clear trigger condition. the pin 
+  // should only have one active trigger condition
+  m_LAB_Core->gpio.clear_event_detect_status (gpio_pin);
+  
+  AP::GPIO::EVENT event;
+
+  switch (condition)
+  {
+    case (LABE::LOGAN::TRIG::CND::IGNORE):
+    {
+      event = AP::GPIO::EVENT::IGNORE;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::LOW_LEVEL):
+    {
+      event = AP::GPIO::EVENT::LOW_LEVEL;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::HIGH_LEVEL):
+    {
+      event = AP::GPIO::EVENT::HIGH_LEVEL;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::RISING_EDGE):
+    {
+      event = AP::GPIO::EVENT::RISING_EDGE;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::FALLING_EDGE):
+    {
+      event = AP::GPIO::EVENT::FALLING_EDGE;
+      break;
+    }
+
+    case (LABE::LOGAN::TRIG::CND::EITHER_EDGE):
+    {
+      event = AP::GPIO::EVENT::EITHER_EDGE;
+      break;
+    }
+  }
+
+  m_LAB_Core->gpio.clear_all_event_detect (gpio_pin);
+  m_LAB_Core->gpio.set_event_detect (gpio_pin, event, 1);
 }
 
 // EOF

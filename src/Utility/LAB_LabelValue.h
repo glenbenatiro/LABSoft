@@ -1,7 +1,7 @@
 #ifndef LAB_LABELVALUE_H
 #define LAB_LABELVALUE_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
@@ -33,10 +33,10 @@ class LAB_LabelValue
     };
 
   private:
-    static std::map<UNIT, std::string>  m_unit_to_unit_string;
-    static std::map<std::string, UNIT>  m_unit_string_to_unit;
-    static std::map<std::string, UNIT>  m_unit_string_lowercase_to_unit;
-    static std::map<std::string, int>   m_unit_prefix_to_exponent;
+    static std::unordered_map<UNIT, std::string>  m_unit_to_unit_string;
+    static std::unordered_map<std::string, UNIT>  m_unit_string_to_unit;
+    static std::unordered_map<std::string, UNIT>  m_unit_string_lowercase_to_unit;
+    static std::unordered_map<std::string, int>   m_unit_prefix_to_exponent;
     static KeyLengths                   m_keylengths_unit_prefix_to_exponent;
 
     bool        m_is_valid      = false;
@@ -51,19 +51,19 @@ class LAB_LabelValue
 
   private:
     template <typename Key, typename Value>
-    static std::map<Value, Key> 
-    invert_map    (const std::map<Key, Value>& map);
+    static std::unordered_map<Value, Key> 
+    invert_map    (const std::unordered_map<Key, Value>& map);
 
     template <typename Value>
-    static std::map<std::string, Value> 
-    lowercase_map (const std::map<std::string, Value>& map);
+    static std::unordered_map<std::string, Value> 
+    lowercase_map (const std::unordered_map<std::string, Value>& map);
 
     template <typename Value>
     static KeyLengths 
-    find_map_keylengths (const std::map<std::string, Value>& map);
+    find_map_keylengths (const std::unordered_map<std::string, Value>& map);
 
     static std::string        to_lowercase            (const std::string& input);
-    static std::vector<UNIT>  find_per_division_units (const std::map<UNIT, std::string>& map);
+    static std::vector<UNIT>  find_per_division_units (const std::unordered_map<UNIT, std::string>& map);
 
     void        remove_whitespaces                (std::string& str);
     bool        parse_input                       (const std::string& str);
