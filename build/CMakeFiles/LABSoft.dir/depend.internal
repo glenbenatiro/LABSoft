@@ -132,6 +132,7 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o

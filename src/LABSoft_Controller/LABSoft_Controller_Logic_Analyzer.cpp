@@ -1,5 +1,7 @@
 #include "LABSoft_Controller_Logic_Analyzer.h"
 
+#include <cmath>
+
 #include "LABSoft_Controller.h"
 #include "../Utility/LAB_Constants.h"
 #include "../Utility/LAB_LabelValue.h"
@@ -81,37 +83,9 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_single (Fl_Button* w,
            void*      data)
 {
-  
-}
+  m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->clear ();
 
-void LABSoft_Controller_Logic_Analyzer:: 
-cb_samples (Fl_Input_Choice*  w,
-            void*             data)
-{
-
-}
-
-void LABSoft_Controller_Logic_Analyzer:: 
-cb_sampling_rate (Fl_Input_Choice *w,
-                 void            *data)
-{
-  
-}
-
-void LABSoft_Controller_Logic_Analyzer:: 
-cb_time_per_division (Fl_Input_Choice *w,
-                      void            *data)
-{
-  LAB_LabelValue lv (
-    w->value (),
-    m_LAB->m_Logic_Analyzer.time_per_division (),
-    LAB_LabelValue::UNIT::SECOND_PER_DIVISION
-  );
-
-  m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value ());
-
-  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
-    update_gui_time_per_division ();
+  m_LAB->m_Logic_Analyzer.single ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -126,15 +100,58 @@ cb_horizontal_offset (Fl_Input_Choice *w,
 
   m_LAB->m_Logic_Analyzer.horizontal_offset (lv.actual_value ());
 
-  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
-    update_gui_time_per_division ();
+  update_gui_horizontal ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_display_mode (Fl_Choice  *w,
-                 void       *data)
+cb_time_per_division (Fl_Input_Choice *w,
+                      void            *data)
 {
+  LAB_LabelValue lv (
+    w->value (),
+    m_LAB->m_Logic_Analyzer.time_per_division (),
+    LAB_LabelValue::UNIT::SECOND_PER_DIVISION
+  );
 
+  m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value ());
+
+  update_gui_horizontal ();
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_samples (Fl_Input_Choice*  w,
+            void*             data)
+{
+  LAB_LabelValue lv (
+    w->value (), 
+    m_LAB->m_Logic_Analyzer.samples (),
+    LAB_LabelValue::UNIT::NONE
+  );
+
+  if (lv.is_valid ())
+  {
+    m_LAB->m_Logic_Analyzer.samples (std::round (lv.actual_value ()));
+  }
+
+  update_gui_horizontal ();
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_sampling_rate (Fl_Input_Choice *w,
+                 void            *data)
+{
+  LAB_LabelValue lv (
+    w->value (),
+    m_LAB->m_Logic_Analyzer.sampling_rate (),
+    LAB_LabelValue::UNIT::HERTZ
+  );
+  
+  if (lv.is_valid ())
+  {
+    m_LAB->m_Logic_Analyzer.sampling_rate (lv.actual_value ());
+  }
+
+  update_gui_horizontal ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
@@ -160,13 +177,61 @@ cb_trigger_condition (Fl_Menu_Button* w,
   m_LAB->m_Logic_Analyzer.trigger_condition (channel, trig_cnd);
 }
 
+void LABSoft_Controller_Logic_Analyzer:: 
+cb_mode (Fl_Choice  *w,
+                 void       *data)
+{
+  std::string str (w->text ());
+
+  LABE::LOGAN::MODE mode;
+
+  if (str == "Repeated")
+  {
+    mode = LABE::LOGAN::MODE::REPEATED;
+  }
+  else if (str == "Screen")
+  {
+    mode = LABE::LOGAN::MODE::SCREEN;
+  }
+  else if (str == "Record")
+  {
+    mode = LABE::LOGAN::MODE::RECORD;
+  }
+  else 
+  {
+    throw (std::runtime_error ("Invalid display mode input."));
+  }
+
+  m_LAB->m_Logic_Analyzer.mode (mode);
+
+  if (mode == LABE::LOGAN::MODE::RECORD)
+  {
+    m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->hide ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_single->hide ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record->show ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record_config->show ();
+  }
+  else 
+  {
+    m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->show ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_single->show ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record->hide ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record_config->hide ();
+
+    update_gui_horizontal ();
+
+    m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display-> 
+      update_gui_time_per_division ();
+    
+    // m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+    //   update_gui_upper_left_info ();
+  }
+}
+
 void LABSoft_Controller_Logic_Analyzer::
 display_update_cycle ()
 {
-  if (m_LAB->m_Logic_Analyzer.is_running ())
-  {
-    m_LAB->m_Logic_Analyzer.load_data_samples ();
-  }
+  m_LAB->m_Logic_Analyzer.load_data_samples ();
 
   m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
     update_display ();
@@ -179,6 +244,50 @@ update_gui_main (bool value)
     m_LABSoft_GUI->main_fl_group_logic_analyzer_tab,
     value
   );
+}
+
+void LABSoft_Controller_Logic_Analyzer:: 
+update_gui_horizontal ()
+{
+  LAB_LabelValue horizontal_offset  (m_LAB->m_Logic_Analyzer.horizontal_offset ());
+  LAB_LabelValue time_per_division  (m_LAB->m_Logic_Analyzer.time_per_division ());
+  LAB_LabelValue samples            (m_LAB->m_Logic_Analyzer.samples ());
+  LAB_LabelValue sampling_rate      (m_LAB->m_Logic_Analyzer.sampling_rate ());
+
+  // 1. Upper Display Info
+  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+  //   update_gui_upper_left_info ();
+
+  // 2. Horizontal Offset
+  m_LABSoft_GUI->logic_analyzer_fl_input_choice_horizontal_offset->value (
+    horizontal_offset.to_label_text (LAB_LabelValue::UNIT::SECOND).c_str ()
+  );
+
+  // 3. Time per Division
+  m_LABSoft_GUI->logic_analyzer_fl_input_choice_time_per_division->value (
+    time_per_division.to_label_text (LAB_LabelValue::UNIT::SECOND_PER_DIVISION).c_str ()
+  );
+
+  // 4. Samples
+  m_LABSoft_GUI->logic_analyzer_fl_input_choice_samples->value (
+    samples.to_label_text (LAB_LabelValue::UNIT::NONE, 3).c_str ()
+  );
+
+  // 5. Sampling Rate
+  m_LABSoft_GUI->logic_analyzer_fl_input_choice_sampling_rate->value (
+    sampling_rate.to_label_text (LAB_LabelValue::UNIT::HERTZ).c_str ()
+  );
+
+  // 6. Display Mode
+  // m_LABSoft_GUI->logic_analyzer_fl_choice_mode->value (
+  //   m_LABSoft_GUI->logic_analyzer_fl_choice_mode->find_index (
+  //     (LABS_GUI_VALUES::OSC::MODE.at (m_LAB->m_Oscilloscope.mode ())).c_str ()
+  //   )
+  // );
+
+  // 7. Time per Division Labels
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
+    update_gui_time_per_division ();
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

@@ -64,7 +64,7 @@ class LAB_Oscilloscope
     void                clear_dma_interrupt_flag        (unsigned dma_chan);
 
     // Data and conversion
-    void                fill_raw_sample_buffer                ();
+    void                fill_raw_sample_buffer_from_dma_buffer                ();
     void                parse_raw_sample_buffer               ();
     constexpr double    conv_raw_buff_samp_to_actual_value    (uint32_t raw_buff_samp, unsigned channel);
     constexpr uint32_t  extract_chan_bits_from_raw_buff_samp  (uint32_t raw_buff_samp, unsigned channel);

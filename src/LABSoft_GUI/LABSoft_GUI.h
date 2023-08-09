@@ -39,16 +39,6 @@ private:
 public:
   Fl_Group *main_fl_group_home_tab;
   Fl_Group *main_fl_group_oscilloscope_tab;
-  Fl_Button *oscilloscope_fl_button_record;
-private:
-  inline void cb_oscilloscope_fl_button_record_i(Fl_Button*, void*);
-  static void cb_oscilloscope_fl_button_record(Fl_Button*, void*);
-public:
-  Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
-private:
-  inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
-public:
   Fl_Button *oscilloscope_fl_button_record_config;
 private:
   inline void cb_oscilloscope_fl_button_record_config_i(Fl_Button*, void*);
@@ -58,6 +48,16 @@ public:
 private:
   inline void cb_oscilloscope_fl_button_single_i(Fl_Button*, void*);
   static void cb_oscilloscope_fl_button_single(Fl_Button*, void*);
+public:
+  Fl_Button *oscilloscope_fl_button_record;
+private:
+  inline void cb_oscilloscope_fl_button_record_i(Fl_Button*, void*);
+  static void cb_oscilloscope_fl_button_record(Fl_Button*, void*);
+public:
+  Fl_Light_Button *oscilloscope_fl_light_button_run_stop;
+private:
+  inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
   LABSoft_GUI_Oscilloscope_Display_Group *oscilloscope_labsoft_oscilloscope_display_group_display;
   LABSoft_GUI_Oscilloscope_Display *oscilloscope_labsoft_oscilloscope_display_display;
@@ -257,15 +257,17 @@ private:
   static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, long);
 public:
   Fl_Group *main_fl_group_logic_analyzer_tab;
-  Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
-private:
-  inline void cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
-  static void cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button*, void*);
-public:
+  Fl_Button *logic_analyzer_fl_button_record_config;
   Fl_Button *logic_analyzer_fl_button_single;
 private:
   inline void cb_logic_analyzer_fl_button_single_i(Fl_Button*, void*);
   static void cb_logic_analyzer_fl_button_single(Fl_Button*, void*);
+public:
+  Fl_Button *logic_analyzer_fl_button_record;
+  Fl_Light_Button *logic_analyzer_fl_light_button_run_stop;
+private:
+  inline void cb_logic_analyzer_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_logic_analyzer_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
   Fl_Menu_Button *logic_analyzer_fl_menu_button_add_channel;
   static Fl_Menu_Item menu_logic_analyzer_fl_menu_button_add_channel[];

@@ -1,10 +1,11 @@
 #include "LAB_Logic_Analyzer.h"
 
-#include "LAB.h"
-
 #include <bitset>
 #include <cstring>
 #include <iostream>
+
+#include "LAB.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LAB_Logic_Analyzer::
 LAB_Logic_Analyzer (LAB_Core* _LAB_Core, LAB* _LAB)
@@ -46,6 +47,17 @@ init_dma ()
   LAB_DMA_Data_Logic_Analyzer& dd = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(un.virt ()));
 
   m_LAB_Core->dma.start (LABC::DMA::CHAN::LOGAN_GPIO_STORE, un.bus (&dd.cbs[0]));
+}
+
+void LAB_Logic_Analyzer:: 
+init_interrupts ()
+{
+  for (unsigned chan = 0; chan < LABC::LOGAN::NUMBER_OF_CHANNELS; chan++)
+  {
+    m_LAB_Core->gpio.clear_all_event_detect (LABC::PIN::LOGIC_ANALYZER[chan]);
+  }
+
+  m_LAB_Core->gpio.clear_event_detect_status ();
 }
 
 void LAB_Logic_Analyzer::
@@ -138,7 +150,7 @@ run ()
 {
   m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
 
-  m_parent_data.is_backend_running     = true;
+  m_parent_data.is_backend_running  = true;
   m_parent_data.is_frontend_running = true;
 }
 
@@ -147,14 +159,25 @@ stop ()
 {
   m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
 
-  m_parent_data.is_backend_running     = false;
+  m_parent_data.is_backend_running  = false;
   m_parent_data.is_frontend_running = false;
+}
+
+void LAB_Logic_Analyzer:: 
+single ()
+{
+  if (!is_running ())
+  {
+    run ();
+  }
+
+  m_parent_data.single = true;
 }
 
 bool LAB_Logic_Analyzer:: 
 is_running () const
 {
-  return (m_parent_data.is_backend_running);
+  return (m_parent_data.is_backend_running && m_parent_data.is_frontend_running);
 }
 
 void LAB_Logic_Analyzer:: 
@@ -223,6 +246,86 @@ parse_raw_sample_buffer ()
   }
 }
 
+LABE::LOGAN::MODE LAB_Logic_Analyzer:: 
+calc_mode (double time_per_division) const 
+{
+  if (time_per_division < LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN)
+  {
+    return (LABE::LOGAN::MODE::REPEATED);
+  }
+  else 
+  {
+    return (m_parent_data.last_mode_before_repeated);
+  }
+}
+
+void LAB_Logic_Analyzer:: 
+set_mode (LABE::LOGAN::MODE mode)
+{
+  if (m_parent_data.mode != mode)
+  {
+    if (time_per_division () >= LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN)
+    {
+      m_parent_data.last_mode_before_repeated = mode;
+    }
+
+    switch (mode)
+    {
+      case (LABE::LOGAN::MODE::REPEATED):
+      {
+        dma_buffer_count (LABE::LOGAN::BUFFER_COUNT::DOUBLE);
+        break;
+      }
+
+      case (LABE::LOGAN::MODE::SCREEN):
+      {
+        dma_buffer_count (LABE::LOGAN::BUFFER_COUNT::SINGLE);
+        break;
+      }
+    }
+
+    m_parent_data.mode = mode;
+  }
+}
+
+void LAB_Logic_Analyzer:: 
+dma_buffer_count  (LABE::LOGAN::BUFFER_COUNT buffer_count)
+{
+  bool is_running = false; 
+
+  LAB_DMA_Data_Logic_Analyzer& dma_data = 
+    *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
+  
+  // 1. Pause PWM pacing if running
+  if (m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING))
+  {
+    is_running = true;
+    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+  }
+
+  // 2. Assign next control block depending on buffer
+  if (buffer_count == LABE::LOGAN::BUFFER_COUNT::SINGLE)
+  { 
+    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
+  }
+  else if (buffer_count == LABE::LOGAN::BUFFER_COUNT::DOUBLE)
+  {
+    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
+  }
+
+  // 3. Abort the current control block 
+  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+
+  // 4. Clean buffer status
+  dma_data.status[0] = dma_data.status[1] = 0;
+
+  // 5. Run DMA channel if it was running
+  if (is_running)
+  {
+    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
+  }
+}
+
 void LAB_Logic_Analyzer:: 
 set_samples (unsigned value)
 {
@@ -234,6 +337,80 @@ set_samples (unsigned value)
   uncached_dma_data.cbs[0].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
   uncached_dma_data.cbs[2].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
   uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
+}
+
+void LAB_Logic_Analyzer:: 
+set_time_per_division (double value)
+{
+  m_parent_data.time_per_division = value;
+
+  set_mode (calc_mode (value));
+
+  reset_dma_process ();
+}
+
+void LAB_Logic_Analyzer:: 
+set_time_per_division (unsigned samples, 
+                       double   sampling_rate)
+{
+  set_time_per_division (calc_time_per_division (samples, sampling_rate));
+}
+
+double LAB_Logic_Analyzer:: 
+calc_sampling_rate (unsigned  samples, 
+                    double    time_per_division)
+{
+  double new_sampling_rate = samples / (time_per_division *
+    LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS);
+  
+  if (new_sampling_rate > LABC::LOGAN::MAX_SAMPLING_RATE)
+  {
+    return (LABC::OSC::MAX_SAMPLING_RATE);
+  }
+  else 
+  {
+    return (new_sampling_rate);
+  }
+}
+
+double LAB_Logic_Analyzer:: 
+calc_sample_count (double sampling_rate, 
+                   double time_per_division)
+{
+  double new_sample_count = sampling_rate * 
+    LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS * time_per_division;
+
+  if (new_sample_count > LABC::LOGAN::MAX_SAMPLES)
+  {
+    return (LABC::LOGAN::MAX_SAMPLES);
+  }
+  else 
+  {
+    return (new_sample_count);
+  }
+}
+
+void LAB_Logic_Analyzer:: 
+set_sampling_rate (double value)
+{
+  // 1. Change the source frequency of the PWM peripheral
+  m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
+
+  // // while we are using the PWM pacing of the oscilloscope module
+  // {
+  //   // 2. Set the DMA PWM duty cycle to 50%
+  //   LAB_DMA_Data_Logic_Analyzer& dma_data = 
+  //     *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
+
+  //   // 2. Set the DMA PWM duty cycle to 50%
+  //   LAB_DMA_Data_Logic_Analyzer& dma_data = 
+  //     *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
+  //     
+  //   dma_data.pwm_duty_cycle = (m_LAB_Core->pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
+  // }
+
+  // 3. Store the sampling rate
+  m_parent_data.sampling_rate = value;
 }
 
 void LAB_Logic_Analyzer:: 
@@ -325,49 +502,159 @@ parse_trigger_mode ()
   }
 }
 
+/**
+ * This is the main find trigger loop. 
+ */
 void LAB_Logic_Analyzer:: 
 find_trigger_point_loop ()
 {
-  while (m_parent_data.find_trigger)
-  {
-    std::this_thread::sleep_for (std::chrono::duration<double, std::milli>(10));
+  m_LAB_Core->gpio.clear_event_detect_status ();
 
-    std::cout << m_LAB_Core->gpio.event_detect_status () << "\n";
+  LAB_Parent_Data_Logic_Analyzer& pdata = m_parent_data;
+
+  while (pdata.find_trigger)
+  {
+    if (!pdata.trigger_found)
+    {
+      // 1. Check if there is a change in any of the bits in the 
+      //    GPIO Event Detect Status Register (GPEDS0). If there is,
+      //    this means that a trigger condition on a channel happened.
+      if (pdata.trigger_flags != m_LAB_Core->gpio.event_detect_status ())
+      {
+        // 2. Store the current DMA control block running in the Logic Analyzer
+        //    DMA engine. This is to know what buffer (0 or 1) was just filled.
+        uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg 
+          (LABC::DMA::CHAN::LOGAN_GPIO_STORE, AP::DMA::CONBLK_AD));
+
+        // 3. Check if the triggered channel resulted to an actual trigger event.
+        //    This takes into account the trigger conditions of other channels.
+        if (check_if_triggered ())
+        {
+          create_trigger_frame ();
+        }
+      }
+
+      std::this_thread::sleep_for (
+        std::chrono::duration<double, std::milli> (m_parent_data.check_trigger_sleep_period)
+      );
+    }
   }
 }
 
+/**
+ * This function checks whether the triggered pin
+ * results to an actual trigger event. 
+ */
+bool LAB_Logic_Analyzer:: 
+check_if_triggered ()
+{
+
+}
+
+/**
+ * This function creates a trigger frame. A trigger frame consists of  
+ * the samples before the trigger point, the actual trigger point, and
+ * all samples after the trigger point.
+ */
+void LAB_Logic_Analyzer:: 
+create_trigger_frame ()
+{
+  m_parent_data.trigger_frame_ready = true;
+}
+
+void LAB_Logic_Analyzer:: 
+reset_dma_process ()
+{
+  LAB_DMA_Data_Logic_Analyzer& dma_data = 
+    *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
+
+  bool is_running = m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING);
+
+  // 1. Check if DMA is running. It is, pause it
+  if (is_running)
+  {
+    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+  }
+
+  // 2. Reset the DMA engine to the first control block, depending on the buffer
+  switch (mode ())
+  {
+    case (LABE::LOGAN::MODE::REPEATED): // dual buffer
+    {
+      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+        m_uncached_memory.bus (&dma_data.cbs[0]));
+
+      break;
+    }
+
+    case (LABE::LOGAN::MODE::SCREEN): // single buffer
+    {
+      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+        m_uncached_memory.bus (&dma_data.cbs[4]));
+
+      break;
+    }
+  }
+
+  // 3. Abort the current control block
+  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+
+  // 4. Reset the DMA status flags
+  dma_data.status[0] = dma_data.status[1] = 0;
+
+  // 5. Reset the 2D DMA OSC RX array
+  std::memset (
+    const_cast<void*>(static_cast<volatile void*>(dma_data.rxd)),
+    0,
+    sizeof (dma_data.rxd)
+  );
+
+  // 6. Run DMA if it was running
+  if (is_running)
+  {
+    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
+  }
+}
 
 void LAB_Logic_Analyzer:: 
 load_data_samples ()
 {
-  switch (m_parent_data.trigger_mode)
+  if (is_running ())
   {
-    case (LABE::LOGAN::TRIG::MODE::NONE):
+    switch (m_parent_data.trigger_mode)
     {
-      fill_raw_sample_buffer_from_dma_buffer  ();
-      parse_raw_sample_buffer                 ();  
-
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::MODE::NORMAL):
-    {
-      if (m_parent_data.trigger_frame_ready)
+      case (LABE::LOGAN::TRIG::MODE::NONE):
       {
-        parse_raw_sample_buffer ();
+        fill_raw_sample_buffer_from_dma_buffer  ();
+        parse_raw_sample_buffer                 ();  
+
+        break;
       }
 
-      break;
-    }
-
-    case (LABE::LOGAN::TRIG::MODE::AUTO):
-    {
-      if (m_parent_data.trigger_frame_ready)
+      case (LABE::LOGAN::TRIG::MODE::NORMAL):
       {
-        parse_raw_sample_buffer ();
+        if (m_parent_data.trigger_frame_ready)
+        {
+          parse_raw_sample_buffer ();
+        }
+
+        break;
       }
 
-      break;
+      case (LABE::LOGAN::TRIG::MODE::AUTO):
+      {
+        if (m_parent_data.trigger_frame_ready)
+        {
+          parse_raw_sample_buffer ();
+        }
+
+        break;
+      }
+    }
+
+    if (m_parent_data.single)
+    {
+      stop ();
     }
   }
 }
@@ -454,16 +741,21 @@ horizontal_offset () const
 void LAB_Logic_Analyzer:: 
 time_per_division (double value)
 {
-  // double            new_samp_count  = calc_samp_count (value, disp_num_cols);
-  // double            new_samp_rate   = calc_samp_rate  (value, disp_num_cols);
-  // //LABE::OSC::MODE  new_display_mode   = calc_display_mode  (value);
+  if (LABF::is_within_range (value, LABC::LOGAN::MIN_TIME_PER_DIVISION, 
+    LABC::LOGAN::MAX_TIME_PER_DIVISION))
+  {
+    double new_sampling_rate = calc_sampling_rate (m_parent_data.samples, value);
 
-  // m_parent_data.time_per_division = value;
-  // m_parent_data.w_samp_count      = new_samp_count;
-  // m_parent_data.sampling_rate     = new_samp_rate;
+    if (value < LABC::LOGAN::MIN_TIME_PER_DIVISION_NO_ZOOM)
+    {
+      unsigned new_sample_count = calc_sample_count (m_parent_data.sampling_rate, value);
 
-  // //display_mode          (new_display_mode);
-  // //set_hw_sampling_rate  (m_parent_data.sampling_rate);
+      set_samples (new_sample_count);
+    }
+
+    set_sampling_rate     (new_sampling_rate);
+    set_time_per_division (value);
+  }
 }
 
 double LAB_Logic_Analyzer:: 
@@ -487,51 +779,27 @@ samples () const
 void LAB_Logic_Analyzer::
 sampling_rate (double value)
 {
+  if (LABF::is_within_range (value, LABC::LOGAN::MIN_SAMPLING_RATE,
+    LABC::LOGAN::MAX_SAMPLING_RATE))
+  {
+    set_time_per_division (m_parent_data.samples, value);
+    set_sampling_rate     (value);
 
+    m_parent_data.check_trigger_sleep_period = (1.0 / value) / 5.0;
+  }
+}
+
+double LAB_Logic_Analyzer:: 
+calc_time_per_division (unsigned  samples,
+                        double    sampling_rate)
+{
+  return (samples / (sampling_rate * LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS));
 }
 
 double LAB_Logic_Analyzer::
 sampling_rate () const
 {
   return (m_parent_data.sampling_rate);
-}
-
-void LAB_Logic_Analyzer:: 
-dma_buffer_count (LABE::LOGAN::BUFFER_COUNT buffer_count)
-{
-  bool flag = false; 
-
-  LAB_DMA_Data_Logic_Analyzer& dma_data = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
-    (m_uncached_memory.virt ()));
-  
-  // 1. Pause PWM pacing DMA chan if running
-  if (m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING))
-  {
-    flag = true;
-    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
-  }
-
-  // 2. Assign next control block depending on buffer
-  if (buffer_count == LABE::LOGAN::BUFFER_COUNT::SINGLE)
-  { 
-    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[4]));
-  }
-  else if (buffer_count == LABE::LOGAN::BUFFER_COUNT::DOUBLE)
-  {
-    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::LOGAN_GPIO_STORE, m_uncached_memory.bus (&dma_data.cbs[0]));
-  }
-
-  // 3. Abort the current control block 
-  m_LAB_Core->dma.abort (LABC::DMA::CHAN::LOGAN_GPIO_STORE);
-
-  // 4. Clean buffer status
-  dma_data.status[0] = dma_data.status[1] = 0;
-
-  // 5. Run DMA channel if it was running
-  if (flag)
-  {
-    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
-  }
 }
 
 void LAB_Logic_Analyzer:: 

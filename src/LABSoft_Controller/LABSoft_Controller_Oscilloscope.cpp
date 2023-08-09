@@ -312,30 +312,7 @@ cb_horizontal_offset (Fl_Input_Choice* w,
 
   if (lv.is_valid ())
   {
-    if (LABF::is_within_range (lv.actual_value (), 
-      LABC::OSC::MIN_HORIZONTAL_OFFSET,
-      LABC::OSC::MAX_HORIZONTAL_OFFSET))
-    {
-      m_LAB->m_Oscilloscope.horizontal_offset (lv.actual_value ());
-    }
-  }
-
-  w->value (LAB_LabelValue (m_LAB->m_Oscilloscope.horizontal_offset ()).
-    to_label_text (LAB_LabelValue::UNIT::SECOND).c_str ());
-
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-    update_gui_time_per_division ();
-}
-
-void LABSoft_Controller_Oscilloscope:: 
-cb_samples (Fl_Input_Choice*  w,
-            void*             data)
-{
-  LAB_LabelValue lv (w->value (), LAB_LabelValue::UNIT::NONE);
-
-  if (lv.is_valid ())
-  {
-    m_LAB->m_Oscilloscope.samples (std::round (lv.actual_value ()));
+    m_LAB->m_Oscilloscope.horizontal_offset (lv.actual_value ());
   }
 
   update_gui_horizontal ();
@@ -354,6 +331,24 @@ cb_time_per_division (Fl_Input_Choice* w,
   if (lv.is_valid ())
   {
     m_LAB->m_Oscilloscope.time_per_division (lv.actual_value ());
+  }
+
+  update_gui_horizontal ();
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+cb_samples (Fl_Input_Choice*  w,
+            void*             data)
+{
+  LAB_LabelValue lv (
+    w->value (), 
+    m_LAB->m_Oscilloscope.samples (),
+    LAB_LabelValue::UNIT::NONE
+  );
+
+  if (lv.is_valid ())
+  {
+    m_LAB->m_Oscilloscope.samples (std::round (lv.actual_value ()));
   }
 
   update_gui_horizontal ();
@@ -383,6 +378,7 @@ cb_mode (Fl_Choice* w,
          void*      data)
 {
   std::string str (w->text ());
+  
   LABE::OSC::MODE mode;
 
   if (str == "Repeated")

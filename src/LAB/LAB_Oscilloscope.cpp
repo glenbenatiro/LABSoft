@@ -450,7 +450,7 @@ load_data_samples ()
   {
     case (LABE::OSC::TRIG::MODE::NONE):
     {
-      fill_raw_sample_buffer  ();
+      fill_raw_sample_buffer_from_dma_buffer  ();
       parse_raw_sample_buffer ();
 
       break;
@@ -479,7 +479,7 @@ load_data_samples ()
 }
 
 void LAB_Oscilloscope:: 
-fill_raw_sample_buffer ()
+fill_raw_sample_buffer_from_dma_buffer ()
 {
   LAB_DMA_Data_Oscilloscope& dma_data = *(
     static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ())
@@ -784,24 +784,20 @@ horizontal_offset () const
 void LAB_Oscilloscope:: 
 time_per_division (double value)
 {
-  if (!(LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
-    LABC::OSC::MAX_TIME_PER_DIVISION)))
+  if (LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
+    LABC::OSC::MAX_TIME_PER_DIVISION))
   {
-    return;
+    double new_sampling_rate = calc_sampling_rate (m_parent_data.samples, value);
+
+    if (value < LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM)
+    {
+      unsigned new_sample_count = calc_samp_count (m_parent_data.sampling_rate, value);
+      set_samples (new_sample_count);
+    } 
+
+    set_sampling_rate     (new_sampling_rate);
+    set_time_per_division (value);
   }
-
-  //
-
-  double new_sampling_rate = calc_sampling_rate (LABC::OSC::MAX_SAMPLES, value);
-
-  if (value < LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM)
-  {
-    unsigned new_sample_count = calc_samp_count (m_parent_data.sampling_rate, value);
-    set_samples (new_sample_count);
-  } 
-
-  set_sampling_rate     (new_sampling_rate);
-  set_time_per_division (value);
 }
 
 void LAB_Oscilloscope:: 
@@ -858,16 +854,12 @@ set_samples (unsigned value)
 void LAB_Oscilloscope:: 
 sampling_rate (double value)
 {
-  if (!(LABF::is_within_range (value, LABC::OSC::MIN_SAMPLING_RATE,
-    LABC::OSC::MAX_SAMPLING_RATE)))
+  if (LABF::is_within_range (value, LABC::OSC::MIN_SAMPLING_RATE,
+    LABC::OSC::MAX_SAMPLING_RATE))
   {
-    return;
+    set_time_per_division (m_parent_data.samples, value);
+    set_sampling_rate     (value);
   }
-
-  //
-
-  set_time_per_division (m_parent_data.samples, value);
-  set_sampling_rate     (value);
 }
 
 void LAB_Oscilloscope:: 
@@ -1467,14 +1459,12 @@ set_mode (LABE::OSC::MODE mode)
       case (LABE::OSC::MODE::REPEATED):
       {
         dma_buffer_count  (LABE::OSC::BUFFER_COUNT::DOUBLE);
-
         break;
       }
 
       case (LABE::OSC::MODE::SCREEN):
       {
         dma_buffer_count  (LABE::OSC::BUFFER_COUNT::SINGLE);
-
         break;
       }
     }

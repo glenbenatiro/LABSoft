@@ -175,11 +175,13 @@ class LAB_Parent_Data_Logic_Analyzer
     }
 
     // State
-    bool is_backend_running      = false;
+    bool is_backend_running   = false;
     bool is_frontend_running  = false;
+    bool single               = false;
 
     // Mode
-    LABE::LOGAN::MODE mode = LABD::LOGAN::MODE;
+    LABE::LOGAN::MODE mode                      = LABD::LOGAN::MODE;
+    LABE::LOGAN::MODE last_mode_before_repeated = mode;
 
     // Horizontal
     double    horizontal_offset             = LABD::LOGAN::HORIZONTAL_OFFSET;
@@ -198,16 +200,20 @@ class LAB_Parent_Data_Logic_Analyzer
       LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
     
     // Trigger 
-    bool                    find_trigger        = false;
-    bool                    trigger_frame_ready = false;
-    LABE::LOGAN::TRIG::MODE trigger_mode        = LABC::LOGAN::TRIGGER_MODE;
+    bool find_trigger                     = false; 
+    bool trigger_frame_ready              = false;
+    bool trigger_found                    = false;
+    LABE::LOGAN::TRIG::MODE trigger_mode  = LABD::LOGAN::TRIGGER_MODE;
+    double check_trigger_sleep_period     = LABD::LOGAN::CHECK_TRIGGER_SLEEP_PERIOD;
+    uint32_t trigger_flags                = 0; 
 };
 
 struct LAB_DMA_Data_Logic_Analyzer
 {
   AP::DMA::CTL_BLK cbs[15];
   
-  uint32_t  buffer_ok_flag = 0x1;
+  uint32_t  buffer_ok_flag = 0x1,
+            pwm_duty_cycle;
 
   volatile  uint32_t status [LABC::LOGAN::NUMBER_OF_CHANNELS];
   volatile  uint32_t rxd    [LABC::LOGAN::NUMBER_OF_CHANNELS]

@@ -299,7 +299,7 @@ namespace LABC
 
     // Horizontal
     constexpr unsigned                DISPLAY_NUMBER_OF_COLUMNS       = 10;
-    constexpr double                  MAX_SAMPLING_RATE               = 200'000.0;  // Hz
+    constexpr double                  MAX_SAMPLING_RATE               = 10'000;  // Hz
     constexpr double                  MIN_SAMPLING_RATE               = 1.0;        // Hz
     constexpr unsigned                MAX_SAMPLES                     = NUMBER_OF_SAMPLES;
     constexpr unsigned                MAX_SAMPLES_RECORDING           = 1'000'000;  
@@ -313,7 +313,6 @@ namespace LABC
     constexpr double                  MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
     
     // Trigger
-    constexpr LABE::LOGAN::TRIG::MODE TRIGGER_MODE                    = LABE::LOGAN::TRIG::MODE::NONE;
     constexpr double                  FIND_TRIGGER_TIMEOUT            = 2; // seconds
 
     // Display
@@ -370,16 +369,6 @@ namespace LABC
 
     constexpr int       STATUS_WIDTH                          = 90;
   };
-
-  // namespace LOGAN_DISPLAY_GROUP
-  // {
-  //   constexpr int       X_LABEL_STRIP_HEIGHT  = 30;
-  //   constexpr int       X_LABEL_SIZE          = 10;
-  //   constexpr unsigned  CHANNEL_BUTTON_HEIGHT = 60;
-  //   constexpr unsigned  CHANNEL_BUTTON_WIDTH  = 180;
-
-    
-  // }
 
   namespace DIGITAL_CIRCUIT_CHECKER
   {
