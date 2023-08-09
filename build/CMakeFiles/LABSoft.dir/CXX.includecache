@@ -22,6 +22,10 @@ cstdint
 cstdint
 -
 
+/home/glen/Desktop/LABSoft/src/LAB/LAB.cpp
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
+
 /home/glen/Desktop/LABSoft/src/LAB/LAB.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
@@ -40,6 +44,12 @@ LAB_Digital_Circuit_Checker.h
 LAB_LABChecker_Digital.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_LABChecker_Digital.h
 
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.cpp
+LAB_Circuit_Checker.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
+
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
 LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
@@ -47,6 +57,32 @@ LAB_Core.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
 ../../lib/AikaPi/AikaPi.h
 /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.cpp
+LAB_Digital_Circuit_Checker.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
+fstream
+-
+cstring
+-
+sstream
+-
+iostream
+-
+algorithm
+-
+sys/stat.h
+-
+openssl/aes.h
+-
+openssl/rand.h
+-
+openssl/evp.h
+-
+openssl/sha.h
+-
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
 string
@@ -61,6 +97,12 @@ LAB_Core.h
 /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 ../LAB_Libraries/LAB_MCP23S17.h
 /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
+
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.cpp
+LAB_Function_Generator.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
+iostream
+-
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
 LAB_Core.h
@@ -86,6 +128,22 @@ LAB_Core.h
 ../Utility/pugixml.hpp
 /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.cpp
+LAB_Logic_Analyzer.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
+bitset
+-
+cstring
+-
+iostream
+-
+algorithm
+-
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
+../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
 thread
 -
@@ -96,6 +154,20 @@ LAB_Core.h
 ../Utility/LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.cpp
+LAB_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
+cstring
+-
+bitset
+-
+iostream
+-
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
+../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
 thread
 -
@@ -105,6 +177,12 @@ LAB_Core.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
 ../Utility/LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.cpp
+LAB_Voltmeter.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
 array
@@ -462,11 +540,39 @@ FL/Fl_Menu_Button.H
 ../Utility/LAB_Defaults.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
 
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
+LABSoft_GUI_Oscilloscope_Display.h
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
+vector
+-
+cmath
+-
+iostream
+-
+FL/fl_draw.H
+-
+FL/Enumerations.H
+-
+FL/Fl.H
+-
+../Utility/LAB_Constants.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
 FL/Fl_Widget.H
 -
 ../Utility/LAB_Definitions.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp
+LABSoft_GUI_Oscilloscope_Display_Group.h
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
+sstream
+-
+../Utility/LAB_LabelValue.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
 array
