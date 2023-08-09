@@ -378,7 +378,7 @@ cb_mode (Fl_Choice* w,
          void*      data)
 {
   std::string str (w->text ());
-  
+
   LABE::OSC::MODE mode;
 
   if (str == "Repeated")
@@ -400,29 +400,7 @@ cb_mode (Fl_Choice* w,
 
   m_LAB->m_Oscilloscope.mode (mode);
 
-  if (mode == LABE::OSC::MODE::RECORD)
-  {
-    m_LABSoft_GUI->oscilloscope_fl_light_button_run_stop->hide ();
-    m_LABSoft_GUI->oscilloscope_fl_button_single->hide ();
-    m_LABSoft_GUI->oscilloscope_fl_button_record->show ();
-    m_LABSoft_GUI->oscilloscope_fl_button_record_config->show ();
-  }
-  else 
-  {
-    m_LABSoft_GUI->oscilloscope_fl_light_button_run_stop->show ();
-    m_LABSoft_GUI->oscilloscope_fl_button_single->show ();
-    m_LABSoft_GUI->oscilloscope_fl_button_record->hide ();
-    m_LABSoft_GUI->oscilloscope_fl_button_record_config->hide ();
-
-    // Frontend
-    update_gui_horizontal ();
-
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-      update_gui_time_per_division ();
-    
-    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-      update_gui_upper_left_info ();
-  }
+  update_gui_mode ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -658,9 +636,6 @@ display_update_cycle ()
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
     fill_pixel_points ();
 
-  m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
-    redraw ();
-
   if (m_LAB->m_Oscilloscope.m_parent_data.trigger_found)
   {
     m_LAB->m_Oscilloscope.m_parent_data.trigger_found = false;
@@ -737,6 +712,36 @@ update_gui_horizontal ()
   // 7. Time per Division Labels
   m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
     update_gui_time_per_division ();
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+update_gui_mode ()
+{
+  LABE::OSC::MODE mode = m_LAB->m_Oscilloscope.mode ();
+
+  if (mode == LABE::OSC::MODE::RECORD)
+  {
+    m_LABSoft_GUI->oscilloscope_fl_light_button_run_stop->hide ();
+    m_LABSoft_GUI->oscilloscope_fl_button_single->hide ();
+    m_LABSoft_GUI->oscilloscope_fl_button_record->show ();
+    m_LABSoft_GUI->oscilloscope_fl_button_record_config->show ();
+  }
+  else 
+  {
+    m_LABSoft_GUI->oscilloscope_fl_light_button_run_stop->show ();
+    m_LABSoft_GUI->oscilloscope_fl_button_single->show ();
+    m_LABSoft_GUI->oscilloscope_fl_button_record->hide ();
+    m_LABSoft_GUI->oscilloscope_fl_button_record_config->hide ();
+
+    // Frontend
+    update_gui_horizontal ();
+
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display-> 
+      update_gui_time_per_division ();
+    
+    m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
+      update_gui_upper_left_info ();
+  }
 }
 
 void LABSoft_Controller_Oscilloscope:: 

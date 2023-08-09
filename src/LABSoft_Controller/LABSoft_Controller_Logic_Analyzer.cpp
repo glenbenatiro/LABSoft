@@ -204,28 +204,7 @@ cb_mode (Fl_Choice  *w,
 
   m_LAB->m_Logic_Analyzer.mode (mode);
 
-  if (mode == LABE::LOGAN::MODE::RECORD)
-  {
-    m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->hide ();
-    m_LABSoft_GUI->logic_analyzer_fl_button_single->hide ();
-    m_LABSoft_GUI->logic_analyzer_fl_button_record->show ();
-    m_LABSoft_GUI->logic_analyzer_fl_button_record_config->show ();
-  }
-  else 
-  {
-    m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->show ();
-    m_LABSoft_GUI->logic_analyzer_fl_button_single->show ();
-    m_LABSoft_GUI->logic_analyzer_fl_button_record->hide ();
-    m_LABSoft_GUI->logic_analyzer_fl_button_record_config->hide ();
-
-    update_gui_horizontal ();
-
-    m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display-> 
-      update_gui_time_per_division ();
-    
-    // m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
-    //   update_gui_upper_left_info ();
-  }
+  update_gui_mode ();
 }
 
 void LABSoft_Controller_Logic_Analyzer::
@@ -288,6 +267,35 @@ update_gui_horizontal ()
   // 7. Time per Division Labels
   m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
     update_gui_time_per_division ();
+}
+
+void LABSoft_Controller_Logic_Analyzer::
+update_gui_mode ()
+{
+  LABE::LOGAN::MODE mode = m_LAB->m_Logic_Analyzer.mode ();
+
+  if (mode == LABE::LOGAN::MODE::RECORD)
+  {
+    m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->hide ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_single->hide ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record->show ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record_config->show ();
+  }
+  else 
+  {
+    m_LABSoft_GUI->logic_analyzer_fl_light_button_run_stop->show ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_single->show ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record->hide ();
+    m_LABSoft_GUI->logic_analyzer_fl_button_record_config->hide ();
+
+    update_gui_horizontal ();
+
+    m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display-> 
+      update_gui_time_per_division ();
+    
+    // m_LABSoft_GUI->logic_analyzer_labsoft_logic_analyzer_display_group_display->
+    //   update_gui_upper_left_info ();
+  }
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

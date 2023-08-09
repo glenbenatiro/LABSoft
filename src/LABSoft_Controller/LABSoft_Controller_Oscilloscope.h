@@ -72,6 +72,7 @@ class LABSoft_Controller_Oscilloscope
     void update_gui_main                  (bool value);
     void update_trigger_panel_gui         ();
     void update_gui_horizontal            ();
+    void update_gui_mode                  ();
     
     // Extra
     void test (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data);    

@@ -50,6 +50,7 @@ class LABSoft_Controller_Logic_Analyzer
     void display_update_cycle     ();
     void update_gui_main          (bool value);
     void update_gui_horizontal    ();
+    void update_gui_mode          ();
 
     void cb_add_channel_selection (Fl_Menu_* w, void* data);
     void cb_add_channel_signal    (LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* w, void* data);

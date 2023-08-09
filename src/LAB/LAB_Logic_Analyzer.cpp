@@ -715,7 +715,31 @@ parent_data ()
 void LAB_Logic_Analyzer:: 
 mode (LABE::LOGAN::MODE mode)
 {
+  switch (mode)
+  {
+    case (LABE::LOGAN::MODE::REPEATED):
+    {
+      break;
+    }
 
+    case (LABE::LOGAN::MODE::SCREEN):
+    {
+      if (time_per_division () < LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN)
+      {
+        time_per_division (LABC::LOGAN::MIN_TIME_PER_DIVISION_SCREEN);
+      }
+
+      break;
+    }
+
+    case (LABE::LOGAN::MODE::RECORD):
+    {
+      stop ();
+      break;
+    }
+  }
+
+  set_mode (mode);
 }
 
 LABE::LOGAN::MODE LAB_Logic_Analyzer:: 

@@ -98,6 +98,8 @@ void LABSoft_GUI_Oscilloscope_Display_Group::
 fill_pixel_points ()
 {
   m_display->fill_pixel_points ();
+
+  redraw ();
 }
 
 double LABSoft_GUI_Oscilloscope_Display_Group:: 

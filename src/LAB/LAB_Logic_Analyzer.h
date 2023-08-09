@@ -21,31 +21,31 @@ class LAB_Logic_Analyzer
 
   private:
     // Setup
-    void init_gpio_pins   ();
-    void init_dma         ();
-    void init_interrupts  ();
-    void config_dma_cb    ();  
+    void              init_gpio_pins          ();
+    void              init_dma                ();
+    void              init_interrupts         ();
+    void              config_dma_cb           ();  
 
     // Mode
-    LABE::LOGAN::MODE calc_mode         (double time_per_division) const;
-    void              set_mode          (LABE::LOGAN::MODE mode);
-    void              dma_buffer_count  (LABE::LOGAN::BUFFER_COUNT buffer_count);
+    LABE::LOGAN::MODE calc_mode               (double time_per_division) const;
+    void              set_mode                (LABE::LOGAN::MODE mode);
+    void              dma_buffer_count        (LABE::LOGAN::BUFFER_COUNT buffer_count);
 
     // Horizontal
-    void    set_samples             (unsigned value);
-    void    set_time_per_division   (double value);
-    void    set_time_per_division   (unsigned samples, double sampling_rate);
-    void    set_sampling_rate       (double value);
-    double  calc_time_per_division  (unsigned samples, double sampling_rate);
-    double  calc_sampling_rate      (unsigned samples, double time_per_division);
-    double  calc_sample_count       (double sampling_rate, double time_per_division);
+    void              set_samples             (unsigned value);
+    void              set_time_per_division   (double value);
+    void              set_time_per_division   (unsigned samples, double sampling_rate);
+    void              set_sampling_rate       (double value);
+    double            calc_time_per_division  (unsigned samples, double sampling_rate);
+    double            calc_sampling_rate      (unsigned samples, double time_per_division);
+    double            calc_sample_count       (double sampling_rate, double time_per_division);
 
     // Trigger 
-    void set_trigger_condition    (unsigned gpio_pin, LABE::LOGAN::TRIG::CND condition);
-    void parse_trigger_mode       ();
-    void find_trigger_point_loop  ();
-    bool check_if_triggered       ();
-    void create_trigger_frame     ();
+    void              set_trigger_condition   (unsigned gpio_pin, LABE::LOGAN::TRIG::CND condition);
+    void              parse_trigger_mode      ();
+    void              find_trigger_point_loop ();
+    bool              check_if_triggered      ();
+    void              create_trigger_frame    ();
 
     // Data and conversion
     void reset_dma_process                      ();
@@ -53,8 +53,8 @@ class LAB_Logic_Analyzer
     void parse_raw_sample_buffer                ();
 
   public:
-    LAB_Logic_Analyzer (LAB_Core* _LAB_Core, LAB* _LAB);
-   ~LAB_Logic_Analyzer ();
+    LAB_Logic_Analyzer                  (LAB_Core* _LAB_Core, LAB* _LAB);
+   ~LAB_Logic_Analyzer                  ();
 
     // master controls
     void              run               ();
