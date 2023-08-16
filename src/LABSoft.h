@@ -15,8 +15,6 @@ class LABSoft
   public:
     LABSoft (int argc, char** argv);
    ~LABSoft ();
-
-    void link_controller_to_gui ();
 };
 
 #endif

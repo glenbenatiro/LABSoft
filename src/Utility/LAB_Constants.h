@@ -353,7 +353,7 @@ namespace LABC
                                                                   CHANNEL_SETTING_WIDTH + 
                                                                   CHANNEL_DIO_WIDTH + 
                                                                   CHANNEL_TRIGGER_WIDTH;
-    constexpr double  CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD       = 60.0; // in percent, with the graph widget height as max
+    constexpr double    CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD       = 60.0; // in percent, with the graph widget height as max
 
     constexpr Fl_Boxtype  GRAPH_BOX         = FL_THIN_DOWN_BOX;
     constexpr unsigned    GRAPH_BG_COLOR    = 7;

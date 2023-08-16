@@ -23,7 +23,7 @@ void LABSoft_Controller_Logic_Analyzer::
 init ()
 {
   m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
-    load_logic_analyzer_parent_data (m_LAB->m_Logic_Analyzer.parent_data ());
+    load_parent_data (m_LAB->m_Logic_Analyzer.parent_data ());
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

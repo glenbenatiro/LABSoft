@@ -10,7 +10,6 @@
 #include "LABSoft_Controller_Voltmeter.h"
 #include "LABSoft_Controller_Function_Generator.h"
 #include "LABSoft_Controller_Logic_Analyzer.h"
-#include "LABSoft_Controller_Circuit_Checker.h"
 #include "LABSoft_Controller_Digital_Circuit_Checker.h"
 #include "LABSoft_Controller_Main_Window.h"
 #include "LABSoft_Controller_LABChecker_Digital.h"
@@ -26,12 +25,13 @@ class LABSoft_Controller
     LABSoft_Controller_Voltmeter                m_Voltmeter;
     LABSoft_Controller_Function_Generator       m_Function_Generator;
     LABSoft_Controller_Logic_Analyzer           m_Logic_Analyzer;
-    LABSoft_Controller_Circuit_Checker          m_Circuit_Checker;
     LABSoft_Controller_Digital_Circuit_Checker  m_Digital_Circuit_Checker;
     LABSoft_Controller_Main_Window              m_Main_Window;
     LABSoft_Controller_LABChecker_Digital       m_LABChecker_Digital;
 
   private:      
+    void load_controller_to_gui ();
+
     static void update_display (void *data);     
   
   public: 
@@ -39,8 +39,7 @@ class LABSoft_Controller
 
     void tab_selection_color_toggle (Fl_Group* tab, bool value);
     void main_tab_selection_color   ();
-
-    void cb_main_fl_tabs (Fl_Tabs* w, void* data); 
+    void cb_main_fl_tabs            (Fl_Tabs* w, void* data); 
 };
 
 #endif

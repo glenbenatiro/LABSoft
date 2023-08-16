@@ -44,8 +44,9 @@ class LAB_Logic_Analyzer
     void              set_trigger_condition   (unsigned gpio_pin, LABE::LOGAN::TRIG::CND condition);
     void              parse_trigger_mode      ();
     void              find_trigger_point_loop ();
-    bool              check_if_triggered      ();
+    bool              check_if_triggered      (uint32_t event_detect_status_register_value);
     void              create_trigger_frame    ();
+    void              cache_trigger_condition (unsigned channel, LABE::LOGAN::TRIG::CND condition);
 
     // Data and conversion
     void reset_dma_process                      ();

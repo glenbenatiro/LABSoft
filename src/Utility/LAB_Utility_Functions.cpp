@@ -4,8 +4,8 @@
 
 bool LABF::
 is_equal (double a,
-                double b,
-                double epsilon)
+          double b,
+          double epsilon)
 {
   return ((std::abs (a - b)) < epsilon);
 }

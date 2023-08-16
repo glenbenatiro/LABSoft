@@ -10,12 +10,11 @@ LABSoft (int    argc,
          char** argv) 
   : m_LABSoft_Controller (&m_LAB, &m_LABSoft_GUI)
 {
-  link_controller_to_gui ();
-
-  m_LABSoft_GUI.main_fl_window->show ();
-
-  // important for multithreading!
+  // initialize threading support
   Fl::lock ();
+
+  // show main window
+  m_LABSoft_GUI.main_fl_window->show ();
 
   // run main fltk loop
   Fl::run();
@@ -25,15 +24,4 @@ LABSoft::
 ~LABSoft() 
 {
 
-}
-
-void LABSoft:: 
-link_controller_to_gui ()
-{
-  // 1. main LABSoft_GUI
-  m_LABSoft_GUI.m_LABSoft_Controller = &m_LABSoft_Controller;
-
-  // 2. LABSoft_GUI_Logic_Analyzer_Display
-  m_LABSoft_GUI.logic_analyzer_labsoft_gui_logic_analyzer_display->
-    controller (m_LABSoft_Controller);
 }

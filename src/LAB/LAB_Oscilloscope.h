@@ -137,8 +137,8 @@ class LAB_Oscilloscope
     int                   update_state            ();
 
     // Getters
-    bool                  is_osc_frontend_running ();
-    bool                  is_osc_core_running     ();
+    bool                  is_frontend_running ();
+    bool                  is_core_running     ();
 
     LAB_Parent_Data_Oscilloscope&   parent_data   ();
     LAB_Channel_Data_Oscilloscope&  channel_data  (unsigned channel);

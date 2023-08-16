@@ -17,11 +17,8 @@ class LABSoft_Controller_Oscilloscope
     LABSoft_Controller* m_LABSoft_Controller;
 
   private: 
-    void init                             ();
-    void link_widgets                     ();
-    void init_gui                         ();
-    void oscilloscope_display_group_init  ();
-    void init_gui_values                  ();
+    void init             ();
+    void init_gui_values  ();
 
   public:
     LABSoft_Controller_Oscilloscope (LAB*                 _LAB, 
@@ -65,17 +62,15 @@ class LABSoft_Controller_Oscilloscope
     void cb_channel_selector              (Fl_Toggle_Button*  w, long channel);
 
     // Display
-    void cb_display                       (LABSoft_GUI_Oscilloscope_Display* w, void* data);
+    void cb_display_time_per_division     (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
+    void cb_display_horizontal_offset     (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
 
     // GUI update
     void display_update_cycle             ();
     void update_gui_main                  (bool value);
     void update_trigger_panel_gui         ();
     void update_gui_horizontal            ();
-    void update_gui_mode                  ();
-    
-    // Extra
-    void test (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data);    
+    void update_gui_mode                  ();   
 };
 
 #endif

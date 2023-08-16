@@ -277,33 +277,6 @@ src/LAB/LAB.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.s
 .PHONY : src/LAB/LAB.cpp.s
 
-src/LAB/LAB_Circuit_Checker.o: src/LAB/LAB_Circuit_Checker.cpp.o
-
-.PHONY : src/LAB/LAB_Circuit_Checker.o
-
-# target to build an object file
-src/LAB/LAB_Circuit_Checker.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o
-.PHONY : src/LAB/LAB_Circuit_Checker.cpp.o
-
-src/LAB/LAB_Circuit_Checker.i: src/LAB/LAB_Circuit_Checker.cpp.i
-
-.PHONY : src/LAB/LAB_Circuit_Checker.i
-
-# target to preprocess a source file
-src/LAB/LAB_Circuit_Checker.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.i
-.PHONY : src/LAB/LAB_Circuit_Checker.cpp.i
-
-src/LAB/LAB_Circuit_Checker.s: src/LAB/LAB_Circuit_Checker.cpp.s
-
-.PHONY : src/LAB/LAB_Circuit_Checker.s
-
-# target to generate assembly for a file
-src/LAB/LAB_Circuit_Checker.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.s
-.PHONY : src/LAB/LAB_Circuit_Checker.cpp.s
-
 src/LAB/LAB_Core.o: src/LAB/LAB_Core.cpp.o
 
 .PHONY : src/LAB/LAB_Core.o
@@ -546,33 +519,6 @@ src/LABSoft_Controller/LABSoft_Controller.s: src/LABSoft_Controller/LABSoft_Cont
 src/LABSoft_Controller/LABSoft_Controller.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.o: src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.i: src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.s: src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.s
 
 src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.o: src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
 
@@ -979,33 +925,6 @@ src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s
 
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.o: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.o
-
-# target to build an object file
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o
-
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.i: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.i
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.i
-
-# target to preprocess a source file
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.i
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.i
-
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.s: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s
-
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.s
-
-# target to generate assembly for a file
-src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s
-.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.s
-
 src/LAB_Libraries/LAB_AD9833.o: src/LAB_Libraries/LAB_AD9833.cpp.o
 
 .PHONY : src/LAB_Libraries/LAB_AD9833.o
@@ -1219,9 +1138,6 @@ help:
 	@echo "... src/LAB/LAB.o"
 	@echo "... src/LAB/LAB.i"
 	@echo "... src/LAB/LAB.s"
-	@echo "... src/LAB/LAB_Circuit_Checker.o"
-	@echo "... src/LAB/LAB_Circuit_Checker.i"
-	@echo "... src/LAB/LAB_Circuit_Checker.s"
 	@echo "... src/LAB/LAB_Core.o"
 	@echo "... src/LAB/LAB_Core.i"
 	@echo "... src/LAB/LAB_Core.s"
@@ -1249,9 +1165,6 @@ help:
 	@echo "... src/LABSoft_Controller/LABSoft_Controller.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.s"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.s"
@@ -1297,9 +1210,6 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.s"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.o"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.i"
-	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.s"
 	@echo "... src/LAB_Libraries/LAB_AD9833.o"
 	@echo "... src/LAB_Libraries/LAB_AD9833.i"
 	@echo "... src/LAB_Libraries/LAB_AD9833.s"

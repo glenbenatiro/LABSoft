@@ -4,6 +4,9 @@
 
 #include "../Utility/LAB_Constants.h"
 
+// remove soon
+#include <iostream>
+
 LABSoft_Controller:: 
 LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
   : m_LAB                     (_LAB),
@@ -12,17 +15,38 @@ LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI)
     m_Voltmeter               (_LAB, _LABSoft_GUI, this),
     m_Function_Generator      (_LAB, _LABSoft_GUI, this),
     m_Logic_Analyzer          (_LAB, _LABSoft_GUI, this),
-    m_Circuit_Checker         (_LAB, _LABSoft_GUI, this),
     m_Digital_Circuit_Checker (_LAB, _LABSoft_GUI, this),
     m_Main_Window             (_LAB, _LABSoft_GUI, this),
     m_LABChecker_Digital      (_LAB, _LABSoft_GUI, this)
 {
+  load_controller_to_gui ();
+
   Fl::add_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, this);
+}
+
+void LABSoft_Controller::
+load_controller_to_gui ()
+{
+  // 1. 
+  m_LABSoft_GUI->m_LABSoft_Controller = this;
+
+  // 2. 
+  m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
+    load_controller (*this);
+
+  // 3.
+  m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display-> 
+    load_controller (*this);
 }
 
 void LABSoft_Controller::
 update_display (void *data)
 {
+  // if (Fl::belowmouse () != nullptr)
+  // {
+  //   std::cout << "belowmouse: " << Fl::belowmouse ()->label () << std::endl;
+  // }  
+  
   LABSoft_Controller& controller = *((LABSoft_Controller*)(data));
 
   controller.m_Oscilloscope.display_update_cycle    ();

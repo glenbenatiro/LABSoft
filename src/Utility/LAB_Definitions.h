@@ -29,8 +29,8 @@ class LAB_Parent_Data_Oscilloscope
 {
   public:    
     // State 
-    bool              is_osc_core_running     = false; 
-    bool              is_osc_frontend_running = false;
+    bool              is_core_running         = false; 
+    bool              is_frontend_running     = false;
     bool              single                  = false;
     LABE::OSC::STATUS status                  = LABE::OSC::STATUS::READY;
     
@@ -74,8 +74,8 @@ class LAB_Parent_Data_Oscilloscope
     LABE::OSC::TRIG::CND  trig_condition          = LABC::OSC::TRIGGER_CONDITION;
     double                trigger_level           = LABC::OSC::TRIGGER_LEVEL;
     double                trigger_level_raw_bits  = (LABC::OSC::ADC_RESOLUTION_INT - 1) / 2;
-    unsigned              find_trig_sample_skip   = 10;
-    unsigned              trig_buff_index         = 0;
+    unsigned              find_trig_sample_skip   = 4;
+    unsigned              trigger_buffer_index    = 0;
     unsigned              trig_index              = 0;
     
     // Debug
@@ -86,7 +86,7 @@ class LAB_Parent_Data_Oscilloscope
       std::array<
         std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
-      > pre_trig;
+      > pre_trigger;
 
       std::array<
         std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
@@ -116,16 +116,14 @@ struct LAB_DMA_Data_Oscilloscope
 {
   AP::DMA::CTL_BLK cbs[15];
 
-  uint32_t  spi_samp_size,
-            spi_cs,
-            spi_cs_fifo_reset,
-            pwm_duty_cycle,
-            txd;
+  uint32_t spi_samp_size      = 0,
+           spi_cs             = 0,
+           spi_cs_fifo_reset  = 0,
+           pwm_duty_cycle     = 0,
+           txd                = 0;
 
   volatile uint32_t status[LABC::OSC::NUMBER_OF_CHANNELS];
-
-  volatile uint32_t rxd [LABC::OSC::NUMBER_OF_CHANNELS]
-                        [LABC::OSC::NUMBER_OF_SAMPLES];
+  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES];
 };
 
 struct LAB_Channel_Data_Function_Generator
@@ -155,57 +153,71 @@ struct LAB_Channel_Data_Logic_Analyzer
   bool      is_enabled                      = true;
   unsigned  raw_sample_buffer_working_size  = 0;
 
+  // triggre
+  LABE::LOGAN::TRIG::CND trigger_condition = LABD::LOGAN::TRIGGER_CONDITION;
+
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
   std::array  <bool, LABC::LOGAN::NUMBER_OF_SAMPLES> samples;
 };
 
-class LAB_Parent_Data_Logic_Analyzer
+struct LAB_Parent_Data_Logic_Analyzer
 {
-  public:
-    bool has_enabled_channels ()
-    {
-      for (int a = 0; a < channel_data.size (); a++)
-      {
-        if (channel_data[a].is_enabled)
-          return true;
-      }
+  // State
+  bool is_backend_running   = false;
+  bool is_frontend_running  = false;
+  bool single               = false;
 
-      return false;
-    }
+  // Mode
+  LABE::LOGAN::MODE mode                      = LABD::LOGAN::MODE;
+  LABE::LOGAN::MODE last_mode_before_repeated = mode;
 
-    // State
-    bool is_backend_running   = false;
-    bool is_frontend_running  = false;
-    bool single               = false;
+  // Horizontal
+  double    horizontal_offset             = LABD::LOGAN::HORIZONTAL_OFFSET;
+  double    time_per_division             = LABD::LOGAN::TIME_PER_DIVISION;
+  double    time_per_division_raw_buffer  = time_per_division;
+  unsigned  samples                       = LABD::LOGAN::SAMPLES;
+  unsigned  samples_raw_buffer            = samples;
+  double    sampling_rate                 = LABD::LOGAN::SAMPLING_RATE;
 
-    // Mode
-    LABE::LOGAN::MODE mode                      = LABD::LOGAN::MODE;
-    LABE::LOGAN::MODE last_mode_before_repeated = mode;
-
-    // Horizontal
-    double    horizontal_offset             = LABD::LOGAN::HORIZONTAL_OFFSET;
-    double    time_per_division             = LABD::LOGAN::TIME_PER_DIVISION;
-    double    time_per_division_raw_buffer  = time_per_division;
-    unsigned  samples                       = LABD::LOGAN::SAMPLES;
-    unsigned  samples_raw_buffer            = samples;
-    double    sampling_rate                 = LABD::LOGAN::SAMPLING_RATE;
-
-    std::array <
-      uint32_t, 
-      LABC::LOGAN::NUMBER_OF_SAMPLES
-    > raw_data_buffer;
-      
-    std::array <LAB_Channel_Data_Logic_Analyzer, 
-      LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
+  std::array <
+    uint32_t, 
+    LABC::LOGAN::NUMBER_OF_SAMPLES
+  > raw_data_buffer;
     
-    // Trigger 
-    bool find_trigger                     = false; 
-    bool trigger_frame_ready              = false;
-    bool trigger_found                    = false;
-    LABE::LOGAN::TRIG::MODE trigger_mode  = LABD::LOGAN::TRIGGER_MODE;
-    double check_trigger_sleep_period     = LABD::LOGAN::CHECK_TRIGGER_SLEEP_PERIOD;
-    uint32_t trigger_flags                = 0; 
+  std::array <LAB_Channel_Data_Logic_Analyzer, 
+    LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
+
+  // Trigger 
+  bool                    find_trigger                = false; 
+  bool                    trigger_frame_ready         = false;
+  bool                    trigger_found               = false;
+  bool                    find_trigger_timeout        = false;
+  LABE::LOGAN::TRIG::MODE trigger_mode                = LABD::LOGAN::TRIGGER_MODE;
+  double                  check_trigger_sleep_period  = LABD::LOGAN::CHECK_TRIGGER_SLEEP_PERIOD;
+  uint32_t                trigger_flags               = 0; 
+  unsigned                trigger_buffer_index        = 0;
+  unsigned                trigger_index               = 0;
+  std::vector<unsigned>   trigger_cache_edge;
+  std::vector<unsigned>   trigger_cache_level;
+
+  struct TriggerBuffers
+    {
+      std::array<
+        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
+        LABC::OSC::NUMBER_OF_CHANNELS
+      > pre_trigger;
+
+      std::array<
+        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
+        LABC::OSC::NUMBER_OF_CHANNELS
+      > post_trigger;
+
+      std::array<
+        uint32_t, 
+        LABC::OSC::NUMBER_OF_SAMPLES
+      > assembled_frame;
+    } trigger_buffers; 
 };
 
 struct LAB_DMA_Data_Logic_Analyzer
@@ -215,9 +227,8 @@ struct LAB_DMA_Data_Logic_Analyzer
   uint32_t  buffer_ok_flag = 0x1,
             pwm_duty_cycle;
 
-  volatile  uint32_t status [LABC::LOGAN::NUMBER_OF_CHANNELS];
-  volatile  uint32_t rxd    [LABC::LOGAN::NUMBER_OF_CHANNELS]
-                            [LABC::LOGAN::NUMBER_OF_SAMPLES];
+  volatile  uint32_t status[LABC::LOGAN::NUMBER_OF_CHANNELS];
+  volatile  uint32_t rxd[2][LABC::LOGAN::NUMBER_OF_SAMPLES];
 };
 
 #endif

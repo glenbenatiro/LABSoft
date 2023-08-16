@@ -6,7 +6,6 @@
 #include "LAB_Voltmeter.h"
 #include "LAB_Function_Generator.h"
 #include "LAB_Logic_Analyzer.h"
-#include "LAB_Circuit_Checker.h"
 #include "LAB_Digital_Circuit_Checker.h"
 #include "LAB_LABChecker_Digital.h"
 
@@ -20,8 +19,7 @@ class LAB
     LAB_Oscilloscope            m_Oscilloscope;
     LAB_Voltmeter               m_Voltmeter;
     LAB_Function_Generator      m_Function_Generator;
-    LAB_Logic_Analyzer          m_Logic_Analyzer;
-    LAB_Circuit_Checker         m_Circuit_Checker;   
+    LAB_Logic_Analyzer          m_Logic_Analyzer;  
     LAB_Digital_Circuit_Checker m_Digital_Circuit_Checker;
     LAB_LABChecker_Digital      m_LABChecker_Digital;
 };

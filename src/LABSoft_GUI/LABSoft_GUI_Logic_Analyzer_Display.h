@@ -24,12 +24,13 @@ using ChanGraph   = class LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph;
 using ChanWidget  = class LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget;
 using DispOverlay = class LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay;
 using Disp        = class LABSoft_GUI_Logic_Analyzer_Display;
+
 using PixelPoints = std::array<std::vector<std::array<int, 2>>, 
                       LABC::LOGAN::NUMBER_OF_CHANNELS>;
 
 struct DisplayData
 {
-  PixelPoints pp;
+  PixelPoints pixel_points;
   unsigned    graph_width = LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH;
 };
 
@@ -126,7 +127,7 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
 
     // gui
     Fl_Pack*                        m_pack;           
-    DispOverlay*                        m_overlay;
+    DispOverlay*                    m_overlay;
     Fl_Scroll*                      m_scroll;  
     std::vector<ChanWidget*>        m_channel_widgets;
     std::array<int, 2>              m_graph_base_line_coords;
@@ -156,13 +157,13 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     LABSoft_GUI_Logic_Analyzer_Display (int X, int Y, int W, int H, const char* label = 0);
    ~LABSoft_GUI_Logic_Analyzer_Display ();
 
-    void load_logic_analyzer_parent_data  (LAB_Parent_Data_Logic_Analyzer& pdata);
-    void controller                       (LABSoft_Controller& controller);
-    LABSoft_Controller& controller        () const;
-    void add_channel                      (unsigned channel, const char* name = 0);
-    void clear_all_channels               ();
-    void update_gui_time_per_division     ();
-    void update_display                   ();
+    void load_parent_data             (LAB_Parent_Data_Logic_Analyzer& pdata);
+    void load_controller              (LABSoft_Controller& controller);
+    LABSoft_Controller& controller    () const;
+    void add_channel                  (unsigned channel, const char* name = 0);
+    void clear_all_channels           ();
+    void update_gui_time_per_division ();
+    void update_display               ();
 };
 
 #endif

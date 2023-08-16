@@ -1,0 +1,83 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0305
+header_name {.h}
+code_name {.cpp}
+widget_class labsoft_gui_oscilloscope_display {open
+  xywh {2338 464 700 510} type Double color 0
+  class LABSoft_GUI_Oscilloscope_Display visible
+} {
+  Fl_Group {} {open
+    xywh {80 20 610 470} box FLAT_BOX color 103 labelsize 12
+  } {}
+  Fl_Box {c1 vpd unit} {
+    label {C1 mV}
+    xywh {0 20 3 20} labelsize 9 labelcolor 3 align 5
+  }
+  Fl_Box {c2 vpd unit} {
+    label {C2 mV}
+    xywh {40 20 3 20} labelsize 9 labelcolor 6 align 5
+  }
+  Fl_Box {c1 volts per div first} {
+    label {2.345}
+    xywh {0 20 3 20} labelsize 12 labelcolor 3 align 21
+  }
+  Fl_Box {c2 volts per div first} {
+    label {1.234}
+    xywh {40 20 3 20} labelsize 12 labelcolor 6 align 21
+  }
+  Fl_Box {c1 volts per div mid} {
+    label {2.345}
+    xywh {0 255 3 20} labelsize 12 labelcolor 3 align 21
+  }
+  Fl_Box {c2 volts per div mid} {
+    label {1.234}
+    xywh {40 255 3 20} labelsize 12 labelcolor 6 align 21
+  }
+  Fl_Box {c1 volts per div last} {
+    label {2.345}
+    xywh {0 490 3 20} labelsize 12 labelcolor 3 align 5
+  }
+  Fl_Box {c2 volts per div last} {
+    label {1.234}
+    xywh {40 490 3 20} labelsize 12 labelcolor 6 align 5
+  }
+  Fl_Box {} {
+    label Ready
+    xywh {80 0 80 20} box BORDER_FRAME color 1 labelsize 12 labelcolor 7
+  }
+  Fl_Box {} {
+    label C1
+    xywh {160 0 20 20} box THIN_UP_BOX color 0 labelsize 12 labelcolor 3
+  }
+  Fl_Box {} {
+    label C2
+    xywh {180 0 20 20} box THIN_UP_BOX color 0 labelsize 12 labelcolor 6
+  }
+  Fl_Box {} {
+    label {2000 samples at 200 kHz | 2023-08-15 13:03:41:231}
+    xywh {200 0 20 20} color 0 labelsize 12 labelcolor 7 align 20
+  }
+  Fl_Slider {} {
+    label {slider:}
+    xywh {80 20 10 470} box NO_BOX color 3 selection_color 3
+  }
+  Fl_Slider {} {
+    label {slider:}
+    xywh {680 20 10 470} box NO_BOX color 3 selection_color 3
+  }
+  Fl_Slider {} {
+    xywh {80 20 620 10} type Horizontal box NO_BOX color 3 selection_color 3
+  }
+  Fl_Box {time per div first} {
+    label {-5 ms}
+    xywh {80 490 3 20} labelsize 12 labelcolor 7
+  }
+  Fl_Box {time per div mid} {
+    label {-5 ms}
+    xywh {385 490 3 20} labelsize 12 labelcolor 7
+  }
+  Fl_Box {time per div last} {
+    label {-5 ms}
+    xywh {690 490 3 20} labelsize 12 labelcolor 7 align 4
+  }
+}

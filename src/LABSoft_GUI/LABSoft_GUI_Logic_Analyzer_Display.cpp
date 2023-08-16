@@ -42,7 +42,7 @@ draw ()
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph:: 
 draw_signal ()
 {
-  std::vector<std::array<int, 2>>& pp = m_display_data->pp[m_channel];
+  std::vector<std::array<int, 2>>& pp = m_display_data->pixel_points[m_channel];
 
   if (m_display_data == nullptr || m_channel < 0 || pp.size () == 0)
   {
@@ -385,7 +385,7 @@ LABSoft_GUI_Logic_Analyzer_Display::
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 init_child_widgets ()
 {
-  Fl_Scroll* m_scroll = new Fl_Scroll (
+  m_scroll = new Fl_Scroll (
     x (),
     y () + LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
     w (),
@@ -492,6 +492,21 @@ create_channel_widget (unsigned channel, const char* name)
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
+fill_pixel_points ()
+{
+  // if (m_parent_data->is_backend_running)
+  // {
+  //   fill_pixel_points_backend_running ();
+  // }
+  // else 
+  // {
+  //   fill_pixel_points_backend_stopped ();
+  // }
+
+  fill_pixel_points_backend_running ();
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
 fill_pixel_points_backend_running ()
 {
   LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data;
@@ -501,7 +516,7 @@ fill_pixel_points_backend_running ()
     if (is_chan_present_in_chan_widget_array (chan))
     {
       LAB_Channel_Data_Logic_Analyzer& cdata  = pdata.channel_data[chan];
-      std::vector<std::array<int, 2>>& pp     = m_display_data.pp[chan];
+      std::vector<std::array<int, 2>>& pp     = m_display_data.pixel_points[chan];
 
       pp.clear ();
 
@@ -543,7 +558,7 @@ fill_pixel_points_backend_running ()
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 fill_pixel_points_backend_stopped ()
 {
-  LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data;
+
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display::
@@ -620,7 +635,7 @@ calc_chan_widget_graph_offset_last ()
 void LABSoft_GUI_Logic_Analyzer_Display::
 reserve_pixel_points ()
 {
-  for (std::vector<std::array<int, 2>>& pp : m_display_data.pp)
+  for (std::vector<std::array<int, 2>>& pp : m_display_data.pixel_points)
   {
     pp.reserve (LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH * 2);
   }
@@ -635,7 +650,7 @@ draw ()
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
-load_logic_analyzer_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
+load_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
 {
   m_parent_data = &pdata;
 
@@ -643,7 +658,7 @@ load_logic_analyzer_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
-controller (LABSoft_Controller& controller)
+load_controller (LABSoft_Controller& controller)
 {
   m_LABSoft_Controller = &controller;
 }
@@ -652,19 +667,6 @@ LABSoft_Controller& LABSoft_GUI_Logic_Analyzer_Display::
 controller () const 
 {
   return (*m_LABSoft_Controller);
-}
-
-void LABSoft_GUI_Logic_Analyzer_Display:: 
-fill_pixel_points ()
-{
-  if (m_parent_data->is_backend_running)
-  {
-    fill_pixel_points_backend_running ();
-  }
-  else 
-  {
-    fill_pixel_points_backend_stopped ();
-  }
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 

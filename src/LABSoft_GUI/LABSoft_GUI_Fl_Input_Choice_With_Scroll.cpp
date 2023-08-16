@@ -16,6 +16,8 @@ LABSoft_GUI_Fl_Input_Choice_With_Scroll (int         X,
 void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
 mouse_wheel_cb (int scroll_amount)
 {
+  std::cout << "mouse wheel cb: " << label () << "\n";
+  
   int input_index = menubutton ()->find_index (input ()->value ());
 
   if (input_index < 0)
@@ -40,14 +42,19 @@ handle (int e)
 {
   switch (e)
   {    
+    case (FL_ENTER):
+    {
+      return (1);
+    }
+
     case (FL_MOUSEWHEEL):
     {
-      std::cout << "I am in Fl_Input_Choice_With_Scroll.";
-      std::cout << "Label under me is: " << Fl::belowmouse ()->label () << "\n";
+      if (Fl::belowmouse () == this)
+      {
+        mouse_wheel_cb (Fl::event_dy ());  
 
-      mouse_wheel_cb (Fl::event_dy ());  
-
-      return (1);
+        return (1);
+      }
     }
 
     default:

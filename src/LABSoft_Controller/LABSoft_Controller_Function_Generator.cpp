@@ -29,10 +29,10 @@ init_gui_values ()
   w.value (w.find_index (LABS_GUI_VALUES::FUNC_GEN::WAVE_TYPE.at 
     (gen.wave_type (0)).c_str ()));
 
-  gui.function_generator_fl_input_choice_amplitude->value (
-    LAB_LabelValue (gen.amplitude (0)).to_label_text 
-    (LAB_LabelValue::UNIT::VOLT).c_str ()
-  );
+  // gui.function_generator_fl_input_choice_amplitude->value (
+  //   LAB_LabelValue (gen.amplitude (0)).to_label_text 
+  //   (LAB_LabelValue::UNIT::VOLT).c_str ()
+  // );
 
   gui.function_generator_fl_input_choice_frequency->value (
     LAB_LabelValue (gen.frequency (0)).to_label_text 
@@ -49,10 +49,10 @@ init_gui_values ()
     (LAB_LabelValue::UNIT::DEGREE).c_str ()
   );
 
-  gui.function_generator_fl_input_choice_vertical_offset->value (
-    LAB_LabelValue (gen.vertical_offset (0)).to_label_text
-    (LAB_LabelValue::UNIT::VOLT).c_str ()
-  );
+  // gui.function_generator_fl_input_choice_vertical_offset->value (
+  //   LAB_LabelValue (gen.vertical_offset (0)).to_label_text
+  //   (LAB_LabelValue::UNIT::VOLT).c_str ()
+  // );
 }
 
 void LABSoft_Controller_Function_Generator:: 

@@ -3,6 +3,7 @@
 #include <bitset>
 #include <cstring>
 #include <iostream>
+#include <algorithm>
 
 #include "LAB.h"
 #include "../Utility/LAB_Utility_Functions.h"
@@ -161,6 +162,8 @@ stop ()
 
   m_parent_data.is_backend_running  = false;
   m_parent_data.is_frontend_running = false;
+
+  std::cout << "stopped!" << "\n";
 }
 
 void LAB_Logic_Analyzer:: 
@@ -243,6 +246,11 @@ parse_raw_sample_buffer ()
       //   std::cout << std::bitset <32> (pdata.raw_data_buffer[samp]) << "\n";
       // }  
     }
+  }
+
+  if (m_parent_data.trigger_frame_ready)
+  {
+    m_parent_data.trigger_frame_ready = false;
   }
 }
 
@@ -508,9 +516,21 @@ parse_trigger_mode ()
 void LAB_Logic_Analyzer:: 
 find_trigger_point_loop ()
 {
-  m_LAB_Core->gpio.clear_event_detect_status ();
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_memory.virt ()));
 
   LAB_Parent_Data_Logic_Analyzer& pdata = m_parent_data;
+
+  // ===== Cached Variables =====
+
+  uint32_t buff0_cbs_addr[2] = {m_uncached_memory.bus (&dma_data.cbs[0]),
+                                m_uncached_memory.bus (&dma_data.cbs[1])};
+  uint32_t buff1_cbs_addr[2] = {m_uncached_memory.bus (&dma_data.cbs[2]),
+                                m_uncached_memory.bus (&dma_data.cbs[3])};
+  
+  // ====================
+
+  m_LAB_Core->gpio.clear_event_detect_status ();
 
   while (pdata.find_trigger)
   {
@@ -518,17 +538,37 @@ find_trigger_point_loop ()
     {
       // 1. Check if there is a change in any of the bits in the 
       //    GPIO Event Detect Status Register (GPEDS0). If there is,
-      //    this means that a trigger condition on a channel happened.
-      if (pdata.trigger_flags != m_LAB_Core->gpio.event_detect_status ())
+      //    this means that a trigger condition on a channel just happened.
+      uint32_t temp_GPSED0 = m_LAB_Core->gpio.event_detect_status ();
+
+      if (pdata.trigger_flags != temp_GPSED0)
       {
-        // 2. Store the current DMA control block running in the Logic Analyzer
-        //    DMA engine. This is to know what buffer (0 or 1) was just filled.
+        // 2. Store the memory address where the DMA engine is currently
+        //    writing data on. This to aid in finding the trigger index.
+        unsigned curr_dma_write_mem_addr = *(m_LAB_Core->dma.reg 
+          (LABC::DMA::CHAN::LOGAN_GPIO_STORE, AP::DMA::DEST_AD));
+
+        // 3. Store the memory address of the current DMA control block 
+        //    running in the Logic Analyzer DMA engine. 
+        //    This is to know what buffer (0 or 1) is currently being filled.
         uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg 
           (LABC::DMA::CHAN::LOGAN_GPIO_STORE, AP::DMA::CONBLK_AD));
+        
+        // 4. Identify the current buffer index.
+        if (curr_conblk_ad == buff0_cbs_addr[0] || curr_conblk_ad == buff0_cbs_addr[1])
+        {
+          m_parent_data.trigger_buffer_index = 1;
+        }
+        else if (curr_conblk_ad == buff1_cbs_addr[0] || curr_conblk_ad == buff1_cbs_addr[1])
+        {
+          m_parent_data.trigger_buffer_index = 0;
+        }
 
-        // 3. Check if the triggered channel resulted to an actual trigger event.
+        
+
+        // 4. Check if the triggered channel resulted to an actual trigger event.
         //    This takes into account the trigger conditions of other channels.
-        if (check_if_triggered ())
+        if (check_if_triggered (temp_GPSED0))
         {
           create_trigger_frame ();
         }
@@ -546,9 +586,42 @@ find_trigger_point_loop ()
  * results to an actual trigger event. 
  */
 bool LAB_Logic_Analyzer:: 
-check_if_triggered ()
+check_if_triggered (uint32_t event_detect_status_register_value)
 {
+  // 1. Check if the changed bit in the Event Detect Status register
+  //    corresponds to a channel that has a edge trigger condition.
+  for (unsigned i = 0; i < m_parent_data.trigger_cache_edge.size (); i++)
+  {
+    unsigned chan     = m_parent_data.trigger_cache_edge[i];
+    unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[chan];
 
+    if (((event_detect_status_register_value >> gpio_pin) & 0x1) == 1)
+    {
+      // reset event detect status register 
+      m_LAB_Core->gpio.clear_event_detect_status ();
+
+      return (true);
+    }
+  }
+
+  // 2. Check if the changed bit in the Event Detect Status register
+  //    corresponds to a channel that has an edge trigger condition.
+  {
+    for (unsigned i = 0; i < m_parent_data.trigger_cache_level.size (); i++)
+    {
+      unsigned chan     = m_parent_data.trigger_cache_level[i];
+      unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[chan];
+
+      if (((event_detect_status_register_value >> gpio_pin) & 0x1) != 1)
+      {
+        return (false);
+      }
+    }
+
+    // reset event detect status register 
+    m_LAB_Core->gpio.clear_event_detect_status ();
+    return (true);
+  }
 }
 
 /**
@@ -559,7 +632,132 @@ check_if_triggered ()
 void LAB_Logic_Analyzer:: 
 create_trigger_frame ()
 {
+  // static constexpr unsigned samp_half           = LABC::LOGAN::NUMBER_OF_SAMPLES / 2;
+  // static constexpr unsigned samp_half_index     = samp_half - 1;
+  // static LAB_DMA_Data_Logic_Analyzer& dma_data  = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
+  //                                                   (m_uncached_memory.virt ()));
+
+  // if (m_parent_data.trig_index >= samp_half_index)
+  // {
+  //   unsigned  copy_count_0  = samp_half,
+  //             copy_count_1  = LABC::LOGAN::NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
+  //             copy_count_2  = samp_half - copy_count_1;
+    
+  //   std::memcpy (
+  //     m_parent_data.raw_data_buffer.data (),
+  //     m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data () 
+  //       + (m_parent_data.trig_index - samp_half_index),
+  //     sizeof (uint32_t) * copy_count_0
+  //   );
+
+  //   std::memcpy (
+  //     m_parent_data.raw_data_buffer.data () + (copy_count_0),
+  //     m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data () 
+  //       + (m_parent_data.trig_index + 1),
+  //     sizeof (uint32_t) * copy_count_1
+  //   );
+
+  //   while (!((*(m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS)) >> LABC::DMA::CHAN::OSC_RX) & 0x1));
+
+  //   std::memcpy (
+  //     m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
+  //     const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd[m_parent_data.trigger_buffer_index ^ 1])),
+  //     sizeof (uint32_t) * copy_count_2
+  //   );
+
+  //   m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
+  // }
+  // else if (m_parent_data.trig_index < samp_half_index)
+  // {
+  //   unsigned  copy_count_2 = samp_half,
+  //             copy_count_1 = m_parent_data.trig_index + 1,
+  //             copy_count_0 = samp_half - copy_count_1;
+                  
+  //   std::memcpy (
+  //     m_parent_data.raw_data_buffer.data (),
+  //     m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index ^ 1].data () 
+  //       + (LABC::LOGAN::NUMBER_OF_SAMPLES - copy_count_0),
+  //     sizeof (uint32_t) * copy_count_0
+  //   );
+
+  //   std::memcpy (
+  //     m_parent_data.raw_data_buffer.data () + (copy_count_0),
+  //     m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data (),
+  //     sizeof (uint32_t) * copy_count_1
+  //   );
+
+  //   std::memcpy (
+  //     m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
+  //     m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data () + 
+  //       (m_parent_data.trig_index + 1),
+  //     sizeof (uint32_t) * copy_count_2
+  //   );
+  // }
+
   m_parent_data.trigger_frame_ready = true;
+}
+
+void LAB_Logic_Analyzer:: 
+cache_trigger_condition (unsigned               channel, 
+                         LABE::LOGAN::TRIG::CND condition)
+{
+  LABE::LOGAN::TRIG::CND prev_cnd = m_parent_data.channel_data[channel].trigger_condition;
+
+  if (condition != prev_cnd)
+  {
+    // 1. Delete old condition from trigger cache.
+    if (prev_cnd != LABE::LOGAN::TRIG::CND::IGNORE)
+    {
+      std::vector<unsigned>* vec;
+
+      switch (prev_cnd)
+      {
+        case (LABE::LOGAN::TRIG::CND::HIGH):
+        case (LABE::LOGAN::TRIG::CND::LOW):
+        {
+          vec = &m_parent_data.trigger_cache_level; 
+          break;
+        }
+
+        case (LABE::LOGAN::TRIG::CND::RISING_EDGE):
+        case (LABE::LOGAN::TRIG::CND::FALLING_EDGE):
+        case (LABE::LOGAN::TRIG::CND::EITHER_EDGE):
+        {
+          vec = &m_parent_data.trigger_cache_edge;
+          break;
+        }
+
+        std::vector<unsigned>::iterator it = std::find (vec->begin (), vec->end (), channel);
+      
+        if (it != vec->end ())
+        {
+          vec->erase (it);
+        }
+      }
+    }
+
+    // 2. Add new condition to trigger cache.
+    if (condition != LABE::LOGAN::TRIG::CND::IGNORE)
+    {
+      switch (prev_cnd)
+      {
+        case (LABE::LOGAN::TRIG::CND::HIGH):
+        case (LABE::LOGAN::TRIG::CND::LOW):
+        {
+          m_parent_data.trigger_cache_level.emplace_back (channel);
+          break;
+        }
+
+        case (LABE::LOGAN::TRIG::CND::RISING_EDGE):
+        case (LABE::LOGAN::TRIG::CND::FALLING_EDGE):
+        case (LABE::LOGAN::TRIG::CND::EITHER_EDGE):
+        {
+          m_parent_data.trigger_cache_level.emplace_back (channel);
+          break;
+        }
+      }
+    }
+  }
 }
 
 void LAB_Logic_Analyzer:: 
@@ -654,6 +852,8 @@ load_data_samples ()
 
     if (m_parent_data.single)
     {
+      m_parent_data.single = false;
+
       stop ();
     }
   }
@@ -837,10 +1037,20 @@ trigger_mode (LABE::LOGAN::TRIG::MODE value)
 void LAB_Logic_Analyzer:: 
 trigger_condition (unsigned channel, LABE::LOGAN::TRIG::CND condition)
 {  
+  // 1. Delete the old trigger condition of the channel and cache the new one.
+  cache_trigger_condition (channel, condition);
+
+  // 2. Store the channel's new trigger condition to channel_data.
+  m_parent_data.channel_data[channel].trigger_condition = condition;
+
+  // 3. Get the BCM GPIO pin of the channel.
   unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[channel];
 
+  // 4. Clear all event detect conditions of the GPIO pin.
+  //    In LAB, a pin/channel should only have one trigger condition.
   m_LAB_Core->gpio.clear_all_event_detect (gpio_pin);
 
+  // 5. Set the trigger condition of the pin/channel.
   set_trigger_condition (gpio_pin, condition);
 }
 

@@ -291,25 +291,25 @@ osc_core_run_stop (bool value)
   if (value)
   {
     m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
-    m_parent_data.is_osc_core_running = true;
+    m_parent_data.is_core_running = true;
   }
   else
   {
     m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
-    m_parent_data.is_osc_core_running = false;
+    m_parent_data.is_core_running = false;
   }
 }
 
 void LAB_Oscilloscope:: 
 osc_frontend_run_stop (bool value)
 {
-  m_parent_data.is_osc_frontend_running = value;
+  m_parent_data.is_frontend_running = value;
 }
 
 void LAB_Oscilloscope:: 
 single ()
 {
-  if (!is_osc_core_running ())
+  if (!is_core_running ())
   {
     osc_core_run_stop (true);
   }
@@ -323,7 +323,7 @@ single ()
 void LAB_Oscilloscope:: 
 update_status ()
 {
-  if (is_osc_frontend_running ())
+  if (is_frontend_running ())
   {
     m_parent_data.status = LABE::OSC::STATUS::AUTO;
   }
@@ -342,8 +342,8 @@ status (LABE::OSC::STATUS _STATUS)
 bool LAB_Oscilloscope:: 
 is_running ()
 {
-  return (m_parent_data.is_osc_core_running && 
-    m_parent_data.is_osc_frontend_running);
+  return (m_parent_data.is_core_running && 
+    m_parent_data.is_frontend_running);
 }
 
 void LAB_Oscilloscope::
@@ -446,36 +446,46 @@ coupling (unsigned channel)
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
-  switch (m_parent_data.trigger_mode)
+  if (is_running ())
   {
-    case (LABE::OSC::TRIG::MODE::NONE):
+    switch (m_parent_data.trigger_mode)
     {
-      fill_raw_sample_buffer_from_dma_buffer  ();
-      parse_raw_sample_buffer ();
-
-      break;
-    }
-
-    case (LABE::OSC::TRIG::MODE::NORMAL):
-    {
-      if (m_parent_data.trigger_frame_ready)
+      case (LABE::OSC::TRIG::MODE::NONE):
       {
-        parse_raw_sample_buffer ();
+        fill_raw_sample_buffer_from_dma_buffer  ();
+        parse_raw_sample_buffer                 ();
+
+        break;
       }
 
-      break;
-    }
-
-    case (LABE::OSC::TRIG::MODE::AUTO):
-    {
-      if (m_parent_data.auto_mode_frame_ready)
+      case (LABE::OSC::TRIG::MODE::NORMAL):
       {
-        parse_raw_sample_buffer ();
+        if (m_parent_data.trigger_frame_ready)
+        {
+          parse_raw_sample_buffer ();
+        }
+
+        break;
       }
 
-      break;
+      case (LABE::OSC::TRIG::MODE::AUTO):
+      {
+        if (m_parent_data.auto_mode_frame_ready)
+        {
+          parse_raw_sample_buffer ();
+        }
+
+        break;
+      }
+    }  
+
+    if (m_parent_data.single)
+    {
+      m_parent_data.single = false;
+
+      stop ();
     }
-  }  
+  }
 }
 
 void LAB_Oscilloscope:: 
@@ -534,13 +544,6 @@ fill_raw_sample_buffer_from_dma_buffer ()
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  if (!is_osc_core_running ())
-  {
-    return;
-  }
-
-  //
-
   LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
 
   pdata.time_per_division_raw_buffer  = pdata.time_per_division;
@@ -564,6 +567,11 @@ parse_raw_sample_buffer ()
       //   std::cout << "\n";
       // }
     }
+  }
+
+  if (m_parent_data.trigger_frame_ready)
+  {
+    m_parent_data.trigger_frame_ready = false;
   }
 }
 
@@ -595,15 +603,15 @@ arrange_raw_chan_bits (uint32_t raw_chan_bits)
 {
   // all of these were determined using manual testing
 
-  // at 250MHz GPU core speed and 10MHz SPI frequency
-  // return (((sample & 0x007F) << 5) | ((sample & 0xF800) >> 11));
+  // mcp33111 at 250MHz GPU core speed and 10MHz SPI frequency
+  // return (((raw_chan_bits & 0x007F) << 5) | ((raw_chan_bits & 0xF800) >> 11));
 
-  // at 500MHz GPU core speed at 10MHz SPI frequency
-  // return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+  // mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
+  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
 
   // 
   // ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
-  return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
+  //return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
 }
 
 constexpr double LAB_Oscilloscope::
@@ -1007,7 +1015,7 @@ find_trigger_point_loop ()
 
         // 4. Store a copy of the uncached receive buffers
         std::memcpy (
-          m_parent_data.trig_buffs.pre_trig.data (),
+          m_parent_data.trig_buffs.pre_trigger.data (),
           const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd)),
           sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::NUMBER_OF_SAMPLES
         );
@@ -1015,11 +1023,11 @@ find_trigger_point_loop ()
         // 5. Identify the buffer that was filled 
         if (curr_conblk_ad == buff0_cbs_addr[0] || curr_conblk_ad == buff0_cbs_addr[1])
         {
-          m_parent_data.trig_buff_index = 1;
+          m_parent_data.trigger_buffer_index = 1;
         }
         else if (curr_conblk_ad == buff1_cbs_addr[0] || curr_conblk_ad == buff1_cbs_addr[1])
         {
-          m_parent_data.trig_buff_index = 0;
+          m_parent_data.trigger_buffer_index = 0;
         }
 
         // 6. Search for trigger
@@ -1039,11 +1047,11 @@ find_trigger_point ()
   {
     case (LABE::OSC::TRIG::TYPE::LEVEL):
     {
-      for (int a = 0; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
-        trig_buff_index].size (); a += m_parent_data.find_trig_sample_skip)
+      for (int a = 0; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
+        trigger_buffer_index].size (); a += m_parent_data.find_trig_sample_skip)
       {
         uint32_t samp  = conv_raw_buff_get_arranged_bits (
-          m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a], 
+          m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a], 
           m_parent_data.trig_source
         );
 
@@ -1062,7 +1070,7 @@ find_trigger_point ()
     case (LABE::OSC::TRIG::TYPE::EDGE):
     {
       uint32_t prev = conv_raw_buff_get_arranged_bits (
-        m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][0],
+        m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][0],
         m_parent_data.trig_source
       );
 
@@ -1070,11 +1078,11 @@ find_trigger_point ()
       {
         case (LABE::OSC::TRIG::CND::RISING):
         {
-          for (int a = 1; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
-            trig_buff_index].size (); a += m_parent_data.find_trig_sample_skip)
+          for (int a = 1; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
+            trigger_buffer_index].size (); a += m_parent_data.find_trig_sample_skip)
           {
             uint32_t samp = conv_raw_buff_get_arranged_bits (
-              m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a],
+              m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a],
               m_parent_data.trig_source
             );
 
@@ -1096,11 +1104,11 @@ find_trigger_point ()
 
         case (LABE::OSC::TRIG::CND::FALLING):
         {
-          for (int a = 1; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
-            trig_buff_index].size (); a += m_parent_data.find_trig_sample_skip)
+          for (int a = 1; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
+            trigger_buffer_index].size (); a += m_parent_data.find_trig_sample_skip)
           {
             uint32_t samp = conv_raw_buff_get_arranged_bits (
-              m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a],
+              m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a],
               m_parent_data.trig_source
             );
 
@@ -1122,11 +1130,11 @@ find_trigger_point ()
 
         case (LABE::OSC::TRIG::CND::EITHER):
         {
-          for (int a = 1; a < m_parent_data.trig_buffs.pre_trig[m_parent_data.
-            trig_buff_index].size (); a += 4)
+          for (int a = 1; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
+            trigger_buffer_index].size (); a += 4)
           {
             uint32_t samp = conv_raw_buff_get_arranged_bits (
-              m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index][a],
+              m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a],
               m_parent_data.trig_source
             );
 
@@ -1171,14 +1179,14 @@ create_trigger_frame ()
     
     std::memcpy (
       m_parent_data.raw_data_buffer.data (),
-      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () 
+      m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data () 
         + (m_parent_data.trig_index - samp_half_index),
       sizeof (uint32_t) * copy_count_0
     );
 
     std::memcpy (
       m_parent_data.raw_data_buffer.data () + (copy_count_0),
-      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () 
+      m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data () 
         + (m_parent_data.trig_index + 1),
       sizeof (uint32_t) * copy_count_1
     );
@@ -1187,7 +1195,7 @@ create_trigger_frame ()
 
     std::memcpy (
       m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
-      const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd[m_parent_data.trig_buff_index ^ 1])),
+      const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd[m_parent_data.trigger_buffer_index ^ 1])),
       sizeof (uint32_t) * copy_count_2
     );
 
@@ -1201,20 +1209,20 @@ create_trigger_frame ()
                   
     std::memcpy (
       m_parent_data.raw_data_buffer.data (),
-      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index ^ 1].data () 
+      m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index ^ 1].data () 
         + (LABC::OSC::NUMBER_OF_SAMPLES - copy_count_0),
       sizeof (uint32_t) * copy_count_0
     );
 
     std::memcpy (
       m_parent_data.raw_data_buffer.data () + (copy_count_0),
-      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data (),
+      m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data (),
       sizeof (uint32_t) * copy_count_1
     );
 
     std::memcpy (
       m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
-      m_parent_data.trig_buffs.pre_trig[m_parent_data.trig_buff_index].data () + 
+      m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index].data () + 
         (m_parent_data.trig_index + 1),
       sizeof (uint32_t) * copy_count_2
     );
@@ -1529,15 +1537,15 @@ update_state ()
 
 // Getters
 bool LAB_Oscilloscope:: 
-is_osc_frontend_running ()
+is_frontend_running ()
 {
-  return (m_parent_data.is_osc_frontend_running);
+  return (m_parent_data.is_frontend_running);
 }
 
 bool LAB_Oscilloscope:: 
-is_osc_core_running ()
+is_core_running ()
 {
-  return (m_parent_data.is_osc_core_running);
+  return (m_parent_data.is_core_running);
 }
 
 double LAB_Oscilloscope::  

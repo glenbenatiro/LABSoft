@@ -20,10 +20,9 @@ class LABSoft_Controller_Logic_Analyzer
     std::thread*        m_thread_update_display;
   
   private:
-    void init                 ();
-    void reserve_pixel_points ();
-    void init_gui_values      ();
-
+    void init             ();
+    void init_gui_values  ();
+    
   public:
     LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB, 
                                        LABSoft_GUI*         _LABSoft_GUI,

@@ -20,31 +20,6 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.cpp
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_LABChecker_Digital.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
- /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
- /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
- /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
- /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
- /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
-CMakeFiles/LABSoft.dir/src/LAB/LAB_Circuit_Checker.cpp.o
- /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
- /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
- /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.cpp
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -71,7 +46,6 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Digital_Circuit_Checker.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.cpp
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
@@ -116,7 +90,6 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Logic_Analyzer.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -141,7 +114,6 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -166,7 +138,6 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -190,7 +161,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -201,7 +171,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -217,7 +186,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -233,7 +201,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -243,7 +210,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -259,49 +225,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
- /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
- /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
- /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
- /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
- /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp.o
- /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
- /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
- /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_LABChecker_Digital.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.cpp
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Main_Window.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -317,7 +240,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -326,7 +248,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
@@ -343,7 +264,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -359,7 +279,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Genera
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -368,7 +287,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Genera
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
@@ -385,7 +303,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Genera
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -404,7 +321,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digi
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -422,7 +338,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digi
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -438,7 +353,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -447,7 +361,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -464,7 +377,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -482,7 +394,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -500,7 +411,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -516,7 +426,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -525,7 +434,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -542,7 +450,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -561,7 +468,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -570,7 +476,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -587,7 +492,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -604,7 +508,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -613,7 +516,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -630,7 +532,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -668,7 +569,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -677,7 +577,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -694,7 +593,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
@@ -710,26 +608,42 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_LABChecker_Digital.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Main_Window.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
+ /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
- /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp.o
- /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
- /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
- /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
- /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.cpp
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
+ /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
+ /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
+ /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+ /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
+ /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_AD9833.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
@@ -761,7 +675,6 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
  /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB.h
- /home/glen/Desktop/LABSoft/src/LAB/LAB_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Core.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
@@ -771,7 +684,6 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
  /home/glen/Desktop/LABSoft/src/LABSoft.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
- /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
  /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
@@ -787,7 +699,6 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.h
  /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
- /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display_Group.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
  /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h

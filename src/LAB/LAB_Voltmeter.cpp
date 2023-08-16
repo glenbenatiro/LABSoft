@@ -15,12 +15,12 @@ run ()
 {
   LAB_Oscilloscope& osc = m_LAB->m_Oscilloscope; 
 
-  if (osc.is_osc_frontend_running ())
+  if (osc.is_frontend_running ())
   {
     osc.osc_frontend_run_stop (false);
   }
 
-  if (!osc.is_osc_core_running ())
+  if (!osc.is_core_running ())
   {
     osc.osc_core_run_stop (true);
   }

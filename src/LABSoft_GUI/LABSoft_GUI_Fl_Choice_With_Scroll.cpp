@@ -33,14 +33,20 @@ int LABSoft_GUI_Fl_Choice_With_Scroll::
 handle (int e)
 {
   switch (e)
-  {
+  {    
+    case (FL_ENTER):
+    {
+      return (1);
+    }
+
     case (FL_MOUSEWHEEL):
     {
-      std::cout << "I am in Fl_Choice_With_Scroll. Label under me is: " << Fl::belowmouse ()->label () << "\n";
-      
-      mouse_wheel_cb (Fl::event_dy ()); 
+      if (Fl::belowmouse () == this)
+      {
+        mouse_wheel_cb (Fl::event_dy ());  
 
-      return (1);      
+        return (1);
+      }
     }
 
     default:
