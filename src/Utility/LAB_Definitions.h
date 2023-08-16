@@ -29,7 +29,7 @@ class LAB_Parent_Data_Oscilloscope
 {
   public:    
     // State 
-    bool              is_core_running         = false; 
+    bool              is_backend_running      = false; 
     bool              is_frontend_running     = false;
     bool              single                  = false;
     LABE::OSC::STATUS status                  = LABE::OSC::STATUS::READY;
@@ -141,11 +141,24 @@ struct LAB_Channel_Data_Function_Generator
   double                    Rf              = LABC::FUNC_GEN::RF_RESISTANCE;
 };
 
-struct LAB_Parent_Data_Function_Generator
+class LAB_Parent_Data_Function_Generator
 {
-  bool is_enabled = false;
+  public:
+    std::array <LAB_Channel_Data_Function_Generator, LABC::FUNC_GEN::NUMBER_OF_CHANNELS> channel_data;
+  
+  public:
+    bool has_enabled_channels ()
+    {
+      for (const auto& cdata : channel_data)
+      {
+        if (cdata.is_enabled)
+        {
+          return (true);
+        }
+      }
 
-  std::array <LAB_Channel_Data_Function_Generator, LABC::FUNC_GEN::NUMBER_OF_CHANNELS> channel_data;
+      return (false);
+    }
 };
 
 struct LAB_Channel_Data_Logic_Analyzer
@@ -164,9 +177,10 @@ struct LAB_Channel_Data_Logic_Analyzer
 struct LAB_Parent_Data_Logic_Analyzer
 {
   // State
-  bool is_backend_running   = false;
-  bool is_frontend_running  = false;
-  bool single               = false;
+  bool                is_backend_running  = false;
+  bool                is_frontend_running = false;
+  bool                single              = false;
+  LABE::LOGAN::STATUS status              = LABE::LOGAN::STATUS::READY;
 
   // Mode
   LABE::LOGAN::MODE mode                      = LABD::LOGAN::MODE;

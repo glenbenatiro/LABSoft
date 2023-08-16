@@ -153,6 +153,8 @@ run ()
 
   m_parent_data.is_backend_running  = true;
   m_parent_data.is_frontend_running = true;
+
+  m_parent_data.status = LABE::LOGAN::STATUS::AUTO;
 }
 
 void LAB_Logic_Analyzer:: 
@@ -163,7 +165,7 @@ stop ()
   m_parent_data.is_backend_running  = false;
   m_parent_data.is_frontend_running = false;
 
-  std::cout << "stopped!" << "\n";
+  m_parent_data.status = LABE::LOGAN::STATUS::STOP;
 }
 
 void LAB_Logic_Analyzer:: 

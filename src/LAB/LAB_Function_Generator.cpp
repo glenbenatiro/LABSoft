@@ -54,7 +54,7 @@ run (unsigned channel)
 {
   m_func_gen_ic[channel].run ();
 
-  m_parent_data.is_enabled = true;
+  m_parent_data.channel_data[channel].is_enabled = true;
 }
 
 void LAB_Function_Generator:: 
@@ -62,7 +62,7 @@ stop (unsigned channel)
 {
   m_func_gen_ic[channel].stop ();
 
-  m_parent_data.is_enabled = false;
+  m_parent_data.channel_data[channel].is_enabled = false;
 }
 
 void LAB_Function_Generator:: 
@@ -197,6 +197,12 @@ set_hw_vertical_offset (unsigned channel,
   std::cout << "vertical offset resistance: " << value << std::endl;
 
   m_digipot_offset[channel].resistance (0, value);
+}
+
+bool LAB_Function_Generator::
+is_running ()
+{
+  return (m_parent_data.has_enabled_channels ());
 }
 
 LABE::FUNC_GEN::WAVE_TYPE LAB_Function_Generator::

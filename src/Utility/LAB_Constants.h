@@ -23,7 +23,7 @@ namespace LABC
     enum class FL_TAB_GROUP_COLOR : uint32_t
     {
       GREEN   = 63,
-      DEFAULT = 52
+      DEFAULT = 54
     };
   }
 

@@ -61,6 +61,7 @@ this->when(FL_WHEN_RELEASE);
 { Fl_Box* o = new Fl_Box(80, 0, 80, 20, "Ready");
   o->box(FL_BORDER_FRAME);
   o->color((Fl_Color)1);
+  o->labelfont(1);
   o->labelsize(12);
   o->labelcolor(FL_BACKGROUND2_COLOR);
 } // Fl_Box* o

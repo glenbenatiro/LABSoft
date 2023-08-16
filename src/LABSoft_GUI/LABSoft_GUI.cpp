@@ -40,7 +40,7 @@ Fl_Menu_Item LABSoft_GUI::menu_[] = {
 Fl_Menu_Item* LABSoft_GUI::main_menuitem_export = LABSoft_GUI::menu_ + 1;
 
 void LABSoft_GUI::cb_main_fl_tabs_i(Fl_Tabs* o, void* v) {
-  m_LABSoft_Controller->cb_main_fl_tabs (o, v);
+  m_LABSoft_Controller->cb_tabs (o, v);
 }
 void LABSoft_GUI::cb_main_fl_tabs(Fl_Tabs* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_main_fl_tabs_i(o,v);
@@ -978,6 +978,7 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
+        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_gui_oscilloscope_display->color(FL_FOREGROUND_COLOR);
@@ -1649,7 +1650,6 @@ tion generator board.");
         main_fl_group_labchecker_digital->color(FL_LIGHT3);
         main_fl_group_labchecker_digital->selection_color(FL_LIGHT2);
         main_fl_group_labchecker_digital->labelsize(12);
-        main_fl_group_labchecker_digital->hide();
         { Fl_Group* o = new Fl_Group(20, 70, 220, 230);
           o->box(FL_ROUNDED_FRAME);
           { digital_fl_choice_input_bits = new Fl_Choice(40, 100, 180, 40, "Input Bits");

@@ -26,7 +26,6 @@ class LABSoft_Controller_Function_Generator
                                            LABSoft_GUI*         _LABSoft_GUI,
                                            LABSoft_Controller*  _LABSoft_Controller);
     void update_gui_frequency_elements    ();
-    void update_gui_main                  (bool value);
 
     void cb_run_stop        (Fl_Light_Button* w, long channel);
     void cb_wave_type       (Fl_Choice*       w, long channel);

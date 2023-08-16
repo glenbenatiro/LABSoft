@@ -22,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {2108 221 1220 600} type Double color 53 selection_color 54 labelsize 12 visible
+      xywh {2287 201 1220 600} type Double color 53 selection_color 54 labelsize 12 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -62,7 +62,7 @@ class LABSoft_GUI {open
         }
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Controller->cb_main_fl_tabs (o, v);} open
+        callback {m_LABSoft_Controller->cb_tabs (o, v);} open
         xywh {0 20 1220 580} box FLAT_BOX color 54 selection_color 54 labelsize 12
         code0 {main_fl_tabs->value (main_fl_group_home_tab);}
       } {
@@ -76,8 +76,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_oscilloscope_tab {
-          label Oscilloscope open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          label Oscilloscope
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Group oscilloscope_labsoft_gui_oscilloscope_display {
             xywh {20 70 700 510} box FLAT_BOX color 0 labelsize 12
@@ -85,7 +85,7 @@ class LABSoft_GUI {open
             class LABSoft_GUI_Oscilloscope_Display
           } {}
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
-            label {Channel 1} open
+            label {Channel 1}
             xywh {740 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_0_enable {
@@ -127,7 +127,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division {
               label Range
               user_data 0 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);}
               xywh {760 248 100 25} box NO_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
               code0 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code1 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -341,7 +341,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_1 {
-            label {Channel 2} open
+            label {Channel 2}
             xywh {900 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
@@ -353,7 +353,7 @@ class LABSoft_GUI {open
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_ac_coupling {
               label {AC Coupling}
               user_data 1 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_ac_coupling (o, v);} selected
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_ac_coupling (o, v);}
               xywh {920 145 100 40} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
             }
             Fl_Choice oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_1_scaling {
@@ -2026,7 +2026,7 @@ class LABSoft_GUI {open
           label {Digital Circuit Checker}
           xywh {0 50 1200 550} color 54 selection_color 52 labelsize 12 hide
         } {
-          Fl_Group {} {open
+          Fl_Group {} {
             xywh {20 70 220 320} box ROUNDED_FRAME labelsize 12
           } {
             Fl_Button digital_circuit_checker_fl_button_load_file {
@@ -2049,7 +2049,7 @@ class LABSoft_GUI {open
               xywh {40 310 180 60} box GTK_UP_BOX color 54 labelsize 12 align 128
             }
           }
-          Fl_Group {} {open
+          Fl_Group {} {
             xywh {20 410 220 165} box ROUNDED_FRAME labelsize 12
           } {
             Fl_Output digital_circuit_checker_fl_output_results {
@@ -2070,7 +2070,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_labchecker_digital {
           label {LABChecker - Digital}
-          xywh {0 50 1200 550} color 54 selection_color 52 labelsize 12 hide
+          xywh {0 50 1200 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Group {} {
             xywh {20 70 220 230} box ROUNDED_FRAME
@@ -2159,7 +2159,7 @@ class LABSoft_GUI {open
               code0 {digital_fl_input_output_count->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             }
           }
-          Fl_Group {} {open
+          Fl_Group {} {
             xywh {20 474 220 100} box ROUNDED_FRAME
           } {
             Fl_Button digital_fl_button_create_file {

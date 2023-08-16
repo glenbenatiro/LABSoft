@@ -70,12 +70,10 @@ cb_run_stop (Fl_Light_Button* w,
   if (w->value () == 0)
   {
     m_LAB->m_Logic_Analyzer.stop ();
-    update_gui_main (false);
   }
   else 
   {
     m_LAB->m_Logic_Analyzer.run ();
-    update_gui_main (true);
   }
 }
 
@@ -214,15 +212,6 @@ display_update_cycle ()
 
   m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
     update_display ();
-}
-
-void LABSoft_Controller_Logic_Analyzer:: 
-update_gui_main (bool value)
-{
-  m_LABSoft_Controller->tab_selection_color_toggle (
-    m_LABSoft_GUI->main_fl_group_logic_analyzer_tab,
-    value
-  );
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 

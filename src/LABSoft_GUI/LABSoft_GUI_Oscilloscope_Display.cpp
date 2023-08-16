@@ -422,7 +422,7 @@ calc_mouse_drag_time_per_div_scaler (int drag_x)
 void LABSoft_GUI_Oscilloscope_Display_Internal:: 
 fill_pixel_points ()
 {
-  if (m_parent_data->is_core_running)
+  if (m_parent_data->is_backend_running)
   {
     fill_pixel_points_backend_running ();
   }
@@ -450,7 +450,7 @@ LABSoft_GUI_Oscilloscope_Display::
 void LABSoft_GUI_Oscilloscope_Display:: 
 draw ()
 {
-  if (m_parent_data->is_core_running)
+  if (m_parent_data->is_backend_running)
   {
     update_gui_top_info ();
   }
@@ -538,6 +538,7 @@ init_child_widgets_status ()
 
   m_status->box         (FL_BORDER_FRAME);
   m_status->color       (1);
+  m_status->labelfont   (1);
   m_status->labelsize   (OSC_DISPLAY::AXIS_LABEL_SIZE);
   m_status->labelcolor  (FL_WHITE);
 }

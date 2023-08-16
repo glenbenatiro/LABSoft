@@ -47,7 +47,6 @@ class LABSoft_Controller_Logic_Analyzer
 
     // Display update cycle
     void display_update_cycle     ();
-    void update_gui_main          (bool value);
     void update_gui_horizontal    ();
     void update_gui_mode          ();
 

@@ -291,12 +291,12 @@ osc_core_run_stop (bool value)
   if (value)
   {
     m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
-    m_parent_data.is_core_running = true;
+    m_parent_data.is_backend_running = true;
   }
   else
   {
     m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
-    m_parent_data.is_core_running = false;
+    m_parent_data.is_backend_running = false;
   }
 }
 
@@ -309,7 +309,7 @@ osc_frontend_run_stop (bool value)
 void LAB_Oscilloscope:: 
 single ()
 {
-  if (!is_core_running ())
+  if (!is_backend_running ())
   {
     osc_core_run_stop (true);
   }
@@ -329,7 +329,7 @@ status (LABE::OSC::STATUS _STATUS)
 bool LAB_Oscilloscope:: 
 is_running ()
 {
-  return (m_parent_data.is_core_running && 
+  return (m_parent_data.is_backend_running && 
     m_parent_data.is_frontend_running);
 }
 
@@ -1530,9 +1530,9 @@ is_frontend_running ()
 }
 
 bool LAB_Oscilloscope:: 
-is_core_running ()
+is_backend_running ()
 {
-  return (m_parent_data.is_core_running);
+  return (m_parent_data.is_backend_running);
 }
 
 double LAB_Oscilloscope::  

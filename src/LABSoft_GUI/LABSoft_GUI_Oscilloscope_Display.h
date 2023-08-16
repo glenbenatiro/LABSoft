@@ -153,6 +153,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void    init_child_widgets_channel_selectors            ();
     void    init_child_widgets_top_info                     ();
     void    update_gui_status                               ();
+    void    update_gui_top_info                             ();
     double  calc_row_voltage_per_division (unsigned row, 
                                            unsigned number_of_rows, 
                                            LAB_Channel_Data_Oscilloscope& cdata);
@@ -172,7 +173,6 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
   void update_gui_voltage_per_division  ();
   void update_gui_time_per_division     ();
   void update_gui_vertical_offset       ();
-  void update_gui_top_info              ();
   void update_gui_vertical_elements     ();
   void channel_selector                 (unsigned channel);
 

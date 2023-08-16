@@ -323,4 +323,10 @@ are_results_ready () const
   return (m_are_results_ready);
 }
 
+bool LAB_Digital_Circuit_Checker:: 
+is_running () const
+{
+  return (m_is_running);
+}
+
 // EOF 

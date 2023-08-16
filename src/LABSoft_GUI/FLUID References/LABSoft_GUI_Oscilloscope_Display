@@ -43,7 +43,7 @@ widget_class labsoft_gui_oscilloscope_display {open
   }
   Fl_Box {} {
     label Ready
-    xywh {80 0 80 20} box BORDER_FRAME color 1 labelsize 12 labelcolor 7
+    xywh {80 0 80 20} box BORDER_FRAME color 1 labelfont 1 labelsize 12 labelcolor 7
   }
   Fl_Box {} {
     label C1

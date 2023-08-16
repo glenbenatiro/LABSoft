@@ -137,7 +137,7 @@ class LAB_Oscilloscope
 
     // Getters
     bool                  is_frontend_running ();
-    bool                  is_core_running     ();
+    bool                  is_backend_running     ();
 
     LAB_Parent_Data_Oscilloscope&   parent_data   ();
     LAB_Channel_Data_Oscilloscope&  channel_data  (unsigned channel);

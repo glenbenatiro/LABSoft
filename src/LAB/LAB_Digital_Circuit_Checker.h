@@ -37,6 +37,7 @@ class LAB_Digital_Circuit_Checker
     LAB*                            m_LAB;
     LAB_Core*                       m_LAB_Core;
     LAB_MCP23S17                    m_hw_expander;
+    bool                            m_is_running = false;
 
     // file
     bool                            m_is_file_loaded  = false;
@@ -83,6 +84,7 @@ class LAB_Digital_Circuit_Checker
     // Getter
     ScoreData get_score_data    () const;
     bool      are_results_ready () const;
+    bool      is_running        () const;
 };
 
 #endif 

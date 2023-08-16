@@ -601,6 +601,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
  /home/glen/Desktop/LABSoft/src/Utility/LAB_LabelValue.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o

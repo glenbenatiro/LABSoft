@@ -130,6 +130,17 @@ namespace LABE
       SCREEN,
       RECORD
     };
+
+    enum class STATUS
+    {
+      READY,
+      STOP,
+      CONFIG,
+      AUTO,
+      ARMED,
+      TRIGGERED,
+      DONE
+    };
   }
 };
 

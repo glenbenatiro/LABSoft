@@ -67,7 +67,6 @@ class LABSoft_Controller_Oscilloscope
 
     // GUI update
     void display_update_cycle             ();
-    void update_gui_main                  (bool value);
     void update_trigger_panel_gui         ();
     void update_gui_horizontal            ();
     void update_gui_mode                  ();   

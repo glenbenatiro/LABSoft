@@ -20,7 +20,7 @@ run ()
     osc.osc_frontend_run_stop (false);
   }
 
-  if (!osc.is_core_running ())
+  if (!osc.is_backend_running ())
   {
     osc.osc_core_run_stop (true);
   }
@@ -55,7 +55,7 @@ load_data_samples ()
 bool LAB_Voltmeter:: 
 is_running ()
 {
-  return m_is_running;
+  return (m_is_running);
 }
 
 // EOF

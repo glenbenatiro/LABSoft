@@ -28,21 +28,27 @@ using Disp        = class LABSoft_GUI_Logic_Analyzer_Display;
 using PixelPoints = std::array<std::vector<std::array<int, 2>>, 
                       LABC::LOGAN::NUMBER_OF_CHANNELS>;
 
-struct DisplayData
-{
-  PixelPoints pixel_points;
-  unsigned    graph_width = LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH;
-};
-
 namespace LOGAN_DISPLAY
 {
+  constexpr int       CHANNEL_HEIGHT                         = 60;
+  constexpr int       CHANNEL_DRAGGER_WIDTH                  = 20;
+  constexpr int       CHANNEL_NAME_WIDTH                     = 90;
+  constexpr int       CHANNEL_SETTING_WIDTH                  = 30;
+  constexpr int       CHANNEL_DIO_WIDTH                      = 60;
+  constexpr int       CHANNEL_TRIGGER_WIDTH                  = 40;
+  constexpr int       CHANNEL_INFO_WIDTH                     = CHANNEL_DRAGGER_WIDTH + 
+                                                                CHANNEL_NAME_WIDTH + 
+                                                                CHANNEL_SETTING_WIDTH + 
+                                                                CHANNEL_DIO_WIDTH + 
+                                                                CHANNEL_TRIGGER_WIDTH;
+
   constexpr int DISPLAY_WIDTH = 1180;
   constexpr int CHANNEL_WIDTH = DISPLAY_WIDTH;
-  constexpr int CHANNEL_GRAPH_WIDTH = CHANNEL_WIDTH - LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+  constexpr int CHANNEL_GRAPH_WIDTH = CHANNEL_WIDTH - CHANNEL_INFO_WIDTH;
   constexpr unsigned AXIS_LABEL_SIZE = 12;
 
-  constexpr unsigned  TOP_INFO_STRIP_HEIGHT                 = 20; 
-  constexpr unsigned  DISPLAY_STATUS_BOX_HEIGHT             = TOP_INFO_STRIP_HEIGHT;
+  constexpr unsigned  STATUS_HEIGHT                 = 20; 
+  constexpr unsigned  DISPLAY_STATUS_BOX_HEIGHT             = STATUS_HEIGHT;
   constexpr unsigned  DISPLAY_STATUS_BOX_WIDTH              = 90;
   constexpr unsigned  CHANNEL_BUTTON_HEIGHT                 = 60;
   constexpr unsigned  CHANNEL_BUTTON_WIDTH                  = 180;
@@ -62,17 +68,7 @@ namespace LOGAN_DISPLAY
     122 // brick?
   };
 
-  constexpr int       CHANNEL_HEIGHT                         = 60;
-  constexpr int       CHANNEL_DRAGGER_WIDTH                  = 20;
-  constexpr int       CHANNEL_NAME_WIDTH                     = 90;
-  constexpr int       CHANNEL_SETTING_WIDTH                  = 30;
-  constexpr int       CHANNEL_DIO_WIDTH                      = 60;
-  constexpr int       CHANNEL_TRIGGER_WIDTH                  = 40;
-  constexpr int       CHANNEL_INFO_WIDTH                     = CHANNEL_DRAGGER_WIDTH + 
-                                                                CHANNEL_NAME_WIDTH + 
-                                                                CHANNEL_SETTING_WIDTH + 
-                                                                CHANNEL_DIO_WIDTH + 
-                                                                CHANNEL_TRIGGER_WIDTH;
+  
   constexpr double    CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD       = 60.0; // in percent, with the graph widget height as max
 
   constexpr Fl_Boxtype  GRAPH_BOX         = FL_THIN_DOWN_BOX;
@@ -82,12 +78,18 @@ namespace LOGAN_DISPLAY
   constexpr int         GRAPH_LINE_WIDTH         = 2;
   constexpr char*       GRAPH_LINE_DASHES = 0;
 
-  constexpr unsigned  NUMBER_OF_COLUMNS        = LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  constexpr unsigned  NUMBER_OF_COLUMNS        = 10;
   constexpr int       BG_COLOR                 = FL_WHITE;
-  constexpr int       GROUP_NUMBER_OF_CHANNELS = LOGAN::NUMBER_OF_CHANNELS;
+  constexpr int       GROUP_NUMBER_OF_CHANNELS = LABC::LOGAN::NUMBER_OF_CHANNELS;
   constexpr int       GRID_COLOR               = FL_BLACK;
 
   constexpr int       STATUS_WIDTH                          = 90;
+};
+
+struct DisplayData
+{
+  PixelPoints pixel_points;
+  unsigned    graph_width = LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH;
 };
 
 // ========== LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph ==========
@@ -188,6 +190,7 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     std::vector<ChanWidget*>        m_channel_widgets;
     std::array<int, 2>              m_graph_base_line_coords;
     Fl_Box*                         m_status;
+    Fl_Box*                         m_top_info;
     
     std::array<
       Fl_Box*,
@@ -210,6 +213,8 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     void        init_child_widgets_top_info                 ();
     bool        is_chan_present_in_chan_widget_array        (unsigned channel) const;
     void        reserve_pixel_points                        ();
+    void        update_gui_status                           ();
+    void        update_gui_top_info                         ();
 
   public:
     LABSoft_GUI_Logic_Analyzer_Display (int X, int Y, int W, int H, const char* label = 0);

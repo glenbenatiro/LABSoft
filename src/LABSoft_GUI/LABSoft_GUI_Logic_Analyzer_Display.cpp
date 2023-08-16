@@ -1,11 +1,13 @@
 #include "LABSoft_GUI_Logic_Analyzer_Display.h"
 
 #include <cmath>
+#include <sstream>
 #include <iostream>
 
-#include "../LABSoft_Controller/LABSoft_Controller.h"
 #include "../Utility/LAB_Defaults.h"
 #include "../Utility/LAB_LabelValue.h"
+#include "../Utility/LAB_Utility_Functions.h"
+#include "../LABSoft_Controller/LABSoft_Controller.h"
 
 Fl_Menu_Item ChanWidget::menu_m_fl_menu_button_trigger_mode[] = {
  {"X Ignore", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -390,23 +392,21 @@ init_child_widgets ()
   // ! The order of initialization here is important!
 
   // 1. fl_scroll
-  //    the positions of all widgets in the display are based
-  //    on the position of this m_scroll
   m_scroll = new Fl_Scroll (
     x (),
-    y () + LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
+    y () + LOGAN_DISPLAY::STATUS_HEIGHT,
     w (),
-    h () - LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
+    h () - LOGAN_DISPLAY::STATUS_HEIGHT - 
       LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
   );
   
   m_scroll->type (Fl_Scroll::VERTICAL);
   {
     m_pack = new Fl_Pack (
-      m_scroll.x (),
-      m_scroll.y (),
-      m_scroll.w (),
-      m_scroll.h ()
+      m_scroll->x (),
+      m_scroll->y (),
+      m_scroll->w (),
+      m_scroll->h ()
     );
 
     m_pack->type (Fl_Pack::VERTICAL);
@@ -415,9 +415,9 @@ init_child_widgets ()
 
   m_overlay = new LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay (
     x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
-    y () + LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
+    y () + LOGAN_DISPLAY::STATUS_HEIGHT,
       LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
-    h () - LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
+    h () - LOGAN_DISPLAY::STATUS_HEIGHT - 
       LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
   );
 
@@ -433,6 +433,24 @@ init_child_widgets ()
   init_child_widgets_top_info ();
 
   end ();
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+init_child_widgets_status ()
+{
+  m_status = new Fl_Box (
+    m_overlay->x (),
+    m_overlay->y () - LOGAN_DISPLAY::STATUS_HEIGHT,
+    80,
+    LOGAN_DISPLAY::STATUS_HEIGHT,
+    "Ready"
+  );
+
+  m_status->box         (FL_BORDER_FRAME);
+  m_status->color       (1);
+  m_status->labelfont   (1);
+  m_status->labelsize   (LOGAN_DISPLAY::AXIS_LABEL_SIZE);
+  m_status->labelcolor  (FL_BLACK);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display::
@@ -476,17 +494,17 @@ void LABSoft_GUI_Logic_Analyzer_Display::
 init_child_widgets_top_info ()
 {
   m_top_info = new Fl_Box (
-    m_status->x () + m_status->w (),
+    m_status->x () + m_status->w () + 10,
     m_status->y (),
-    3.
-    m_status->h ()
+    3,
+    m_status->h (),
     "2000 samples"
   );
 
   m_top_info->box         (FL_NO_BOX);
   m_top_info->align       (FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
   m_top_info->labelsize   (LOGAN_DISPLAY::AXIS_LABEL_SIZE);
-  m_top_info->labelcolor  (FL_WHITE);
+  m_top_info->labelcolor  (FL_BLACK);
 }
 
 ChanWidget* LABSoft_GUI_Logic_Analyzer_Display::
@@ -641,7 +659,7 @@ is_chan_present_in_chan_widget_array (unsigned channel) const
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 calc_graph_base_line_coords ()
 {
-  int main_y_offset = y () + LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT + 
+  int main_y_offset = y () + LOGAN_DISPLAY::STATUS_HEIGHT + 
     (LOGAN_DISPLAY::CHANNEL_HEIGHT / 2);
 
   int graph_y_offset = ((LOGAN_DISPLAY::CHANNEL_HEIGHT * 
@@ -670,8 +688,74 @@ reserve_pixel_points ()
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display::
+update_gui_status ()
+{
+  switch (m_parent_data->status)
+  {
+    case (LABE::LOGAN::STATUS::READY):
+    {
+      m_status->copy_label ("Ready");
+      m_status->color (1);
+
+      break;
+    }
+
+    case (LABE::LOGAN::STATUS::STOP):
+    {
+      m_status->copy_label ("Stop");
+      m_status->color (1);
+
+      break;
+    }
+
+    case (LABE::LOGAN::STATUS::AUTO):
+    {
+      m_status->copy_label ("Auto");
+      m_status->color (2);
+
+      break;
+    }
+
+    case (LABE::LOGAN::STATUS::DONE):
+    {
+      m_status->copy_label ("Done");
+      m_status->color (1);
+    }
+
+    case (LABE::LOGAN::STATUS::CONFIG):
+    {
+      m_status->copy_label ("Config");
+      m_status->color (3);
+    }
+  }
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display:: 
+update_gui_top_info ()
+{
+  LAB_LabelValue lv (m_parent_data->sampling_rate, LAB_LabelValue::UNIT::HERTZ);
+
+  std::stringstream ss;
+
+  ss  << m_parent_data->samples 
+      << " samples at "
+      << lv.to_label_text ()
+      << " | "
+      << LABF::get_now_timestamp ();
+
+  m_top_info->copy_label (ss.str ().c_str ());
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
 draw ()
 {
+  if (m_parent_data->is_backend_running)
+  {
+    update_gui_top_info ();
+  }
+
+  update_gui_status ();
+
   draw_box      (FL_FLAT_BOX, LOGAN_DISPLAY::BG_COLOR);
   draw_children ();
   draw_box      (FL_BORDER_FRAME, 0);

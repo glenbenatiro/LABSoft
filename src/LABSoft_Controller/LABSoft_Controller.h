@@ -31,15 +31,14 @@ class LABSoft_Controller
 
   private:      
     void load_controller_to_gui ();
+    void update_gui_tab_colors  ();
 
     static void update_display (void *data);     
   
   public: 
     LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI);
 
-    void tab_selection_color_toggle (Fl_Group* tab, bool value);
-    void main_tab_selection_color   ();
-    void cb_main_fl_tabs            (Fl_Tabs* w, void* data); 
+    void cb_tabs (Fl_Group* w, void* data);
 };
 
 #endif

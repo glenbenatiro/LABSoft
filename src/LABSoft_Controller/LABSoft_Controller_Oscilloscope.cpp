@@ -129,16 +129,12 @@ cb_run_stop (Fl_Light_Button* w,
   if (value)
   {
     m_LAB->m_Oscilloscope.run ();
-
-    m_LABSoft_Controller->m_Voltmeter.update_gui_main         (false);
     m_LABSoft_GUI->voltmeter_fl_light_button_run_stop->clear  ();
   }
   else 
   {
     m_LAB->m_Oscilloscope.stop ();
   }
-
-  update_gui_main (value);
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -573,15 +569,6 @@ display_update_cycle ()
   {
     m_LAB->m_Oscilloscope.m_parent_data.trigger_found = false;
   }
-}
-
-void LABSoft_Controller_Oscilloscope:: 
-update_gui_main (bool value)
-{
-  m_LABSoft_Controller->tab_selection_color_toggle (
-    m_LABSoft_GUI->main_fl_group_oscilloscope_tab,
-    value
-  );
 }
 
 void LABSoft_Controller_Oscilloscope:: 

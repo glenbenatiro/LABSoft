@@ -42,6 +42,7 @@ class LAB_Function_Generator
     void set_hw_amplitude       (unsigned channel, double value);
     void set_hw_vertical_offset (unsigned channel, double value);
 
+    bool                      is_running      ();
     LABE::FUNC_GEN::WAVE_TYPE wave_type       (unsigned channel);
     double                    amplitude       (unsigned channel);
     double                    frequency       (unsigned channel);
