@@ -267,7 +267,7 @@ run ()
   time_per_division (m_parent_data.time_per_division);
   master_run_stop   (true);
 
-  update_status ();
+  m_parent_data.status = LABE::OSC::STATUS::AUTO;
 }
 
 void LAB_Oscilloscope:: 
@@ -275,7 +275,7 @@ stop ()
 {
   master_run_stop (false);
 
-  update_status ();
+  m_parent_data.status = LABE::OSC::STATUS::STOP;
 }
 
 void LAB_Oscilloscope:: 
@@ -318,19 +318,6 @@ single ()
   m_LAB_Core->dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
 
   m_parent_data.single = true;
-}
-
-void LAB_Oscilloscope:: 
-update_status ()
-{
-  if (is_frontend_running ())
-  {
-    m_parent_data.status = LABE::OSC::STATUS::AUTO;
-  }
-  else 
-  {
-    m_parent_data.status = LABE::OSC::STATUS::STOP;
-  }
 }
 
 void LAB_Oscilloscope:: 

@@ -22,13 +22,6 @@ namespace LABD
     constexpr LABE::LOGAN::TRIG::MODE TRIGGER_MODE      = LABE::LOGAN::TRIG::MODE::NONE;
     constexpr double CHECK_TRIGGER_SLEEP_PERIOD         = SAMPLING_RATE / 5.0;
   };
-
-  namespace LOGAN_DISPLAY
-  {
-    constexpr int DISPLAY_WIDTH = 1180;
-    constexpr int CHANNEL_WIDTH = DISPLAY_WIDTH;
-    constexpr int CHANNEL_GRAPH_WIDTH = CHANNEL_WIDTH - LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
-  };
 };
 
 #endif

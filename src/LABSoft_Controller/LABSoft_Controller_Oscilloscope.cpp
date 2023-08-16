@@ -177,7 +177,7 @@ cb_voltage_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   LAB_LabelValue lv (
     w->value (),
     m_LAB->m_Oscilloscope.voltage_per_division (channel),
-    LAB_LabelValue::UNIT::VOLT
+    LAB_LabelValue::UNIT::VOLT_PER_DIVISION
   );
 
   if (lv.is_valid ())
@@ -186,10 +186,10 @@ cb_voltage_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   }
 
   w->value (LAB_LabelValue (m_LAB->m_Oscilloscope.voltage_per_division (channel)).
-    to_label_text (LAB_LabelValue::UNIT::VOLT).c_str ());
+    to_label_text (LAB_LabelValue::UNIT::VOLT_PER_DIVISION).c_str ());
 
   m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
-    update_gui_vertical_elements ();
+    update_gui_voltage_per_division ();
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -611,38 +611,34 @@ update_gui_horizontal ()
   LAB_LabelValue samples            (m_LAB->m_Oscilloscope.samples ());
   LAB_LabelValue sampling_rate      (m_LAB->m_Oscilloscope.sampling_rate ());
 
-  // 1. Upper Display Info
-  m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
-    update_gui_top_info ();
-
-  // 2. Horizontal Offset
+  // 1. Horizontal Offset
   m_LABSoft_GUI->oscilloscope_fl_input_choice_horizontal_offset->value (
     horizontal_offset.to_label_text (LAB_LabelValue::UNIT::SECOND).c_str ()
   );
 
-  // 3. Time per Division
+  // 2. Time per Division
   m_LABSoft_GUI->oscilloscope_fl_input_choice_time_per_division->value (
     time_per_division.to_label_text (LAB_LabelValue::UNIT::SECOND_PER_DIVISION).c_str ()
   );
 
-  // 4. Samples
+  // 3. Samples
   m_LABSoft_GUI->oscilloscope_fl_input_choice_samples->value (
     samples.to_label_text (LAB_LabelValue::UNIT::NONE, 3).c_str ()
   );
 
-  // 5. Sampling Rate
+  // 4. Sampling Rate
   m_LABSoft_GUI->oscilloscope_fl_input_choice_sampling_rate->value (
     sampling_rate.to_label_text (LAB_LabelValue::UNIT::HERTZ).c_str ()
   );
 
-  // 6. Display Mode
+  // 5. Display Mode
   m_LABSoft_GUI->oscilloscope_fl_choice_mode->value (
     m_LABSoft_GUI->oscilloscope_fl_choice_mode->find_index (
       (LABS_GUI_VALUES::OSC::MODE.at (m_LAB->m_Oscilloscope.mode ())).c_str ()
     )
   );
 
-  // 7. Time per Division Labels
+  // 6. Time per Division Labels
   m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
     update_gui_time_per_division ();
 }

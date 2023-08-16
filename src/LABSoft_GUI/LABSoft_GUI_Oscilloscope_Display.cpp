@@ -4,9 +4,6 @@
 #include <cstdio>
 #include <sstream>
 
-// delete soon
-#include <iostream>
-
 #include <FL/Fl.H>
 #include <FL/Enumerations.H>
 
@@ -215,7 +212,10 @@ draw_grid ()
     }
   }
 
-  // 6. Reset line color and style
+  // 6. Draw border box
+  draw_box (FL_BORDER_FRAME, OSC_DISPLAY::GRID_COLOR);
+
+  // 7. Reset line color and style
   fl_color      (0);
   fl_line_style (FL_SOLID, 0, NULL);
 }
@@ -450,7 +450,12 @@ LABSoft_GUI_Oscilloscope_Display::
 void LABSoft_GUI_Oscilloscope_Display:: 
 draw ()
 {
-  update_gui_display_status ();
+  if (m_parent_data->is_core_running)
+  {
+    update_gui_top_info ();
+  }
+
+  update_gui_status ();
 
   draw_box      (FL_THIN_DOWN_BOX, OSC_DISPLAY::BACKGROUND_COLOR);
   draw_children ();
@@ -464,8 +469,8 @@ init_child_widgets ()
   // ! The order of initialization here is important!
 
   // 1. internal display
-  //    the positions of all widgets in the oscilloscope display 
-  //    are based on the position of the internal display
+  //    the positions of all widgets in the display are based
+  //    nn the position of this internal display
   m_display_internal = new LABSoft_GUI_Oscilloscope_Display_Internal (x () + 80, 
     y () + 20, 610, 470); 
 
@@ -473,7 +478,7 @@ init_child_widgets ()
   init_child_widgets_sliders ();
   
   // 3. display status
-  init_child_widgets_display_status ();
+  init_child_widgets_status ();
 
   // 4. axis labels
   init_child_widgets_voltage_per_division_labels ();
@@ -521,20 +526,20 @@ init_child_widgets_sliders ()
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
-init_child_widgets_display_status ()
+init_child_widgets_status ()
 {
-  m_display_status = new Fl_Box (
+  m_status = new Fl_Box (
     m_display_internal->x (), 
-    m_display_internal->y () - OSC_DISPLAY::DISPLAY_STATUS_HEIGHT, 
+    m_display_internal->y () - OSC_DISPLAY::STATUS_HEIGHT, 
     80, 
-    OSC_DISPLAY::DISPLAY_STATUS_HEIGHT, 
+    OSC_DISPLAY::STATUS_HEIGHT, 
     "Ready"
   );
 
-  m_display_status->box         (FL_BORDER_FRAME);
-  m_display_status->color       (1);
-  m_display_status->labelsize   (OSC_DISPLAY::AXIS_LABEL_SIZE);
-  m_display_status->labelcolor  (FL_WHITE);
+  m_status->box         (FL_BORDER_FRAME);
+  m_status->color       (1);
+  m_status->labelsize   (OSC_DISPLAY::AXIS_LABEL_SIZE);
+  m_status->labelcolor  (FL_WHITE);
 }
 
 void LABSoft_GUI_Oscilloscope_Display::
@@ -609,11 +614,11 @@ init_child_widgets_channel_selectors ()
   for (int a = 0; a < m_channel_selectors.size (); a++)
   {
     Fl_Button* box = new Fl_Button (
-      m_display_status->x () + m_display_status->w () + 
-        (a * OSC_DISPLAY::DISPLAY_STATUS_HEIGHT),
-      m_display_status->y (), 
-      OSC_DISPLAY::DISPLAY_STATUS_HEIGHT, 
-      OSC_DISPLAY::DISPLAY_STATUS_HEIGHT
+      m_status->x () + m_status->w () + 
+        (a * OSC_DISPLAY::STATUS_HEIGHT),
+      m_status->y (), 
+      OSC_DISPLAY::STATUS_HEIGHT, 
+      OSC_DISPLAY::STATUS_HEIGHT
     );
 
     char label[20];
@@ -633,11 +638,11 @@ void LABSoft_GUI_Oscilloscope_Display::
 init_child_widgets_top_info ()
 {
   m_top_info = new Fl_Box (
-    m_display_status->x () + m_display_status->w () + 10 +
-      (OSC_DISPLAY::DISPLAY_STATUS_HEIGHT * m_channel_selectors.size ()), 
-    m_display_status->y (), 
+    m_status->x () + m_status->w () + 10 +
+      (OSC_DISPLAY::STATUS_HEIGHT * m_channel_selectors.size ()), 
+    m_status->y (), 
     3, 
-    m_display_status->h (),
+    m_status->h (),
     "2000 samples"
   );
 
@@ -665,44 +670,44 @@ calc_row_voltage_per_division (unsigned                       row,
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
-update_gui_display_status ()
+update_gui_status ()
 {
   switch (m_parent_data->status)
   {
     case (LABE::OSC::STATUS::READY):
     {
-      m_display_status->copy_label ("Ready");
-      m_display_status->color (1);
+      m_status->copy_label ("Ready");
+      m_status->color (1);
 
       break;
     }
 
     case (LABE::OSC::STATUS::STOP):
     {
-      m_display_status->copy_label ("Stop");
-      m_display_status->color (1);
+      m_status->copy_label ("Stop");
+      m_status->color (1);
 
       break;
     }
 
     case (LABE::OSC::STATUS::AUTO):
     {
-      m_display_status->copy_label ("Auto");
-      m_display_status->color (2);
+      m_status->copy_label ("Auto");
+      m_status->color (2);
 
       break;
     }
 
     case (LABE::OSC::STATUS::DONE):
     {
-      m_display_status->copy_label ("Done");
-      m_display_status->color (1);
+      m_status->copy_label ("Done");
+      m_status->color (1);
     }
 
     case (LABE::OSC::STATUS::CONFIG):
     {
-      m_display_status->copy_label ("Config");
-      m_display_status->color (3);
+      m_status->copy_label ("Config");
+      m_status->color (3);
     }
   }
 }
@@ -713,6 +718,9 @@ load_parent_data (LAB_Parent_Data_Oscilloscope& pdata)
   m_parent_data = &pdata;
 
   m_display_internal->load_parent_data (pdata);
+
+  update_gui_voltage_per_division ();
+  update_gui_time_per_division ();
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
@@ -744,23 +752,23 @@ update_gui_voltage_per_division (unsigned channel)
       double row_vpd = calc_row_voltage_per_division (a,
         OSC_DISPLAY::NUMBER_OF_ROWS, cdata);
       
-      LAB_LabelValue lv (row_vpd, LAB_LabelValue::UNIT::NONE);
-
-      if (a == 0)
-      {
-        LAB_LabelValue unit = lv; 
-        lv.unit (LAB_LabelValue::UNIT::VOLT);
-
-        std::stringstream ss;
-        ss << unit.unit_prefix () << unit.unit_string ();
-
-        m_voltage_per_division_units[channel]->copy_label (ss.str ().c_str ());
-        m_voltage_per_division_units[channel]->show ();
-      }
+      LAB_LabelValue lv (row_vpd);
 
       labels[channel][a]->copy_label (lv.to_label_text ().c_str ());
       labels[channel][a]->show ();
     }
+
+    // if (a == 0)
+    // {
+    //   LAB_LabelValue unit = lv; 
+    //   lv.unit (LAB_LabelValue::UNIT::VOLT);
+
+    //   std::stringstream ss;
+    //   ss << unit.unit_prefix () << unit.unit_string ();
+
+    //   m_voltage_per_division_units[channel]->copy_label (ss.str ().c_str ());
+    //   m_voltage_per_division_units[channel]->show ();
+    // }
   }
   else 
   {
@@ -815,15 +823,17 @@ update_gui_vertical_offset ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_top_info ()
 {
-  LAB_LabelValue lv (m_parent_data->sampling_rate);
+  LAB_LabelValue lv (m_parent_data->sampling_rate, LAB_LabelValue::UNIT::HERTZ);
 
   std::stringstream ss;
 
   ss  << m_parent_data->samples 
       << " samples at "
-      << lv.to_label_text ();
+      << lv.to_label_text ()
+      << " | "
+      << LABF::get_now_timestamp ();
 
-  // m_top_info->copy_label (ss.str ().c_str ());
+  m_top_info->copy_label (ss.str ().c_str ());
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 

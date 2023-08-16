@@ -37,7 +37,7 @@ class LAB_LabelValue
     static std::unordered_map<std::string, UNIT>  m_unit_string_to_unit;
     static std::unordered_map<std::string, UNIT>  m_unit_string_lowercase_to_unit;
     static std::unordered_map<std::string, int>   m_unit_prefix_to_exponent;
-    static KeyLengths                   m_keylengths_unit_prefix_to_exponent;
+    static KeyLengths                             m_keylengths_unit_prefix_to_exponent;
 
     bool        m_is_valid      = false;
     double      m_reference     = 0.0;

@@ -13,6 +13,10 @@ LABSoft (int    argc,
   // initialize threading support
   Fl::lock ();
 
+  // https://www.fltk.org/doc-1.3/classFl__Double__Window.html#details
+  // It is highly recommended that you put the following code before the first show() of any window in your program:
+  Fl::visual (FL_DOUBLE | FL_INDEX);
+
   // show main window
   m_LABSoft_GUI.main_fl_window->show ();
 

@@ -32,7 +32,6 @@ class LAB_Oscilloscope
     void                master_run_stop                 (bool value);
 
     // State 
-    void                update_status                   ();
     void                status                          (LABE::OSC::STATUS _STATUS);
 
     // Mode
@@ -64,15 +63,15 @@ class LAB_Oscilloscope
     void                clear_dma_interrupt_flag        (unsigned dma_chan);
 
     // Data and conversion
-    void                fill_raw_sample_buffer_from_dma_buffer                ();
-    void                parse_raw_sample_buffer               ();
-    constexpr double    conv_raw_buff_samp_to_actual_value    (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  extract_chan_bits_from_raw_buff_samp  (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  arrange_raw_chan_bits                 (uint32_t raw_chan_bits);
-    constexpr double    conv_raw_chan_bits_to_actual_value    (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
-    constexpr uint32_t  reverse_arranged_bits                 (uint32_t arranged_bits);
-    constexpr uint32_t  conv_raw_buff_get_arranged_bits       (uint32_t sample, unsigned channel);
-    void                reset_dma_process                     ();
+    void                fill_raw_sample_buffer_from_dma_buffer  ();
+    void                parse_raw_sample_buffer                 ();
+    constexpr double    conv_raw_buff_samp_to_actual_value      (uint32_t raw_buff_samp, unsigned channel);
+    constexpr uint32_t  extract_chan_bits_from_raw_buff_samp    (uint32_t raw_buff_samp, unsigned channel);
+    constexpr uint32_t  arrange_raw_chan_bits                   (uint32_t raw_chan_bits);
+    constexpr double    conv_raw_chan_bits_to_actual_value      (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
+    constexpr uint32_t  reverse_arranged_bits                   (uint32_t arranged_bits);
+    constexpr uint32_t  conv_raw_buff_get_arranged_bits         (uint32_t sample, unsigned channel);
+    void                reset_dma_process                       ();
 
 
   public:

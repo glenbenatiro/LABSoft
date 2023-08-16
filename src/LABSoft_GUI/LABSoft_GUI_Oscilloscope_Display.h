@@ -39,7 +39,7 @@ namespace OSC_DISPLAY
   constexpr unsigned  Y_AXIS_LABEL_HORIZONTAL_INTRASPACE  = 40;
   constexpr unsigned  Y_AXIS_UNIT_LABEL_SIZE              = 9;
   constexpr unsigned  SLIDER_WIDTH                        = 10;
-  constexpr unsigned  DISPLAY_STATUS_HEIGHT               = 20;
+  constexpr unsigned  STATUS_HEIGHT                       = 20;
 
   static constexpr uint32_t CHANNEL_COLORS[] = {
       3, // yellow
@@ -112,7 +112,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
 
   public:
     // child widgets
-    Fl_Box*     m_display_status    = nullptr;
+    Fl_Box*     m_status            = nullptr;
     Fl_Box*     m_top_info          = nullptr;
     Fl_Slider*  m_horizontal_offset = nullptr;
     Fl_Slider*  m_vertical_offset   = nullptr;
@@ -147,12 +147,12 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void    draw                                            ();
     void    init_child_widgets                              ();
     void    init_child_widgets_sliders                      ();
-    void    init_child_widgets_display_status               ();
+    void    init_child_widgets_status                       ();
     void    init_child_widgets_time_per_division_labels     ();
     void    init_child_widgets_voltage_per_division_labels  ();
     void    init_child_widgets_channel_selectors            ();
     void    init_child_widgets_top_info                     ();
-    void    update_gui_display_status                       ();
+    void    update_gui_status                               ();
     double  calc_row_voltage_per_division (unsigned row, 
                                            unsigned number_of_rows, 
                                            LAB_Channel_Data_Oscilloscope& cdata);

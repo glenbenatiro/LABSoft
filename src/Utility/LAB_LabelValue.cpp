@@ -65,9 +65,9 @@ LAB_LabelValue (const char*             input,
 }
 
 LAB_LabelValue::
-LAB_LabelValue (const char*       input,
-            double            reference,
-            LAB_LabelValue::UNIT  unit)
+LAB_LabelValue (const char*           input,
+                double                reference,
+                LAB_LabelValue::UNIT  unit)
 {
   m_raw_string  = std::string (input);
   m_reference   = reference;

@@ -34,6 +34,62 @@ struct DisplayData
   unsigned    graph_width = LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH;
 };
 
+namespace LOGAN_DISPLAY
+{
+  constexpr int DISPLAY_WIDTH = 1180;
+  constexpr int CHANNEL_WIDTH = DISPLAY_WIDTH;
+  constexpr int CHANNEL_GRAPH_WIDTH = CHANNEL_WIDTH - LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+  constexpr unsigned AXIS_LABEL_SIZE = 12;
+
+  constexpr unsigned  TOP_INFO_STRIP_HEIGHT                 = 20; 
+  constexpr unsigned  DISPLAY_STATUS_BOX_HEIGHT             = TOP_INFO_STRIP_HEIGHT;
+  constexpr unsigned  DISPLAY_STATUS_BOX_WIDTH              = 90;
+  constexpr unsigned  CHANNEL_BUTTON_HEIGHT                 = 60;
+  constexpr unsigned  CHANNEL_BUTTON_WIDTH                  = 180;
+  constexpr unsigned  INTERNAL_DISPLAY_BG_COLOR             = FL_WHITE;
+
+  constexpr unsigned  TIME_PER_DIVISION_LABELS_STRIP_HEIGHT = 30;
+  constexpr unsigned  TIME_PER_DIVISION_LABELS_TOP_MARGIN   = 5;
+  constexpr unsigned  TIME_PER_DIVISION_LABELS_COLOR        = FL_FOREGROUND_COLOR;
+  constexpr unsigned  TIME_PER_DIVISION_LABELS_SIZE         = 10;
+  constexpr unsigned  TIME_PER_DIVSION_LABELS_LAST_OFFSET   = 20;
+
+  static constexpr uint32_t CHANNEL_COLORS[] = 
+  {
+    212, // light pink
+    60, // green
+    152, // violet
+    122 // brick?
+  };
+
+  constexpr int       CHANNEL_HEIGHT                         = 60;
+  constexpr int       CHANNEL_DRAGGER_WIDTH                  = 20;
+  constexpr int       CHANNEL_NAME_WIDTH                     = 90;
+  constexpr int       CHANNEL_SETTING_WIDTH                  = 30;
+  constexpr int       CHANNEL_DIO_WIDTH                      = 60;
+  constexpr int       CHANNEL_TRIGGER_WIDTH                  = 40;
+  constexpr int       CHANNEL_INFO_WIDTH                     = CHANNEL_DRAGGER_WIDTH + 
+                                                                CHANNEL_NAME_WIDTH + 
+                                                                CHANNEL_SETTING_WIDTH + 
+                                                                CHANNEL_DIO_WIDTH + 
+                                                                CHANNEL_TRIGGER_WIDTH;
+  constexpr double    CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD       = 60.0; // in percent, with the graph widget height as max
+
+  constexpr Fl_Boxtype  GRAPH_BOX         = FL_THIN_DOWN_BOX;
+  constexpr unsigned    GRAPH_BG_COLOR    = 7;
+  constexpr unsigned    GRAPH_LINE_COLOR  = FL_BLACK;
+  constexpr int         GRAPH_LINE_STYLE  = FL_SOLID;
+  constexpr int         GRAPH_LINE_WIDTH         = 2;
+  constexpr char*       GRAPH_LINE_DASHES = 0;
+
+  constexpr unsigned  NUMBER_OF_COLUMNS        = LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  constexpr int       BG_COLOR                 = FL_WHITE;
+  constexpr int       GROUP_NUMBER_OF_CHANNELS = LOGAN::NUMBER_OF_CHANNELS;
+  constexpr int       GRID_COLOR               = FL_BLACK;
+
+  constexpr int       STATUS_WIDTH                          = 90;
+};
+
 // ========== LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph ==========
 
 class LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph : public Fl_Widget
@@ -149,7 +205,9 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     void        fill_pixel_points_backend_running           ();
     void        fill_pixel_points_backend_stopped           ();
     void        init_child_widgets                          ();
+    void        init_child_widgets_status                   ();
     void        init_child_widgets_time_per_division_labels ();
+    void        init_child_widgets_top_info                 ();
     bool        is_chan_present_in_chan_widget_array        (unsigned channel) const;
     void        reserve_pixel_points                        ();
 

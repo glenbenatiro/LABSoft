@@ -35,7 +35,7 @@ LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
 void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph:: 
 draw ()
 {
-  draw_box    (LABC::LOGAN_DISPLAY::GRAPH_BOX, LABC::LOGAN_DISPLAY::GRAPH_BG_COLOR);
+  draw_box    (LOGAN_DISPLAY::GRAPH_BOX, LOGAN_DISPLAY::GRAPH_BG_COLOR);
   draw_signal ();
 }
 
@@ -51,12 +51,12 @@ draw_signal ()
 
   // =====
 
-  fl_color (LABC::LOGAN_DISPLAY::GRAPH_LINE_COLOR);
+  fl_color (LOGAN_DISPLAY::GRAPH_LINE_COLOR);
 
   fl_line_style (
-    LABC::LOGAN_DISPLAY::GRAPH_LINE_STYLE, 
-    LABC::LOGAN_DISPLAY::GRAPH_LINE_WIDTH, 
-    LABC::LOGAN_DISPLAY::GRAPH_LINE_DASHES
+    LOGAN_DISPLAY::GRAPH_LINE_STYLE, 
+    LOGAN_DISPLAY::GRAPH_LINE_WIDTH, 
+    LOGAN_DISPLAY::GRAPH_LINE_DASHES
   );
 
   for (unsigned a = 0; a < (pp.size () - 1); a++)
@@ -111,8 +111,8 @@ init_child_widgets ()
   m_fl_group_channel_info = new Fl_Group (
     0, 
     0, 
-    LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH, 
-    LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+    LOGAN_DISPLAY::CHANNEL_INFO_WIDTH, 
+    LOGAN_DISPLAY::CHANNEL_HEIGHT
   );
 
   m_fl_group_channel_info->box    (FL_THIN_DOWN_BOX);
@@ -122,8 +122,8 @@ init_child_widgets ()
       m_fl_box_dragger = new Fl_Button (
         0,
         0,
-        LABC::LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH,
-        LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
       );
 
       m_fl_box_dragger->box (FL_GTK_UP_BOX);
@@ -131,19 +131,19 @@ init_child_widgets ()
     }
     {
       m_fl_output_name = new Fl_Output (
-        LABC::LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH, 
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH, 
         0, 
-        LABC::LOGAN_DISPLAY::CHANNEL_NAME_WIDTH, 
-        LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH, 
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
       );
     }
     {
       m_fl_button_channel_info_setting = new Fl_Button  (
-        LABC::LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
-        LABC::LOGAN_DISPLAY::CHANNEL_NAME_WIDTH, 
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH, 
         0, 
-        LABC::LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
-        LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
       );
       
       m_fl_button_channel_info_setting->box   (FL_GTK_UP_BOX);
@@ -151,25 +151,25 @@ init_child_widgets ()
     }
     {
       m_fl_output_dio_pin = new Fl_Output (
-        LABC::LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
-        LABC::LOGAN_DISPLAY::CHANNEL_NAME_WIDTH + 
-        LABC::LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH + 
+        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
         0, 
-        LABC::LOGAN_DISPLAY::CHANNEL_DIO_WIDTH, 
-        LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+        LOGAN_DISPLAY::CHANNEL_DIO_WIDTH, 
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
       );
 
       m_fl_output_dio_pin->color (79);
     }
     {
       m_fl_menu_button_trigger_mode = new Fl_Menu_Button  (
-        LABC::LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
-        LABC::LOGAN_DISPLAY::CHANNEL_NAME_WIDTH + 
-        LABC::LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH + 
-        LABC::LOGAN_DISPLAY::CHANNEL_DIO_WIDTH, 
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH + 
+        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH + 
+        LOGAN_DISPLAY::CHANNEL_DIO_WIDTH, 
         0, 
-        LABC::LOGAN_DISPLAY::CHANNEL_TRIGGER_WIDTH, 
-        LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT, 
+        LOGAN_DISPLAY::CHANNEL_TRIGGER_WIDTH, 
+        LOGAN_DISPLAY::CHANNEL_HEIGHT, 
         "x"
       );
 
@@ -183,10 +183,10 @@ init_child_widgets ()
   m_fl_group_channel_info->end ();  
 
   m_fl_widget_channel_graph = new LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph (
-    LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
+    LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
     0, 
-    LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH, 
-    LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+    LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH, 
+    LOGAN_DISPLAY::CHANNEL_HEIGHT
   );
 
   m_fl_widget_channel_graph->box                (FL_THIN_DOWN_BOX);
@@ -330,16 +330,16 @@ draw_grid ()
 {
   double col_width = static_cast<double>(w ()) / LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
 
-  fl_color (LABC::LOGAN_DISPLAY::GRID_COLOR);
+  fl_color (LOGAN_DISPLAY::GRID_COLOR);
 
   // Columns
-  for (unsigned col = 0; col < LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++)
+  for (unsigned col = 0; col < LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++)
   {
     if (col == 0)
     {
       fl_line_style (FL_SOLID); 
     }
-    else if (col == (LABC::LOGAN_DISPLAY::NUMBER_OF_COLUMNS / 2))
+    else if (col == (LOGAN_DISPLAY::NUMBER_OF_COLUMNS / 2))
     {
       fl_line_style (FL_DASH);
     }
@@ -385,65 +385,76 @@ LABSoft_GUI_Logic_Analyzer_Display::
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 init_child_widgets ()
 {
+  // ! The order of initialization here is important!
+  // ! The order of initialization here is important!
+  // ! The order of initialization here is important!
+
+  // 1. fl_scroll
+  //    the positions of all widgets in the display are based
+  //    on the position of this m_scroll
   m_scroll = new Fl_Scroll (
     x (),
-    y () + LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
+    y () + LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
     w (),
-    h () - LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
-      LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
+    h () - LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
   );
   
   m_scroll->type (Fl_Scroll::VERTICAL);
-
   {
     m_pack = new Fl_Pack (
-      x (),
-      y () + LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
-      w (),
-      h () - LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
-        LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
+      m_scroll.x (),
+      m_scroll.y (),
+      m_scroll.w (),
+      m_scroll.h ()
     );
 
     m_pack->type (Fl_Pack::VERTICAL);
   }
-
   m_scroll->end ();
 
   m_overlay = new LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay (
-    x () + LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
-    y () + LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
-    LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
-    h () - LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
-      LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
+    x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
+    y () + LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT,
+      LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
+    h () - LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT - 
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
   );
 
   m_overlay->display_data (m_display_data);
 
+  // x. status
+  init_child_widgets_status ();
+
+  // x. time per division labels
   init_child_widgets_time_per_division_labels ();
 
-  this->end ();
+  // x. top info
+  init_child_widgets_top_info ();
+
+  end ();
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display::
 init_child_widgets_time_per_division_labels ()
 {
-  unsigned  disp_internal_width = w () - LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+  unsigned  disp_internal_width = w () - LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
   double    col_width           = static_cast<double>(disp_internal_width) / 
                                   LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
 
   for (unsigned col = 0; col <= m_time_per_division_labels.size (); col++)
   {
-    double x_coord = x () + (LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH) + 
+    double x_coord = x () + (LOGAN_DISPLAY::CHANNEL_INFO_WIDTH) + 
       (col * col_width);
     
     if (col == LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS)
     {
-      x_coord -= LABC::LOGAN_DISPLAY::TIME_PER_DIVSION_LABELS_LAST_OFFSET;
+      x_coord -= LOGAN_DISPLAY::TIME_PER_DIVSION_LABELS_LAST_OFFSET;
     }
 
     double y_coord = y () + h () - 
-      LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT + 
-      LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_TOP_MARGIN;
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT + 
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_TOP_MARGIN;
 
     Fl_Box* box = new Fl_Box (
       x_coord,
@@ -453,12 +464,29 @@ init_child_widgets_time_per_division_labels ()
       "0.00 s"
     );
 
-    box->labelcolor (LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_COLOR);
-    box->labelsize  (LABC::LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_SIZE);
+    box->labelcolor (LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_COLOR);
+    box->labelsize  (LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_SIZE);
     box->align      (FL_ALIGN_TEXT_OVER_IMAGE);
 
     m_time_per_division_labels[col] = box;
   }
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+init_child_widgets_top_info ()
+{
+  m_top_info = new Fl_Box (
+    m_status->x () + m_status->w (),
+    m_status->y (),
+    3.
+    m_status->h ()
+    "2000 samples"
+  );
+
+  m_top_info->box         (FL_NO_BOX);
+  m_top_info->align       (FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
+  m_top_info->labelsize   (LOGAN_DISPLAY::AXIS_LABEL_SIZE);
+  m_top_info->labelcolor  (FL_WHITE);
 }
 
 ChanWidget* LABSoft_GUI_Logic_Analyzer_Display::
@@ -467,8 +495,8 @@ create_channel_widget (unsigned channel, const char* name)
   ChanWidget* widget = new ChanWidget (
     0, 
     0, 
-    LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + m_display_data.graph_width,
-    LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT
+    LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + m_display_data.graph_width,
+    LOGAN_DISPLAY::CHANNEL_HEIGHT
   );
 
   char label[20];
@@ -484,7 +512,7 @@ create_channel_widget (unsigned channel, const char* name)
   }
 
   widget->m_fl_output_dio_pin->value  (label);
-  widget->m_fl_output_dio_pin->color  (LABC::LOGAN_DISPLAY::CHANNEL_COLORS[channel]);
+  widget->m_fl_output_dio_pin->color  (LOGAN_DISPLAY::CHANNEL_COLORS[channel]);
   widget->load_display_data           (m_display_data);
   widget->channel                     (channel);
 
@@ -532,7 +560,7 @@ fill_pixel_points_backend_running ()
         {
           curr_samp = cdata.samples[std::round (i * samp_skipper)];
           next_samp = cdata.samples[std::round ((i + 1) * samp_skipper)];
-          next_x    = x () + LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + i;
+          next_x    = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + i;
 
           calc_pp_coords (curr_samp, next_samp, next_x, i, pp);
         }
@@ -546,7 +574,7 @@ fill_pixel_points_backend_running ()
         {
           curr_samp = cdata.samples[i];
           next_samp = cdata.samples[i + 1];
-          next_x    = x () + LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + std::round ((i + 1) * pxl_skipper);
+          next_x    = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + std::round ((i + 1) * pxl_skipper);
 
           calc_pp_coords (curr_samp, next_samp, next_x, i, pp);
         }
@@ -571,7 +599,7 @@ calc_pp_coords (bool      curr_samp,
   if (curr_index == 0)
   {
     pp.emplace_back (
-      std::array<int, 2> {x () + LABC::LOGAN_DISPLAY::CHANNEL_INFO_WIDTH, 
+      std::array<int, 2> {x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH, 
         m_graph_base_line_coords[curr_samp]}
     );
   }
@@ -613,11 +641,11 @@ is_chan_present_in_chan_widget_array (unsigned channel) const
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 calc_graph_base_line_coords ()
 {
-  int main_y_offset = y () + LABC::LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT + 
-    (LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT / 2);
+  int main_y_offset = y () + LOGAN_DISPLAY::TOP_INFO_STRIP_HEIGHT + 
+    (LOGAN_DISPLAY::CHANNEL_HEIGHT / 2);
 
-  int graph_y_offset = ((LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT * 
-    LABC::LOGAN_DISPLAY::CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD) / (100.0)) / 2;
+  int graph_y_offset = ((LOGAN_DISPLAY::CHANNEL_HEIGHT * 
+    LOGAN_DISPLAY::CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD) / (100.0)) / 2;
 
   m_graph_base_line_coords[0] = main_y_offset + graph_y_offset;
   m_graph_base_line_coords[1] = main_y_offset - graph_y_offset;
@@ -627,7 +655,7 @@ void LABSoft_GUI_Logic_Analyzer_Display::
 calc_chan_widget_graph_offset_last ()
 {
   int graph_offset = (m_channel_widgets.size () - 1) * 
-    LABC::LOGAN_DISPLAY::CHANNEL_HEIGHT;
+    LOGAN_DISPLAY::CHANNEL_HEIGHT;
 
   m_channel_widgets.back ()->graph_offset (graph_offset);
 }
@@ -637,14 +665,14 @@ reserve_pixel_points ()
 {
   for (std::vector<std::array<int, 2>>& pp : m_display_data.pixel_points)
   {
-    pp.reserve (LABD::LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH * 2);
+    pp.reserve (LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH * 2);
   }
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display::
 draw ()
 {
-  draw_box      (FL_FLAT_BOX, LABC::LOGAN_DISPLAY::BG_COLOR);
+  draw_box      (FL_FLAT_BOX, LOGAN_DISPLAY::BG_COLOR);
   draw_children ();
   draw_box      (FL_BORDER_FRAME, 0);
 }
