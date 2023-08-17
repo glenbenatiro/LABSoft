@@ -135,8 +135,8 @@ cb_samples (Fl_Input_Choice*  w,
 }
 
 void LABSoft_Controller_Logic_Analyzer:: 
-cb_sampling_rate (Fl_Input_Choice *w,
-                 void            *data)
+cb_sampling_rate (Fl_Input_Choice*  w,
+                  void*             data)
 {
   LAB_LabelValue lv (
     w->value (),
@@ -222,26 +222,22 @@ update_gui_horizontal ()
   LAB_LabelValue samples            (m_LAB->m_Logic_Analyzer.samples ());
   LAB_LabelValue sampling_rate      (m_LAB->m_Logic_Analyzer.sampling_rate ());
 
-  // 1. Upper Display Info
-  // m_LABSoft_GUI->oscilloscope_labsoft_oscilloscope_display_group_display->
-  //   update_gui_upper_left_info ();
-
-  // 2. Horizontal Offset
+  // 1. Horizontal Offset
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_horizontal_offset->value (
     horizontal_offset.to_label_text (LAB_LabelValue::UNIT::SECOND).c_str ()
   );
 
-  // 3. Time per Division
+  // 2. Time per Division
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_time_per_division->value (
     time_per_division.to_label_text (LAB_LabelValue::UNIT::SECOND_PER_DIVISION).c_str ()
   );
 
-  // 4. Samples
+  // 3. Samples
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_samples->value (
     samples.to_label_text (LAB_LabelValue::UNIT::NONE, 3).c_str ()
   );
 
-  // 5. Sampling Rate
+  // 4. Sampling Rate
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_sampling_rate->value (
     sampling_rate.to_label_text (LAB_LabelValue::UNIT::HERTZ).c_str ()
   );
@@ -253,7 +249,7 @@ update_gui_horizontal ()
   //   )
   // );
 
-  // 7. Time per Division Labels
+  // 6. Time per Division Labels
   m_LABSoft_GUI->logic_analyzer_labsoft_gui_logic_analyzer_display->
     update_gui_time_per_division ();
 }

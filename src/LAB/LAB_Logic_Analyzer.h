@@ -17,6 +17,7 @@ class LAB_Logic_Analyzer
     LAB_Core*                       m_LAB_Core;
     AikaPi::Uncached                m_uncached_memory;
     std::thread                     m_thread_find_trigger;
+    std::thread                     m_thread_get_samples;
     LAB_Parent_Data_Logic_Analyzer  m_parent_data;
 
   private:
@@ -52,6 +53,7 @@ class LAB_Logic_Analyzer
     void reset_dma_process                      ();
     void fill_raw_sample_buffer_from_dma_buffer ();
     void parse_raw_sample_buffer                ();
+    void get_samples_loop                       ();
 
   public:
     LAB_Logic_Analyzer                  (LAB_Core* _LAB_Core, LAB* _LAB);

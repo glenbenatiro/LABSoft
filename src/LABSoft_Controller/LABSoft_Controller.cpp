@@ -42,6 +42,10 @@ load_controller_to_gui ()
 void LABSoft_Controller:: 
 update_gui_tab_colors ()
 {
+  // 63 is green
+  // 52 is inactive tab gray
+  // 54 is active tab gray
+  
   static LABSoft_GUI& gui   = *(m_LABSoft_GUI);
   static Fl_Tabs&     tabs  = *(gui.main_fl_tabs);
 

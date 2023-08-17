@@ -1,7 +1,5 @@
 #include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
-#include <iostream>
-
 LABSoft_GUI_Fl_Input_Choice_With_Scroll::
 LABSoft_GUI_Fl_Input_Choice_With_Scroll (int         X, 
                                       int         Y, 
@@ -13,16 +11,38 @@ LABSoft_GUI_Fl_Input_Choice_With_Scroll (int         X,
 
 }
 
-void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
-mouse_wheel_cb (int scroll_amount)
+int LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
+handle (int e)
 {
-  std::cout << "mouse wheel cb: " << label () << "\n";
-  
+  switch (e)
+  {    
+    case (FL_MOUSEWHEEL):
+    {
+      if (Fl::belowmouse () == this ||
+          Fl::belowmouse () == this->input () || 
+          Fl::belowmouse () == this->menubutton ())
+      {
+        cb_mouse_wheel (Fl::event_dy ());  
+
+        return (1);
+      }
+    }
+
+    default:
+    {
+      return (LABSoft_GUI_Fl_Input_Choice_With_Scroll::Fl_Input_Choice::handle (e));
+    }
+  }
+}
+
+void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
+cb_mouse_wheel (int scroll_amount)
+{
   int input_index = menubutton ()->find_index (input ()->value ());
 
   if (input_index < 0)
   {
-    std::cout << "Item not found!" << "\n";
+
   }
   else 
   {
@@ -33,33 +53,6 @@ mouse_wheel_cb (int scroll_amount)
       value (new_index);
 
       do_callback ();
-    }
-  }
-}
-
-int LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
-handle (int e)
-{
-  switch (e)
-  {    
-    case (FL_ENTER):
-    {
-      return (1);
-    }
-
-    case (FL_MOUSEWHEEL):
-    {
-      if (Fl::belowmouse () == this)
-      {
-        mouse_wheel_cb (Fl::event_dy ());  
-
-        return (1);
-      }
-    }
-
-    default:
-    {
-      return (LABSoft_GUI_Fl_Input_Choice_With_Scroll::Fl_Input_Choice::handle (e));
     }
   }
 }

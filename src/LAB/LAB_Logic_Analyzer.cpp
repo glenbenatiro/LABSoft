@@ -1,6 +1,7 @@
 #include "LAB_Logic_Analyzer.h"
 
 #include <bitset>
+#include <thread>
 #include <cstring>
 #include <iostream>
 #include <algorithm>
@@ -149,10 +150,14 @@ config_dma_cb ()
 void LAB_Logic_Analyzer:: 
 run ()
 {
-  m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
+  // m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
+
+  // ==========
 
   m_parent_data.is_backend_running  = true;
   m_parent_data.is_frontend_running = true;
+
+  m_thread_get_samples = std::thread (&LAB_Logic_Analyzer::get_samples_loop, this);
 
   m_parent_data.status = LABE::LOGAN::STATUS::AUTO;
 }
@@ -160,10 +165,14 @@ run ()
 void LAB_Logic_Analyzer:: 
 stop ()
 {
-  m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
+  // m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
+
+  // ==========
 
   m_parent_data.is_backend_running  = false;
   m_parent_data.is_frontend_running = false;
+
+  m_thread_get_samples.join ();
 
   m_parent_data.status = LABE::LOGAN::STATUS::STOP;
 }
@@ -253,6 +262,32 @@ parse_raw_sample_buffer ()
   if (m_parent_data.trigger_frame_ready)
   {
     m_parent_data.trigger_frame_ready = false;
+  }
+}
+
+void LAB_Logic_Analyzer:: 
+get_samples_loop ()
+{
+  LAB_DMA_Data_Logic_Analyzer& dma_data = 
+    *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
+
+  while (m_parent_data.is_backend_running)
+  {
+    for (int a = 0; a < 2; a++)
+    {
+      for (int b = 0; b < LABC::LOGAN::NUMBER_OF_SAMPLES; b++)
+      {
+        dma_data.rxd[a][b] = m_LAB_Core->gpio.level ();
+
+        if (!m_parent_data.is_backend_running)
+        {
+          return;
+        }
+
+        std::this_thread::sleep_for (std::chrono::duration<double, 
+          std::milli>((m_parent_data.sampling_period)));
+      }
+    }
   }
 }
 
@@ -352,11 +387,11 @@ set_samples (unsigned value)
 void LAB_Logic_Analyzer:: 
 set_time_per_division (double value)
 {
-  m_parent_data.time_per_division = value;
+  // m_parent_data.time_per_division = value;
 
   set_mode (calc_mode (value));
 
-  reset_dma_process ();
+  // reset_dma_process ();
 }
 
 void LAB_Logic_Analyzer:: 
@@ -404,7 +439,7 @@ void LAB_Logic_Analyzer::
 set_sampling_rate (double value)
 {
   // 1. Change the source frequency of the PWM peripheral
-  m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
+  //m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
 
   // // while we are using the PWM pacing of the oscilloscope module
   // {
@@ -420,7 +455,12 @@ set_sampling_rate (double value)
   // }
 
   // 3. Store the sampling rate
-  m_parent_data.sampling_rate = value;
+  //m_parent_data.sampling_rate = value;
+
+  // ==========
+
+  m_parent_data.sampling_rate   = value;
+  m_parent_data.sampling_period = 1.0 / value;
 }
 
 void LAB_Logic_Analyzer:: 
@@ -1010,8 +1050,6 @@ sampling_rate (double value)
   {
     set_time_per_division (m_parent_data.samples, value);
     set_sampling_rate     (value);
-
-    m_parent_data.check_trigger_sleep_period = (1.0 / value) / 5.0;
   }
 }
 

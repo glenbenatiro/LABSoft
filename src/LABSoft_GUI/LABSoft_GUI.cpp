@@ -768,6 +768,9 @@ void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_time_per_division(Fl_Input_C
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[] = {
+ {"200 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"100 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"50 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"20 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"10 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"5 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -781,12 +784,6 @@ Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_time_per_division[
  {"10 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"5 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"2 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"1 ms/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"500 us/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"200 us/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"100 us/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"50 us/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"20 us/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
@@ -798,12 +795,6 @@ void LABSoft_GUI::cb_logic_analyzer_fl_input_choice_sampling_rate(Fl_Input_Choic
 }
 
 Fl_Menu_Item LABSoft_GUI::menu_logic_analyzer_fl_input_choice_sampling_rate[] = {
- {"10 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"5 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"2 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"1 kHz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"500 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"200 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"100 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"50 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"20 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -945,7 +936,7 @@ void LABSoft_GUI::cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signa
 LABSoft_GUI::LABSoft_GUI() {
   { main_fl_window = new Fl_Double_Window(1220, 600, "LABSoft (for Educators)");
     main_fl_window->color((Fl_Color)53);
-    main_fl_window->selection_color(FL_LIGHT3);
+    main_fl_window->selection_color((Fl_Color)53);
     main_fl_window->labelsize(12);
     main_fl_window->user_data((void*)(this));
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 1220, 20);
@@ -978,7 +969,6 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
-        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_gui_oscilloscope_display->color(FL_FOREGROUND_COLOR);
@@ -1025,6 +1015,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling->align(Fl_Align(FL_ALIGN_TOP));
             oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling->when(FL_WHEN_RELEASE);
             oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling->menu(menu_oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling);
+            oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling->box (FL_FLAT_BOX);
           } // LABSoft_GUI_Fl_Choice_With_Scroll* oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling
           { oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 248, 100, 25, "Range");
             oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->box(FL_NO_BOX);
@@ -1041,7 +1032,7 @@ LABSoft_GUI::LABSoft_GUI() {
             oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->menu(menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division);
             oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
             oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->menubutton ()->box (FL_GTK_UP_BOX);
+            oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->menubutton ()->box (FL_FLAT_BOX);
             oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division->menubutton ()->color (54);
           } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_voltage_per_division
           { oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 295, 100, 25, "Offset");
@@ -1650,6 +1641,7 @@ tion generator board.");
         main_fl_group_labchecker_digital->color(FL_LIGHT3);
         main_fl_group_labchecker_digital->selection_color(FL_LIGHT2);
         main_fl_group_labchecker_digital->labelsize(12);
+        main_fl_group_labchecker_digital->hide();
         { Fl_Group* o = new Fl_Group(20, 70, 220, 230);
           o->box(FL_ROUNDED_FRAME);
           { digital_fl_choice_input_bits = new Fl_Choice(40, 100, 180, 40, "Input Bits");

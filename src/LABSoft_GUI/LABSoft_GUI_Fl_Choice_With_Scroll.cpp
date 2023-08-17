@@ -2,9 +2,6 @@
 
 #include "FL/Fl.H"
 
-// temp, delete after
-#include <iostream>
-
 LABSoft_GUI_Fl_Choice_With_Scroll:: 
 LABSoft_GUI_Fl_Choice_With_Scroll (int          X,
                                    int          Y,
@@ -16,34 +13,16 @@ LABSoft_GUI_Fl_Choice_With_Scroll (int          X,
 
 }
 
-void LABSoft_GUI_Fl_Choice_With_Scroll:: 
-mouse_wheel_cb (int scroll_amount)
-{
-  int new_index = value () + scroll_amount;
-
-  if (!(new_index < 0 || new_index >= size ()))
-  {
-    value (new_index);
-
-    do_callback ();
-  }
-}
-
 int LABSoft_GUI_Fl_Choice_With_Scroll:: 
 handle (int e)
 {
   switch (e)
   {    
-    case (FL_ENTER):
-    {
-      return (1);
-    }
-
     case (FL_MOUSEWHEEL):
     {
       if (Fl::belowmouse () == this)
       {
-        mouse_wheel_cb (Fl::event_dy ());  
+        cb_mouse_wheel (Fl::event_dy ());
 
         return (1);
       }
@@ -55,3 +34,17 @@ handle (int e)
     }
   }
 }
+
+void LABSoft_GUI_Fl_Choice_With_Scroll:: 
+cb_mouse_wheel (int scroll_amount)
+{
+  int new_index = value () + scroll_amount;
+
+  if (!(new_index < 0 || new_index >= size ()))
+  {
+    value (new_index);
+
+    do_callback ();
+  }
+}
+

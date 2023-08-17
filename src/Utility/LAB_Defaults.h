@@ -8,7 +8,8 @@ namespace LABD
   namespace LOGAN 
   {
     // Horizontal
-    constexpr double    SAMPLING_RATE                   = 5'000; // Hz
+    constexpr double    SAMPLING_RATE                   = 50; // Hz
+    constexpr double    SAMPLING_PERIOD                 = 1.0 / SAMPLING_RATE;
     constexpr unsigned  SAMPLES                         = LABC::LOGAN::MAX_SAMPLES;
     constexpr double    TIME_PER_DIVISION               = SAMPLES / (SAMPLING_RATE * LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS);  
     constexpr double    HORIZONTAL_OFFSET               = 0.0;

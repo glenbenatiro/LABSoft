@@ -329,8 +329,7 @@ status (LABE::OSC::STATUS _STATUS)
 bool LAB_Oscilloscope:: 
 is_running ()
 {
-  return (m_parent_data.is_backend_running && 
-    m_parent_data.is_frontend_running);
+  return (m_parent_data.is_backend_running && m_parent_data.is_frontend_running);
 }
 
 void LAB_Oscilloscope::

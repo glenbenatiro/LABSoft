@@ -323,7 +323,6 @@ cb_sampling_rate (Fl_Input_Choice*  w,
     m_LAB->m_Oscilloscope.sampling_rate (lv.actual_value ());
   }
 
-  // Frontend
   update_gui_horizontal ();
 }
 

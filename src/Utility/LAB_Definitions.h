@@ -193,6 +193,7 @@ struct LAB_Parent_Data_Logic_Analyzer
   unsigned  samples                       = LABD::LOGAN::SAMPLES;
   unsigned  samples_raw_buffer            = samples;
   double    sampling_rate                 = LABD::LOGAN::SAMPLING_RATE;
+  double    sampling_period               = LABD::LOGAN::SAMPLING_PERIOD;
 
   std::array <
     uint32_t, 
