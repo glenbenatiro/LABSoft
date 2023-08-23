@@ -32,11 +32,8 @@ init_gpio_pins ()
 {
   for (unsigned chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
   {
-    m_LAB_Core->gpio.set (
-      LABC::PIN::LOGIC_ANALYZER[chan],
-      AP::GPIO::FUNC::INPUT,
-      AP::GPIO::PULL::DOWN
-    );
+    m_LAB_Core->gpio.set (LABC::PIN::LOGAN[chan], AP::GPIO::FUNC::INPUT,
+      AP::GPIO::PULL::DOWN);
   }
 }
 
@@ -56,7 +53,7 @@ init_interrupts ()
 {
   for (unsigned chan = 0; chan < LABC::LOGAN::NUMBER_OF_CHANNELS; chan++)
   {
-    m_LAB_Core->gpio.clear_all_event_detect (LABC::PIN::LOGIC_ANALYZER[chan]);
+    m_LAB_Core->gpio.clear_all_event_detect (LABC::PIN::LOGAN[chan]);
   }
 
   m_LAB_Core->gpio.clear_event_detect_status ();
@@ -249,7 +246,7 @@ parse_raw_sample_buffer ()
     for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
     {
       pdata.channel_data[chan].samples[samp] = 
-        (pdata.raw_data_buffer[samp] >> LABC::PIN::LOGIC_ANALYZER[chan]) & 0x1;    
+        (pdata.raw_data_buffer[samp] >> LABC::PIN::LOGAN[chan]) & 0x1;    
 
       // // For debug
       // if (samp == 0 && chan == 0)
@@ -635,7 +632,7 @@ check_if_triggered (uint32_t event_detect_status_register_value)
   for (unsigned i = 0; i < m_parent_data.trigger_cache_edge.size (); i++)
   {
     unsigned chan     = m_parent_data.trigger_cache_edge[i];
-    unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[chan];
+    unsigned gpio_pin = LABC::PIN::LOGAN[chan];
 
     if (((event_detect_status_register_value >> gpio_pin) & 0x1) == 1)
     {
@@ -652,7 +649,7 @@ check_if_triggered (uint32_t event_detect_status_register_value)
     for (unsigned i = 0; i < m_parent_data.trigger_cache_level.size (); i++)
     {
       unsigned chan     = m_parent_data.trigger_cache_level[i];
-      unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[chan];
+      unsigned gpio_pin = LABC::PIN::LOGAN[chan];
 
       if (((event_detect_status_register_value >> gpio_pin) & 0x1) != 1)
       {
@@ -1084,7 +1081,7 @@ trigger_condition (unsigned channel, LABE::LOGAN::TRIG::CND condition)
   m_parent_data.channel_data[channel].trigger_condition = condition;
 
   // 3. Get the BCM GPIO pin of the channel.
-  unsigned gpio_pin = LABC::PIN::LOGIC_ANALYZER[channel];
+  unsigned gpio_pin = LABC::PIN::LOGAN[channel];
 
   // 4. Clear all event detect conditions of the GPIO pin.
   //    In LAB, a pin/channel should only have one trigger condition.

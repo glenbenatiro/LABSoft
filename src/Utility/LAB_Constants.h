@@ -29,45 +29,13 @@ namespace LABC
 
   namespace PIN
   {
-    // oscilloscope
-    constexpr unsigned OSC_ADC_SCLK   = 11;
-    constexpr unsigned OSC_ADC_MOSI   = 10;
-    constexpr unsigned OSC_ADC_MISO   = 9;
-    constexpr unsigned OSC_ADC_CS     = 8;
-    constexpr unsigned OSC_MUX_C0_A0  = 27;
-    constexpr unsigned OSC_MUX_C0_A1  = 22;
-    constexpr unsigned OSC_MUX_C1_A0  = 23;
-    constexpr unsigned OSC_MUX_C1_A1  = 24;
-    constexpr unsigned OSC_RELAY_C0   = 14;
-    constexpr unsigned OSC_RELAY_C1   = 15; 
-
-    // function generator
-    constexpr unsigned FG_PWG_CS      = 13;
-    constexpr unsigned FG_PWG_MISO    = 5;
-    constexpr unsigned FG_PWG_MOSI    = 4;
-    constexpr unsigned FG_PWG_SCLK    = 6;
-    constexpr unsigned FG_DPOTS_SCLK  = 21;
-    constexpr unsigned FG_DPOTS_MOSI  = 20;
-    constexpr unsigned FG_DPOTS_MISO  = 19;
-    constexpr unsigned FG_DPOT0_CS    = 18; 
-    constexpr unsigned FG_DPOT1_CS    = 17; 
-    constexpr unsigned FG_DPOT2_CS    = 16;
-
-    // logic analyzer
-
     // Yes, GPIO pins 5 and 19 are used in Function Generator.
     // These are not used in Function Gen MISOs for digipots.
     // I'm relying on the fact that LAB_Logic_Analyzer is the
     // last to be initialized, after Function Generator. 
     // So LAB_Logic_Analyzer's GPIO pin init is called last.
 
-    constexpr unsigned LOGIC_ANALYZER[] = {1, 5, 19, 26};   
-
-    // digital circuit checker
-    constexpr unsigned DCC_XPAND_CS   = 25;
-    constexpr unsigned DCC_XPAND_MISO = 12;
-    constexpr unsigned DCC_XPAND_MOSI = 3;
-    constexpr unsigned DCC_XPAND_SCLK = 2;
+    constexpr unsigned LOGAN[] = {1, 5, 19, 26};
   };
 
   namespace DMA
@@ -203,6 +171,8 @@ namespace LABC
     constexpr double                MIN_TRIGGER_LEVEL               = MIN_VERTICAL_OFFSET;
     constexpr double                TRIGGER_LEVEL                   = 0.0;
     constexpr double                FIND_TRIGGER_TIMEOUT            = 2; // seconds
+    constexpr double                MAX_OSC_HARDWARE_TRIGGER_LEVEL  = CONVERSION_REFERENCE_VOLTAGE;
+    constexpr double                MIN_OSC_HARDWARE_TRIGGER_LEVEL  = -1 * CONVERSION_REFERENCE_VOLTAGE;
 
     // Display
     constexpr double                MIN_TIME_PER_DIV_NO_ZOOM        = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
@@ -288,7 +258,7 @@ namespace LABC
   namespace LOGAN
   {
     // General
-    constexpr unsigned                NUMBER_OF_CHANNELS              = sizeof (PIN::LOGIC_ANALYZER) / sizeof (PIN::LOGIC_ANALYZER[0]);
+    constexpr unsigned                NUMBER_OF_CHANNELS              = sizeof (PIN::LOGAN) / sizeof (PIN::LOGAN[0]);
     constexpr unsigned                NUMBER_OF_SAMPLES               = 2'000;
     constexpr unsigned                SAMPLE_SIZE                     = sizeof (uint32_t); // bytes
 
@@ -324,6 +294,51 @@ namespace LABC
     constexpr MCP23S17::PORT  INPUT_PORT    = MCP23S17::PORT::B;
     constexpr MCP23S17::PORT  OUTPUT_PORT   = MCP23S17::PORT::A;
     constexpr double          IC_FREQUENCY  = 100'000.0; // Hz
+  };
+
+  namespace PIN
+  {
+    namespace OSC
+    {
+      constexpr unsigned ADC_SCLK = 11;
+      constexpr unsigned ADC_MOSI = 10;
+      constexpr unsigned ADC_MISO = 9;
+      constexpr unsigned ADC_CS   = 8;
+      
+      // multiplexer
+      // {A0, A1}
+      constexpr unsigned MUX[LABC::OSC::NUMBER_OF_CHANNELS][2] = 
+      {
+        {27, 22},
+        {23, 24}
+      };
+
+      // relay enable/disable
+      constexpr unsigned RELAY[LABC::OSC::NUMBER_OF_CHANNELS] = {14, 15};
+    };
+
+    namespace FG
+    {
+      constexpr unsigned PWG_CS      = 13;
+      constexpr unsigned PWG_MISO    = 5;
+      constexpr unsigned PWG_MOSI    = 4;
+      constexpr unsigned PWG_SCLK    = 6;
+
+      constexpr unsigned DPOTS_SCLK  = 21;
+      constexpr unsigned DPOTS_MOSI  = 20;
+      constexpr unsigned DPOTS_MISO  = 19;
+      constexpr unsigned DPOT0_CS    = 18; 
+      constexpr unsigned DPOT1_CS    = 17; 
+      constexpr unsigned DPOT2_CS    = 16;
+    };
+
+    namespace DCC
+    {
+      constexpr unsigned XPAND_CS   = 25;
+      constexpr unsigned XPAND_MISO = 12;
+      constexpr unsigned XPAND_MOSI = 3;
+      constexpr unsigned XPAND_SCLK = 2;
+    };
   };
 };
 

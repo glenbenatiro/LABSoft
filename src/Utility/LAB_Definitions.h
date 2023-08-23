@@ -11,7 +11,7 @@
 struct LAB_Channel_Data_Oscilloscope
 {
   // State
-  bool                is_enabled            = false;
+  bool                is_enabled            = LABD::OSC::IS_ENABLED;
 
   // Vertical
   double              voltage_per_division  = LABC::OSC::VOLTAGE_PER_DIVISION;
@@ -69,7 +69,7 @@ class LAB_Parent_Data_Oscilloscope
     bool                  trigger_found           = false;
     bool                  find_trigger_timeout    = false;
     LABE::OSC::TRIG::MODE trigger_mode            = LABC::OSC::TRIGGER_MODE;
-    unsigned              trig_source             = LABC::OSC::TRIGGER_SOURCE;
+    unsigned              trigger_source             = LABC::OSC::TRIGGER_SOURCE;
     LABE::OSC::TRIG::TYPE trig_type               = LABC::OSC::TRIGGER_TYPE;
     LABE::OSC::TRIG::CND  trig_condition          = LABC::OSC::TRIGGER_CONDITION;
     double                trigger_level           = LABC::OSC::TRIGGER_LEVEL;

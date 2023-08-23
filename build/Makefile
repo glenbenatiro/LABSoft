@@ -790,6 +790,33 @@ src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.s
 
+src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.o: src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.i: src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.s: src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.s
+
 src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.o: src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o
 
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.o
@@ -1006,32 +1033,32 @@ src/LAB_Libraries/LAB_MCP4XXX.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_MCP4XXX.cpp.s
 .PHONY : src/LAB_Libraries/LAB_MCP4XXX.cpp.s
 
-src/Utility/LAB_LabelValue.o: src/Utility/LAB_LabelValue.cpp.o
+src/Utility/LABSoft_GUI_Label.o: src/Utility/LABSoft_GUI_Label.cpp.o
 
-.PHONY : src/Utility/LAB_LabelValue.o
+.PHONY : src/Utility/LABSoft_GUI_Label.o
 
 # target to build an object file
-src/Utility/LAB_LabelValue.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.o
-.PHONY : src/Utility/LAB_LabelValue.cpp.o
+src/Utility/LABSoft_GUI_Label.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LABSoft_GUI_Label.cpp.o
+.PHONY : src/Utility/LABSoft_GUI_Label.cpp.o
 
-src/Utility/LAB_LabelValue.i: src/Utility/LAB_LabelValue.cpp.i
+src/Utility/LABSoft_GUI_Label.i: src/Utility/LABSoft_GUI_Label.cpp.i
 
-.PHONY : src/Utility/LAB_LabelValue.i
+.PHONY : src/Utility/LABSoft_GUI_Label.i
 
 # target to preprocess a source file
-src/Utility/LAB_LabelValue.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.i
-.PHONY : src/Utility/LAB_LabelValue.cpp.i
+src/Utility/LABSoft_GUI_Label.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LABSoft_GUI_Label.cpp.i
+.PHONY : src/Utility/LABSoft_GUI_Label.cpp.i
 
-src/Utility/LAB_LabelValue.s: src/Utility/LAB_LabelValue.cpp.s
+src/Utility/LABSoft_GUI_Label.s: src/Utility/LABSoft_GUI_Label.cpp.s
 
-.PHONY : src/Utility/LAB_LabelValue.s
+.PHONY : src/Utility/LABSoft_GUI_Label.s
 
 # target to generate assembly for a file
-src/Utility/LAB_LabelValue.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.s
-.PHONY : src/Utility/LAB_LabelValue.cpp.s
+src/Utility/LABSoft_GUI_Label.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LABSoft_GUI_Label.cpp.s
+.PHONY : src/Utility/LABSoft_GUI_Label.cpp.s
 
 src/Utility/LAB_Utility_Functions.o: src/Utility/LAB_Utility_Functions.cpp.o
 
@@ -1195,6 +1222,9 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.s"
@@ -1219,9 +1249,9 @@ help:
 	@echo "... src/LAB_Libraries/LAB_MCP4XXX.o"
 	@echo "... src/LAB_Libraries/LAB_MCP4XXX.i"
 	@echo "... src/LAB_Libraries/LAB_MCP4XXX.s"
-	@echo "... src/Utility/LAB_LabelValue.o"
-	@echo "... src/Utility/LAB_LabelValue.i"
-	@echo "... src/Utility/LAB_LabelValue.s"
+	@echo "... src/Utility/LABSoft_GUI_Label.o"
+	@echo "... src/Utility/LABSoft_GUI_Label.i"
+	@echo "... src/Utility/LABSoft_GUI_Label.s"
 	@echo "... src/Utility/LAB_Utility_Functions.o"
 	@echo "... src/Utility/LAB_Utility_Functions.i"
 	@echo "... src/Utility/LAB_Utility_Functions.s"

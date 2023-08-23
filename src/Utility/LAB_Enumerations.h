@@ -58,10 +58,10 @@ namespace LABE
 
     enum class SCALING
     {
-      QUADRUPLE,
-      UNITY,
-      HALF,
-      FOURTH 
+      QUADRUPLE = 0,
+      UNITY     = 1,
+      HALF      = 2,
+      FOURTH    = 3 
     };
 
     enum class COUPLING

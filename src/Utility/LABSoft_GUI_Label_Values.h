@@ -10,20 +10,84 @@ namespace LABS_GUI_VALUES
 {
   namespace OSC
   {
-    static std::unordered_map<LABE::OSC::SCALING, std::string> SCALING = 
+    static std::unordered_map<std::string, LABE::OSC::SCALING> SCALING = 
     {
-      {LABE::OSC::SCALING::QUADRUPLE, "x4"},
-      {LABE::OSC::SCALING::UNITY,     "x1"},
-      {LABE::OSC::SCALING::HALF,      "x0.5"},
-      {LABE::OSC::SCALING::FOURTH,    "x0.25"}
+      {"x4"   , LABE::OSC::SCALING::QUADRUPLE},
+      {"x1"   , LABE::OSC::SCALING::UNITY},
+      {"x0.5" , LABE::OSC::SCALING::HALF},
+      {"x0.25", LABE::OSC::SCALING::FOURTH}
     };
 
-    static std::unordered_map<LABE::OSC::MODE, std::string> MODE = 
+    static std::unordered_map<LABE::OSC::SCALING, std::string> SCALING_s = 
+    {
+      {LABE::OSC::SCALING::QUADRUPLE, "x4"},
+      {LABE::OSC::SCALING::UNITY    , "x1"},
+      {LABE::OSC::SCALING::HALF     , "x0.5"},
+      {LABE::OSC::SCALING::FOURTH   , "x0.25"}
+    };
+
+    static std::unordered_map<std::string, LABE::OSC::MODE> MODE = 
+    {
+      {"Screen",    LABE::OSC::MODE::SCREEN},
+      {"Repeated",  LABE::OSC::MODE::REPEATED}
+    };
+
+    static std::unordered_map<LABE::OSC::MODE, std::string> MODE_s = 
     {
       {LABE::OSC::MODE::SCREEN,   "Screen"},
       {LABE::OSC::MODE::REPEATED, "Repeated"}
     };
-  }
+
+    static std::unordered_map<std::string, LABE::OSC::TRIG::MODE> TRIGGER_MODE = 
+    {
+      {"None",    LABE::OSC::TRIG::MODE::NONE},
+      {"Normal",  LABE::OSC::TRIG::MODE::NORMAL},
+      {"Auto",    LABE::OSC::TRIG::MODE::AUTO}
+    };
+
+    static std::unordered_map<LABE::OSC::TRIG::MODE, std::string> TRIGGER_MODE_s = 
+    {
+      {LABE::OSC::TRIG::MODE::NONE  , "None"},
+      {LABE::OSC::TRIG::MODE::NORMAL, "Normal"},
+      {LABE::OSC::TRIG::MODE::AUTO  , "Auto"}
+    };
+
+    static std::unordered_map<std::string, unsigned> TRIGGER_SOURCE = 
+    {
+      {"Channel 1", 0},
+      {"Channel 2", 1}
+    };
+
+    static std::unordered_map<unsigned, std::string> TRIGGER_SOURCE_s = 
+    {
+      {0, "Channel 1"},
+      {1, "Channel 2"}
+    };
+
+    static std::unordered_map<std::string, LABE::OSC::TRIG::TYPE> TRIGGER_TYPE = 
+    {
+      {"Edge", LABE::OSC::TRIG::TYPE::EDGE},
+    };
+
+    static std::unordered_map<LABE::OSC::TRIG::TYPE, std::string> TRIGGER_TYPE_s = 
+    {
+      {LABE::OSC::TRIG::TYPE::EDGE, "Edge"},
+    };
+
+    static std::unordered_map<std::string, LABE::OSC::TRIG::CND> TRIGGER_CONDITION = 
+    {
+      {"Rising",  LABE::OSC::TRIG::CND::RISING},
+      {"Falling", LABE::OSC::TRIG::CND::FALLING},
+      {"Either",  LABE::OSC::TRIG::CND::EITHER},
+    };
+
+    static std::unordered_map<LABE::OSC::TRIG::CND, std::string> TRIGGER_CONDITION_s = 
+    {
+      {LABE::OSC::TRIG::CND::RISING,  "Rising"},
+      {LABE::OSC::TRIG::CND::FALLING, "Falling"},
+      {LABE::OSC::TRIG::CND::EITHER,  "Either"},
+    };
+  };
 
   namespace FUNC_GEN
   {

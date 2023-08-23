@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "../Utility/LAB_Defaults.h"
-#include "../Utility/LAB_LabelValue.h"
+#include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
 #include "../LABSoft_Controller/LABSoft_Controller.h"
 
@@ -733,13 +733,13 @@ update_gui_status ()
 void LABSoft_GUI_Logic_Analyzer_Display:: 
 update_gui_top_info ()
 {
-  LAB_LabelValue lv (m_parent_data->sampling_rate, LAB_LabelValue::UNIT::HERTZ);
+  LABSoft_GUI_Label lbl (m_parent_data->sampling_rate, LABSoft_GUI_Label::UNIT::HERTZ);
 
   std::stringstream ss;
 
   ss  << m_parent_data->samples 
       << " samples at "
-      << lv.to_label_text ()
+      << lbl.to_label_text ()
       << " | "
       << LABF::get_now_timestamp ();
 
@@ -817,9 +817,9 @@ update_gui_time_per_division ()
     double col_tpd = (a + col_half) * (m_parent_data->time_per_division) + 
       (m_parent_data->horizontal_offset);
 
-    LAB_LabelValue lv (col_tpd, LAB_LabelValue::UNIT::SECOND);
+    LABSoft_GUI_Label lbl (col_tpd, LABSoft_GUI_Label::UNIT::SECOND);
     
-    m_time_per_division_labels[a]->copy_label (lv.to_label_text ().c_str ());
+    m_time_per_division_labels[a]->copy_label (lbl.to_label_text ().c_str ());
   }
 }
 

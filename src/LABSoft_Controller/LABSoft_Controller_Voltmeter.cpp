@@ -1,7 +1,7 @@
 #include "LABSoft_Controller_Voltmeter.h"
 
 #include "LABSoft_Controller.h"
-#include "../Utility/LAB_LabelValue.h"
+#include "../Utility/LABSoft_GUI_Label.h"
 
 LABSoft_Controller_Voltmeter:: 
 LABSoft_Controller_Voltmeter (LAB*                _LAB,
@@ -70,10 +70,10 @@ display_update_cycle ()
       */ 
     }
 
-    LAB_LabelValue lv0 (lab.m_Voltmeter.m_samples[0], LAB_LabelValue::UNIT::VOLT);
+    LABSoft_GUI_Label lv0 (lab.m_Voltmeter.m_samples[0], LABSoft_GUI_Label::UNIT::VOLT);
     gui.voltmeter_fl_output_chan0_value->value (lv0.to_label_text ().c_str ());
     
-    LAB_LabelValue lv1 (lab.m_Voltmeter.m_samples[1], LAB_LabelValue::UNIT::VOLT);
+    LABSoft_GUI_Label lv1 (lab.m_Voltmeter.m_samples[1], LABSoft_GUI_Label::UNIT::VOLT);
     gui.voltmeter_fl_output_chan1_value->value (lv1.to_label_text ().c_str ());
   }
 }

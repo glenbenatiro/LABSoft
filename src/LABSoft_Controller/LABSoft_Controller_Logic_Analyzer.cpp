@@ -4,7 +4,7 @@
 
 #include "LABSoft_Controller.h"
 #include "../Utility/LAB_Constants.h"
-#include "../Utility/LAB_LabelValue.h"
+#include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LABSoft_GUI_Label_Values.h"
 
 LABSoft_Controller_Logic_Analyzer:: 
@@ -34,23 +34,23 @@ init_gui_values ()
 
   // Horizontal
   gui.logic_analyzer_fl_input_choice_horizontal_offset->value (
-    LAB_LabelValue (logan.horizontal_offset ()).to_label_text (
-    LAB_LabelValue::UNIT::SECOND).c_str ()
+    LABSoft_GUI_Label (logan.horizontal_offset ()).to_label_text (
+    LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 
   gui.logic_analyzer_fl_input_choice_time_per_division->value (
-    LAB_LabelValue (logan.time_per_division ()).to_label_text (
-    LAB_LabelValue::UNIT::SECOND_PER_DIVISION).c_str ()
+    LABSoft_GUI_Label (logan.time_per_division ()).to_label_text (
+    LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION).c_str ()
   );
 
   gui.logic_analyzer_fl_input_choice_samples->value (
-    LAB_LabelValue (logan.samples ()).to_label_text (
-    LAB_LabelValue::UNIT::NONE).c_str ()
+    LABSoft_GUI_Label (logan.samples ()).to_label_text (
+    LABSoft_GUI_Label::UNIT::NONE).c_str ()
   );
 
   gui.logic_analyzer_fl_input_choice_sampling_rate->value (
-    LAB_LabelValue (logan.sampling_rate ()).to_label_text (
-    LAB_LabelValue::UNIT::HERTZ).c_str ()
+    LABSoft_GUI_Label (logan.sampling_rate ()).to_label_text (
+    LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
   );
 
   // Display
@@ -90,13 +90,13 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_horizontal_offset (Fl_Input_Choice *w,
                       void            *data)
 {
-  LAB_LabelValue lv (
+  LABSoft_GUI_Label lbl (
     w->value (),
     m_LAB->m_Logic_Analyzer.horizontal_offset (),
-    LAB_LabelValue::UNIT::SECOND
+    LABSoft_GUI_Label::UNIT::SECOND
   );
 
-  m_LAB->m_Logic_Analyzer.horizontal_offset (lv.actual_value ());
+  m_LAB->m_Logic_Analyzer.horizontal_offset (lbl.actual_value ());
 
   update_gui_horizontal ();
 }
@@ -105,13 +105,13 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_time_per_division (Fl_Input_Choice *w,
                       void            *data)
 {
-  LAB_LabelValue lv (
+  LABSoft_GUI_Label lbl (
     w->value (),
     m_LAB->m_Logic_Analyzer.time_per_division (),
-    LAB_LabelValue::UNIT::SECOND_PER_DIVISION
+    LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION
   );
 
-  m_LAB->m_Logic_Analyzer.time_per_division (lv.actual_value ());
+  m_LAB->m_Logic_Analyzer.time_per_division (lbl.actual_value ());
 
   update_gui_horizontal ();
 }
@@ -120,15 +120,15 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_samples (Fl_Input_Choice*  w,
             void*             data)
 {
-  LAB_LabelValue lv (
+  LABSoft_GUI_Label lbl (
     w->value (), 
     m_LAB->m_Logic_Analyzer.samples (),
-    LAB_LabelValue::UNIT::NONE
+    LABSoft_GUI_Label::UNIT::NONE
   );
 
-  if (lv.is_valid ())
+  if (lbl.is_valid ())
   {
-    m_LAB->m_Logic_Analyzer.samples (std::round (lv.actual_value ()));
+    m_LAB->m_Logic_Analyzer.samples (std::round (lbl.actual_value ()));
   }
 
   update_gui_horizontal ();
@@ -138,15 +138,15 @@ void LABSoft_Controller_Logic_Analyzer::
 cb_sampling_rate (Fl_Input_Choice*  w,
                   void*             data)
 {
-  LAB_LabelValue lv (
+  LABSoft_GUI_Label lbl (
     w->value (),
     m_LAB->m_Logic_Analyzer.sampling_rate (),
-    LAB_LabelValue::UNIT::HERTZ
+    LABSoft_GUI_Label::UNIT::HERTZ
   );
   
-  if (lv.is_valid ())
+  if (lbl.is_valid ())
   {
-    m_LAB->m_Logic_Analyzer.sampling_rate (lv.actual_value ());
+    m_LAB->m_Logic_Analyzer.sampling_rate (lbl.actual_value ());
   }
 
   update_gui_horizontal ();
@@ -217,29 +217,29 @@ display_update_cycle ()
 void LABSoft_Controller_Logic_Analyzer:: 
 update_gui_horizontal ()
 {
-  LAB_LabelValue horizontal_offset  (m_LAB->m_Logic_Analyzer.horizontal_offset ());
-  LAB_LabelValue time_per_division  (m_LAB->m_Logic_Analyzer.time_per_division ());
-  LAB_LabelValue samples            (m_LAB->m_Logic_Analyzer.samples ());
-  LAB_LabelValue sampling_rate      (m_LAB->m_Logic_Analyzer.sampling_rate ());
+  LABSoft_GUI_Label horizontal_offset  (m_LAB->m_Logic_Analyzer.horizontal_offset ());
+  LABSoft_GUI_Label time_per_division  (m_LAB->m_Logic_Analyzer.time_per_division ());
+  LABSoft_GUI_Label samples            (m_LAB->m_Logic_Analyzer.samples ());
+  LABSoft_GUI_Label sampling_rate      (m_LAB->m_Logic_Analyzer.sampling_rate ());
 
   // 1. Horizontal Offset
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_horizontal_offset->value (
-    horizontal_offset.to_label_text (LAB_LabelValue::UNIT::SECOND).c_str ()
+    horizontal_offset.to_label_text (LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 
   // 2. Time per Division
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_time_per_division->value (
-    time_per_division.to_label_text (LAB_LabelValue::UNIT::SECOND_PER_DIVISION).c_str ()
+    time_per_division.to_label_text (LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION).c_str ()
   );
 
   // 3. Samples
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_samples->value (
-    samples.to_label_text (LAB_LabelValue::UNIT::NONE, 3).c_str ()
+    samples.to_label_text (LABSoft_GUI_Label::UNIT::NONE, 3).c_str ()
   );
 
   // 4. Sampling Rate
   m_LABSoft_GUI->logic_analyzer_fl_input_choice_sampling_rate->value (
-    sampling_rate.to_label_text (LAB_LabelValue::UNIT::HERTZ).c_str ()
+    sampling_rate.to_label_text (LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
   );
 
   // 6. Display Mode

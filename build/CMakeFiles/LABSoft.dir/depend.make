@@ -180,6 +180,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_Controller/LABSoft_Cont
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -219,6 +220,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/L
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -258,6 +260,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -297,6 +300,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Genera
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -305,12 +309,12 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Genera
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LABSoft_GUI_Label_Values.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o: ../src/Utility/pugixml.hpp
@@ -332,6 +336,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digi
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -371,6 +376,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -379,12 +385,12 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LABSoft_GUI_Label_Values.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o: ../src/Utility/pugixml.hpp
 
@@ -405,6 +411,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -444,6 +451,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -452,12 +460,12 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LABSoft_GUI_Label_Values.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/pugixml.hpp
@@ -486,6 +494,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -494,11 +503,11 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o: ../src/Utility/pugixml.hpp
 
@@ -526,6 +535,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LAB
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -546,6 +556,10 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp.o: 
 
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
+
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
@@ -586,6 +600,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o:
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -595,11 +610,11 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o:
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o: ../src/Utility/pugixml.hpp
@@ -627,6 +642,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: .
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h
@@ -636,11 +652,11 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: .
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Constants.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_LabelValue.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/pugixml.hpp
@@ -660,8 +676,8 @@ CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_MCP4XXX.cpp.o: ../lib/MCP4XXX/MCP4X
 CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_MCP4XXX.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.cpp
 CMakeFiles/LABSoft.dir/src/LAB_Libraries/LAB_MCP4XXX.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
 
-CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.o: ../src/Utility/LAB_LabelValue.cpp
-CMakeFiles/LABSoft.dir/src/Utility/LAB_LabelValue.cpp.o: ../src/Utility/LAB_LabelValue.h
+CMakeFiles/LABSoft.dir/src/Utility/LABSoft_GUI_Label.cpp.o: ../src/Utility/LABSoft_GUI_Label.cpp
+CMakeFiles/LABSoft.dir/src/Utility/LABSoft_GUI_Label.cpp.o: ../src/Utility/LABSoft_GUI_Label.h
 
 CMakeFiles/LABSoft.dir/src/Utility/LAB_Utility_Functions.cpp.o: ../src/Utility/LAB_Utility_Functions.cpp
 CMakeFiles/LABSoft.dir/src/Utility/LAB_Utility_Functions.cpp.o: ../src/Utility/LAB_Utility_Functions.h
@@ -694,6 +710,7 @@ CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_Controller/LABSoft_Control
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.h
 CMakeFiles/LABSoft.dir/src/main.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h

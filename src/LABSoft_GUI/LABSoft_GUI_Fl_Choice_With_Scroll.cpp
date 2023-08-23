@@ -38,11 +38,11 @@ handle (int e)
 void LABSoft_GUI_Fl_Choice_With_Scroll:: 
 cb_mouse_wheel (int scroll_amount)
 {
-  int new_index = value () + scroll_amount;
-
-  if (!(new_index < 0 || new_index >= size ()))
+  int index = value () + scroll_amount;
+  
+  if (index < size () && index >= 0)
   {
-    value (new_index);
+    value (index);
 
     do_callback ();
   }

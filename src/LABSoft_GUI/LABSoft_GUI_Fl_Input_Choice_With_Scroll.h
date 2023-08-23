@@ -6,8 +6,9 @@
 class LABSoft_GUI_Fl_Input_Choice_With_Scroll : public Fl_Input_Choice
 {
   private:
-    int   handle          (int e);
-    void  cb_mouse_wheel  (int scroll_amount);
+    int   handle                    (int e);
+    void  cb_mouse_wheel            (int scroll_amount);
+    int   find_possible_next_index  (int scroll_amount);
 
   public: 
     LABSoft_GUI_Fl_Input_Choice_With_Scroll (int X, int Y, int W, int H, const char* label = 0);

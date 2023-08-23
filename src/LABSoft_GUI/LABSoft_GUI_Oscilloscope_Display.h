@@ -9,6 +9,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Slider.H>
 
+#include "LABSoft_GUI_Fl_Slider.h"
 #include "../Utility/LAB_Constants.h"
 #include "../Utility/LAB_Definitions.h"
 
@@ -108,15 +109,15 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     // data
     LAB_Parent_Data_Oscilloscope* m_parent_data         = nullptr;
     LABSoft_Controller*           m_LABSoft_Controller  = nullptr;
-    unsigned                      m_selected_channel;
+    unsigned                      m_selected_channel    = 0;
 
   public:
     // child widgets
-    Fl_Box*     m_status            = nullptr;
-    Fl_Box*     m_top_info          = nullptr;
-    Fl_Slider*  m_horizontal_offset = nullptr;
-    Fl_Slider*  m_vertical_offset   = nullptr;
-    Fl_Slider*  m_trigger_level     = nullptr;
+    Fl_Box*                 m_status                    = nullptr;
+    Fl_Box*                 m_top_info                  = nullptr;
+    LABSoft_GUI_Fl_Slider*  m_horizontal_offset_slider  = nullptr;
+    LABSoft_GUI_Fl_Slider*  m_vertical_offset_slider    = nullptr;
+    LABSoft_GUI_Fl_Slider*  m_trigger_level_slider      = nullptr;
 
     LABSoft_GUI_Oscilloscope_Display_Internal* m_display_internal = nullptr;
 
@@ -153,10 +154,12 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void    init_child_widgets_channel_selectors            ();
     void    init_child_widgets_top_info                     ();
     void    update_gui_status                               ();
-    void    update_gui_top_info                             ();
     double  calc_row_voltage_per_division (unsigned row, 
                                            unsigned number_of_rows, 
                                            LAB_Channel_Data_Oscilloscope& cdata);
+
+    static void cb_trigger_level_static     (Fl_Widget* w, void* data);
+    static void cb_channel_selector_static  (Fl_Widget* w, void* data);
                                            
   public:
     LABSoft_GUI_Oscilloscope_Display (int X             = 0, 
@@ -166,17 +169,21 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
                                       const char* label = 0);
    ~LABSoft_GUI_Oscilloscope_Display ();
 
-  void load_parent_data                 (LAB_Parent_Data_Oscilloscope& pdata);
-  void load_controller                  (LABSoft_Controller& controller);
-  void update_display                   ();
-  void update_gui_voltage_per_division  (unsigned channel);
-  void update_gui_voltage_per_division  ();
-  void update_gui_time_per_division     ();
-  void update_gui_vertical_offset       ();
-  void update_gui_vertical_elements     ();
-  void channel_selector                 (unsigned channel);
+  void load_parent_data                   (LAB_Parent_Data_Oscilloscope& pdata);
+  void load_controller                    (LABSoft_Controller& controller);
+  void update_display                     ();
+  void update_gui_voltage_per_division    (unsigned channel);
+  void update_gui_voltage_per_division    ();
+  void update_gui_time_per_division       ();
+  void update_gui_vertical_elements       ();
+  void update_gui_horizontal_elements     ();
+  void update_gui_trigger_level_slider    ();
+  void update_gui_vertical_offset_slider  ();
+  void update_gui_top_info                ();
+  void select_channel                     (unsigned channel);
 
   LABSoft_Controller& controller () const;
+  unsigned            selected_channel () const;
 };
 
 #endif

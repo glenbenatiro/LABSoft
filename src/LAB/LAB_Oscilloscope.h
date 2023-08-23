@@ -54,6 +54,7 @@ class LAB_Oscilloscope
     bool                find_trigger_point              ();
     void                create_trigger_frame            ();
     void                find_trigger_timeout_timer      ();
+    uint32_t            calc_trigger_level_raw_bits     (double trigger_level);
 
     // Record
     void                config_dma_cb_record            ();
@@ -63,16 +64,16 @@ class LAB_Oscilloscope
     void                clear_dma_interrupt_flag        (unsigned dma_chan);
 
     // Data and conversion
-    void                fill_raw_sample_buffer_from_dma_buffer  ();
-    void                parse_raw_sample_buffer                 ();
-    constexpr double    conv_raw_buff_samp_to_actual_value      (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  extract_chan_bits_from_raw_buff_samp    (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  arrange_raw_chan_bits                   (uint32_t raw_chan_bits);
-    constexpr double    conv_raw_chan_bits_to_actual_value      (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
-    constexpr uint32_t  reverse_arranged_bits                   (uint32_t arranged_bits);
-    constexpr uint32_t  conv_raw_buff_get_arranged_bits         (uint32_t sample, unsigned channel);
-    void                reset_dma_process                       ();
-
+    void                fill_raw_sample_buffer_from_dma_buffer          ();
+    void                parse_raw_sample_buffer                         ();
+    constexpr double    conv_raw_chan_adc_bits_to_actual_value          (uint32_t raw_buff_samp, unsigned channel);
+    constexpr uint32_t  extract_raw_chan_adc_bits_from_raw_buff_samp    (uint32_t raw_buff_samp, unsigned channel);
+    constexpr uint32_t  arrange_raw_chan_adc_bits                       (uint32_t raw_chan_bits);
+    constexpr double    conv_arranged_raw_chan_adc_bits_to_actual_value (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
+    constexpr uint32_t  reverse_arrange_raw_chan_adc_bits               (uint32_t arranged_bits);
+    constexpr uint32_t  conv_raw_buff_get_arranged_bits                 (uint32_t sample, unsigned channel);
+    void                reset_dma_process                               ();
+    void                reset_uncached_rx_buffer                        ();
 
   public:
     LAB_Parent_Data_Oscilloscope m_parent_data;
@@ -87,20 +88,20 @@ class LAB_Oscilloscope
     void                  osc_core_run_stop       (bool value);
     void                  osc_frontend_run_stop   (bool value);
     void                  single                  ();
-
     // Mode 
     void                  mode                    (LABE::OSC::MODE mode);
     LABE::OSC::MODE       mode                    ();
 
     // Vertical
-    void                  channel_enable_disable  (unsigned channel, bool value);
+    void                  channel_enable_disable  (unsigned channel, bool enable);
     void                  voltage_per_division    (unsigned channel, double value);
     double                voltage_per_division    (unsigned channel);
     void                  vertical_offset         (unsigned channel, double value);
     double                vertical_offset         (unsigned channel);
-    void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
     void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
     LABE::OSC::COUPLING   coupling                (unsigned channel);
+    void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
+    LABE::OSC::SCALING    scaling                 (unsigned channel) const;
 
     // Horizontal
     void                  horizontal_offset       (double value);
@@ -134,6 +135,7 @@ class LAB_Oscilloscope
     void                  load_data_samples       (); 
     void                  update_dma_data         (int display_mode);
     int                   update_state            ();
+    bool                  is_channel_enabled      (unsigned channel);
 
     // Getters
     bool                  is_frontend_running ();

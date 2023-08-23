@@ -1,11 +1,15 @@
 #include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
+#include <iostream>
+
+#include "../Utility/LABSoft_GUI_Label.h"
+
 LABSoft_GUI_Fl_Input_Choice_With_Scroll::
-LABSoft_GUI_Fl_Input_Choice_With_Scroll (int         X, 
-                                      int         Y, 
-                                      int         W, 
-                                      int         H, 
-                                      const char* label)
+LABSoft_GUI_Fl_Input_Choice_With_Scroll (int        X, 
+                                        int         Y, 
+                                        int         W, 
+                                        int         H, 
+                                        const char* label)
   : Fl_Input_Choice (X, Y, W, H, label)
 {
 
@@ -38,21 +42,36 @@ handle (int e)
 void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
 cb_mouse_wheel (int scroll_amount)
 {
-  int input_index = menubutton ()->find_index (input ()->value ());
+  // scroll down is positive
+  // scroll up is negative
 
-  if (input_index < 0)
+  int next_index = find_possible_next_index (scroll_amount);
+
+  if (next_index >= 0)
   {
+    value (next_index);
 
+    do_callback ();
   }
-  else 
+}
+
+int LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
+find_possible_next_index  (int scroll_amount)
+{
+  int curr_index = menubutton ()->find_index (input ()->value ());
+
+  if (curr_index >= 0)
   {
-    int new_index = input_index + scroll_amount;
+    int next_index = curr_index + scroll_amount;
 
-    if (!(new_index < 0 || new_index >= menubutton()->size ()))
+    if ((next_index < menubutton ()->size ()) && next_index >= 0)
     {
-      value (new_index);
-
-      do_callback ();
+      return (next_index);
+    }
+    else 
+    {
+      return (-1);
     }
   }
+
 }

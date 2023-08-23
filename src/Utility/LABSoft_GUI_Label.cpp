@@ -1,4 +1,4 @@
-#include "LAB_LabelValue.h"
+#include "LABSoft_GUI_Label.h"
 
 #include <cmath>
 #include <iomanip>
@@ -8,7 +8,7 @@
 
 // --- Initialize static member variables ---
 
-std::unordered_map<LAB_LabelValue::UNIT, std::string> LAB_LabelValue::m_unit_to_unit_string = 
+std::unordered_map<LABSoft_GUI_Label::UNIT, std::string> LABSoft_GUI_Label::m_unit_to_unit_string = 
 {
   {UNIT::VOLT               , "V"},
   {UNIT::VOLT_PER_DIVISION  , "V/div"},
@@ -19,7 +19,7 @@ std::unordered_map<LAB_LabelValue::UNIT, std::string> LAB_LabelValue::m_unit_to_
   {UNIT::NONE               , ""}
 };
 
-std::unordered_map<std::string, int> LAB_LabelValue::m_unit_prefix_to_exponent = 
+std::unordered_map<std::string, int> LABSoft_GUI_Label::m_unit_prefix_to_exponent = 
 {
   // Base 10
   {"n", -9},
@@ -37,48 +37,48 @@ std::unordered_map<std::string, int> LAB_LabelValue::m_unit_prefix_to_exponent =
 
 };
 
-std::unordered_map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_to_unit = 
-  invert_map (LAB_LabelValue::m_unit_to_unit_string);
+std::unordered_map<std::string, LABSoft_GUI_Label::UNIT> LABSoft_GUI_Label::m_unit_string_to_unit = 
+  invert_map (LABSoft_GUI_Label::m_unit_to_unit_string);
 
-std::unordered_map<std::string, LAB_LabelValue::UNIT> LAB_LabelValue::m_unit_string_lowercase_to_unit =
+std::unordered_map<std::string, LABSoft_GUI_Label::UNIT> LABSoft_GUI_Label::m_unit_string_lowercase_to_unit =
   lowercase_map (m_unit_string_to_unit);
 
-LAB_LabelValue::KeyLengths LAB_LabelValue::m_keylengths_unit_prefix_to_exponent = 
+LABSoft_GUI_Label::KeyLengths LABSoft_GUI_Label::m_keylengths_unit_prefix_to_exponent = 
   find_map_keylengths (m_unit_prefix_to_exponent);
 
 // ----------
 
-LAB_LabelValue:: 
-LAB_LabelValue (double           value,
-            LAB_LabelValue::UNIT unit)
+LABSoft_GUI_Label:: 
+LABSoft_GUI_Label (double                value,
+                LABSoft_GUI_Label::UNIT  unit)
 {
   m_unit      = unit;
   m_is_valid  = parse_input_double (value);
 }
 
-LAB_LabelValue:: 
-LAB_LabelValue (const char*             input,
-                LAB_LabelValue::UNIT  unit)
-  : LAB_LabelValue (input, 0.0, unit)
+LABSoft_GUI_Label:: 
+LABSoft_GUI_Label (const char*           input,
+                LABSoft_GUI_Label::UNIT  unit)
+  : LABSoft_GUI_Label (input, 0.0, unit)
 {
-  // debug ();
+
 }
 
-LAB_LabelValue::
-LAB_LabelValue (const char*           input,
+LABSoft_GUI_Label::
+LABSoft_GUI_Label (const char*           input,
                 double                reference,
-                LAB_LabelValue::UNIT  unit)
+                LABSoft_GUI_Label::UNIT  unit)
 {
-  m_raw_string  = std::string (input);
-  m_reference   = reference;
-  m_unit        = unit;
-  m_is_valid    = parse_input (m_raw_string);
+  m_cleaned_string  = remove_all_whitespaces (std::string (input));
+  m_reference       = reference;
+  m_unit            = unit;
+  m_is_valid        = parse_input (m_cleaned_string);
 
   // debug ();
 }
 
 template <typename Key, typename Value>
-std::unordered_map<Value, Key> LAB_LabelValue::
+std::unordered_map<Value, Key> LABSoft_GUI_Label::
 invert_map (const std::unordered_map<Key, Value>& map)
 {
   std::unordered_map<Value, Key> new_map;
@@ -92,7 +92,7 @@ invert_map (const std::unordered_map<Key, Value>& map)
 }
 
 template <typename Value>
-std::unordered_map<std::string, Value> LAB_LabelValue::
+std::unordered_map<std::string, Value> LABSoft_GUI_Label::
 lowercase_map (const std::unordered_map<std::string, Value>& map)
 {
   std::unordered_map<std::string, Value> new_map;
@@ -106,10 +106,10 @@ lowercase_map (const std::unordered_map<std::string, Value>& map)
 }
 
 template <typename Value>
-LAB_LabelValue::KeyLengths LAB_LabelValue:: 
+LABSoft_GUI_Label::KeyLengths LABSoft_GUI_Label:: 
 find_map_keylengths (const std::unordered_map<std::string, Value>& map)
 {
-  LAB_LabelValue::KeyLengths keylengths;
+  LABSoft_GUI_Label::KeyLengths keylengths;
 
   for (const std::pair<std::string, Value>& pair : map)
   {
@@ -130,7 +130,7 @@ find_map_keylengths (const std::unordered_map<std::string, Value>& map)
   return (keylengths);
 }
 
-std::string LAB_LabelValue:: 
+std::string LABSoft_GUI_Label:: 
 to_lowercase (const std::string& input)
 {
   std::string lowercase_str = input;
@@ -145,13 +145,15 @@ to_lowercase (const std::string& input)
   return (lowercase_str);
 }
 
-void LAB_LabelValue:: 
-remove_whitespaces (std::string& str)
+std::string LABSoft_GUI_Label::
+remove_all_whitespaces (std::string&& str)
 {
   str.erase (std::remove_if (str.begin (), str.end (), ::isspace), str.end ());
+
+  return (str);
 }
 
-bool LAB_LabelValue:: 
+bool LABSoft_GUI_Label:: 
 parse_input (const std::string& str)
 {
   if (str.find_first_not_of ("0123456789.+-") == std::string::npos)
@@ -171,13 +173,10 @@ parse_input (const std::string& str)
   }
 } 
 
-bool LAB_LabelValue:: 
+bool LABSoft_GUI_Label:: 
 parse_input_string (const std::string& str)
 {
   std::string copy = str;
-
-  // 1. Remove all whitespaces from the string
-  remove_whitespaces (copy);
 
   // 2. Get the substring that contains the (possible) coefficient
   //    and try to std::stod it
@@ -209,7 +208,7 @@ parse_input_string (const std::string& str)
   {
     try
     {
-      LAB_LabelValue::UNIT unit = m_unit_string_lowercase_to_unit.at (post_coeff);
+      LABSoft_GUI_Label::UNIT unit = m_unit_string_lowercase_to_unit.at (post_coeff);
 
       if (unit != m_unit)
       {
@@ -228,7 +227,7 @@ parse_input_string (const std::string& str)
   return (true);
 }
 
-void LAB_LabelValue:: 
+void LABSoft_GUI_Label:: 
 find_unit_prefix_match (const std::string& str)
 {
   KeyLengths& kl          = m_keylengths_unit_prefix_to_exponent;
@@ -250,11 +249,11 @@ find_unit_prefix_match (const std::string& str)
   // 2.
   if (unit_prefix.length () > 1)
   {
-    m_base = LAB_LabelValue::BASE::TWO;
+    m_base = LABSoft_GUI_Label::BASE::TWO;
   }
   else 
   {
-    m_base = LAB_LabelValue::BASE::TEN;
+    m_base = LABSoft_GUI_Label::BASE::TEN;
   }
 
   // 3.
@@ -265,7 +264,7 @@ find_unit_prefix_match (const std::string& str)
   }
 }
 
-void LAB_LabelValue:: 
+void LABSoft_GUI_Label:: 
 remove_from_string (const std::string& to_remove, std::string& str)
 {
   unsigned pos = str.find (to_remove);
@@ -276,7 +275,7 @@ remove_from_string (const std::string& to_remove, std::string& str)
   }
 }
 
-bool LAB_LabelValue:: 
+bool LABSoft_GUI_Label:: 
 parse_input_double (double value)
 {
   m_actual_value = calc_actual_value_using_reference (value, m_reference);
@@ -288,7 +287,7 @@ parse_input_double (double value)
   return (true);
 }
 
-double LAB_LabelValue:: 
+double LABSoft_GUI_Label:: 
 calc_actual_value_using_reference (double value,
                                    double reference)
 {
@@ -315,7 +314,7 @@ calc_actual_value_using_reference (double value,
   }
 }
 
-void LAB_LabelValue:: 
+void LABSoft_GUI_Label:: 
 calc_coefficient_and_exponent (double value, double& coefficient, int& exponent)
 {
   // 1. Convert the value to a string representation of its scientific notation
@@ -329,7 +328,7 @@ calc_coefficient_and_exponent (double value, double& coefficient, int& exponent)
   exponent        = std::stoi (str.substr (e_pos + 1));
 }
 
-std::string LAB_LabelValue:: 
+std::string LABSoft_GUI_Label:: 
 calc_unit_prefix (int exponent)
 {
   std::string unit_prefix;
@@ -382,13 +381,13 @@ calc_unit_prefix (int exponent)
   return (unit_prefix);
 }
 
-int LAB_LabelValue:: 
+int LABSoft_GUI_Label:: 
 calc_exponent_from_unit_prefix (const std::string& unit_prefix) const
 {
   return (m_unit_prefix_to_exponent.at (unit_prefix));
 }
 
-int LAB_LabelValue::
+int LABSoft_GUI_Label::
 correct_mod (int exponent, 
              int modulo) const
 {
@@ -396,38 +395,38 @@ correct_mod (int exponent,
 }
 
 // Setter
-void LAB_LabelValue:: 
-unit (LAB_LabelValue::UNIT unit)
+void LABSoft_GUI_Label:: 
+unit (LABSoft_GUI_Label::UNIT unit)
 {
   m_unit = unit;
 }
 
 // Getter
-bool LAB_LabelValue::
+bool LABSoft_GUI_Label::
 is_valid () const
 {
   return (m_is_valid);
 }
 
-double LAB_LabelValue:: 
+double LABSoft_GUI_Label:: 
 actual_value () const
 {
   return (m_actual_value);
 }
 
-std::string LAB_LabelValue:: 
+std::string LABSoft_GUI_Label:: 
 unit_prefix () const
 {
   return (m_unit_prefix);
 }
 
-std::string LAB_LabelValue:: 
+std::string LABSoft_GUI_Label:: 
 unit_string () const
 {
   return (m_unit_to_unit_string[m_unit]);
 }
 
-std::string LAB_LabelValue::
+std::string LABSoft_GUI_Label::
 to_label_text (unsigned precision) const
 {
   std::stringstream ss;
@@ -441,7 +440,7 @@ to_label_text (unsigned precision) const
   return (ss.str ());
 }
 
-std::string LAB_LabelValue::
+std::string LABSoft_GUI_Label::
 to_label_text (UNIT     unit, 
                unsigned precision)
 {
@@ -450,11 +449,11 @@ to_label_text (UNIT     unit,
   return (to_label_text (precision));
 }
 
-void LAB_LabelValue:: 
+void LABSoft_GUI_Label:: 
 debug () const
 {
   std::cout << "----------\n";
-  std::cout << "raw string      : " << m_raw_string             << "\n";
+  std::cout << "raw string      : " << m_cleaned_string             << "\n";
   std::cout << "is valid        : " << m_is_valid               << "\n";
   std::cout << "actual value    : " << m_actual_value           << "\n";
   std::cout << "coefficient     : " << m_coefficient            << "\n";
@@ -465,12 +464,12 @@ debug () const
   std::cout << "----------\n\n";
 }
 
-LAB_LabelValue::UNIT LAB_LabelValue:: 
+LABSoft_GUI_Label::UNIT LABSoft_GUI_Label:: 
 get_unit_from_unit_string (const char* string)
 {
   std::string str = to_lowercase (std::string (string));
 
-  std::unordered_map<std::string, LAB_LabelValue::UNIT>::iterator it = 
+  std::unordered_map<std::string, LABSoft_GUI_Label::UNIT>::iterator it = 
     m_unit_string_lowercase_to_unit.find (str);
 
   if (it != m_unit_string_lowercase_to_unit.end ())

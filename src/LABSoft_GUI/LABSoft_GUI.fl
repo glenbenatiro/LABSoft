@@ -22,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {2549 194 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {474 685 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -138,17 +138,17 @@ class LABSoft_GUI {open
             } {
               MenuItem {} {
                 label {5 V/div}
-                user_data {"5.0"}
+                user_data {"5"}
                 xywh {760 264 36 25} selection_color 229 labelsize 12
               }
               MenuItem {} {
                 label {2 V/div}
-                user_data {"2.0"}
+                user_data {"2"}
                 xywh {760 264 36 25} selection_color 229 labelsize 12
               }
               MenuItem {} {
                 label {1 V/div}
-                user_data {"1.0"}
+                user_data {"1"}
                 xywh {760 264 36 25} selection_color 229 labelsize 12
               }
               MenuItem {} {
@@ -342,7 +342,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_1 {
-            label {Channel 2}
+            label {Channel 2} open
             xywh {900 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
@@ -384,7 +384,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_voltage_per_division {
               label Range
               user_data 1 user_data_type long
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_voltage_per_division (o, v);}
               xywh {920 248 100 25} box FLAT_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
               code0 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_voltage_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code1 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_1_voltage_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -624,6 +624,7 @@ class LABSoft_GUI {open
               label Mode
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_mode (o, v);}
               xywh {1080 220 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label Repeated
@@ -643,7 +644,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_horizontal {
-            label Horizontal selected
+            label Horizontal
             xywh {740 360 140 220} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Input_Choice oscilloscope_fl_input_choice_horizontal_offset {
@@ -654,6 +655,7 @@ class LABSoft_GUI {open
               code1 {oscilloscope_fl_input_choice_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_horizontal_offset->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {oscilloscope_fl_input_choice_horizontal_offset->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label 100s
@@ -868,6 +870,7 @@ class LABSoft_GUI {open
               code1 {oscilloscope_fl_input_choice_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_time_per_division->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {oscilloscope_fl_input_choice_time_per_division->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {200 s/div}
@@ -990,6 +993,7 @@ class LABSoft_GUI {open
               code1 {oscilloscope_fl_input_choice_samples->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_samples->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {oscilloscope_fl_input_choice_samples->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label 2000
@@ -1028,6 +1032,7 @@ class LABSoft_GUI {open
               code1 {oscilloscope_fl_input_choice_sampling_rate->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_sampling_rate->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {oscilloscope_fl_input_choice_sampling_rate->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {6.67 Hz}
@@ -1088,13 +1093,14 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
-            label Trigger
+            label Trigger open
             xywh {900 360 260 220} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
               label Mode
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_mode (o, v);}
               xywh {920 390 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label None
@@ -1113,6 +1119,7 @@ class LABSoft_GUI {open
               label Source
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_source (o, v);}
               xywh {920 440 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12 deactivate
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {Channel 1}
@@ -1127,6 +1134,7 @@ class LABSoft_GUI {open
               label Type
               callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_type (o, v);}
               xywh {920 490 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12 deactivate
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label Edge
@@ -1135,8 +1143,9 @@ class LABSoft_GUI {open
             }
             Fl_Choice oscilloscope_fl_choice_trigger_condition {
               label Condition
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_condition (o, v);} selected
               xywh {920 540 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12 deactivate
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label Rising
@@ -1159,6 +1168,7 @@ class LABSoft_GUI {open
               code1 {oscilloscope_fl_input_choice_trigger_level->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {oscilloscope_fl_input_choice_trigger_level->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {oscilloscope_fl_input_choice_trigger_level->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {25 V}
@@ -1313,6 +1323,7 @@ class LABSoft_GUI {open
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);}
             xywh {290 120 240 60} box NO_BOX down_box BORDER_BOX color 54 labelsize 12 align 1 textsize 48
+            class LABSoft_GUI_Fl_Choice_With_Scroll
           } {
             MenuItem {} {
               label Sine
@@ -1340,6 +1351,7 @@ class LABSoft_GUI {open
             code1 {function_generator_fl_input_choice_frequency->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code2 {function_generator_fl_input_choice_frequency->menubutton ()->box (FL_GTK_UP_BOX);}
             code3 {function_generator_fl_input_choice_frequency->menubutton ()->color (54);}
+            class LABSoft_GUI_Fl_Input_Choice_With_Scroll
           } {
             MenuItem {} {
               label {1 MHz}
@@ -1431,6 +1443,7 @@ class LABSoft_GUI {open
             code1 {function_generator_fl_input_choice_period->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code2 {function_generator_fl_input_choice_period->menubutton ()->box (FL_GTK_UP_BOX);}
             code3 {function_generator_fl_input_choice_period->menubutton ()->color (54);}
+            class LABSoft_GUI_Fl_Input_Choice_With_Scroll
           } {
             MenuItem {} {
               label {5 s}
@@ -1502,6 +1515,7 @@ class LABSoft_GUI {open
             code1 {function_generator_fl_input_choice_phase->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code2 {function_generator_fl_input_choice_phase->menubutton ()->box (FL_GTK_UP_BOX);}
             code3 {function_generator_fl_input_choice_phase->menubutton ()->color (54);}
+            class LABSoft_GUI_Fl_Input_Choice_With_Scroll
           } {
             MenuItem {} {
               label {-360 deg}
@@ -1567,7 +1581,7 @@ class LABSoft_GUI {open
           label {Logic Analyzer}
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
-          Fl_Group logic_analyzer_fl_group_display {
+          Fl_Group logic_analyzer_fl_group_display {open
             xywh {20 70 400 70} box ROUNDED_FRAME color 52
           } {
             Fl_Button logic_analyzer_fl_button_record_config {
@@ -1592,6 +1606,7 @@ class LABSoft_GUI {open
               label {Display Mode}
               callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_mode (o, v);}
               xywh {280 95 120 30} down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label Repeated
@@ -1607,13 +1622,14 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group logic_analyzer_fl_group_trigger {
+          Fl_Group logic_analyzer_fl_group_trigger {open
             xywh {440 70 160 70} box ROUNDED_FRAME color 52
           } {
             Fl_Choice logic_analyzer_fl_choice_trigger_mode {
               label {Trigger Mode}
               callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_trigger_mode (o, v);}
               xywh {460 95 120 30} down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
+              class LABSoft_GUI_Fl_Choice_With_Scroll
             } {
               MenuItem {} {
                 label None
@@ -1629,7 +1645,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group logic_analyzer_fl_group_add_remove_channels {
+          Fl_Group logic_analyzer_fl_group_add_remove_channels {open
             xywh {20 150 180 50} box ROUNDED_FRAME color 52
           } {
             Fl_Menu_Button logic_analyzer_fl_menu_button_add_channel {
@@ -1664,6 +1680,7 @@ class LABSoft_GUI {open
               code1 {logic_analyzer_fl_input_choice_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {logic_analyzer_fl_input_choice_horizontal_offset->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {logic_analyzer_fl_input_choice_horizontal_offset->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {5 s} user_data_type long
@@ -1826,6 +1843,7 @@ class LABSoft_GUI {open
               code1 {logic_analyzer_fl_input_choice_samples->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {logic_analyzer_fl_input_choice_samples->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {logic_analyzer_fl_input_choice_samples->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label 2000
@@ -1870,12 +1888,13 @@ class LABSoft_GUI {open
             }
             Fl_Input_Choice logic_analyzer_fl_input_choice_time_per_division {
               label {Time per Division}
-              callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);} open
+              callback {m_LABSoft_Controller->m_Logic_Analyzer.cb_time_per_division (o, v);}
               xywh {960 157 100 25} box FLAT_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
               code0 {logic_analyzer_fl_input_choice_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code1 {logic_analyzer_fl_input_choice_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {logic_analyzer_fl_input_choice_time_per_division->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {logic_analyzer_fl_input_choice_time_per_division->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {200 s/div}
@@ -1950,6 +1969,7 @@ class LABSoft_GUI {open
               code1 {logic_analyzer_fl_input_choice_sampling_rate->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code2 {logic_analyzer_fl_input_choice_sampling_rate->menubutton ()->box (FL_GTK_UP_BOX);}
               code3 {logic_analyzer_fl_input_choice_sampling_rate->menubutton ()->color (54);}
+              class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
                 label {100 Hz}

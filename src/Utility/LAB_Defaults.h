@@ -5,6 +5,11 @@
 
 namespace LABD
 {
+  namespace OSC
+  {
+    constexpr bool  IS_ENABLED = true;
+  };
+
   namespace LOGAN 
   {
     // Horizontal
