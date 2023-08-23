@@ -786,21 +786,21 @@ update_gui_voltage_per_division (unsigned channel)
       
       LABSoft_GUI_Label lbl (row_vpd);
 
-      labels[channel][a]->copy_label (lbl.to_label_text ().c_str ());
+      char w_label[20];
+      std::snprintf (w_label, sizeof (w_label), "%.3f", lbl.actual_value ());
+
+      labels[channel][a]->copy_label (w_label);
       labels[channel][a]->show ();
-    }
 
-    // if (a == 0)
-    // {
-    //   LABSoft_GUI_Label unit = lbl; 
-    //   lbl.unit (LABSoft_GUI_Label::UNIT::VOLT);
+      if (a == 0)
+      {
+        std::snprintf (w_label, sizeof (w_label), "C%d %sV", 
+          channel + 1, lbl.unit_prefix ().c_str ());
 
-    //   std::stringstream ss;
-    //   ss << unit.unit_prefix () << unit.unit_string ();
-
-    //   m_voltage_per_division_units[channel]->copy_label (ss.str ().c_str ());
-    //   m_voltage_per_division_units[channel]->show ();
-    // }
+        m_voltage_per_division_units[channel]->copy_label (w_label);
+        m_voltage_per_division_units[channel]->show ();
+      }
+    }    
   }
   else 
   {
@@ -861,16 +861,7 @@ select_channel (unsigned channel)
 
   for (int a = 0; a < m_channel_selectors.size (); a++)
   {
-    if (a == channel)
-    {
-      m_channel_selectors[a]->labelcolor  (0);
-      m_channel_selectors[a]->set         ();
-    }
-    else 
-    {
-      m_channel_selectors[a]->labelcolor  (OSC_DISPLAY::CHANNEL_COLORS[a]);
-      m_channel_selectors[a]->clear       ();
-    }
+    (a == channel) ? m_channel_selectors[a]->set () : m_channel_selectors[a]->clear ();
   }
 
   update_gui_vertical_offset_slider ();

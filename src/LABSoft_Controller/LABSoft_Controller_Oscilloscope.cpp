@@ -267,11 +267,17 @@ cb_voltage_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
     update_gui_voltage_per_division ();
 
-  m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
-    update_gui_trigger_level_slider ();
-  
-  m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
-    update_gui_vertical_offset_slider (); 
+  if (channel == m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->selected_channel ())
+  {
+    m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
+      update_gui_vertical_offset_slider (); 
+  }
+
+  if (channel == m_LAB->m_Oscilloscope.trigger_source ())
+  {
+    m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
+      update_gui_trigger_level_slider ();
+  }
 }
 
 void LABSoft_Controller_Oscilloscope::
@@ -295,17 +301,17 @@ cb_vertical_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll*  w,
   m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
     update_gui_voltage_per_division ();
 
-  //if (channel == m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->selected_channel ())
-  //{
+  if (channel == m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->selected_channel ())
+  {
     m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
       update_gui_vertical_offset_slider (); 
-  //}
+  }
 
-  //if (channel == m_LAB->m_Oscilloscope.trigger_source ())
-  //{
+  if (channel == m_LAB->m_Oscilloscope.trigger_source ())
+  {
     m_LABSoft_GUI->oscilloscope_labsoft_gui_oscilloscope_display->
       update_gui_trigger_level_slider ();
-  //}
+  }
 }
 
 void LABSoft_Controller_Oscilloscope:: 
