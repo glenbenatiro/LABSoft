@@ -216,12 +216,6 @@ private:
   static void cb_function_generator_fl_input_choice_period(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
   static Fl_Menu_Item menu_function_generator_fl_input_choice_period[];
 public:
-  LABSoft_GUI_Fl_Input_Choice_With_Scroll *function_generator_fl_input_choice_phase;
-private:
-  inline void cb_function_generator_fl_input_choice_phase_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
-  static void cb_function_generator_fl_input_choice_phase(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, long);
-  static Fl_Menu_Item menu_function_generator_fl_input_choice_phase[];
-public:
   Fl_Light_Button *function_generator_fl_light_button_run_stop;
 private:
   inline void cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button*, long);

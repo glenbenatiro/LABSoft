@@ -49,8 +49,8 @@ LABSoft_GUI_Label::KeyLengths LABSoft_GUI_Label::m_keylengths_unit_prefix_to_exp
 // ----------
 
 LABSoft_GUI_Label:: 
-LABSoft_GUI_Label (double                value,
-                LABSoft_GUI_Label::UNIT  unit)
+LABSoft_GUI_Label (double                   value,
+                   LABSoft_GUI_Label::UNIT  unit)
 {
   m_unit      = unit;
   m_is_valid  = parse_input_double (value);
@@ -76,6 +76,14 @@ LABSoft_GUI_Label (const char*           input,
 
   // debug ();
 }
+
+LABSoft_GUI_Label::
+LABSoft_GUI_Label (const char* input)
+{
+  m_cleaned_string  = remove_all_whitespaces (std::string (input));
+  m_is_valid        = parse_input (m_cleaned_string);
+}
+
 
 template <typename Key, typename Value>
 std::unordered_map<Value, Key> LABSoft_GUI_Label::
@@ -178,11 +186,11 @@ parse_input_string (const std::string& str)
 {
   std::string copy = str;
 
-  // 2. Get the substring that contains the (possible) coefficient
-  //    and try to std::stod it
-  unsigned pos = copy.find_first_not_of ("0123456789.+-");
+  // 1. Get the substring that possibly contains
+  //    the coefficient and try to std::stod it.
+  size_t pos = copy.find_first_not_of ("0123456789.+-");
 
-  try
+  try 
   {
     m_coefficient = std::stod (copy.substr (0, pos));
   }

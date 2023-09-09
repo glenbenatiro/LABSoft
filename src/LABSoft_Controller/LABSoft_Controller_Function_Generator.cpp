@@ -44,10 +44,10 @@ init_gui_values ()
     (LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 
-  gui.function_generator_fl_input_choice_phase->value (
-    LABSoft_GUI_Label (gen.phase (0)).to_label_text 
-    (LABSoft_GUI_Label::UNIT::DEGREE).c_str ()
-  );
+  // gui.function_generator_fl_input_choice_phase->value (
+  //   LABSoft_GUI_Label (gen.phase (0)).to_label_text 
+  //   (LABSoft_GUI_Label::UNIT::DEGREE).c_str ()
+  // );
 
   // gui.function_generator_fl_input_choice_vertical_offset->value (
   //   LABSoft_GUI_Label (gen.vertical_offset (0)).to_label_text

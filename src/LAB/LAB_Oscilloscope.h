@@ -68,7 +68,7 @@ class LAB_Oscilloscope
     void                parse_raw_sample_buffer                         ();
     constexpr double    conv_raw_chan_adc_bits_to_actual_value          (uint32_t raw_buff_samp, unsigned channel);
     constexpr uint32_t  extract_raw_chan_adc_bits_from_raw_buff_samp    (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  arrange_raw_chan_adc_bits                       (uint32_t raw_chan_bits);
+    constexpr uint32_t  arrange_raw_chan_adc_bits                       (uint32_t raw_chan_bits, unsigned channel);
     constexpr double    conv_arranged_raw_chan_adc_bits_to_actual_value (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
     constexpr uint32_t  reverse_arrange_raw_chan_adc_bits               (uint32_t arranged_bits);
     constexpr uint32_t  conv_raw_buff_get_arranged_bits                 (uint32_t sample, unsigned channel);

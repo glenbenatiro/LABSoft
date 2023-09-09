@@ -12,7 +12,7 @@ AD9833 ()
 AD9833::
 ~AD9833 ()
 {
-
+  wave_type (WAVE_TYPE::DC);
 }
 
 void AD9833:: 
@@ -150,7 +150,7 @@ wave_type (WAVE_TYPE value)
     
     case WAVE_TYPE::DC:
     {
-      wave_type (WAVE_TYPE::SINE);
+      // wave_type (WAVE_TYPE::SINE);
       stop ();
 
       break;

@@ -1,8 +1,12 @@
 #include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
+// remove soon
 #include <iostream>
 
+#include <string>
+
 #include "../Utility/LABSoft_GUI_Label.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LABSoft_GUI_Fl_Input_Choice_With_Scroll::
 LABSoft_GUI_Fl_Input_Choice_With_Scroll (int        X, 
@@ -42,12 +46,13 @@ handle (int e)
 void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
 cb_mouse_wheel (int scroll_amount)
 {
-  // scroll down is positive
-  // scroll up is negative
+  int next_index = find_next_index (scroll_amount);
 
-  int next_index = find_possible_next_index (scroll_amount);
-
-  if (next_index >= 0)
+  if (next_index < 0)
+  {
+    // do nothing
+  }
+  else 
   {
     value (next_index);
 
@@ -56,22 +61,81 @@ cb_mouse_wheel (int scroll_amount)
 }
 
 int LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
-find_possible_next_index  (int scroll_amount)
+find_next_index (int scroll_amount)
 {
+  if (menubutton ()->size () <= 1)
+  {
+    return (-1);
+  }
+  
+  // 
+
   int curr_index = menubutton ()->find_index (input ()->value ());
 
-  if (curr_index >= 0)
+  if (curr_index < 0)
+  {
+    return (-1);
+
+    // std::pair<int, int> input_bounds_indexes;
+
+    // try 
+    // {
+    //   input_bounds_indexes = find_input_bounds_indexes ();
+    // }
+    // catch (const std::exception& e)
+    // {
+    //   return (-1);
+    // }
+    
+    // if (scroll_amount >= 0) // positive, scroll down
+    // {
+    //   return (input_bounds_indexes.first);
+    // } 
+    // else // negative, scroll up 
+    // {
+    //   return (input_bounds_indexes.second);
+    //}
+  }
+  else 
   {
     int next_index = curr_index + scroll_amount;
 
-    if ((next_index < menubutton ()->size ()) && next_index >= 0)
+    if (next_index >= 0 && next_index < menubutton ()->size ())
     {
       return (next_index);
     }
-    else 
+    else
     {
       return (-1);
     }
   }
+}
 
+std::pair<int, int> LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
+find_input_bounds_indexes ()
+{
+  // int     pre_i   = 0;
+  // int     post_i  = 0;
+  // double  ref_val = LABSoft_GUI_Label (input ()->value ()).actual_value ();    
+
+  // const Fl_Menu_Item* arr = menubutton ()->menu ();
+
+  // // debug  
+  // std::cout << "ref val: " << ref_val << "\n";
+
+  // for (int a = 0; a < (menubutton ()->size ()) - 2; a++)
+  // {
+  //   post_i  = a;
+  //   pre_i   = a + 1;
+
+  //   double post_val = std::stod (static_cast<const char*>(arr[post_i].user_data ()));
+  //   double pre_val  = std::stod (static_cast<const char*>(arr[pre_i].user_data ()));
+
+  //   if (LABF::is_within_range (ref_val, pre_val, post_val))
+  //   {
+  //     break;
+  //   }
+  // }
+
+  // return (std::pair<int, int> (pre_i, post_i));
 }

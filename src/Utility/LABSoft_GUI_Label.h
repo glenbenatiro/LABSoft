@@ -52,7 +52,7 @@ class LABSoft_GUI_Label
   private:
     template <typename Key, typename Value>
     static std::unordered_map<Value, Key> 
-    invert_map    (const std::unordered_map<Key, Value>& map);
+    invert_map (const std::unordered_map<Key, Value>& map);
 
     template <typename Value>
     static std::unordered_map<std::string, Value> 
@@ -81,6 +81,7 @@ class LABSoft_GUI_Label
     LABSoft_GUI_Label (double value, UNIT unit = UNIT::NONE);
     LABSoft_GUI_Label (const char* input, UNIT none = UNIT::NONE);
     LABSoft_GUI_Label (const char* input, double reference, UNIT unit = UNIT::NONE);
+    LABSoft_GUI_Label (const char* input);
 
     // Setter
     void unit (UNIT unit);

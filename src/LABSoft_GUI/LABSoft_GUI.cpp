@@ -594,29 +594,6 @@ Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_period[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_function_generator_fl_input_choice_phase_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, long v) {
-  m_LABSoft_Controller->m_Function_Generator.cb_phase (o, v);
-}
-void LABSoft_GUI::cb_function_generator_fl_input_choice_phase(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_function_generator_fl_input_choice_phase_i(o,v);
-}
-
-Fl_Menu_Item LABSoft_GUI::menu_function_generator_fl_input_choice_phase[] = {
- {"-360 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"-180 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"-90 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"-45 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"-30 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"0 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"30 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"45 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"60 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"90 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"180 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"360 deg", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {0,0,0,0,0,0,0,0,0}
-};
-
 void LABSoft_GUI::cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button* o, long v) {
   m_LABSoft_Controller->m_Function_Generator.cb_run_stop (o, v);
 }
@@ -1354,7 +1331,6 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_voltmeter_tab->color(FL_LIGHT3);
         main_fl_group_voltmeter_tab->selection_color(FL_LIGHT2);
         main_fl_group_voltmeter_tab->labelsize(12);
-        main_fl_group_voltmeter_tab->hide();
         { voltmeter_fl_output_chan0_value = new Fl_Output(250, 200, 320, 60, "Channel 1 DC");
           voltmeter_fl_output_chan0_value->box(FL_GTK_DOWN_BOX);
           voltmeter_fl_output_chan0_value->color((Fl_Color)55);
@@ -1371,7 +1347,7 @@ LABSoft_GUI::LABSoft_GUI() {
           voltmeter_fl_output_chan1_value->user_data((void*)(1));
           voltmeter_fl_output_chan1_value->align(Fl_Align(FL_ALIGN_TOP));
         } // Fl_Output* voltmeter_fl_output_chan1_value
-        { Fl_Box* o = new Fl_Box(592, 300, 35, 17, "This instrument can only measure DC voltages.");
+        { Fl_Box* o = new Fl_Box(592, 320, 35, 17, "This instrument can only measure DC voltages.");
           o->labelsize(12);
         } // Fl_Box* o
         { // 					
@@ -1389,7 +1365,8 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_function_generator_tab->color(FL_LIGHT3);
         main_fl_group_function_generator_tab->selection_color(FL_LIGHT2);
         main_fl_group_function_generator_tab->labelsize(12);
-        { function_generator_fl_choice_wave_type = new LABSoft_GUI_Fl_Choice_With_Scroll(290, 120, 240, 60, "Wave Type");
+        main_fl_group_function_generator_tab->hide();
+        { function_generator_fl_choice_wave_type = new LABSoft_GUI_Fl_Choice_With_Scroll(190, 200, 240, 60, "Wave Type");
           function_generator_fl_choice_wave_type->box(FL_NO_BOX);
           function_generator_fl_choice_wave_type->down_box(FL_BORDER_BOX);
           function_generator_fl_choice_wave_type->color(FL_LIGHT3);
@@ -1404,7 +1381,7 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_choice_wave_type->when(FL_WHEN_RELEASE);
           function_generator_fl_choice_wave_type->menu(menu_function_generator_fl_choice_wave_type);
         } // LABSoft_GUI_Fl_Choice_With_Scroll* function_generator_fl_choice_wave_type
-        { function_generator_fl_input_choice_frequency = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(690, 120, 240, 60, "Frequency");
+        { function_generator_fl_input_choice_frequency = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(490, 200, 240, 60, "Frequency");
           function_generator_fl_input_choice_frequency->box(FL_NO_BOX);
           function_generator_fl_input_choice_frequency->color(FL_LIGHT3);
           function_generator_fl_input_choice_frequency->selection_color((Fl_Color)53);
@@ -1422,7 +1399,7 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_input_choice_frequency->menubutton ()->box (FL_GTK_UP_BOX);
           function_generator_fl_input_choice_frequency->menubutton ()->color (54);
         } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* function_generator_fl_input_choice_frequency
-        { function_generator_fl_input_choice_period = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(290, 220, 240, 60, "Period");
+        { function_generator_fl_input_choice_period = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(790, 200, 240, 60, "Period");
           function_generator_fl_input_choice_period->box(FL_NO_BOX);
           function_generator_fl_input_choice_period->color(FL_LIGHT3);
           function_generator_fl_input_choice_period->selection_color((Fl_Color)53);
@@ -1440,25 +1417,7 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_input_choice_period->menubutton ()->box (FL_GTK_UP_BOX);
           function_generator_fl_input_choice_period->menubutton ()->color (54);
         } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* function_generator_fl_input_choice_period
-        { function_generator_fl_input_choice_phase = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(690, 220, 240, 60, "Phase");
-          function_generator_fl_input_choice_phase->box(FL_NO_BOX);
-          function_generator_fl_input_choice_phase->color(FL_LIGHT3);
-          function_generator_fl_input_choice_phase->selection_color((Fl_Color)53);
-          function_generator_fl_input_choice_phase->labeltype(FL_NORMAL_LABEL);
-          function_generator_fl_input_choice_phase->labelfont(0);
-          function_generator_fl_input_choice_phase->labelsize(12);
-          function_generator_fl_input_choice_phase->labelcolor(FL_FOREGROUND_COLOR);
-          function_generator_fl_input_choice_phase->textsize(36);
-          function_generator_fl_input_choice_phase->callback((Fl_Callback*)cb_function_generator_fl_input_choice_phase, (void*)(0));
-          function_generator_fl_input_choice_phase->align(Fl_Align(FL_ALIGN_TOP));
-          function_generator_fl_input_choice_phase->when(FL_WHEN_RELEASE);
-          function_generator_fl_input_choice_phase->menu(menu_function_generator_fl_input_choice_phase);
-          function_generator_fl_input_choice_phase->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-          function_generator_fl_input_choice_phase->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-          function_generator_fl_input_choice_phase->menubutton ()->box (FL_GTK_UP_BOX);
-          function_generator_fl_input_choice_phase->menubutton ()->color (54);
-        } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* function_generator_fl_input_choice_phase
-        { Fl_Box* o = new Fl_Box(450, 340, 320, 17, "Change the amplitude and vertical offset using the potentiometers on the func\
+        { Fl_Box* o = new Fl_Box(450, 320, 320, 17, "Change the amplitude and vertical offset using the potentiometers on the func\
 tion generator board.");
           o->labelsize(12);
           o->align(Fl_Align(FL_ALIGN_WRAP));

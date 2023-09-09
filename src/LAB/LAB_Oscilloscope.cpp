@@ -528,8 +528,8 @@ parse_raw_sample_buffer ()
       //   uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
 
       //   std::cout << std::bitset <16> (raw_chan_bits);
-      //   std::cout << " - " << (arrange_raw_chan_adc_bits (raw_chan_bits));
-      //   std::cout << " - " << conv_raw_chan_adc_bits_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
+      //   //std::cout << " - " << (arrange_raw_chan_adc_bits (raw_chan_bits));
+      //   //std::cout << " - " << conv_raw_chan_adc_bits_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
       //   std::cout << "\n";
       // }
     }
@@ -546,7 +546,7 @@ conv_raw_chan_adc_bits_to_actual_value (uint32_t  raw_buff_samp,
                                         unsigned  channel)
 {
   uint32_t  raw_chan_adc_bits     = extract_raw_chan_adc_bits_from_raw_buff_samp (raw_buff_samp, channel);
-  uint32_t  arranged_bits         = arrange_raw_chan_adc_bits (raw_chan_adc_bits);
+  uint32_t  arranged_bits         = arrange_raw_chan_adc_bits (raw_chan_adc_bits, channel);
   bool      arranged_bits_sign    = (arranged_bits >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
   uint32_t  arranged_bits_abs_val = arranged_bits & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
   double    actual_value          = conv_arranged_raw_chan_adc_bits_to_actual_value (arranged_bits_abs_val, arranged_bits_sign); 
@@ -562,8 +562,31 @@ extract_raw_chan_adc_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
       LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
 }
 
+// constexpr uint32_t LAB_Oscilloscope:: 
+// arrange_raw_chan_adc_bits (uint32_t raw_chan_bits)
+// {
+//   // if you update this function, please also update 
+//   // reverse_arrange_raw_chan_adc_bits (), which is just 
+//   // the reverse of this function
+
+//   // all of these were determined using manual testing
+
+//   // mcp33111 at 250MHz GPU core speed and 10MHz SPI frequency
+//   // return (((raw_chan_bits & 0x007F) << 5) | ((raw_chan_bits & 0xF800) >> 11));
+
+//   // 
+//   // ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
+//   //return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
+
+//   // mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
+//   // return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+  
+//   // telly 8/24 lab
+//   return (((raw_chan_bits & 0xF800) >> 11) | ((raw_chan_bits & 0x007F) << 5));
+// }
+
 constexpr uint32_t LAB_Oscilloscope:: 
-arrange_raw_chan_adc_bits (uint32_t raw_chan_bits)
+arrange_raw_chan_adc_bits (uint32_t raw_chan_bits, unsigned channel)
 {
   // if you update this function, please also update 
   // reverse_arrange_raw_chan_adc_bits (), which is just 
@@ -579,8 +602,21 @@ arrange_raw_chan_adc_bits (uint32_t raw_chan_bits)
   //return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
 
   // mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
-  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+  // return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+  
+  // telly 8/24 lab
+
+  if (channel == 0) // MCP33111
+  { 
+    return (((raw_chan_bits & 0xF800) >> 11) | ((raw_chan_bits & 0x007F) << 5));
+  }
+  else // AD7883
+  {
+    return (((raw_chan_bits & 0xFD00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
+  }
 }
+
+
 
 constexpr uint32_t LAB_Oscilloscope:: 
 reverse_arrange_raw_chan_adc_bits (uint32_t arranged_bits)
@@ -609,7 +645,7 @@ conv_raw_buff_get_arranged_bits (uint32_t sample,
 {
   uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (sample, channel);
 
-  return (arrange_raw_chan_adc_bits (raw_chan_bits));
+  return (arrange_raw_chan_adc_bits (raw_chan_bits, channel));
 }
 
 void LAB_Oscilloscope:: 

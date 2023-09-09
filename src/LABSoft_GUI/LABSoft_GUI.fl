@@ -22,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {2114 96 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {40 192 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -1290,8 +1290,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_voltmeter_tab {
-          label Voltmeter
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          label Voltmeter open
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Output voltmeter_fl_output_chan0_value {
             label {Channel 1 DC}
@@ -1305,7 +1305,7 @@ class LABSoft_GUI {open
           }
           Fl_Box {} {
             label {This instrument can only measure DC voltages.}
-            xywh {592 300 35 17} labelsize 12
+            xywh {592 320 35 17} labelsize 12
           }
           Fl_Light_Button voltmeter_fl_light_button_run_stop {
             label Run
@@ -1316,13 +1316,13 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_function_generator_tab {
           label {Function Generator} open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_wave_type (o, v);}
-            xywh {290 120 240 60} box NO_BOX down_box BORDER_BOX color 54 labelsize 12 align 1 textsize 48
+            xywh {190 200 240 60} box NO_BOX down_box BORDER_BOX color 54 labelsize 12 align 1 textsize 48
             class LABSoft_GUI_Fl_Choice_With_Scroll
           } {
             MenuItem {} {
@@ -1346,7 +1346,7 @@ class LABSoft_GUI {open
             label Frequency
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_frequency (o, v);}
-            xywh {690 120 240 60} box NO_BOX color 54 selection_color 53 labelsize 12 align 1 textsize 36
+            xywh {490 200 240 60} box NO_BOX color 54 selection_color 53 labelsize 12 align 1 textsize 36
             code0 {function_generator_fl_input_choice_frequency->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code1 {function_generator_fl_input_choice_frequency->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code2 {function_generator_fl_input_choice_frequency->menubutton ()->box (FL_GTK_UP_BOX);}
@@ -1438,7 +1438,7 @@ class LABSoft_GUI {open
             label Period
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_period (o, v);}
-            xywh {290 220 240 60} box NO_BOX color 54 selection_color 53 labelsize 12 align 1 textsize 36
+            xywh {790 200 240 60} box NO_BOX color 54 selection_color 53 labelsize 12 align 1 textsize 36
             code0 {function_generator_fl_input_choice_period->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code1 {function_generator_fl_input_choice_period->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
             code2 {function_generator_fl_input_choice_period->menubutton ()->box (FL_GTK_UP_BOX);}
@@ -1506,69 +1506,9 @@ class LABSoft_GUI {open
               xywh {490 200 240 21} box NO_BOX color 54 labelsize 12
             }
           }
-          Fl_Input_Choice function_generator_fl_input_choice_phase {
-            label Phase
-            user_data 0 user_data_type long
-            callback {m_LABSoft_Controller->m_Function_Generator.cb_phase (o, v);} open
-            xywh {690 220 240 60} box NO_BOX color 54 selection_color 53 labelsize 12 align 1 textsize 36
-            code0 {function_generator_fl_input_choice_phase->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-            code1 {function_generator_fl_input_choice_phase->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-            code2 {function_generator_fl_input_choice_phase->menubutton ()->box (FL_GTK_UP_BOX);}
-            code3 {function_generator_fl_input_choice_phase->menubutton ()->color (54);}
-            class LABSoft_GUI_Fl_Input_Choice_With_Scroll
-          } {
-            MenuItem {} {
-              label {-360 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {-180 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {-90 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {-45 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {-30 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {0 deg} selected
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {30 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {45 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {60 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {90 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {180 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-            MenuItem {} {
-              label {360 deg}
-              xywh {592 314 36 21} color 54 labelsize 12
-            }
-          }
           Fl_Box {} {
             label {Change the amplitude and vertical offset using the potentiometers on the function generator board.}
-            xywh {450 340 320 17} labelsize 12 align 128
+            xywh {450 320 320 17} labelsize 12 align 128
           }
           Fl_Light_Button function_generator_fl_light_button_run_stop {
             label Run

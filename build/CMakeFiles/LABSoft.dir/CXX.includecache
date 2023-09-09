@@ -142,6 +142,18 @@ FL/Fl_Button.H
 FL/Fl_Native_File_Chooser.H
 -
 
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp
+LABSoft_Controller_Function_Generator.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
+LABSoft_Controller.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
+../Utility/LABSoft_GUI_Label.h
+/home/glen/Desktop/LABSoft/src/Utility/LABSoft_GUI_Label.h
+../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+../Utility/LABSoft_GUI_Label_Values.h
+/home/glen/Desktop/LABSoft/src/Utility/LABSoft_GUI_Label_Values.h
+
 /home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
 FL/Fl_Choice.H
 -
@@ -241,6 +253,8 @@ FL/Fl_Choice.H
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/FL/Fl_Choice.H
 
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h
+utility
+-
 FL/Fl_Input_Choice.H
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/FL/Fl_Input_Choice.H
 
@@ -306,28 +320,6 @@ FL/Fl_Menu_Button.H
 ../Utility/LAB_Defaults.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
 
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
-LABSoft_GUI_Oscilloscope_Display.h
-/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
-cmath
--
-cstdio
--
-sstream
--
-iostream
--
-FL/Fl.H
--
-FL/Enumerations.H
--
-../Utility/LABSoft_GUI_Label.h
-/home/glen/Desktop/LABSoft/src/Utility/LABSoft_GUI_Label.h
-../Utility/LAB_Utility_Functions.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
-../LABSoft_Controller/LABSoft_Controller.h
-/home/glen/Desktop/LABSoft/src/LABSoft_Controller/LABSoft_Controller.h
-
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h
 array
 -
@@ -373,6 +365,14 @@ string
 -
 vector
 -
+
+/home/glen/Desktop/LABSoft/src/Utility/LABSoft_GUI_Label_Values.h
+unordered_map
+-
+string
+-
+LAB_Enumerations.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
 unordered_map
