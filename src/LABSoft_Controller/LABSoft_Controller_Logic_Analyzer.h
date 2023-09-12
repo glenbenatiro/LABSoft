@@ -1,32 +1,28 @@
 #ifndef LABSOFT_CONTROLLER_LOGIC_ANALYZER_H
 #define LABSOFT_CONTROLLER_LOGIC_ANALYZER_H
 
-#include <FL/Fl_Light_Button.H>
-
 #include <thread>
 
-#include "../LAB/LAB.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Menu_Button.H>
+#include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Light_Button.H>
 
-// forward declare LABSoft_Controller, #include in .cpp file
-class LABSoft_Controller;
+#include "LABSoft_Controller_Unit.h"
+#include "../LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"
 
-class LABSoft_Controller_Logic_Analyzer
+class LABSoft_Controller_Logic_Analyzer : public LABSoft_Controller_Unit
 {
   private:
-    LAB*                m_LAB;
-    LABSoft_GUI*        m_LABSoft_GUI;
-    LABSoft_Controller* m_LABSoft_Controller;
-    std::thread*        m_thread_update_display;
+    std::thread* m_thread_update_display;
   
   private:
     void init             ();
     void init_gui_values  ();
     
   public:
-    LABSoft_Controller_Logic_Analyzer (LAB*                 _LAB, 
-                                       LABSoft_GUI*         _LABSoft_GUI,
-                                       LABSoft_Controller*  _LABSoft_Controller);
+    LABSoft_Controller_Logic_Analyzer (LABSoft_Controller& _LABSoft_Controller);
 
     // master controls
     void cb_run_stop              (Fl_Light_Button* w, void* data);

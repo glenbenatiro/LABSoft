@@ -5,14 +5,11 @@
 #include <vector>
 #include <cstdint>
 
-#include "LAB_Core.h"
+#include "LAB_Module.h"
 #include "../Utility/pugixml.hpp"
 #include "../LAB_Libraries/LAB_MCP23S17.h"
 
-// forward declare LAB, #include in .cpp file
-class LAB;
-
-class LAB_Digital_Circuit_Checker 
+class LAB_Digital_Circuit_Checker : public LAB_Module
 {
   public:
     struct ScoreData
@@ -34,8 +31,6 @@ class LAB_Digital_Circuit_Checker
     };
 
   private:
-    LAB*                            m_LAB;
-    LAB_Core*                       m_LAB_Core;
     LAB_MCP23S17                    m_hw_expander;
     bool                            m_is_running = false;
 
@@ -74,7 +69,7 @@ class LAB_Digital_Circuit_Checker
     std::string decrypt_xml                       (const std::string& path);  
 
   public:
-    LAB_Digital_Circuit_Checker (LAB_Core* _LAB_Core, LAB* _LAB);
+    LAB_Digital_Circuit_Checker (LAB& _LAB);
    ~LAB_Digital_Circuit_Checker ();
 
     void      load_file    (const std::string& path);

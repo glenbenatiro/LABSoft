@@ -8,12 +8,8 @@
 #include "LABSoft_Controller.h"
 
 LABSoft_Controller_Digital_Circuit_Checker:: 
-LABSoft_Controller_Digital_Circuit_Checker (LAB*                _LAB,
-                                            LABSoft_GUI*        _LABSoft_GUI,
-                                            LABSoft_Controller* _LABSoft_Controller)
- : m_LAB                (_LAB),
-   m_LABSoft_GUI        (_LABSoft_GUI),
-   m_LABSoft_Controller (_LABSoft_Controller)
+LABSoft_Controller_Digital_Circuit_Checker (LABSoft_Controller& _LABSoft_Controller)
+ : LABSoft_Controller_Unit (_LABSoft_Controller)
 {
 
 }
@@ -45,13 +41,13 @@ display_results (const LAB_Digital_Circuit_Checker::ScoreData score_data)
   std::snprintf (str, sizeof (str), "%d/%d - %2.2f%%", score_data.score_current,
     score_data.score_total, score_data.score_percent);
 
-  m_LABSoft_GUI->digital_circuit_checker_fl_output_results->value (str);
+  m_controller.gui ().digital_circuit_checker_fl_output_results->value (str);
 }
 
 void LABSoft_Controller_Digital_Circuit_Checker:: 
 update_gui_reset ()
 {
-  LABSoft_GUI& gui = *m_LABSoft_GUI;
+  LABSoft_GUI& gui = m_controller.gui ();
 
   gui.digital_circuit_checker_labchecker_gui_digital_output_table_table->reset ();
   gui.digital_circuit_checker_fl_output_selected_file->value ("");
@@ -70,7 +66,7 @@ cb_load_file (Fl_Button*  w,
 
   //
 
-  Fl_Output& selected_file = *(m_LABSoft_GUI->digital_circuit_checker_fl_output_selected_file);
+  Fl_Output& selected_file = *(m_controller.gui ().digital_circuit_checker_fl_output_selected_file);
 
   //
 
@@ -95,7 +91,7 @@ cb_load_file (Fl_Button*  w,
 
             selected_file.value (get_filename_from_path (path).c_str ());
 
-            m_LAB->m_Digital_Circuit_Checker.load_file (path);
+            m_controller.lab ().m_Digital_Circuit_Checker.load_file (path);
           }
           else 
           {
@@ -131,7 +127,7 @@ void LABSoft_Controller_Digital_Circuit_Checker::
 cb_unload_file (Fl_Button*  w, 
                 void*       data)
 {
-  m_LAB->m_Digital_Circuit_Checker.unload_file ();
+  m_controller.lab ().m_Digital_Circuit_Checker.unload_file ();
 
   update_gui_reset ();
 }
@@ -142,18 +138,18 @@ cb_run_checker (Fl_Button*  w,
 {
   try
   {
-    m_LAB->m_Digital_Circuit_Checker.run_checker ();
+    m_controller.lab ().m_Digital_Circuit_Checker.run_checker ();
 
-    if (m_LAB->m_Digital_Circuit_Checker.are_results_ready ())
+    if (m_controller.lab ().m_Digital_Circuit_Checker.are_results_ready ())
     {
-      LAB_Digital_Circuit_Checker::ScoreData score_data = m_LAB->
+      LAB_Digital_Circuit_Checker::ScoreData score_data = m_controller.lab ().
         m_Digital_Circuit_Checker.get_score_data ();
 
       // Update results Fl_Output widget
       display_results (score_data);
 
       // Update table
-      m_LABSoft_GUI->digital_circuit_checker_labchecker_gui_digital_output_table_table->
+      m_controller.gui ().digital_circuit_checker_labchecker_gui_digital_output_table_table->
         display_results (score_data);
 
       fl_message ("Checking done.");

@@ -3,19 +3,10 @@
 
 #include <FL/Fl_Native_File_Chooser.H>
 
-#include "../LAB/LAB.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
+#include "LABSoft_Controller_Unit.h"
 
-// forward declare LABSoft_Controller
-class LABSoft_Controller;
-
-class LABSoft_Controller_LABChecker_Digital 
+class LABSoft_Controller_LABChecker_Digital : public LABSoft_Controller_Unit
 {
-  private:
-    LAB*                m_LAB;
-    LABSoft_GUI*        m_LABSoft_GUI;
-    LABSoft_Controller* m_LABSoft_Controller;
-
   private:
     void init_gui ();
     void update_gui_digital_output_count (unsigned value);
@@ -23,9 +14,7 @@ class LABSoft_Controller_LABChecker_Digital
     static void update_display (void* data);
     
   public:
-    LABSoft_Controller_LABChecker_Digital (LAB*                 _LAB, 
-                                           LABSoft_GUI*         _LABSoft_GUI,
-                                           LABSoft_Controller*  _LABSoft_Controller);
+    LABSoft_Controller_LABChecker_Digital (LABSoft_Controller& _LABSoft_Controller);
 
     void cb_digital_input_bits    (Fl_Choice* w, void* data);
     void cb_digital_output_bits   (Fl_Choice* w, void* data);

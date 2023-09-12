@@ -4,9 +4,12 @@
 #include "../../lib/MCP4XXX/MCP4XXX.h"
 #include "../../lib/AikaPi/AikaPi.h"
 
+// https://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf
 class LAB_MCP4XXX : public MCP4XXX
 {
-  // https://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf
+  private:
+    AikaPi* m_rpi = nullptr;
+
   public:
     LAB_MCP4XXX (MCP4XXX::PART_NUMBER part, MCP4XXX::RESISTANCE_VERSION resistance, unsigned cs_pin);
    ~LAB_MCP4XXX ();

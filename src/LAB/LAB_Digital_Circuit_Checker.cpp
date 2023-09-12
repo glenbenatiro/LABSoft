@@ -15,9 +15,8 @@
 #include "LAB.h"
 
 LAB_Digital_Circuit_Checker::
-LAB_Digital_Circuit_Checker (LAB_Core* _LAB_Core, LAB* _LAB)
-  : m_LAB_Core    (_LAB_Core), 
-    m_LAB         (_LAB),
+LAB_Digital_Circuit_Checker (LAB& _LAB)
+  : LAB_Module (_LAB),
     m_hw_expander (LABC::PIN::DCC::XPAND_CS,
                   LABC::PIN::DCC::XPAND_MISO,
                   LABC::PIN::DCC::XPAND_MOSI,

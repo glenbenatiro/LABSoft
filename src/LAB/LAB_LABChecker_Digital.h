@@ -4,18 +4,11 @@
 #include <string>
 #include <vector>
 
-#include "LAB_Core.h"
 #include "../Utility/pugixml.hpp"
-
-// forward declare LAB, #include in .cpp file
-class LAB;
 
 class LAB_LABChecker_Digital
 {
   private:
-    LAB*      m_LAB;
-    LAB_Core* m_LAB_Core;
-
     // FOR EXAMPLE ONLY! TECHNICALLY UNSECURE.
     std::string KEY = "thequickbrownfox"; 
 
@@ -25,7 +18,7 @@ class LAB_LABChecker_Digital
     void      encrypt_and_save              (pugi::xml_document& doc, const std::string& save_path);
 
   public:
-    LAB_LABChecker_Digital (LAB_Core* _LAB_Core, LAB* _LAB);
+    LAB_LABChecker_Digital ();
 
     void create_file_digital (const std::vector<std::vector<char>>& inputs,
                               const std::vector<std::vector<char>>& outputs,

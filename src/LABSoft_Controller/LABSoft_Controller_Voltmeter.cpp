@@ -4,12 +4,8 @@
 #include "../Utility/LABSoft_GUI_Label.h"
 
 LABSoft_Controller_Voltmeter:: 
-LABSoft_Controller_Voltmeter (LAB*                _LAB,
-                              LABSoft_GUI*        _LABSoft_GUI,
-                              LABSoft_Controller* _LABSoft_Controller)
-  : m_LAB                 (_LAB),
-    m_LABSoft_GUI         (_LABSoft_GUI),
-    m_LABSoft_Controller  (_LABSoft_Controller)
+LABSoft_Controller_Voltmeter (LABSoft_Controller& _LABSoft_Controller)
+  : LABSoft_Controller_Unit (_LABSoft_Controller)
 {
   init_gui_values ();
 }
@@ -17,7 +13,7 @@ LABSoft_Controller_Voltmeter (LAB*                _LAB,
 void LABSoft_Controller_Voltmeter:: 
 init_gui_values ()
 {
-  LABSoft_GUI& gui = *m_LABSoft_GUI;
+  LABSoft_GUI& gui = m_controller.gui ();
 
   gui.voltmeter_fl_output_chan0_value->value ("- . - -");
   gui.voltmeter_fl_output_chan1_value->value ("- . - -");
@@ -31,20 +27,20 @@ cb_run_stop  (Fl_Light_Button* w,
 
   if (value)
   {
-    m_LAB->m_Voltmeter.run ();
-    m_LABSoft_GUI->oscilloscope_fl_light_button_run_stop->clear ();
+    m_controller.lab ().m_Voltmeter.run ();
+    m_controller.gui ().oscilloscope_fl_light_button_run_stop->clear ();
   }
   else 
   {
-    m_LAB->m_Voltmeter.stop ();
+    m_controller.lab ().m_Voltmeter.stop ();
   }
 }
 
 void LABSoft_Controller_Voltmeter:: 
 display_update_cycle ()
 {
-  LAB& lab          = *m_LAB;
-  LABSoft_GUI &gui  = *m_LABSoft_GUI;
+  LAB& lab          = m_controller.lab ();
+  LABSoft_GUI &gui  = m_controller.gui ();
 
   if (lab.m_Voltmeter.is_running ())
   {

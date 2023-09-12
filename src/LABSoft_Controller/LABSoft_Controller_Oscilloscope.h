@@ -1,19 +1,20 @@
 #ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 #define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
 
-#include "../LAB/LAB.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Slider.H>
+#include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Light_Button.H>
 
-// forward declare LABSoft_Controller, #include in .cpp file
-class LABSoft_Controller;
+#include "../LABSoft_GUI/LABSoft_GUI_Fl_Slider.h"
+#include "../LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.h"
+#include "../LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h"
+#include "../LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
-class LABSoft_Controller_Oscilloscope
+#include "LABSoft_Controller_Unit.h"
+
+class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
 {
-  private:
-    LAB*                m_LAB;
-    LABSoft_GUI*        m_LABSoft_GUI;
-    LABSoft_Controller* m_LABSoft_Controller;
-
   private: 
     void init             ();
   
@@ -22,9 +23,7 @@ class LABSoft_Controller_Oscilloscope
                               // loaded for the first time
 
   public:
-    LABSoft_Controller_Oscilloscope (LAB*                 _LAB, 
-                                     LABSoft_GUI*         _LABSoft_GUI, 
-                                     LABSoft_Controller*  _LABSoft_Controller);
+    LABSoft_Controller_Oscilloscope (LABSoft_Controller& _LABSoft_Controller);
     
     // Master controls
     void cb_run_stop                  (Fl_Light_Button*   w, void* data);

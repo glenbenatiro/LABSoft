@@ -17,8 +17,8 @@
 class LABSoft_Controller
 {
   private:
-    LAB*          m_LAB;
-    LABSoft_GUI*  m_LABSoft_GUI;
+    LAB&          m_LAB;
+    LABSoft_GUI&  m_LABSoft_GUI;
   
   public:
     LABSoft_Controller_Oscilloscope             m_Oscilloscope;             
@@ -36,9 +36,12 @@ class LABSoft_Controller
     static void update_display (void *data);     
   
   public: 
-    LABSoft_Controller (LAB* _LAB, LABSoft_GUI* _LABSoft_GUI);
+    LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI);
 
     void cb_tabs (Fl_Group* w, void* data);
+
+    LAB&          lab () const;
+    LABSoft_GUI&  gui () const;
 };
 
 #endif

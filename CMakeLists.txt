@@ -26,8 +26,8 @@ ADD_EXECUTABLE(LABSoft
   src/main.cpp
   src/LABSoft.cpp
   
+  src/LAB/LAB_Module.cpp
   src/LAB/LAB.cpp
-  src/LAB/LAB_Core.cpp
   src/LAB/LAB_Oscilloscope.cpp
   src/LAB/LAB_Voltmeter.cpp
   src/LAB/LAB_Function_Generator.cpp
@@ -35,6 +35,7 @@ ADD_EXECUTABLE(LABSoft
   src/LAB/LAB_Digital_Circuit_Checker.cpp
   src/LAB/LAB_LABChecker_Digital.cpp
 
+  src/LABSoft_Controller/LABSoft_Controller_Unit.cpp
   src/LABSoft_Controller/LABSoft_Controller.cpp
   src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp
   src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp

@@ -3,18 +3,13 @@
 
 #include <thread>
 
-#include "LAB_Core.h"
+#include "LAB_Module.h"
 #include "../Utility/LAB_Definitions.h"
 #include "../Utility/LAB_Enumerations.h"
 
-// forward declare LAB, #include in .cpp file
-class LAB;
-
-class LAB_Logic_Analyzer
+class LAB_Logic_Analyzer : public LAB_Module
 {
   private:
-    LAB*                            m_LAB;
-    LAB_Core*                       m_LAB_Core;
     AikaPi::Uncached                m_uncached_memory;
     std::thread                     m_thread_find_trigger;
     std::thread                     m_thread_get_samples;
@@ -56,7 +51,7 @@ class LAB_Logic_Analyzer
     void get_samples_loop                       ();
 
   public:
-    LAB_Logic_Analyzer                  (LAB_Core* _LAB_Core, LAB* _LAB);
+    LAB_Logic_Analyzer                  (LAB& _LAB);
    ~LAB_Logic_Analyzer                  ();
 
     // master controls

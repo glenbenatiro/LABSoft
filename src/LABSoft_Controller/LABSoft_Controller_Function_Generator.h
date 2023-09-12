@@ -5,26 +5,16 @@
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Input_Choice.H>
 
-#include "../LAB/LAB.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
+#include "LABSoft_Controller_Unit.h"
 
-// forward declare LABSoft_Controller, #include in .cpp file
-class LABSoft_Controller;
-
-class LABSoft_Controller_Function_Generator
+class LABSoft_Controller_Function_Generator : public LABSoft_Controller_Unit
 {
-  private:
-    LAB*                m_LAB;
-    LABSoft_GUI*        m_LABSoft_GUI;
-    LABSoft_Controller* m_LABSoft_Controller;
-  
   private:
     void init_gui_values (); 
 
   public:
-    LABSoft_Controller_Function_Generator (LAB*                 _LAB, 
-                                           LABSoft_GUI*         _LABSoft_GUI,
-                                           LABSoft_Controller*  _LABSoft_Controller);
+    LABSoft_Controller_Function_Generator (LABSoft_Controller& _LABSoft_Controller);
+
     void update_gui_frequency_elements    ();
 
     void cb_run_stop        (Fl_Light_Button* w, long channel);

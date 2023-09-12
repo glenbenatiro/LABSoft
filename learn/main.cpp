@@ -1,4 +1,4 @@
-#include "../lib/AikaPi/AikaPi.h"
+#include "../../lib/AikaPi/AikaPi.h"
 #include "../src/LAB_Libraries/LAB_MCP23S17.h"
 
 #include <iostream>

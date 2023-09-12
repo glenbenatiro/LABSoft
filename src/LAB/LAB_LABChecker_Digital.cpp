@@ -13,9 +13,7 @@
 #include <openssl/aes.h>
 
 LAB_LABChecker_Digital:: 
-LAB_LABChecker_Digital (LAB_Core* _LAB_Core, 
-                        LAB*      _LAB)
-  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
+LAB_LABChecker_Digital ()
 {
 
 }

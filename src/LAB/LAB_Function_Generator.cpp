@@ -2,10 +2,11 @@
 
 #include <iostream>
 
+#include "LAB.h"
+
 LAB_Function_Generator:: 
-LAB_Function_Generator (LAB_Core* _LAB_Core, LAB* _LAB)
-  : m_LAB_Core (_LAB_Core),
-    m_LAB (_LAB),
+LAB_Function_Generator (LAB& _LAB)
+  : LAB_Module (_LAB),
     m_func_gen_ic       {LAB_AD9833   (LABC::PIN::FG::PWG_CS, 
                                         LABC::PIN::FG::PWG_MISO,
                                         LABC::PIN::FG::PWG_MOSI,
@@ -33,12 +34,12 @@ LAB_Function_Generator::
 void LAB_Function_Generator:: 
 init_gpio_pins ()
 {
-  m_LAB_Core->gpio.set (LABC::PIN::FG::DPOTS_SCLK,  AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (LABC::PIN::FG::DPOTS_MOSI,  AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (LABC::PIN::FG::DPOTS_MISO,  AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::DOWN);
-  m_LAB_Core->gpio.set (LABC::PIN::FG::DPOT0_CS,    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
-  m_LAB_Core->gpio.set (LABC::PIN::FG::DPOT1_CS,    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
-  m_LAB_Core->gpio.set (LABC::PIN::FG::DPOT2_CS,    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
+  m_LAB.rpi ().gpio.set (LABC::PIN::FG::DPOTS_SCLK,  AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::OFF);
+  m_LAB.rpi ().gpio.set (LABC::PIN::FG::DPOTS_MOSI,  AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::OFF);
+  m_LAB.rpi ().gpio.set (LABC::PIN::FG::DPOTS_MISO,  AP::GPIO::FUNC::ALT4,   AP::GPIO::PULL::DOWN);
+  m_LAB.rpi ().gpio.set (LABC::PIN::FG::DPOT0_CS,    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
+  m_LAB.rpi ().gpio.set (LABC::PIN::FG::DPOT1_CS,    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
+  m_LAB.rpi ().gpio.set (LABC::PIN::FG::DPOT2_CS,    AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::OFF,  1);
 }
 
 void LAB_Function_Generator::

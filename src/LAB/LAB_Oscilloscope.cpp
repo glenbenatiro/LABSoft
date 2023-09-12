@@ -9,8 +9,8 @@
 #include "../Utility/LAB_Utility_Functions.h"
 
 LAB_Oscilloscope:: 
-LAB_Oscilloscope (LAB_Core* _LAB_Core, LAB* _LAB) 
-  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
+LAB_Oscilloscope (LAB& _LAB)
+  : LAB_Module (_LAB)
 {
   init_spi        ();
   init_pwm        ();
@@ -22,41 +22,41 @@ LAB_Oscilloscope (LAB_Core* _LAB_Core, LAB* _LAB)
 LAB_Oscilloscope::
 ~LAB_Oscilloscope ()
 {
-  m_LAB_Core->dma.stop  (LABC::DMA::CHAN::OSC_RX);
-  m_LAB_Core->dma.stop  (LABC::DMA::CHAN::OSC_TX);
-  m_LAB_Core->dma.stop  (LABC::DMA::CHAN::PWM_PACING);
+  rpi ().dma.stop  (LABC::DMA::CHAN::OSC_RX);
+  rpi ().dma.stop  (LABC::DMA::CHAN::OSC_TX);
+  rpi ().dma.stop  (LABC::DMA::CHAN::PWM_PACING);
 
-  m_LAB_Core->dma.reset (LABC::DMA::CHAN::OSC_RX);
-  m_LAB_Core->dma.reset (LABC::DMA::CHAN::OSC_TX);
-  m_LAB_Core->dma.reset (LABC::DMA::CHAN::PWM_PACING);
+  rpi ().dma.reset (LABC::DMA::CHAN::OSC_RX);
+  rpi ().dma.reset (LABC::DMA::CHAN::OSC_TX);
+  rpi ().dma.reset (LABC::DMA::CHAN::PWM_PACING);
 }
 
 void LAB_Oscilloscope:: 
 init_spi ()
 {
-  m_LAB_Core->spi.clear_fifo  ();
-  m_LAB_Core->spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
-  m_LAB_Core->spi.frequency   (LABC::SPI::FREQUENCY);
+  rpi ().spi.clear_fifo  ();
+  rpi ().spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
+  rpi ().spi.frequency   (LABC::SPI::FREQUENCY);
 
-  m_LAB_Core->gpio.set (LABC::PIN::OSC::ADC_CS,   AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (LABC::PIN::OSC::ADC_MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
-  m_LAB_Core->gpio.set (LABC::PIN::OSC::ADC_MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
-  m_LAB_Core->gpio.set (LABC::PIN::OSC::ADC_SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  rpi ().gpio.set (LABC::PIN::OSC::ADC_CS,   AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  rpi ().gpio.set (LABC::PIN::OSC::ADC_MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  rpi ().gpio.set (LABC::PIN::OSC::ADC_MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
+  rpi ().gpio.set (LABC::PIN::OSC::ADC_SCLK, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
 }
 
 void LAB_Oscilloscope:: 
 init_pwm ()
 {
-  m_LAB_Core->cm.pwm.frequency  (LABC::CLKMAN::FREQUENCY);
+  rpi ().cm.pwm.frequency  (LABC::CLKMAN::FREQUENCY);
 
-  m_LAB_Core->pwm.reg           (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
-  m_LAB_Core->pwm.use_fifo      (LABC::PWM::DMA_PACING_CHAN, true);
-  m_LAB_Core->pwm.algo          (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
-  m_LAB_Core->pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LABC::OSC::SAMPLING_RATE);
-  m_LAB_Core->pwm.duty_cycle    (LABC::PWM::DMA_PACING_CHAN, 50.0);
+  rpi ().pwm.reg           (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
+  rpi ().pwm.use_fifo      (LABC::PWM::DMA_PACING_CHAN, true);
+  rpi ().pwm.algo          (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
+  rpi ().pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LABC::OSC::SAMPLING_RATE);
+  rpi ().pwm.duty_cycle    (LABC::PWM::DMA_PACING_CHAN, 50.0);
 
   // PWM pin (BCM pin 12) is in use by digital circuit checker
-  // m_LAB_Core->gpio.set (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
+  // rpi ().gpio.set (LABC::PIN::PWM, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
 }
 
 void LAB_Oscilloscope::
@@ -69,7 +69,7 @@ init_gpio_pins ()
 
     for (int a = 0; a < 2; a++)
     {
-      m_LAB_Core->gpio.set (LABC::PIN::OSC::MUX[chan][a],
+      rpi ().gpio.set (LABC::PIN::OSC::MUX[chan][a],
         AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, (mux_a >> a) & 0x1);
     }
   }
@@ -79,7 +79,7 @@ init_gpio_pins ()
   {
     bool enable = static_cast<int>(m_parent_data.channel_data[chan].coupling);
 
-    m_LAB_Core->gpio.set (LABC::PIN::OSC::RELAY[chan], 
+    rpi ().gpio.set (LABC::PIN::OSC::RELAY[chan], 
       AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, enable);
   }
 }
@@ -92,9 +92,9 @@ init_dma ()
   AikaPi::Uncached&          un = m_uncached_memory;
   LAB_DMA_Data_Oscilloscope& dd = *(static_cast<LAB_DMA_Data_Oscilloscope*>(un.virt ()));
 
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::OSC_TX,     un.bus (&dd.cbs[6]));
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::OSC_RX,     un.bus (&dd.cbs[0]));
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::PWM_PACING, un.bus (&dd.cbs[7]));
+  rpi ().dma.start (LABC::DMA::CHAN::OSC_TX,     un.bus (&dd.cbs[6]));
+  rpi ().dma.start (LABC::DMA::CHAN::OSC_RX,     un.bus (&dd.cbs[0]));
+  rpi ().dma.start (LABC::DMA::CHAN::PWM_PACING, un.bus (&dd.cbs[7]));
 }
 
 void LAB_Oscilloscope:: 
@@ -125,7 +125,7 @@ config_dma_cb ()
       // 0
       {
         LABC::DMA::TI::OSC_RX,
-        m_LAB_Core->spi.bus   (AP::SPI::FIFO),
+        rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES),
         0,
@@ -135,7 +135,7 @@ config_dma_cb ()
       // 1
       {
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
-        m_LAB_Core->spi.bus   (AP::SPI::CS),
+        rpi ().spi.bus   (AP::SPI::CS),
         m_uncached_memory.bus (&uncached_dma_data.status[0]),
         sizeof (uint32_t),
         0,
@@ -145,7 +145,7 @@ config_dma_cb ()
       // 2
       {
         LABC::DMA::TI::OSC_RX,
-        m_LAB_Core->spi.bus   (AP::SPI::FIFO),
+        rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
         static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES),
         0,
@@ -155,7 +155,7 @@ config_dma_cb ()
       // 3
       {
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
-        m_LAB_Core->spi.bus   (AP::SPI::CS),
+        rpi ().spi.bus   (AP::SPI::CS),
         m_uncached_memory.bus (&uncached_dma_data.status[1]),
         sizeof (uint32_t),
         0,
@@ -167,7 +167,7 @@ config_dma_cb ()
       // 4
       {
         LABC::DMA::TI::OSC_RX,
-        m_LAB_Core->spi.bus   (AP::SPI::FIFO),
+        rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES),
         0,
@@ -177,7 +177,7 @@ config_dma_cb ()
       // 5
       {
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
-        m_LAB_Core->spi.bus   (AP::SPI::CS),
+        rpi ().spi.bus   (AP::SPI::CS),
         m_uncached_memory.bus (&uncached_dma_data.status[0]),
         sizeof (uint32_t),
         0,
@@ -190,7 +190,7 @@ config_dma_cb ()
       {
         LABC::DMA::TI::OSC_TX,
         m_uncached_memory.bus (&uncached_dma_data.txd),
-        m_LAB_Core->spi.bus   (AP::SPI::FIFO),
+        rpi ().spi.bus   (AP::SPI::FIFO),
         sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[6]),
@@ -202,7 +202,7 @@ config_dma_cb ()
       {
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.pwm_duty_cycle),
-        m_LAB_Core->pwm.bus   (AP::PWM::FIF1),
+        rpi ().pwm.bus   (AP::PWM::FIF1),
         sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[8]),
@@ -212,7 +212,7 @@ config_dma_cb ()
       {
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.spi_cs_fifo_reset),
-        m_LAB_Core->spi.bus   (AP::SPI::CS),
+        rpi ().spi.bus   (AP::SPI::CS),
         sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[9]),
@@ -222,7 +222,7 @@ config_dma_cb ()
       {
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.spi_samp_size),
-        m_LAB_Core->spi.bus   (AP::SPI::DLEN),
+        rpi ().spi.bus   (AP::SPI::DLEN),
         sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[10]),
@@ -232,7 +232,7 @@ config_dma_cb ()
       {
         LABC::DMA::TI::OSC_PWM_PACING,
         m_uncached_memory.bus (&uncached_dma_data.spi_cs),
-        m_LAB_Core->spi.bus   (AP::SPI::CS),
+        rpi ().spi.bus   (AP::SPI::CS),
         sizeof (uint32_t),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[7]),
@@ -261,9 +261,9 @@ config_dma_cb ()
 void LAB_Oscilloscope:: 
 run ()
 {
-  if (m_LAB->m_Voltmeter.is_running ())
+  if (lab ().m_Voltmeter.is_running ())
   {
-    m_LAB->m_Voltmeter.stop ();
+    lab ().m_Voltmeter.stop ();
   }
 
   time_per_division (m_parent_data.time_per_division);
@@ -292,12 +292,12 @@ osc_core_run_stop (bool value)
 {
   if (value)
   {
-    m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
+    rpi ().pwm.start (LABC::PWM::DMA_PACING_CHAN);
     m_parent_data.is_backend_running = true;
   }
   else
   {
-    m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
+    rpi ().pwm.stop (LABC::PWM::DMA_PACING_CHAN);
     m_parent_data.is_backend_running = false;
   }
 }
@@ -317,7 +317,7 @@ single ()
   }
   
   // reset DMA OSC RX chan interrupt flag
-  m_LAB_Core->dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
+  rpi ().dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
 
   m_parent_data.single = true;
 }
@@ -372,7 +372,7 @@ coupling (unsigned            channel,
   {
     m_parent_data.channel_data[channel].coupling = coupling;
 
-    m_LAB_Core->gpio.set (
+    rpi ().gpio.set (
       LABC::PIN::OSC::RELAY[channel],
       AP::GPIO::FUNC::OUTPUT, 
       AP::GPIO::PULL::OFF,
@@ -389,7 +389,7 @@ scaling (unsigned           channel,
 
   for (int a = 0; a < 2; a++)
   {
-    m_LAB_Core->gpio.write (LABC::PIN::OSC::MUX[channel][a], 
+    rpi ().gpio.write (LABC::PIN::OSC::MUX[channel][a], 
       (mux_a >> a) & 0x1);
   }
 
@@ -556,7 +556,7 @@ conv_raw_chan_adc_bits_to_actual_value (uint32_t  raw_buff_samp,
 
 constexpr uint32_t LAB_Oscilloscope::
 extract_raw_chan_adc_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
-                                      unsigned channel)
+                                              unsigned channel)
 {
   return ((raw_buff_samp >> (LABC::OSC::RAW_DATA_SHIFT_BIT_COUNT * channel)) &
       LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
@@ -654,12 +654,12 @@ reset_dma_process ()
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
 
-  bool is_running = m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING);
+  bool is_running = rpi ().dma.is_running (LABC::DMA::CHAN::PWM_PACING);
 
   // 1. Check if DMA is running. If it is, pause it
   if (is_running)
   {
-    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+    rpi ().dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
   // 2. Reset the DMA engine to the first control block, depending on the buffer
@@ -667,7 +667,7 @@ reset_dma_process ()
   {
     case (LABE::OSC::MODE::REPEATED): // dual buffer
     {
-      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+      rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
         m_uncached_memory.bus (&dma_data.cbs[0]));
 
       break;
@@ -675,7 +675,7 @@ reset_dma_process ()
 
     case (LABE::OSC::MODE::SCREEN): // single buffer
     {
-      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+      rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
         m_uncached_memory.bus (&dma_data.cbs[4]));
 
       break;
@@ -683,7 +683,7 @@ reset_dma_process ()
   }
 
   // 3. Abort the current control block
-  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+  rpi ().dma.abort (LABC::DMA::CHAN::OSC_RX);
 
   // 4. Reset the DMA status flags
   dma_data.status[0] = dma_data.status[1] = 0;
@@ -694,7 +694,7 @@ reset_dma_process ()
   // 6. Run DMA if it was running
   if (is_running)
   {
-    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
+    rpi ().dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
 }
 
@@ -884,13 +884,13 @@ void LAB_Oscilloscope::
 set_sampling_rate (double value)
 {
   // 1. Change the source frequency of the PWM peripheral
-  m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
+  rpi ().pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
 
   // 2. Set the DMA PWM duty cycle to 50%
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
 
-  dma_data.pwm_duty_cycle = (m_LAB_Core->pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
+  dma_data.pwm_duty_cycle = (rpi ().pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
 
   // 3. Store the sampling rate
   m_parent_data.sampling_rate = value;
@@ -949,11 +949,9 @@ find_trigger_point_loop ()
   // Cached variables
 
   // Regs
-  volatile uint32_t* int_status     = m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS);
-  volatile uint32_t* curr_conblk_ad = m_LAB_Core->dma.reg (
-                                        LABC::DMA::CHAN::OSC_RX, 
-                                        AP::DMA::CONBLK_AD
-                                      );
+  volatile uint32_t* int_status     = rpi ().dma.MemoryMap::reg (AP::DMA::INT_STATUS);
+  volatile uint32_t* curr_conblk_ad = rpi ().dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD);
+
   // Vars
   uint32_t  buff0_cbs_addr[2] = {m_uncached_memory.bus (&dma_data.cbs[0]),
                                  m_uncached_memory.bus (&dma_data.cbs[1])};
@@ -971,20 +969,20 @@ find_trigger_point_loop ()
     case (LABE::OSC::MODE::REPEATED):
     {
       // 1. Pause osc RX DMA channel
-      m_LAB_Core->dma.pause (LABC::DMA::CHAN::OSC_RX);
+      rpi ().dma.pause (LABC::DMA::CHAN::OSC_RX);
 
       // 2. Set the contents of its next control block register
       //    to point to the first control block
-      m_LAB_Core->dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::NEXTCONBK,
+      rpi ().dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::NEXTCONBK,
         m_uncached_memory.bus (&dma_data.cbs[0]));
       
       // 3. Abort current control block
-      m_LAB_Core->dma.reg_wbits (LABC::DMA::CHAN::OSC_RX, AP::DMA::CS, 1, 30);
+      rpi ().dma.reg_wbits (LABC::DMA::CHAN::OSC_RX, AP::DMA::CS, 1, 30);
 
       std::this_thread::sleep_for (std::chrono::microseconds (5));
 
       // 4. Unpause oscilloscope RX DMA channel
-      m_LAB_Core->dma.run (LABC::DMA::CHAN::OSC_RX);  
+      rpi ().dma.run (LABC::DMA::CHAN::OSC_RX);  
 
       // 5. Wait until first buffer is filled
       while (*curr_conblk_ad == buff0_cbs_addr[0] || *curr_conblk_ad == buff0_cbs_addr[1]);
@@ -993,7 +991,7 @@ find_trigger_point_loop ()
       while (*curr_conblk_ad == buff1_cbs_addr[0] || *curr_conblk_ad == buff1_cbs_addr[1]); 
 
       // 7. Reset osc RX DMA interrupt
-      m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
+      rpi ().dma.MemoryMap::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
 
       break;
     }
@@ -1014,14 +1012,14 @@ find_trigger_point_loop ()
     {
       // 1. Check the oscilloscope RX DMA channel interrupt if it is asserted.
       //    If it is, this means that a buffer was just fully written to.
-      if (m_LAB_Core->dma.interrupt (LABC::DMA::CHAN::OSC_RX))
+      if (rpi ().dma.interrupt (LABC::DMA::CHAN::OSC_RX))
       {
         // 2. Store the current control block running in the oscilloscope RX DMA 
         //    engine. This is to know what buffer (0 or 1) was just filled.
-        uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD));
+        uint32_t curr_conblk_ad = *(rpi ().dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD));
 
         // 3. Reset the interrupt
-        m_LAB_Core->dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
+        rpi ().dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
 
         // 4. Store a copy of the uncached receive buffers
         std::memcpy (
@@ -1201,7 +1199,7 @@ create_trigger_frame ()
       sizeof (uint32_t) * copy_count_1
     );
 
-    while (!((*(m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS)) >> LABC::DMA::CHAN::OSC_RX) & 0x1));
+    while (!((*(rpi ().dma.MemoryMap::reg (AP::DMA::INT_STATUS)) >> LABC::DMA::CHAN::OSC_RX) & 0x1));
 
     std::memcpy (
       m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
@@ -1209,7 +1207,7 @@ create_trigger_frame ()
       sizeof (uint32_t) * copy_count_2
     );
 
-    m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
+    rpi ().dma.MemoryMap::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
   }
   else if (m_parent_data.trig_index < samp_half_index)
   {
@@ -1244,17 +1242,17 @@ create_trigger_frame ()
 void LAB_Oscilloscope:: 
 find_trigger_timeout_timer ()
 {
-  // uint32_t start    = m_LAB_Core->st.low ();
+  // uint32_t start    = rpi ().st.low ();
   // uint32_t timeout  = start + (LABC::OSC::) 
   // while (m_parent_data.trigger_mode == LABE::OSC::TRIG::MODE::AUTO)
   // {
   //   {
-  //     uint32_t start    = m_LAB_Core->st.low ();
+  //     uint32_t start    = rpi ().st.low ();
   //     uint32_t timeout  = 0;
 
   //     while (!m_parent_data.trigger_found)
   //     {
-  //       if (m_LAB_Core->st.low () >= timeout)
+  //       if (rpi ().st.low () >= timeout)
   //       {
   //         m_parent_data.find_trig_timeout = true;
   //       }
@@ -1301,7 +1299,7 @@ config_dma_cb_record ()
   //   .cbs = 
   //   {
   //     LABC::DMA::TI::OSC_RX,
-  //     m_LAB_Core->spi.bus (AP::SPI::FIFO),
+  //     rpi ().spi.bus (AP::SPI::FIFO),
 
   //     static_cast<uint32_t> (sizeof (uint32_t) * m_parent_data.samples),
   //     0,
@@ -1390,10 +1388,10 @@ record_start ()
   // stop ();
 
   // // x. Pause OSC RX DMA engine
-  // m_LAB_Core->dma.pause (LABC::DMA::CHAN::OSC_RX);
+  // rpi ().dma.pause (LABC::DMA::CHAN::OSC_RX);
 
   // // x. 
-  // m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, c)
+  // rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, c)
 
 
 
@@ -1458,9 +1456,9 @@ mode ()
 void LAB_Oscilloscope:: 
 update_dma_data (int display_mode)
 {
-  // m_LAB_Core->dma_pause (LABC::DMA::CHANPWM_PACING);
+  // rpi ().dma_pause (LABC::DMA::CHANPWM_PACING);
   
-  // volatile uint32_t *reg = Utility::reg (m_LAB_Core->m_regs_dma,
+  // volatile uint32_t *reg = Utility::reg (rpi ().m_regs_dma,
   //   DMA_REG (LABC::DMA::CHANPWM_PACING, DMA_NEXTCONBK));
 
   // *reg = Utility::bus ()
@@ -1470,7 +1468,7 @@ update_dma_data (int display_mode)
 
   // *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
 
-  // m_LAB_Core->dma_play (LABC::DMA::CHANPWM_PACING);
+  // rpi ().dma_play (LABC::DMA::CHANPWM_PACING);
 }
 
 void LAB_Oscilloscope:: 
@@ -1511,24 +1509,24 @@ dma_buffer_count (LABE::OSC::BUFFER_COUNT buffer_count)
     (m_uncached_memory.virt ()));
   
   // 1. Pause PWM pacing if running
-  if (m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING))
+  if (rpi ().dma.is_running (LABC::DMA::CHAN::PWM_PACING))
   {
     is_running = true;
-    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+    rpi ().dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
   // 2. Assign next control block depending on buffer
   if (buffer_count == LABE::OSC::BUFFER_COUNT::SINGLE)
   { 
-    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
+    rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
   else if (buffer_count == LABE::OSC::BUFFER_COUNT::DOUBLE)
   {
-    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
+    rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
   }
 
   // 3. Abort the current control block 
-  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+  rpi ().dma.abort (LABC::DMA::CHAN::OSC_RX);
 
   // 4. Clean buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
@@ -1536,7 +1534,7 @@ dma_buffer_count (LABE::OSC::BUFFER_COUNT buffer_count)
   // 5. Run DMA channel if it was running
   if (is_running)
   {
-    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
+    rpi ().dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
 }
 

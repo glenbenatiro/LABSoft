@@ -8,7 +8,7 @@
 LABSoft::
 LABSoft (int    argc,
          char** argv) 
-  : m_LABSoft_Controller (&m_LAB, &m_LABSoft_GUI)
+  : m_LABSoft_Controller (m_LAB, m_LABSoft_GUI)
 {
   // initialize threading support
   Fl::lock ();

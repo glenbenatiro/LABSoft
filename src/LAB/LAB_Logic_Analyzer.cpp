@@ -10,14 +10,14 @@
 #include "../Utility/LAB_Utility_Functions.h"
 
 LAB_Logic_Analyzer::
-LAB_Logic_Analyzer (LAB_Core* _LAB_Core, LAB* _LAB)
-  : m_LAB_Core (_LAB_Core), m_LAB (_LAB)
+LAB_Logic_Analyzer (LAB& _LAB)
+  : LAB_Module (_LAB)
 {
   // init_pwm (); // or maybe init_pcm () ???
   init_gpio_pins  ();
   init_dma        ();
 
-  // m_LAB_Core->gpio.set_event_detect (LABC::PIN::LOGIC_ANALYZER[1],
+  // m_LAB.rpi ().gpio.set_event_detect (LABC::PIN::LOGIC_ANALYZER[1],
   //   AP::GPIO::EVENT::RISING_EDGE, true);
 }
 
@@ -32,7 +32,7 @@ init_gpio_pins ()
 {
   for (unsigned chan = 0; chan < (m_parent_data.channel_data.size ()); chan++)
   {
-    m_LAB_Core->gpio.set (LABC::PIN::LOGAN[chan], AP::GPIO::FUNC::INPUT,
+    m_LAB.rpi ().gpio.set (LABC::PIN::LOGAN[chan], AP::GPIO::FUNC::INPUT,
       AP::GPIO::PULL::DOWN);
   }
 }
@@ -45,7 +45,7 @@ init_dma ()
   AikaPi::Uncached&            un = m_uncached_memory;
   LAB_DMA_Data_Logic_Analyzer& dd = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(un.virt ()));
 
-  m_LAB_Core->dma.start (LABC::DMA::CHAN::LOGAN_GPIO_STORE, un.bus (&dd.cbs[0]));
+  m_LAB.rpi ().dma.start (LABC::DMA::CHAN::LOGAN_GPIO_STORE, un.bus (&dd.cbs[0]));
 }
 
 void LAB_Logic_Analyzer:: 
@@ -53,10 +53,10 @@ init_interrupts ()
 {
   for (unsigned chan = 0; chan < LABC::LOGAN::NUMBER_OF_CHANNELS; chan++)
   {
-    m_LAB_Core->gpio.clear_all_event_detect (LABC::PIN::LOGAN[chan]);
+    m_LAB.rpi ().gpio.clear_all_event_detect (LABC::PIN::LOGAN[chan]);
   }
 
-  m_LAB_Core->gpio.clear_event_detect_status ();
+  m_LAB.rpi ().gpio.clear_event_detect_status ();
 }
 
 void LAB_Logic_Analyzer::
@@ -75,7 +75,7 @@ config_dma_cb ()
       // 0
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->gpio.bus  (AP::GPIO::GPLEV0),
+        m_LAB.rpi ().gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES),
         0,
@@ -95,7 +95,7 @@ config_dma_cb ()
       // 2
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->gpio.bus  (AP::GPIO::GPLEV0),
+        m_LAB.rpi ().gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
         static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES),
         0,
@@ -117,7 +117,7 @@ config_dma_cb ()
       // 4
       {
         LABC::DMA::TI::LOGAN_STORE,
-        m_LAB_Core->gpio.bus  (AP::GPIO::GPLEV0),
+        m_LAB.rpi ().gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
         static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES),
         0,
@@ -147,7 +147,7 @@ config_dma_cb ()
 void LAB_Logic_Analyzer:: 
 run ()
 {
-  // m_LAB_Core->pwm.start (LABC::PWM::DMA_PACING_CHAN);
+  // m_LAB.rpi ().pwm.start (LABC::PWM::DMA_PACING_CHAN);
 
   // ==========
 
@@ -162,7 +162,7 @@ run ()
 void LAB_Logic_Analyzer:: 
 stop ()
 {
-  // m_LAB_Core->pwm.stop (LABC::PWM::DMA_PACING_CHAN);
+  // m_LAB.rpi ().pwm.stop (LABC::PWM::DMA_PACING_CHAN);
 
   // ==========
 
@@ -274,7 +274,7 @@ get_samples_loop ()
     {
       for (int b = 0; b < LABC::LOGAN::NUMBER_OF_SAMPLES; b++)
       {
-        dma_data.rxd[a][b] = m_LAB_Core->gpio.level ();
+        dma_data.rxd[a][b] = m_LAB.rpi ().gpio.level ();
 
         if (!m_parent_data.is_backend_running)
         {
@@ -339,24 +339,24 @@ dma_buffer_count  (LABE::LOGAN::BUFFER_COUNT buffer_count)
     *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
   
   // 1. Pause PWM pacing if running
-  if (m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING))
+  if (m_LAB.rpi ().dma.is_running (LABC::DMA::CHAN::PWM_PACING))
   {
     is_running = true;
-    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+    m_LAB.rpi ().dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
   // 2. Assign next control block depending on buffer
   if (buffer_count == LABE::LOGAN::BUFFER_COUNT::SINGLE)
   { 
-    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
+    m_LAB.rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[4]));
   }
   else if (buffer_count == LABE::LOGAN::BUFFER_COUNT::DOUBLE)
   {
-    m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
+    m_LAB.rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, m_uncached_memory.bus (&dma_data.cbs[0]));
   }
 
   // 3. Abort the current control block 
-  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+  m_LAB.rpi ().dma.abort (LABC::DMA::CHAN::OSC_RX);
 
   // 4. Clean buffer status
   dma_data.status[0] = dma_data.status[1] = 0;
@@ -364,7 +364,7 @@ dma_buffer_count  (LABE::LOGAN::BUFFER_COUNT buffer_count)
   // 5. Run DMA channel if it was running
   if (is_running)
   {
-    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
+    m_LAB.rpi ().dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
 }
 
@@ -436,7 +436,7 @@ void LAB_Logic_Analyzer::
 set_sampling_rate (double value)
 {
   // 1. Change the source frequency of the PWM peripheral
-  //m_LAB_Core->pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
+  //m_LAB.rpi ().pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
 
   // // while we are using the PWM pacing of the oscilloscope module
   // {
@@ -448,7 +448,7 @@ set_sampling_rate (double value)
   //   LAB_DMA_Data_Logic_Analyzer& dma_data = 
   //     *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
   //     
-  //   dma_data.pwm_duty_cycle = (m_LAB_Core->pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
+  //   dma_data.pwm_duty_cycle = (m_LAB.rpi ().pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
   // }
 
   // 3. Store the sampling rate
@@ -506,7 +506,7 @@ set_trigger_condition (unsigned               gpio_pin,
     }
   }
 
-  m_LAB_Core->gpio.set_event_detect (gpio_pin, event, 1);
+  m_LAB.rpi ().gpio.set_event_detect (gpio_pin, event, 1);
 }
 
 void LAB_Logic_Analyzer::
@@ -569,7 +569,7 @@ find_trigger_point_loop ()
   
   // ====================
 
-  m_LAB_Core->gpio.clear_event_detect_status ();
+  m_LAB.rpi ().gpio.clear_event_detect_status ();
 
   while (pdata.find_trigger)
   {
@@ -578,19 +578,19 @@ find_trigger_point_loop ()
       // 1. Check if there is a change in any of the bits in the 
       //    GPIO Event Detect Status Register (GPEDS0). If there is,
       //    this means that a trigger condition on a channel just happened.
-      uint32_t temp_GPSED0 = m_LAB_Core->gpio.event_detect_status ();
+      uint32_t temp_GPSED0 = m_LAB.rpi ().gpio.event_detect_status ();
 
       if (pdata.trigger_flags != temp_GPSED0)
       {
         // 2. Store the memory address where the DMA engine is currently
         //    writing data on. This to aid in finding the trigger index.
-        unsigned curr_dma_write_mem_addr = *(m_LAB_Core->dma.reg 
+        unsigned curr_dma_write_mem_addr = *(m_LAB.rpi ().dma.reg 
           (LABC::DMA::CHAN::LOGAN_GPIO_STORE, AP::DMA::DEST_AD));
 
         // 3. Store the memory address of the current DMA control block 
         //    running in the Logic Analyzer DMA engine. 
         //    This is to know what buffer (0 or 1) is currently being filled.
-        uint32_t curr_conblk_ad = *(m_LAB_Core->dma.reg 
+        uint32_t curr_conblk_ad = *(m_LAB.rpi ().dma.reg 
           (LABC::DMA::CHAN::LOGAN_GPIO_STORE, AP::DMA::CONBLK_AD));
         
         // 4. Identify the current buffer index.
@@ -637,7 +637,7 @@ check_if_triggered (uint32_t event_detect_status_register_value)
     if (((event_detect_status_register_value >> gpio_pin) & 0x1) == 1)
     {
       // reset event detect status register 
-      m_LAB_Core->gpio.clear_event_detect_status ();
+      m_LAB.rpi ().gpio.clear_event_detect_status ();
 
       return (true);
     }
@@ -658,7 +658,7 @@ check_if_triggered (uint32_t event_detect_status_register_value)
     }
 
     // reset event detect status register 
-    m_LAB_Core->gpio.clear_event_detect_status ();
+    m_LAB.rpi ().gpio.clear_event_detect_status ();
     return (true);
   }
 }
@@ -696,7 +696,7 @@ create_trigger_frame ()
   //     sizeof (uint32_t) * copy_count_1
   //   );
 
-  //   while (!((*(m_LAB_Core->dma.Peripheral::reg (AP::DMA::INT_STATUS)) >> LABC::DMA::CHAN::OSC_RX) & 0x1));
+  //   while (!((*(m_LAB.rpi ().dma.Peripheral::reg (AP::DMA::INT_STATUS)) >> LABC::DMA::CHAN::OSC_RX) & 0x1));
 
   //   std::memcpy (
   //     m_parent_data.raw_data_buffer.data () + (copy_count_0 + copy_count_1),
@@ -704,7 +704,7 @@ create_trigger_frame ()
   //     sizeof (uint32_t) * copy_count_2
   //   );
 
-  //   m_LAB_Core->dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
+  //   m_LAB.rpi ().dma.Peripheral::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
   // }
   // else if (m_parent_data.trig_index < samp_half_index)
   // {
@@ -805,12 +805,12 @@ reset_dma_process ()
   LAB_DMA_Data_Logic_Analyzer& dma_data = 
     *(static_cast<LAB_DMA_Data_Logic_Analyzer*>(m_uncached_memory.virt ()));
 
-  bool is_running = m_LAB_Core->dma.is_running (LABC::DMA::CHAN::PWM_PACING);
+  bool is_running = m_LAB.rpi ().dma.is_running (LABC::DMA::CHAN::PWM_PACING);
 
   // 1. Check if DMA is running. It is, pause it
   if (is_running)
   {
-    m_LAB_Core->dma.pause (LABC::DMA::CHAN::PWM_PACING);
+    m_LAB.rpi ().dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
   // 2. Reset the DMA engine to the first control block, depending on the buffer
@@ -818,7 +818,7 @@ reset_dma_process ()
   {
     case (LABE::LOGAN::MODE::REPEATED): // dual buffer
     {
-      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+      m_LAB.rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
         m_uncached_memory.bus (&dma_data.cbs[0]));
 
       break;
@@ -826,7 +826,7 @@ reset_dma_process ()
 
     case (LABE::LOGAN::MODE::SCREEN): // single buffer
     {
-      m_LAB_Core->dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+      m_LAB.rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
         m_uncached_memory.bus (&dma_data.cbs[4]));
 
       break;
@@ -834,7 +834,7 @@ reset_dma_process ()
   }
 
   // 3. Abort the current control block
-  m_LAB_Core->dma.abort (LABC::DMA::CHAN::OSC_RX);
+  m_LAB.rpi ().dma.abort (LABC::DMA::CHAN::OSC_RX);
 
   // 4. Reset the DMA status flags
   dma_data.status[0] = dma_data.status[1] = 0;
@@ -849,7 +849,7 @@ reset_dma_process ()
   // 6. Run DMA if it was running
   if (is_running)
   {
-    m_LAB_Core->dma.run (LABC::DMA::CHAN::PWM_PACING);
+    m_LAB.rpi ().dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
 }
 
@@ -1085,7 +1085,7 @@ trigger_condition (unsigned channel, LABE::LOGAN::TRIG::CND condition)
 
   // 4. Clear all event detect conditions of the GPIO pin.
   //    In LAB, a pin/channel should only have one trigger condition.
-  m_LAB_Core->gpio.clear_all_event_detect (gpio_pin);
+  m_LAB.rpi ().gpio.clear_all_event_detect (gpio_pin);
 
   // 5. Set the trigger condition of the pin/channel.
   set_trigger_condition (gpio_pin, condition);

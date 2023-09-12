@@ -3,30 +3,25 @@
 
 #include <array>
 
-#include "LAB_Core.h"
+#include "LAB_Module.h"
 #include "../Utility/LAB_Constants.h"
 
-// forward declare LAB, #include in .cpp file
-class LAB;
-
-class LAB_Voltmeter
+class LAB_Voltmeter : public LAB_Module
 {
   private:
-    LAB*      m_LAB;
-    LAB_Core* m_LAB_Core;
-  
     bool  m_is_running       = false;
     bool  m_osc_chan_en_flag = false;
 
   public:
     std::array <double, LABC::OSC::NUMBER_OF_CHANNELS> m_samples = {0};
+  
+  public:
+    LAB_Voltmeter (LAB& _LAB);
 
-    LAB_Voltmeter (LAB_Core* _LAB_Core, LAB* _LAB);
-
-    bool    is_running        ();
-    void    run               ();
-    void    stop              ();
-    void    load_data_samples ();
+    bool  is_running        ();
+    void  run               ();
+    void  stop              ();
+    void  load_data_samples ();
 };
 
 #endif
