@@ -4,9 +4,6 @@
 #include <cstdio>
 #include <sstream>
 
-// delete soon
-#include <iostream>
-
 #include <FL/Fl.H>
 #include <FL/Enumerations.H>
 

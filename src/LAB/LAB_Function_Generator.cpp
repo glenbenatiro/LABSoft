@@ -1,7 +1,5 @@
 #include "LAB_Function_Generator.h"
 
-#include <iostream>
-
 #include "LAB.h"
 
 LAB_Function_Generator:: 
@@ -162,9 +160,9 @@ set_hw_amplitude (unsigned channel,
   double Rf = (value / (m_func_gen_ic[channel].amplitude ())) * 
                 LABC::FUNC_GEN::R1_RESISTANCE;
 
-  std::cout << "value: " << value << std::endl;
-  std::cout << "amp: " << m_func_gen_ic[channel].amplitude () << std::endl;
-  std::cout << "Rf: " << Rf << std::endl;
+  // std::cout << "value: " << value << std::endl;
+  // std::cout << "amp: " << m_func_gen_ic[channel].amplitude () << std::endl;
+  // std::cout << "Rf: " << Rf << std::endl;
 
   if (Rf < (m_digipot_amplitude[0].min_resistance () * 2)) // 2 digipots per channel
   {
@@ -195,7 +193,7 @@ set_hw_vertical_offset (unsigned channel,
 
   // m_digipot_offset[channel].resistance (0, Rg);
 
-  std::cout << "vertical offset resistance: " << value << std::endl;
+  // std::cout << "vertical offset resistance: " << value << std::endl;
 
   m_digipot_offset[channel].resistance (0, value);
 }

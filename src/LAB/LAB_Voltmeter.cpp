@@ -2,6 +2,8 @@
 
 #include "LAB.h"
 
+#include <iostream>
+
 LAB_Voltmeter:: 
 LAB_Voltmeter (LAB& _LAB)
   : LAB_Module (_LAB)

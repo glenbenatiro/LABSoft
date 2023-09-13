@@ -4,9 +4,6 @@
 #include <string>
 #include <iomanip>
 
-// delete soon
-#include <iostream>
-
 #include "LABSoft_Controller.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
@@ -493,7 +490,7 @@ cb_trigger_source (Fl_Choice* w,
   }
   catch (const std::exception& e)
   {
-    std::cerr << e.what () << "\n";
+    // std::cerr << e.what () << "\n";
   }
 
   m_controller.lab ().m_Oscilloscope.trigger_source (channel_source);
