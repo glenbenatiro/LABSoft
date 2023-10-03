@@ -46,7 +46,8 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp
   src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
   src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp
-  src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp
+
+  src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp
 
   src/LABSoft_GUI/LABSoft_GUI.cpp
   src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp

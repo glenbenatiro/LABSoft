@@ -10,19 +10,18 @@
 
 struct LAB_Channel_Data_Oscilloscope
 {
-  // State
+  // state
   bool                is_enabled            = LABD::OSC::IS_ENABLED;
 
-  // Vertical
-  double              voltage_per_division  = LABC::OSC::VOLTAGE_PER_DIVISION;
-  double              vertical_offset       = LABC::OSC::VERTICAL_OFFSET;
-  LABE::OSC::SCALING  scaling               = LABC::OSC::SCALING;
-  LABE::OSC::COUPLING coupling              = LABC::OSC::COUPLING;
+  // vertical
+  double              voltage_per_division  = LABD::OSC::VOLTAGE_PER_DIVISION;
+  double              vertical_offset       = LABD::OSC::VERTICAL_OFFSET;
+  LABE::OSC::SCALING  scaling               = LABD::OSC::SCALING;
+  LABE::OSC::COUPLING coupling              = LABD::OSC::COUPLING;
 
-  // Data/Samples/Pixels
-  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  samples           = {0};
-  std::vector<std::array<int, 2>>                   pixel_points      = {{0}};
-  std::vector<double>                               recording_samples;
+  // data
+  std::array<double, LABC::OSC::MAX_NUMBER_OF_SAMPLES>  samples       = {0};
+  // std::vector<std::array<int, 2>>                       pixel_points  = {{0}};
 };
 
 class LAB_Parent_Data_Oscilloscope
@@ -44,7 +43,7 @@ class LAB_Parent_Data_Oscilloscope
     double    time_per_division               = LABC::OSC::TIME_PER_DIVISION;
     double    time_per_division_last_repeated = time_per_division;
     double    time_per_division_raw_buffer    = time_per_division;
-    unsigned  samples                         = LABC::OSC::NUMBER_OF_SAMPLES;
+    unsigned  samples                         = LABC::OSC::MAX_NUMBER_OF_SAMPLES;
     unsigned  samples_raw_buffer              = samples;
     double    sampling_rate                   = LABC::OSC::SAMPLING_RATE;
 
@@ -53,7 +52,7 @@ class LAB_Parent_Data_Oscilloscope
 
     std::array<
       uint32_t, 
-      LABC::OSC::NUMBER_OF_SAMPLES
+      LABC::OSC::MAX_NUMBER_OF_SAMPLES
     > raw_data_buffer;              
 
     std::array<
@@ -61,7 +60,7 @@ class LAB_Parent_Data_Oscilloscope
       LABC::OSC::NUMBER_OF_CHANNELS
     > channel_data;
 
-    double                w_samp_count            = LABC::OSC::NUMBER_OF_SAMPLES;
+    double                w_samp_count            = LABC::OSC::MAX_NUMBER_OF_SAMPLES;
   
     // Trigger 
     bool                  find_trigger            = false; 
@@ -84,21 +83,21 @@ class LAB_Parent_Data_Oscilloscope
     struct TriggerBuffers
     {
       std::array<
-        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > pre_trigger;
 
       std::array<
-        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > post_trigger;
 
-      std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
+      std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES> assembled_block;
     } trig_buffs;      
 
 
   public:
-    bool has_enabled_channels ()
+    bool has_enabled_channels () const
     {
       for (const auto& e : channel_data)
       {
@@ -124,7 +123,7 @@ struct LAB_DMA_Data_Oscilloscope
 
   volatile uint32_t status[LABC::OSC::NUMBER_OF_CHANNELS];
 
-  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES] = {{0}};
+  volatile uint32_t rxd[2][LABC::OSC::MAX_NUMBER_OF_SAMPLES] = {{0}};
 };
 
 struct LAB_Channel_Data_Function_Generator
@@ -172,7 +171,7 @@ struct LAB_Channel_Data_Logic_Analyzer
 
   // Data/Samples
   std::vector <std::array<int, 2>> pixel_points;
-  std::array  <bool, LABC::LOGAN::NUMBER_OF_SAMPLES> samples;
+  std::array  <bool, LABC::LOGAN::MAX_NUMBER_OF_SAMPLES> samples;
 };
 
 struct LAB_Parent_Data_Logic_Analyzer
@@ -198,7 +197,7 @@ struct LAB_Parent_Data_Logic_Analyzer
 
   std::array <
     uint32_t, 
-    LABC::LOGAN::NUMBER_OF_SAMPLES
+    LABC::LOGAN::MAX_NUMBER_OF_SAMPLES
   > raw_data_buffer;
     
   std::array <LAB_Channel_Data_Logic_Analyzer, 
@@ -220,18 +219,18 @@ struct LAB_Parent_Data_Logic_Analyzer
   struct TriggerBuffers
     {
       std::array<
-        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > pre_trigger;
 
       std::array<
-        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > post_trigger;
 
       std::array<
         uint32_t, 
-        LABC::OSC::NUMBER_OF_SAMPLES
+        LABC::OSC::MAX_NUMBER_OF_SAMPLES
       > assembled_frame;
     } trigger_buffers; 
 };
@@ -244,7 +243,7 @@ struct LAB_DMA_Data_Logic_Analyzer
             pwm_duty_cycle;
 
   volatile  uint32_t status[LABC::LOGAN::NUMBER_OF_CHANNELS];
-  volatile  uint32_t rxd[2][LABC::LOGAN::NUMBER_OF_SAMPLES];
+  volatile  uint32_t rxd[2][LABC::LOGAN::MAX_NUMBER_OF_SAMPLES];
 };
 
 #endif

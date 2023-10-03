@@ -1,7 +1,7 @@
 #ifndef LABSOFT_CONTROLLER_EXPORTER
 #define LABSOFT_CONTROLLER_EXPORTER
 
-#include "LABSoft_Controller_Unit.h"
+#include "../LABSoft_Controller_Unit.h"
 
 #include <FL/Fl_Light_Button.H>
 
@@ -24,6 +24,8 @@ class LABSoft_Controller_Exporter : public LABSoft_Controller_Unit
     void cb_cancel      ();
     void cb_save        ();
     void cb_comments    (Fl_Light_Button* w);
+    void cb_headers     (Fl_Light_Button* w);
+    void cb_labels      (Fl_Light_Button* w);
 };
 
 #endif 

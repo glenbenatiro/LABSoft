@@ -17,6 +17,8 @@ class LAB_Exporter : public LAB_Module
     struct state
     {
       bool comments = false;
+      bool headers  = false;
+      bool labels   = false;
     } m_state;
 
   private:
@@ -30,6 +32,8 @@ class LAB_Exporter : public LAB_Module
 
     // state
     void comments (bool state);
+    void headers  (bool state);
+    void labels   (bool state);
     bool comments () const;
 };
 

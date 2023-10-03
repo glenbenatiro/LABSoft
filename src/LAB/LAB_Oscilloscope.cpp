@@ -127,7 +127,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::MAX_NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
@@ -147,7 +147,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::MAX_NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
         0
@@ -169,7 +169,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::MAX_NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[5]),
         0
@@ -402,12 +402,17 @@ scaling (unsigned channel) const
   return (m_parent_data.channel_data[channel].scaling);
 }
 
+unsigned LAB_Oscilloscope:: 
+channels () const
+{
+  return (m_parent_data.channel_data.size ());
+}
+
 LABE::OSC::COUPLING LAB_Oscilloscope:: 
 coupling (unsigned channel)
 {
   return (m_parent_data.channel_data[channel].coupling);
 }
-
 
 void LAB_Oscilloscope:: 
 load_data_samples ()
@@ -1025,7 +1030,7 @@ find_trigger_point_loop ()
         std::memcpy (
           m_parent_data.trig_buffs.pre_trigger.data (),
           const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd)),
-          sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::NUMBER_OF_SAMPLES
+          sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::MAX_NUMBER_OF_SAMPLES
         );
 
         // 5. Identify the buffer that was filled 
@@ -1174,7 +1179,7 @@ find_trigger_point ()
 inline void LAB_Oscilloscope:: 
 create_trigger_frame ()
 {
-  static constexpr unsigned samp_half         = LABC::OSC::NUMBER_OF_SAMPLES / 2;
+  static constexpr unsigned samp_half         = LABC::OSC::MAX_NUMBER_OF_SAMPLES / 2;
   static constexpr unsigned samp_half_index   = samp_half - 1;
   static LAB_DMA_Data_Oscilloscope& dma_data  = *(static_cast<LAB_DMA_Data_Oscilloscope*>
                                                   (m_uncached_memory.virt ()));
@@ -1182,7 +1187,7 @@ create_trigger_frame ()
   if (m_parent_data.trig_index >= samp_half_index)
   {
     unsigned  copy_count_0  = samp_half,
-              copy_count_1  = LABC::OSC::NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
+              copy_count_1  = LABC::OSC::MAX_NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
               copy_count_2  = samp_half - copy_count_1;
     
     std::memcpy (
@@ -1218,7 +1223,7 @@ create_trigger_frame ()
     std::memcpy (
       m_parent_data.raw_data_buffer.data (),
       m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index ^ 1].data () 
-        + (LABC::OSC::NUMBER_OF_SAMPLES - copy_count_0),
+        + (LABC::OSC::MAX_NUMBER_OF_SAMPLES - copy_count_0),
       sizeof (uint32_t) * copy_count_0
     );
 
@@ -1377,6 +1382,18 @@ double LAB_Oscilloscope::
 trigger_level () const
 {
   return (m_parent_data.trigger_level);
+}
+
+bool LAB_Oscilloscope::            
+trigger_found () const
+{
+  return (m_parent_data.trigger_found);
+}
+
+void LAB_Oscilloscope::                 
+trigger_serviced ()
+{
+  m_parent_data.trigger_found = false;
 }
 
 void LAB_Oscilloscope::
@@ -1607,6 +1624,12 @@ const LAB_Parent_Data_Oscilloscope& LAB_Oscilloscope::
 parent_data ()
 {
   return (m_parent_data);
+}
+
+const std::array<double, LABC::OSC::MAX_NUMBER_OF_SAMPLES> LAB_Oscilloscope:: 
+channel_samples (unsigned channel)
+{
+  return (m_parent_data.channel_data[channel].samples);
 }
 
 // EOF

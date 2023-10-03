@@ -196,7 +196,7 @@ draw_channels ()
 
   fl_push_clip  (x (), y (), w (), h ());
   
-  LAB_Parent_Data_Oscilloscope &pdata = *m_parent_data;
+  const LAB_Parent_Data_Oscilloscope &pdata = *m_parent_data;
 
   unsigned samp_count = (pdata.samples < w () ? pdata.samples : w ()) - 1;
 
@@ -271,22 +271,15 @@ int LABSoft_GUI_Oscilloscope_Display_Internal::
 calc_samp_y_coord (double sample, 
                    double y_scaler)
 {
-  if (LABF::is_equal (sample, 0.0))
-  {
-    return (m_display_height_midline);
-  }
-  else 
-  {
-    return (std::round (m_display_height_midline - (sample * y_scaler)));
-  }
+  return (std::round (m_display_height_midline - (sample * y_scaler)));
 }
 
 double LABSoft_GUI_Oscilloscope_Display_Internal:: 
 calc_y_scaler (double voltage_per_division)
 {
   double y_scaler = m_display_half_height / 
-    (OSC_DISPLAY::NUMBER_OF_ROWS_HALF * voltage_per_division);
-
+    (LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF * voltage_per_division);
+  
   return (y_scaler);
 }
 
@@ -309,7 +302,7 @@ calc_x_offset (unsigned channel)
 }
 
 void LABSoft_GUI_Oscilloscope_Display_Internal:: 
-load_parent_data (LAB_Parent_Data_Oscilloscope& parent_data)
+load_parent_data (const LAB_Parent_Data_Oscilloscope& parent_data)
 {
   m_parent_data = &parent_data;
 }
@@ -317,18 +310,18 @@ load_parent_data (LAB_Parent_Data_Oscilloscope& parent_data)
 void LABSoft_GUI_Oscilloscope_Display_Internal:: 
 fill_pixel_points_backend_running ()
 {
-  LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data;
+  const LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data;
 
   for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
   {
     if (pdata.channel_data[chan].is_enabled)
     {
-      LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
-      std::vector<std::array<int, 2>>&  pp    = m_pixel_points[chan];
+      const LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
+            std::vector<std::array<int, 2>>&  pp    = m_pixel_points[chan];
 
       double y_scaler = calc_y_scaler (cdata.voltage_per_division);
       double x_offset = calc_x_offset (chan);
-
+      
       if (pdata.samples >= w ())
       {
         double samp_skipper = (pdata.samples - 1) / static_cast<double>(w ());
@@ -337,8 +330,8 @@ fill_pixel_points_backend_running ()
         {
           double sample = cdata.samples[std::round (a * samp_skipper)] + cdata.vertical_offset;
 
-          pp[a][0] = std::round   (x () + a + x_offset);
-          pp[a][1] = calc_samp_y_coord (sample, y_scaler);
+          pp[a][0] = std::round         (x () + a + x_offset);
+          pp[a][1] = calc_samp_y_coord  (sample, y_scaler);
         }
       }
       else 
@@ -349,8 +342,8 @@ fill_pixel_points_backend_running ()
         {
           double sample = cdata.samples[a] + cdata.vertical_offset;
 
-          pp[a][0] = std::round   (x () + (a * x_skipper) + x_offset);
-          pp[a][1] = calc_samp_y_coord (sample, y_scaler);
+          pp[a][0] = std::round         (x () + (a * x_skipper) + x_offset);
+          pp[a][1] = calc_samp_y_coord  (sample, y_scaler);
         }
       }
     }
@@ -455,7 +448,7 @@ init_child_widgets ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 init_child_widgets_sliders ()
 {
-  LABSoft_GUI_Oscilloscope_Display_Internal& disp = *m_display_internal;
+  const LABSoft_GUI_Oscilloscope_Display_Internal& disp = *m_display_internal;
    
   // 2.1
   m_vertical_offset_slider = new LABSoft_GUI_Fl_Slider (disp.x (), disp.y (), OSC_DISPLAY::SLIDER_WIDTH, disp.h ());
@@ -621,9 +614,9 @@ init_child_widgets_top_info ()
 }
 
 double LABSoft_GUI_Oscilloscope_Display::
-calc_row_voltage_per_division (unsigned                       row,
-                               unsigned                       number_of_rows,
-                               LAB_Channel_Data_Oscilloscope& cdata)
+calc_row_voltage_per_division (       unsigned                       row,
+                                      unsigned                       number_of_rows,
+                               const  LAB_Channel_Data_Oscilloscope& cdata)
 {
   double row_vpd = (-1 * cdata.voltage_per_division) *
     (row - (static_cast<double>(number_of_rows) / 2.0)) - cdata.vertical_offset;
@@ -701,7 +694,7 @@ update_gui_status ()
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
-load_parent_data (LAB_Parent_Data_Oscilloscope& pdata)
+load_parent_data (const LAB_Parent_Data_Oscilloscope& pdata)
 {
   m_parent_data = &pdata;
 
@@ -733,7 +726,7 @@ update_gui_voltage_per_division (unsigned channel)
 
   if (m_parent_data->channel_data[channel].is_enabled)
   {
-    LAB_Channel_Data_Oscilloscope& cdata = m_parent_data->channel_data[channel];
+    const LAB_Channel_Data_Oscilloscope& cdata = m_parent_data->channel_data[channel];
     
     for (int a = 0; a < labels[channel].size (); a++)
     {
@@ -840,13 +833,13 @@ update_gui_horizontal_elements ()
 void LABSoft_GUI_Oscilloscope_Display::
 update_gui_trigger_level_slider ()
 {
-  LAB_Parent_Data_Oscilloscope& pdata = *(m_parent_data);
+  const LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data;
 
   // 1. update color
   m_trigger_level_slider->selection_color (OSC_DISPLAY::CHANNEL_COLORS[pdata.trigger_source]);
 
   // 2. update value
-  LAB_Channel_Data_Oscilloscope& cdata = pdata.channel_data[pdata.trigger_source];
+  const LAB_Channel_Data_Oscilloscope& cdata = pdata.channel_data[pdata.trigger_source];
 
   double max_tpd_raw  = cdata.voltage_per_division * (OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
   double min_tpd_raw  = -1 * max_tpd_raw;
@@ -866,8 +859,8 @@ update_gui_vertical_offset_slider ()
     m_vertical_offset_slider->show ();
     m_vertical_offset_slider->selection_color (OSC_DISPLAY::CHANNEL_COLORS[m_selected_channel]);
 
-    LAB_Parent_Data_Oscilloscope&   pdata = *(m_parent_data);
-    LAB_Channel_Data_Oscilloscope&  cdata = pdata.channel_data[m_selected_channel];
+    const LAB_Parent_Data_Oscilloscope&   pdata = *m_parent_data;
+    const LAB_Channel_Data_Oscilloscope&  cdata = pdata.channel_data[m_selected_channel];
 
     double max_tpd_raw  = cdata.voltage_per_division * (OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
     double min_tpd_raw  = -1 * max_tpd_raw;

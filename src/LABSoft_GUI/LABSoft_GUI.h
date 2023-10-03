@@ -378,5 +378,18 @@ private:
   static void cb_exporter_fl_button_cancel(Fl_Button*, void*);
 public:
   Fl_Light_Button *exporter_fl_light_button_comments;
+private:
+  inline void cb_exporter_fl_light_button_comments_i(Fl_Light_Button*, void*);
+  static void cb_exporter_fl_light_button_comments(Fl_Light_Button*, void*);
+public:
+  Fl_Light_Button *exporter_fl_light_button_headers;
+private:
+  inline void cb_exporter_fl_light_button_headers_i(Fl_Light_Button*, void*);
+  static void cb_exporter_fl_light_button_headers(Fl_Light_Button*, void*);
+public:
+  Fl_Light_Button *exporter_fl_light_button_labels;
+private:
+  inline void cb_exporter_fl_light_button_labels_i(Fl_Light_Button*, void*);
+  static void cb_exporter_fl_light_button_labels(Fl_Light_Button*, void*);
 };
 #endif

@@ -77,7 +77,7 @@ config_dma_cb ()
         LABC::DMA::TI::LOGAN_STORE,
         m_LAB.rpi ().gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::MAX_NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
@@ -97,7 +97,7 @@ config_dma_cb ()
         LABC::DMA::TI::LOGAN_STORE,
         m_LAB.rpi ().gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::MAX_NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
         0
@@ -119,7 +119,7 @@ config_dma_cb ()
         LABC::DMA::TI::LOGAN_STORE,
         m_LAB.rpi ().gpio.bus  (AP::GPIO::GPLEV0),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABC::LOGAN::MAX_NUMBER_OF_SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[5]),
         0
@@ -272,7 +272,7 @@ get_samples_loop ()
   {
     // for (int a = 0; a < 2; a++)
     // {
-    //   for (int b = 0; b < LABC::LOGAN::NUMBER_OF_SAMPLES; b++)
+    //   for (int b = 0; b < LABC::LOGAN::MAX_NUMBER_OF_SAMPLES; b++)
     //   {
     //     dma_data.rxd[a][b] = m_LAB.rpi ().gpio.level ();
 
@@ -290,7 +290,7 @@ get_samples_loop ()
 
     for (int a = 0; a < 1; a++)
     {
-      for (int b = 0; b < LABC::LOGAN::NUMBER_OF_SAMPLES; b++)
+      for (int b = 0; b < LABC::LOGAN::MAX_NUMBER_OF_SAMPLES; b++)
       {
         dma_data.rxd[a][b] = m_LAB.rpi ().gpio.level ();
 
@@ -689,7 +689,7 @@ check_if_triggered (uint32_t event_detect_status_register_value)
 void LAB_Logic_Analyzer:: 
 create_trigger_frame ()
 {
-  // static constexpr unsigned samp_half           = LABC::LOGAN::NUMBER_OF_SAMPLES / 2;
+  // static constexpr unsigned samp_half           = LABC::LOGAN::MAX_NUMBER_OF_SAMPLES / 2;
   // static constexpr unsigned samp_half_index     = samp_half - 1;
   // static LAB_DMA_Data_Logic_Analyzer& dma_data  = *(static_cast<LAB_DMA_Data_Logic_Analyzer*>
   //                                                   (m_uncached_memory.virt ()));
@@ -697,7 +697,7 @@ create_trigger_frame ()
   // if (m_parent_data.trig_index >= samp_half_index)
   // {
   //   unsigned  copy_count_0  = samp_half,
-  //             copy_count_1  = LABC::LOGAN::NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
+  //             copy_count_1  = LABC::LOGAN::MAX_NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
   //             copy_count_2  = samp_half - copy_count_1;
     
   //   std::memcpy (
@@ -733,7 +733,7 @@ create_trigger_frame ()
   //   std::memcpy (
   //     m_parent_data.raw_data_buffer.data (),
   //     m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index ^ 1].data () 
-  //       + (LABC::LOGAN::NUMBER_OF_SAMPLES - copy_count_0),
+  //       + (LABC::LOGAN::MAX_NUMBER_OF_SAMPLES - copy_count_0),
   //     sizeof (uint32_t) * copy_count_0
   //   );
 
@@ -921,7 +921,7 @@ calc_samp_count (double time_per_div, unsigned osc_disp_num_cols)
 {
   if (time_per_div >= LABC::LOGAN::MIN_TIME_PER_DIV_NO_ZOOM)
   {
-    return (LABC::LOGAN::NUMBER_OF_SAMPLES);
+    return (LABC::LOGAN::MAX_NUMBER_OF_SAMPLES);
   }
   else 
   {
@@ -940,7 +940,7 @@ calc_samp_rate (double time_per_div, unsigned osc_disp_num_cols)
   else 
   {
     return (
-      LABC::LOGAN::NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols)
+      LABC::LOGAN::MAX_NUMBER_OF_SAMPLES / (time_per_div * osc_disp_num_cols)
     );
   }
 }

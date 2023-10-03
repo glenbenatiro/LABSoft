@@ -78,7 +78,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_oscilloscope_tab {
           label Oscilloscope open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Group oscilloscope_labsoft_gui_oscilloscope_display {
             xywh {20 70 700 510} box FLAT_BOX color 0 labelsize 12
@@ -1520,7 +1520,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_logic_analyzer_tab {
           label {Logic Analyzer}
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Group logic_analyzer_fl_group_display {open
             xywh {20 70 400 70} box ROUNDED_FRAME color 52
@@ -2104,7 +2104,7 @@ class LABSoft_GUI {open
       }
     }
     Fl_Window oscilloscope_fl_window_record_config {
-      label {Record Configuration}
+      label {Record Configuration} selected
       xywh {2084 187 360 300} type Double hide
     } {
       Fl_Group oscilloscope_fl_group_record_config {
@@ -2326,8 +2326,19 @@ class LABSoft_GUI {open
         xywh {690 450 90 30} box GTK_UP_BOX color 53 labelsize 12
       }
       Fl_Light_Button exporter_fl_light_button_comments {
-        label Comments selected
+        label Comments
+        callback {m_LABSoft_Controller->m_Exporter.cb_comments (o);}
         xywh {20 40 100 40} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
+      }
+      Fl_Light_Button exporter_fl_light_button_headers {
+        label Headers
+        callback {m_LABSoft_Controller->m_Exporter.cb_headers (o);}
+        xywh {20 100 100 40} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
+      }
+      Fl_Light_Button exporter_fl_light_button_labels {
+        label Labels
+        callback {m_LABSoft_Controller->m_Exporter.cb_labels (o);}
+        xywh {20 160 100 40} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
       }
     }
   }

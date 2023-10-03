@@ -1,17 +1,13 @@
 #include "LABSoft_Controller_Exporter.h"
 
-#include <FL/Fl_Widget.H>
-
 #include <cstdio>
 #include <sstream>
 #include <fstream>
 
-// delete soon
-#include <iostream>
-
+#include <FL/Fl_Widget.H>
 #include <FL/Fl_Native_File_Chooser.H>
 
-#include "../Utility/LABSoft_GUI_Label_Values.h"
+#include "../../Utility/LABSoft_GUI_Label_Values.h"
 
 LABSoft_Controller_Exporter::
 LABSoft_Controller_Exporter (LABSoft_Controller& _LABSoft_Controller)
@@ -54,7 +50,7 @@ load_table_data ()
 void LABSoft_Controller_Exporter:: 
 load_image_data ()
 {
-  std::cout << "load_image_data ()" << "\n";
+
 }
 
 void LABSoft_Controller_Exporter:: 
@@ -79,8 +75,6 @@ void LABSoft_Controller_Exporter::
 update_data_display ()
 {
   std::string label = std::string (gui ().exporter_fl_tabs->value ()->label ());
-
-  std::cout << "update_data_display label is: " << label << "\n";
 
   if (label == "Data")
   {
@@ -151,4 +145,16 @@ void LABSoft_Controller_Exporter::
 cb_comments (Fl_Light_Button* w)
 {
   lab ().m_Exporter.comments (w->value ());
+}
+
+void LABSoft_Controller_Exporter:: 
+cb_headers (Fl_Light_Button* w)
+{
+  lab ().m_Exporter.headers (w->value ());
+}
+
+void LABSoft_Controller_Exporter:: 
+cb_labels (Fl_Light_Button* w)
+{
+  lab ().m_Exporter.labels (w->value ());
 }

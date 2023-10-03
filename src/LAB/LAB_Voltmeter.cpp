@@ -49,7 +49,7 @@ load_data_samples ()
 
   for (int chan = 0; chan < m_samples.size (); chan++)
   {
-    m_samples[chan] = m_LAB.m_Oscilloscope.m_parent_data.channel_data[chan].samples[0];
+    m_samples[chan] = lab ().m_Oscilloscope.channel_samples (chan)[0];
   }
 }
 

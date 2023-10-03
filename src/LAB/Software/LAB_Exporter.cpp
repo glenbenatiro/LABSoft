@@ -50,16 +50,15 @@ export_data_to_csv_file (const std::string& save_path)
 void LAB_Exporter:: 
 update_data_table ()
 {
+  int row_count = m_state.comments ? 2 : 0;
+  int col_count = 0;
+    
   switch (m_instrument)
   {
     case (LABE::LAB::INSTRUMENT::OSCILLOSCOPE):
-    {
-      std::cout << "update_data_table () -> oscilloscope!" << "\n";
-      
-      int row_count = lab (). m_Oscilloscope.samples () + 
-        (m_state.comments ? 2 : 0);
-
-      int col_count = 3;
+    {     
+      row_count += lab ().m_Oscilloscope.samples ();
+      col_count += 1 + lab ().m_Oscilloscope.channels ();
 
       // 1. resize
       m_data_table.resize (row_count, std::vector<std::string> (col_count, ""));
@@ -76,8 +75,13 @@ update_data_table ()
       for (int row = 0; row < lab ().m_Oscilloscope.samples (); row++)
       {
         m_data_table[row + row_start][0] = std::to_string (row + 1);
-        m_data_table[row + row_start][1] = std::to_string (0);
-        m_data_table[row + row_start][2] = std::to_string (1);
+
+        for (int chan = 0; chan < lab ().m_Oscilloscope.channels (); chan++)
+        {
+          m_data_table[row + row_start][chan + 1] = std::to_string (
+            lab ().m_Oscilloscope.channel_samples (chan)[row]
+          );
+        }
       }
       
       break;
@@ -105,6 +109,18 @@ void LAB_Exporter::
 comments (bool state)
 {
   m_state.comments = state;
+}
+
+void LAB_Exporter:: 
+headers (bool state)
+{
+  m_state.headers = state;
+}
+
+void LAB_Exporter:: 
+labels (bool state)
+{
+  m_state.labels = state;
 }
 
 bool LAB_Exporter:: 

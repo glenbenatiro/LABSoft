@@ -95,6 +95,7 @@ class LAB_Oscilloscope : public LAB_Module
     LABE::OSC::COUPLING   coupling                (unsigned channel);
     void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
     LABE::OSC::SCALING    scaling                 (unsigned channel) const;
+    unsigned              channels                () const;
 
     // Horizontal
     void                  horizontal_offset       (double value);
@@ -117,6 +118,8 @@ class LAB_Oscilloscope : public LAB_Module
     LABE::OSC::TRIG::CND  trigger_condition       () const;
     void                  trigger_level           (double value);
     double                trigger_level           () const;
+    bool                  trigger_found           () const;
+    void                  trigger_serviced        ();
 
     // Record
     void                  record_start            ();
@@ -133,7 +136,9 @@ class LAB_Oscilloscope : public LAB_Module
     bool                  is_frontend_running     ();
     bool                  is_backend_running      ();
 
-    const LAB_Parent_Data_Oscilloscope& parent_data ();
+    // Data
+    const LAB_Parent_Data_Oscilloscope&                         parent_data     ();
+    const std::array<double, LABC::OSC::MAX_NUMBER_OF_SAMPLES>  channel_samples (unsigned channel);
 };
 
 #endif

@@ -13,7 +13,7 @@
 #include "LABSoft_Controller_Digital_Circuit_Checker.h"
 #include "LABSoft_Controller_Main_Window.h"
 #include "LABSoft_Controller_LABChecker_Digital.h"
-#include "LABSoft_Controller_Exporter.h"
+#include "Software/LABSoft_Controller_Exporter.h"
 
 class LABSoft_Controller
 {

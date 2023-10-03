@@ -108,12 +108,12 @@ namespace LABC
   { 
     // General
     constexpr unsigned                  NUMBER_OF_CHANNELS              = 2;
-    constexpr unsigned                  NUMBER_OF_SAMPLES               = 2'000;
+    constexpr unsigned                  MAX_NUMBER_OF_SAMPLES           = 2'000;
     constexpr unsigned                  SAMPLE_SIZE                     = sizeof (uint32_t); // bytes
 
     // Uncached Oscilloscope DMA Data Info
     constexpr unsigned                  NUMBER_OF_BUFFERS               = 2;
-    constexpr unsigned                  BUFFER_LENGTH                   = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
+    constexpr unsigned                  BUFFER_LENGTH                   = SAMPLE_SIZE * MAX_NUMBER_OF_SAMPLES;
     constexpr unsigned                  VC_MEM_SIZE                     = AP::RPI::PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH);
 
     // ADC Info and Conversions   
@@ -129,22 +129,18 @@ namespace LABC
     // Vertical
     constexpr unsigned                  DISPLAY_NUMBER_OF_ROWS          = 10;
     constexpr double                    DISPLAY_NUMBER_OF_ROWS_HALF     = DISPLAY_NUMBER_OF_ROWS / 2.0;
-    constexpr LABE::OSC::COUPLING       COUPLING                        = LABE::OSC::COUPLING::AC;
     constexpr double                    MAX_VOLTAGE_PER_DIVISION        = 5.0;    // 5 V
     constexpr double                    MIN_VOLTAGE_PER_DIVISION        = 0.0001; // 100 uV
-    constexpr double                    VOLTAGE_PER_DIVISION            = 1.0;    // 1 V
     constexpr double                    MAX_VERTICAL_OFFSET             = MAX_VOLTAGE_PER_DIVISION * 
                                                                           (DISPLAY_NUMBER_OF_ROWS / 2.0); // 25 V
     constexpr double                    MIN_VERTICAL_OFFSET             = -1.0 * MAX_VERTICAL_OFFSET; // -25 V
-    constexpr double                    VERTICAL_OFFSET                 = 0.0;
-    constexpr LABE::OSC::SCALING        SCALING                         = LABE::OSC::SCALING::UNITY;
 
     // Horizontal
     constexpr unsigned              DISPLAY_NUMBER_OF_COLUMNS       = 10;
     constexpr double                MAX_SAMPLING_RATE               = 200'000.0;  // Hz
     constexpr double                MIN_SAMPLING_RATE               = 1.0;        // Hz
     constexpr double                SAMPLING_RATE                   = 40'000.0;   // Hz
-    constexpr unsigned              MAX_SAMPLES                     = NUMBER_OF_SAMPLES;
+    constexpr unsigned              MAX_SAMPLES                     = MAX_NUMBER_OF_SAMPLES;
     constexpr unsigned              MAX_SAMPLES_RECORDING           = 1'000'000;  
     constexpr unsigned              MIN_SAMPLES                     = 2;
     constexpr unsigned              SAMPLES                         = MAX_SAMPLES;
@@ -152,7 +148,7 @@ namespace LABC
     constexpr double                MAX_TIME_PER_DIVISION_RECORDING = MAX_SAMPLES_RECORDING / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                MIN_TIME_PER_DIVISION           = MIN_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                MIN_TIME_PER_DIVISION_SCREEN    = 1.0 / DISPLAY_NUMBER_OF_COLUMNS;
-    constexpr double                MIN_TIME_PER_DIVISION_NO_ZOOM   = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                MIN_TIME_PER_DIVISION_NO_ZOOM   = MAX_NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                TIME_PER_DIVISION               = SAMPLES / (SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);  
     constexpr double                MAX_HORIZONTAL_OFFSET           = MAX_SAMPLES / MIN_SAMPLING_RATE;  
     constexpr double                MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
@@ -175,13 +171,14 @@ namespace LABC
     constexpr double                MIN_OSC_HARDWARE_TRIGGER_LEVEL  = -1 * CONVERSION_REFERENCE_VOLTAGE;
 
     // Display
-    constexpr double                MIN_TIME_PER_DIV_NO_ZOOM        = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                MIN_TIME_PER_DIV_NO_ZOOM        = MAX_NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
   };
 
   namespace OSC_DISPLAY
   {
     constexpr unsigned  NUMBER_OF_ROWS                = OSC::DISPLAY_NUMBER_OF_ROWS;
-    constexpr unsigned  NUMBER_OF_COLUMNS             = OSC::DISPLAY_NUMBER_OF_COLUMNS; 
+    constexpr unsigned  NUMBER_OF_COLUMNS             = OSC::DISPLAY_NUMBER_OF_COLUMNS;
+    constexpr unsigned  NUMBER_OF_ROWS_HALF           = NUMBER_OF_ROWS / 2;
 
     constexpr unsigned  MID_COLUMN_INDEX              = (NUMBER_OF_COLUMNS / 2) - 1;
     constexpr unsigned  MID_ROW_INDEX                 = (NUMBER_OF_ROWS / 2) - 1;
@@ -267,26 +264,26 @@ namespace LABC
   {
     // General
     constexpr unsigned                NUMBER_OF_CHANNELS              = sizeof (PIN::LOGAN) / sizeof (PIN::LOGAN[0]);
-    constexpr unsigned                NUMBER_OF_SAMPLES               = 2'000;
+    constexpr unsigned                MAX_NUMBER_OF_SAMPLES               = 2'000;
     constexpr unsigned                SAMPLE_SIZE                     = sizeof (uint32_t); // bytes
 
     // Uncached Oscilloscope DMA Data Info
     constexpr unsigned                NUMBER_OF_BUFFERS               = 2;
-    constexpr unsigned                BUFFER_LENGTH                   = SAMPLE_SIZE * NUMBER_OF_SAMPLES;
+    constexpr unsigned                BUFFER_LENGTH                   = SAMPLE_SIZE * MAX_NUMBER_OF_SAMPLES;
     constexpr unsigned                VC_MEM_SIZE                     = AP::RPI::PAGE_SIZE + (NUMBER_OF_CHANNELS * NUMBER_OF_BUFFERS * BUFFER_LENGTH);
 
     // Horizontal
     constexpr unsigned                DISPLAY_NUMBER_OF_COLUMNS       = 10;
     constexpr double                  MAX_SAMPLING_RATE               = 100;  // Hz
     constexpr double                  MIN_SAMPLING_RATE               = 1.0;        // Hz
-    constexpr unsigned                MAX_SAMPLES                     = NUMBER_OF_SAMPLES;
+    constexpr unsigned                MAX_SAMPLES                     = MAX_NUMBER_OF_SAMPLES;
     constexpr unsigned                MAX_SAMPLES_RECORDING           = 1'000'000;  
     constexpr unsigned                MIN_SAMPLES                     = 2;
     constexpr double                  MAX_TIME_PER_DIVISION           = MAX_SAMPLES / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MAX_TIME_PER_DIVISION_RECORDING = MAX_SAMPLES_RECORDING / (MIN_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MIN_TIME_PER_DIVISION           = MIN_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MIN_TIME_PER_DIVISION_SCREEN    = 1.0 / DISPLAY_NUMBER_OF_COLUMNS;
-    constexpr double                  MIN_TIME_PER_DIVISION_NO_ZOOM   = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                  MIN_TIME_PER_DIVISION_NO_ZOOM   = MAX_NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                  MAX_HORIZONTAL_OFFSET           = MAX_SAMPLES / MIN_SAMPLING_RATE;  
     constexpr double                  MIN_HORIZONTAL_OFFSET           = (-1) * MAX_HORIZONTAL_OFFSET;  
     
@@ -294,7 +291,7 @@ namespace LABC
     constexpr double                  FIND_TRIGGER_TIMEOUT            = 2; // seconds
 
     // Display
-    constexpr double                  MIN_TIME_PER_DIV_NO_ZOOM        = NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                  MIN_TIME_PER_DIV_NO_ZOOM        = MAX_NUMBER_OF_SAMPLES / (MAX_SAMPLING_RATE * DISPLAY_NUMBER_OF_COLUMNS);
   };
 
   namespace DIGITAL_CIRCUIT_CHECKER

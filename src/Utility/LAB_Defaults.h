@@ -2,12 +2,17 @@
 #define LAB_DEFAULTS_H
 
 #include "LAB_Constants.h"
+#include "LAB_Enumerations.h"
 
 namespace LABD
 {
   namespace OSC
   {
-    constexpr bool  IS_ENABLED = true;
+    constexpr bool                IS_ENABLED            = true;
+    constexpr double              VOLTAGE_PER_DIVISION  = 1.0;
+    constexpr double              VERTICAL_OFFSET       = 0.0;
+    constexpr LABE::OSC::SCALING  SCALING               = LABE::OSC::SCALING::UNITY;
+    constexpr LABE::OSC::COUPLING COUPLING              = LABE::OSC::COUPLING::AC;
   };
 
   namespace LOGAN 

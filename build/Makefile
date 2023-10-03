@@ -574,33 +574,6 @@ src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
 
-src/LABSoft_Controller/LABSoft_Controller_Exporter.o: src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Exporter.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Exporter.i: src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Exporter.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Exporter.s: src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Exporter.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp.s
-
 src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o: src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o
 
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o
@@ -789,6 +762,33 @@ src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s: src/LABSoft_Controller/LA
 src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
+
+src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o
+
+# target to build an object file
+src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
+
+src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i
+
+# target to preprocess a source file
+src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i
+
+src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
 
 src/LABSoft_GUI/LABSoft_GUI.o: src/LABSoft_GUI/LABSoft_GUI.cpp.o
 
@@ -1306,9 +1306,6 @@ help:
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Exporter.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Exporter.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Exporter.s"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s"
@@ -1330,6 +1327,9 @@ help:
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.s"

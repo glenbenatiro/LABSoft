@@ -931,6 +931,27 @@ void LABSoft_GUI::cb_exporter_fl_button_cancel(Fl_Button* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_button_cancel_i(o,v);
 }
 
+void LABSoft_GUI::cb_exporter_fl_light_button_comments_i(Fl_Light_Button* o, void*) {
+  m_LABSoft_Controller->m_Exporter.cb_comments (o);
+}
+void LABSoft_GUI::cb_exporter_fl_light_button_comments(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_light_button_comments_i(o,v);
+}
+
+void LABSoft_GUI::cb_exporter_fl_light_button_headers_i(Fl_Light_Button* o, void*) {
+  m_LABSoft_Controller->m_Exporter.cb_headers (o);
+}
+void LABSoft_GUI::cb_exporter_fl_light_button_headers(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_light_button_headers_i(o,v);
+}
+
+void LABSoft_GUI::cb_exporter_fl_light_button_labels_i(Fl_Light_Button* o, void*) {
+  m_LABSoft_Controller->m_Exporter.cb_labels (o);
+}
+void LABSoft_GUI::cb_exporter_fl_light_button_labels(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_light_button_labels_i(o,v);
+}
+
 LABSoft_GUI::LABSoft_GUI() {
   { main_fl_window = new Fl_Double_Window(1220, 600, "LABSoft (for Educators)");
     main_fl_window->color((Fl_Color)53);
@@ -967,7 +988,6 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
-        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_gui_oscilloscope_display->color(FL_FOREGROUND_COLOR);
@@ -1458,6 +1478,7 @@ tion generator board.");
         main_fl_group_logic_analyzer_tab->color(FL_LIGHT3);
         main_fl_group_logic_analyzer_tab->selection_color(FL_LIGHT2);
         main_fl_group_logic_analyzer_tab->labelsize(12);
+        main_fl_group_logic_analyzer_tab->hide();
         { logic_analyzer_fl_group_display = new Fl_Group(20, 70, 400, 70);
           logic_analyzer_fl_group_display->box(FL_ROUNDED_FRAME);
           logic_analyzer_fl_group_display->color(FL_LIGHT2);
@@ -1939,8 +1960,25 @@ tion generator board.");
       exporter_fl_light_button_comments->color(FL_LIGHT3);
       exporter_fl_light_button_comments->selection_color(FL_GREEN);
       exporter_fl_light_button_comments->labelsize(12);
+      exporter_fl_light_button_comments->callback((Fl_Callback*)cb_exporter_fl_light_button_comments);
       exporter_fl_light_button_comments->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
     } // Fl_Light_Button* exporter_fl_light_button_comments
+    { exporter_fl_light_button_headers = new Fl_Light_Button(20, 100, 100, 40, "Headers");
+      exporter_fl_light_button_headers->box(FL_GTK_UP_BOX);
+      exporter_fl_light_button_headers->color(FL_LIGHT3);
+      exporter_fl_light_button_headers->selection_color(FL_GREEN);
+      exporter_fl_light_button_headers->labelsize(12);
+      exporter_fl_light_button_headers->callback((Fl_Callback*)cb_exporter_fl_light_button_headers);
+      exporter_fl_light_button_headers->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+    } // Fl_Light_Button* exporter_fl_light_button_headers
+    { exporter_fl_light_button_labels = new Fl_Light_Button(20, 160, 100, 40, "Labels");
+      exporter_fl_light_button_labels->box(FL_GTK_UP_BOX);
+      exporter_fl_light_button_labels->color(FL_LIGHT3);
+      exporter_fl_light_button_labels->selection_color(FL_GREEN);
+      exporter_fl_light_button_labels->labelsize(12);
+      exporter_fl_light_button_labels->callback((Fl_Callback*)cb_exporter_fl_light_button_labels);
+      exporter_fl_light_button_labels->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+    } // Fl_Light_Button* exporter_fl_light_button_labels
     main_fl_window_exporter->end();
   } // Fl_Double_Window* main_fl_window_exporter
 }
