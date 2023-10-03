@@ -16,8 +16,8 @@ class LAB_Module
    ~LAB_Module ();
 
    // shortcuts
-   AikaPi& rpi () const;
-   LAB& lab () const;
+   AikaPi&  rpi () const;
+   LAB&     lab () const;
 };
 
 #endif

@@ -20,9 +20,9 @@ struct LAB_Channel_Data_Oscilloscope
   LABE::OSC::COUPLING coupling              = LABC::OSC::COUPLING;
 
   // Data/Samples/Pixels
-  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  samples;
+  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  samples           = {0};
+  std::vector<std::array<int, 2>>                   pixel_points      = {{0}};
   std::vector<double>                               recording_samples;
-  std::vector<std::array<int, 2>>                   pixel_points;
 };
 
 class LAB_Parent_Data_Oscilloscope
@@ -69,7 +69,7 @@ class LAB_Parent_Data_Oscilloscope
     bool                  trigger_found           = false;
     bool                  find_trigger_timeout    = false;
     LABE::OSC::TRIG::MODE trigger_mode            = LABC::OSC::TRIGGER_MODE;
-    unsigned              trigger_source             = LABC::OSC::TRIGGER_SOURCE;
+    unsigned              trigger_source          = LABC::OSC::TRIGGER_SOURCE;
     LABE::OSC::TRIG::TYPE trig_type               = LABC::OSC::TRIGGER_TYPE;
     LABE::OSC::TRIG::CND  trig_condition          = LABC::OSC::TRIGGER_CONDITION;
     double                trigger_level           = LABC::OSC::TRIGGER_LEVEL;
@@ -123,7 +123,8 @@ struct LAB_DMA_Data_Oscilloscope
            txd                = 0;
 
   volatile uint32_t status[LABC::OSC::NUMBER_OF_CHANNELS];
-  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES];
+
+  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES] = {{0}};
 };
 
 struct LAB_Channel_Data_Function_Generator

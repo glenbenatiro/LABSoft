@@ -17,7 +17,8 @@ LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
     m_Logic_Analyzer          (*this),
     m_Digital_Circuit_Checker (*this),
     m_Main_Window             (*this),
-    m_LABChecker_Digital      (*this)
+    m_LABChecker_Digital      (*this),
+    m_Exporter                (*this)
 {
   load_controller_to_gui ();
 

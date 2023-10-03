@@ -15,6 +15,7 @@ class LABSoft_Controller_Unit
   public:
     LABSoft_Controller_Unit (LABSoft_Controller& _LABSoft_Controller);
 
+    // helper accessors
     LAB&          lab () const;
     LABSoft_GUI&  gui () const;
 };

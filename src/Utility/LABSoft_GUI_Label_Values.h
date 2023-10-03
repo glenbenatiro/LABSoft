@@ -1,13 +1,26 @@
 #ifndef LABS_GUI_VALUES_H
 #define LABS_GUI_VALUES_H
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 #include "LAB_Enumerations.h"
 
 namespace LABS_GUI_VALUES
 {
+  namespace MAIN
+  {
+    static std::unordered_map<std::string, LABE::LAB::INSTRUMENT> INSTRUMENT = 
+    {
+      {"Oscilloscope",            LABE::LAB::INSTRUMENT::OSCILLOSCOPE},
+      {"Voltmeter",               LABE::LAB::INSTRUMENT::VOLTMETER},
+      {"Function Generator",      LABE::LAB::INSTRUMENT::FUNCTION_GENERATOR},
+      {"Logic Analyzer",          LABE::LAB::INSTRUMENT::LOGIC_ANALYZER},
+      {"Digital Circuit Checker", LABE::LAB::INSTRUMENT::DIGITAL_CIRCUIT_CHECKER},
+      {"LABChecker - Digital",    LABE::LAB::INSTRUMENT::LABCHECKER_DIGITAL}
+    };
+  };
+
   namespace OSC
   {
     static std::unordered_map<std::string, LABE::OSC::SCALING> SCALING = 

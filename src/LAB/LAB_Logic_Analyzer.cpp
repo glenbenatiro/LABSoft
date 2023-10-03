@@ -270,7 +270,25 @@ get_samples_loop ()
 
   while (m_parent_data.is_backend_running)
   {
-    for (int a = 0; a < 2; a++)
+    // for (int a = 0; a < 2; a++)
+    // {
+    //   for (int b = 0; b < LABC::LOGAN::NUMBER_OF_SAMPLES; b++)
+    //   {
+    //     dma_data.rxd[a][b] = m_LAB.rpi ().gpio.level ();
+
+    //     if (!m_parent_data.is_backend_running)
+    //     {
+    //       return;
+    //     }
+
+    //     std::this_thread::sleep_for (std::chrono::duration<double, 
+    //       std::milli>((m_parent_data.sampling_period)));
+    //   }
+    // }
+
+    // ==========
+
+    for (int a = 0; a < 1; a++)
     {
       for (int b = 0; b < LABC::LOGAN::NUMBER_OF_SAMPLES; b++)
       {
@@ -384,9 +402,9 @@ set_samples (unsigned value)
 void LAB_Logic_Analyzer:: 
 set_time_per_division (double value)
 {
-  // m_parent_data.time_per_division = value;
+  m_parent_data.time_per_division = value;
 
-  set_mode (calc_mode (value));
+  // set_mode (calc_mode (value));
 
   // reset_dma_process ();
 }

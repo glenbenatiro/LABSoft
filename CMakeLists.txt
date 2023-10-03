@@ -35,6 +35,8 @@ ADD_EXECUTABLE(LABSoft
   src/LAB/LAB_Digital_Circuit_Checker.cpp
   src/LAB/LAB_LABChecker_Digital.cpp
 
+  src/LAB/Software/LAB_Exporter.cpp
+
   src/LABSoft_Controller/LABSoft_Controller_Unit.cpp
   src/LABSoft_Controller/LABSoft_Controller.cpp
   src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp
@@ -44,6 +46,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp
   src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp
   src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp
+  src/LABSoft_Controller/LABSoft_Controller_Exporter.cpp
 
   src/LABSoft_GUI/LABSoft_GUI.cpp
   src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
@@ -54,6 +57,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
   src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp
   src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Exporter_Data_Table.cpp
   
   src/LAB_Libraries/LAB_AD9833.cpp
   src/LAB_Libraries/LAB_MCP4XXX.cpp

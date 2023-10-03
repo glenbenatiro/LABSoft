@@ -74,6 +74,10 @@ class LABSoft_GUI_Oscilloscope_Display_Internal : public Fl_Widget
     int     m_mouse_down_start_y          = 0;
     double  m_pre_drag_horizontal_offset  = 0.0;
 
+    //
+    uint32_t m_grid_color                 = LABC::OSC_DISPLAY::GRID_COLOR;
+    uint32_t m_background_color           = LABC::OSC_DISPLAY::BACKGROUND_COLOR;
+
   private:
     int     handle                              (int event);
     void    draw                                ();
@@ -169,21 +173,21 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
                                       const char* label = 0);
    ~LABSoft_GUI_Oscilloscope_Display ();
 
-  void load_parent_data                   (LAB_Parent_Data_Oscilloscope& pdata);
-  void load_controller                    (LABSoft_Controller& controller);
-  void update_display                     ();
-  void update_gui_voltage_per_division    (unsigned channel);
-  void update_gui_voltage_per_division    ();
-  void update_gui_time_per_division       ();
-  void update_gui_vertical_elements       ();
-  void update_gui_horizontal_elements     ();
-  void update_gui_trigger_level_slider    ();
-  void update_gui_vertical_offset_slider  ();
-  void update_gui_top_info                ();
-  void select_channel                     (unsigned channel);
+    void load_parent_data                   (LAB_Parent_Data_Oscilloscope& pdata);
+    void load_controller                    (LABSoft_Controller& controller);
+    void update_display                     ();
+    void update_gui_voltage_per_division    (unsigned channel);
+    void update_gui_voltage_per_division    ();
+    void update_gui_time_per_division       ();
+    void update_gui_vertical_elements       ();
+    void update_gui_horizontal_elements     ();
+    void update_gui_trigger_level_slider    ();
+    void update_gui_vertical_offset_slider  ();
+    void update_gui_top_info                ();
+    void select_channel                     (unsigned channel);
 
-  LABSoft_Controller& controller () const;
-  unsigned            selected_channel () const;
+    LABSoft_Controller& controller () const;
+    unsigned            selected_channel () const;
 };
 
 #endif

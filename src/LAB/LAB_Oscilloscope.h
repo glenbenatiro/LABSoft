@@ -10,9 +10,10 @@
 class LAB_Oscilloscope : public LAB_Module
 {
   private:
-    AikaPi::Uncached  m_uncached_memory;
-    std::thread       m_thread_find_trigger;
-    std::thread       m_find_trigger_timer;    
+    std::thread                   m_thread_find_trigger;
+    std::thread                   m_find_trigger_timer;
+    AikaPi::Uncached              m_uncached_memory;   
+    LAB_Parent_Data_Oscilloscope  m_parent_data; 
 
   private:
     // Setup
@@ -69,9 +70,6 @@ class LAB_Oscilloscope : public LAB_Module
     constexpr uint32_t  conv_raw_buff_get_arranged_bits                 (uint32_t sample, unsigned channel);
     void                reset_dma_process                               ();
     void                reset_uncached_rx_buffer                        ();
-
-  public:
-    LAB_Parent_Data_Oscilloscope m_parent_data;
 
   public:   
     LAB_Oscilloscope (LAB& _LAB);
@@ -132,12 +130,10 @@ class LAB_Oscilloscope : public LAB_Module
     int                   update_state            ();
     bool                  is_channel_enabled      (unsigned channel);
 
-    // Getters
-    bool                  is_frontend_running ();
-    bool                  is_backend_running     ();
+    bool                  is_frontend_running     ();
+    bool                  is_backend_running      ();
 
-    LAB_Parent_Data_Oscilloscope&   parent_data   ();
-    LAB_Channel_Data_Oscilloscope&  channel_data  (unsigned channel);
+    const LAB_Parent_Data_Oscilloscope& parent_data ();
 };
 
 #endif

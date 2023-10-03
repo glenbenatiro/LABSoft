@@ -1603,16 +1603,10 @@ sampling_rate () const
   return (m_parent_data.sampling_rate);
 }
 
-LAB_Parent_Data_Oscilloscope& LAB_Oscilloscope:: 
+const LAB_Parent_Data_Oscilloscope& LAB_Oscilloscope:: 
 parent_data ()
 {
   return (m_parent_data);
-}
-
-LAB_Channel_Data_Oscilloscope& LAB_Oscilloscope:: 
-channel_data (unsigned channel)
-{
-  return (m_parent_data.channel_data.at (channel));
 }
 
 // EOF

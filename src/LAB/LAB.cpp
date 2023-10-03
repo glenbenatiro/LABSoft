@@ -6,7 +6,8 @@ LAB::LAB ()
   m_Voltmeter               (*this),
   m_Function_Generator      (*this),
   m_Logic_Analyzer          (*this),
-  m_Digital_Circuit_Checker (*this)
+  m_Digital_Circuit_Checker (*this),
+  m_Exporter                (*this)
 {
 
 }

@@ -3,9 +3,17 @@
 
 namespace LABE
 {
-  namespace DMA
+  namespace LAB
   {
-    
+    enum class INSTRUMENT
+    {
+      OSCILLOSCOPE,
+      VOLTMETER,
+      FUNCTION_GENERATOR,
+      LOGIC_ANALYZER,
+      DIGITAL_CIRCUIT_CHECKER,
+      LABCHECKER_DIGITAL
+    };
   };
   
   namespace DISPLAY

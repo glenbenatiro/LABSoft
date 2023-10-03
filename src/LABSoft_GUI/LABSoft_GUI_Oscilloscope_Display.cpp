@@ -7,6 +7,8 @@
 #include <FL/Fl.H>
 #include <FL/Enumerations.H>
 
+#include "../Utility/LAB_Constants.h"
+
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
 #include "../LABSoft_Controller/LABSoft_Controller.h"
@@ -84,7 +86,7 @@ handle (int event)
 void LABSoft_GUI_Oscilloscope_Display_Internal:: 
 draw ()
 {
-  draw_box      (FL_FLAT_BOX, OSC_DISPLAY::BACKGROUND_COLOR);
+  draw_box      (FL_FLAT_BOX, m_background_color);
   draw_grid     ();
   draw_channels ();
 }
@@ -92,128 +94,85 @@ draw ()
 void LABSoft_GUI_Oscilloscope_Display_Internal:: 
 draw_grid ()
 {
-  // 1. Set line color and style
-  fl_color (OSC_DISPLAY::GRID_COLOR);
-  fl_line_style (FL_SOLID);
+  // 1. set line color 
+  fl_color (m_grid_color);
 
-  // 2. Draw rows
-  for (int row = 0; row < (OSC_DISPLAY::NUMBER_OF_ROWS - 1); row++)
+  // 2. draw rows
+  for (int row = 0; row < (LABC::OSC_DISPLAY::NUMBER_OF_ROWS - 1); row++)
   {
-    if (row == OSC_DISPLAY::MID_ROW_INDEX)
-    {
-      fl_line_style (FL_DASH);
-    }
-    else 
-    {
-      fl_line_style (FL_DOT);
-    }
+    (row == LABC::OSC_DISPLAY::MID_ROW_INDEX) ? fl_line_style (FL_DASH) : 
+                                                fl_line_style (FL_DOT);
 
     int Y = std::round ((row + 1) * m_row_height) + y ();
 
     fl_line (x (), Y, x () + w (), Y);
   }
 
-  // 3. Draw columns
-  for (int col = 0; col < (OSC_DISPLAY::NUMBER_OF_COLUMNS - 1); col++)
+  // 3. draw columns
+  for (int col = 0; col < (LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS - 1); col++)
   {
-    if (col == OSC_DISPLAY::MID_COLUMN_INDEX)
-    {
-      fl_line_style (FL_DASH);
-    }
-    else 
-    {
-      fl_line_style (FL_DOT);
-    }
+    (col == LABC::OSC_DISPLAY::MID_COLUMN_INDEX) ?  fl_line_style (FL_DASH) : 
+                                                    fl_line_style (FL_DOT);
 
     int X = std::round ((col + 1) * m_column_width) + x ();
 
     fl_line (X, y (), X, y () + h ());
   }
 
-  // 4. Draw upper and lower x-axis ticks
+  // 4. draw upper and lower x-axis ticks
   fl_line_style (FL_SOLID, 0, NULL);
-
-  for (int Y = y (); Y <= (y () + h ()); Y += h ())
+ 
+  for (int a = 0; a < 2; a++)
   {
     for (int X = x (); X < (x () + w ()); X += m_column_width)
     {
-      for (int i = 0; i < OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
+      for (int i = 0; i < LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
       {
-        if (i == (OSC_DISPLAY::NUMBER_OF_MINOR_TICKS / 2))
-        {
-          fl_line (
-            X + (i * m_x_axis_minor_ticks_width),
-            Y,
-            X + (i * m_x_axis_minor_ticks_width),
-            Y == y () ? Y + OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH :
-              Y - OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH
-          );
-        }
-        else 
-        {
-          fl_line (
-            X + (i * m_x_axis_minor_ticks_width),
-            Y,
-            X + (i * m_x_axis_minor_ticks_width),
-            Y == y () ? Y + OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH :
-              Y - OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH
-          );
-        }
+        int length = (i == LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS_HALF) ?
+          LABC::OSC_DISPLAY::X_AXIS_SEMI_MAJOR_TICK_LENGTH :
+          LABC::OSC_DISPLAY::X_AXIS_MINOR_TICK_LENGTH;
+        
+        int x = X + (i * m_x_axis_minor_ticks_width);
+
+        (a == 0) ?  fl_line (x, y (), x, y () + length) : 
+                    fl_line (x, y () + h () - length, x, y () + h ());
       }
 
-      fl_line (
-        X,
-        Y, 
-        X, 
-        Y == y () ? Y + OSC_DISPLAY::X_AXIS_MAJOR_TICK_LENGTH : 
-          Y - OSC_DISPLAY::X_AXIS_MAJOR_TICK_LENGTH 
-      );
+      int length = LABC::OSC_DISPLAY::X_AXIS_MAJOR_TICK_LENGTH;
+
+      (a == 0) ?  fl_line (X, y (), X, y () + length) : 
+                  fl_line (X, y () + h () - length, X, y () + h ());
     }
   }
 
-  // 5. Draw left and right y-axis ticks
+  // 5. draw left and right y-axis ticks
   fl_line_style (FL_SOLID, 0, NULL);
-
-  for (int X = x (); X <= (x () + w ()); X += w ())
+ 
+  for (int a = 0; a < 2; a++)
   {
     for (int Y = y (); Y < (y () + h ()); Y += m_row_height)
     {
-      for (int i = 0; i < OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
+      for (int i = 0; i < LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS; i++)
       {
-        if (i == (OSC_DISPLAY::NUMBER_OF_MINOR_TICKS / 2))
-        {
-          fl_line (
-            X,
-            Y + (i * m_y_axis_minor_ticks_height),
-            X == x () ? X + OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH :
-              X - OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH,
-            Y + (i * m_y_axis_minor_ticks_height)
-          );
-        }
-        else 
-        {
-          fl_line (
-            X,
-            Y + (i * m_y_axis_minor_ticks_height),
-            X == x () ? X + OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH :
-              X - OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH,
-            Y + (i * m_y_axis_minor_ticks_height)
-          );
-        }
+        int length = (i == LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS_HALF) ?
+          LABC::OSC_DISPLAY::Y_AXIS_SEMI_MAJOR_TICK_LENGTH :
+          LABC::OSC_DISPLAY::Y_AXIS_MINOR_TICK_LENGTH;
+        
+        int y = Y + (i * m_y_axis_minor_ticks_height);
+
+        (a == 0) ?  fl_line (x (), y, x () + length, y) :
+                    fl_line (x () + w () - length, y, x () + w (), y);
       }
 
-      fl_line (
-        X,
-        Y,
-        X == x () ? X + OSC_DISPLAY::Y_AXIS_MAJOR_TICK_LENGTH :
-          X - OSC_DISPLAY::Y_AXIS_MAJOR_TICK_LENGTH,
-        Y
-      );
+      int length = LABC::OSC_DISPLAY::Y_AXIS_MAJOR_TICK_LENGTH;
+
+      (a == 0) ?  fl_line (x (), Y, x () + length, Y) :
+                  fl_line (x () + w () - length, Y, x () + w (), Y);
     }
   }
 
   // 6. Draw border box
-  draw_box (FL_BORDER_FRAME, OSC_DISPLAY::GRID_COLOR);
+  draw_box (FL_BORDER_FRAME, m_grid_color);
 
   // 7. Reset line color and style
   fl_color      (0);

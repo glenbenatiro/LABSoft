@@ -57,17 +57,17 @@ LABSoft_GUI_Label (double                   value,
 }
 
 LABSoft_GUI_Label:: 
-LABSoft_GUI_Label (const char*           input,
-                LABSoft_GUI_Label::UNIT  unit)
+LABSoft_GUI_Label (const char*              input,
+                   LABSoft_GUI_Label::UNIT  unit)
   : LABSoft_GUI_Label (input, 0.0, unit)
 {
 
 }
 
 LABSoft_GUI_Label::
-LABSoft_GUI_Label (const char*           input,
-                double                reference,
-                LABSoft_GUI_Label::UNIT  unit)
+LABSoft_GUI_Label (const char*              input,
+                   double                   reference,
+                   LABSoft_GUI_Label::UNIT  unit)
 {
   m_cleaned_string  = remove_all_whitespaces (std::string (input));
   m_reference       = reference;
@@ -318,12 +318,16 @@ calc_actual_value_using_reference (double value,
     // 3. Using the reference's unit prefix, get the exponent
     int ref_pow_exp = calc_exponent_from_unit_prefix (ref_unit_prefix);
 
-    return (value * std::pow (static_cast<int>(m_base), ref_pow_exp));    
+    double act_val = value * std::pow (static_cast<int>(m_base), ref_pow_exp);
+
+    return (act_val);    
   }
 }
 
 void LABSoft_GUI_Label:: 
-calc_coefficient_and_exponent (double value, double& coefficient, int& exponent)
+calc_coefficient_and_exponent (double   value, 
+                               double&  coefficient, 
+                               int&     exponent)
 {
   // 1. Convert the value to a string representation of its scientific notation
   std::stringstream ss;

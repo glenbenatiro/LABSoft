@@ -22,17 +22,18 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {40 192 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {2336 224 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
       } {
         Submenu {} {
-          label Workspace
+          label Workspace open
           xywh {0 0 10 10} labelsize 12
         } {
           MenuItem main_menuitem_export {
             label Export
+            callback {m_LABSoft_Controller->m_Exporter.cb_show_window ();}
             xywh {0 0 10 10} labelsize 12
           }
           MenuItem {} {
@@ -42,7 +43,7 @@ class LABSoft_GUI {open
           }
         }
         Submenu {} {
-          label Settings open
+          label Settings
           xywh {0 0 10 10} labelsize 12
         } {}
         Submenu {} {
@@ -76,7 +77,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_oscilloscope_tab {
-          label Oscilloscope
+          label Oscilloscope open
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Group oscilloscope_labsoft_gui_oscilloscope_display {
@@ -342,7 +343,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_1 {
-            label {Channel 2} open
+            label {Channel 2}
             xywh {900 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
@@ -1093,7 +1094,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
-            label Trigger open
+            label Trigger
             xywh {900 360 260 220} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
@@ -1290,8 +1291,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_voltmeter_tab {
-          label Voltmeter open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          label Voltmeter
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Output voltmeter_fl_output_chan0_value {
             label {Channel 1 DC}
@@ -1315,7 +1316,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_function_generator_tab {
-          label {Function Generator} open
+          label {Function Generator}
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
@@ -1519,7 +1520,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_logic_analyzer_tab {
           label {Logic Analyzer}
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Group logic_analyzer_fl_group_display {open
             xywh {20 70 400 70} box ROUNDED_FRAME color 52
@@ -1562,7 +1563,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group logic_analyzer_fl_group_trigger {open
+          Fl_Group logic_analyzer_fl_group_trigger {
             xywh {440 70 160 70} box ROUNDED_FRAME color 52
           } {
             Fl_Choice logic_analyzer_fl_choice_trigger_mode {
@@ -1585,7 +1586,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group logic_analyzer_fl_group_add_remove_channels {open
+          Fl_Group logic_analyzer_fl_group_add_remove_channels {
             xywh {20 150 180 50} box ROUNDED_FRAME color 52
           } {
             Fl_Menu_Button logic_analyzer_fl_menu_button_add_channel {
@@ -1609,7 +1610,7 @@ class LABSoft_GUI {open
               }
             }
           }
-          Fl_Group logic_analyzer_fl_group_horizontal {open
+          Fl_Group logic_analyzer_fl_group_horizontal {
             xywh {940 70 260 130} box ROUNDED_FRAME color 52
           } {
             Fl_Input_Choice logic_analyzer_fl_input_choice_horizontal_offset {
@@ -2288,5 +2289,46 @@ class LABSoft_GUI {open
       code0 {\#include "LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"}
       class LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window
     } {}
+    Fl_Window main_fl_window_exporter {
+      label Export open
+      xywh {2354 267 800 500} type Double color 54 visible
+    } {
+      Fl_Tabs exporter_fl_tabs {
+        xywh {180 20 600 410} box BORDER_BOX color 54 selection_color 54 labelsize 12
+      } {
+        Fl_Group {} {
+          label Data
+          xywh {180 50 600 380} box FLAT_BOX color 54 selection_color 52 labelsize 12
+        } {
+          Fl_Table exporter_labsoft_gui_exporter_data_table {
+            xywh {180 50 600 380}
+            code0 {\#include "LABSoft_GUI_Exporter_Data_Table.h"}
+            class LABSoft_GUI_Exporter_Data_Table
+          } {}
+          Fl_Box exporter_fl_box_unsupported_message_box {
+            label {This instrument does not support data output.}
+            xywh {180 50 600 380} labelsize 12 hide
+          }
+        }
+        Fl_Group {} {
+          label Image
+          xywh {180 50 600 380} box FLAT_BOX color 54 selection_color 52 labelsize 12 hide
+        } {}
+      }
+      Fl_Button exporter_fl_button_save {
+        label Save
+        callback {m_LABSoft_Controller->m_Exporter.cb_save ();}
+        xywh {580 450 90 30} box GTK_UP_BOX color 53 labelsize 12
+      }
+      Fl_Button exporter_fl_button_cancel {
+        label Cancel
+        callback {m_LABSoft_Controller->m_Exporter.cb_cancel ();}
+        xywh {690 450 90 30} box GTK_UP_BOX color 53 labelsize 12
+      }
+      Fl_Light_Button exporter_fl_light_button_comments {
+        label Comments selected
+        xywh {20 40 100 40} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
+      }
+    }
   }
 }

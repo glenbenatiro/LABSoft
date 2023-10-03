@@ -24,6 +24,7 @@ class LABSoft_Controller;
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Text_Display.H>
 #include "LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"
+#include "LABSoft_GUI_Exporter_Data_Table.h"
 
 class LABSoft_GUI {
 public:
@@ -33,6 +34,8 @@ public:
   static Fl_Menu_Item menu_[];
   static Fl_Menu_Item *main_menuitem_export;
 private:
+  inline void cb_main_menuitem_export_i(Fl_Menu_*, void*);
+  static void cb_main_menuitem_export(Fl_Menu_*, void*);
   inline void cb_Exit_i(Fl_Menu_*, void*);
   static void cb_Exit(Fl_Menu_*, void*);
   inline void cb_Browse_i(Fl_Menu_*, void*);
@@ -359,5 +362,21 @@ public:
 private:
   inline void cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window_i(LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window*, void*);
   static void cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window(LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window*, void*);
+public:
+  Fl_Double_Window *main_fl_window_exporter;
+  Fl_Tabs *exporter_fl_tabs;
+  LABSoft_GUI_Exporter_Data_Table *exporter_labsoft_gui_exporter_data_table;
+  Fl_Box *exporter_fl_box_unsupported_message_box;
+  Fl_Button *exporter_fl_button_save;
+private:
+  inline void cb_exporter_fl_button_save_i(Fl_Button*, void*);
+  static void cb_exporter_fl_button_save(Fl_Button*, void*);
+public:
+  Fl_Button *exporter_fl_button_cancel;
+private:
+  inline void cb_exporter_fl_button_cancel_i(Fl_Button*, void*);
+  static void cb_exporter_fl_button_cancel(Fl_Button*, void*);
+public:
+  Fl_Light_Button *exporter_fl_light_button_comments;
 };
 #endif

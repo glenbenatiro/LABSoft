@@ -3,6 +3,13 @@
 #include "LABSoft_GUI.h"
 #include "../LABSoft_Controller/LABSoft_Controller.h"
 
+void LABSoft_GUI::cb_main_menuitem_export_i(Fl_Menu_*, void*) {
+  m_LABSoft_Controller->m_Exporter.cb_show_window ();
+}
+void LABSoft_GUI::cb_main_menuitem_export(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_main_menuitem_export_i(o,v);
+}
+
 void LABSoft_GUI::cb_Exit_i(Fl_Menu_* o, void* v) {
   m_LABSoft_Controller->m_Main_Window.cb_workspace_exit (o, v);
 }
@@ -26,7 +33,7 @@ void LABSoft_GUI::cb_About(Fl_Menu_* o, void* v) {
 
 Fl_Menu_Item LABSoft_GUI::menu_[] = {
  {"Workspace", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"Export", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Export", 0,  (Fl_Callback*)LABSoft_GUI::cb_main_menuitem_export, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"Exit", 0,  (Fl_Callback*)LABSoft_GUI::cb_Exit, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
  {"Settings", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -910,6 +917,20 @@ void LABSoft_GUI::cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signa
   ((LABSoft_GUI*)(o->user_data()))->cb_logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window_i(o,v);
 }
 
+void LABSoft_GUI::cb_exporter_fl_button_save_i(Fl_Button*, void*) {
+  m_LABSoft_Controller->m_Exporter.cb_save ();
+}
+void LABSoft_GUI::cb_exporter_fl_button_save(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_button_save_i(o,v);
+}
+
+void LABSoft_GUI::cb_exporter_fl_button_cancel_i(Fl_Button*, void*) {
+  m_LABSoft_Controller->m_Exporter.cb_cancel ();
+}
+void LABSoft_GUI::cb_exporter_fl_button_cancel(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_button_cancel_i(o,v);
+}
+
 LABSoft_GUI::LABSoft_GUI() {
   { main_fl_window = new Fl_Double_Window(1220, 600, "LABSoft (for Educators)");
     main_fl_window->color((Fl_Color)53);
@@ -1331,6 +1352,7 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_voltmeter_tab->color(FL_LIGHT3);
         main_fl_group_voltmeter_tab->selection_color(FL_LIGHT2);
         main_fl_group_voltmeter_tab->labelsize(12);
+        main_fl_group_voltmeter_tab->hide();
         { voltmeter_fl_output_chan0_value = new Fl_Output(250, 200, 320, 60, "Channel 1 DC");
           voltmeter_fl_output_chan0_value->box(FL_GTK_DOWN_BOX);
           voltmeter_fl_output_chan0_value->color((Fl_Color)55);
@@ -1436,7 +1458,6 @@ tion generator board.");
         main_fl_group_logic_analyzer_tab->color(FL_LIGHT3);
         main_fl_group_logic_analyzer_tab->selection_color(FL_LIGHT2);
         main_fl_group_logic_analyzer_tab->labelsize(12);
-        main_fl_group_logic_analyzer_tab->hide();
         { logic_analyzer_fl_group_display = new Fl_Group(20, 70, 400, 70);
           logic_analyzer_fl_group_display->box(FL_ROUNDED_FRAME);
           logic_analyzer_fl_group_display->color(FL_LIGHT2);
@@ -1860,4 +1881,66 @@ tion generator board.");
     logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->when(FL_WHEN_RELEASE);
     logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window->end();
   } // LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window
+  { main_fl_window_exporter = new Fl_Double_Window(800, 500, "Export");
+    main_fl_window_exporter->color(FL_LIGHT3);
+    main_fl_window_exporter->user_data((void*)(this));
+    { exporter_fl_tabs = new Fl_Tabs(180, 20, 600, 410);
+      exporter_fl_tabs->box(FL_BORDER_BOX);
+      exporter_fl_tabs->color(FL_LIGHT3);
+      exporter_fl_tabs->selection_color(FL_LIGHT3);
+      exporter_fl_tabs->labelsize(12);
+      { Fl_Group* o = new Fl_Group(180, 50, 600, 380, "Data");
+        o->box(FL_FLAT_BOX);
+        o->color(FL_LIGHT3);
+        o->selection_color(FL_LIGHT2);
+        o->labelsize(12);
+        { exporter_labsoft_gui_exporter_data_table = new LABSoft_GUI_Exporter_Data_Table(180, 50, 600, 380);
+          exporter_labsoft_gui_exporter_data_table->box(FL_THIN_DOWN_FRAME);
+          exporter_labsoft_gui_exporter_data_table->color(FL_BACKGROUND_COLOR);
+          exporter_labsoft_gui_exporter_data_table->selection_color(FL_BACKGROUND_COLOR);
+          exporter_labsoft_gui_exporter_data_table->labeltype(FL_NORMAL_LABEL);
+          exporter_labsoft_gui_exporter_data_table->labelfont(0);
+          exporter_labsoft_gui_exporter_data_table->labelsize(14);
+          exporter_labsoft_gui_exporter_data_table->labelcolor(FL_FOREGROUND_COLOR);
+          exporter_labsoft_gui_exporter_data_table->align(Fl_Align(FL_ALIGN_TOP));
+          exporter_labsoft_gui_exporter_data_table->when(FL_WHEN_RELEASE);
+          exporter_labsoft_gui_exporter_data_table->end();
+        } // LABSoft_GUI_Exporter_Data_Table* exporter_labsoft_gui_exporter_data_table
+        { exporter_fl_box_unsupported_message_box = new Fl_Box(180, 50, 600, 380, "This instrument does not support data output.");
+          exporter_fl_box_unsupported_message_box->labelsize(12);
+          exporter_fl_box_unsupported_message_box->hide();
+        } // Fl_Box* exporter_fl_box_unsupported_message_box
+        o->end();
+      } // Fl_Group* o
+      { Fl_Group* o = new Fl_Group(180, 50, 600, 380, "Image");
+        o->box(FL_FLAT_BOX);
+        o->color(FL_LIGHT3);
+        o->selection_color(FL_LIGHT2);
+        o->labelsize(12);
+        o->hide();
+        o->end();
+      } // Fl_Group* o
+      exporter_fl_tabs->end();
+    } // Fl_Tabs* exporter_fl_tabs
+    { exporter_fl_button_save = new Fl_Button(580, 450, 90, 30, "Save");
+      exporter_fl_button_save->box(FL_GTK_UP_BOX);
+      exporter_fl_button_save->color((Fl_Color)53);
+      exporter_fl_button_save->labelsize(12);
+      exporter_fl_button_save->callback((Fl_Callback*)cb_exporter_fl_button_save);
+    } // Fl_Button* exporter_fl_button_save
+    { exporter_fl_button_cancel = new Fl_Button(690, 450, 90, 30, "Cancel");
+      exporter_fl_button_cancel->box(FL_GTK_UP_BOX);
+      exporter_fl_button_cancel->color((Fl_Color)53);
+      exporter_fl_button_cancel->labelsize(12);
+      exporter_fl_button_cancel->callback((Fl_Callback*)cb_exporter_fl_button_cancel);
+    } // Fl_Button* exporter_fl_button_cancel
+    { exporter_fl_light_button_comments = new Fl_Light_Button(20, 40, 100, 40, "Comments");
+      exporter_fl_light_button_comments->box(FL_GTK_UP_BOX);
+      exporter_fl_light_button_comments->color(FL_LIGHT3);
+      exporter_fl_light_button_comments->selection_color(FL_GREEN);
+      exporter_fl_light_button_comments->labelsize(12);
+      exporter_fl_light_button_comments->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+    } // Fl_Light_Button* exporter_fl_light_button_comments
+    main_fl_window_exporter->end();
+  } // Fl_Double_Window* main_fl_window_exporter
 }
