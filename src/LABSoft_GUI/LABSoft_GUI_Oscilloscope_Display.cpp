@@ -4,6 +4,9 @@
 #include <cstdio>
 #include <sstream>
 
+// delete soon
+#include <iostream>
+
 #include <FL/Fl.H>
 #include <FL/Enumerations.H>
 
@@ -68,7 +71,7 @@ handle (int event)
     {
       int     scaler                = calc_mouse_drag_time_per_div_scaler (Fl::event_x ());
       double  scaler_time           = scaler * (m_parent_data->time_per_division / 
-                                      OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
+                                      LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
       double  new_horizontal_offset = m_pre_drag_horizontal_offset + scaler_time;
 
       if (std::abs (new_horizontal_offset) < 1e-12)
@@ -194,11 +197,12 @@ draw_channels ()
 
   // ----------
 
-  fl_push_clip  (x (), y (), w (), h ());
+  fl_push_clip (x (), y (), w (), h ());
   
   const LAB_Parent_Data_Oscilloscope &pdata = *m_parent_data;
 
-  unsigned samp_count = (pdata.samples < w () ? pdata.samples : w ()) - 1;
+  unsigned samp_count = (pdata.samples_displayed < w () ? 
+    pdata.samples_displayed : w ()) - 1;
 
   for (unsigned chan = 0; chan < (pdata.channel_data.size ()); chan++)
   {
@@ -209,10 +213,10 @@ draw_channels ()
       // Because of how line styles are implemented on Win32 systems, 
       // you must set the line style after setting the drawing color. 
       // If you set the color after the style, style settings will be lost.
-      fl_color      (OSC_DISPLAY::CHANNEL_COLORS[chan]);
+      fl_color      (LABC::OSC_DISPLAY::CHANNEL_COLORS[chan]);
       fl_line_style (FL_SOLID, 0, 0);
 
-      if (pdata.samples <= OSC_DISPLAY::SAMPLE_MARKING_THRESHOLD)
+      if (pdata.samples_displayed <= LABC::OSC_DISPLAY::SAMPLE_MARKING_THRESHOLD)
       {
         for (unsigned i = 0; i < samp_count; i++)
         {
@@ -242,16 +246,16 @@ draw_sample_marker (int x,
   // Vertical
   fl_line (
     x,
-    y + OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+    y + LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
     x,
-    y - OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE
+    y - LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE
   );
 
   // Horizontal
   fl_line (
-    x + OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+    x + LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
     y,
-    x - OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
+    x - LABC::OSC_DISPLAY::SAMPLE_MARKING_AMPLITUDE,
     y
   );
 }
@@ -259,10 +263,10 @@ draw_sample_marker (int x,
 void LABSoft_GUI_Oscilloscope_Display_Internal:: 
 calc_cached_drawing_values ()
 {
-  m_column_width              = static_cast<float>(w ()) / OSC_DISPLAY::NUMBER_OF_COLUMNS;
-  m_row_height                = static_cast<float>(h ()) / OSC_DISPLAY::NUMBER_OF_ROWS;
-  m_x_axis_minor_ticks_width  = m_column_width / OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
-  m_y_axis_minor_ticks_height = m_row_height / OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
+  m_column_width              = static_cast<float>(w ()) / LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
+  m_row_height                = static_cast<float>(h ()) / LABC::OSC_DISPLAY::NUMBER_OF_ROWS;
+  m_x_axis_minor_ticks_width  = m_column_width / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
+  m_y_axis_minor_ticks_height = m_row_height / LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS;
   m_display_half_height       = static_cast<float>(h ()) / 2.0;
   m_display_height_midline    = std::round (y () + m_display_half_height);
 }
@@ -319,16 +323,17 @@ fill_pixel_points_backend_running ()
       const LAB_Channel_Data_Oscilloscope&    cdata = pdata.channel_data[chan];
             std::vector<std::array<int, 2>>&  pp    = m_pixel_points[chan];
 
-      double y_scaler = calc_y_scaler (cdata.voltage_per_division);
-      double x_offset = calc_x_offset (chan);
+      double  y_scaler    = calc_y_scaler (cdata.voltage_per_division);
+      double  x_offset    = calc_x_offset (chan);
       
-      if (pdata.samples >= w ())
+      if (pdata.samples_displayed >= w ())
       {
-        double samp_skipper = (pdata.samples - 1) / static_cast<double>(w ());
+        double samp_skipper = (pdata.samples_displayed - 1) / static_cast<double>(w ());
 
         for (unsigned a = 0; a <= w (); a++)
         {
-          double sample = cdata.samples[std::round (a * samp_skipper)] + cdata.vertical_offset;
+          double sample = cdata.samples[pdata.sample_start_index + 
+            (std::round (a * samp_skipper))] + cdata.vertical_offset;
 
           pp[a][0] = std::round         (x () + a + x_offset);
           pp[a][1] = calc_samp_y_coord  (sample, y_scaler);
@@ -336,11 +341,11 @@ fill_pixel_points_backend_running ()
       }
       else 
       {
-        double x_skipper = static_cast<double>(w ()) / (pdata.samples - 1);
+        double x_skipper = static_cast<double>(w ()) / (pdata.samples_displayed - 1);
 
-        for (unsigned a = 0; a < pdata.samples; a++)
+        for (unsigned a = 0; a < pdata.samples_displayed; a++)
         {
-          double sample = cdata.samples[a] + cdata.vertical_offset;
+          double sample = cdata.samples[pdata.sample_start_index + a] + cdata.vertical_offset;
 
           pp[a][0] = std::round         (x () + (a * x_skipper) + x_offset);
           pp[a][1] = calc_samp_y_coord  (sample, y_scaler);
@@ -409,7 +414,7 @@ draw ()
 
   update_gui_status ();
 
-  draw_box      (FL_THIN_DOWN_BOX, OSC_DISPLAY::BACKGROUND_COLOR);
+  draw_box      (FL_THIN_DOWN_BOX, LABC::OSC_DISPLAY::BACKGROUND_COLOR);
   draw_children ();
 }
 
@@ -451,32 +456,32 @@ init_child_widgets_sliders ()
   const LABSoft_GUI_Oscilloscope_Display_Internal& disp = *m_display_internal;
    
   // 2.1
-  m_vertical_offset_slider = new LABSoft_GUI_Fl_Slider (disp.x (), disp.y (), OSC_DISPLAY::SLIDER_WIDTH, disp.h ());
+  m_vertical_offset_slider = new LABSoft_GUI_Fl_Slider (disp.x (), disp.y (), LABC::OSC_DISPLAY::SLIDER_WIDTH, disp.h ());
   m_vertical_offset_slider->box    (FL_NO_BOX);
   m_vertical_offset_slider->color  (3);
   m_vertical_offset_slider->bounds (0, disp.h ());
   m_vertical_offset_slider->value  (disp. h () / 2.0);
-  m_vertical_offset_slider->step   (disp.h (), OSC_DISPLAY::NUMBER_OF_ROWS * OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
+  m_vertical_offset_slider->step   (disp.h (), LABC::OSC_DISPLAY::NUMBER_OF_ROWS * LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
 
   // 2.2 trigger level
-  m_trigger_level_slider = new LABSoft_GUI_Fl_Slider (disp.x () + disp.w () - OSC_DISPLAY::SLIDER_WIDTH, 
-    disp.y (), OSC_DISPLAY::SLIDER_WIDTH, disp.h ());
+  m_trigger_level_slider = new LABSoft_GUI_Fl_Slider (disp.x () + disp.w () - LABC::OSC_DISPLAY::SLIDER_WIDTH, 
+    disp.y (), LABC::OSC_DISPLAY::SLIDER_WIDTH, disp.h ());
   m_trigger_level_slider->box       (FL_NO_BOX);
   m_trigger_level_slider->color     (3);
   m_trigger_level_slider->bounds    (0, disp.h ());
   m_trigger_level_slider->value     (disp.h () / 2.0);
-  m_trigger_level_slider->step      (disp.h (), OSC_DISPLAY::NUMBER_OF_ROWS * OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
+  m_trigger_level_slider->step      (disp.h (), LABC::OSC_DISPLAY::NUMBER_OF_ROWS * LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
   m_trigger_level_slider->callback  (cb_trigger_level_static);  
 
   // 2.3 horizontal offset
-  m_horizontal_offset_slider = new LABSoft_GUI_Fl_Slider (disp.x (), disp.y (), disp.w (), OSC_DISPLAY::SLIDER_WIDTH);
+  m_horizontal_offset_slider = new LABSoft_GUI_Fl_Slider (disp.x (), disp.y (), disp.w (), LABC::OSC_DISPLAY::SLIDER_WIDTH);
   m_horizontal_offset_slider->type   (1); // horizontal slider
   m_horizontal_offset_slider->box    (FL_NO_BOX);
   m_horizontal_offset_slider->color  (3);
   m_horizontal_offset_slider->bounds (0, disp.w ());
   m_horizontal_offset_slider->value  (disp. w () / 2.0);
-  m_horizontal_offset_slider->step   (disp.w (), OSC_DISPLAY::NUMBER_OF_COLUMNS *
-                                OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
+  m_horizontal_offset_slider->step   (disp.w (), LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS *
+                                LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
 
   // remove for now para di mag conflict sa v offset ug trig level sliders
   m_horizontal_offset_slider->deactivate ();
@@ -488,16 +493,16 @@ init_child_widgets_status ()
 {
   m_status = new Fl_Box (
     m_display_internal->x (), 
-    m_display_internal->y () - OSC_DISPLAY::STATUS_HEIGHT, 
+    m_display_internal->y () - LABC::OSC_DISPLAY::STATUS_HEIGHT, 
     80, 
-    OSC_DISPLAY::STATUS_HEIGHT, 
+    LABC::OSC_DISPLAY::STATUS_HEIGHT, 
     "Ready"
   );
 
   m_status->box         (FL_BORDER_FRAME);
   m_status->color       (1);
   m_status->labelfont   (1);
-  m_status->labelsize   (OSC_DISPLAY::AXIS_LABEL_SIZE);
+  m_status->labelsize   (LABC::OSC_DISPLAY::AXIS_LABEL_SIZE);
   m_status->labelcolor  (FL_WHITE);
 }
 
@@ -505,7 +510,7 @@ void LABSoft_GUI_Oscilloscope_Display::
 init_child_widgets_time_per_division_labels ()
 {
   float col_width = static_cast<float>(m_display_internal->w ()) / 
-    OSC_DISPLAY::NUMBER_OF_COLUMNS;
+    LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
   
   for (int a = 0; a < m_time_per_division_labels.size (); a++)
   {
@@ -516,7 +521,7 @@ init_child_widgets_time_per_division_labels ()
       20
     );
     
-    box->labelcolor (OSC_DISPLAY::X_AXIS_LABEL_COLOR);
+    box->labelcolor (LABC::OSC_DISPLAY::X_AXIS_LABEL_COLOR);
     box->labelsize  (9);
 
     m_time_per_division_labels[a] = box;
@@ -529,12 +534,12 @@ void LABSoft_GUI_Oscilloscope_Display::
 init_child_widgets_voltage_per_division_labels ()
 {
   float row_height = static_cast<float>(m_display_internal->h ()) / 
-    OSC_DISPLAY::NUMBER_OF_ROWS;
+    LABC::OSC_DISPLAY::NUMBER_OF_ROWS;
 
   for (int chan = 0; chan < m_voltage_per_division_labels.size (); chan++)
   {
-    unsigned X = m_display_internal->x () - (OSC_DISPLAY::Y_AXIS_LABEL_HORIZONTAL_INTRASPACE * 
-      m_voltage_per_division_labels.size ()) + (OSC_DISPLAY::Y_AXIS_LABEL_HORIZONTAL_INTRASPACE * 
+    unsigned X = m_display_internal->x () - (LABC::OSC_DISPLAY::Y_AXIS_LABEL_HORIZONTAL_INTRASPACE * 
+      m_voltage_per_division_labels.size ()) + (LABC::OSC_DISPLAY::Y_AXIS_LABEL_HORIZONTAL_INTRASPACE * 
       chan);
     
     for (int row = 0; row < m_voltage_per_division_labels[chan].size (); row++)
@@ -543,7 +548,7 @@ init_child_widgets_voltage_per_division_labels ()
 
       Fl_Box* box = new Fl_Box (X, Y, 3, 20, "0");
 
-      box->labelcolor (OSC_DISPLAY::CHANNEL_COLORS[chan]);
+      box->labelcolor (LABC::OSC_DISPLAY::CHANNEL_COLORS[chan]);
       box->labelsize  (9);
       box->align      (FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
 
@@ -559,7 +564,7 @@ init_child_widgets_voltage_per_division_labels ()
     Fl_Box* box = new Fl_Box (X, m_display_internal->y (), 3, 20, "C0 mV");
 
     box->copy_label (label);
-    box->labelcolor (OSC_DISPLAY::CHANNEL_COLORS[chan]);
+    box->labelcolor (LABC::OSC_DISPLAY::CHANNEL_COLORS[chan]);
     box->labelsize  (9);
     box->align      (FL_ALIGN_TOP_LEFT);
 
@@ -574,10 +579,10 @@ init_child_widgets_channel_selectors ()
   {
     Fl_Button* box = new Fl_Button (
       m_status->x () + m_status->w () + 
-        (a * OSC_DISPLAY::STATUS_HEIGHT),
+        (a * LABC::OSC_DISPLAY::STATUS_HEIGHT),
       m_status->y (), 
-      OSC_DISPLAY::STATUS_HEIGHT, 
-      OSC_DISPLAY::STATUS_HEIGHT
+      LABC::OSC_DISPLAY::STATUS_HEIGHT, 
+      LABC::OSC_DISPLAY::STATUS_HEIGHT
     );
 
     char label[20];
@@ -586,8 +591,8 @@ init_child_widgets_channel_selectors ()
     box->box              (FL_THIN_UP_BOX);
     box->color            (FL_BLACK);
     box->selection_color  (FL_BLACK);
-    box->labelsize        (OSC_DISPLAY::AXIS_LABEL_SIZE);
-    box->labelcolor       (OSC_DISPLAY::CHANNEL_COLORS[a]);
+    box->labelsize        (LABC::OSC_DISPLAY::AXIS_LABEL_SIZE);
+    box->labelcolor       (LABC::OSC_DISPLAY::CHANNEL_COLORS[a]);
     box->copy_label       (label);
     box->user_data        (reinterpret_cast<void*>(a));
     box->callback         (cb_channel_selector_static);
@@ -601,7 +606,7 @@ init_child_widgets_top_info ()
 {
   m_top_info = new Fl_Box (
     m_status->x () + m_status->w () + 10 +
-      (OSC_DISPLAY::STATUS_HEIGHT * m_channel_selectors.size ()), 
+      (LABC::OSC_DISPLAY::STATUS_HEIGHT * m_channel_selectors.size ()), 
     m_status->y (), 
     3, 
     m_status->h ()
@@ -609,7 +614,7 @@ init_child_widgets_top_info ()
 
   m_top_info->box         (FL_NO_BOX);
   m_top_info->align       (FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
-  m_top_info->labelsize   (OSC_DISPLAY::AXIS_LABEL_SIZE);
+  m_top_info->labelsize   (LABC::OSC_DISPLAY::AXIS_LABEL_SIZE);
   m_top_info->labelcolor  (FL_WHITE);
 }
 
@@ -721,7 +726,7 @@ update_display ()
 void LABSoft_GUI_Oscilloscope_Display::
 update_gui_voltage_per_division (unsigned channel)
 {
-  std::array<std::array<Fl_Box*, OSC_DISPLAY::NUMBER_OF_ROWS + 1>,
+  std::array<std::array<Fl_Box*, LABC::OSC_DISPLAY::NUMBER_OF_ROWS + 1>,
     LABC::OSC::NUMBER_OF_CHANNELS>& labels = m_voltage_per_division_labels;
 
   if (m_parent_data->channel_data[channel].is_enabled)
@@ -731,7 +736,7 @@ update_gui_voltage_per_division (unsigned channel)
     for (int a = 0; a < labels[channel].size (); a++)
     {
       double row_vpd = calc_row_voltage_per_division (a,
-        OSC_DISPLAY::NUMBER_OF_ROWS, cdata);
+        LABC::OSC_DISPLAY::NUMBER_OF_ROWS, cdata);
       
       LABSoft_GUI_Label lbl (row_vpd);
 
@@ -774,7 +779,7 @@ update_gui_voltage_per_division ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_time_per_division ()
 {
-  double col_half = (OSC_DISPLAY::NUMBER_OF_COLUMNS / 2.0) * -1;
+  double col_half = (LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS / 2.0) * -1;
 
   for (int a = 0; a < m_time_per_division_labels.size (); a++)
   {
@@ -836,12 +841,12 @@ update_gui_trigger_level_slider ()
   const LAB_Parent_Data_Oscilloscope& pdata = *m_parent_data;
 
   // 1. update color
-  m_trigger_level_slider->selection_color (OSC_DISPLAY::CHANNEL_COLORS[pdata.trigger_source]);
+  m_trigger_level_slider->selection_color (LABC::OSC_DISPLAY::CHANNEL_COLORS[pdata.trigger_source]);
 
   // 2. update value
   const LAB_Channel_Data_Oscilloscope& cdata = pdata.channel_data[pdata.trigger_source];
 
-  double max_tpd_raw  = cdata.voltage_per_division * (OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
+  double max_tpd_raw  = cdata.voltage_per_division * (LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
   double min_tpd_raw  = -1 * max_tpd_raw;
   double max_bounds   = max_tpd_raw - cdata.vertical_offset;
   double min_bounds   = min_tpd_raw - cdata.vertical_offset;  
@@ -857,12 +862,12 @@ update_gui_vertical_offset_slider ()
   if (m_parent_data->has_enabled_channels ())
   {
     m_vertical_offset_slider->show ();
-    m_vertical_offset_slider->selection_color (OSC_DISPLAY::CHANNEL_COLORS[m_selected_channel]);
+    m_vertical_offset_slider->selection_color (LABC::OSC_DISPLAY::CHANNEL_COLORS[m_selected_channel]);
 
     const LAB_Parent_Data_Oscilloscope&   pdata = *m_parent_data;
     const LAB_Channel_Data_Oscilloscope&  cdata = pdata.channel_data[m_selected_channel];
 
-    double max_tpd_raw  = cdata.voltage_per_division * (OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
+    double max_tpd_raw  = cdata.voltage_per_division * (LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
     double min_tpd_raw  = -1 * max_tpd_raw;
     double max_bounds   = max_tpd_raw - cdata.vertical_offset;
     double min_bounds   = min_tpd_raw - cdata.vertical_offset;   

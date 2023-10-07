@@ -354,7 +354,7 @@ cb_time_per_division (Fl_Input_Choice* w,
   );
 
   if (lbl.is_valid ())
-  {
+  {    
     lab ().m_Oscilloscope.time_per_division (lbl.actual_value ());
   }
 
@@ -637,7 +637,6 @@ display_update_cycle ()
   // improvement. with this, the LAB_Oscilloscope does not have to find
   // for the next trigger as long as the current trigger has not yet been displayed
 
-
   if (lab ().m_Oscilloscope.trigger_found ())
   {
     lab ().m_Oscilloscope.trigger_serviced ();
@@ -666,6 +665,8 @@ update_trigger_panel_gui ()
 void LABSoft_Controller_Oscilloscope:: 
 update_gui_horizontal ()
 {
+  char label[20];
+
   LABSoft_GUI_Label horizontal_offset  (lab ().m_Oscilloscope.horizontal_offset ());
   LABSoft_GUI_Label time_per_division  (lab ().m_Oscilloscope.time_per_division ());
   LABSoft_GUI_Label samples            (lab ().m_Oscilloscope.samples ());
@@ -686,9 +687,9 @@ update_gui_horizontal ()
   //   samples.to_label_text (LABSoft_GUI_Label::UNIT::NONE, 3).c_str ()
   // );
 
-  gui ().oscilloscope_fl_input_choice_samples->value (
-    std::to_string (samples.actual_value ()).c_str ()
-  );
+  std::snprintf (label, sizeof (label), "%.0f", samples.actual_value ());
+
+  gui ().oscilloscope_fl_input_choice_samples->value (label);
 
   // 4. Sampling Rate
   gui ().oscilloscope_fl_input_choice_sampling_rate->value (

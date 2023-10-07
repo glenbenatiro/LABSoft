@@ -35,14 +35,17 @@ class LAB_Oscilloscope : public LAB_Module
     void                dma_buffer_count                (LABE::OSC::BUFFER_COUNT buffer_count);
   
     // Horizontal 
-    double              calc_samp_count                 (double sampling_rate, double time_per_div);
-    double              calc_sampling_rate              (unsigned samples, double time_per_division);
     double              calc_time_per_division          (unsigned samples, double sampling_rate);
-    LABE::OSC::MODE     calc_mode                       (double time_per_division);
-    void                set_time_per_division           (double value);
+    double              calc_samples_displayed          (double sampling_rate, double time_per_division);
+    double              calc_sampling_rate              (unsigned samples, double time_per_division);
     void                set_time_per_division           (unsigned samples, double sampling_rate);
+    void                set_time_per_division           (double value);
     void                set_samples                     (unsigned value);
+    void                set_samples_displayed           (unsigned value);
     void                set_sampling_rate               (double value);
+    
+    // mode
+    LABE::OSC::MODE     calc_mode                       (double time_per_division);    
   
     // Trigger 
     void                parse_trigger_mode              ();
@@ -137,8 +140,8 @@ class LAB_Oscilloscope : public LAB_Module
     bool                  is_backend_running      ();
 
     // Data
-    const LAB_Parent_Data_Oscilloscope&                         parent_data     ();
-    const std::array<double, LABC::OSC::MAX_NUMBER_OF_SAMPLES>  channel_samples (unsigned channel);
+    const LAB_Parent_Data_Oscilloscope&                     parent_data     ();
+    const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  channel_samples (unsigned channel);
 };
 
 #endif

@@ -8,11 +8,30 @@ namespace LABD
 {
   namespace OSC
   {
-    constexpr bool                IS_ENABLED            = true;
-    constexpr double              VOLTAGE_PER_DIVISION  = 1.0;
-    constexpr double              VERTICAL_OFFSET       = 0.0;
-    constexpr LABE::OSC::SCALING  SCALING               = LABE::OSC::SCALING::UNITY;
-    constexpr LABE::OSC::COUPLING COUPLING              = LABE::OSC::COUPLING::AC;
+    // vertical
+    constexpr bool                  IS_ENABLED            = true;
+    constexpr double                VOLTAGE_PER_DIVISION  = 1.0;
+    constexpr double                VERTICAL_OFFSET       = 0.0;
+    constexpr LABE::OSC::SCALING    SCALING               = LABE::OSC::SCALING::UNITY;
+    constexpr LABE::OSC::COUPLING   COUPLING              = LABE::OSC::COUPLING::DC;
+
+    // horizontal
+    constexpr unsigned              SAMPLES               = LABC::OSC::NUMBER_OF_SAMPLES;
+    constexpr double                TIME_PER_DIVISION     = 0.005; // 1 ms/div
+    constexpr double                SAMPLING_RATE         = SAMPLES / (TIME_PER_DIVISION * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
+    constexpr double                HORIZONTAL_OFFSET     = 0.0;
+    constexpr unsigned              SAMPLES_DISPLAYED     = TIME_PER_DIVISION * SAMPLING_RATE * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS;
+    
+    // mode
+    constexpr LABE::OSC::MODE       MODE                  = (TIME_PER_DIVISION < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN) ? 
+                                                          LABE::OSC::MODE::REPEATED : LABE::OSC::MODE::SCREEN;
+    
+    // trigger
+    constexpr LABE::OSC::TRIG::MODE TRIGGER_MODE          = LABE::OSC::TRIG::MODE::NONE;
+    constexpr unsigned              TRIGGER_SOURCE        = 0; // Channel 1
+    constexpr LABE::OSC::TRIG::TYPE TRIGGER_TYPE          = LABE::OSC::TRIG::TYPE::EDGE;
+    constexpr LABE::OSC::TRIG::CND  TRIGGER_CONDITION     = LABE::OSC::TRIG::CND::RISING;
+    constexpr double                TRIGGER_LEVEL         = 0.0;
   };
 
   namespace LOGAN 

@@ -15,41 +15,6 @@
 
 class LABSoft_Controller;
 
-// put this soon in LAB_Constants.h. diri lang for now para paspas compile
-namespace OSC_DISPLAY
-{
-  constexpr unsigned  NUMBER_OF_ROWS                      = 10;
-  constexpr unsigned  NUMBER_OF_COLUMNS                   = 10;
-  constexpr unsigned  MID_ROW_INDEX                       = (NUMBER_OF_ROWS / 2) - 1;
-  constexpr unsigned  MID_COLUMN_INDEX                    = (NUMBER_OF_COLUMNS / 2) - 1;
-  constexpr double    NUMBER_OF_ROWS_HALF                 = NUMBER_OF_ROWS / 2.0;             
-  constexpr unsigned  NUMBER_OF_MINOR_TICKS               = 10;
-  constexpr unsigned  SAMPLE_MARKING_THRESHOLD            = 40;
-  constexpr unsigned  SAMPLE_MARKING_AMPLITUDE            = 5;
-  constexpr unsigned  SAMPLE_MARKING_THICKNESS            = 1;
-  constexpr uint32_t  GRID_COLOR                          = 46; // light gray
-  constexpr uint32_t  BACKGROUND_COLOR                    = FL_BLACK;
-  constexpr unsigned  AXIS_LABEL_SIZE                     = 12;
-  constexpr unsigned  X_AXIS_MAJOR_TICK_LENGTH            = 20;
-  constexpr unsigned  X_AXIS_SEMI_MAJOR_TICK_LENGTH       = 10;
-  constexpr unsigned  X_AXIS_MINOR_TICK_LENGTH            = 5;
-  constexpr unsigned  Y_AXIS_MAJOR_TICK_LENGTH            = 12;
-  constexpr unsigned  Y_AXIS_SEMI_MAJOR_TICK_LENGTH       = 6;
-  constexpr unsigned  Y_AXIS_MINOR_TICK_LENGTH            = 3;
-  constexpr uint32_t  X_AXIS_LABEL_COLOR                  = FL_WHITE;
-  constexpr unsigned  Y_AXIS_LABEL_HORIZONTAL_INTRASPACE  = 40;
-  constexpr unsigned  Y_AXIS_UNIT_LABEL_SIZE              = 9;
-  constexpr unsigned  SLIDER_WIDTH                        = 10;
-  constexpr unsigned  STATUS_HEIGHT                       = 20;
-
-  static constexpr uint32_t CHANNEL_COLORS[] = {
-      3, // yellow
-      6, // cyan
-      2, // green
-      5, // purple
-    };
-};
-
 // ========== LABSoft_GUI_Oscilloscope_Display_Internal ==========
 
 class LABSoft_GUI_Oscilloscope_Display_Internal : public Fl_Widget
@@ -130,13 +95,13 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
 
     std::array<
       Fl_Box*,
-      OSC_DISPLAY::NUMBER_OF_COLUMNS + 1
+      LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS + 1
     > m_time_per_division_labels;
 
     std::array<
       std::array<
         Fl_Box*,
-        OSC_DISPLAY::NUMBER_OF_ROWS + 1
+        LABC::OSC_DISPLAY::NUMBER_OF_ROWS + 1
       >,
       LABC::OSC::NUMBER_OF_CHANNELS
     > m_voltage_per_division_labels;

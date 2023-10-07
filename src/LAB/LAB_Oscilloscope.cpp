@@ -2,8 +2,6 @@
 
 #include <cmath>
 #include <cstring>
-#include <bitset>
-#include <iostream>
 
 #include "LAB.h"
 #include "../Utility/LAB_Utility_Functions.h"
@@ -36,8 +34,8 @@ init_spi ()
 {
   rpi ().spi.clear_fifo  ();
   rpi ().spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
-  rpi ().spi.frequency   (LABC::SPI::FREQUENCY);
-
+  rpi ().spi.frequency   (LABC::SPI::FREQUENCY, LABC::LAB::GPU_CORE_CLOCK_FREQ);
+  
   rpi ().gpio.set (LABC::PIN::OSC::ADC_CS,   AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
   rpi ().gpio.set (LABC::PIN::OSC::ADC_MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
   rpi ().gpio.set (LABC::PIN::OSC::ADC_MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
@@ -52,7 +50,7 @@ init_pwm ()
   rpi ().pwm.reg           (AP::PWM::DMAC, (1 << 31) | (8 << 8) | (1 << 0));
   rpi ().pwm.use_fifo      (LABC::PWM::DMA_PACING_CHAN, true);
   rpi ().pwm.algo          (LABC::PWM::DMA_PACING_CHAN, AP::PWM::ALGO::MARKSPACE);
-  rpi ().pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LABC::OSC::SAMPLING_RATE);
+  rpi ().pwm.frequency     (LABC::PWM::DMA_PACING_CHAN, LABD::OSC::SAMPLING_RATE);
   rpi ().pwm.duty_cycle    (LABC::PWM::DMA_PACING_CHAN, 50.0);
 
   // PWM pin (BCM pin 12) is in use by digital circuit checker
@@ -127,7 +125,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::MAX_NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABD::OSC::SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
@@ -147,7 +145,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[1]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::MAX_NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABD::OSC::SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
         0
@@ -169,7 +167,7 @@ config_dma_cb ()
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
         m_uncached_memory.bus (&uncached_dma_data.rxd[0]),
-        static_cast<uint32_t> (sizeof (uint32_t) * LABC::OSC::MAX_NUMBER_OF_SAMPLES),
+        static_cast<uint32_t> (sizeof (uint32_t) * LABD::OSC::SAMPLES),
         0,
         m_uncached_memory.bus (&uncached_dma_data.cbs[5]),
         0
@@ -517,18 +515,18 @@ parse_raw_sample_buffer ()
 {
   LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
 
-  pdata.time_per_division_raw_buffer  = pdata.time_per_division;
-  pdata.samples_raw_buffer            = pdata.samples; 
+  // pdata.time_per_division_raw_buffer  = pdata.time_per_division;
+  // pdata.samples_raw_buffer            = pdata.samples; 
 
-  for (int samp = 0; samp < pdata.samples; samp++)
+  for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
-    for (int chan = 0; chan < pdata.channel_data.size (); chan++)
+    for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
     {
       pdata.channel_data[chan].samples[samp] = 
         conv_raw_chan_adc_bits_to_actual_value (pdata.raw_data_buffer[samp], chan);
 
-      // For debug
-      // if (samp == 0 && chan == 1)
+      // // For debug
+      // if (samp == 0 && chan == 0)
       // {
       //   uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
 
@@ -567,27 +565,27 @@ extract_raw_chan_adc_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
       LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
 }
 
-// constexpr uint32_t LAB_Oscilloscope:: 
-// arrange_raw_chan_adc_bits (uint32_t raw_chan_bits)
-// {
-//   // if you update this function, please also update 
-//   // reverse_arrange_raw_chan_adc_bits (), which is just 
-//   // the reverse of this function
+// all of these were determined using manual testing
 
-//   // all of these were determined using manual testing
+// mcp33111 at 250MHz GPU core speed and 10MHz SPI frequency
+// return (((raw_chan_bits & 0x007F) << 5) | ((raw_chan_bits & 0xF800) >> 11));
 
-//   // mcp33111 at 250MHz GPU core speed and 10MHz SPI frequency
-//   // return (((raw_chan_bits & 0x007F) << 5) | ((raw_chan_bits & 0xF800) >> 11));
+// 
+// ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
+//return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
 
-//   // 
-//   // ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
-//   //return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
+// mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
+// return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
 
-//   // mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
-//   // return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
-  
-//   // telly 8/24 lab
+// telly 8/24 lab
+
+// if (channel == 0) // MCP33111
+// { 
 //   return (((raw_chan_bits & 0xF800) >> 11) | ((raw_chan_bits & 0x007F) << 5));
+// }
+// else // AD7883
+// {
+//   return (((raw_chan_bits & 0xFD00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
 // }
 
 constexpr uint32_t LAB_Oscilloscope:: 
@@ -597,31 +595,8 @@ arrange_raw_chan_adc_bits (uint32_t raw_chan_bits, unsigned channel)
   // reverse_arrange_raw_chan_adc_bits (), which is just 
   // the reverse of this function
 
-  // all of these were determined using manual testing
-
-  // mcp33111 at 250MHz GPU core speed and 10MHz SPI frequency
-  // return (((raw_chan_bits & 0x007F) << 5) | ((raw_chan_bits & 0xF800) >> 11));
-
-  // 
-  // ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
-  //return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
-
-  // mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
-  // return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
-  
-  // telly 8/24 lab
-
-  if (channel == 0) // MCP33111
-  { 
-    return (((raw_chan_bits & 0xF800) >> 11) | ((raw_chan_bits & 0x007F) << 5));
-  }
-  else // AD7883
-  {
-    return (((raw_chan_bits & 0xFD00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
-  }
+  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
 }
-
-
 
 constexpr uint32_t LAB_Oscilloscope:: 
 reverse_arrange_raw_chan_adc_bits (uint32_t arranged_bits)
@@ -659,20 +634,20 @@ reset_dma_process ()
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
 
-  bool is_running = rpi ().dma.is_running (LABC::DMA::CHAN::PWM_PACING);
+  bool is_dma_running = rpi ().dma.is_running (LABC::DMA::CHAN::PWM_PACING);
 
-  // 1. Check if DMA is running. If it is, pause it
-  if (is_running)
+  // 1. check if DMA is running. if it is, pause it
+  if (is_dma_running)
   {
     rpi ().dma.pause (LABC::DMA::CHAN::PWM_PACING);
   }
 
-  // 2. Reset the DMA engine to the first control block, depending on the buffer
+  // 2. reset the DMA engine to the first control block, depending on the buffer
   switch (mode ())
   {
     case (LABE::OSC::MODE::REPEATED): // dual buffer
     {
-      rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+      rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX,
         m_uncached_memory.bus (&dma_data.cbs[0]));
 
       break;
@@ -680,24 +655,24 @@ reset_dma_process ()
 
     case (LABE::OSC::MODE::SCREEN): // single buffer
     {
-      rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX, 
+      rpi ().dma.next_cb (LABC::DMA::CHAN::OSC_RX,
         m_uncached_memory.bus (&dma_data.cbs[4]));
-
+      
       break;
     }
   }
 
-  // 3. Abort the current control block
+  // 3. abort the current control block
   rpi ().dma.abort (LABC::DMA::CHAN::OSC_RX);
 
-  // 4. Reset the DMA status flags
+  // 4. reset the DMA status flags
   dma_data.status[0] = dma_data.status[1] = 0;
 
-  // 5. Reset the 2D DMA OSC RX array
-   reset_uncached_rx_buffer ();
+  // 5. reset the 2D DMA OSC RX buffer array
+  reset_uncached_rx_buffer ();
 
-  // 6. Run DMA if it was running
-  if (is_running)
+  // 6. run DMA again if it was running
+  if (is_dma_running)
   {
     rpi ().dma.run (LABC::DMA::CHAN::PWM_PACING);
   }
@@ -733,19 +708,24 @@ has_enabled_channel ()
   return (flag);
 }
 
-double LAB_Oscilloscope:: 
-calc_samp_count (double sampling_rate, double time_per_div)
+double LAB_Oscilloscope::
+calc_time_per_division (unsigned  samples, 
+                        double    sampling_rate)
 {
-  double new_sample_count = sampling_rate * 
-    LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS * time_per_div;
+  return (samples / (sampling_rate * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS));
+}
 
-  if (new_sample_count > LABC::OSC::MAX_SAMPLES)
+double LAB_Oscilloscope:: 
+calc_samples_displayed (double sampling_rate, 
+                        double time_per_division)
+{
+  if (time_per_division < LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM)
   {
-    return (LABC::OSC::MAX_SAMPLES);
+    return (sampling_rate * time_per_division * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
   }
   else 
   {
-    return (new_sample_count);
+    return (LABC::OSC::MAX_SAMPLES);
   }
 }
 
@@ -755,39 +735,71 @@ calc_sampling_rate (unsigned  samples,
 {
   double new_sampling_rate = samples / (time_per_division * 
     LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
-
-  if (new_sampling_rate > LABC::OSC::MAX_SAMPLING_RATE)
-  {
-    return (LABC::OSC::MAX_SAMPLING_RATE);
-  }
-  else 
-  {
-    return (new_sampling_rate);
-  }
+  
+  return (new_sampling_rate > LABC::OSC::MAX_SAMPLING_RATE ? 
+    LABC::OSC::MAX_SAMPLING_RATE : new_sampling_rate);
 }
 
-double LAB_Oscilloscope::
-calc_time_per_division (unsigned  samples, 
-                        double    sampling_rate)
+void LAB_Oscilloscope:: 
+set_time_per_division (unsigned samples,
+                       double   sampling_rate)
 {
-  return (samples / (sampling_rate * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS));
+  set_time_per_division (calc_time_per_division (samples, sampling_rate));
+}
+
+void LAB_Oscilloscope:: 
+set_time_per_division (double value)
+{
+  m_parent_data.time_per_division = value;
+
+  set_mode (calc_mode (value));
+
+  reset_dma_process ();
+}
+
+void LAB_Oscilloscope:: 
+set_samples (unsigned value)
+{
+  m_parent_data.samples = value;
+
+  LAB_DMA_Data_Oscilloscope& uncached_dma_data = 
+    *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
+  
+  uncached_dma_data.cbs[0].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
+  uncached_dma_data.cbs[2].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
+  uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
+}
+
+void LAB_Oscilloscope:: 
+set_samples_displayed (unsigned value)
+{
+  m_parent_data.samples_displayed = value;
+
+  m_parent_data.sample_start_index = ((LABC::OSC::NUMBER_OF_SAMPLES - 1) / 2.0) - 
+    ((value - 1) / 2.0);
+}
+
+void LAB_Oscilloscope:: 
+set_sampling_rate (double value)
+{
+  // 1. change the source frequency of the PWM peripheral
+  rpi ().pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
+
+  // 2. set the duty cycle in the DMA data to 50%
+  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
+    (m_uncached_memory.virt ()));
+
+  dma_data.pwm_duty_cycle = (rpi ().pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
+
+  // 3. store the sampling rate
+  m_parent_data.sampling_rate = value;
 }
 
 LABE::OSC::MODE LAB_Oscilloscope:: 
 calc_mode (double time_per_division)
 {
-  LABE::OSC::MODE mode;
-
-  if (time_per_division < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN)
-  {
-    mode = LABE::OSC::MODE::REPEATED;
-  }
-  else
-  {
-    mode = m_parent_data.last_mode_before_repeated;
-  }
-
-  return (mode);
+  return (time_per_division < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN ?
+    LABE::OSC::MODE::REPEATED : m_parent_data.last_mode_before_repeated);
 }
 
 // --- Horizontal ---
@@ -810,34 +822,20 @@ time_per_division (double value)
   if (LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
     LABC::OSC::MAX_TIME_PER_DIVISION))
   {
-    double new_sampling_rate = calc_sampling_rate (m_parent_data.samples, value);
+    double new_sampling_rate      = 0.0;
+    double new_samples_displayed  = 0.0;
 
-    if (value < LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM)
-    {
-      unsigned new_sample_count = calc_samp_count (m_parent_data.sampling_rate, value);
-      set_samples (new_sample_count);
-    } 
+    // 1. 
+    new_sampling_rate     = calc_sampling_rate (m_parent_data.samples, value);
 
+    // 2.
+    new_samples_displayed = calc_samples_displayed (new_sampling_rate, value);
+
+    // 3. 
     set_sampling_rate     (new_sampling_rate);
+    set_samples_displayed (new_samples_displayed);
     set_time_per_division (value);
   }
-}
-
-void LAB_Oscilloscope:: 
-set_time_per_division (double value)
-{
-  m_parent_data.time_per_division = value;
-
-  set_mode (calc_mode (value));
-
-  reset_dma_process ();
-}
-
-void LAB_Oscilloscope:: 
-set_time_per_division (unsigned samples,
-                       double   sampling_rate)
-{
-  set_time_per_division (calc_time_per_division (samples, sampling_rate));
 }
 
 void LAB_Oscilloscope:: 
@@ -862,19 +860,6 @@ samples (unsigned value)
 }
 
 void LAB_Oscilloscope:: 
-set_samples (unsigned value)
-{
-  m_parent_data.samples = value;
-
-  LAB_DMA_Data_Oscilloscope& uncached_dma_data = 
-    *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
-  
-  uncached_dma_data.cbs[0].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
-  uncached_dma_data.cbs[2].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
-  uncached_dma_data.cbs[4].txfr_len = static_cast<uint32_t>(sizeof (uint32_t) * value);
-}
-
-void LAB_Oscilloscope:: 
 sampling_rate (double value)
 {
   if (LABF::is_within_range (value, LABC::OSC::MIN_SAMPLING_RATE,
@@ -883,22 +868,6 @@ sampling_rate (double value)
     set_time_per_division (m_parent_data.samples, value);
     set_sampling_rate     (value);
   }
-}
-
-void LAB_Oscilloscope:: 
-set_sampling_rate (double value)
-{
-  // 1. Change the source frequency of the PWM peripheral
-  rpi ().pwm.frequency (LABC::PWM::DMA_PACING_CHAN, value);
-
-  // 2. Set the DMA PWM duty cycle to 50%
-  LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
-    (m_uncached_memory.virt ()));
-
-  dma_data.pwm_duty_cycle = (rpi ().pwm.range (LABC::PWM::DMA_PACING_CHAN)) / 2.0;
-
-  // 3. Store the sampling rate
-  m_parent_data.sampling_rate = value;
 }
 
 // --- Trigger ---
@@ -1030,7 +999,7 @@ find_trigger_point_loop ()
         std::memcpy (
           m_parent_data.trig_buffs.pre_trigger.data (),
           const_cast<const void*>(static_cast<const volatile void*>(dma_data.rxd)),
-          sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::MAX_NUMBER_OF_SAMPLES
+          sizeof (uint32_t) * LABC::OSC::NUMBER_OF_CHANNELS * LABC::OSC::NUMBER_OF_SAMPLES
         );
 
         // 5. Identify the buffer that was filled 
@@ -1179,7 +1148,7 @@ find_trigger_point ()
 inline void LAB_Oscilloscope:: 
 create_trigger_frame ()
 {
-  static constexpr unsigned samp_half         = LABC::OSC::MAX_NUMBER_OF_SAMPLES / 2;
+  static constexpr unsigned samp_half         = LABC::OSC::NUMBER_OF_SAMPLES / 2;
   static constexpr unsigned samp_half_index   = samp_half - 1;
   static LAB_DMA_Data_Oscilloscope& dma_data  = *(static_cast<LAB_DMA_Data_Oscilloscope*>
                                                   (m_uncached_memory.virt ()));
@@ -1187,7 +1156,7 @@ create_trigger_frame ()
   if (m_parent_data.trig_index >= samp_half_index)
   {
     unsigned  copy_count_0  = samp_half,
-              copy_count_1  = LABC::OSC::MAX_NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
+              copy_count_1  = LABC::OSC::NUMBER_OF_SAMPLES - 1 - m_parent_data.trig_index,
               copy_count_2  = samp_half - copy_count_1;
     
     std::memcpy (
@@ -1223,7 +1192,7 @@ create_trigger_frame ()
     std::memcpy (
       m_parent_data.raw_data_buffer.data (),
       m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index ^ 1].data () 
-        + (LABC::OSC::MAX_NUMBER_OF_SAMPLES - copy_count_0),
+        + (LABC::OSC::NUMBER_OF_SAMPLES - copy_count_0),
       sizeof (uint32_t) * copy_count_0
     );
 
@@ -1626,7 +1595,7 @@ parent_data ()
   return (m_parent_data);
 }
 
-const std::array<double, LABC::OSC::MAX_NUMBER_OF_SAMPLES> LAB_Oscilloscope:: 
+const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> LAB_Oscilloscope:: 
 channel_samples (unsigned channel)
 {
   return (m_parent_data.channel_data[channel].samples);

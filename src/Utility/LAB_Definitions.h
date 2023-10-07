@@ -20,58 +20,57 @@ struct LAB_Channel_Data_Oscilloscope
   LABE::OSC::COUPLING coupling              = LABD::OSC::COUPLING;
 
   // data
-  std::array<double, LABC::OSC::MAX_NUMBER_OF_SAMPLES>  samples       = {0};
-  // std::vector<std::array<int, 2>>                       pixel_points  = {{0}};
+  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> samples = {0};
 };
 
 class LAB_Parent_Data_Oscilloscope
 {
   public:    
-    // State 
+    // state 
     bool              is_backend_running      = false; 
     bool              is_frontend_running     = false;
     bool              single                  = false;
     LABE::OSC::STATUS status                  = LABE::OSC::STATUS::READY;
     
-    // Mode
-    LABE::OSC::MODE mode                      = LABC::OSC::MODE;
+    // mode
+    LABE::OSC::MODE mode                      = LABD::OSC::MODE;
     LABE::OSC::MODE last_mode_before_repeated = mode; 
     bool            auto_mode_frame_ready     = false;
 
     // Horizontal
-    double    horizontal_offset               = LABC::OSC::HORIZONTAL_OFFSET;
-    double    time_per_division               = LABC::OSC::TIME_PER_DIVISION;
+    double    horizontal_offset               = LABD::OSC::HORIZONTAL_OFFSET;
+    double    time_per_division               = LABD::OSC::TIME_PER_DIVISION;
     double    time_per_division_last_repeated = time_per_division;
     double    time_per_division_raw_buffer    = time_per_division;
-    unsigned  samples                         = LABC::OSC::MAX_NUMBER_OF_SAMPLES;
-    unsigned  samples_raw_buffer              = samples;
-    double    sampling_rate                   = LABC::OSC::SAMPLING_RATE;
+    unsigned  samples                         = LABD::OSC::SAMPLES;               
+    unsigned  samples_raw_buffer              = samples;                         
+    unsigned  samples_displayed               = LABD::OSC::SAMPLES_DISPLAYED;
+    unsigned  sample_start_index              = 0;
+    double    sampling_rate                   = LABD::OSC::SAMPLING_RATE;
 
     // Data/Samples/Pixels
     std::vector<uint32_t> recording_raw_sample_buffer;
 
     std::array<
       uint32_t, 
-      LABC::OSC::MAX_NUMBER_OF_SAMPLES
+      LABC::OSC::NUMBER_OF_SAMPLES
     > raw_data_buffer;              
 
     std::array<
       LAB_Channel_Data_Oscilloscope, 
       LABC::OSC::NUMBER_OF_CHANNELS
     > channel_data;
-
-    double                w_samp_count            = LABC::OSC::MAX_NUMBER_OF_SAMPLES;
   
     // Trigger 
     bool                  find_trigger            = false; 
     bool                  trigger_frame_ready     = false;
     bool                  trigger_found           = false;
     bool                  find_trigger_timeout    = false;
-    LABE::OSC::TRIG::MODE trigger_mode            = LABC::OSC::TRIGGER_MODE;
-    unsigned              trigger_source          = LABC::OSC::TRIGGER_SOURCE;
-    LABE::OSC::TRIG::TYPE trig_type               = LABC::OSC::TRIGGER_TYPE;
-    LABE::OSC::TRIG::CND  trig_condition          = LABC::OSC::TRIGGER_CONDITION;
-    double                trigger_level           = LABC::OSC::TRIGGER_LEVEL;
+    LABE::OSC::TRIG::MODE trigger_mode            = LABD::OSC::TRIGGER_MODE;
+    unsigned              trigger_source          = LABD::OSC::TRIGGER_SOURCE;
+    LABE::OSC::TRIG::TYPE trig_type               = LABD::OSC::TRIGGER_TYPE;
+    LABE::OSC::TRIG::CND  trig_condition          = LABD::OSC::TRIGGER_CONDITION;
+    double                trigger_level           = LABD::OSC::TRIGGER_LEVEL;
     double                trigger_level_raw_bits  = (LABC::OSC::ADC_RESOLUTION_INT - 1) / 2;
     unsigned              find_trig_sample_skip   = 4;
     unsigned              trigger_buffer_index    = 0;
@@ -83,16 +82,16 @@ class LAB_Parent_Data_Oscilloscope
     struct TriggerBuffers
     {
       std::array<
-        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > pre_trigger;
 
       std::array<
-        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > post_trigger;
 
-      std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES> assembled_block;
+      std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
     } trig_buffs;      
 
 
@@ -123,7 +122,7 @@ struct LAB_DMA_Data_Oscilloscope
 
   volatile uint32_t status[LABC::OSC::NUMBER_OF_CHANNELS];
 
-  volatile uint32_t rxd[2][LABC::OSC::MAX_NUMBER_OF_SAMPLES] = {{0}};
+  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES] = {{0}};
 };
 
 struct LAB_Channel_Data_Function_Generator
@@ -219,18 +218,18 @@ struct LAB_Parent_Data_Logic_Analyzer
   struct TriggerBuffers
     {
       std::array<
-        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > pre_trigger;
 
       std::array<
-        std::array<uint32_t, LABC::OSC::MAX_NUMBER_OF_SAMPLES>,
+        std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES>,
         LABC::OSC::NUMBER_OF_CHANNELS
       > post_trigger;
 
       std::array<
         uint32_t, 
-        LABC::OSC::MAX_NUMBER_OF_SAMPLES
+        LABC::OSC::NUMBER_OF_SAMPLES
       > assembled_frame;
     } trigger_buffers; 
 };
