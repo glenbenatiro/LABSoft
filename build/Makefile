@@ -466,6 +466,33 @@ src/LAB/LAB_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Voltmeter.cpp.s
 .PHONY : src/LAB/LAB_Voltmeter.cpp.s
 
+src/LAB/Software/LAB_Calibration.o: src/LAB/Software/LAB_Calibration.cpp.o
+
+.PHONY : src/LAB/Software/LAB_Calibration.o
+
+# target to build an object file
+src/LAB/Software/LAB_Calibration.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Calibration.cpp.o
+.PHONY : src/LAB/Software/LAB_Calibration.cpp.o
+
+src/LAB/Software/LAB_Calibration.i: src/LAB/Software/LAB_Calibration.cpp.i
+
+.PHONY : src/LAB/Software/LAB_Calibration.i
+
+# target to preprocess a source file
+src/LAB/Software/LAB_Calibration.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Calibration.cpp.i
+.PHONY : src/LAB/Software/LAB_Calibration.cpp.i
+
+src/LAB/Software/LAB_Calibration.s: src/LAB/Software/LAB_Calibration.cpp.s
+
+.PHONY : src/LAB/Software/LAB_Calibration.s
+
+# target to generate assembly for a file
+src/LAB/Software/LAB_Calibration.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Calibration.cpp.s
+.PHONY : src/LAB/Software/LAB_Calibration.cpp.s
+
 src/LAB/Software/LAB_Exporter.o: src/LAB/Software/LAB_Exporter.cpp.o
 
 .PHONY : src/LAB/Software/LAB_Exporter.o
@@ -762,6 +789,33 @@ src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s: src/LABSoft_Controller/LA
 src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
+
+src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.o: src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.o
+
+# target to build an object file
+src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o
+
+src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.i: src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.i
+
+# target to preprocess a source file
+src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i
+
+src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.s: src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s
 
 src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
 
@@ -1294,6 +1348,9 @@ help:
 	@echo "... src/LAB/LAB_Voltmeter.o"
 	@echo "... src/LAB/LAB_Voltmeter.i"
 	@echo "... src/LAB/LAB_Voltmeter.s"
+	@echo "... src/LAB/Software/LAB_Calibration.o"
+	@echo "... src/LAB/Software/LAB_Calibration.i"
+	@echo "... src/LAB/Software/LAB_Calibration.s"
 	@echo "... src/LAB/Software/LAB_Exporter.o"
 	@echo "... src/LAB/Software/LAB_Exporter.i"
 	@echo "... src/LAB/Software/LAB_Exporter.s"
@@ -1327,6 +1384,9 @@ help:
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.o"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.i"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.s"
 	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o"
 	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i"
 	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s"

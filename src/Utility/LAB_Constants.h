@@ -84,8 +84,8 @@ namespace LABC
   {
     // Please note that LABSoft requires the core clock to be fixed to 
     // 250 MHz in boot/config.txt. This affects the divisor setting.
-    constexpr double FREQUENCY = 10'000'000.0;
-  };
+    constexpr double FREQUENCY = 12'500'000;
+  }
 
   namespace PWM
   {

@@ -17,6 +17,13 @@ void LABSoft_GUI::cb_Exit(Fl_Menu_* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Exit_i(o,v);
 }
 
+void LABSoft_GUI::cb_Calibration_i(Fl_Menu_*, void*) {
+  m_LABSoft_Controller->m_Calibration.cb_show_window ();
+}
+void LABSoft_GUI::cb_Calibration(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Calibration_i(o,v);
+}
+
 void LABSoft_GUI::cb_Browse_i(Fl_Menu_* o, void* v) {
   m_LABSoft_Controller->m_Main_Window.cb_help_about (o, v);
 }
@@ -37,6 +44,7 @@ Fl_Menu_Item LABSoft_GUI::menu_[] = {
  {"Exit", 0,  (Fl_Callback*)LABSoft_GUI::cb_Exit, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
  {"Settings", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Calibration", 0,  (Fl_Callback*)LABSoft_GUI::cb_Calibration, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
  {"Help", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"Browse", 0,  (Fl_Callback*)LABSoft_GUI::cb_Browse, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -952,6 +960,22 @@ void LABSoft_GUI::cb_exporter_fl_light_button_labels(Fl_Light_Button* o, void* v
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_light_button_labels_i(o,v);
 }
 
+Fl_Menu_Item LABSoft_GUI::menu_1[] = {
+ {"File", 0,  0, 0, 65, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {0,0,0,0,0,0,0,0,0},
+ {"Reset", 0,  0, 0, 65, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {0,0,0,0,0,0,0,0,0},
+ {"Wizard", 0,  0, 0, 1, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {0,0,0,0,0,0,0,0,0}
+};
+
+void LABSoft_GUI::cb_calibration_fl_button_cancel_i(Fl_Button*, void*) {
+  m_LABSoft_Controller->m_Calibration.cb_cancel ();
+}
+void LABSoft_GUI::cb_calibration_fl_button_cancel(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_cancel_i(o,v);
+}
+
 LABSoft_GUI::LABSoft_GUI() {
   { main_fl_window = new Fl_Double_Window(1220, 600, "LABSoft (for Educators)");
     main_fl_window->color((Fl_Color)53);
@@ -971,23 +995,11 @@ LABSoft_GUI::LABSoft_GUI() {
       main_fl_tabs->selection_color(FL_LIGHT3);
       main_fl_tabs->labelsize(12);
       main_fl_tabs->callback((Fl_Callback*)cb_main_fl_tabs);
-      { main_fl_group_home_tab = new Fl_Group(0, 50, 1220, 550, "Home");
-        main_fl_group_home_tab->color(FL_LIGHT3);
-        main_fl_group_home_tab->selection_color(FL_LIGHT2);
-        main_fl_group_home_tab->labelsize(12);
-        main_fl_group_home_tab->hide();
-        { Fl_Box* o = new Fl_Box(0, 40, 1200, 560, "LABSoft");
-          o->color(FL_LIGHT3);
-          o->selection_color(FL_BACKGROUND2_COLOR);
-          o->labelsize(48);
-          o->labelcolor(FL_LIGHT2);
-        } // Fl_Box* o
-        main_fl_group_home_tab->end();
-      } // Fl_Group* main_fl_group_home_tab
       { main_fl_group_oscilloscope_tab = new Fl_Group(0, 50, 1220, 550, "Oscilloscope");
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
+        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_gui_oscilloscope_display->color(FL_FOREGROUND_COLOR);
@@ -1407,7 +1419,6 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_function_generator_tab->color(FL_LIGHT3);
         main_fl_group_function_generator_tab->selection_color(FL_LIGHT2);
         main_fl_group_function_generator_tab->labelsize(12);
-        main_fl_group_function_generator_tab->hide();
         { function_generator_fl_choice_wave_type = new LABSoft_GUI_Fl_Choice_With_Scroll(190, 200, 240, 60, "Wave Type");
           function_generator_fl_choice_wave_type->box(FL_NO_BOX);
           function_generator_fl_choice_wave_type->down_box(FL_BORDER_BOX);
@@ -1463,6 +1474,7 @@ LABSoft_GUI::LABSoft_GUI() {
 tion generator board.");
           o->labelsize(12);
           o->align(Fl_Align(FL_ALIGN_WRAP));
+          o->deactivate();
         } // Fl_Box* o
         { function_generator_fl_light_button_run_stop = new Fl_Light_Button(520, 400, 180, 60, "Run");
           function_generator_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
@@ -1474,6 +1486,20 @@ tion generator board.");
         } // Fl_Light_Button* function_generator_fl_light_button_run_stop
         main_fl_group_function_generator_tab->end();
       } // Fl_Group* main_fl_group_function_generator_tab
+      { main_fl_group_power_supply_tab = new Fl_Group(0, 50, 1220, 550, "Power Supply");
+        main_fl_group_power_supply_tab->color(FL_LIGHT3);
+        main_fl_group_power_supply_tab->selection_color(FL_LIGHT2);
+        main_fl_group_power_supply_tab->labelsize(12);
+        main_fl_group_power_supply_tab->hide();
+        { Fl_Box* o = new Fl_Box(460, 250, 300, 100, "+3.3V, +5V, +12V, and -12V power rails are available to use on the power supp\
+ly board.");
+          o->color(FL_LIGHT3);
+          o->selection_color(FL_BACKGROUND2_COLOR);
+          o->labelsize(12);
+          o->align(Fl_Align(FL_ALIGN_WRAP));
+        } // Fl_Box* o
+        main_fl_group_power_supply_tab->end();
+      } // Fl_Group* main_fl_group_power_supply_tab
       { main_fl_group_logic_analyzer_tab = new Fl_Group(0, 50, 1220, 550, "Logic Analyzer");
         main_fl_group_logic_analyzer_tab->color(FL_LIGHT3);
         main_fl_group_logic_analyzer_tab->selection_color(FL_LIGHT2);
@@ -1655,7 +1681,7 @@ tion generator board.");
         } // LABSoft_GUI_Logic_Analyzer_Display* logic_analyzer_labsoft_gui_logic_analyzer_display
         main_fl_group_logic_analyzer_tab->end();
       } // Fl_Group* main_fl_group_logic_analyzer_tab
-      { main_fl_group_digital_circuit_checker_tab = new Fl_Group(0, 50, 1200, 550, "Digital Circuit Checker");
+      { main_fl_group_digital_circuit_checker_tab = new Fl_Group(0, 50, 1220, 550, "Digital Circuit Checker");
         main_fl_group_digital_circuit_checker_tab->color(FL_LIGHT3);
         main_fl_group_digital_circuit_checker_tab->selection_color(FL_LIGHT2);
         main_fl_group_digital_circuit_checker_tab->labelsize(12);
@@ -1721,7 +1747,7 @@ tion generator board.");
         } // LABSoft_GUI_LABChecker_Digital_Output_Table* digital_circuit_checker_labchecker_gui_digital_output_table_table
         main_fl_group_digital_circuit_checker_tab->end();
       } // Fl_Group* main_fl_group_digital_circuit_checker_tab
-      { main_fl_group_labchecker_digital = new Fl_Group(0, 50, 1200, 550, "LABChecker - Digital");
+      { main_fl_group_labchecker_digital = new Fl_Group(0, 50, 1220, 550, "LABChecker - Digital");
         main_fl_group_labchecker_digital->color(FL_LIGHT3);
         main_fl_group_labchecker_digital->selection_color(FL_LIGHT2);
         main_fl_group_labchecker_digital->labelsize(12);
@@ -1784,7 +1810,7 @@ tion generator board.");
         } // LABSoft_GUI_LABChecker_Digital_Input_Table* labchecker_digital_labsoft_gui_labchecker_digital_input_table_table
         main_fl_group_labchecker_digital->end();
       } // Fl_Group* main_fl_group_labchecker_digital
-      main_fl_tabs->value (main_fl_group_home_tab);
+      main_fl_tabs->value (main_fl_group_oscilloscope_tab);
       main_fl_tabs->end();
     } // Fl_Tabs* main_fl_tabs
     main_fl_window->end();
@@ -1981,4 +2007,20 @@ tion generator board.");
     } // Fl_Light_Button* exporter_fl_light_button_labels
     main_fl_window_exporter->end();
   } // Fl_Double_Window* main_fl_window_exporter
+  { main_fl_window_calibration = new Fl_Double_Window(800, 500, "Device Calibration");
+    main_fl_window_calibration->color(FL_LIGHT3);
+    main_fl_window_calibration->user_data((void*)(this));
+    { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 800, 20);
+      o->box(FL_FLAT_BOX);
+      o->color(FL_LIGHT3);
+      o->menu(menu_1);
+    } // Fl_Menu_Bar* o
+    { calibration_fl_button_cancel = new Fl_Button(690, 450, 90, 30, "Cancel");
+      calibration_fl_button_cancel->box(FL_GTK_UP_BOX);
+      calibration_fl_button_cancel->color((Fl_Color)53);
+      calibration_fl_button_cancel->labelsize(12);
+      calibration_fl_button_cancel->callback((Fl_Callback*)cb_calibration_fl_button_cancel);
+    } // Fl_Button* calibration_fl_button_cancel
+    main_fl_window_calibration->end();
+  } // Fl_Double_Window* main_fl_window_calibration
 }

@@ -106,29 +106,7 @@ init_gui_values ()
   }
   
   // ========== 2. horizontal ==========
-  // 2.1. horizontal offset
-  gui ().oscilloscope_fl_input_choice_horizontal_offset->value (
-    LABSoft_GUI_Label (osc.horizontal_offset ()).to_label_text (
-    LABSoft_GUI_Label::UNIT::SECOND).c_str ()
-  );
-
-  // 2.2. time per division
-  gui ().oscilloscope_fl_input_choice_time_per_division->value (
-    LABSoft_GUI_Label (osc.time_per_division ()).to_label_text (
-    LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION).c_str ()
-  );
-
-  // 2.3. samples
-  gui ().oscilloscope_fl_input_choice_samples->value (
-    LABSoft_GUI_Label (osc.samples ()).to_label_text (
-    LABSoft_GUI_Label::UNIT::NONE).c_str ()
-  );
-
-  // 2.4. sampling rate
-  gui ().oscilloscope_fl_input_choice_sampling_rate->value (
-    LABSoft_GUI_Label (osc.sampling_rate ()).to_label_text (
-    LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
-  );
+  update_gui_horizontal ();
 
   // ========== 3. trigger ==========
   {

@@ -7,7 +7,8 @@ LAB::LAB ()
   m_Function_Generator      (*this),
   m_Logic_Analyzer          (*this),
   m_Digital_Circuit_Checker (*this),
-  m_Exporter                (*this)
+  m_Exporter                (*this),
+  m_Calibration             (*this)
 {
 
 }

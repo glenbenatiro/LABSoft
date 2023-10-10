@@ -36,6 +36,7 @@ ADD_EXECUTABLE(LABSoft
   src/LAB/LAB_LABChecker_Digital.cpp
 
   src/LAB/Software/LAB_Exporter.cpp
+  src/LAB/Software/LAB_Calibration.cpp
 
   src/LABSoft_Controller/LABSoft_Controller_Unit.cpp
   src/LABSoft_Controller/LABSoft_Controller.cpp
@@ -48,6 +49,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp
 
   src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp
+  src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp
 
   src/LABSoft_GUI/LABSoft_GUI.cpp
   src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp

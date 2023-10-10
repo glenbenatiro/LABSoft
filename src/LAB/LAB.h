@@ -11,6 +11,7 @@
 #include "LAB_LABChecker_Digital.h"
 
 #include "Software/LAB_Exporter.h"
+#include "Software/LAB_Calibration.h"
 
 class LAB
 {
@@ -29,6 +30,7 @@ class LAB
     LAB_LABChecker_Digital      m_LABChecker_Digital;
 
     LAB_Exporter                m_Exporter;
+    LAB_Calibration             m_Calibration;
 
     AikaPi& rpi () const;
 };

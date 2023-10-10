@@ -22,9 +22,9 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {2336 224 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {1995 202 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
-      Fl_Menu_Bar {} {
+      Fl_Menu_Bar {} {open
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
       } {
         Submenu {} {
@@ -43,9 +43,15 @@ class LABSoft_GUI {open
           }
         }
         Submenu {} {
-          label Settings
+          label Settings open
           xywh {0 0 10 10} labelsize 12
-        } {}
+        } {
+          MenuItem {} {
+            label Calibration
+            callback {m_LABSoft_Controller->m_Calibration.cb_show_window ();}
+            xywh {10 10 10 10} labelsize 12
+          }
+        }
         Submenu {} {
           label Help
           xywh {0 0 10 10} labelsize 12
@@ -63,22 +69,13 @@ class LABSoft_GUI {open
         }
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Controller->cb_tabs (o, v);} open
+        callback {m_LABSoft_Controller->cb_tabs (o, v);}
         xywh {0 20 1220 580} box FLAT_BOX color 54 selection_color 54 labelsize 12
-        code0 {main_fl_tabs->value (main_fl_group_home_tab);}
+        code0 {main_fl_tabs->value (main_fl_group_oscilloscope_tab);}
       } {
-        Fl_Group main_fl_group_home_tab {
-          label Home
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
-        } {
-          Fl_Box {} {
-            label LABSoft
-            xywh {0 40 1200 560} color 54 selection_color 7 labelsize 48 labelcolor 52
-          }
-        }
         Fl_Group main_fl_group_oscilloscope_tab {
           label Oscilloscope open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Group oscilloscope_labsoft_gui_oscilloscope_display {
             xywh {20 70 700 510} box FLAT_BOX color 0 labelsize 12
@@ -1316,8 +1313,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_function_generator_tab {
-          label {Function Generator}
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          label {Function Generator} open
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
@@ -1509,13 +1506,22 @@ class LABSoft_GUI {open
           }
           Fl_Box {} {
             label {Change the amplitude and vertical offset using the potentiometers on the function generator board.}
-            xywh {450 320 320 17} labelsize 12 align 128
+            xywh {450 320 320 17} labelsize 12 align 128 deactivate
           }
           Fl_Light_Button function_generator_fl_light_button_run_stop {
             label Run
             user_data 0 user_data_type long
             callback {m_LABSoft_Controller->m_Function_Generator.cb_run_stop (o, v);}
             xywh {520 400 180 60} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
+          }
+        }
+        Fl_Group main_fl_group_power_supply_tab {
+          label {Power Supply}
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+        } {
+          Fl_Box {} {
+            label {+3.3V, +5V, +12V, and -12V power rails are available to use on the power supply board.}
+            xywh {460 250 300 100} color 54 selection_color 7 labelsize 12 align 128
           }
         }
         Fl_Group main_fl_group_logic_analyzer_tab {
@@ -1950,9 +1956,9 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_digital_circuit_checker_tab {
           label {Digital Circuit Checker}
-          xywh {0 50 1200 550} color 54 selection_color 52 labelsize 12 hide
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
-          Fl_Group {} {
+          Fl_Group {} {open
             xywh {20 70 220 320} box ROUNDED_FRAME labelsize 12
           } {
             Fl_Button digital_circuit_checker_fl_button_load_file {
@@ -1988,7 +1994,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Table digital_circuit_checker_labchecker_gui_digital_output_table_table {
-            label {Input/Output Table} open
+            label {Input/Output Table}
             xywh {260 80 940 495} color 52 labelsize 12
             code0 {\#include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"}
             class LABSoft_GUI_LABChecker_Digital_Output_Table
@@ -1996,7 +2002,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_labchecker_digital {
           label {LABChecker - Digital}
-          xywh {0 50 1200 550} color 54 selection_color 52 labelsize 12 hide
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Group {} {
             xywh {20 70 220 230} box ROUNDED_FRAME
@@ -2104,7 +2110,7 @@ class LABSoft_GUI {open
       }
     }
     Fl_Window oscilloscope_fl_window_record_config {
-      label {Record Configuration} selected
+      label {Record Configuration}
       xywh {2084 187 360 300} type Double hide
     } {
       Fl_Group oscilloscope_fl_group_record_config {
@@ -2291,7 +2297,7 @@ class LABSoft_GUI {open
     } {}
     Fl_Window main_fl_window_exporter {
       label Export open
-      xywh {2354 267 800 500} type Double color 54 visible
+      xywh {2354 267 800 500} type Double color 54 hide
     } {
       Fl_Tabs exporter_fl_tabs {
         xywh {180 20 600 410} box BORDER_BOX color 54 selection_color 54 labelsize 12
@@ -2339,6 +2345,32 @@ class LABSoft_GUI {open
         label Labels
         callback {m_LABSoft_Controller->m_Exporter.cb_labels (o);}
         xywh {20 160 100 40} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
+      }
+    }
+    Fl_Window main_fl_window_calibration {
+      label {Device Calibration} open
+      xywh {2391 309 800 500} type Double color 54 visible
+    } {
+      Fl_Menu_Bar {} {open
+        xywh {0 0 800 20} box FLAT_BOX color 54
+      } {
+        Submenu {} {
+          label File open
+          xywh {10 10 10 10} labelsize 12 deactivate
+        } {}
+        Submenu {} {
+          label Reset open
+          xywh {25 25 10 10} labelsize 12 deactivate
+        } {}
+        MenuItem {} {
+          label Wizard
+          xywh {5 5 36 21} labelsize 12 deactivate
+        }
+      }
+      Fl_Button calibration_fl_button_cancel {
+        label Cancel
+        callback {m_LABSoft_Controller->m_Calibration.cb_cancel ();}
+        xywh {690 450 90 30} box GTK_UP_BOX color 53 labelsize 12
       }
     }
   }

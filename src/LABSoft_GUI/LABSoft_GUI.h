@@ -10,11 +10,11 @@ class LABSoft_Controller;
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
-#include <FL/Fl_Box.H>
 #include "LABSoft_GUI_Oscilloscope_Display.h"
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Menu_Button.H>
 #include "LABSoft_GUI_Logic_Analyzer_Display.h"
 #include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"
@@ -38,6 +38,8 @@ private:
   static void cb_main_menuitem_export(Fl_Menu_*, void*);
   inline void cb_Exit_i(Fl_Menu_*, void*);
   static void cb_Exit(Fl_Menu_*, void*);
+  inline void cb_Calibration_i(Fl_Menu_*, void*);
+  static void cb_Calibration(Fl_Menu_*, void*);
   inline void cb_Browse_i(Fl_Menu_*, void*);
   static void cb_Browse(Fl_Menu_*, void*);
   inline void cb_About_i(Fl_Menu_*, void*);
@@ -48,7 +50,6 @@ private:
   inline void cb_main_fl_tabs_i(Fl_Tabs*, void*);
   static void cb_main_fl_tabs(Fl_Tabs*, void*);
 public:
-  Fl_Group *main_fl_group_home_tab;
   Fl_Group *main_fl_group_oscilloscope_tab;
   LABSoft_GUI_Oscilloscope_Display *oscilloscope_labsoft_gui_oscilloscope_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
@@ -224,6 +225,7 @@ private:
   inline void cb_function_generator_fl_light_button_run_stop_i(Fl_Light_Button*, long);
   static void cb_function_generator_fl_light_button_run_stop(Fl_Light_Button*, long);
 public:
+  Fl_Group *main_fl_group_power_supply_tab;
   Fl_Group *main_fl_group_logic_analyzer_tab;
   Fl_Group *logic_analyzer_fl_group_display;
   Fl_Button *logic_analyzer_fl_button_record_config;
@@ -391,5 +393,12 @@ public:
 private:
   inline void cb_exporter_fl_light_button_labels_i(Fl_Light_Button*, void*);
   static void cb_exporter_fl_light_button_labels(Fl_Light_Button*, void*);
+public:
+  Fl_Double_Window *main_fl_window_calibration;
+  static Fl_Menu_Item menu_1[];
+  Fl_Button *calibration_fl_button_cancel;
+private:
+  inline void cb_calibration_fl_button_cancel_i(Fl_Button*, void*);
+  static void cb_calibration_fl_button_cancel(Fl_Button*, void*);
 };
 #endif

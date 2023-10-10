@@ -14,6 +14,7 @@
 #include "LABSoft_Controller_Main_Window.h"
 #include "LABSoft_Controller_LABChecker_Digital.h"
 #include "Software/LABSoft_Controller_Exporter.h"
+#include "Software/LABSoft_Controller_Calibration.h"
 
 class LABSoft_Controller
 {
@@ -33,6 +34,7 @@ class LABSoft_Controller
     // Software/GUI
     LABSoft_Controller_Main_Window              m_Main_Window;
     LABSoft_Controller_Exporter                 m_Exporter;
+    LABSoft_Controller_Calibration              m_Calibration;
 
   private:      
     void load_controller_to_gui ();

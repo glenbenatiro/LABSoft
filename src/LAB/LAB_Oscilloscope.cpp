@@ -6,6 +6,10 @@
 #include "LAB.h"
 #include "../Utility/LAB_Utility_Functions.h"
 
+// delete soon
+#include <iostream>
+#include <bitset>
+
 LAB_Oscilloscope:: 
 LAB_Oscilloscope (LAB& _LAB)
   : LAB_Module (_LAB)
@@ -32,10 +36,10 @@ LAB_Oscilloscope::
 void LAB_Oscilloscope:: 
 init_spi ()
 {
-  rpi ().spi.clear_fifo  ();
-  rpi ().spi.reg         (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
-  rpi ().spi.frequency   (LABC::SPI::FREQUENCY, LABC::LAB::GPU_CORE_CLOCK_FREQ);
-  
+  rpi ().spi.clear_fifo ();
+  rpi ().spi.reg        (AP::SPI::DC, (8 << 24) | (4 << 16) | (8 << 8) | 1);
+  rpi ().spi.frequency  (LABC::SPI::FREQUENCY, LABC::LAB::GPU_CORE_CLOCK_FREQ);
+
   rpi ().gpio.set (LABC::PIN::OSC::ADC_CS,   AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
   rpi ().gpio.set (LABC::PIN::OSC::ADC_MISO, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::DOWN);
   rpi ().gpio.set (LABC::PIN::OSC::ADC_MOSI, AP::GPIO::FUNC::ALT0, AP::GPIO::PULL::OFF);
@@ -242,10 +246,11 @@ config_dma_cb ()
     .spi_cs             = (1 <<  7) | // SPI CS TA
                           (1 << 11) | // SPI CS ADCS
                           (1 <<  8) | // SPI CS DMAEN
+                          (1 <<  2) | // SPI CS CPHA = 1 (samp in on falling edge)
                           LABC::OSC::ADC_SPI_CHIP_ENABLE,
     .spi_cs_fifo_reset  = 0x00000030,
     .pwm_duty_cycle     = 0x0,
-    .txd                = 0x0000ffff
+    .txd                = 0x0000'0000'ffff
   };
 
   std::memcpy (
@@ -466,17 +471,6 @@ fill_raw_sample_buffer_from_dma_buffer ()
 
   switch (m_parent_data.mode)
   {
-    case (LABE::OSC::MODE::SCREEN):
-    {
-      std::memcpy (
-        m_parent_data.raw_data_buffer.data (),
-        const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
-        sizeof (uint32_t) * m_parent_data.samples
-      );
-
-      break;
-    }
-
     case (LABE::OSC::MODE::REPEATED):
     {
       for (int buff = 0; buff < 2; buff++)
@@ -488,6 +482,8 @@ fill_raw_sample_buffer_from_dma_buffer ()
             const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[buff])),
             sizeof (uint32_t) * m_parent_data.samples
           );
+
+          std::cout << std::bitset <32> (dma_data.rxd[buff][10]) << "\n";
         }
 
         // Check if the other buffer is also full.
@@ -501,9 +497,22 @@ fill_raw_sample_buffer_from_dma_buffer ()
 
           break;
         }
-
-        dma_data.status[buff] = 0;
+        else 
+        {
+          dma_data.status[buff] = 0;
+        }
       }
+
+      break;
+    }
+
+    case (LABE::OSC::MODE::SCREEN):
+    {
+      std::memcpy (
+        m_parent_data.raw_data_buffer.data (),
+        const_cast<const void*>(static_cast<volatile void*>(dma_data.rxd[0])),
+        sizeof (uint32_t) * m_parent_data.samples
+      );
 
       break;
     }
@@ -526,11 +535,12 @@ parse_raw_sample_buffer ()
         conv_raw_chan_adc_bits_to_actual_value (pdata.raw_data_buffer[samp], chan);
 
       // // For debug
-      // if (samp == 0 && chan == 0)
+      // if (samp == 10 && chan == 0)
       // {
-      //   uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
+      //   //uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
 
-      //   std::cout << std::bitset <16> (raw_chan_bits);
+      //   // std::cout << std::bitset <32> (raw_chan_bits);
+      //   std::cout << std::bitset <32> (pdata.raw_data_buffer[samp]);
       //   //std::cout << " - " << (arrange_raw_chan_adc_bits (raw_chan_bits));
       //   //std::cout << " - " << conv_raw_chan_adc_bits_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
       //   std::cout << "\n";
@@ -565,29 +575,6 @@ extract_raw_chan_adc_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
       LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
 }
 
-// all of these were determined using manual testing
-
-// mcp33111 at 250MHz GPU core speed and 10MHz SPI frequency
-// return (((raw_chan_bits & 0x007F) << 5) | ((raw_chan_bits & 0xF800) >> 11));
-
-// 
-// ads7883 at 500MHz GPU core speed at 10MHz SPI frequency
-//return (((raw_chan_bits & 0xFC00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
-
-// mcp33111 at 500MHz GPU core speed at 10MHz SPI frequency
-// return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
-
-// telly 8/24 lab
-
-// if (channel == 0) // MCP33111
-// { 
-//   return (((raw_chan_bits & 0xF800) >> 11) | ((raw_chan_bits & 0x007F) << 5));
-// }
-// else // AD7883
-// {
-//   return (((raw_chan_bits & 0xFD00) >> 10) | ((raw_chan_bits & 0x003F) << 6));
-// }
-
 constexpr uint32_t LAB_Oscilloscope:: 
 arrange_raw_chan_adc_bits (uint32_t raw_chan_bits, unsigned channel)
 {
@@ -595,7 +582,14 @@ arrange_raw_chan_adc_bits (uint32_t raw_chan_bits, unsigned channel)
   // reverse_arrange_raw_chan_adc_bits (), which is just 
   // the reverse of this function
 
-  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4));
+  // uint32_t ret = ((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4);
+
+  // if (channel == 0)
+  // {
+  //   std::cout << std::bitset <12> (ret) << "\n";
+  // }
+
+  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4)); 
 }
 
 constexpr uint32_t LAB_Oscilloscope:: 
