@@ -400,5 +400,15 @@ public:
 private:
   inline void cb_calibration_fl_button_cancel_i(Fl_Button*, void*);
   static void cb_calibration_fl_button_cancel(Fl_Button*, void*);
+public:
+  Fl_Button *calibration_fl_button_save;
+private:
+  inline void cb_calibration_fl_button_save_i(Fl_Button*, void*);
+  static void cb_calibration_fl_button_save(Fl_Button*, void*);
+public:
+  Fl_Input *calibration_fl_input_osc_adc_ref_voltage;
+private:
+  inline void cb_calibration_fl_input_osc_adc_ref_voltage_i(Fl_Input*, void*);
+  static void cb_calibration_fl_input_osc_adc_ref_voltage(Fl_Input*, void*);
 };
 #endif

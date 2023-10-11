@@ -30,6 +30,8 @@ namespace LABC
       GREEN   = 63,
       DEFAULT = 54
     };
+
+    constexpr const char* DEFAULT_CALIBRATION_FILE_PATH = "../data/default.labcalib";
   }
 
   namespace PIN
@@ -122,9 +124,6 @@ namespace LABC
     // ADC info and conversions
     constexpr unsigned  ADC_RESOLUTION_BITS             = 12; // MCP33111
     constexpr unsigned  ADC_RESOLUTION_INT              = 1 << ADC_RESOLUTION_BITS;
-    constexpr double    ADC_REFERENCE_VOLTAGE           = 5.0; // 5 volts
-    constexpr double    CONVERSION_REFERENCE_VOLTAGE    = ADC_REFERENCE_VOLTAGE / 2.0;
-    constexpr double    CONVERSION_CONSTANT             = CONVERSION_REFERENCE_VOLTAGE / ((ADC_RESOLUTION_INT - 1) >> 1);
     constexpr unsigned  RAW_DATA_SHIFT_BIT_COUNT        = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
     constexpr uint32_t  RAW_DATA_POST_SHIFT_MASK        = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;
     constexpr unsigned  ADC_SPI_CHIP_ENABLE             = 0;
@@ -158,8 +157,6 @@ namespace LABC
     constexpr double    MAX_TRIGGER_LEVEL               = MAX_VERTICAL_OFFSET;
     constexpr double    MIN_TRIGGER_LEVEL               = MIN_VERTICAL_OFFSET;
     constexpr double    FIND_TRIGGER_TIMEOUT            = 2; // seconds
-    constexpr double    MAX_OSC_HARDWARE_TRIGGER_LEVEL  = CONVERSION_REFERENCE_VOLTAGE;
-    constexpr double    MIN_OSC_HARDWARE_TRIGGER_LEVEL  = -1 * CONVERSION_REFERENCE_VOLTAGE;
   };
 
   namespace OSC_DISPLAY

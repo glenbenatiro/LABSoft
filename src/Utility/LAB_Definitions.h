@@ -94,6 +94,12 @@ class LAB_Parent_Data_Oscilloscope
       std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
     } trig_buffs;      
 
+    struct Calibration
+    {
+      double adc_reference_voltage        = LABD::OSC::ADC_REFERENCE_VOLTAGE;
+      double conversion_reference_voltage = LABD::OSC::CONVERSION_REFERENCE_VOLTAGE;
+      double conversion_constant          = LABD::OSC::CONVERSION_CONSTANT;
+    } calibration;
 
   public:
     bool has_enabled_channels () const
@@ -244,5 +250,7 @@ struct LAB_DMA_Data_Logic_Analyzer
   volatile  uint32_t status[LABC::LOGAN::NUMBER_OF_CHANNELS];
   volatile  uint32_t rxd[2][LABC::LOGAN::MAX_NUMBER_OF_SAMPLES];
 };
+
+
 
 #endif

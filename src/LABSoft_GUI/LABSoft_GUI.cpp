@@ -976,6 +976,20 @@ void LABSoft_GUI::cb_calibration_fl_button_cancel(Fl_Button* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_cancel_i(o,v);
 }
 
+void LABSoft_GUI::cb_calibration_fl_button_save_i(Fl_Button*, void*) {
+  m_LABSoft_Controller->m_Calibration.cb_save ();
+}
+void LABSoft_GUI::cb_calibration_fl_button_save(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_save_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_input_osc_adc_ref_voltage_i(Fl_Input* o, void* v) {
+  m_LABSoft_Controller->m_Calibration.cb_osc_adc_ref_voltage (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_input_osc_adc_ref_voltage(Fl_Input* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_adc_ref_voltage_i(o,v);
+}
+
 LABSoft_GUI::LABSoft_GUI() {
   { main_fl_window = new Fl_Double_Window(1220, 600, "LABSoft (for Educators)");
     main_fl_window->color((Fl_Color)53);
@@ -1419,6 +1433,7 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_function_generator_tab->color(FL_LIGHT3);
         main_fl_group_function_generator_tab->selection_color(FL_LIGHT2);
         main_fl_group_function_generator_tab->labelsize(12);
+        main_fl_group_function_generator_tab->hide();
         { function_generator_fl_choice_wave_type = new LABSoft_GUI_Fl_Choice_With_Scroll(190, 200, 240, 60, "Wave Type");
           function_generator_fl_choice_wave_type->box(FL_NO_BOX);
           function_generator_fl_choice_wave_type->down_box(FL_BORDER_BOX);
@@ -1751,7 +1766,6 @@ ly board.");
         main_fl_group_labchecker_digital->color(FL_LIGHT3);
         main_fl_group_labchecker_digital->selection_color(FL_LIGHT2);
         main_fl_group_labchecker_digital->labelsize(12);
-        main_fl_group_labchecker_digital->hide();
         { Fl_Group* o = new Fl_Group(20, 70, 220, 230);
           o->box(FL_ROUNDED_FRAME);
           { digital_fl_choice_input_bits = new Fl_Choice(40, 100, 180, 40, "Input Bits");
@@ -1971,13 +1985,13 @@ ly board.");
     } // Fl_Tabs* exporter_fl_tabs
     { exporter_fl_button_save = new Fl_Button(580, 450, 90, 30, "Save");
       exporter_fl_button_save->box(FL_GTK_UP_BOX);
-      exporter_fl_button_save->color((Fl_Color)53);
+      exporter_fl_button_save->color(FL_LIGHT3);
       exporter_fl_button_save->labelsize(12);
       exporter_fl_button_save->callback((Fl_Callback*)cb_exporter_fl_button_save);
     } // Fl_Button* exporter_fl_button_save
     { exporter_fl_button_cancel = new Fl_Button(690, 450, 90, 30, "Cancel");
       exporter_fl_button_cancel->box(FL_GTK_UP_BOX);
-      exporter_fl_button_cancel->color((Fl_Color)53);
+      exporter_fl_button_cancel->color(FL_LIGHT3);
       exporter_fl_button_cancel->labelsize(12);
       exporter_fl_button_cancel->callback((Fl_Callback*)cb_exporter_fl_button_cancel);
     } // Fl_Button* exporter_fl_button_cancel
@@ -2017,10 +2031,23 @@ ly board.");
     } // Fl_Menu_Bar* o
     { calibration_fl_button_cancel = new Fl_Button(690, 450, 90, 30, "Cancel");
       calibration_fl_button_cancel->box(FL_GTK_UP_BOX);
-      calibration_fl_button_cancel->color((Fl_Color)53);
+      calibration_fl_button_cancel->color(FL_LIGHT3);
       calibration_fl_button_cancel->labelsize(12);
       calibration_fl_button_cancel->callback((Fl_Callback*)cb_calibration_fl_button_cancel);
     } // Fl_Button* calibration_fl_button_cancel
+    { calibration_fl_button_save = new Fl_Button(580, 450, 90, 30, "Save");
+      calibration_fl_button_save->box(FL_GTK_UP_BOX);
+      calibration_fl_button_save->color(FL_LIGHT3);
+      calibration_fl_button_save->labelsize(12);
+      calibration_fl_button_save->callback((Fl_Callback*)cb_calibration_fl_button_save);
+    } // Fl_Button* calibration_fl_button_save
+    { calibration_fl_input_osc_adc_ref_voltage = new Fl_Input(20, 50, 100, 30, "Oscilloscope ADC Reference Voltage");
+      calibration_fl_input_osc_adc_ref_voltage->labelsize(12);
+      calibration_fl_input_osc_adc_ref_voltage->textsize(12);
+      calibration_fl_input_osc_adc_ref_voltage->callback((Fl_Callback*)cb_calibration_fl_input_osc_adc_ref_voltage);
+      calibration_fl_input_osc_adc_ref_voltage->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_osc_adc_ref_voltage->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_osc_adc_ref_voltage
     main_fl_window_calibration->end();
   } // Fl_Double_Window* main_fl_window_calibration
 }

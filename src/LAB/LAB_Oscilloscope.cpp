@@ -483,7 +483,7 @@ fill_raw_sample_buffer_from_dma_buffer ()
             sizeof (uint32_t) * m_parent_data.samples
           );
 
-          std::cout << std::bitset <32> (dma_data.rxd[buff][10]) << "\n";
+          // std::cout << std::bitset <32> (dma_data.rxd[buff][10]) << "\n";
         }
 
         // Check if the other buffer is also full.
@@ -604,12 +604,12 @@ conv_arranged_raw_chan_adc_bits_to_actual_value (uint32_t arranged_bits_abs_val,
 {
   if (arranged_bits_sign)
   {
-    return (arranged_bits_abs_val * LABC::OSC::CONVERSION_CONSTANT);
+    return (arranged_bits_abs_val * m_parent_data.calibration.conversion_constant);
   }
   else 
   {
-    return ((arranged_bits_abs_val * LABC::OSC::CONVERSION_CONSTANT) - 
-      LABC::OSC::CONVERSION_REFERENCE_VOLTAGE);
+    return ((arranged_bits_abs_val * m_parent_data.calibration.conversion_constant) - 
+      m_parent_data.calibration.conversion_reference_voltage);
   }
 }
 
@@ -1239,14 +1239,14 @@ calc_trigger_level_raw_bits (double trigger_level)
 {
   if (LABF::is_within_range (
     trigger_level, 
-    LABC::OSC::MIN_OSC_HARDWARE_TRIGGER_LEVEL,
-    LABC::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL
+    LABD::OSC::MIN_OSC_HARDWARE_TRIGGER_LEVEL,
+    LABD::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL
   ))
   {
     double adc_trigger_level = LABF::normalize (
       trigger_level,
-      LABC::OSC::MIN_OSC_HARDWARE_TRIGGER_LEVEL,
-      LABC::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL,
+      LABD::OSC::MIN_OSC_HARDWARE_TRIGGER_LEVEL,
+      LABD::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL,
       0,
       LABC::OSC::ADC_RESOLUTION_INT - 1
     );
@@ -1593,6 +1593,23 @@ const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> LAB_Oscilloscope::
 channel_samples (unsigned channel)
 {
   return (m_parent_data.channel_data[channel].samples);
+}
+
+void LAB_Oscilloscope:: 
+adc_reference_voltage (double value)
+{
+  LAB_Parent_Data_Oscilloscope::Calibration& calib = m_parent_data.calibration;
+
+  calib.adc_reference_voltage         = value;
+  calib.conversion_reference_voltage  = calib.adc_reference_voltage / 2.0;
+  calib.conversion_constant           = calib.conversion_reference_voltage / 
+                                        ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
+}
+
+double LAB_Oscilloscope:: 
+adc_reference_voltage () const
+{
+  return (m_parent_data.calibration.adc_reference_voltage);
 }
 
 // EOF

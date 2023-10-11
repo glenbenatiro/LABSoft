@@ -142,6 +142,10 @@ class LAB_Oscilloscope : public LAB_Module
     // Data
     const LAB_Parent_Data_Oscilloscope&                     parent_data     ();
     const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  channel_samples (unsigned channel);
+
+    // calibration
+    void    adc_reference_voltage (double value);
+    double  adc_reference_voltage () const;
 };
 
 #endif
