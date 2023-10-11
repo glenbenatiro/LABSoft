@@ -228,7 +228,8 @@ namespace LABC
   
   namespace VOLTMETER
   {
-    constexpr double SAMPLING_RATE = 50'000.0; // Hz
+    constexpr unsigned  NUMBER_OF_CHANNELS  = OSC::NUMBER_OF_CHANNELS;
+    constexpr double    SAMPLING_RATE       = 50'000.0; // Hz
   };
 
   namespace FUNC_GEN

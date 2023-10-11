@@ -21,7 +21,7 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     // supposed LABSoft_GUI_Oscilloscope functions (can't because FLUID)
     void init_gui_values  (); // supposed to be called when parent_data is
                               // loaded for the first time
-
+    
   public:
     LABSoft_Controller_Oscilloscope (LABSoft_Controller& _LABSoft_Controller);
     

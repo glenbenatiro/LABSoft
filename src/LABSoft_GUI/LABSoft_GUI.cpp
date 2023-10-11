@@ -1398,23 +1398,22 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_voltmeter_tab->color(FL_LIGHT3);
         main_fl_group_voltmeter_tab->selection_color(FL_LIGHT2);
         main_fl_group_voltmeter_tab->labelsize(12);
-        main_fl_group_voltmeter_tab->hide();
-        { voltmeter_fl_output_chan0_value = new Fl_Output(250, 200, 320, 60, "Channel 1 DC");
-          voltmeter_fl_output_chan0_value->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan0_value->color((Fl_Color)55);
-          voltmeter_fl_output_chan0_value->labelsize(12);
-          voltmeter_fl_output_chan0_value->textsize(36);
-          voltmeter_fl_output_chan0_value->user_data((void*)(0));
-          voltmeter_fl_output_chan0_value->align(Fl_Align(FL_ALIGN_TOP));
-        } // Fl_Output* voltmeter_fl_output_chan0_value
-        { voltmeter_fl_output_chan1_value = new Fl_Output(650, 200, 320, 60, "Channel 2 DC");
-          voltmeter_fl_output_chan1_value->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan1_value->color((Fl_Color)55);
-          voltmeter_fl_output_chan1_value->labelsize(12);
-          voltmeter_fl_output_chan1_value->textsize(36);
-          voltmeter_fl_output_chan1_value->user_data((void*)(1));
-          voltmeter_fl_output_chan1_value->align(Fl_Align(FL_ALIGN_TOP));
-        } // Fl_Output* voltmeter_fl_output_chan1_value
+        { voltmeter_fl_output_chan_0_value = new Fl_Output(250, 200, 320, 60, "Channel 1 DC");
+          voltmeter_fl_output_chan_0_value->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_value->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_value->labelsize(12);
+          voltmeter_fl_output_chan_0_value->textsize(36);
+          voltmeter_fl_output_chan_0_value->user_data((void*)(0));
+          voltmeter_fl_output_chan_0_value->align(Fl_Align(FL_ALIGN_TOP));
+        } // Fl_Output* voltmeter_fl_output_chan_0_value
+        { voltmeter_fl_output_chan_1_value = new Fl_Output(650, 200, 320, 60, "Channel 2 DC");
+          voltmeter_fl_output_chan_1_value->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_value->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_value->labelsize(12);
+          voltmeter_fl_output_chan_1_value->textsize(36);
+          voltmeter_fl_output_chan_1_value->user_data((void*)(1));
+          voltmeter_fl_output_chan_1_value->align(Fl_Align(FL_ALIGN_TOP));
+        } // Fl_Output* voltmeter_fl_output_chan_1_value
         { Fl_Box* o = new Fl_Box(592, 320, 35, 17, "This instrument can only measure DC voltages.");
           o->labelsize(12);
         } // Fl_Box* o
@@ -1766,6 +1765,7 @@ ly board.");
         main_fl_group_labchecker_digital->color(FL_LIGHT3);
         main_fl_group_labchecker_digital->selection_color(FL_LIGHT2);
         main_fl_group_labchecker_digital->labelsize(12);
+        main_fl_group_labchecker_digital->hide();
         { Fl_Group* o = new Fl_Group(20, 70, 220, 230);
           o->box(FL_ROUNDED_FRAME);
           { digital_fl_choice_input_bits = new Fl_Choice(40, 100, 180, 40, "Input Bits");

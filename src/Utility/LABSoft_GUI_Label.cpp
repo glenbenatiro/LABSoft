@@ -84,7 +84,6 @@ LABSoft_GUI_Label (const char* input)
   m_is_valid        = parse_input (m_cleaned_string);
 }
 
-
 template <typename Key, typename Value>
 std::unordered_map<Value, Key> LABSoft_GUI_Label::
 invert_map (const std::unordered_map<Key, Value>& map)

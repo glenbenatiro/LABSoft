@@ -269,8 +269,15 @@ run ()
     lab ().m_Voltmeter.stop ();
   }
 
-  time_per_division (m_parent_data.time_per_division);
-  master_run_stop   (true);
+  samples         (m_parent_data.samples);
+  sampling_rate   (m_parent_data.sampling_rate);
+
+  for (int a = 0; a < m_parent_data.channel_data.size (); a++)
+  {
+    coupling (a, m_parent_data.channel_data[a].coupling);
+  }
+
+  master_run_stop (true);
 
   m_parent_data.status = LABE::OSC::STATUS::AUTO;
 }
@@ -373,14 +380,14 @@ coupling (unsigned            channel,
 {
   if (channel < m_parent_data.channel_data.size ())
   {
-    m_parent_data.channel_data[channel].coupling = coupling;
-
     rpi ().gpio.set (
       LABC::PIN::OSC::RELAY[channel],
       AP::GPIO::FUNC::OUTPUT, 
       AP::GPIO::PULL::OFF,
-      (coupling == LABE::OSC::COUPLING::AC) ? 0 : 1
+      (coupling == LABE::OSC::COUPLING::AC) ? 1 : 0
     );
+
+    m_parent_data.channel_data[channel].coupling = coupling;
   }
 }
 
@@ -420,7 +427,7 @@ coupling (unsigned channel)
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
-  if (is_running ())
+  if (m_parent_data.is_backend_running)
   {
     switch (m_parent_data.trigger_mode)
     {

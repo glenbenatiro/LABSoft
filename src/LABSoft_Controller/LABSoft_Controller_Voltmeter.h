@@ -8,7 +8,7 @@
 class LABSoft_Controller_Voltmeter : public LABSoft_Controller_Unit
 {
   private:
-    void init_gui_values ();
+    void init_gui_values    ();
     
   public:
     LABSoft_Controller_Voltmeter (LABSoft_Controller& _LABSoft_Controller);

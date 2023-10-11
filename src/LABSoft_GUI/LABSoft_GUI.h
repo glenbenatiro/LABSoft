@@ -194,8 +194,8 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_input_choice_trigger_level[];
 public:
   Fl_Group *main_fl_group_voltmeter_tab;
-  Fl_Output *voltmeter_fl_output_chan0_value;
-  Fl_Output *voltmeter_fl_output_chan1_value;
+  Fl_Output *voltmeter_fl_output_chan_0_value;
+  Fl_Output *voltmeter_fl_output_chan_1_value;
   Fl_Light_Button *voltmeter_fl_light_button_run_stop;
 private:
   inline void cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);

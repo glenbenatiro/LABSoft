@@ -251,6 +251,4 @@ struct LAB_DMA_Data_Logic_Analyzer
   volatile  uint32_t rxd[2][LABC::LOGAN::MAX_NUMBER_OF_SAMPLES];
 };
 
-
-
 #endif

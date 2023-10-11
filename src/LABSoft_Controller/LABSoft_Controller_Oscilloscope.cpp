@@ -164,10 +164,9 @@ cb_run_stop (Fl_Light_Button* w,
 {
   if (w->value ())
   {
+    gui ().voltmeter_fl_light_button_run_stop->clear ();
+    
     lab ().m_Oscilloscope.run ();
-
-    gui ().oscilloscope_labsoft_gui_oscilloscope_display-> 
-      update_gui_top_info ();
   }
   else 
   {
@@ -603,21 +602,24 @@ cb_export (Fl_Menu_Item*  w,
     
 void LABSoft_Controller_Oscilloscope:: 
 display_update_cycle ()
-{  
-  lab ().m_Oscilloscope.load_data_samples ();
-
-  gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_display ();
-
-  // TO-DO
-  // this is not ideal as the trigger_found flag should not be changed
-  // outside of LAB_Oscilloscope as much as possible.
-  // but in the meantime, i am putting this here for possible performance
-  // improvement. with this, the LAB_Oscilloscope does not have to find
-  // for the next trigger as long as the current trigger has not yet been displayed
-
-  if (lab ().m_Oscilloscope.trigger_found ())
+{ 
+  if (lab ().m_Oscilloscope.is_frontend_running ())
   {
-    lab ().m_Oscilloscope.trigger_serviced ();
+    lab ().m_Oscilloscope.load_data_samples ();
+
+    gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_display ();
+
+    // TO-DO
+    // this is not ideal as the trigger_found flag should not be changed
+    // outside of LAB_Oscilloscope as much as possible.
+    // but in the meantime, i am putting this here for possible performance
+    // improvement. with this, the LAB_Oscilloscope does not have to find
+    // for the next trigger as long as the current trigger has not yet been displayed
+
+    if (lab ().m_Oscilloscope.trigger_found ())
+    {
+      lab ().m_Oscilloscope.trigger_serviced ();
+    }
   }
 }
 
