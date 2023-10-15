@@ -161,44 +161,38 @@ namespace LABC
 
   namespace OSC_DISPLAY
   {
-    constexpr unsigned  NUMBER_OF_CHANNELS            = OSC::NUMBER_OF_CHANNELS;
-    
-    constexpr unsigned  NUMBER_OF_ROWS                = OSC::DISPLAY_NUMBER_OF_ROWS;
-    constexpr unsigned  NUMBER_OF_COLUMNS             = OSC::DISPLAY_NUMBER_OF_COLUMNS;
-
-    constexpr unsigned  NUMBER_OF_ROWS_HALF           = NUMBER_OF_ROWS / 2;
-    constexpr unsigned  NUMBER_OF_COLUMNS_HALF        = NUMBER_OF_COLUMNS / 2;
-
-    constexpr unsigned  MID_COLUMN_INDEX              = (NUMBER_OF_COLUMNS / 2) - 1;
-    constexpr unsigned  MID_ROW_INDEX                 = (NUMBER_OF_ROWS / 2) - 1;
-
-    constexpr unsigned  NUMBER_OF_MINOR_TICKS         = 10;
-    constexpr unsigned  NUMBER_OF_MINOR_TICKS_HALF    = NUMBER_OF_MINOR_TICKS / 2;
-
-    constexpr unsigned  X_AXIS_MAJOR_TICK_LENGTH      = 20;
-    constexpr unsigned  X_AXIS_SEMI_MAJOR_TICK_LENGTH = X_AXIS_MAJOR_TICK_LENGTH / 2;
-    constexpr unsigned  X_AXIS_MINOR_TICK_LENGTH      = X_AXIS_SEMI_MAJOR_TICK_LENGTH / 2;
-
-    constexpr unsigned  Y_AXIS_MAJOR_TICK_LENGTH      = 12;
-    constexpr unsigned  Y_AXIS_SEMI_MAJOR_TICK_LENGTH = Y_AXIS_MAJOR_TICK_LENGTH / 2;
-    constexpr unsigned  Y_AXIS_MINOR_TICK_LENGTH      = Y_AXIS_SEMI_MAJOR_TICK_LENGTH / 2;
-
-    constexpr unsigned  SAMPLE_MARKING_THRESHOLD      = 40;
-    constexpr unsigned  SAMPLE_MARKING_AMPLITUDE      = 5;
-    constexpr unsigned  SAMPLE_MARKING_THICKNESS      = 1;
-
-    constexpr uint32_t  GRID_COLOR                    = 46; // gray
-    constexpr uint32_t  BACKGROUND_COLOR              = FL_BLACK;     
-
+    constexpr unsigned  NUMBER_OF_CHANNELS                  = OSC::NUMBER_OF_CHANNELS;
+    constexpr unsigned  NUMBER_OF_ROWS                      = OSC::DISPLAY_NUMBER_OF_ROWS;
+    constexpr unsigned  NUMBER_OF_COLUMNS                   = OSC::DISPLAY_NUMBER_OF_COLUMNS;
+    constexpr unsigned  NUMBER_OF_ROWS_HALF                 = NUMBER_OF_ROWS / 2;
+    constexpr unsigned  NUMBER_OF_COLUMNS_HALF              = NUMBER_OF_COLUMNS / 2;
+    constexpr unsigned  MID_COLUMN_INDEX                    = (NUMBER_OF_COLUMNS / 2) - 1;
+    constexpr unsigned  MID_ROW_INDEX                       = (NUMBER_OF_ROWS / 2) - 1;
+    constexpr unsigned  NUMBER_OF_MINOR_TICKS               = 10;
+    constexpr unsigned  NUMBER_OF_MINOR_TICKS_HALF          = NUMBER_OF_MINOR_TICKS / 2;
+    constexpr unsigned  X_AXIS_MAJOR_TICK_LENGTH            = 20;
+    constexpr unsigned  X_AXIS_SEMI_MAJOR_TICK_LENGTH       = X_AXIS_MAJOR_TICK_LENGTH / 2;
+    constexpr unsigned  X_AXIS_MINOR_TICK_LENGTH            = X_AXIS_SEMI_MAJOR_TICK_LENGTH / 2;
+    constexpr unsigned  Y_AXIS_MAJOR_TICK_LENGTH            = 12;
+    constexpr unsigned  Y_AXIS_SEMI_MAJOR_TICK_LENGTH       = Y_AXIS_MAJOR_TICK_LENGTH / 2;
+    constexpr unsigned  Y_AXIS_MINOR_TICK_LENGTH            = Y_AXIS_SEMI_MAJOR_TICK_LENGTH / 2;
+    constexpr unsigned  SAMPLE_MARKING_THRESHOLD            = 40;
+    constexpr unsigned  SAMPLE_MARKING_AMPLITUDE            = 5;
+    constexpr unsigned  SAMPLE_MARKING_THICKNESS            = 1;
+    constexpr unsigned  INTERNAL_DISPLAY_LEFT_MARGIN        = 80;
+    constexpr unsigned  INTERNAL_DISPLAY_TOP_MARGIN         = 20;
+    constexpr unsigned  INTERNAL_DISPLAY_RIGHT_MARGIN       = 10;
+    constexpr unsigned  INTERNAL_DISPLAY_BOTTOM_MARGIN      = 20;
     constexpr unsigned  AXIS_LABEL_SIZE                     = 9;
     constexpr unsigned  TOP_INFO_LABEL_SIZE                 = 12;
-    constexpr uint32_t  X_AXIS_LABEL_COLOR                  = FL_WHITE;
     constexpr unsigned  Y_AXIS_LABEL_HORIZONTAL_INTRASPACE  = 40;
     constexpr unsigned  Y_AXIS_UNIT_LABEL_SIZE              = 9;
-
     constexpr unsigned  SLIDER_WIDTH                        = 10;
     constexpr unsigned  STATUS_HEIGHT                       = 20;  
     constexpr unsigned  STATUS_WIDTH                        = 80;
+    constexpr uint32_t  GRID_COLOR                          = 46; // gray
+    constexpr uint32_t  BACKGROUND_COLOR                    = FL_BLACK;     
+    constexpr uint32_t  X_AXIS_LABEL_COLOR                  = FL_WHITE;
 
     static constexpr uint32_t CHANNEL_COLORS[] = {
       3, // yellow

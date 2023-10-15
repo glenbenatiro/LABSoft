@@ -16,10 +16,35 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
 {
   private:
     class Internal_Display : public Fl_Widget
-    {
+    {        
       private:
-        friend class LABSoft_GUI_Oscilloscope_Display;
-        
+        // widget functions
+        void    draw   ();
+        int     handle (int event);
+        void    resize (int x, int y, int w, int h);
+
+        // draw functions
+        void    draw_grid          ();
+        void    draw_channels      ();
+        void    draw_sample_marker (int x, int y);
+
+        // calc
+        void    calc_pixel_points                   ();
+        void    calc_cached_values                  ();
+        void    calc_sample_y_scaler                ();
+        int     calc_sample_y_coord                 (double sample, unsigned channel);
+        double  calc_sample_x_offset                (unsigned channel);
+        int     calc_mouse_drag_time_per_div_scaler (int drag_x);
+
+        // state
+        void    reserve_pixel_points ();
+
+        // callbacks
+        void    cb_mouse_wheel  (int direction);
+        void    cb_mouse_click  (int x, int y);
+        void    cb_mouse_drag   ();
+
+      public:
         // connections
         const LAB_Oscilloscope*   m_osc         = nullptr;
         const LABSoft_Controller* m_controller  = nullptr;
@@ -33,11 +58,11 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         int     m_display_height_midline    = 0;
 
         std::array<double, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS>
-          m_sample_y_scaler;
+          m_sample_y_scaler = {0.0};
 
         // display data
-        unsigned  m_pixel_points_to_display;
-        bool      m_mark_samples;
+        unsigned  m_pixel_points_to_display   = 1;
+        bool      m_mark_samples              = false;
 
         std::array<std::vector<std::array<int, 2>>, 
           LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> m_pixel_points;
@@ -46,33 +71,6 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         int     m_mouse_down_start_x          = 0;
         int     m_mouse_down_start_y          = 0;
         double  m_pre_drag_horizontal_offset  = 0;
-        
-      private:
-        // widget functions
-        void  draw   ();
-        int   handle (int event);
-        void  resize (int x, int y, int w, int h);
-
-        // draw functions
-        void draw_grid          ();
-        void draw_channels      ();
-        void draw_sample_marker (int x, int y);
-
-        // calc
-        void    calc_pixel_points                   ();
-        void    calc_cached_values                  ();
-        void    calc_sample_y_scaler                ();
-        int     calc_sample_y_coord                 (double sample, unsigned channel);
-        double  calc_sample_x_offset                (unsigned channel);
-        int     calc_mouse_drag_time_per_div_scaler (int drag_x);
-
-        // state
-        void reserve_pixel_points ();
-
-        // callbacks
-        void cb_mouse_wheel (int direction);
-        void cb_mouse_click (int x, int y);
-        void cb_mouse_drag ();
 
       public:
         Internal_Display (int X, int Y, int W, int H, const char* label = 0);
@@ -94,12 +92,12 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     const LABSoft_Controller* m_controller  = nullptr;
 
     // widgets
+    Internal_Display*       m_internal_display          = nullptr; 
     Fl_Box*                 m_status                    = nullptr;
     Fl_Box*                 m_top_info                  = nullptr;
     LABSoft_GUI_Fl_Slider*  m_horizontal_offset_slider  = nullptr;
     LABSoft_GUI_Fl_Slider*  m_vertical_offset_slider    = nullptr;
     LABSoft_GUI_Fl_Slider*  m_trigger_level_slider      = nullptr;
-    Internal_Display*       m_internal_display          = nullptr;
 
     std::array<
       Fl_Button*, 
@@ -155,7 +153,8 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void update_gui_horizontal_elements     ();
     
     // calc
-    double calc_row_voltage_per_division (unsigned channel, unsigned row);
+    double calc_row_voltage_per_division  (unsigned channel, unsigned row);
+    double calc_col_time_per_division     (unsigned col);
 
     // others
     std::string get_now_timestamp ();

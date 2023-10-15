@@ -5,6 +5,9 @@
 #include <iomanip>
 #include <sstream>
 
+// delete soon
+#include <iostream>
+
 #include <FL/Enumerations.H>
 
 #include "../Utility/LABSoft_GUI_Label.h"
@@ -435,7 +438,8 @@ draw ()
 {
   update_gui_status ();
 
-  draw_box (FL_THIN_DOWN_BOX, LABC::OSC_DISPLAY::BACKGROUND_COLOR);
+  draw_box      (FL_THIN_DOWN_BOX, LABC::OSC_DISPLAY::BACKGROUND_COLOR);
+  draw_children ();
 }
 
 // update gui functions
@@ -520,7 +524,14 @@ select_channel (unsigned channel)
 void LABSoft_GUI_Oscilloscope_Display:: 
 init_child_widgets_internal_display ()
 {
-  m_internal_display = new Internal_Display (x () + 80, y () + 20, 610, 470);
+  m_internal_display = new Internal_Display (
+    x () + LABC::OSC_DISPLAY::INTERNAL_DISPLAY_LEFT_MARGIN,
+    y () + LABC::OSC_DISPLAY::INTERNAL_DISPLAY_TOP_MARGIN, 
+    w () - LABC::OSC_DISPLAY::INTERNAL_DISPLAY_LEFT_MARGIN - 
+      LABC::OSC_DISPLAY::INTERNAL_DISPLAY_RIGHT_MARGIN,
+    h () - LABC::OSC_DISPLAY::INTERNAL_DISPLAY_TOP_MARGIN - 
+      LABC::OSC_DISPLAY::INTERNAL_DISPLAY_BOTTOM_MARGIN
+  );
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
@@ -605,7 +616,8 @@ init_child_widgets_voltage_per_division_labels ()
       m_voltage_per_division_labels[chan][row] = box;
     }
 
-    m_voltage_per_division_labels[chan].back ()->align (FL_ALIGN_TOP_LEFT);
+    m_voltage_per_division_labels[chan].front ()->align (FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
+    m_voltage_per_division_labels[chan].back ()->align  (FL_ALIGN_TOP_LEFT);
 
     init_child_widgets_voltage_per_division_units (X, chan);
   }
@@ -634,7 +646,7 @@ init_child_widgets_time_per_division_labels ()
   for (unsigned a = 0; a < m_time_per_division_labels.size (); a++)
   {
     Fl_Box* box = new Fl_Box (
-      m_internal_display->x () + (a + m_internal_display->m_column_width),
+      m_internal_display->x () + (a * m_internal_display->m_column_width),
       m_internal_display->y () + m_internal_display->h (),
       3,
       20
@@ -767,15 +779,13 @@ update_gui_voltage_per_division ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_time_per_division ()
 {
-  for (unsigned col = 0; col < m_time_per_division_labels.size (); col++)
+  for (int col = 0; col < m_time_per_division_labels.size (); col++)
   {
-    double col_tpd = (col + LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS_HALF) * 
-      m_osc->time_per_division () + m_osc->horizontal_offset ();
+    double col_tpd = calc_col_time_per_division (col);
 
     LABSoft_GUI_Label label (col_tpd, LABSoft_GUI_Label::UNIT::SECOND);
     
     m_time_per_division_labels[col]->copy_label (label.to_label_text ().c_str ());
-
   }
 }
 
@@ -860,11 +870,23 @@ double LABSoft_GUI_Oscilloscope_Display::
 calc_row_voltage_per_division (unsigned channel,
                                unsigned row)
 {
-  double row_vpd = (-1 * m_osc->chan_voltage_per_division (channel)) *
-    (row - LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF) - 
+  int index = static_cast<int>(row) - 
+    static_cast<int>(LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF);
+
+  double row_vpd = (-index * m_osc->chan_voltage_per_division (channel)) - 
     m_osc->chan_vertical_offset (channel);
   
   return (row_vpd);
+}
+
+double LABSoft_GUI_Oscilloscope_Display:: 
+calc_col_time_per_division (unsigned col)
+{
+  int index = static_cast<int>(col) -
+   static_cast<int>(LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS_HALF);
+  
+  double col_tpd = (index * m_osc->time_per_division ()) + 
+    m_osc->horizontal_offset ();
 }
 
 std::string LABSoft_GUI_Oscilloscope_Display:: 

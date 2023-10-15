@@ -580,21 +580,26 @@ cb_export (Fl_Menu_Item*  w,
 void LABSoft_Controller_Oscilloscope:: 
 display_update_cycle ()
 { 
-  lab ().m_Oscilloscope.load_data_samples ();
+  LAB_Oscilloscope& osc = lab ().m_Oscilloscope;
 
-  gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_display ();
-
-  // TO-DO
-  // this is not ideal as the trigger_found flag should not be changed
-  // outside of LAB_Oscilloscope as much as possible.
-  // but in the meantime, i am putting this here for possible performance
-  // improvement. with this, the LAB_Oscilloscope does not have to find
-  // for the next trigger as long as the current trigger has not yet been displayed
-
-  if (lab ().m_Oscilloscope.trigger_found ())
+  if (osc.is_frontend_running () || osc.is_backend_running ())
   {
-    lab ().m_Oscilloscope.trigger_serviced ();
-  }  
+    osc.load_data_samples ();
+
+    gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_display ();
+
+    // TO-DO
+    // this is not ideal as the trigger_found flag should not be changed
+    // outside of LAB_Oscilloscope as much as possible.
+    // but in the meantime, i am putting this here for possible performance
+    // improvement. with this, the LAB_Oscilloscope does not have to find
+    // for the next trigger as long as the current trigger has not yet been displayed
+
+    if (lab ().m_Oscilloscope.trigger_found ())
+    {
+      lab ().m_Oscilloscope.trigger_serviced ();
+    }  
+  }
 }
 
 void LABSoft_Controller_Oscilloscope:: 

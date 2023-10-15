@@ -83,14 +83,13 @@ update_gui_tab_colors ()
 void LABSoft_Controller::
 update_display (void *data)
 {
-  
-  LABSoft_Controller& controller = *((LABSoft_Controller*)(data));
+  LABSoft_Controller& controller = *(reinterpret_cast<LABSoft_Controller*>(data));
 
-  //controller.update_gui_tab_colors                  ();
+  controller.update_gui_tab_colors                  ();
   
-  // controller.m_Oscilloscope.display_update_cycle    ();
-  //controller.m_Voltmeter.display_update_cycle       (); 
-  //controller.m_Logic_Analyzer.display_update_cycle  ();
+  controller.m_Oscilloscope.display_update_cycle    ();
+  controller.m_Voltmeter.display_update_cycle       (); 
+  controller.m_Logic_Analyzer.display_update_cycle  ();
 
   Fl::repeat_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, data);  
 }
