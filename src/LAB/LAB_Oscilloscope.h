@@ -41,7 +41,6 @@ class LAB_Oscilloscope : public LAB_Module
     void                set_time_per_division           (unsigned samples, double sampling_rate);
     void                set_time_per_division           (double value);
     void                set_samples                     (unsigned value);
-    void                set_samples_displayed           (unsigned value);
     void                set_sampling_rate               (double value);
     
     // mode
@@ -78,7 +77,7 @@ class LAB_Oscilloscope : public LAB_Module
     LAB_Oscilloscope (LAB& _LAB);
    ~LAB_Oscilloscope ();   
 
-    // Master controls
+    // master controls
     void                  run                     ();
     void                  stop                    ();  
     void                  osc_core_run_stop       (bool value);
@@ -93,7 +92,7 @@ class LAB_Oscilloscope : public LAB_Module
     void                  voltage_per_division    (unsigned channel, double value);
     double                voltage_per_division    (unsigned channel);
     void                  vertical_offset         (unsigned channel, double value);
-    double                vertical_offset         (unsigned channel);
+    double                vertical_offset         (unsigned channel) const;
     void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);
     LABE::OSC::COUPLING   coupling                (unsigned channel);
     void                  scaling                 (unsigned channel, LABE::OSC::SCALING scaling);
@@ -114,7 +113,7 @@ class LAB_Oscilloscope : public LAB_Module
     void                  trigger_mode            (LABE::OSC::TRIG::MODE value);
     LABE::OSC::TRIG::MODE trigger_mode            () const;
     void                  trigger_source          (unsigned chan);
-    double                trigger_source          () const;
+    unsigned              trigger_source          () const;
     void                  trigger_type            (LABE::OSC::TRIG::TYPE value);
     LABE::OSC::TRIG::TYPE trigger_type            () const;
     void                  trigger_condition       (LABE::OSC::TRIG::CND value);
@@ -130,14 +129,15 @@ class LAB_Oscilloscope : public LAB_Module
 
     // State
     bool                  is_running              ();
-    bool                  has_enabled_channel     ();
+    bool                  has_enabled_channels    () const;
     void                  load_data_samples       (); 
     void                  update_dma_data         (int display_mode);
     int                   update_state            ();
-    bool                  is_channel_enabled      (unsigned channel);
+    bool                  is_channel_enabled      (unsigned channel) const;
 
     bool                  is_frontend_running     ();
     bool                  is_backend_running      ();
+
 
     // Data
     const LAB_Parent_Data_Oscilloscope&                     parent_data     ();
@@ -146,6 +146,10 @@ class LAB_Oscilloscope : public LAB_Module
     // calibration
     void    adc_reference_voltage (double value);
     double  adc_reference_voltage () const;
+
+    // channel data getter
+    double chan_voltage_per_division (unsigned channel) const;
+    double chan_vertical_offset (unsigned channel) const;
 };
 
 #endif

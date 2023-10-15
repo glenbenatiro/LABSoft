@@ -161,10 +161,13 @@ namespace LABC
 
   namespace OSC_DISPLAY
   {
+    constexpr unsigned  NUMBER_OF_CHANNELS            = OSC::NUMBER_OF_CHANNELS;
+    
     constexpr unsigned  NUMBER_OF_ROWS                = OSC::DISPLAY_NUMBER_OF_ROWS;
     constexpr unsigned  NUMBER_OF_COLUMNS             = OSC::DISPLAY_NUMBER_OF_COLUMNS;
 
     constexpr unsigned  NUMBER_OF_ROWS_HALF           = NUMBER_OF_ROWS / 2;
+    constexpr unsigned  NUMBER_OF_COLUMNS_HALF        = NUMBER_OF_COLUMNS / 2;
 
     constexpr unsigned  MID_COLUMN_INDEX              = (NUMBER_OF_COLUMNS / 2) - 1;
     constexpr unsigned  MID_ROW_INDEX                 = (NUMBER_OF_ROWS / 2) - 1;
@@ -187,13 +190,15 @@ namespace LABC
     constexpr uint32_t  GRID_COLOR                    = 46; // gray
     constexpr uint32_t  BACKGROUND_COLOR              = FL_BLACK;     
 
-    constexpr unsigned  AXIS_LABEL_SIZE                     = 12;
+    constexpr unsigned  AXIS_LABEL_SIZE                     = 9;
+    constexpr unsigned  TOP_INFO_LABEL_SIZE                 = 12;
     constexpr uint32_t  X_AXIS_LABEL_COLOR                  = FL_WHITE;
     constexpr unsigned  Y_AXIS_LABEL_HORIZONTAL_INTRASPACE  = 40;
     constexpr unsigned  Y_AXIS_UNIT_LABEL_SIZE              = 9;
 
     constexpr unsigned  SLIDER_WIDTH                        = 10;
     constexpr unsigned  STATUS_HEIGHT                       = 20;  
+    constexpr unsigned  STATUS_WIDTH                        = 80;
 
     static constexpr uint32_t CHANNEL_COLORS[] = {
       3, // yellow
@@ -202,15 +207,6 @@ namespace LABC
       5, // purple
     };    
   };
-
-  namespace OSC_DISPLAY
-{
-
-
-  
-
-  
-};
 
   namespace OSC_DISPLAY_GROUP
   {
@@ -255,7 +251,7 @@ namespace LABC
     constexpr double                    PHASE                   = 0.0;
     constexpr double                    VERTICAL_OFFSET         = 0.0;
 
-    constexpr double                    IC_FREQUENCY            = 100'000.0;  // Hz
+    constexpr double                    IC_FREQUENCY            = 50'000.0;  // Hz
 
     // see differential amplifier diagram here
     // https://en.wikipedia.org/wiki/Operational_amplifier_applications#Differential_amplifier_.28difference_amplifier.29

@@ -25,7 +25,6 @@ namespace LABD
     constexpr double                TIME_PER_DIVISION             = 0.005; // 1 ms/div
     constexpr double                SAMPLING_RATE                 = SAMPLES / (TIME_PER_DIVISION * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                HORIZONTAL_OFFSET             = 0.0;
-    constexpr unsigned              SAMPLES_DISPLAYED             = TIME_PER_DIVISION * SAMPLING_RATE * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS;
     
     // mode
     constexpr LABE::OSC::MODE       MODE                          = (TIME_PER_DIVISION < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN) ? 

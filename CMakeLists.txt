@@ -15,6 +15,8 @@ set(CMAKE_CXX_EXTENSIONS Off)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
+# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
 include_directories(
   ${FLTK_INCLUDE_DIRS}
   ${OPENSSL_INCLUDE_DIR}  # Add this line to include OpenSSL headers

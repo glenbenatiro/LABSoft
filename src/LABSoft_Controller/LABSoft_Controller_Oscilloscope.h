@@ -15,9 +15,7 @@
 
 class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
 {
-  private: 
-    void init             ();
-  
+  private:   
     // supposed LABSoft_GUI_Oscilloscope functions (can't because FLUID)
     void init_gui_values  (); // supposed to be called when parent_data is
                               // loaded for the first time
@@ -40,6 +38,7 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     // Horizontal
     void cb_horizontal_offset         (Fl_Input_Choice*   w, void* data);
     void cb_time_per_division         (Fl_Input_Choice*   w, void* data);
+    void cb_time_per_division_steps   (int steps);
     void cb_samples                   (Fl_Input_Choice*   w, void* data);
     void cb_sampling_rate             (Fl_Input_Choice*   w, void* data);
 
@@ -62,13 +61,13 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void cb_mode                      (Fl_Choice*         w, void* data);
 
     // Display
-    void cb_display_time_per_division (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
-    void cb_display_horizontal_offset (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
+    //void cb_display_time_per_division (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
+    //void cb_display_horizontal_offset (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
 
     // GUI update
     void display_update_cycle         ();
     void update_trigger_panel_gui     ();
-    void update_gui_horizontal        ();
+    void update_gui_horizontal_elements  ();
     void update_gui_mode              ();   
 };
 

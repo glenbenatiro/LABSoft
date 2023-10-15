@@ -23,7 +23,7 @@ struct LAB_Channel_Data_Oscilloscope
   std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> samples = {0};
 };
 
-class LAB_Parent_Data_Oscilloscope
+struct LAB_Parent_Data_Oscilloscope
 {
   public:    
     // state 
@@ -44,8 +44,6 @@ class LAB_Parent_Data_Oscilloscope
     double    time_per_division_raw_buffer    = time_per_division;
     unsigned  samples                         = LABD::OSC::SAMPLES;               
     unsigned  samples_raw_buffer              = samples;                         
-    unsigned  samples_displayed               = LABD::OSC::SAMPLES_DISPLAYED;
-    unsigned  sample_start_index              = 0;
     double    sampling_rate                   = LABD::OSC::SAMPLING_RATE;
 
     // Data/Samples/Pixels

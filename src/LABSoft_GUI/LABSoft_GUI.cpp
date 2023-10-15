@@ -293,14 +293,14 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_choice_mode[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_horizontal_offset_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_horizontal_offset_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_horizontal_offset (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_horizontal_offset(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_horizontal_offset_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_horizontal_offset(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_with_scroll_horizontal_offset_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_horizontal_offset[] = {
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_with_scroll_horizontal_offset[] = {
  {"100s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"50 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"20 s", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -355,14 +355,14 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_horizontal_offset[] 
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_time_per_division_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_time_per_division_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_time_per_division (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_time_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_time_per_division_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_time_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_with_scroll_time_per_division_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] = {
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_with_scroll_time_per_division[] = {
  {"200 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"120 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"100 s/div", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -394,14 +394,14 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_time_per_division[] 
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_samples_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_samples_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_samples (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_samples(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_samples_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_samples(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_with_scroll_samples_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_samples[] = {
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_with_scroll_samples[] = {
  {"2000", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"1000", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"500", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -412,14 +412,14 @@ Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_samples[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_sampling_rate_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_sampling_rate_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
   m_LABSoft_Controller->m_Oscilloscope.cb_sampling_rate (o, v);
 }
-void LABSoft_GUI::cb_oscilloscope_fl_input_choice_sampling_rate(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_sampling_rate_i(o,v);
+void LABSoft_GUI::cb_oscilloscope_fl_input_choice_with_scroll_sampling_rate(LABSoft_GUI_Fl_Input_Choice_With_Scroll* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_input_choice_with_scroll_sampling_rate_i(o,v);
 }
 
-Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_sampling_rate[] = {
+Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_fl_input_choice_with_scroll_sampling_rate[] = {
  {"6.67 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"16.67 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"40 Hz", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -1013,7 +1013,6 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
-        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_gui_oscilloscope_display->color(FL_FOREGROUND_COLOR);
@@ -1230,78 +1229,78 @@ LABSoft_GUI::LABSoft_GUI() {
           oscilloscope_fl_group_horizontal->box(FL_ROUNDED_FRAME);
           oscilloscope_fl_group_horizontal->color(FL_LIGHT2);
           oscilloscope_fl_group_horizontal->labelsize(12);
-          { oscilloscope_fl_input_choice_horizontal_offset = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 390, 100, 25, "Horizontal Offset");
-            oscilloscope_fl_input_choice_horizontal_offset->box(FL_NO_BOX);
-            oscilloscope_fl_input_choice_horizontal_offset->color(FL_LIGHT3);
-            oscilloscope_fl_input_choice_horizontal_offset->selection_color((Fl_Color)229);
-            oscilloscope_fl_input_choice_horizontal_offset->labeltype(FL_NORMAL_LABEL);
-            oscilloscope_fl_input_choice_horizontal_offset->labelfont(0);
-            oscilloscope_fl_input_choice_horizontal_offset->labelsize(12);
-            oscilloscope_fl_input_choice_horizontal_offset->labelcolor(FL_FOREGROUND_COLOR);
-            oscilloscope_fl_input_choice_horizontal_offset->textsize(12);
-            oscilloscope_fl_input_choice_horizontal_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_horizontal_offset);
-            oscilloscope_fl_input_choice_horizontal_offset->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_horizontal_offset->when(FL_WHEN_RELEASE);
-            oscilloscope_fl_input_choice_horizontal_offset->menu(menu_oscilloscope_fl_input_choice_horizontal_offset);
-            oscilloscope_fl_input_choice_horizontal_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_horizontal_offset->menubutton ()->box (FL_GTK_UP_BOX);
-            oscilloscope_fl_input_choice_horizontal_offset->menubutton ()->color (54);
-          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_horizontal_offset
-          { oscilloscope_fl_input_choice_time_per_division = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 440, 100, 25, "Time per Division");
-            oscilloscope_fl_input_choice_time_per_division->box(FL_NO_BOX);
-            oscilloscope_fl_input_choice_time_per_division->color(FL_LIGHT3);
-            oscilloscope_fl_input_choice_time_per_division->selection_color((Fl_Color)229);
-            oscilloscope_fl_input_choice_time_per_division->labeltype(FL_NORMAL_LABEL);
-            oscilloscope_fl_input_choice_time_per_division->labelfont(0);
-            oscilloscope_fl_input_choice_time_per_division->labelsize(12);
-            oscilloscope_fl_input_choice_time_per_division->labelcolor(FL_FOREGROUND_COLOR);
-            oscilloscope_fl_input_choice_time_per_division->textsize(12);
-            oscilloscope_fl_input_choice_time_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_time_per_division);
-            oscilloscope_fl_input_choice_time_per_division->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_time_per_division->when(FL_WHEN_RELEASE);
-            oscilloscope_fl_input_choice_time_per_division->menu(menu_oscilloscope_fl_input_choice_time_per_division);
-            oscilloscope_fl_input_choice_time_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_time_per_division->menubutton ()->box (FL_GTK_UP_BOX);
-            oscilloscope_fl_input_choice_time_per_division->menubutton ()->color (54);
-          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_time_per_division
-          { oscilloscope_fl_input_choice_samples = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 490, 100, 25, "Samples");
-            oscilloscope_fl_input_choice_samples->box(FL_NO_BOX);
-            oscilloscope_fl_input_choice_samples->color(FL_LIGHT3);
-            oscilloscope_fl_input_choice_samples->selection_color((Fl_Color)229);
-            oscilloscope_fl_input_choice_samples->labeltype(FL_NORMAL_LABEL);
-            oscilloscope_fl_input_choice_samples->labelfont(0);
-            oscilloscope_fl_input_choice_samples->labelsize(12);
-            oscilloscope_fl_input_choice_samples->labelcolor(FL_FOREGROUND_COLOR);
-            oscilloscope_fl_input_choice_samples->textsize(12);
-            oscilloscope_fl_input_choice_samples->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_samples);
-            oscilloscope_fl_input_choice_samples->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_samples->when(FL_WHEN_RELEASE);
-            oscilloscope_fl_input_choice_samples->menu(menu_oscilloscope_fl_input_choice_samples);
-            oscilloscope_fl_input_choice_samples->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_samples->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_samples->menubutton ()->box (FL_GTK_UP_BOX);
-            oscilloscope_fl_input_choice_samples->menubutton ()->color (54);
-          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_samples
-          { oscilloscope_fl_input_choice_sampling_rate = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 540, 100, 25, "Sampling Rate");
-            oscilloscope_fl_input_choice_sampling_rate->box(FL_NO_BOX);
-            oscilloscope_fl_input_choice_sampling_rate->color(FL_LIGHT3);
-            oscilloscope_fl_input_choice_sampling_rate->selection_color((Fl_Color)229);
-            oscilloscope_fl_input_choice_sampling_rate->labeltype(FL_NORMAL_LABEL);
-            oscilloscope_fl_input_choice_sampling_rate->labelfont(0);
-            oscilloscope_fl_input_choice_sampling_rate->labelsize(12);
-            oscilloscope_fl_input_choice_sampling_rate->labelcolor(FL_FOREGROUND_COLOR);
-            oscilloscope_fl_input_choice_sampling_rate->textsize(12);
-            oscilloscope_fl_input_choice_sampling_rate->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_sampling_rate);
-            oscilloscope_fl_input_choice_sampling_rate->align(Fl_Align(FL_ALIGN_TOP));
-            oscilloscope_fl_input_choice_sampling_rate->when(FL_WHEN_RELEASE);
-            oscilloscope_fl_input_choice_sampling_rate->menu(menu_oscilloscope_fl_input_choice_sampling_rate);
-            oscilloscope_fl_input_choice_sampling_rate->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_sampling_rate->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-            oscilloscope_fl_input_choice_sampling_rate->menubutton ()->box (FL_GTK_UP_BOX);
-            oscilloscope_fl_input_choice_sampling_rate->menubutton ()->color (54);
-          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_sampling_rate
+          { oscilloscope_fl_input_choice_with_scroll_horizontal_offset = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 390, 100, 25, "Horizontal Offset");
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->box(FL_NO_BOX);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->color(FL_LIGHT3);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->selection_color((Fl_Color)229);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->labeltype(FL_NORMAL_LABEL);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->labelfont(0);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->labelsize(12);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->labelcolor(FL_FOREGROUND_COLOR);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->textsize(12);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_with_scroll_horizontal_offset);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->when(FL_WHEN_RELEASE);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->menu(menu_oscilloscope_fl_input_choice_with_scroll_horizontal_offset);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->menubutton ()->box (FL_GTK_UP_BOX);
+            oscilloscope_fl_input_choice_with_scroll_horizontal_offset->menubutton ()->color (54);
+          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_with_scroll_horizontal_offset
+          { oscilloscope_fl_input_choice_with_scroll_time_per_division = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 440, 100, 25, "Time per Division");
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->box(FL_NO_BOX);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->color(FL_LIGHT3);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->selection_color((Fl_Color)229);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->labeltype(FL_NORMAL_LABEL);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->labelfont(0);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->labelsize(12);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->labelcolor(FL_FOREGROUND_COLOR);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->textsize(12);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_with_scroll_time_per_division);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->when(FL_WHEN_RELEASE);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->menu(menu_oscilloscope_fl_input_choice_with_scroll_time_per_division);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->menubutton ()->box (FL_GTK_UP_BOX);
+            oscilloscope_fl_input_choice_with_scroll_time_per_division->menubutton ()->color (54);
+          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_with_scroll_time_per_division
+          { oscilloscope_fl_input_choice_with_scroll_samples = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 490, 100, 25, "Samples");
+            oscilloscope_fl_input_choice_with_scroll_samples->box(FL_NO_BOX);
+            oscilloscope_fl_input_choice_with_scroll_samples->color(FL_LIGHT3);
+            oscilloscope_fl_input_choice_with_scroll_samples->selection_color((Fl_Color)229);
+            oscilloscope_fl_input_choice_with_scroll_samples->labeltype(FL_NORMAL_LABEL);
+            oscilloscope_fl_input_choice_with_scroll_samples->labelfont(0);
+            oscilloscope_fl_input_choice_with_scroll_samples->labelsize(12);
+            oscilloscope_fl_input_choice_with_scroll_samples->labelcolor(FL_FOREGROUND_COLOR);
+            oscilloscope_fl_input_choice_with_scroll_samples->textsize(12);
+            oscilloscope_fl_input_choice_with_scroll_samples->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_with_scroll_samples);
+            oscilloscope_fl_input_choice_with_scroll_samples->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_with_scroll_samples->when(FL_WHEN_RELEASE);
+            oscilloscope_fl_input_choice_with_scroll_samples->menu(menu_oscilloscope_fl_input_choice_with_scroll_samples);
+            oscilloscope_fl_input_choice_with_scroll_samples->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_samples->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_samples->menubutton ()->box (FL_GTK_UP_BOX);
+            oscilloscope_fl_input_choice_with_scroll_samples->menubutton ()->color (54);
+          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_with_scroll_samples
+          { oscilloscope_fl_input_choice_with_scroll_sampling_rate = new LABSoft_GUI_Fl_Input_Choice_With_Scroll(760, 540, 100, 25, "Sampling Rate");
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->box(FL_NO_BOX);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->color(FL_LIGHT3);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->selection_color((Fl_Color)229);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->labeltype(FL_NORMAL_LABEL);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->labelfont(0);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->labelsize(12);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->labelcolor(FL_FOREGROUND_COLOR);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->textsize(12);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->callback((Fl_Callback*)cb_oscilloscope_fl_input_choice_with_scroll_sampling_rate);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->align(Fl_Align(FL_ALIGN_TOP));
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->when(FL_WHEN_RELEASE);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->menu(menu_oscilloscope_fl_input_choice_with_scroll_sampling_rate);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->menubutton ()->box (FL_GTK_UP_BOX);
+            oscilloscope_fl_input_choice_with_scroll_sampling_rate->menubutton ()->color (54);
+          } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* oscilloscope_fl_input_choice_with_scroll_sampling_rate
           oscilloscope_fl_group_horizontal->end();
         } // Fl_Group* oscilloscope_fl_group_horizontal
         { oscilloscope_fl_group_trigger = new Fl_Group(900, 360, 260, 220, "Trigger");
@@ -1398,6 +1397,7 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_voltmeter_tab->color(FL_LIGHT3);
         main_fl_group_voltmeter_tab->selection_color(FL_LIGHT2);
         main_fl_group_voltmeter_tab->labelsize(12);
+        main_fl_group_voltmeter_tab->hide();
         { voltmeter_fl_output_chan_0_value = new Fl_Output(250, 200, 320, 60, "Channel 1 DC");
           voltmeter_fl_output_chan_0_value->box(FL_GTK_DOWN_BOX);
           voltmeter_fl_output_chan_0_value->color((Fl_Color)55);

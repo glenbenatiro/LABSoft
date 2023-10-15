@@ -123,8 +123,8 @@ config_dma_cb ()
   {
     .cbs = 
     {
-      // SPI RX - Double Buffer
-      // 0
+      // SPI RX - double buffer
+      // block 0
       {
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
@@ -134,7 +134,7 @@ config_dma_cb ()
         m_uncached_memory.bus (&uncached_dma_data.cbs[1]),
         0
       },
-      // 1
+      // block 1
       {
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
         rpi ().spi.bus   (AP::SPI::CS),
@@ -144,7 +144,7 @@ config_dma_cb ()
         m_uncached_memory.bus (&uncached_dma_data.cbs[2]),
         0
       },
-      // 2
+      // block 2
       {
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
@@ -154,7 +154,7 @@ config_dma_cb ()
         m_uncached_memory.bus (&uncached_dma_data.cbs[3]),
         0
       },
-      // 3
+      // block 3
       {
         LABC::DMA::TI::OSC_RX | AP::DMA::TI_DATA::INTEN,
         rpi ().spi.bus   (AP::SPI::CS),
@@ -165,8 +165,8 @@ config_dma_cb ()
         0
       },
 
-      // SPI RX - Single Buffer
-      // 4
+      // SPI RX - single buffer
+      //
       {
         LABC::DMA::TI::OSC_RX,
         rpi ().spi.bus   (AP::SPI::FIFO),
@@ -342,6 +342,12 @@ bool LAB_Oscilloscope::
 is_running ()
 {
   return (m_parent_data.is_backend_running && m_parent_data.is_frontend_running);
+}
+
+bool LAB_Oscilloscope:: 
+has_enabled_channels () const
+{
+  return (m_parent_data.has_enabled_channels ());
 }
 
 void LAB_Oscilloscope::
@@ -524,15 +530,16 @@ fill_raw_sample_buffer_from_dma_buffer ()
       break;
     }
   }
+
+  LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
+  pdata.time_per_division_raw_buffer  = pdata.time_per_division;
+  pdata.samples_raw_buffer            = pdata.samples;
 }
 
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
   LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
-
-  // pdata.time_per_division_raw_buffer  = pdata.time_per_division;
-  // pdata.samples_raw_buffer            = pdata.samples; 
 
   for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
@@ -692,23 +699,6 @@ reset_uncached_rx_buffer ()
   );
 }
 
-bool LAB_Oscilloscope:: 
-has_enabled_channel ()
-{
-  bool flag = false; 
-
-  for (const auto &chan : m_parent_data.channel_data)
-  {
-    if (chan.is_enabled)
-    {
-      flag = true;
-      break;
-    }
-  }
-
-  return (flag);
-}
-
 double LAB_Oscilloscope::
 calc_time_per_division (unsigned  samples, 
                         double    sampling_rate)
@@ -772,15 +762,6 @@ set_samples (unsigned value)
 }
 
 void LAB_Oscilloscope:: 
-set_samples_displayed (unsigned value)
-{
-  m_parent_data.samples_displayed = value;
-
-  m_parent_data.sample_start_index = ((LABC::OSC::NUMBER_OF_SAMPLES - 1) / 2.0) - 
-    ((value - 1) / 2.0);
-}
-
-void LAB_Oscilloscope:: 
 set_sampling_rate (double value)
 {
   // 1. change the source frequency of the PWM peripheral
@@ -834,7 +815,6 @@ time_per_division (double value)
 
     // 3. 
     set_sampling_rate     (new_sampling_rate);
-    set_samples_displayed (new_samples_displayed);
     set_time_per_division (value);
   }
 }
@@ -1307,7 +1287,7 @@ trigger_source (unsigned chan)
   }
 }
 
-double LAB_Oscilloscope:: 
+unsigned LAB_Oscilloscope:: 
 trigger_source () const
 {
   return (m_parent_data.trigger_source);
@@ -1542,7 +1522,7 @@ update_state ()
 }
 
 bool LAB_Oscilloscope:: 
-is_channel_enabled (unsigned channel)
+is_channel_enabled (unsigned channel) const
 {
   return (m_parent_data.channel_data[channel].is_enabled);
 }
@@ -1567,7 +1547,7 @@ voltage_per_division (unsigned channel)
 }
 
 double LAB_Oscilloscope:: 
-vertical_offset (unsigned channel)
+vertical_offset (unsigned channel) const
 {
   return (m_parent_data.channel_data[channel].vertical_offset);
 }
@@ -1617,6 +1597,18 @@ double LAB_Oscilloscope::
 adc_reference_voltage () const
 {
   return (m_parent_data.calibration.adc_reference_voltage);
+}
+
+double LAB_Oscilloscope:: 
+chan_voltage_per_division (unsigned channel) const
+{
+  return (m_parent_data.channel_data[channel].voltage_per_division);
+}
+
+double LAB_Oscilloscope:: 
+chan_vertical_offset (unsigned channel) const 
+{
+  return (m_parent_data.channel_data[channel].vertical_offset);
 }
 
 // EOF

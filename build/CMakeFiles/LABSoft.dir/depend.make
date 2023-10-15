@@ -587,18 +587,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB/LAB_Voltmeter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB/Software/LAB_Calibration.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LAB/Software/LAB_Exporter.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Function_Generator.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Main_Window.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Unit.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/LABSoft_Controller_Voltmeter.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Exporter_Data_Table.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h
@@ -618,7 +609,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o: ../src/Utility/pugixml.hpp
 
@@ -958,7 +948,6 @@ CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: .
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Defaults.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Definitions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Enumerations.h
-CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/LAB_Utility_Functions.h
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o: ../src/Utility/pugixml.hpp
 
