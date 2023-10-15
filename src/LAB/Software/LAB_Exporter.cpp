@@ -79,7 +79,7 @@ update_data_table ()
         for (int chan = 0; chan < lab ().m_Oscilloscope.channels (); chan++)
         {
           m_data_table[row + row_start][chan + 1] = std::to_string (
-            lab ().m_Oscilloscope.channel_samples (chan)[row]
+            lab ().m_Oscilloscope.chan_samples (chan)[row]
           );
         }
       }

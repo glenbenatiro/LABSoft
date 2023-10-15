@@ -30,10 +30,13 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
 
         // calc
         void    calc_pixel_points                   ();
-        void    calc_cached_values                  ();
+        void    calc_pixel_points_osc_running       ();
+        void    calc_pixel_points_osc_stopped       ();
+        void    calc_skippers                       ();
+        void    calc_cached_display_values          ();
         void    calc_sample_y_scaler                ();
         int     calc_sample_y_coord                 (double sample, unsigned channel);
-        double  calc_sample_x_offset                (unsigned channel);
+        void    calc_sample_x_offset                ();
         int     calc_mouse_drag_time_per_div_scaler (int drag_x);
 
         // state
@@ -56,6 +59,9 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         float   m_y_axis_minor_ticks_width  = 0;
         float   m_display_half_height       = 0;
         int     m_display_height_midline    = 0;
+        double  m_sample_x_offset           = 0;
+        double  m_samp_skipper              = 0;
+        double  m_x_skipper                 = 0;
 
         std::array<double, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS>
           m_sample_y_scaler = {0.0};
@@ -80,7 +86,9 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         void load_controller    (const LABSoft_Controller& controller);
 
         // update state
-        void update_voltage_per_division ();
+        void update_voltage_per_division  ();
+        void update_horizontal_offset     ();
+        void update_samples               ();
     };
 
   private:

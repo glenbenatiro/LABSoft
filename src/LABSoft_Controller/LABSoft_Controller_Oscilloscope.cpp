@@ -291,7 +291,7 @@ cb_horizontal_offset (Fl_Input_Choice* w,
 
   w->value (
     LABSoft_GUI_Label (lab ().m_Oscilloscope.horizontal_offset ()).
-    to_label_text (LABSoft_GUI_Label::UNIT::VOLT).c_str ()
+    to_label_text (LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 }
 

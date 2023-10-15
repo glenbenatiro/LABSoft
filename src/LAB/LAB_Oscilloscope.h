@@ -83,11 +83,12 @@ class LAB_Oscilloscope : public LAB_Module
     void                  osc_core_run_stop       (bool value);
     void                  osc_frontend_run_stop   (bool value);
     void                  single                  ();
-    // Mode 
+
+    // mode 
     void                  mode                    (LABE::OSC::MODE mode);
     LABE::OSC::MODE       mode                    ();
 
-    // Vertical
+    // vertical
     void                  channel_enable_disable  (unsigned channel, bool enable);
     void                  voltage_per_division    (unsigned channel, double value);
     double                voltage_per_division    (unsigned channel);
@@ -99,7 +100,7 @@ class LAB_Oscilloscope : public LAB_Module
     LABE::OSC::SCALING    scaling                 (unsigned channel) const;
     unsigned              channels                () const;
 
-    // Horizontal
+    // horizontal
     void                  horizontal_offset       (double value);
     double                horizontal_offset       () const;
     void                  time_per_division       (double value);
@@ -109,7 +110,7 @@ class LAB_Oscilloscope : public LAB_Module
     void                  sampling_rate           (double value);
     double                sampling_rate           () const;
     
-    // Trigger 
+    // trigger 
     void                  trigger_mode            (LABE::OSC::TRIG::MODE value);
     LABE::OSC::TRIG::MODE trigger_mode            () const;
     void                  trigger_source          (unsigned chan);
@@ -127,29 +128,29 @@ class LAB_Oscilloscope : public LAB_Module
     void                  record_start            ();
     void                  record_init             ();
 
-    // State
+    // query state
     bool                  is_running              ();
-    bool                  has_enabled_channels    () const;
-    void                  load_data_samples       (); 
-    void                  update_dma_data         (int display_mode);
-    int                   update_state            ();
     bool                  is_channel_enabled      (unsigned channel) const;
+    bool                  has_enabled_channels    () const;
+    bool                  is_backend_running      () const;
+    bool                  is_frontend_running     () const;
 
-    bool                  is_frontend_running     ();
-    bool                  is_backend_running      ();
-
-
+    // for display update
+    void                  load_data_samples       (); 
+    
     // Data
     const LAB_Parent_Data_Oscilloscope&                     parent_data     ();
-    const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>  channel_samples (unsigned channel);
+
 
     // calibration
     void    adc_reference_voltage (double value);
     double  adc_reference_voltage () const;
 
     // channel data getter
-    double chan_voltage_per_division (unsigned channel) const;
-    double chan_vertical_offset (unsigned channel) const;
+    double chan_voltage_per_division  (unsigned channel) const;
+    double chan_vertical_offset       (unsigned channel) const;
+    
+    const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>& chan_samples (unsigned channel) const;
 };
 
 #endif

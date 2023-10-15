@@ -1421,24 +1421,6 @@ mode ()
 }
 
 void LAB_Oscilloscope:: 
-update_dma_data (int display_mode)
-{
-  // rpi ().dma_pause (LABC::DMA::CHANPWM_PACING);
-  
-  // volatile uint32_t *reg = Utility::reg (rpi ().m_regs_dma,
-  //   DMA_REG (LABC::DMA::CHANPWM_PACING, DMA_NEXTCONBK));
-
-  // *reg = Utility::bus ()
-  
-
-  // Utility::write_reg_virt (*reg, )
-
-  // *REG32(m_regs_dma, DMA_REG(chan, DMA_CONBLK_AD)) = MEM_BUS_ADDR(mp, cbp);
-
-  // rpi ().dma_play (LABC::DMA::CHANPWM_PACING);
-}
-
-void LAB_Oscilloscope:: 
 set_mode (LABE::OSC::MODE mode)
 {
   if (m_parent_data.mode != mode)
@@ -1505,22 +1487,6 @@ dma_buffer_count (LABE::OSC::BUFFER_COUNT buffer_count)
   }
 }
 
-int LAB_Oscilloscope:: 
-update_state ()
-{
-  // // Time per division
-  // time_per_division (m_parent_data.time_per_division,
-  //   LABSOFT_OSCILLOSCOPE_DISPLAY::NUMBER_OF_COLUMNS);
-
-  // Init scaling
-  for (int a = 0; a < m_parent_data.channel_data.size (); a++)
-  {
-    scaling (a, m_parent_data.channel_data[a].scaling);
-  }
-
-  return 1;
-}
-
 bool LAB_Oscilloscope:: 
 is_channel_enabled (unsigned channel) const
 {
@@ -1529,13 +1495,13 @@ is_channel_enabled (unsigned channel) const
 
 // Getters
 bool LAB_Oscilloscope:: 
-is_frontend_running ()
+is_frontend_running () const
 {
   return (m_parent_data.is_frontend_running);
 }
 
 bool LAB_Oscilloscope:: 
-is_backend_running ()
+is_backend_running () const
 {
   return (m_parent_data.is_backend_running);
 }
@@ -1576,8 +1542,8 @@ parent_data ()
   return (m_parent_data);
 }
 
-const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> LAB_Oscilloscope:: 
-channel_samples (unsigned channel)
+const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>& LAB_Oscilloscope:: 
+chan_samples (unsigned channel) const
 {
   return (m_parent_data.channel_data[channel].samples);
 }
