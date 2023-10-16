@@ -391,27 +391,26 @@ cb_mode (Fl_Choice* w,
   update_gui_mode ();
 }
 
-// void LABSoft_Controller_Oscilloscope::
-// cb_display_time_per_division (LABSoft_GUI_Oscilloscope_Display_Internal*  w, 
-//                               void*                                       data)
-// {
-//   double time_per_division = *(static_cast<double*>(data));
+void LABSoft_Controller_Oscilloscope::
+cb_display_time_per_division (void* data)
+{
+  double time_per_division = *(static_cast<double*>(data));
 
-//   lab ().m_Oscilloscope.time_per_division (time_per_division);
+  lab ().m_Oscilloscope.time_per_division (time_per_division);
 
-//   update_gui_horizontal ();
-// }
+  update_gui_horizontal_elements ();
+}
 
-// void LABSoft_Controller_Oscilloscope::
-// cb_display_horizontal_offset (LABSoft_GUI_Oscilloscope_Display_Internal*  w, 
-//                               void*                                       data)
-// {
-//   double horizontal_offset = *(static_cast<double*>(data));
+void LABSoft_Controller_Oscilloscope::
+cb_display_horizontal_offset (void* data) const
+{
+  double horizontal_offset = *(static_cast<double*>(data));
 
-//   lab ().m_Oscilloscope.horizontal_offset (horizontal_offset);
+  lab ().m_Oscilloscope.horizontal_offset (horizontal_offset);
 
-//   update_gui_horizontal ();
-// }
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->
+      update_horizontal_offset ();
+}
 
 void LABSoft_Controller_Oscilloscope::
 cb_trigger_mode (Fl_Choice* w,
@@ -622,7 +621,7 @@ update_trigger_panel_gui ()
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-update_gui_horizontal_elements ()
+update_gui_horizontal_elements () const
 {
   LABSoft_GUI_Label horizontal_offset  (lab ().m_Oscilloscope.horizontal_offset ());
   LABSoft_GUI_Label time_per_division  (lab ().m_Oscilloscope.time_per_division ());

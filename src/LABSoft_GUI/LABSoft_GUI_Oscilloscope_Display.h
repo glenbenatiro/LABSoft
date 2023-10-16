@@ -16,38 +16,11 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
 {
   private:
     class Internal_Display : public Fl_Widget
-    {        
+    {
       private:
-        // widget functions
-        void    draw   ();
-        int     handle (int event);
-        void    resize (int x, int y, int w, int h);
+        friend class LABSoft_GUI_Oscilloscope_Display;
 
-        // draw functions
-        void    draw_grid          ();
-        void    draw_channels      ();
-        void    draw_sample_marker (int x, int y);
-
-        // calc
-        void    calc_pixel_points                   ();
-        void    calc_pixel_points_osc_running       ();
-        void    calc_pixel_points_osc_stopped       ();
-        void    calc_skippers                       ();
-        void    calc_cached_display_values          ();
-        void    calc_sample_y_scaler                ();
-        int     calc_sample_y_coord                 (double sample, unsigned channel);
-        void    calc_sample_x_offset                ();
-        int     calc_mouse_drag_time_per_div_scaler (int drag_x);
-
-        // state
-        void    reserve_pixel_points ();
-
-        // callbacks
-        void    cb_mouse_wheel  (int direction);
-        void    cb_mouse_click  (int x, int y);
-        void    cb_mouse_drag   ();
-
-      public:
+      private:
         // connections
         const LAB_Oscilloscope*   m_osc         = nullptr;
         const LABSoft_Controller* m_controller  = nullptr;
@@ -77,6 +50,36 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         int     m_mouse_down_start_x          = 0;
         int     m_mouse_down_start_y          = 0;
         double  m_pre_drag_horizontal_offset  = 0;
+      
+      private:
+        // widget functions
+        void    draw   ();
+        int     handle (int event);
+        void    resize (int x, int y, int w, int h);
+
+        // draw functions
+        void    draw_grid          ();
+        void    draw_channels      ();
+        void    draw_sample_marker (int x, int y);
+
+        // calc
+        void    calc_pixel_points                   ();
+        void    calc_pixel_points_osc_running       ();
+        void    calc_pixel_points_osc_stopped       ();
+        void    calc_skippers                       ();
+        void    calc_cached_display_values          ();
+        void    calc_sample_y_scaler                ();
+        int     calc_sample_y_coord                 (double sample, unsigned channel);
+        void    calc_sample_x_offset                ();
+        int     calc_mouse_drag_time_per_div_scaler (int drag_x);
+
+        // state
+        void    reserve_pixel_points ();
+
+        // callbacks
+        void    cb_mouse_wheel  (int direction);
+        void    cb_mouse_click  (int x, int y);
+        void    cb_mouse_drag   (int x);
 
       public:
         Internal_Display (int X, int Y, int W, int H, const char* label = 0);
@@ -163,9 +166,6 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     // calc
     double calc_row_voltage_per_division  (unsigned channel, unsigned row);
     double calc_col_time_per_division     (unsigned col);
-
-    // others
-    std::string get_now_timestamp ();
 
     // getter
     LABSoft_Controller& controller () const;

@@ -365,7 +365,7 @@ voltage_per_division (unsigned  channel,
                       double    value)
 {
   if (LABF::is_within_range (value, LABC::OSC::MIN_VOLTAGE_PER_DIVISION, 
-    LABC::OSC::MAX_VOLTAGE_PER_DIVISION))
+    LABC::OSC::MAX_VOLTAGE_PER_DIVISION, LABC::LABSOFT::EPSILON))
   {
     m_parent_data.channel_data[channel].voltage_per_division = value;
 
@@ -789,6 +789,16 @@ calc_mode (double time_per_division)
 void LAB_Oscilloscope:: 
 horizontal_offset (double value)
 {
+  // if (LABF::is_within_range (
+  //   value,
+  //   LABC::OSC::MIN_HORIZONTAL_OFFSET,
+  //   LABC::OSC::MAX_HORIZONTAL_OFFSET,
+  //   LABC::LABSOFT::EPSILON
+  // ))
+  // {
+  //   m_parent_data.horizontal_offset = value;
+  // }
+
   m_parent_data.horizontal_offset = value;
 }
 
@@ -802,7 +812,7 @@ void LAB_Oscilloscope::
 time_per_division (double value)
 {
   if (LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
-    LABC::OSC::MAX_TIME_PER_DIVISION))
+    LABC::OSC::MAX_TIME_PER_DIVISION, LABC::LABSOFT::EPSILON))
   {
     double new_sampling_rate      = 0.0;
     double new_samples_displayed  = 0.0;
@@ -823,7 +833,7 @@ void LAB_Oscilloscope::
 samples (unsigned value)
 {
   if (!(LABF::is_within_range (value, LABC::OSC::MIN_SAMPLES, 
-    LABC::OSC::MAX_SAMPLES_RECORDING)))
+    LABC::OSC::MAX_SAMPLES_RECORDING, LABC::LABSOFT::EPSILON)))
   {
     return;
   }
@@ -844,7 +854,7 @@ void LAB_Oscilloscope::
 sampling_rate (double value)
 {
   if (LABF::is_within_range (value, LABC::OSC::MIN_SAMPLING_RATE,
-    LABC::OSC::MAX_SAMPLING_RATE))
+    LABC::OSC::MAX_SAMPLING_RATE, LABC::LABSOFT::EPSILON))
   {
     set_time_per_division (m_parent_data.samples, value);
     set_sampling_rate     (value);
@@ -1227,7 +1237,8 @@ calc_trigger_level_raw_bits (double trigger_level)
   if (LABF::is_within_range (
     trigger_level, 
     LABD::OSC::MIN_OSC_HARDWARE_TRIGGER_LEVEL,
-    LABD::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL
+    LABD::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL,
+    LABC::LABSOFT::EPSILON
   ))
   {
     double adc_trigger_level = LABF::normalize (
@@ -1321,7 +1332,7 @@ void LAB_Oscilloscope::
 trigger_level (double value)
 {
   if (LABF::is_within_range (value, LABC::OSC::MIN_TRIGGER_LEVEL,
-    LABC::OSC::MAX_TRIGGER_LEVEL))
+    LABC::OSC::MAX_TRIGGER_LEVEL, LABC::LABSOFT::EPSILON))
   {
     m_parent_data.trigger_level           = value;
     m_parent_data.trigger_level_raw_bits  = calc_trigger_level_raw_bits (value);
@@ -1504,6 +1515,12 @@ bool LAB_Oscilloscope::
 is_backend_running () const
 {
   return (m_parent_data.is_backend_running);
+}
+
+LABE::OSC::STATUS LAB_Oscilloscope:: 
+status () const
+{
+  return (m_parent_data.status);
 }
 
 double LAB_Oscilloscope::  

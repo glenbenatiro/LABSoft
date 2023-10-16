@@ -23,6 +23,8 @@ namespace LABC
 
   namespace LABSOFT
   {
+    constexpr double EPSILON = 1e-9;
+
     constexpr float DISPLAY_UPDATE_RATE = 1.0 / 15.0; // 25 fps
 
     enum class FL_TAB_GROUP_COLOR : uint32_t

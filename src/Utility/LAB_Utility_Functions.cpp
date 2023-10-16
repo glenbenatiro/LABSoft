@@ -10,16 +10,20 @@ is_equal (double a,
           double b,
           double epsilon)
 {
-  return ((std::abs (a - b)) < epsilon);
+  return (std::abs (a - b) < epsilon);
 }
 
 bool LABF:: 
 is_within_range (double value,
                  double min,
-                 double max)
+                 double max, 
+                 double epsilon)
 {
-  return ((value < max && value > min) || is_equal (value, min) ||
-    is_equal (value, max));
+  return (
+    (value < max && value > min)    || 
+    is_equal (value, min, epsilon)  || 
+    is_equal (value, max, epsilon)
+  );
 }
 
 double LABF::

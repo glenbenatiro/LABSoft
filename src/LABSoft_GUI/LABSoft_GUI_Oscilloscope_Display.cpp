@@ -11,6 +11,7 @@
 #include <FL/Enumerations.H>
 
 #include "../Utility/LABSoft_GUI_Label.h"
+#include "../Utility/LAB_Utility_Functions.h"
 #include "../LABSoft_Controller/LABSoft_Controller.h"
 
 LABSoft_GUI_Oscilloscope_Display::Internal_Display::
@@ -71,7 +72,7 @@ handle (int event)
 
     case (FL_DRAG):
     {
-      cb_mouse_drag ();
+      cb_mouse_drag (Fl::event_x ());
 
       return (1);
     }
@@ -275,7 +276,7 @@ calc_pixel_points_osc_running ()
           double sample = m_osc->chan_samples (chan)[std::round (a * m_samp_skipper)] +
             m_osc->vertical_offset (chan);
 
-          pp[a][0] = x () + a + m_sample_x_offset;
+          pp[a][0] = std::round (x () + a + m_sample_x_offset);
           pp[a][1] = calc_sample_y_coord (sample, chan);
         }
 
@@ -410,9 +411,20 @@ cb_mouse_click (int x, int y)
 }
 
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
-cb_mouse_drag ()
+cb_mouse_drag (int x)
 {
+  int     scaler      = calc_mouse_drag_time_per_div_scaler (x);
+  double  scaler_time = scaler * (m_osc->time_per_division () / 
+                        LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
+  double  horiz_off   = m_pre_drag_horizontal_offset + scaler_time;
 
+  if (LABF::is_equal (horiz_off, 0.0, LABC::LABSOFT::EPSILON))
+  {
+    horiz_off = 0.0;
+  }
+
+  m_controller->m_Oscilloscope.cb_display_horizontal_offset (
+    static_cast<void*>(&horiz_off));
 }
 
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
@@ -420,8 +432,9 @@ load_oscilloscope (const LAB_Oscilloscope& oscilloscope)
 {
   m_osc = &oscilloscope;
 
-  calc_sample_y_scaler ();
-  calc_sample_x_offset ();
+  calc_sample_y_scaler  ();
+  calc_sample_x_offset  ();
+  calc_skippers         ();
 }
 
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
@@ -507,6 +520,11 @@ init_child_widgets ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 draw ()
 {
+  if (m_osc->is_backend_running ())
+  {
+    update_gui_top_info ();
+  }
+  
   update_gui_status ();
 
   draw_box      (FL_THIN_DOWN_BOX, LABC::OSC_DISPLAY::BACKGROUND_COLOR);
@@ -517,7 +535,44 @@ draw ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_status ()
 {
-  static LABE::OSC::STATUS status;
+  switch (m_osc->status ())
+  {
+    case (LABE::OSC::STATUS::READY):
+    {
+      m_status->copy_label ("Ready");
+      m_status->color (1);
+
+      break;
+    }
+
+    case (LABE::OSC::STATUS::STOP):
+    {
+      m_status->copy_label ("Stop");
+      m_status->color (1);
+
+      break;
+    }
+
+    case (LABE::OSC::STATUS::AUTO):
+    {
+      m_status->copy_label ("Auto");
+      m_status->color (2);
+
+      break;
+    }
+
+    case (LABE::OSC::STATUS::DONE):
+    {
+      m_status->copy_label ("Done");
+      m_status->color (1);
+    }
+
+    case (LABE::OSC::STATUS::CONFIG):
+    {
+      m_status->copy_label ("Config");
+      m_status->color (3);
+    }
+  }
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
@@ -638,8 +693,6 @@ init_child_widgets_sliders ()
   m_horizontal_offset_slider->bounds (0, disp.w ());
   m_horizontal_offset_slider->value  (disp. w () / 2.0);
   m_horizontal_offset_slider->step   (disp.w (), LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS * LABC::OSC_DISPLAY::NUMBER_OF_MINOR_TICKS);
-
-
 
   // remove for now para di mag conflict sa v offset ug trig level sliders
   m_horizontal_offset_slider->deactivate ();
@@ -873,7 +926,7 @@ update_gui_top_info ()
       << " samples at "
       << label.to_label_text ()
       << " | "
-      << get_now_timestamp ();
+      << LABF::get_now_timestamp ();
   
   m_top_info->copy_label (ss.str ().c_str ());
 }
@@ -962,31 +1015,6 @@ calc_col_time_per_division (unsigned col)
     m_osc->horizontal_offset ();
 
   return (col_tpd);
-}
-
-std::string LABSoft_GUI_Oscilloscope_Display:: 
-get_now_timestamp ()
-{
-  std::chrono::time_point<std::chrono::system_clock> current_time = 
-    std::chrono::system_clock::now ();
-  
-  std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>
-    current_time_ms = std::chrono::time_point_cast<std::chrono::milliseconds> (current_time);
-  
-  std::time_t time_time_t = std::chrono::system_clock::to_time_t (current_time);
-
-  std::tm* time_tm = std::localtime (&time_time_t);
-
-  //  skip milliseconds for now
-  //  int milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>
-  //    (current_time - current_time_ms).count ();
-
-  std::stringstream ss;
-
-  ss << std::put_time (time_tm, "%Y-%m-%d %H:%M:%S");
-  // ss << "." << std::setw (3) << std::setfill ('0') << milliseconds;
-
-  return (ss.str ());
 }
 
 // eof

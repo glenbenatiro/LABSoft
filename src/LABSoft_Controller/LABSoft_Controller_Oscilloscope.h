@@ -61,14 +61,14 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void cb_mode                      (Fl_Choice*         w, void* data);
 
     // Display
-    //void cb_display_time_per_division (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
-    //void cb_display_horizontal_offset (LABSoft_GUI_Oscilloscope_Display_Internal* w, void* data);
+    void cb_display_time_per_division (void* data);
+    void cb_display_horizontal_offset (void* data) const;
 
     // GUI update
-    void display_update_cycle         ();
-    void update_trigger_panel_gui     ();
-    void update_gui_horizontal_elements  ();
-    void update_gui_mode              ();   
+    void display_update_cycle           ();
+    void update_trigger_panel_gui       ();
+    void update_gui_horizontal_elements () const;
+    void update_gui_mode                ();   
 };
 
 #endif

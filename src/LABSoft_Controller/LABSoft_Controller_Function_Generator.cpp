@@ -118,7 +118,8 @@ cb_amplitude (Fl_Input_Choice* w,
     if (LABF::is_within_range (
       lbl.actual_value (),
       LABC::FUNC_GEN::MIN_AMPLITUDE,
-      LABC::FUNC_GEN::MAX_AMPLITUDE
+      LABC::FUNC_GEN::MAX_AMPLITUDE,
+      LABC::LABSOFT::EPSILON
     ))
     {
       m_controller.lab ().m_Function_Generator.amplitude (channel, lbl.actual_value ());
@@ -145,7 +146,8 @@ cb_frequency (Fl_Input_Choice *w,
     if (LABF::is_within_range (
       lbl.actual_value (), 
       LABC::FUNC_GEN::MIN_FREQUENCY,
-      LABC::FUNC_GEN::MAX_FREQUENCY
+      LABC::FUNC_GEN::MAX_FREQUENCY,
+      LABC::LABSOFT::EPSILON
     ))
     {
       m_controller.lab ().m_Function_Generator.frequency (channel, lbl.actual_value ());
@@ -170,7 +172,8 @@ cb_period (Fl_Input_Choice* w,
     if (LABF::is_within_range (
       lbl.actual_value (), 
       LABC::FUNC_GEN::MIN_PERIOD,
-      LABC::FUNC_GEN::MAX_PERIOD
+      LABC::FUNC_GEN::MAX_PERIOD,
+      LABC::LABSOFT::EPSILON
     ))
     {
       m_controller.lab ().m_Function_Generator.period (channel, lbl.actual_value ());
@@ -195,7 +198,8 @@ cb_phase (Fl_Input_Choice* w,
     if (LABF::is_within_range (
       lbl.actual_value (), 
       LABC::FUNC_GEN::MIN_PHASE,
-      LABC::FUNC_GEN::MAX_PHASE
+      LABC::FUNC_GEN::MAX_PHASE,
+      LABC::LABSOFT::EPSILON
     ))
     {
       m_controller.lab ().m_Function_Generator.phase (channel, lbl.actual_value ());
@@ -222,7 +226,8 @@ cb_vertical_offset (Fl_Input_Choice*  w,
     if (LABF::is_within_range (
       lbl.actual_value (), 
       LABC::FUNC_GEN::MIN_VERTICAL_OFFSET,
-      LABC::FUNC_GEN::MAX_VERTICAL_OFFSET
+      LABC::FUNC_GEN::MAX_VERTICAL_OFFSET,
+      LABC::LABSOFT::EPSILON
     ))
     {
       m_controller.lab ().m_Function_Generator.vertical_offset (channel, lbl.actual_value ());

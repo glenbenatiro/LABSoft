@@ -134,6 +134,7 @@ class LAB_Oscilloscope : public LAB_Module
     bool                  has_enabled_channels    () const;
     bool                  is_backend_running      () const;
     bool                  is_frontend_running     () const;
+    LABE::OSC::STATUS     status                  () const;
 
     // for display update
     void                  load_data_samples       (); 

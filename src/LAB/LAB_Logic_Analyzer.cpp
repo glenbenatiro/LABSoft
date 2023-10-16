@@ -1023,7 +1023,7 @@ void LAB_Logic_Analyzer::
 time_per_division (double value)
 {
   if (LABF::is_within_range (value, LABC::LOGAN::MIN_TIME_PER_DIVISION, 
-    LABC::LOGAN::MAX_TIME_PER_DIVISION))
+    LABC::LOGAN::MAX_TIME_PER_DIVISION, LABC::LABSOFT::EPSILON))
   {
     double new_sampling_rate = calc_sampling_rate (m_parent_data.samples, value);
 
@@ -1061,7 +1061,7 @@ void LAB_Logic_Analyzer::
 sampling_rate (double value)
 {
   if (LABF::is_within_range (value, LABC::LOGAN::MIN_SAMPLING_RATE,
-    LABC::LOGAN::MAX_SAMPLING_RATE))
+    LABC::LOGAN::MAX_SAMPLING_RATE, LABC::LABSOFT::EPSILON))
   {
     set_time_per_division (m_parent_data.samples, value);
     set_sampling_rate     (value);
