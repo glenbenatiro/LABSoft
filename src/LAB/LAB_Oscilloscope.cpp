@@ -870,10 +870,11 @@ parse_trigger_mode ()
   {
     case (LABE::OSC::TRIG::MODE::NONE):
     {
-      if (m_thread_find_trigger.joinable ())
+      if (m_thread_trigger.joinable ())
       {
-        m_parent_data.find_trigger = false;
-        m_thread_find_trigger.join ();
+        m_parent_data.trigger_enabled = false;
+
+        m_thread_trigger.join ();
       }
 
       break;
@@ -881,10 +882,11 @@ parse_trigger_mode ()
 
     case (LABE::OSC::TRIG::MODE::AUTO):
     {
-      if (!m_thread_find_trigger.joinable ())
+      if (!m_thread_trigger.joinable ())
       {
-        m_parent_data.find_trigger = true;
-        m_thread_find_trigger = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
+        m_parent_data.trigger_enabled = true;
+
+        m_thread_trigger = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
       }
 
       break;
@@ -892,12 +894,34 @@ parse_trigger_mode ()
 
     case (LABE::OSC::TRIG::MODE::NORMAL):
     {
-      if (!m_thread_find_trigger.joinable ())
+      if (!m_thread_trigger.joinable ())
       {
-        m_parent_data.find_trigger = true;
-        m_thread_find_trigger = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
+        m_parent_data.trigger_enabled = true;
+
+        m_thread_trigger = std::thread (&LAB_Oscilloscope::find_trigger_point_loop, this);
       }
 
+      break;
+    }
+  }
+}
+
+void LAB_Oscilloscope:: 
+trigger_osc_mode_dispatcher ()
+{
+  switch (m_parent_data.mode)
+  {
+    case (LABE::OSC::MODE::REPEATED):
+    {
+      trigger_osc_mode_repeated ();
+
+      break;
+    }
+
+    case (LABE::OSC::MODE::SCREEN):
+    {
+      trigger_osc_mode_screen ();
+      
       break;
     }
   }
@@ -971,7 +995,7 @@ find_trigger_point_loop ()
 
   status (LABE::OSC::STATUS::ARMED);
   
-  while (m_parent_data.find_trigger)
+  while (m_parent_data.trigger_enabled)
   {
     if (!m_parent_data.trigger_found)
     {
@@ -1241,20 +1265,52 @@ calc_trigger_level_raw_bits (double trigger_level)
     LABC::LABSOFT::EPSILON
   ))
   {
-    double adc_trigger_level = LABF::normalize (
-      trigger_level,
-      LABD::OSC::MIN_OSC_HARDWARE_TRIGGER_LEVEL,
-      LABD::OSC::MAX_OSC_HARDWARE_TRIGGER_LEVEL,
-      0,
-      LABC::OSC::ADC_RESOLUTION_INT - 1
-    );
-
-    return (reverse_arrange_raw_chan_adc_bits (std::round (adc_trigger_level)));
+    return (reverse_arrange_raw_chan_adc_bits (std::round (trigger_level)));
   }
   else 
   {
     return (0xFFFFFFFF);
   }
+}
+
+void LAB_Oscilloscope:: 
+prefill_buffers_for_triggering ()
+{
+  LAB_DMA_Data_Oscilloscope& dma_data = 
+    *(static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ()));
+
+  volatile uint32_t* curr_conblk_ad = rpi ().dma.reg 
+    (LABC::DMA::CHAN::OSC_RX, AP::DMA::CONBLK_AD);
+
+  uint32_t  buff0_cbs_addr[2] = {m_uncached_memory.bus (&dma_data.cbs[0]),
+                                 m_uncached_memory.bus (&dma_data.cbs[1])};
+  uint32_t  buff1_cbs_addr[2] = {m_uncached_memory.bus (&dma_data.cbs[2]),
+                                 m_uncached_memory.bus (&dma_data.cbs[3])};
+  
+  // 1. pause oscilloscope RX DMA channel
+  rpi ().dma.pause (LABC::DMA::CHAN::OSC_RX);
+
+  // 2. set the content of next control block register 
+  // to point to the first control block
+  rpi ().dma.reg (LABC::DMA::CHAN::OSC_RX, AP::DMA::NEXTCONBK,
+    m_uncached_memory.bus (&dma_data.cbs[0]));
+
+  // 3. abort the current control block
+  rpi ().dma.abort (LABC::DMA::CHAN::OSC_RX);
+
+  std::this_thread::sleep_for (std::chrono::microseconds (5));
+
+  // 4. unpause the RX DMA channel
+  rpi ().dma.run (LABC::DMA::CHAN::OSC_RX);
+
+  // 5. wait until first buffer is filled
+  while (*curr_conblk_ad == buff0_cbs_addr[0] || *curr_conblk_ad == buff0_cbs_addr[1]);
+
+  // 6. wait until second buffer is filled
+  while (*curr_conblk_ad == buff1_cbs_addr[0] || *curr_conblk_ad == buff1_cbs_addr[1]); 
+
+  // 7. reset the RX DMA channel interrupt
+  rpi ().dma.MemoryMap::reg_wbits (AP::DMA::INT_STATUS, 0, LABC::DMA::CHAN::OSC_RX);
 }
 
 void LAB_Oscilloscope:: 
@@ -1331,8 +1387,12 @@ trigger_condition () const
 void LAB_Oscilloscope:: 
 trigger_level (double value)
 {
-  if (LABF::is_within_range (value, LABC::OSC::MIN_TRIGGER_LEVEL,
-    LABC::OSC::MAX_TRIGGER_LEVEL, LABC::LABSOFT::EPSILON))
+  if (LABF::is_within_range (
+    value,
+    LABC::OSC::MIN_TRIGGER_LEVEL,
+    LABC::OSC::MAX_TRIGGER_LEVEL,
+    LABC::LABSOFT::EPSILON
+  ))
   {
     m_parent_data.trigger_level           = value;
     m_parent_data.trigger_level_raw_bits  = calc_trigger_level_raw_bits (value);

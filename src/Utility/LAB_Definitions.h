@@ -59,8 +59,8 @@ struct LAB_Parent_Data_Oscilloscope
       LABC::OSC::NUMBER_OF_CHANNELS
     > channel_data;
   
-    // Trigger 
-    bool                  find_trigger            = false; 
+    // trigger
+    bool                  trigger_enabled            = false; 
     bool                  trigger_frame_ready     = false;
     bool                  trigger_found           = false;
     bool                  find_trigger_timeout    = false;
@@ -207,7 +207,7 @@ struct LAB_Parent_Data_Logic_Analyzer
     LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
 
   // Trigger 
-  bool                    find_trigger                = false; 
+  bool                    trigger_enabled                = false; 
   bool                    trigger_frame_ready         = false;
   bool                    trigger_found               = false;
   bool                    find_trigger_timeout        = false;

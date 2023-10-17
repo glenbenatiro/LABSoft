@@ -126,9 +126,11 @@ namespace LABC
     // ADC info and conversions
     constexpr unsigned  ADC_RESOLUTION_BITS             = 12; // MCP33111
     constexpr unsigned  ADC_RESOLUTION_INT              = 1 << ADC_RESOLUTION_BITS;
-    constexpr unsigned  RAW_DATA_SHIFT_BIT_COUNT        = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
-    constexpr uint32_t  RAW_DATA_POST_SHIFT_MASK        = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;
     constexpr unsigned  ADC_SPI_CHIP_ENABLE             = 0;
+
+    constexpr uint32_t  RAW_DATA_MASK                   = 0xF0FF;
+    constexpr uint32_t  RAW_DATA_BIT_SHIFT_COUNT        = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
+    constexpr uint32_t  RAW_DATA_POST_SHIFT_MASK        = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;    
 
     // vertical
     constexpr unsigned  DISPLAY_NUMBER_OF_ROWS          = 10;
