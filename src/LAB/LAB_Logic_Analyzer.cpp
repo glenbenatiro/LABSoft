@@ -536,7 +536,7 @@ parse_trigger_mode ()
     {
       if (m_thread_find_trigger.joinable ())
       {
-        m_parent_data.find_trigger = false;
+        m_parent_data.trigger_enabled = false;
         m_thread_find_trigger.join ();
       }
 
@@ -547,7 +547,7 @@ parse_trigger_mode ()
     {
       if (!m_thread_find_trigger.joinable ())
       {
-        m_parent_data.find_trigger = true;
+        m_parent_data.trigger_enabled = true;
         m_thread_find_trigger = std::thread (&LAB_Logic_Analyzer::find_trigger_point_loop, this);
       }
 
@@ -558,7 +558,7 @@ parse_trigger_mode ()
     {
       if (!m_thread_find_trigger.joinable ())
       {
-        m_parent_data.find_trigger = true;
+        m_parent_data.trigger_enabled = true;
         m_thread_find_trigger = std::thread (&LAB_Logic_Analyzer::find_trigger_point_loop, this);
       }
 
@@ -589,7 +589,7 @@ find_trigger_point_loop ()
 
   m_LAB.rpi ().gpio.clear_event_detect_status ();
 
-  while (pdata.find_trigger)
+  while (pdata.trigger_enabled)
   {
     if (!pdata.trigger_found)
     {

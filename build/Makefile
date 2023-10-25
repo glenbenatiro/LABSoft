@@ -331,33 +331,6 @@ src/LAB/LAB_Function_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Function_Generator.cpp.s
 .PHONY : src/LAB/LAB_Function_Generator.cpp.s
 
-src/LAB/LAB_LABChecker_Digital.o: src/LAB/LAB_LABChecker_Digital.cpp.o
-
-.PHONY : src/LAB/LAB_LABChecker_Digital.o
-
-# target to build an object file
-src/LAB/LAB_LABChecker_Digital.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.o
-.PHONY : src/LAB/LAB_LABChecker_Digital.cpp.o
-
-src/LAB/LAB_LABChecker_Digital.i: src/LAB/LAB_LABChecker_Digital.cpp.i
-
-.PHONY : src/LAB/LAB_LABChecker_Digital.i
-
-# target to preprocess a source file
-src/LAB/LAB_LABChecker_Digital.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.i
-.PHONY : src/LAB/LAB_LABChecker_Digital.cpp.i
-
-src/LAB/LAB_LABChecker_Digital.s: src/LAB/LAB_LABChecker_Digital.cpp.s
-
-.PHONY : src/LAB/LAB_LABChecker_Digital.s
-
-# target to generate assembly for a file
-src/LAB/LAB_LABChecker_Digital.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_LABChecker_Digital.cpp.s
-.PHONY : src/LAB/LAB_LABChecker_Digital.cpp.s
-
 src/LAB/LAB_Logic_Analyzer.o: src/LAB/LAB_Logic_Analyzer.cpp.o
 
 .PHONY : src/LAB/LAB_Logic_Analyzer.o
@@ -520,6 +493,33 @@ src/LAB/Software/LAB_Exporter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Exporter.cpp.s
 .PHONY : src/LAB/Software/LAB_Exporter.cpp.s
 
+src/LAB/Software/LAB_LABChecker_Digital.o: src/LAB/Software/LAB_LABChecker_Digital.cpp.o
+
+.PHONY : src/LAB/Software/LAB_LABChecker_Digital.o
+
+# target to build an object file
+src/LAB/Software/LAB_LABChecker_Digital.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_LABChecker_Digital.cpp.o
+.PHONY : src/LAB/Software/LAB_LABChecker_Digital.cpp.o
+
+src/LAB/Software/LAB_LABChecker_Digital.i: src/LAB/Software/LAB_LABChecker_Digital.cpp.i
+
+.PHONY : src/LAB/Software/LAB_LABChecker_Digital.i
+
+# target to preprocess a source file
+src/LAB/Software/LAB_LABChecker_Digital.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_LABChecker_Digital.cpp.i
+.PHONY : src/LAB/Software/LAB_LABChecker_Digital.cpp.i
+
+src/LAB/Software/LAB_LABChecker_Digital.s: src/LAB/Software/LAB_LABChecker_Digital.cpp.s
+
+.PHONY : src/LAB/Software/LAB_LABChecker_Digital.s
+
+# target to generate assembly for a file
+src/LAB/Software/LAB_LABChecker_Digital.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_LABChecker_Digital.cpp.s
+.PHONY : src/LAB/Software/LAB_LABChecker_Digital.cpp.s
+
 src/LABSoft.o: src/LABSoft.cpp.o
 
 .PHONY : src/LABSoft.o
@@ -627,33 +627,6 @@ src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s: src/LABSoft_Cont
 src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
 .PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.o: src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.i: src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.s: src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.cpp.s
 
 src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o: src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o
 
@@ -843,6 +816,33 @@ src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s: src/LABSoft_Contr
 src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
 .PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
+
+src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.o: src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.o
+
+# target to build an object file
+src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
+
+src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.i: src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.i
+
+# target to preprocess a source file
+src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
+
+src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.s: src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
+
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.s
+
+# target to generate assembly for a file
+src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
+.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
 
 src/LABSoft_GUI/LABSoft_GUI.o: src/LABSoft_GUI/LABSoft_GUI.cpp.o
 
@@ -1333,9 +1333,6 @@ help:
 	@echo "... src/LAB/LAB_Function_Generator.o"
 	@echo "... src/LAB/LAB_Function_Generator.i"
 	@echo "... src/LAB/LAB_Function_Generator.s"
-	@echo "... src/LAB/LAB_LABChecker_Digital.o"
-	@echo "... src/LAB/LAB_LABChecker_Digital.i"
-	@echo "... src/LAB/LAB_LABChecker_Digital.s"
 	@echo "... src/LAB/LAB_Logic_Analyzer.o"
 	@echo "... src/LAB/LAB_Logic_Analyzer.i"
 	@echo "... src/LAB/LAB_Logic_Analyzer.s"
@@ -1354,6 +1351,9 @@ help:
 	@echo "... src/LAB/Software/LAB_Exporter.o"
 	@echo "... src/LAB/Software/LAB_Exporter.i"
 	@echo "... src/LAB/Software/LAB_Exporter.s"
+	@echo "... src/LAB/Software/LAB_LABChecker_Digital.o"
+	@echo "... src/LAB/Software/LAB_LABChecker_Digital.i"
+	@echo "... src/LAB/Software/LAB_LABChecker_Digital.s"
 	@echo "... src/LABSoft.o"
 	@echo "... src/LABSoft.i"
 	@echo "... src/LABSoft.s"
@@ -1366,9 +1366,6 @@ help:
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_LABChecker_Digital.s"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.i"
 	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.s"
@@ -1390,6 +1387,9 @@ help:
 	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o"
 	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i"
 	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.o"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.i"
+	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.s"

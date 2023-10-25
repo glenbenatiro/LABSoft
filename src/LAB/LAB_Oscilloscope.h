@@ -42,6 +42,7 @@ class LAB_Oscilloscope : public LAB_Module
     void                set_time_per_division           (double value);
     void                set_samples                     (unsigned value);
     void                set_sampling_rate               (double value);
+    void                set_samples_displayed           (double value);
     
     // mode
     LABE::OSC::MODE     calc_mode                       (double time_per_division);    
@@ -143,6 +144,7 @@ class LAB_Oscilloscope : public LAB_Module
 
     // for display update
     void                  load_data_samples       (); 
+
     
     // Data
     const LAB_Parent_Data_Oscilloscope&                     parent_data     ();
@@ -155,6 +157,9 @@ class LAB_Oscilloscope : public LAB_Module
     // channel data getter
     double chan_voltage_per_division  (unsigned channel) const;
     double chan_vertical_offset       (unsigned channel) const;
+
+    // raw buffer
+    double raw_buffer_time_per_division () const;
     
     const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>& chan_samples (unsigned channel) const;
 };

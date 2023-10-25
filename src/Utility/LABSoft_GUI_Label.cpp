@@ -16,7 +16,8 @@ std::unordered_map<LABSoft_GUI_Label::UNIT, std::string> LABSoft_GUI_Label::m_un
   {UNIT::SECOND_PER_DIVISION, "s/div"},
   {UNIT::HERTZ              , "Hz"},
   {UNIT::DEGREE             , "deg"},
-  {UNIT::NONE               , ""}
+  {UNIT::NONE               , ""},
+  {UNIT::ANY                , ""}
 };
 
 std::unordered_map<std::string, int> LABSoft_GUI_Label::m_unit_prefix_to_exponent = 

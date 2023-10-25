@@ -430,6 +430,7 @@ coupling (unsigned channel)
   return (m_parent_data.channel_data[channel].coupling);
 }
 
+
 void LAB_Oscilloscope:: 
 load_data_samples ()
 {
@@ -585,7 +586,7 @@ constexpr uint32_t LAB_Oscilloscope::
 extract_raw_chan_adc_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
                                               unsigned channel)
 {
-  return ((raw_buff_samp >> (LABC::OSC::RAW_DATA_SHIFT_BIT_COUNT * channel)) &
+  return ((raw_buff_samp >> (LABC::OSC::RAW_DATA_BIT_SHIFT_COUNT * channel)) &
       LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
 }
 
@@ -777,6 +778,12 @@ set_sampling_rate (double value)
   m_parent_data.sampling_rate = value;
 }
 
+void LAB_Oscilloscope:: 
+set_samples_displayed (double value)
+{
+  m_parent_data.samples_displayed = value;
+}
+
 LABE::OSC::MODE LAB_Oscilloscope:: 
 calc_mode (double time_per_division)
 {
@@ -814,17 +821,11 @@ time_per_division (double value)
   if (LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
     LABC::OSC::MAX_TIME_PER_DIVISION, LABC::LABSOFT::EPSILON))
   {
-    double new_sampling_rate      = 0.0;
-    double new_samples_displayed  = 0.0;
+    double new_sampling_rate      = calc_sampling_rate      (m_parent_data.samples, value);
+    double new_samples_displayed  = calc_samples_displayed  (new_sampling_rate, value); 
 
-    // 1. 
-    new_sampling_rate     = calc_sampling_rate (m_parent_data.samples, value);
-
-    // 2.
-    new_samples_displayed = calc_samples_displayed (new_sampling_rate, value);
-
-    // 3. 
     set_sampling_rate     (new_sampling_rate);
+    set_samples_displayed (new_samples_displayed);
     set_time_per_division (value);
   }
 }
@@ -909,22 +910,22 @@ parse_trigger_mode ()
 void LAB_Oscilloscope:: 
 trigger_osc_mode_dispatcher ()
 {
-  switch (m_parent_data.mode)
-  {
-    case (LABE::OSC::MODE::REPEATED):
-    {
-      trigger_osc_mode_repeated ();
+  // switch (m_parent_data.mode)
+  // {
+  //   case (LABE::OSC::MODE::REPEATED):
+  //   {
+  //     trigger_osc_mode_repeated ();
 
-      break;
-    }
+  //     break;
+  //   }
 
-    case (LABE::OSC::MODE::SCREEN):
-    {
-      trigger_osc_mode_screen ();
+  //   case (LABE::OSC::MODE::SCREEN):
+  //   {
+  //     trigger_osc_mode_screen ();
       
-      break;
-    }
-  }
+  //     break;
+  //   }
+  // }
 }
 
 void LAB_Oscilloscope:: 
@@ -1652,6 +1653,12 @@ double LAB_Oscilloscope::
 chan_vertical_offset (unsigned channel) const 
 {
   return (m_parent_data.channel_data[channel].vertical_offset);
+}
+
+double LAB_Oscilloscope:: 
+raw_buffer_time_per_division () const
+{
+  return (m_parent_data.time_per_division_raw_buffer);
 }
 
 // EOF

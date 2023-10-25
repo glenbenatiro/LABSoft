@@ -1,9 +1,7 @@
 #ifndef LABSOFT_CONTROLLER_LABCHECKER_DIGITAL
 #define LABSOFT_CONTROLLER_LABCHECKER_DIGITAL
 
-#include <FL/Fl_Native_File_Chooser.H>
-
-#include "LABSoft_Controller_Unit.h"
+#include "../LABSoft_Controller_Unit.h"
 
 class LABSoft_Controller_LABChecker_Digital : public LABSoft_Controller_Unit
 {

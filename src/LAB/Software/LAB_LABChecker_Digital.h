@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "../Utility/pugixml.hpp"
+#include "../../Utility/pugixml.hpp"
 
 class LAB_LABChecker_Digital
 {
@@ -13,9 +13,9 @@ class LAB_LABChecker_Digital
     std::string KEY = "thequickbrownfox"; 
 
   private:
-    unsigned  binary_vector_to_decimal      (const std::vector<int>& bin_vec);
-    void      save_xml_file                 (pugi::xml_document& doc, const std::string& save_path);
-    void      encrypt_and_save              (pugi::xml_document& doc, const std::string& save_path);
+    unsigned  binary_vector_to_decimal  (const std::vector<int>& bin_vec);
+    void      save_xml_file             (pugi::xml_document& doc, const std::string& save_path);
+    void      encrypt_and_save          (pugi::xml_document& doc, const std::string& save_path);
 
   public:
     LAB_LABChecker_Digital ();

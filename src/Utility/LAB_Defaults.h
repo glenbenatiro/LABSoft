@@ -22,7 +22,7 @@ namespace LABD
 
     // horizontal
     constexpr unsigned              SAMPLES                       = LABC::OSC::NUMBER_OF_SAMPLES;
-    constexpr double                TIME_PER_DIVISION             = 0.005; // 1 ms/div
+    constexpr double                TIME_PER_DIVISION             = 0.005; // 5 ms/div
     constexpr double                SAMPLING_RATE                 = SAMPLES / (TIME_PER_DIVISION * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
     constexpr double                HORIZONTAL_OFFSET             = 0.0;
     

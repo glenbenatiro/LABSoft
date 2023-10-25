@@ -8,10 +8,10 @@
 #include "LAB_Function_Generator.h"
 #include "LAB_Logic_Analyzer.h"
 #include "LAB_Digital_Circuit_Checker.h"
-#include "LAB_LABChecker_Digital.h"
 
 #include "Software/LAB_Exporter.h"
 #include "Software/LAB_Calibration.h"
+#include "Software/LAB_LABChecker_Digital.h"
 
 class LAB
 {

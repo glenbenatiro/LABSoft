@@ -14,6 +14,25 @@ is_equal (double a,
 }
 
 bool LABF:: 
+is_greater_than (double a,
+                 double b,
+                 double epsilon)
+{
+  return ((a - b) > ((std::abs (a) < std::abs (b) ? 
+    std::abs (b): std::abs (a)) * epsilon));
+}
+
+
+bool LABF:: 
+is_less_than (double a,
+              double b,
+              double epsilon)
+{
+  return ((b - a) > ((std::abs (a) < std::abs (b) ? 
+    std::abs (b) : std::abs (a)) * epsilon));
+}
+
+bool LABF:: 
 is_within_range (double value,
                  double min,
                  double max, 

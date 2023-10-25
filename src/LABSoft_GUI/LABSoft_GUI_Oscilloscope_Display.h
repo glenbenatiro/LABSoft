@@ -66,12 +66,14 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         void    calc_pixel_points                   ();
         void    calc_pixel_points_osc_running       ();
         void    calc_pixel_points_osc_stopped       ();
+        void    calc_pixel_points_squeeze           ();
         void    calc_skippers                       ();
         void    calc_cached_display_values          ();
         void    calc_sample_y_scaler                ();
         int     calc_sample_y_coord                 (double sample, unsigned channel);
         void    calc_sample_x_offset                ();
         int     calc_mouse_drag_time_per_div_scaler (int drag_x);
+        void    calc_mark_samples                   ();
 
         // state
         void    reserve_pixel_points ();
@@ -91,7 +93,9 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         // update state
         void update_voltage_per_division  ();
         void update_horizontal_offset     ();
+        void update_time_per_division     ();
         void update_samples               ();
+        void update_sampling_rate         ();
     };
 
   private:
@@ -188,6 +192,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void update_trigger_source          ();
     void update_trigger_level           ();
     void update_display                 ();
+    void update_sampling_rate           ();
 
     // select
     void select_channel (unsigned channel);

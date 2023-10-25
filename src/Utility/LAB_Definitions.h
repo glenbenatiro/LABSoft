@@ -42,8 +42,9 @@ struct LAB_Parent_Data_Oscilloscope
     double    time_per_division               = LABD::OSC::TIME_PER_DIVISION;
     double    time_per_division_last_repeated = time_per_division;
     double    time_per_division_raw_buffer    = time_per_division;
-    unsigned  samples                         = LABD::OSC::SAMPLES;               
-    unsigned  samples_raw_buffer              = samples;                         
+    unsigned  samples                         = LABD::OSC::SAMPLES;              
+    unsigned  samples_raw_buffer              = samples;           
+    double    samples_displayed               = 0;              
     double    sampling_rate                   = LABD::OSC::SAMPLING_RATE;
 
     // Data/Samples/Pixels
@@ -60,7 +61,7 @@ struct LAB_Parent_Data_Oscilloscope
     > channel_data;
   
     // trigger
-    bool                  trigger_enabled            = false; 
+    bool                  trigger_enabled         = false; 
     bool                  trigger_frame_ready     = false;
     bool                  trigger_found           = false;
     bool                  find_trigger_timeout    = false;
@@ -207,7 +208,7 @@ struct LAB_Parent_Data_Logic_Analyzer
     LABC::LOGAN::NUMBER_OF_CHANNELS> channel_data;
 
   // Trigger 
-  bool                    trigger_enabled                = false; 
+  bool                    trigger_enabled             = false; 
   bool                    trigger_frame_ready         = false;
   bool                    trigger_found               = false;
   bool                    find_trigger_timeout        = false;

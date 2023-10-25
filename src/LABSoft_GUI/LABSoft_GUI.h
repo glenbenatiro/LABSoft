@@ -138,17 +138,17 @@ private:
   static Fl_Menu_Item menu_oscilloscope_fl_choice_mode[];
 public:
   Fl_Group *oscilloscope_fl_group_horizontal;
-  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_fl_input_choice_with_scroll_horizontal_offset;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_horizontal_offset;
 private:
-  inline void cb_oscilloscope_fl_input_choice_with_scroll_horizontal_offset_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static void cb_oscilloscope_fl_input_choice_with_scroll_horizontal_offset(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_with_scroll_horizontal_offset[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_horizontal_offset_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_horizontal_offset(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_horizontal_offset[];
 public:
-  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_fl_input_choice_with_scroll_time_per_division;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division;
 private:
-  inline void cb_oscilloscope_fl_input_choice_with_scroll_time_per_division_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static void cb_oscilloscope_fl_input_choice_with_scroll_time_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_with_scroll_time_per_division[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division[];
 public:
   LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_fl_input_choice_with_scroll_samples;
 private:
@@ -335,7 +335,7 @@ private:
   inline void cb_digital_fl_button_create_file_i(Fl_Button*, void*);
   static void cb_digital_fl_button_create_file(Fl_Button*, void*);
 public:
-  LABSoft_GUI_LABChecker_Digital_Input_Table *labchecker_digital_labsoft_gui_labchecker_digital_input_table_table;
+  LABSoft_GUI_LABChecker_Digital_Input_Table *labchecker_digital_labsoft_gui_labchecker_digital_input_table;
   Fl_Double_Window *oscilloscope_fl_window_record_config;
   Fl_Group *oscilloscope_fl_group_record_config;
   static Fl_Menu_Item menu_Samples[];

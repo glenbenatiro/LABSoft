@@ -3,8 +3,10 @@
 #include <string>
 #include <iostream>
 
-#include "LABSoft_Controller.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
+#include <FL/Fl_Native_File_Chooser.H>
+
+#include "../LABSoft_Controller.h"
+#include "../../LABSoft_GUI/LABSoft_GUI.h"
 
 LABSoft_Controller_LABChecker_Digital:: 
 LABSoft_Controller_LABChecker_Digital (LABSoft_Controller& _LABSoft_Controller)
@@ -19,7 +21,7 @@ init_gui ()
   LABSoft_GUI& gui = m_controller.gui ();
   
   LABSoft_GUI_LABChecker_Digital_Input_Table& table = *(m_controller.gui ().
-    labchecker_digital_labsoft_gui_labchecker_digital_input_table_table);
+    labchecker_digital_labsoft_gui_labchecker_digital_input_table);
 
   update_gui_digital_output_count (table.output_count ());
 }
@@ -37,7 +39,7 @@ update_gui_digital_output_count (unsigned value)
   w.copy_label  (" ");
 
   std::snprintf (c, sizeof (c), "Outputs (Max %d)", m_controller.gui ().
-    labchecker_digital_labsoft_gui_labchecker_digital_input_table_table->max_output_count ());
+    labchecker_digital_labsoft_gui_labchecker_digital_input_table->max_output_count ());
     
   w.copy_label  (c);
 }
@@ -49,11 +51,11 @@ cb_digital_input_bits (Fl_Choice*  w,
   const char* text  = w->text ();
   unsigned bits     = std::atoi (text);
 
-  m_controller.gui ().labchecker_digital_labsoft_gui_labchecker_digital_input_table_table->
+  m_controller.gui ().labchecker_digital_labsoft_gui_labchecker_digital_input_table->
     input_bits (bits);
 
   update_gui_digital_output_count (m_controller.gui ().
-    labchecker_digital_labsoft_gui_labchecker_digital_input_table_table->output_count ());
+    labchecker_digital_labsoft_gui_labchecker_digital_input_table->output_count ());
 }
 
 void LABSoft_Controller_LABChecker_Digital::
@@ -63,7 +65,7 @@ cb_digital_output_bits (Fl_Choice*  w,
   const char* text  = w->text ();
   unsigned bits     = std::atoi (text);
 
-  m_controller.gui ().labchecker_digital_labsoft_gui_labchecker_digital_input_table_table->
+  m_controller.gui ().labchecker_digital_labsoft_gui_labchecker_digital_input_table->
     output_bits (bits);
 }
 
@@ -72,7 +74,7 @@ cb_digital_output_count (Fl_Input*  w,
                          void*      data)
 {
   LABSoft_GUI_LABChecker_Digital_Input_Table& table = *(m_controller.gui ().
-    labchecker_digital_labsoft_gui_labchecker_digital_input_table_table);
+    labchecker_digital_labsoft_gui_labchecker_digital_input_table);
 
   const char* input = w->value ();
   unsigned output_count;
@@ -116,8 +118,8 @@ cb_digital_create_file (Fl_Button*  w,
 
     default: 
     {
-      LABSoft_GUI_LABChecker_Digital_Input_Table& table = *(m_controller.gui ().
-        labchecker_digital_labsoft_gui_labchecker_digital_input_table_table);
+      LABSoft_GUI_LABChecker_Digital_Input_Table& table = *(gui ().
+        labchecker_digital_labsoft_gui_labchecker_digital_input_table);
 
       m_controller.lab ().m_LABChecker_Digital.create_file_digital 
         (table.inputs (), table.outputs (), chooser.filename ());

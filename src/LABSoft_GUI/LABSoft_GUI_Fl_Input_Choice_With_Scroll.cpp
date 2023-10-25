@@ -1,19 +1,11 @@
 #include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
-// remove soon
-#include <iostream>
-
-#include <string>
-
-#include "../Utility/LABSoft_GUI_Label.h"
-#include "../Utility/LAB_Utility_Functions.h"
-
 LABSoft_GUI_Fl_Input_Choice_With_Scroll::
-LABSoft_GUI_Fl_Input_Choice_With_Scroll (int        X, 
-                                        int         Y, 
-                                        int         W, 
-                                        int         H, 
-                                        const char* label)
+LABSoft_GUI_Fl_Input_Choice_With_Scroll (int         X, 
+                                         int         Y, 
+                                         int         W, 
+                                         int         H, 
+                                         const char* label)
   : Fl_Input_Choice (X, Y, W, H, label)
 {
 
@@ -138,4 +130,10 @@ find_input_bounds_indexes ()
   // }
 
   // return (std::pair<int, int> (pre_i, post_i));
+}
+
+void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
+do_scroll (int direction)
+{
+  
 }

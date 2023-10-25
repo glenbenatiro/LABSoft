@@ -130,7 +130,7 @@ namespace LABC
 
     constexpr uint32_t  RAW_DATA_MASK                   = 0xF0FF;
     constexpr uint32_t  RAW_DATA_BIT_SHIFT_COUNT        = (SAMPLE_SIZE * 8) / NUMBER_OF_CHANNELS;
-    constexpr uint32_t  RAW_DATA_POST_SHIFT_MASK        = (1 << RAW_DATA_SHIFT_BIT_COUNT) - 1;    
+    constexpr uint32_t  RAW_DATA_POST_SHIFT_MASK        = (1 << RAW_DATA_BIT_SHIFT_COUNT) - 1;    
 
     // vertical
     constexpr unsigned  DISPLAY_NUMBER_OF_ROWS          = 10;

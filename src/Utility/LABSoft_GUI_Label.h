@@ -3,7 +3,6 @@
 
 #include <unordered_map>
 #include <string>
-#include <vector>
 
 class LABSoft_GUI_Label
 {
@@ -16,7 +15,8 @@ class LABSoft_GUI_Label
       SECOND_PER_DIVISION,
       HERTZ,
       DEGREE,
-      NONE
+      NONE,
+      ANY
     };
 
     enum class BASE
@@ -62,8 +62,7 @@ class LABSoft_GUI_Label
     static KeyLengths 
     find_map_keylengths (const std::unordered_map<std::string, Value>& map);
 
-    static std::string        to_lowercase            (const std::string& input);
-    static std::vector<UNIT>  find_per_division_units (const std::unordered_map<UNIT, std::string>& map);
+    static std::string to_lowercase (const std::string& input);
 
     std::string  remove_all_whitespaces             (std::string&& str);
     bool          parse_input                       (const std::string& str);
@@ -97,7 +96,6 @@ class LABSoft_GUI_Label
     //
     void        debug         () const;
     static UNIT get_unit_from_unit_string (const char* string);
-    
 };
 
 #endif

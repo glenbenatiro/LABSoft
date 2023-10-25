@@ -301,7 +301,21 @@ calc_pixel_points_osc_running ()
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
 calc_pixel_points_osc_stopped ()
 {
+  if (LABF::is_equal (m_osc->time_per_division (), 
+    m_osc->raw_buffer_time_per_division (), LABC::LABSOFT::EPSILON))
+  {
+    calc_pixel_points_osc_running ();
+  }
+  else
+  {
+    double scaler = m_osc->raw_buffer_time_per_division () / 
+      m_osc->time_per_division ();
 
+    if (LABF::is_less_than (scaler, 1, LABC::LABSOFT::EPSILON))
+    {
+
+    }
+  }
 }
 
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
@@ -386,6 +400,26 @@ calc_mouse_drag_time_per_div_scaler (int drag_x)
   return ((m_mouse_down_start_x - drag_x) / m_x_axis_minor_ticks_width);
 }
 
+void LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
+calc_mark_samples ()
+{
+  if (m_osc)
+  {
+    if (m_osc->samples () < LABC::OSC_DISPLAY::SAMPLE_MARKING_THRESHOLD)
+    {
+      m_mark_samples = true;
+    }
+    else 
+    {
+      m_mark_samples = false;
+    }
+  }
+  else
+  {
+    m_mark_samples = false;
+  }
+}
+
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
 reserve_pixel_points ()
 {
@@ -398,7 +432,7 @@ reserve_pixel_points ()
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
 cb_mouse_wheel (int direction)
 {
-  // m_controller->m_Oscilloscope.cb_time_per_division_steps (direction);
+  m_controller->m_Oscilloscope.cb_display_time_per_division (direction);
 }
 
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
@@ -423,7 +457,7 @@ cb_mouse_drag (int x)
     horiz_off = 0.0;
   }
 
-  m_controller->m_Oscilloscope.cb_display_horizontal_offset (
+  m_controller->m_Oscilloscope.display_cb_horizontal_offset (
     static_cast<void*>(&horiz_off));
 }
 
@@ -458,7 +492,8 @@ update_horizontal_offset ()
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
 update_samples ()
 {
-  calc_skippers ();
+  calc_skippers     ();
+  calc_mark_samples ();
 }
         
 // ==========

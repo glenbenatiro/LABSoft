@@ -131,11 +131,8 @@ create_file_digital (const std::vector<std::vector<char>>& inputs,
                      const std::string&                    save_path)
 {
   pugi::xml_document  doc;
-  pugi::xml_node      root = doc.append_child ("root");
-
-  //
-
-  pugi::xml_node metadata = root.append_child ("metadata");
+  pugi::xml_node      root      = doc.append_child ("root");
+  pugi::xml_node      metadata  = root.append_child ("metadata");
 
   metadata.append_child ("input_bits")
           .append_child (pugi::node_pcdata)

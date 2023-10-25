@@ -35,9 +35,14 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void cb_vertical_offset           (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, long   channel);
     void cb_vertical_offset_slider    (LABSoft_GUI_Fl_Slider*                   w, void*  data);
     
-    // Horizontal
-    void cb_horizontal_offset         (Fl_Input_Choice*   w, void* data);
-    void cb_time_per_division         (Fl_Input_Choice*   w, void* data);
+    // horizontal
+    void cb_horizontal_offset         (Fl_Input_Choice*   w, void* data) const;
+    void display_cb_horizontal_offset (void*  data)   const;
+    void horizontal_offset            (double value)  const;
+    void cb_time_per_division         (Fl_Input_Choice*   w, void* data) const;
+    void cb_display_time_per_division (void* data) const;
+    void cb_display_time_per_division (int scroll_amount) const;
+    void time_per_division            (double value)  const;
     void cb_time_per_division_steps   (int steps);
     void cb_samples                   (Fl_Input_Choice*   w, void* data);
     void cb_sampling_rate             (Fl_Input_Choice*   w, void* data);
@@ -59,10 +64,6 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
 
     // Mode
     void cb_mode                      (Fl_Choice*         w, void* data);
-
-    // Display
-    void cb_display_time_per_division (void* data);
-    void cb_display_horizontal_offset (void* data) const;
 
     // GUI update
     void display_update_cycle           ();
