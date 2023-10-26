@@ -131,11 +131,11 @@ private:
   inline void cb_oscilloscope_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
   static void cb_oscilloscope_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
-  LABSoft_GUI_Fl_Choice_With_Scroll *oscilloscope_fl_choice_mode;
+  LABSoft_GUI_Fl_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_choice_with_scroll_mode;
 private:
-  inline void cb_oscilloscope_fl_choice_mode_i(LABSoft_GUI_Fl_Choice_With_Scroll*, void*);
-  static void cb_oscilloscope_fl_choice_mode(LABSoft_GUI_Fl_Choice_With_Scroll*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_choice_mode[];
+  inline void cb_oscilloscope_labsoft_gui_fl_choice_with_scroll_mode_i(LABSoft_GUI_Fl_Choice_With_Scroll*, void*);
+  static void cb_oscilloscope_labsoft_gui_fl_choice_with_scroll_mode(LABSoft_GUI_Fl_Choice_With_Scroll*, void*);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_choice_with_scroll_mode[];
 public:
   Fl_Group *oscilloscope_fl_group_horizontal;
   LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_horizontal_offset;
@@ -150,17 +150,17 @@ private:
   static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
   static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division[];
 public:
-  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_fl_input_choice_with_scroll_samples;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_samples;
 private:
-  inline void cb_oscilloscope_fl_input_choice_with_scroll_samples_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static void cb_oscilloscope_fl_input_choice_with_scroll_samples(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_with_scroll_samples[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_samples_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_samples(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_samples[];
 public:
-  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_fl_input_choice_with_scroll_sampling_rate;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_sampling_rate;
 private:
-  inline void cb_oscilloscope_fl_input_choice_with_scroll_sampling_rate_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static void cb_oscilloscope_fl_input_choice_with_scroll_sampling_rate(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_with_scroll_sampling_rate[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_sampling_rate_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_sampling_rate(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_sampling_rate[];
 public:
   Fl_Group *oscilloscope_fl_group_trigger;
   LABSoft_GUI_Fl_Choice_With_Scroll *oscilloscope_fl_choice_trigger_mode;

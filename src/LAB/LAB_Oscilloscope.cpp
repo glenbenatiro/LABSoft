@@ -533,8 +533,8 @@ fill_raw_sample_buffer_from_dma_buffer ()
   }
 
   LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
+  pdata.horizontal_offset_raw_buffer  = pdata.horizontal_offset;
   pdata.time_per_division_raw_buffer  = pdata.time_per_division;
-  pdata.samples_raw_buffer            = pdata.samples;
 }
 
 void LAB_Oscilloscope:: 
@@ -744,6 +744,8 @@ set_time_per_division (double value)
 {
   m_parent_data.time_per_division = value;
 
+  std::cout << "tpd: " << time_per_division () << "\n";
+
   set_mode (calc_mode (value));
 
   reset_dma_process ();
@@ -796,17 +798,15 @@ calc_mode (double time_per_division)
 void LAB_Oscilloscope:: 
 horizontal_offset (double value)
 {
-  // if (LABF::is_within_range (
-  //   value,
-  //   LABC::OSC::MIN_HORIZONTAL_OFFSET,
-  //   LABC::OSC::MAX_HORIZONTAL_OFFSET,
-  //   LABC::LABSOFT::EPSILON
-  // ))
-  // {
-  //   m_parent_data.horizontal_offset = value;
-  // }
-
-  m_parent_data.horizontal_offset = value;
+  if (LABF::is_within_range (
+    value,
+    LABC::OSC::MIN_HORIZONTAL_OFFSET,
+    LABC::OSC::MAX_HORIZONTAL_OFFSET,
+    LABC::LABSOFT::EPSILON
+  ))
+  {
+    m_parent_data.horizontal_offset = value;
+  }
 }
 
 double LAB_Oscilloscope:: 
@@ -1659,6 +1659,12 @@ double LAB_Oscilloscope::
 raw_buffer_time_per_division () const
 {
   return (m_parent_data.time_per_division_raw_buffer);
+}
+
+double LAB_Oscilloscope:: 
+raw_buffer_horizontal_offset () const 
+{
+  return (m_parent_data.horizontal_offset_raw_buffer);
 }
 
 // EOF

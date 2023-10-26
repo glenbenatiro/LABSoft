@@ -160,6 +160,7 @@ class LAB_Oscilloscope : public LAB_Module
 
     // raw buffer
     double raw_buffer_time_per_division () const;
+    double raw_buffer_horizontal_offset () const;
     
     const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>& chan_samples (unsigned channel) const;
 };

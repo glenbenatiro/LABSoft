@@ -37,8 +37,9 @@ struct LAB_Parent_Data_Oscilloscope
     LABE::OSC::MODE last_mode_before_repeated = mode; 
     bool            auto_mode_frame_ready     = false;
 
-    // Horizontal
+    // horizontal
     double    horizontal_offset               = LABD::OSC::HORIZONTAL_OFFSET;
+    double    horizontal_offset_raw_buffer    = horizontal_offset;
     double    time_per_division               = LABD::OSC::TIME_PER_DIVISION;
     double    time_per_division_last_repeated = time_per_division;
     double    time_per_division_raw_buffer    = time_per_division;

@@ -25,32 +25,36 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         const LAB_Oscilloscope*   m_osc         = nullptr;
         const LABSoft_Controller* m_controller  = nullptr;
 
-        // cached values
-        float   m_row_height                = 0;
-        float   m_column_width              = 0;
-        float   m_x_axis_minor_ticks_width  = 0;
-        float   m_y_axis_minor_ticks_width  = 0;
-        float   m_display_half_height       = 0;
-        int     m_display_height_midline    = 0;
-        double  m_sample_x_offset           = 0;
-        double  m_samp_skipper              = 0;
-        double  m_x_skipper                 = 0;
+        // cached values for display dimensions
+        double     m_row_height                = 0;
+        double     m_column_width              = 0;
+        double     m_x_axis_minor_ticks_width  = 0;
+        double     m_y_axis_minor_ticks_width  = 0;
+        double     m_display_half_height       = 0;
+        double     m_display_height_midline    = 0;
+
+        // cached values for drawing channels graphs
+        unsigned  m_pixel_points_to_display   = 0;
+        unsigned  m_samples_to_display        = 0;
+        unsigned  m_x_coord_draw_start        = 0;
+        unsigned  m_samples_index_start       = 0;
+        double    m_samp_skipper              = 0;
+        double    m_x_skipper                 = 0;      
+        double    m_sample_x_offset           = 0;
+        bool      m_mark_samples              = false;
 
         std::array<double, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS>
           m_sample_y_scaler = {0.0};
 
-        // display data
-        unsigned  m_pixel_points_to_display   = 1;
-        bool      m_mark_samples              = false;
-
-        std::array<std::vector<std::array<int, 2>>, 
-          LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> m_pixel_points;
-
-        // mouse drag values, for horizontal offset change
+        // cached values for mouse drag horizontal offset change
         int     m_mouse_down_start_x          = 0;
         int     m_mouse_down_start_y          = 0;
         double  m_pre_drag_horizontal_offset  = 0;
-      
+
+        // display data
+        std::array<std::vector<std::array<int, 2>>, 
+          LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> m_pixel_points;
+              
       private:
         // widget functions
         void    draw   ();
@@ -63,12 +67,9 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         void    draw_sample_marker (int x, int y);
 
         // calc
-        void    calc_pixel_points                   ();
-        void    calc_pixel_points_osc_running       ();
-        void    calc_pixel_points_osc_stopped       ();
-        void    calc_pixel_points_squeeze           ();
-        void    calc_skippers                       ();
-        void    calc_cached_display_values          ();
+        void    calc_pixel_points                   ();        
+        void    calc_cached_values_display          ();
+        void    calc_cached_values_drawing          ();
         void    calc_sample_y_scaler                ();
         int     calc_sample_y_coord                 (double sample, unsigned channel);
         void    calc_sample_x_offset                ();
@@ -165,7 +166,6 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void update_gui_trigger_level_slider    ();
     void update_gui_vertical_offset_slider  ();
     void update_gui_vertical_elements       ();
-    void update_gui_horizontal_elements     ();
     
     // calc
     double calc_row_voltage_per_division  (unsigned channel, unsigned row);
@@ -189,11 +189,11 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void update_horizontal_offset       ();
     void update_time_per_division       ();
     void update_samples                 ();
+    void update_sampling_rate           ();
     void update_trigger_source          ();
     void update_trigger_level           ();
     void update_display                 ();
-    void update_sampling_rate           ();
-
+    
     // select
     void select_channel (unsigned channel);
     

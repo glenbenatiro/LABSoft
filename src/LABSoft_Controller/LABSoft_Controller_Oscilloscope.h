@@ -19,7 +19,16 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     // supposed LABSoft_GUI_Oscilloscope functions (can't because FLUID)
     void init_gui_values  (); // supposed to be called when parent_data is
                               // loaded for the first time
-    
+
+  private:
+    // update_gui_x are used to update the widgets 
+    // on the labsoft oscilloscope panel gui
+    void update_osc_panel_gui_mode              () const;
+    void update_osc_panel_gui_horizontal_offset () const;
+    void update_osc_panel_gui_time_per_division () const;
+    void update_osc_panel_gui_samples           () const;
+    void update_osc_panel_gui_sampling_rate     () const;
+
   public:
     LABSoft_Controller_Oscilloscope (LABSoft_Controller& _LABSoft_Controller);
     
@@ -38,14 +47,12 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     // horizontal
     void cb_horizontal_offset         (Fl_Input_Choice*   w, void* data) const;
     void display_cb_horizontal_offset (void*  data)   const;
-    void horizontal_offset            (double value)  const;
     void cb_time_per_division         (Fl_Input_Choice*   w, void* data) const;
     void cb_display_time_per_division (void* data) const;
     void cb_display_time_per_division (int scroll_amount) const;
-    void time_per_division            (double value)  const;
     void cb_time_per_division_steps   (int steps);
-    void cb_samples                   (Fl_Input_Choice*   w, void* data);
-    void cb_sampling_rate             (Fl_Input_Choice*   w, void* data);
+    void cb_samples                   (Fl_Input_Choice*   w, void* data) const;
+    void cb_sampling_rate             (Fl_Input_Choice*   w, void* data) const;
 
     // Trigger
     void cb_trigger_mode              (Fl_Choice*             w, void* data);
