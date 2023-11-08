@@ -78,6 +78,7 @@ class LAB_Oscilloscope : public LAB_Module
     constexpr uint32_t  conv_raw_buff_get_arranged_bits                 (uint32_t sample, unsigned channel);
     void                reset_dma_process                               ();
     void                reset_uncached_rx_buffer                        ();
+    void                record_raw_sample_buffer_metadata               ();
 
   public:   
     LAB_Oscilloscope (LAB& _LAB);

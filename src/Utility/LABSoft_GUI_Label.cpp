@@ -35,7 +35,6 @@ std::unordered_map<std::string, int> LABSoft_GUI_Label::m_unit_prefix_to_exponen
   {"Ki", 10},
   {"Mi", 20},
   {"Gi", 30},
-
 };
 
 std::unordered_map<std::string, LABSoft_GUI_Label::UNIT> LABSoft_GUI_Label::m_unit_string_to_unit = 
@@ -50,39 +49,125 @@ LABSoft_GUI_Label::KeyLengths LABSoft_GUI_Label::m_keylengths_unit_prefix_to_exp
 // ----------
 
 LABSoft_GUI_Label:: 
-LABSoft_GUI_Label (double                   value,
-                   LABSoft_GUI_Label::UNIT  unit)
+LABSoft_GUI_Label (const std::string&             label,
+                         double                   reference,
+                         LABSoft_GUI_Label::UNIT  unit)
 {
-  m_unit      = unit;
-  m_is_valid  = parse_input_double (value);
-}
-
-LABSoft_GUI_Label:: 
-LABSoft_GUI_Label (const char*              input,
-                   LABSoft_GUI_Label::UNIT  unit)
-  : LABSoft_GUI_Label (input, 0.0, unit)
-{
-
-}
-
-LABSoft_GUI_Label::
-LABSoft_GUI_Label (const char*              input,
-                   double                   reference,
-                   LABSoft_GUI_Label::UNIT  unit)
-{
-  m_cleaned_string  = remove_all_whitespaces (std::string (input));
+  m_raw_string      = label;
+  m_cleaned_string  = remove_all_whitespacaes (m_raw_string);
   m_reference       = reference;
   m_unit            = unit;
-  m_is_valid        = parse_input (m_cleaned_string);
+  m_is_valid        = parse_input_string (m_cleaned_string);
 
   // debug ();
 }
 
 LABSoft_GUI_Label::
-LABSoft_GUI_Label (const char* input)
+LABSoft_GUI_Label (double value)
 {
-  m_cleaned_string  = remove_all_whitespaces (std::string (input));
-  m_is_valid        = parse_input (m_cleaned_string);
+  m_is_valid = parse_input_double (value);
+}
+
+
+bool LABSoft_GUI_Label:: 
+parse_input_string (std::string_view str_view)
+{
+  try
+  {
+    m_coefficient = get_coefficient (str_view);
+    m_unit_prefix = 
+  }
+  catch (const std::exception& e)
+  {
+    return (false);
+  }
+}
+
+double LABSoft_GUI_Label:: 
+get_coefficient ()
+
+bool LABSoft_GUI_Label:: 
+parse_input (const std::string& str)
+{
+
+
+
+
+
+
+
+  if (str.find_first_not_of ("0123456789.+-") == std::string::npos)
+  {
+    try
+    {
+      return (parse_input_double (std::stod (str)));
+    }
+    catch (const std::exception& e)
+    {
+      return (false);
+    }
+  }
+  else 
+  {
+    return (parse_input_string (str));
+  }
+} 
+
+bool LABSoft_GUI_Label:: 
+parse_input_string (std::string_view str_view)
+{
+  try 
+  {
+    size_t pos      = str_view.find_first_not_of ("0123456789.+-");
+
+    m_coefficient   = std::stod (str_view.substr (0, pos));
+    m_unit_prefix   = find_unit_prefix_match (str.substr (pos));
+    m_unit          = find_unit (str.substr (pos + m_unit_prefix.length ()));
+
+    m_base          = calc_base (m_unit_prefix);
+    m_exponent      = calc_exponent (m_unit_prefix);
+    m_actual_value  = calc_actual_value (m_coefficient, m_base, m_exponent);
+
+    return (false);
+  }
+  catch (const std::exception& e)
+  {
+    return (false);
+  }
+
+
+  remove_from_string (m_unit_prefix, post_coeff);
+
+  post_coeff = to_lowercase (post_coeff);
+
+  if (!post_coeff.empty ())
+  {
+    try
+    {
+      LABSoft_GUI_Label::UNIT unit = m_unit_string_lowercase_to_unit.at (post_coeff);
+
+      if (unit != m_unit)
+      {
+        return (false);
+      }
+    }
+    catch(const std::exception& e)
+    {
+      return (false);
+    }
+  }
+}
+
+bool LABSoft_GUI_Label:: 
+parse_input_double (double value)
+{
+  m_actual_value = calc_actual_value_using_reference (value, m_reference);
+
+  calc_coefficient_and_exponent (m_actual_value, m_coefficient, m_exponent);
+
+  m_unit_prefix = calc_unit_prefix (m_exponent);
+
+  return (true);
 }
 
 template <typename Key, typename Value>
@@ -154,89 +239,17 @@ to_lowercase (const std::string& input)
 }
 
 std::string LABSoft_GUI_Label::
-remove_all_whitespaces (std::string&& str)
+remove_all_whitespaces (const std::string& str)
 {
-  str.erase (std::remove_if (str.begin (), str.end (), ::isspace), str.end ());
+  std::string cln_str = str;
 
-  return (str);
+  cln_str.erase (std::remove_if (cln_str.begin (), cln_str.end (), ::isspace), str.end ());
+
+  return (cln_str);
 }
 
-bool LABSoft_GUI_Label:: 
-parse_input (const std::string& str)
-{
-  if (str.find_first_not_of ("0123456789.+-") == std::string::npos)
-  {
-    try
-    {
-      return (parse_input_double (std::stod (str)));
-    }
-    catch (const std::exception& e)
-    {
-      return (false);
-    }
-  }
-  else 
-  {
-    return (parse_input_string (str));
-  }
-} 
-
-bool LABSoft_GUI_Label:: 
-parse_input_string (const std::string& str)
-{
-  std::string copy = str;
-
-  // 1. Get the substring that possibly contains
-  //    the coefficient and try to std::stod it.
-  size_t pos = copy.find_first_not_of ("0123456789.+-");
-
-  try 
-  {
-    m_coefficient = std::stod (copy.substr (0, pos));
-  }
-  catch (const std::exception& e)
-  {
-    return (false);
-  }
-
-  // 3.
-  std::string post_coeff = copy.substr (pos);
-
-  if (!post_coeff.empty ())
-  {
-    find_unit_prefix_match (post_coeff);
-  }
-
-  // 4.
-  remove_from_string (m_unit_prefix, post_coeff);
-
-  post_coeff = to_lowercase (post_coeff);
-
-  if (!post_coeff.empty ())
-  {
-    try
-    {
-      LABSoft_GUI_Label::UNIT unit = m_unit_string_lowercase_to_unit.at (post_coeff);
-
-      if (unit != m_unit)
-      {
-        return (false);
-      }
-    }
-    catch(const std::exception& e)
-    {
-      return (false);
-    }
-  }
-
-  // 5. 
-  m_actual_value = m_coefficient * std::pow (static_cast<unsigned>(m_base), m_exponent);
-
-  return (true);
-}
-
-void LABSoft_GUI_Label:: 
-find_unit_prefix_match (const std::string& str)
+std::string LABSoft_GUI_Label:: 
+find_unit_prefix_match (const std::string& str) const
 {
   KeyLengths& kl          = m_keylengths_unit_prefix_to_exponent;
   std::string unit_prefix = "";
@@ -246,30 +259,47 @@ find_unit_prefix_match (const std::string& str)
   {
     std::string substr = str.substr (0, a + 1);
 
-    std::unordered_map<std::string, int>::iterator it = m_unit_prefix_to_exponent.find (substr);
-
+    std::unordered_map<std::string, int>::iterator it =
+      m_unit_prefix_to_exponent.find (substr);
+    
     if (it != m_unit_prefix_to_exponent.end ())
     {
       unit_prefix = substr;
     }
   }
 
-  // 2.
-  if (unit_prefix.length () > 1)
-  {
-    m_base = LABSoft_GUI_Label::BASE::TWO;
-  }
-  else 
-  {
-    m_base = LABSoft_GUI_Label::BASE::TEN;
-  }
+  return (unit_prefix);
+}
 
-  // 3.
-  if (unit_prefix.length () > 0)
-  {
-    m_unit_prefix = unit_prefix[0];
-    m_exponent    = m_unit_prefix_to_exponent[m_unit_prefix];
-  }
+LABSoft_GUI_Label::UNIT LABSoft_GUI_Label:: 
+find_unit (const std::string& str) const
+{
+  std::string lower_str = to_lowercase (str);
+
+  return (m_unit_string_lowercase_to_unit.at (lower_str));
+}
+
+LABSoft_GUI_Label::BASE LABSoft_GUI_Label:: 
+calc_base (const std::string& unit_prefix) const
+{
+  return (unit_prefix.length () > 1 ?
+    LABSoft_GUI_Label::BASE::TWO :
+    LABSoft_GUI_Label::BASE::TEN
+  );
+}
+
+int LABSoft_GUI_Label:: 
+calc_exponent (const std::string& unit_prefix) const 
+{
+  return (m_unit_prefix_to_exponent.at (unit_prefix));
+}
+
+double LABSoft_GUI_Label:: 
+calc_actual_value (double coefficient,
+                   int    base,
+                   double exponent)
+{
+  return (coefficient * std::pow (base, exponent));
 }
 
 void LABSoft_GUI_Label:: 
@@ -281,18 +311,6 @@ remove_from_string (const std::string& to_remove, std::string& str)
   {
     str.erase (pos, to_remove.length ());
   }
-}
-
-bool LABSoft_GUI_Label:: 
-parse_input_double (double value)
-{
-  m_actual_value = calc_actual_value_using_reference (value, m_reference);
-
-  calc_coefficient_and_exponent (m_actual_value, m_coefficient, m_exponent);
-
-  m_unit_prefix = calc_unit_prefix (m_exponent);
-
-  return (true);
 }
 
 double LABSoft_GUI_Label:: 

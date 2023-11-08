@@ -7,11 +7,6 @@
 #include <algorithm>
 #include <sys/stat.h>
 
-#include <openssl/aes.h>
-#include <openssl/rand.h>
-#include <openssl/evp.h>
-#include <openssl/sha.h>
-
 #include "LAB.h"
 
 LAB_Digital_Circuit_Checker::
@@ -224,49 +219,6 @@ generate_char_actual_outputs_vec ()
 
     m_char_actual_outputs[row] = vec;
   }
-}
-
-std::string LAB_Digital_Circuit_Checker:: 
-decrypt_xml (const std::string& path)
-{
-  std::string key ("thequickbrownfox");
-
-  // Load the encrypted XML file into memory
-    std::ifstream encryptedFile(path, std::ios::binary);
-    std::stringstream buffer;
-    buffer << encryptedFile.rdbuf();
-    std::string encryptedData = buffer.str();
-
-  const int AES_KEY_SIZE = 256; // 256-bit key size for AES-256
-
-  // Set up the encryption key and initialization vector (IV)
-  unsigned char iv[AES_BLOCK_SIZE];
-  memset(iv, 0, sizeof(iv));
-
-  // Set up the encryption context
-  EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-  EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), nullptr, reinterpret_cast<const unsigned char*>(key.c_str()), iv);
-
-  // Determine the output buffer size
-  size_t decryptedSize = encryptedData.size();
-  std::string decryptedData(decryptedSize, '\0');
-
-  // Decrypt the encrypted data
-  int bytesDecrypted = 0;
-  EVP_DecryptUpdate(ctx, reinterpret_cast<unsigned char*>(&decryptedData[0]), &bytesDecrypted, reinterpret_cast<const unsigned char*>(encryptedData.c_str()), decryptedSize);
-
-  int finalBytesDecrypted = 0;
-  EVP_DecryptFinal_ex(ctx, reinterpret_cast<unsigned char*>(&decryptedData[bytesDecrypted]), &finalBytesDecrypted);
-
-  // Resize the decrypted data to the actual size
-  decryptedData.resize(bytesDecrypted + finalBytesDecrypted);
-
-  // Clean up the encryption context
-  EVP_CIPHER_CTX_free(ctx);
-
-  std::cout << decryptedData << "\n";
-
-    return decryptedData;
 }
 
 void LAB_Digital_Circuit_Checker:: 

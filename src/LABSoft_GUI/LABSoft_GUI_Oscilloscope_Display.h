@@ -26,22 +26,23 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         const LABSoft_Controller* m_controller  = nullptr;
 
         // cached values for display dimensions
-        double     m_row_height                = 0;
-        double     m_column_width              = 0;
-        double     m_x_axis_minor_ticks_width  = 0;
-        double     m_y_axis_minor_ticks_width  = 0;
-        double     m_display_half_height       = 0;
-        double     m_display_height_midline    = 0;
+        double  m_row_height                = 0;
+        double  m_column_width              = 0;
+        double  m_x_axis_minor_ticks_width  = 0;
+        double  m_y_axis_minor_ticks_width  = 0;
+        double  m_display_half_height       = 0;
+        double  m_display_height_midline    = 0;
 
         // cached values for drawing channels graphs
-        unsigned  m_pixel_points_to_display   = 0;
-        unsigned  m_samples_to_display        = 0;
-        unsigned  m_x_coord_draw_start        = 0;
-        unsigned  m_samples_index_start       = 0;
-        double    m_samp_skipper              = 0;
-        double    m_x_skipper                 = 0;      
-        double    m_sample_x_offset           = 0;
-        bool      m_mark_samples              = false;
+        unsigned  m_pixel_points_to_display         = 0;
+        unsigned  m_samples_to_display              = 0;
+        unsigned  m_x_coord_draw_start              = 0;
+        unsigned  m_samples_index_start             = 0;
+        double    m_samp_skipper                    = 0;
+        double    m_x_skipper                       = 0;      
+        double    m_sample_x_offset                 = 0;
+        bool      m_mark_samples                    = false;
+        double    m_time_per_division_delta_scaler  = 0;
 
         std::array<double, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS>
           m_sample_y_scaler = {0.0};
@@ -67,14 +68,22 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         void    draw_sample_marker (int x, int y);
 
         // calc
+
+
         void    calc_pixel_points                   ();        
         void    calc_cached_values_display          ();
         void    calc_cached_values_drawing          ();
-        void    calc_sample_y_scaler                ();
+
+        unsigned  calc_pixel_points_to_display      () const;
+        unsigned  calc_samples_to_display           () const;
+
+
+        void    calc_cached_values_sample_y_scaler  ();
+        void    calc_cached_values_sample_x_offset  ();
+        void    calc_cached_values_all              ();
+        void    calc_cached_values_horizontal       ();
         int     calc_sample_y_coord                 (double sample, unsigned channel);
-        void    calc_sample_x_offset                ();
         int     calc_mouse_drag_time_per_div_scaler (int drag_x);
-        void    calc_mark_samples                   ();
 
         // state
         void    reserve_pixel_points ();
@@ -166,6 +175,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void update_gui_trigger_level_slider    ();
     void update_gui_vertical_offset_slider  ();
     void update_gui_vertical_elements       ();
+    void update_gui_horizontal_elements     ();
     
     // calc
     double calc_row_voltage_per_division  (unsigned channel, unsigned row);

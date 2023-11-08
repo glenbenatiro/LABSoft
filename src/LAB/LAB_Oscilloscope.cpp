@@ -532,9 +532,7 @@ fill_raw_sample_buffer_from_dma_buffer ()
     }
   }
 
-  LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
-  pdata.horizontal_offset_raw_buffer  = pdata.horizontal_offset;
-  pdata.time_per_division_raw_buffer  = pdata.time_per_division;
+  record_raw_sample_buffer_metadata ();
 }
 
 void LAB_Oscilloscope:: 
@@ -698,6 +696,15 @@ reset_uncached_rx_buffer ()
     reverse_arrange_raw_chan_adc_bits (LABC::OSC::ADC_RESOLUTION_INT / 2),
     sizeof (dma_data.rxd)
   );
+}
+
+void LAB_Oscilloscope:: 
+record_raw_sample_buffer_metadata ()
+{
+  LAB_Parent_Data_Oscilloscope& p = m_parent_data;
+
+  p.horizontal_offset_raw_buffer = p.horizontal_offset;
+  p.time_per_division_raw_buffer = p.time_per_division;
 }
 
 double LAB_Oscilloscope::

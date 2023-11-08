@@ -144,11 +144,33 @@ init_gui_values ()
   {
     LABSoft_GUI_Fl_Choice_With_Scroll* w;
 
-    w = gui ().oscilloscope_fl_choice_mode;
+    w = gui ().oscilloscope_labsoft_gui_fl_choice_with_scroll_mode;
 
     w->value (w->find_index (LABS_GUI_VALUES::OSC::MODE_s.at 
       (osc.mode ()).c_str ())); 
   }
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+horizontal_offset (double value) const
+{
+  lab ().m_Oscilloscope.horizontal_offset (value);
+
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_horizontal_offset ();
+
+  update_osc_panel_gui_horizontal_offset ();
+}
+
+void LABSoft_Controller_Oscilloscope:: 
+time_per_division (double value) const
+{
+  lab ().m_Oscilloscope.time_per_division (value);
+
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_time_per_division ();
+
+  update_osc_panel_gui_time_per_division  ();
+  update_osc_panel_gui_sampling_rate      ();
+  update_osc_panel_gui_mode               ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -176,7 +198,7 @@ void LABSoft_Controller_Oscilloscope::
 update_osc_panel_gui_time_per_division () const
 {
   LABSoft_GUI_Label label (lab ().m_Oscilloscope.time_per_division (),
-    LABSoft_GUI_Label::UNIT::SECOND);
+    LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION);
   
   gui ().oscilloscope_labsoft_gui_fl_input_choice_with_scroll_time_per_division->
     value (label.to_label_text (3).c_str ());
@@ -331,11 +353,7 @@ cb_horizontal_offset (Fl_Input_Choice* w,
 
   if (label.is_valid ())
   {
-    lab ().m_Oscilloscope.horizontal_offset (label.actual_value ());
-
-    gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_horizontal_offset ();
-
-    update_osc_panel_gui_horizontal_offset ();
+    horizontal_offset (label.actual_value ());
   }
 }
 
@@ -351,13 +369,7 @@ cb_time_per_division (Fl_Input_Choice* w,
 
   if (label.is_valid ())
   {
-    lab ().m_Oscilloscope.time_per_division (value);
-
-    gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_time_per_division ();
-
-    update_osc_panel_gui_time_per_division  ();
-    update_osc_panel_gui_sampling_rate      ();
-    update_osc_panel_gui_mode               ();
+    time_per_division (label.actual_value ());
   }
 }
 
@@ -366,7 +378,11 @@ display_cb_horizontal_offset (void* data) const
 {
   double value = *(static_cast<double*>(data));
 
-  horizontal_offset (value);
+  lab ().m_Oscilloscope.horizontal_offset (value);
+
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->update_horizontal_offset ();
+
+  update_osc_panel_gui_horizontal_offset ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -416,7 +432,7 @@ cb_sampling_rate (Fl_Input_Choice*  w,
 
     update_osc_panel_gui_sampling_rate      ();
     update_osc_panel_gui_time_per_division  ();
-    update_osc_panel_gui_mode    
+    update_osc_panel_gui_mode               ();
   }
 }
 
@@ -691,16 +707,16 @@ update_gui_horizontal_elements () const
 
   std::snprintf (label, sizeof (label), "%.0f", samples.actual_value ());
 
-  gui ().oscilloscope_fl_input_choice_with_scroll_samples->value (label);
+  gui ().oscilloscope_labsoft_gui_fl_input_choice_with_scroll_samples->value (label);
   
   // 4. sampling rate
-  gui ().oscilloscope_fl_input_choice_with_scroll_sampling_rate->value (
+  gui ().oscilloscope_labsoft_gui_fl_input_choice_with_scroll_sampling_rate->value (
     sampling_rate.to_label_text (LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
   );
 
   // // 5. display mode
-  // gui ().oscilloscope_fl_choice_mode->value (
-  //   gui ().oscilloscope_fl_choice_mode->find_index (
+  // gui ().oscilloscope_labsoft_gui_fl_choice_with_scroll_mode->value (
+  //   gui ().oscilloscope_labsoft_gui_fl_choice_with_scroll_mode->find_index (
   //     (LABS_GUI_VALUES::OSC::MODE_s.at (lab ().m_Oscilloscope.mode ())).c_str ()
   //   )
   // );

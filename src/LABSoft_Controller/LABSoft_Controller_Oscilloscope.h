@@ -21,6 +21,10 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
                               // loaded for the first time
 
   private:
+    // used by the cb_ and cb_display_ methods
+    void horizontal_offset (double value) const;
+    void time_per_division (double value) const;
+
     // update_gui_x are used to update the widgets 
     // on the labsoft oscilloscope panel gui
     void update_osc_panel_gui_mode              () const;

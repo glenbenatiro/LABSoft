@@ -66,7 +66,6 @@ class LAB_Digital_Circuit_Checker : public LAB_Module
     void        perform_check                     ();
     void        calculate_scores                  ();
     void        generate_char_actual_outputs_vec  ();
-    std::string decrypt_xml                       (const std::string& path);  
 
   public:
     LAB_Digital_Circuit_Checker (LAB& _LAB);

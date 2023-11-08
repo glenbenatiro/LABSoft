@@ -1,8 +1,8 @@
 #ifndef LABSOFT_GUI_LABEL
 #define LABSOFT_GUI_LABEL
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 class LABSoft_GUI_Label
 {
@@ -33,23 +33,54 @@ class LABSoft_GUI_Label
     };
 
   private:
+    bool        m_is_valid        = false;
+    int         m_exponent        = 0;
+    double      m_actual_value    = 0.0;
+    double      m_coefficient     = 0.0;
+    double      m_reference       = 0.0;
+    std::string m_raw_string      = "";
+    std::string m_cleaned_string  = "";
+    std::string m_unit_prefix     = "";
+    UNIT        m_unit            = UNIT::NONE;
+    BASE        m_base            = BASE::TEN;
+
+  private:
     static std::unordered_map<UNIT, std::string>  m_unit_to_unit_string;
     static std::unordered_map<std::string, UNIT>  m_unit_string_to_unit;
     static std::unordered_map<std::string, UNIT>  m_unit_string_lowercase_to_unit;
     static std::unordered_map<std::string, int>   m_unit_prefix_to_exponent;
     static KeyLengths                             m_keylengths_unit_prefix_to_exponent;
 
-    bool        m_is_valid        = false;
-    double      m_reference       = 0.0;
-    std::string m_cleaned_string  = "0";      
-    UNIT        m_unit            = UNIT::NONE;
-    double      m_actual_value    = 0.0;
-    double      m_coefficient     = 0.0;
-    int         m_exponent        = 0;
-    std::string m_unit_prefix     = "";
-    BASE        m_base            = BASE::TEN;
-
   private:
+
+    bool        parse_input_string                (std::string_view str_view);
+
+
+    bool        parse_input                       (const std::string& str);
+    bool        parse_input_string                (const std::string& str);
+    bool        parse_input_double                (double value);
+
+    double      get_coefficient                   (std::string_view str_view);
+
+    
+
+    std::string find_unit_prefix_match            (const std::string& str) const;
+    BASE        calc_base                         (const std::string& unit_prefix) const;
+    int         calc_exponent                     (const std::string& unit_prefix) const;
+    double      calc_actual_value                 (double coefficient, int base, double exponent);
+
+    void        remove_from_string                (const std::string& to_remove, std::string& str);
+    std::string calc_unit_prefix                  (int exponent);
+    double      calc_actual_value_using_reference (double value, double reference);
+    void        calc_coefficient_and_exponent     (double value, double& coefficient, int& exponent);
+    int         calc_exponent_from_unit_prefix    (const std::string& unit_prefix) const;
+    int         correct_mod                       (int exponent, int modulo) const;
+
+    // utility
+    template <typename Value>
+    static KeyLengths 
+    find_map_keylengths (const std::unordered_map<std::string, Value>& map);
+
     template <typename Key, typename Value>
     static std::unordered_map<Value, Key> 
     invert_map (const std::unordered_map<Key, Value>& map);
@@ -58,29 +89,15 @@ class LABSoft_GUI_Label
     static std::unordered_map<std::string, Value> 
     lowercase_map (const std::unordered_map<std::string, Value>& map);
 
-    template <typename Value>
-    static KeyLengths 
-    find_map_keylengths (const std::unordered_map<std::string, Value>& map);
-
-    static std::string to_lowercase (const std::string& input);
-
-    std::string  remove_all_whitespaces             (std::string&& str);
-    bool          parse_input                       (const std::string& str);
-    bool          parse_input_string                (const std::string& str);
-    void          find_unit_prefix_match            (const std::string& str);
-    void          remove_from_string                (const std::string& to_remove, std::string& str);
-    bool          parse_input_double                (double value);
-    std::string   calc_unit_prefix                  (int exponent);
-    double        calc_actual_value_using_reference (double value, double reference);
-    void          calc_coefficient_and_exponent     (double value, double& coefficient, int& exponent);
-    int           calc_exponent_from_unit_prefix    (const std::string& unit_prefix) const;
-    int           correct_mod                       (int exponent, int modulo) const;
+    static std::string to_lowercase           (const std::string& input);
+    static std::string remove_all_whitespaces (const std::string& str);
 
   public:
-    LABSoft_GUI_Label (double value, UNIT unit = UNIT::NONE);
-    LABSoft_GUI_Label (const char* input, UNIT none = UNIT::NONE);
-    LABSoft_GUI_Label (const char* input, double reference, UNIT unit = UNIT::NONE);
-    LABSoft_GUI_Label (const char* input);
+    LABSoft_GUI_Label (const  std::string&            label, 
+                              double                  reference = 0.0, 
+                              LABSoft_GUI_Label::UNIT unit      = LABSoft_GUI_Label::UNIT::ANY);
+
+    LABSoft_GUI_Label (double value);
 
     // Setter
     void unit (UNIT unit);

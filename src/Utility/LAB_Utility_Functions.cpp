@@ -10,37 +10,60 @@ is_equal (double a,
           double b,
           double epsilon)
 {
+  // https://stackoverflow.com/a/17341
+
   return (std::abs (a - b) < epsilon);
 }
 
 bool LABF:: 
-is_greater_than (double a,
-                 double b,
+is_greater_than (double value,
+                 double reference,
                  double epsilon)
 {
-  return ((a - b) > ((std::abs (a) < std::abs (b) ? 
-    std::abs (b): std::abs (a)) * epsilon));
+  // https://stackoverflow.com/a/253874
+
+  return ((value - reference) > ((std::abs (value) < std::abs (reference) ? 
+    std::abs (reference) : std::abs (value)) * epsilon));
 }
 
 
 bool LABF:: 
-is_less_than (double a,
-              double b,
+is_less_than (double value,
+              double reference,
               double epsilon)
 {
-  return ((b - a) > ((std::abs (a) < std::abs (b) ? 
-    std::abs (b) : std::abs (a)) * epsilon));
+  // https://stackoverflow.com/a/253874
+
+  return ((reference - value) > ((std::abs (value) < std::abs (reference) ? 
+    std::abs (reference) : std::abs (value)) * epsilon));
+}
+
+bool LABF:: 
+is_greater_than_or_equal_to (double value,
+                             double reference,
+                             double epsilon)
+{
+  return (is_greater_than (value, reference, epsilon) && is_equal (value, reference, epsilon));
+}
+
+bool LABF:: 
+is_less_than_or_equal_to (double value,
+                          double reference,
+                          double epsilon)
+{
+  return (is_less_than (value, reference, epsilon) && is_equal (value, reference, epsilon));
 }
 
 bool LABF:: 
 is_within_range (double value,
                  double min,
-                 double max, 
+                 double max,
                  double epsilon)
 {
   return (
-    (value < max && value > min)    || 
-    is_equal (value, min, epsilon)  || 
+    (is_less_than (value, max, epsilon)     && 
+    is_greater_than (value, min, epsilon))  || 
+    is_equal (value, min, epsilon)          || 
     is_equal (value, max, epsilon)
   );
 }
