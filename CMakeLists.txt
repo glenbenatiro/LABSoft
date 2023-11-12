@@ -5,9 +5,10 @@ PROJECT(LABSoft
   LANGUAGES CXX
 )
 
-FIND_PACKAGE(FLTK REQUIRED NO_MODULE)  # must use "NO_MODULE" 
-FIND_PACKAGE(Threads REQUIRED)
+find_package(FLTK REQUIRED NO_MODULE)  # must use "NO_MODULE" 
+find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
+# find_package(CryptoPP REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
@@ -20,6 +21,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 include_directories(
   ${FLTK_INCLUDE_DIRS}
   ${OPENSSL_INCLUDE_DIR}  # Add this line to include OpenSSL headers
+  # ${CRYPTOPP_INCLUDE_DIR}
 ) 
 
 add_definitions(${FLTK_DEFINITIONS})
@@ -71,6 +73,7 @@ ADD_EXECUTABLE(LABSoft
   src/Utility/LABSoft_GUI_Label.cpp
   src/Utility/pugixml.cpp
   src/Utility/LAB_Utility_Functions.cpp
+  # src/Utility/LAB_Encryptor.cpp
 
   lib/AikaPi/AikaPi.cpp
   lib/AD9833/AD9833.cpp
@@ -82,6 +85,7 @@ target_link_libraries(LABSoft PRIVATE
   fltk
   Threads::Threads
   ${OPENSSL_LIBRARIES}  # Add this line to link against OpenSSL
+  # cryptopp-static
 )
 
 #add_compile_options(-I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/arm-linux-gnueabihf/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/arm-linux-gnueabihf/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16)

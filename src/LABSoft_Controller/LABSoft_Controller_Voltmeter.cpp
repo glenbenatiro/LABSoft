@@ -41,10 +41,10 @@ display_update_cycle ()
   if (lab ().m_Voltmeter.is_running ())
   {
     LABSoft_GUI_Label chan0 (lab ().m_Voltmeter.read_voltage (0), LABSoft_GUI_Label::UNIT::VOLT);
-    gui ().voltmeter_fl_output_chan_0_value->value (chan0.to_label_text ().c_str ());
+    gui ().voltmeter_fl_output_chan_0_value->value (chan0.to_text ().c_str ());
 
     LABSoft_GUI_Label chan1 (lab ().m_Voltmeter.read_voltage (1), LABSoft_GUI_Label::UNIT::VOLT);
-    gui ().voltmeter_fl_output_chan_1_value->value (chan1.to_label_text ().c_str ());
+    gui ().voltmeter_fl_output_chan_1_value->value (chan1.to_text ().c_str ());
   } 
 }
 

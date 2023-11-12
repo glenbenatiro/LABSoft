@@ -254,7 +254,7 @@ calc_pixel_points ()
       {
         for (unsigned i = 0; i < m_pixel_points_to_display; i++)
         {
-          double sample = m_osc->chan_samples (chan)[std::round (m_samples_index_start
+          double sample = m_osc->chan_samples (chan)[std::round (m_samples_start_index
             + (i * m_samp_skipper))] + m_osc->vertical_offset (chan);
 
           pp[i][0] = m_x_coord_draw_start + i;
@@ -294,7 +294,7 @@ calc_cached_values_drawing ()
   if (m_osc)
   {
     m_time_per_division_delta_scaler  = calc_time_per_division_delta_scaler ();
-    m_samples_to_display              = calc_samples_to_display             (m_time_per_division_delta_scaler);
+    m_samples_to_display              = calc_samples_to_display             ();
     m_pixel_points_to_display         = calc_pixel_points_to_display        (m_time_per_division_delta_scaler);
     m_x_coord_draw_start              = calc_x_coord_draw_start             (m_time_per_division_delta_scaler);
     m_samples_start_index             = calc_samples_start_index            (m_time_per_division_delta_scaler, m_samples_to_display);
@@ -314,14 +314,16 @@ calc_cached_values_drawing ()
     m_mark_samples                    = 0;
   }
 
-  std::cout << "m_time_per_division_delta_scaler: " << m_time_per_division_delta_scaler << "\n";
-  std::cout << "m_samples_to_display: "             << m_samples_to_display << "\n";
-  std::cout << "m_pixel_points_to_display: "        << m_pixel_points_to_display << "\n";
-  std::cout << "m_x_coord_draw_start: "             << m_x_coord_draw_start << "\n";
-  std::cout << "m_samples_start_index: "            << m_samples_start_index << "\n";
-  std::cout << "m_samp_skipper: "                   << m_samp_skipper << "\n";
-  std::cout << "m_x_skipper: "                      << m_x_skipper << "\n";
-  std::cout << "m_mark_samples: "                   << m_mark_samples << "\n";
+  {
+    std::cout << "m_time_per_division_delta_scaler: " << m_time_per_division_delta_scaler << "\n";
+    std::cout << "m_samples_to_display: "             << m_samples_to_display << "\n";
+    std::cout << "m_pixel_points_to_display: "        << m_pixel_points_to_display << "\n";
+    std::cout << "m_x_coord_draw_start: "             << m_x_coord_draw_start << "\n";
+    std::cout << "m_samples_start_index: "            << m_samples_start_index << "\n";
+    std::cout << "m_samp_skipper: "                   << m_samp_skipper << "\n";
+    std::cout << "m_x_skipper: "                      << m_x_skipper << "\n";
+    std::cout << "m_mark_samples: "                   << m_mark_samples << "\n";
+  }
 }
 
 double LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
@@ -331,12 +333,12 @@ calc_time_per_division_delta_scaler () const
 }
 
 unsigned LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
-calc_samples_to_display (double time_per_division_delta_scaler) const
+calc_samples_to_display () const
 {
-  double samples  = m_osc->sampling_rate () * m_osc->time_per_division () *
+  double samples =  m_osc->sampling_rate () * m_osc->time_per_division () * 
                     LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS;
-
-  if (LABF::is_less_than (value, 1, LABC::LABSOFT::EPSILON))
+  
+  if (LABF::is_less_than (samples, 1.0, LABC::LABSOFT::EPSILON))
   {
     return (1);
   }
@@ -373,8 +375,8 @@ calc_x_coord_draw_start (double time_per_division_delta_scaler) const
 {
   if (LABF::is_less_than (time_per_division_delta_scaler, 1.0, LABC::LABSOFT::EPSILON))
   {
-    double draw_window_width      = w () * time_per_division_delta_scaler;
-    double free_space_width       = w () - (draw_width_width);
+    double draw_window_width      = w () * time_per_division_delta_scaler; 
+    double free_space_width       = w () - draw_window_width;
     double free_space_width_half  = free_space_width / 2.0;
     double x_coord_draw_start     = x () + free_space_width_half;
 
@@ -392,10 +394,10 @@ calc_samples_start_index (double    time_per_division_delta_scaler,
 {
   if (samples_to_display < m_osc->samples ())
   {
-    unsigned  undisp_samps      = m_osc->samples () - samples_to_display;
-    double    undisp_samps_half = undisp_samps / 2.0; 
-    
-    return (std::round (undisp_samps_half));
+    unsigned  undisplayed_samples       = m_osc->samples () - samples_to_display;
+    double    undisplayed_samples_half  = undisplayed_samples / 2.0;
+
+    return (std::round (undisplayed_samples_half)); 
   }
   else 
   {
@@ -407,46 +409,23 @@ double LABSoft_GUI_Oscilloscope_Display::Internal_Display::
 calc_samp_skipper (unsigned samples_to_display,
                    unsigned pixel_points_to_display) const
 {
-  if (samples_to_display >= 1)
-  {
-    return ((samples_to_display - 1.0) / (pixel_points_to_display - 1.0));
-  }
-  else 
-  {
-    return (0.0);
-  }
+  return ((samples_to_display - 1.0) / (pixel_points_to_display - 1.0));
 }
 
 double LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
 calc_x_skipper (unsigned samples_to_display,
                 unsigned pixel_points_to_display) const
 {
-  if (pixel_points_to_display >= 1)
-  {
-    return ((pixel_points_to_display - 1.0) / (samples_to_display - 1.0));
-  }
-  else 
-  {
-    return (0.0);
-  }
+  return ((m_pixel_points_to_display - 1.0) / (samples_to_display - 1.0));
 }
 
 bool LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
 calc_mark_samples (double   time_per_division_delta_scaler,
                    unsigned samples_to_display) const
 {
-  if (samples_to_display <= LABC::OSC_DISPLAY::SAMPLE_MARKING_THRESHOLD) &&
-    (LABF::is_greater_than (time_per_division_delta_scaler, 0.5, LABC::LABSOFT::EPSILON))
-  {
-    return (true);
-  }
-  else 
-  {
-    return (false);
-  }
+  return ((samples_to_display <= LABC::OSC_DISPLAY::SAMPLE_MARKING_THRESHOLD) &&
+    (LABF::is_greater_than (time_per_division_delta_scaler, 0.5, LABC::LABSOFT::EPSILON)));
 }
-
-
 
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display::
 calc_cached_values_sample_y_scaler ()
@@ -505,15 +484,14 @@ calc_cached_values_horizontal ()
 }
 
 int LABSoft_GUI_Oscilloscope_Display::Internal_Display::
-calc_sample_y_coord (double sample, unsigned channel)
+calc_sample_y_coord (double   sample, 
+                     unsigned channel) const
 {
-  return (
-    std::round (m_display_height_midline - (sample * m_sample_y_scaler[channel]))
-  );
+  return (std::round (m_display_height_midline - (sample * m_sample_y_scaler[channel])));
 }
 
 int LABSoft_GUI_Oscilloscope_Display::Internal_Display::
-calc_mouse_drag_time_per_div_scaler (int drag_x)
+calc_mouse_drag_time_per_div_scaler (int drag_x) const
 {
   return ((m_mouse_down_start_x - drag_x) / m_x_axis_minor_ticks_width);
 }
@@ -1063,7 +1041,7 @@ update_gui_time_per_division ()
 
     LABSoft_GUI_Label label (col_tpd, LABSoft_GUI_Label::UNIT::SECOND);
     
-    m_time_per_division_labels[col]->copy_label (label.to_label_text ().c_str ());
+    m_time_per_division_labels[col]->copy_label (label.to_text ().c_str ());
   }
 }
 
@@ -1076,7 +1054,7 @@ update_gui_top_info ()
 
   ss  << m_osc->samples ()
       << " samples at "
-      << label.to_label_text ()
+      << label.to_text ()
       << " | "
       << LABF::get_now_timestamp ();
   

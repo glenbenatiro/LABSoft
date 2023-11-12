@@ -121,7 +121,7 @@ cb_digital_create_file (Fl_Button*  w,
       LABSoft_GUI_LABChecker_Digital_Input_Table& table = *(gui ().
         labchecker_digital_labsoft_gui_labchecker_digital_input_table);
 
-      m_controller.lab ().m_LABChecker_Digital.create_file_digital 
+      m_controller.lab ().m_LABChecker_Digital.create_circuit_checker_file 
         (table.inputs (), table.outputs (), chooser.filename ());
 
       break;

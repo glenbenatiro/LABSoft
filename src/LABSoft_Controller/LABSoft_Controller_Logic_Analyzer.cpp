@@ -29,22 +29,22 @@ init_gui_values ()
 
   // Horizontal
   gui ().logic_analyzer_fl_input_choice_horizontal_offset->value (
-    LABSoft_GUI_Label (logan.horizontal_offset ()).to_label_text (
+    LABSoft_GUI_Label (logan.horizontal_offset ()).to_text (
     LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 
   gui ().logic_analyzer_fl_input_choice_time_per_division->value (
-    LABSoft_GUI_Label (logan.time_per_division ()).to_label_text (
+    LABSoft_GUI_Label (logan.time_per_division ()).to_text (
     LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION).c_str ()
   );
 
   gui ().logic_analyzer_fl_input_choice_samples->value (
-    LABSoft_GUI_Label (logan.samples ()).to_label_text (
+    LABSoft_GUI_Label (logan.samples ()).to_text (
     LABSoft_GUI_Label::UNIT::NONE).c_str ()
   );
 
   gui ().logic_analyzer_fl_input_choice_sampling_rate->value (
-    LABSoft_GUI_Label (logan.sampling_rate ()).to_label_text (
+    LABSoft_GUI_Label (logan.sampling_rate ()).to_text (
     LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
   );
 
@@ -219,22 +219,22 @@ update_gui_horizontal ()
 
   // 1. Horizontal Offset
   gui ().logic_analyzer_fl_input_choice_horizontal_offset->value (
-    horizontal_offset.to_label_text (LABSoft_GUI_Label::UNIT::SECOND).c_str ()
+    horizontal_offset.to_text (LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 
   // 2. Time per Division
   gui ().logic_analyzer_fl_input_choice_time_per_division->value (
-    time_per_division.to_label_text (LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION).c_str ()
+    time_per_division.to_text (LABSoft_GUI_Label::UNIT::SECOND_PER_DIVISION).c_str ()
   );
 
   // 3. Samples
   gui ().logic_analyzer_fl_input_choice_samples->value (
-    samples.to_label_text (LABSoft_GUI_Label::UNIT::NONE, 3).c_str ()
+    samples.to_text (LABSoft_GUI_Label::UNIT::NONE, 3).c_str ()
   );
 
   // 4. Sampling Rate
   gui ().logic_analyzer_fl_input_choice_sampling_rate->value (
-    sampling_rate.to_label_text (LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
+    sampling_rate.to_text (LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
   );
 
   // 6. Display Mode

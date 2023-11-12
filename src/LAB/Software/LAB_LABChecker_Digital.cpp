@@ -5,7 +5,7 @@
 
 #include "../../Utility/pugixml.hpp"
 
-#include "../../Utility/LAB_Encryptor.h"
+// #include "../../Utility/LAB_Encryptor.h"
 
 // #include <chrono>
 // #include <string>
@@ -68,7 +68,7 @@ void LAB_LABChecker_Digital::
 encrypt_stringstream (std::stringstream& ss,
                       const std::string& password)
 {
-  ss.str (LAB_Encryptor::encrypt_string (ss.str (), password));
+  // ss.str (LAB_Encryptor::encrypt_string (ss.str (), password));
 }
 
 void LAB_LABChecker_Digital:: 
@@ -109,10 +109,10 @@ create_circuit_checker_file (const std::vector<std::vector<char>>& inputs,
 {
   std::stringstream ss = create_circuit_checker_xml_stringstream (inputs, outputs);
   
-  if (password)
-  {
-    encrypt_stringstream (ss, std::string (password));
-  }
+  // if (password)
+  // {
+  //   encrypt_stringstream (ss, std::string (password));
+  // }
 
   save_stringstream_to_file (ss, file_path);
 }

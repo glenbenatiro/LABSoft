@@ -12,7 +12,10 @@ handle (int e)
 {
   switch (e)
   {
-
+    default:
+    {
+      return (LABSoft_GUI_Fl_Slider::Fl_Slider::handle (e));
+    }
   }
 }
 

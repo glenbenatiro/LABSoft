@@ -13,7 +13,6 @@
 #include "LABSoft_Controller_Digital_Circuit_Checker.h"
 #include "LABSoft_Controller_Main_Window.h"
 
-#include "Software/LABSoft_Controller_Oscilloscope_Display.h"
 #include "Software/LABSoft_Controller_Exporter.h"
 #include "Software/LABSoft_Controller_Calibration.h"
 #include "Software/LABSoft_Controller_LABChecker_Digital.h"
@@ -34,7 +33,6 @@ class LABSoft_Controller
     LABSoft_Controller_LABChecker_Digital       m_LABChecker_Digital;
 
     // Software/GUI
-    LABSoft_Controller_Oscilloscope_Display     m_Oscilloscope_Display;
     LABSoft_Controller_Main_Window              m_Main_Window;
     LABSoft_Controller_Exporter                 m_Exporter;
     LABSoft_Controller_Calibration              m_Calibration;

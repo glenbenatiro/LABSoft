@@ -739,7 +739,7 @@ update_gui_top_info ()
 
   ss  << m_parent_data->samples 
       << " samples at "
-      << lbl.to_label_text ()
+      << lbl.to_text ()
       << " | "
       << LABF::get_now_timestamp ();
 
@@ -819,7 +819,7 @@ update_gui_time_per_division ()
 
     LABSoft_GUI_Label lbl (col_tpd, LABSoft_GUI_Label::UNIT::SECOND);
     
-    m_time_per_division_labels[a]->copy_label (lbl.to_label_text ().c_str ());
+    m_time_per_division_labels[a]->copy_label (lbl.to_text ().c_str ());
   }
 }
 

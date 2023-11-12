@@ -37,7 +37,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         unsigned  m_pixel_points_to_display         = 0;
         unsigned  m_samples_to_display              = 0;
         unsigned  m_x_coord_draw_start              = 0;
-        unsigned  m_samples_index_start             = 0;
+        unsigned  m_samples_start_index             = 0;
         double    m_samp_skipper                    = 0;
         double    m_x_skipper                       = 0;      
         double    m_sample_x_offset                 = 0;
@@ -68,22 +68,26 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         void    draw_sample_marker (int x, int y);
 
         // calc
+        void      calc_pixel_points                   ();        
+        void      calc_cached_values_display          ();
+        void      calc_cached_values_drawing          ();
 
+        double    calc_time_per_division_delta_scaler () const;
+        unsigned  calc_samples_to_display             () const;
+        unsigned  calc_pixel_points_to_display        (double time_per_division_delta_scaler) const;
+        unsigned  calc_x_coord_draw_start             (double time_per_division_delta_scaler) const;
+        unsigned  calc_samples_start_index            (double time_per_division_delta_scaler, unsigned samples_to_display) const;
+        double    calc_samp_skipper                   (unsigned samples_to_display, unsigned pixel_points_to_display) const;
+        double    calc_x_skipper                      (unsigned samples_to_display, unsigned pixel_points_to_display) const;
+        bool      calc_mark_samples                   (double time_per_division_delta_scaler, unsigned samples_to_display) const;
 
-        void    calc_pixel_points                   ();        
-        void    calc_cached_values_display          ();
-        void    calc_cached_values_drawing          ();
+        void      calc_cached_values_sample_y_scaler  ();
+        void      calc_cached_values_sample_x_offset  ();
+        void      calc_cached_values_all              ();
+        void      calc_cached_values_horizontal       ();
 
-        unsigned  calc_pixel_points_to_display      () const;
-        unsigned  calc_samples_to_display           () const;
-
-
-        void    calc_cached_values_sample_y_scaler  ();
-        void    calc_cached_values_sample_x_offset  ();
-        void    calc_cached_values_all              ();
-        void    calc_cached_values_horizontal       ();
-        int     calc_sample_y_coord                 (double sample, unsigned channel);
-        int     calc_mouse_drag_time_per_div_scaler (int drag_x);
+        int       calc_sample_y_coord                 (double sample, unsigned channel) const;
+        int       calc_mouse_drag_time_per_div_scaler (int drag_x) const;       
 
         // state
         void    reserve_pixel_points ();

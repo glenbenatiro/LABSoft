@@ -103,35 +103,6 @@ find_next_index (int scroll_amount)
   }
 }
 
-std::pair<int, int> LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
-find_input_bounds_indexes ()
-{
-  // int     pre_i   = 0;
-  // int     post_i  = 0;
-  // double  ref_val = LABSoft_GUI_Label (input ()->value ()).actual_value ();    
-
-  // const Fl_Menu_Item* arr = menubutton ()->menu ();
-
-  // // debug  
-  // std::cout << "ref val: " << ref_val << "\n";
-
-  // for (int a = 0; a < (menubutton ()->size ()) - 2; a++)
-  // {
-  //   post_i  = a;
-  //   pre_i   = a + 1;
-
-  //   double post_val = std::stod (static_cast<const char*>(arr[post_i].user_data ()));
-  //   double pre_val  = std::stod (static_cast<const char*>(arr[pre_i].user_data ()));
-
-  //   if (LABF::is_within_range (ref_val, pre_val, post_val))
-  //   {
-  //     break;
-  //   }
-  // }
-
-  // return (std::pair<int, int> (pre_i, post_i));
-}
-
 void LABSoft_GUI_Fl_Input_Choice_With_Scroll:: 
 do_scroll (int direction)
 {

@@ -25,27 +25,27 @@ init_gui_values ()
     (gen.wave_type (0)).c_str ()));
 
   // gui.function_generator_fl_input_choice_amplitude->value (
-  //   LABSoft_GUI_Label (gen.amplitude (0)).to_label_text 
+  //   LABSoft_GUI_Label (gen.amplitude (0)).to_text 
   //   (LABSoft_GUI_Label::UNIT::VOLT).c_str ()
   // );
 
   gui.function_generator_fl_input_choice_frequency->value (
-    LABSoft_GUI_Label (gen.frequency (0)).to_label_text 
+    LABSoft_GUI_Label (gen.frequency (0)).to_text 
     (LABSoft_GUI_Label::UNIT::HERTZ).c_str ()
   );
 
   gui.function_generator_fl_input_choice_period->value (
-    LABSoft_GUI_Label (gen.period (0)).to_label_text
+    LABSoft_GUI_Label (gen.period (0)).to_text
     (LABSoft_GUI_Label::UNIT::SECOND).c_str ()
   );
 
   // gui.function_generator_fl_input_choice_phase->value (
-  //   LABSoft_GUI_Label (gen.phase (0)).to_label_text 
+  //   LABSoft_GUI_Label (gen.phase (0)).to_text 
   //   (LABSoft_GUI_Label::UNIT::DEGREE).c_str ()
   // );
 
   // gui.function_generator_fl_input_choice_vertical_offset->value (
-  //   LABSoft_GUI_Label (gen.vertical_offset (0)).to_label_text
+  //   LABSoft_GUI_Label (gen.vertical_offset (0)).to_text
   //   (LABSoft_GUI_Label::UNIT::VOLT).c_str ()
   // );
 }
@@ -55,11 +55,11 @@ update_gui_frequency_elements ()
 {
   m_controller.gui ().function_generator_fl_input_choice_frequency->
     value (LABSoft_GUI_Label (m_controller.lab ().m_Function_Generator.frequency (0)).
-    to_label_text (LABSoft_GUI_Label::UNIT::HERTZ).c_str ());
+    to_text (LABSoft_GUI_Label::UNIT::HERTZ).c_str ());
   
   m_controller.gui ().function_generator_fl_input_choice_period->
     value (LABSoft_GUI_Label (m_controller.lab ().m_Function_Generator.period (0)).
-    to_label_text (LABSoft_GUI_Label::UNIT::SECOND).c_str ());
+    to_text (LABSoft_GUI_Label::UNIT::SECOND).c_str ());
 }
 
 void LABSoft_Controller_Function_Generator::
@@ -127,7 +127,7 @@ cb_amplitude (Fl_Input_Choice* w,
   }
 
   w->value (LABSoft_GUI_Label (m_controller.lab ().m_Function_Generator.amplitude (channel)).
-    to_label_text (LABSoft_GUI_Label::UNIT::VOLT).c_str ());
+    to_text (LABSoft_GUI_Label::UNIT::VOLT).c_str ());
 }
 
 
@@ -207,7 +207,7 @@ cb_phase (Fl_Input_Choice* w,
   }
 
   w->value (LABSoft_GUI_Label (m_controller.lab ().m_Function_Generator.phase (channel)).
-    to_label_text (LABSoft_GUI_Label::UNIT::DEGREE).c_str ());
+    to_text (LABSoft_GUI_Label::UNIT::DEGREE).c_str ());
 }
 
 
@@ -235,7 +235,7 @@ cb_vertical_offset (Fl_Input_Choice*  w,
   }
 
   w->value (LABSoft_GUI_Label (m_controller.lab ().m_Function_Generator.vertical_offset (channel)).
-    to_label_text (LABSoft_GUI_Label::UNIT::VOLT).c_str ());
+    to_text (LABSoft_GUI_Label::UNIT::VOLT).c_str ());
 }
 
 // EOF
