@@ -1,10 +1,10 @@
 #include "LABSoft_Controller.h"
 
-#include <iostream>
-
 #include <FL/Fl.H>
 #include <FL/Fl_Tabs.H>
 
+#include "../LAB/LAB.h"
+#include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LAB_Constants.h"
 
 LABSoft_Controller:: 
@@ -19,7 +19,8 @@ LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
     m_Main_Window             (*this),
     m_LABChecker_Digital      (*this),
     m_Exporter                (*this),
-    m_Calibration             (*this)
+    m_Calibration             (*this),
+    m_Oscilloscope_Display    (*this)
 {
   load_controller_to_gui ();
 

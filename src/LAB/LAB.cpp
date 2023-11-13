@@ -1,5 +1,7 @@
 #include "LAB.h"
 
+#include "../../lib/AikaPi/AikaPi.h"
+
 LAB::LAB ()
 : m_LAB_Core                (AikaPi::get_instance ()),
   m_Oscilloscope            (*this),
@@ -9,11 +11,6 @@ LAB::LAB ()
   m_Digital_Circuit_Checker (*this),
   m_Exporter                (*this),
   m_Calibration             (*this)
-{
-
-}
-
-LAB::~LAB ()
 {
 
 }

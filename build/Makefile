@@ -547,303 +547,6 @@ src/LABSoft.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft.cpp.s
 .PHONY : src/LABSoft.cpp.s
 
-src/LABSoft_Controller/LABSoft_Controller.o: src/LABSoft_Controller/LABSoft_Controller.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller.i: src/LABSoft_Controller/LABSoft_Controller.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller.s: src/LABSoft_Controller/LABSoft_Controller.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.o: src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.i: src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.s: src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o: src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Function_Generator.i: src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s: src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Function_Generator.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o: src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.i: src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.s: src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Main_Window.o: src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Main_Window.i: src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Main_Window.s: src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Main_Window.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.o: src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.i: src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.s: src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Unit.o: src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Unit.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Unit.i: src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Unit.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Unit.s: src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Unit.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Unit.cpp.s
-
-src/LABSoft_Controller/LABSoft_Controller_Voltmeter.o: src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.o
-
-# target to build an object file
-src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.o
-
-src/LABSoft_Controller/LABSoft_Controller_Voltmeter.i: src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.i
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.i
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.i
-
-src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s: src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
-
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
-.PHONY : src/LABSoft_Controller/LABSoft_Controller_Voltmeter.cpp.s
-
-src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.o: src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.o
-
-# target to build an object file
-src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.o
-
-src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.i: src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.i
-
-src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.s: src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.cpp.s
-
-src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o
-
-# target to build an object file
-src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.o
-
-src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.i
-
-src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s: src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.cpp.s
-
-src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.o: src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.o
-
-# target to build an object file
-src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
-
-src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.i: src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.i
-
-# target to preprocess a source file
-src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
-
-src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.s: src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
-
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.s
-
-# target to generate assembly for a file
-src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
-.PHONY : src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
-
 src/LABSoft_GUI/LABSoft_GUI.o: src/LABSoft_GUI/LABSoft_GUI.cpp.o
 
 .PHONY : src/LABSoft_GUI/LABSoft_GUI.o
@@ -1114,6 +817,330 @@ src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s
 
+src/LABSoft_Presenter/LABSoft_Controller.o: src/LABSoft_Presenter/LABSoft_Controller.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller.i: src/LABSoft_Presenter/LABSoft_Controller.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller.s: src/LABSoft_Presenter/LABSoft_Controller.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.o: src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.i: src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.s: src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.o: src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.i: src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.s: src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.o: src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.i: src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.s: src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Main_Window.o: src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Main_Window.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Main_Window.i: src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Main_Window.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Main_Window.s: src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Main_Window.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.o: src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.i: src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.s: src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Unit.o: src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Unit.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Unit.i: src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Unit.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Unit.s: src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Unit.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp.s
+
+src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.o: src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.i: src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.s: src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp.s
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.o: src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.o
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.o
+
+# target to build an object file
+src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.o
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.o
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.i: src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.i
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.i
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.i
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.s: src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.s
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.s
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp.s
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.o: src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.o
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.o
+
+# target to build an object file
+src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.o
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.o
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.i: src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.i
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.i
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.i
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.s: src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.s
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.s
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp.s
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.o: src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.o
+
+# target to build an object file
+src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.o
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.i: src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.i
+
+src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.s: src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp.s
+
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.o: src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.o
+
+# target to build an object file
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o
+
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.i: src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.i
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.i
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.i
+
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.s: src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.s
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.s
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.s
+
 src/LAB_Libraries/LAB_AD9833.o: src/LAB_Libraries/LAB_AD9833.cpp.o
 
 .PHONY : src/LAB_Libraries/LAB_AD9833.o
@@ -1357,39 +1384,6 @@ help:
 	@echo "... src/LABSoft.o"
 	@echo "... src/LABSoft.i"
 	@echo "... src/LABSoft.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Digital_Circuit_Checker.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Function_Generator.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Logic_Analyzer.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Main_Window.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Main_Window.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Main_Window.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Oscilloscope.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Unit.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Unit.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Unit.s"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.o"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.i"
-	@echo "... src/LABSoft_Controller/LABSoft_Controller_Voltmeter.s"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.o"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.i"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Calibration.s"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.o"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.i"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_Exporter.s"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.o"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.i"
-	@echo "... src/LABSoft_Controller/Software/LABSoft_Controller_LABChecker_Digital.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI.s"
@@ -1420,6 +1414,42 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Main_Window.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Main_Window.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Main_Window.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Unit.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Unit.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Unit.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.s"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.o"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.i"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.s"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.o"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.i"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.s"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.o"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.i"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.s"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.o"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.i"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.s"
 	@echo "... src/LAB_Libraries/LAB_AD9833.o"
 	@echo "... src/LAB_Libraries/LAB_AD9833.i"
 	@echo "... src/LAB_Libraries/LAB_AD9833.s"

@@ -1,8 +1,6 @@
 #ifndef LAB_H
 #define LAB_H
 
-#include "../../lib/AikaPi/AikaPi.h"
-
 #include "LAB_Oscilloscope.h"
 #include "LAB_Voltmeter.h"
 #include "LAB_Function_Generator.h"
@@ -13,6 +11,8 @@
 #include "Software/LAB_Calibration.h"
 #include "Software/LAB_LABChecker_Digital.h"
 
+class AikaPi;
+
 class LAB
 {
   private:
@@ -20,7 +20,6 @@ class LAB
 
   public:
     LAB ();
-   ~LAB ();
    
     LAB_Oscilloscope            m_Oscilloscope;
     LAB_Voltmeter               m_Voltmeter;

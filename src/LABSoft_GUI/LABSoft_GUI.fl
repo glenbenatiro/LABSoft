@@ -2,7 +2,7 @@
 version 1.0305
 header_name {.h}
 code_name {.cpp}
-decl {\#include "../LABSoft_Controller/LABSoft_Controller.h"} {private global
+decl {\#include "../LABSoft_Presenter/LABSoft_Controller.h"} {private global
 }
 
 decl {\#include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"} {public global
@@ -14,8 +14,7 @@ decl {\#include "LABSoft_GUI_Fl_Choice_With_Scroll.h"} {public global
 decl {class LABSoft_Controller;} {public global
 }
 
-class LABSoft_GUI {open
-} {
+class LABSoft_GUI {} {
   decl {LABSoft_Controller *m_LABSoft_Controller;} {public local
   }
   Function {LABSoft_GUI()} {open
@@ -1313,7 +1312,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_function_generator_tab {
-          label {Function Generator} selected
+          label {Function Generator}
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Choice function_generator_fl_choice_wave_type {

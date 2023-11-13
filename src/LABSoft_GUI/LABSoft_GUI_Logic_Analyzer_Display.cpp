@@ -7,7 +7,7 @@
 #include "../Utility/LAB_Defaults.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
-#include "../LABSoft_Controller/LABSoft_Controller.h"
+#include "../LABSoft_Presenter/LABSoft_Controller.h"
 
 Fl_Menu_Item ChanWidget::menu_m_fl_menu_button_trigger_mode[] = {
  {"X Ignore", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},

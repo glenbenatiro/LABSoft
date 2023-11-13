@@ -4,7 +4,6 @@
 #include "../LAB/LAB.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 
-// 
 class LABSoft_Controller;
 
 class LABSoft_Controller_Unit
@@ -15,10 +14,8 @@ class LABSoft_Controller_Unit
   public:
     LABSoft_Controller_Unit (LABSoft_Controller& _LABSoft_Controller);
 
-    // helper accessors
     LAB&          lab () const;
     LABSoft_GUI&  gui () const;
 };
-
 
 #endif

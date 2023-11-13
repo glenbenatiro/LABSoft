@@ -9,13 +9,7 @@ LAB_Module (LAB& _LAB)
 
 }
 
-LAB_Module:: 
-~LAB_Module ()
-{
-
-}
-
-AikaPi& LAB_Module::
+AikaPi& LAB_Module:: 
 rpi () const
 {
   return (m_LAB.rpi ());

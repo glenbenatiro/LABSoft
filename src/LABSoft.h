@@ -3,7 +3,7 @@
 
 #include "LAB/LAB.h"
 #include "LABSoft_GUI/LABSoft_GUI.h"
-#include "LABSoft_Controller/LABSoft_Controller.h"
+#include "LABSoft_Presenter/LABSoft_Controller.h"
 
 class LABSoft 
 {

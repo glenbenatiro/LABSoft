@@ -1,10 +1,8 @@
 #ifndef LAB_MODULE_H
 #define LAB_MODULE_H
 
-#include "../../lib/AikaPi/AikaPi.h"
-
-//
 class LAB;
+class AikaPi;
 
 class LAB_Module
 {
@@ -13,11 +11,9 @@ class LAB_Module
 
   public:
     LAB_Module (LAB& _LAB);
-   ~LAB_Module ();
 
-   // shortcuts
-   AikaPi&  rpi () const;
-   LAB&     lab () const;
+    AikaPi& rpi () const;
+    LAB&    lab () const;
 };
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
-#include "../LABSoft_Controller/LABSoft_Controller.h"
+#include "../LABSoft_Presenter/LABSoft_Controller.h"
 
 LABSoft_GUI_Oscilloscope_Display::Internal_Display::
 Internal_Display (int         X,
@@ -291,12 +291,6 @@ calc_cached_values_display ()
 void LABSoft_GUI_Oscilloscope_Display::Internal_Display:: 
 calc_cached_values_drawing ()
 {
-  m_time_per_division_delta_scaler    = calc_time_per_division_delta_scaler ();
-  m_display_mode                      = calc_display_mode                   (m_time_per_division_delta_scaler);
-
-
-
-
   if (m_osc)
   {
     m_time_per_division_delta_scaler  = calc_time_per_division_delta_scaler ();

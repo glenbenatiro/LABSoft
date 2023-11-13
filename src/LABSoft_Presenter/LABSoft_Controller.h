@@ -3,9 +3,6 @@
 
 #include <FL/Fl_Tabs.H>
 
-#include "../LAB/LAB.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
-
 #include "LABSoft_Controller_Oscilloscope.h"
 #include "LABSoft_Controller_Voltmeter.h"
 #include "LABSoft_Controller_Function_Generator.h"
@@ -16,6 +13,10 @@
 #include "Software/LABSoft_Controller_Exporter.h"
 #include "Software/LABSoft_Controller_Calibration.h"
 #include "Software/LABSoft_Controller_LABChecker_Digital.h"
+#include "Software/LABSoft_Presenter_Oscilloscope_Display.h"
+
+class LAB;
+class LABSoft_GUI;
 
 class LABSoft_Controller
 {
@@ -36,6 +37,7 @@ class LABSoft_Controller
     LABSoft_Controller_Main_Window              m_Main_Window;
     LABSoft_Controller_Exporter                 m_Exporter;
     LABSoft_Controller_Calibration              m_Calibration;
+    LABSoft_Presenter_Oscilloscope_Display      m_Oscilloscope_Display;
 
   private:      
     void load_controller_to_gui ();
