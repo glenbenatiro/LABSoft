@@ -703,8 +703,9 @@ record_raw_sample_buffer_metadata ()
 {
   LAB_Parent_Data_Oscilloscope& p = m_parent_data;
 
-  p.horizontal_offset_raw_buffer = p.horizontal_offset;
-  p.time_per_division_raw_buffer = p.time_per_division;
+  p.horizontal_offset_raw_buffer  = p.horizontal_offset;
+  p.time_per_division_raw_buffer  = p.time_per_division;
+  p.sampling_rate_raw_buffer      = p.sampling_rate; 
 }
 
 double LAB_Oscilloscope::
@@ -1672,6 +1673,12 @@ double LAB_Oscilloscope::
 raw_buffer_horizontal_offset () const 
 {
   return (m_parent_data.horizontal_offset_raw_buffer);
+}
+
+double LAB_Oscilloscope:: 
+raw_buffer_sampling_rate () const
+{
+  return (m_parent_data.sampling_rate_raw_buffer);
 }
 
 // EOF

@@ -92,13 +92,17 @@ find_next_index (int scroll_amount)
   {
     int next_index = curr_index + scroll_amount;
 
-    if (next_index >= 0 && next_index < menubutton ()->size ())
+    if (next_index < 0)
+    {
+      return (0);
+    }
+    else if (next_index > (menubutton ()->size () - 2))
+    {
+      return (menubutton ()->size () - 2);
+    }
+    else 
     {
       return (next_index);
-    }
-    else
-    {
-      return (-1);
     }
   }
 }

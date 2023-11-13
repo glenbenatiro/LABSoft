@@ -34,7 +34,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         double  m_display_height_midline    = 0;
 
         // cached values for drawing channels graphs
-        unsigned  m_pixel_points_to_display         = 0;
+        unsigned  m_draw_window_width               = 0;
         unsigned  m_samples_to_display              = 0;
         unsigned  m_x_coord_draw_start              = 0;
         unsigned  m_samples_start_index             = 0;
@@ -73,12 +73,12 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
         void      calc_cached_values_drawing          ();
 
         double    calc_time_per_division_delta_scaler () const;
-        unsigned  calc_samples_to_display             () const;
-        unsigned  calc_pixel_points_to_display        (double time_per_division_delta_scaler) const;
+        unsigned  calc_samples_to_display             (double time_per_division_delta_scaler) const;
+        unsigned  calc_draw_window_width              (double time_per_division_delta_scaler) const;
         unsigned  calc_x_coord_draw_start             (double time_per_division_delta_scaler) const;
         unsigned  calc_samples_start_index            (double time_per_division_delta_scaler, unsigned samples_to_display) const;
-        double    calc_samp_skipper                   (unsigned samples_to_display, unsigned pixel_points_to_display) const;
-        double    calc_x_skipper                      (unsigned samples_to_display, unsigned pixel_points_to_display) const;
+        double    calc_samp_skipper                   (unsigned samples_to_display, unsigned draw_window_width) const;
+        double    calc_x_skipper                      (unsigned samples_to_display, unsigned draw_window_width) const;
         bool      calc_mark_samples                   (double time_per_division_delta_scaler, unsigned samples_to_display) const;
 
         void      calc_cached_values_sample_y_scaler  ();

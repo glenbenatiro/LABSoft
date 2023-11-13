@@ -47,6 +47,7 @@ struct LAB_Parent_Data_Oscilloscope
     unsigned  samples_raw_buffer              = samples;           
     double    samples_displayed               = 0;              
     double    sampling_rate                   = LABD::OSC::SAMPLING_RATE;
+    double    sampling_rate_raw_buffer        = sampling_rate;
 
     // Data/Samples/Pixels
     std::vector<uint32_t> recording_raw_sample_buffer;

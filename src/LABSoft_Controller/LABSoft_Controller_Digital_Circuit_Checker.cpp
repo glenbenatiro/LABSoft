@@ -11,7 +11,7 @@ LABSoft_Controller_Digital_Circuit_Checker::
 LABSoft_Controller_Digital_Circuit_Checker (LABSoft_Controller& _LABSoft_Controller)
  : LABSoft_Controller_Unit (_LABSoft_Controller)
 {
-
+   gui ().digital_circuit_checker_fl_output_results->value ("4/4 - 100%");
 }
 
 std::string LABSoft_Controller_Digital_Circuit_Checker:: 
