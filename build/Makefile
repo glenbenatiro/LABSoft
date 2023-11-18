@@ -817,6 +817,33 @@ src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.s
 
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.o: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.i: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.s: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s
+
 src/LABSoft_Presenter/LABSoft_Controller.o: src/LABSoft_Presenter/LABSoft_Controller.cpp.o
 
 .PHONY : src/LABSoft_Presenter/LABSoft_Controller.o
@@ -1414,6 +1441,9 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.s"
 	@echo "... src/LABSoft_Presenter/LABSoft_Controller.o"
 	@echo "... src/LABSoft_Presenter/LABSoft_Controller.i"
 	@echo "... src/LABSoft_Presenter/LABSoft_Controller.s"

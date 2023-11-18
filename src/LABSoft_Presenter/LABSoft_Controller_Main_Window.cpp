@@ -2,7 +2,9 @@
 
 #include <FL/Fl.H>
 
+#include "../LAB/LAB.h"
 #include "LABSoft_Controller.h"
+#include "../LABSoft_GUI/LABSoft_GUI.h"
 
 LABSoft_Controller_Main_Window:: 
 LABSoft_Controller_Main_Window (LABSoft_Controller& _LABSoft_Controller)

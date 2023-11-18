@@ -57,15 +57,16 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp
 
   src/LABSoft_GUI/LABSoft_GUI.cpp
-  src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
-  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp
-  src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp
-  src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp
-  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp
-  src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
-  src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp
   src/LABSoft_GUI/LABSoft_GUI_Fl_Slider.cpp
   src/LABSoft_GUI/LABSoft_GUI_Exporter_Data_Table.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp
+  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Input_Table.cpp
+  src/LABSoft_GUI/LABSoft_GUI_LABChecker_Digital_Output_Table.cpp
+  src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp
   
   src/LAB_Libraries/LAB_AD9833.cpp
   src/LAB_Libraries/LAB_MCP4XXX.cpp

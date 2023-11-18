@@ -814,6 +814,8 @@ horizontal_offset (double value)
   ))
   {
     m_parent_data.horizontal_offset = value;
+
+    // add functionality here soon
   }
 }
 

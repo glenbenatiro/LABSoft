@@ -5,7 +5,9 @@
 
 #include <FL/fl_ask.H>
 
+#include "../LAB/LAB.h"
 #include "LABSoft_Controller.h"
+#include "../LABSoft_GUI/LABSoft_GUI.h"
 
 LABSoft_Controller_Digital_Circuit_Checker:: 
 LABSoft_Controller_Digital_Circuit_Checker (LABSoft_Controller& _LABSoft_Controller)

@@ -3,6 +3,10 @@
 #include <cstdio>
 #include <string>
 
+#include "../../LAB/LAB.h"
+#include "../LABSoft_Controller.h"
+#include "../../LABSoft_GUI/LABSoft_GUI.h"
+
 LABSoft_Controller_Calibration::
 LABSoft_Controller_Calibration (LABSoft_Controller& _LABSoft_Controller)
   : LABSoft_Controller_Unit  (_LABSoft_Controller)

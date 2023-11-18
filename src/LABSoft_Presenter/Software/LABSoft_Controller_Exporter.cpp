@@ -7,6 +7,9 @@
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Native_File_Chooser.H>
 
+#include "../../LAB/LAB.h"
+#include "../LABSoft_Controller.h"
+#include "../../LABSoft_GUI/LABSoft_GUI.h"
 #include "../../Utility/LABSoft_GUI_Label_Values.h"
 
 LABSoft_Controller_Exporter::

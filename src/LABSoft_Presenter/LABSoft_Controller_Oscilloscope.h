@@ -15,23 +15,30 @@
 
 class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
 {
-  private:   
-    // supposed LABSoft_GUI_Oscilloscope functions (can't because FLUID)
-    void init_gui_values  (); // supposed to be called when parent_data is
-                              // loaded for the first time
-
   private:
-    // used by the cb_ and cb_display_ methods
-    void horizontal_offset (double value) const;
-    void time_per_division (double value) const;
+    void init_gui_values                        () const;
 
-    // update_gui_x are used to update the widgets 
-    // on the labsoft oscilloscope panel gui
-    void update_osc_panel_gui_mode              () const;
-    void update_osc_panel_gui_horizontal_offset () const;
-    void update_osc_panel_gui_time_per_division () const;
-    void update_osc_panel_gui_samples           () const;
-    void update_osc_panel_gui_sampling_rate     () const;
+    //
+    void update_gui_panel_vertical_offset       (unsigned channel) const;
+    void update_gui_panel_voltage_per_division  (unsigned channel) const;
+    void update_gui_panel_horizontal_offset     () const;
+    void update_gui_panel_time_per_division     () const;
+    void update_gui_panel_samples               () const;
+    void update_gui_panel_sampling_rate         () const;
+    void update_gui_panel_mode                  () const;
+    void update_gui_panel_trigger_level         () const;
+
+    // 
+    void update_gui_vertical_offset             (unsigned channel) const;
+    void update_gui_voltage_per_division        (unsigned channel) const;
+    void update_gui_horizontal_offset           () const;
+    void update_gui_time_per_division           () const;
+    void update_gui_samples                     () const;
+    void update_gui_sampling_rate               () const;
+    void update_gui_horizontal_elements         () const;
+    void update_gui_mode                        () const;
+    void update_gui_trigger_level               () const;
+    void update_gui_trigger_panel               () const;
 
   public:
     LABSoft_Controller_Oscilloscope (LABSoft_Controller& _LABSoft_Controller);
@@ -49,11 +56,8 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void cb_vertical_offset_slider    (LABSoft_GUI_Fl_Slider*                   w, void*  data);
     
     // horizontal
-    void cb_horizontal_offset         (Fl_Input_Choice*   w, void* data) const;
-    void display_cb_horizontal_offset (void*  data)   const;
-    void cb_time_per_division         (Fl_Input_Choice*   w, void* data) const;
-    void cb_display_time_per_division (void* data) const;
-    void cb_display_time_per_division (int scroll_amount) const;
+    void cb_horizontal_offset         (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data) const;
+    void cb_time_per_division         (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data) const;
     void cb_time_per_division_steps   (int steps);
     void cb_samples                   (Fl_Input_Choice*   w, void* data) const;
     void cb_sampling_rate             (Fl_Input_Choice*   w, void* data) const;
@@ -77,10 +81,7 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void cb_mode                      (Fl_Choice*         w, void* data);
 
     // GUI update
-    void display_update_cycle           ();
-    void update_trigger_panel_gui       ();
-    void update_gui_horizontal_elements () const;
-    void update_gui_mode                ();   
+    void display_update_cycle         ();
 };
 
 #endif

@@ -29,6 +29,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Controller.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.o"

@@ -10,7 +10,8 @@ LAB::LAB ()
   m_Logic_Analyzer          (*this),
   m_Digital_Circuit_Checker (*this),
   m_Exporter                (*this),
-  m_Calibration             (*this)
+  m_Calibration             (*this),
+  m_Oscilloscope_Display    (*this, m_Oscilloscope)
 {
 
 }

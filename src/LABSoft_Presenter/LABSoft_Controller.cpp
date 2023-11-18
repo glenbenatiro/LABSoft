@@ -5,7 +5,7 @@
 
 #include "../LAB/LAB.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
-#include "../Utility/LAB_Constants.h"
+// #include "../Utility/LAB_Constants.h"
 
 LABSoft_Controller:: 
 LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
@@ -30,14 +30,8 @@ LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
 void LABSoft_Controller::
 load_controller_to_gui ()
 {
-  // 1. 
   m_LABSoft_GUI.m_LABSoft_Controller = this;
 
-  // 2. 
-  m_LABSoft_GUI.oscilloscope_labsoft_gui_oscilloscope_display->
-    load_controller (*this);
-
-  // 3.
   m_LABSoft_GUI.logic_analyzer_labsoft_gui_logic_analyzer_display-> 
     load_controller (*this);
 }

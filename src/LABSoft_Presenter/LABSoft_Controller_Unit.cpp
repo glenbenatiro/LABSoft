@@ -20,3 +20,9 @@ gui () const
 {
   return (m_controller.gui ());
 }
+
+LABSoft_Controller& LABSoft_Controller_Unit:: 
+presenter () const
+{
+  return (m_controller);
+}

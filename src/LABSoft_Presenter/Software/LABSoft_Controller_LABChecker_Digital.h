@@ -1,6 +1,10 @@
 #ifndef LABSOFT_CONTROLLER_LABCHECKER_DIGITAL
 #define LABSOFT_CONTROLLER_LABCHECKER_DIGITAL
 
+class Fl_Input;
+class Fl_Choice;
+class Fl_Button;
+
 #include "../LABSoft_Controller_Unit.h"
 
 class LABSoft_Controller_LABChecker_Digital : public LABSoft_Controller_Unit

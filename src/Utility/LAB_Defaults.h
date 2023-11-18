@@ -41,6 +41,11 @@ namespace LABD
     constexpr double                MIN_OSC_HARDWARE_TRIGGER_LEVEL  = -1 * CONVERSION_REFERENCE_VOLTAGE;
   };
 
+  namespace OSC_DISPLAY
+  {
+    unsigned int BACKGROUND_COLOR = FL_BLACK; 
+  };
+
   namespace LOGAN 
   {
     // Horizontal
@@ -59,6 +64,7 @@ namespace LABD
     constexpr LABE::LOGAN::TRIG::MODE TRIGGER_MODE      = LABE::LOGAN::TRIG::MODE::NONE;
     constexpr double CHECK_TRIGGER_SLEEP_PERIOD         = SAMPLING_RATE / 5.0;
   };
+
 };
 
 #endif

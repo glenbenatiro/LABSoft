@@ -5,6 +5,7 @@
 
 #include <FL/Fl_Native_File_Chooser.H>
 
+#include "../../LAB/LAB.h"
 #include "../LABSoft_Controller.h"
 #include "../../LABSoft_GUI/LABSoft_GUI.h"
 

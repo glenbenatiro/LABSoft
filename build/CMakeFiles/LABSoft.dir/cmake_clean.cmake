@@ -24,6 +24,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o"
+  "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp.o"

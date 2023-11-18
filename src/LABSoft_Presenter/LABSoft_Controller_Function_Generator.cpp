@@ -1,6 +1,8 @@
 #include "LABSoft_Controller_Function_Generator.h"
 
+#include "../LAB/LAB.h"
 #include "LABSoft_Controller.h"
+#include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
 #include "../Utility/LABSoft_GUI_Label_Values.h"

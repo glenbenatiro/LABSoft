@@ -15,9 +15,6 @@
 #include "Software/LABSoft_Controller_LABChecker_Digital.h"
 #include "Software/LABSoft_Presenter_Oscilloscope_Display.h"
 
-class LAB;
-class LABSoft_GUI;
-
 class LABSoft_Controller
 {
   private:

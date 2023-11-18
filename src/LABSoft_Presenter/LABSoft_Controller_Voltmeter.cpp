@@ -1,6 +1,8 @@
 #include "LABSoft_Controller_Voltmeter.h"
 
+#include "../LAB/LAB.h"
 #include "LABSoft_Controller.h"
+#include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 
 LABSoft_Controller_Voltmeter:: 

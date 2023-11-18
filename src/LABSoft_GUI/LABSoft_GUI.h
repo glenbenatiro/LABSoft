@@ -187,11 +187,11 @@ private:
   static void cb_oscilloscope_fl_choice_trigger_condition(LABSoft_GUI_Fl_Choice_With_Scroll*, void*);
   static Fl_Menu_Item menu_oscilloscope_fl_choice_trigger_condition[];
 public:
-  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_fl_input_choice_trigger_level;
+  LABSoft_GUI_Fl_Input_Choice_With_Scroll *oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level;
 private:
-  inline void cb_oscilloscope_fl_input_choice_trigger_level_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static void cb_oscilloscope_fl_input_choice_trigger_level(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
-  static Fl_Menu_Item menu_oscilloscope_fl_input_choice_trigger_level[];
+  inline void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level_i(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static void cb_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level(LABSoft_GUI_Fl_Input_Choice_With_Scroll*, void*);
+  static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level[];
 public:
   Fl_Group *main_fl_group_voltmeter_tab;
   Fl_Output *voltmeter_fl_output_chan_0_value;

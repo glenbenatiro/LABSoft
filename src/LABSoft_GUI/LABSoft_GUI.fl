@@ -14,14 +14,15 @@ decl {\#include "LABSoft_GUI_Fl_Choice_With_Scroll.h"} {public global
 decl {class LABSoft_Controller;} {public global
 }
 
-class LABSoft_GUI {} {
+class LABSoft_GUI {open
+} {
   decl {LABSoft_Controller *m_LABSoft_Controller;} {public local
   }
   Function {LABSoft_GUI()} {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {699 242 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {2253 292 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -74,7 +75,7 @@ class LABSoft_GUI {} {
       } {
         Fl_Group main_fl_group_oscilloscope_tab {
           label Oscilloscope open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Group oscilloscope_labsoft_gui_oscilloscope_display {
             xywh {20 70 700 510} box FLAT_BOX color 0 labelsize 12
@@ -594,7 +595,7 @@ class LABSoft_GUI {} {
               }
             }
           }
-          Fl_Group oscilloscope_fl_group_display {open
+          Fl_Group oscilloscope_fl_group_display {
             xywh {1060 80 140 180} box ROUNDED_FRAME color 52 labeltype NO_LABEL labelsize 12
           } {
             Fl_Button oscilloscope_fl_button_record_config {
@@ -1090,7 +1091,7 @@ class LABSoft_GUI {} {
             }
           }
           Fl_Group oscilloscope_fl_group_trigger {
-            label Trigger
+            label Trigger open
             xywh {900 360 260 220} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Choice oscilloscope_fl_choice_trigger_mode {
@@ -1157,14 +1158,14 @@ class LABSoft_GUI {} {
                 xywh {1022 457 100 25} box NO_BOX selection_color 229 labelsize 12
               }
             }
-            Fl_Input_Choice oscilloscope_fl_input_choice_trigger_level {
+            Fl_Input_Choice oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level {
               label Level
-              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);}
+              callback {m_LABSoft_Controller->m_Oscilloscope.cb_trigger_level (o, v);} selected
               xywh {1040 390 100 25} box NO_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12 deactivate
-              code0 {oscilloscope_fl_input_choice_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-              code1 {oscilloscope_fl_input_choice_trigger_level->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
-              code2 {oscilloscope_fl_input_choice_trigger_level->menubutton ()->box (FL_GTK_UP_BOX);}
-              code3 {oscilloscope_fl_input_choice_trigger_level->menubutton ()->color (54);}
+              code0 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code1 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+              code2 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level->menubutton ()->box (FL_GTK_UP_BOX);}
+              code3 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level->menubutton ()->color (54);}
               class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
@@ -1313,7 +1314,7 @@ class LABSoft_GUI {} {
         }
         Fl_Group main_fl_group_function_generator_tab {
           label {Function Generator}
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}

@@ -79,7 +79,8 @@ namespace LABS_GUI_VALUES
 
     static std::unordered_map<std::string, LABE::OSC::TRIG::TYPE> TRIGGER_TYPE = 
     {
-      {"Edge", LABE::OSC::TRIG::TYPE::EDGE},
+      {"Edge",  LABE::OSC::TRIG::TYPE::EDGE},
+      {"Level", LABE::OSC::TRIG::TYPE::LEVEL}
     };
 
     static std::unordered_map<LABE::OSC::TRIG::TYPE, std::string> TRIGGER_TYPE_s = 
@@ -99,6 +100,15 @@ namespace LABS_GUI_VALUES
       {LABE::OSC::TRIG::CND::RISING,  "Rising"},
       {LABE::OSC::TRIG::CND::FALLING, "Falling"},
       {LABE::OSC::TRIG::CND::EITHER,  "Either"},
+    };
+
+    static std::unordered_map<LABE::OSC::STATUS, std::string> STATUS_s = 
+    {
+      {LABE::OSC::STATUS::READY,  "Ready"},
+      {LABE::OSC::STATUS::STOP,   "Stop"},
+      {LABE::OSC::STATUS::AUTO,   "Auto"},
+      {LABE::OSC::STATUS::DONE,   "Done"},
+      {LABE::OSC::STATUS::CONFIG, "Config"},
     };
   };
 

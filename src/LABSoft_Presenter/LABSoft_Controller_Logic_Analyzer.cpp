@@ -2,8 +2,10 @@
 
 #include <cmath>
 
+#include "../LAB/LAB.h"
 #include "LABSoft_Controller.h"
 #include "../Utility/LAB_Constants.h"
+#include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LABSoft_GUI_Label_Values.h"
 
