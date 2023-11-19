@@ -18,6 +18,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Calibration.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Exporter.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Exporter.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_LABChecker_Digital.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_LABChecker_Digital.cpp.o"
+  "/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Oscilloscope_Display.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o"
   "/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Exporter_Data_Table.cpp" "/home/glen/Desktop/LABSoft/build/CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Exporter_Data_Table.cpp.o"

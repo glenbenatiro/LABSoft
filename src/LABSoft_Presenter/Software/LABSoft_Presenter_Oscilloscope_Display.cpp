@@ -31,7 +31,13 @@ load_gui ()
 }
 
 void LABSoft_Presenter_Oscilloscope_Display:: 
-cb_mouse_wheel (int direction)
+cb_horizontal_offset (double value)
+{
+
+}
+
+void LABSoft_Presenter_Oscilloscope_Display:: 
+cb_mouse_wheel (int direction) const
 {
 
 }

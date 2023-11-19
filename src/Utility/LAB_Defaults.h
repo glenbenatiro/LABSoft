@@ -43,7 +43,7 @@ namespace LABD
 
   namespace OSC_DISPLAY
   {
-    unsigned int BACKGROUND_COLOR = FL_BLACK; 
+    constexpr unsigned int BACKGROUND_COLOR = FL_BLACK; 
   };
 
   namespace LOGAN 

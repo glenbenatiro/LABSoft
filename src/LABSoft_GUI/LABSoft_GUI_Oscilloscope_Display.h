@@ -116,12 +116,10 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     void time_per_division                (double value);
     void samples                          (unsigned value); 
     void sampling_rate                    (double value);
-    
-    
-    void trigger_source       (unsigned channel);
-    void trigger_channel      (unsigned channel);
-    void trigger_level        (double value);
-    void status               (LABE::OSC::STATUS status);
+    void trigger_source                   (unsigned channel);
+    void trigger_channel                  (unsigned channel);
+    void trigger_level                    (double value);
+    void status                           (LABE::OSC::STATUS status);
 
     void hide_voltage_per_division_labels (unsigned channel);
     void show_voltage_per_division_labels (unsigned channel);

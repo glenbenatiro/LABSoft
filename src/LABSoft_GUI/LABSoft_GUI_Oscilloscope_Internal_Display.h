@@ -1,15 +1,28 @@
 #ifndef LABSOFT_GUI_OSCILLOSCOPE_INTERNAL_DISPLAY_H
 #define LABSOFT_GUI_OSCILLOSCOPE_INTERNAL_DISPLAY_H
 
+#include <array>
+#include <vector>
+
 #include <FL/Fl_Widget.H>
 #include <FL/Enumerations.H>
 
 #include "../Utility/LAB_Constants.h"
 
+class LABSoft_Controller;
+
 class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
 {
+  using PixelPoints = std::array<std::vector<std::array<int, 2>>, 
+                      LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS>;
+
   private:
-    Fl_Color m_grid_color = LABC::OSC_DISPLAY::GRID_COLOR;
+    Fl_Color m_background_color = FL_BLACK;
+    Fl_Color m_grid_color       = LABC::OSC_DISPLAY::GRID_COLOR;
+
+    //
+    std::array<bool, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> m_channel_enabled = {0};
+    bool m_mark_samples = false;
 
     // cached values for display dimensions
     double  m_row_height                = 0;
@@ -23,8 +36,9 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
     const LABSoft_Controller* m_presenter = nullptr;
     
     // cached values for mouse drag horizontal offset change
-    int     m_mouse_down_start_x          = 0;
-    int     m_mouse_down_start_y          = 0;
+    int     m_mouse_drag_start_x                  = 0;
+    int     m_mouse_drag_start_y                  = 0;
+    double  m_mouse_drag_start_horizontal_offset  = 0.0;
           
   private:
     // widget functions
@@ -34,43 +48,23 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
 
     // draw functions
     void    draw_grid          ();
-    void    draw_channels      ();
     void    draw_sample_marker (int x, int y);
-
-    // calc
-    void      calc_pixel_points                   ();        
-    void      calc_cached_values_display          ();
-    void      calc_cached_values_drawing          ();
-
-
-    bool      calc_mark_samples                   (double time_per_division_delta_scaler, unsigned samples_to_display) const;
-
-    void      calc_cached_values_sample_y_scaler  ();
-    void      calc_cached_values_sample_x_offset  ();
-    void      calc_cached_values_all              ();
-    void      calc_cached_values_horizontal       ();
-
-    int       calc_sample_y_coord                 (double sample, unsigned channel) const;
-    int       calc_mouse_drag_time_per_div_scaler (int drag_x) const;       
+    void    calc_cached_values ();  
+    double  calc_mouse_drag_time_per_division_delta_scaler (int drag_x) const;     
 
     // callbacks
     void    cb_mouse_click  (int x, int y);
     void    cb_mouse_drag   (int x);
+    void    cb_mouse_wheel  (int direction);
 
   public:
     LABSoft_GUI_Oscilloscope_Internal_Display (int X, int Y, int W, int H, const char* label = 0);
 
-    void load_presenter (const LABSoft_Controller& controller);
-
-    // update state
-    void update_voltage_per_division  ();
-    void update_horizontal_offset     ();
-    void update_time_per_division     ();
-    void update_samples               ();
-    void update_sampling_rate         ();
-
-    double row_height () const;
-    double column_width () const;
+    void    load_presenter  (const LABSoft_Controller& controller);
+    void    draw_channels   (PixelPoints& pixel_points);
+    double  row_height      () const;
+    double  column_width    () const;
+    void    mark_samples    (bool state);
 };
 
 #endif

@@ -13,6 +13,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Calibration.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Exporter.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_LABChecker_Digital.cpp.o"
+  "CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Oscilloscope_Display.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o"
   "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Exporter_Data_Table.cpp.o"

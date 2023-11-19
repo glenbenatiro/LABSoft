@@ -520,6 +520,33 @@ src/LAB/Software/LAB_LABChecker_Digital.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_LABChecker_Digital.cpp.s
 .PHONY : src/LAB/Software/LAB_LABChecker_Digital.cpp.s
 
+src/LAB/Software/LAB_Oscilloscope_Display.o: src/LAB/Software/LAB_Oscilloscope_Display.cpp.o
+
+.PHONY : src/LAB/Software/LAB_Oscilloscope_Display.o
+
+# target to build an object file
+src/LAB/Software/LAB_Oscilloscope_Display.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Oscilloscope_Display.cpp.o
+.PHONY : src/LAB/Software/LAB_Oscilloscope_Display.cpp.o
+
+src/LAB/Software/LAB_Oscilloscope_Display.i: src/LAB/Software/LAB_Oscilloscope_Display.cpp.i
+
+.PHONY : src/LAB/Software/LAB_Oscilloscope_Display.i
+
+# target to preprocess a source file
+src/LAB/Software/LAB_Oscilloscope_Display.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Oscilloscope_Display.cpp.i
+.PHONY : src/LAB/Software/LAB_Oscilloscope_Display.cpp.i
+
+src/LAB/Software/LAB_Oscilloscope_Display.s: src/LAB/Software/LAB_Oscilloscope_Display.cpp.s
+
+.PHONY : src/LAB/Software/LAB_Oscilloscope_Display.s
+
+# target to generate assembly for a file
+src/LAB/Software/LAB_Oscilloscope_Display.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Oscilloscope_Display.cpp.s
+.PHONY : src/LAB/Software/LAB_Oscilloscope_Display.cpp.s
+
 src/LABSoft.o: src/LABSoft.cpp.o
 
 .PHONY : src/LABSoft.o
@@ -1408,6 +1435,9 @@ help:
 	@echo "... src/LAB/Software/LAB_LABChecker_Digital.o"
 	@echo "... src/LAB/Software/LAB_LABChecker_Digital.i"
 	@echo "... src/LAB/Software/LAB_LABChecker_Digital.s"
+	@echo "... src/LAB/Software/LAB_Oscilloscope_Display.o"
+	@echo "... src/LAB/Software/LAB_Oscilloscope_Display.i"
+	@echo "... src/LAB/Software/LAB_Oscilloscope_Display.s"
 	@echo "... src/LABSoft.o"
 	@echo "... src/LABSoft.i"
 	@echo "... src/LABSoft.s"

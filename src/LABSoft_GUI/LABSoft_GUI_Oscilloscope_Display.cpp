@@ -66,7 +66,7 @@ update_display ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 draw_channels (PixelPoints& pixel_points)
 {
-
+  m_internal_display->draw_channels (pixel_points);
 }
 
 void LABSoft_GUI_Oscilloscope_Display::
@@ -368,7 +368,7 @@ update_gui_voltage_per_division_labels (unsigned channel)
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
-update_time_per_division_labels ()
+update_gui_time_per_division_labels ()
 {
   for (unsigned col = 0; col < m_time_per_division_labels.size (); col++)
   {
@@ -385,6 +385,8 @@ update_gui_top_info ()
 {
   LABSoft_GUI_Label label (m_sampling_rate, LABSoft_GUI_Label::UNIT::HERTZ);
 
+  std::stringstream ss;
+
   ss  << m_samples 
       << " samples at "
       << label.to_text ()
@@ -397,62 +399,62 @@ update_gui_top_info ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_vertical_elements ()
 {
-  update_gui_voltage_per_division   ();
-  update_gui_trigger_level_slider   ();
-  update_gui_vertical_offset_slider ();
+  // update_gui_voltage_per_division   ();
+  // update_gui_trigger_level_slider   ();
+  // update_gui_vertical_offset_slider ();
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_horizontal_elements ()
 {
-  update_gui_time_per_division ();
+  // update_gui_time_per_division ();
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_trigger_level_slider ()
 {
-  unsigned trigger_source = m_osc->trigger_source ();
+  // unsigned trigger_source = m_osc->trigger_source ();
 
-  // 1. update color
-  m_trigger_level_slider->selection_color 
-    (LABC::OSC_DISPLAY::CHANNEL_COLORS[trigger_source]);
+  // // 1. update color
+  // m_trigger_level_slider->selection_color 
+  //   (LABC::OSC_DISPLAY::CHANNEL_COLORS[trigger_source]);
   
-  // 2. calc values
-  double max_tpd_raw  = m_osc->chan_voltage_per_division (trigger_source) * 
-    LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF;
-  double min_tpd_raw  = -max_tpd_raw;
-  double max_bounds   = max_tpd_raw - m_osc->vertical_offset (trigger_source);
-  double min_bounds   = min_tpd_raw - m_osc->vertical_offset (trigger_source);
+  // // 2. calc values
+  // double max_tpd_raw  = m_osc->chan_voltage_per_division (trigger_source) * 
+  //   LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF;
+  // double min_tpd_raw  = -max_tpd_raw;
+  // double max_bounds   = max_tpd_raw - m_osc->vertical_offset (trigger_source);
+  // double min_bounds   = min_tpd_raw - m_osc->vertical_offset (trigger_source);
 
-  // 3. set values
-  // if fl_slider is vertical, minimum is above, max is below
-  m_trigger_level_slider->bounds  (max_bounds, min_bounds);
-  m_trigger_level_slider->value   (m_osc->trigger_level ());
+  // // 3. set values
+  // // if fl_slider is vertical, minimum is above, max is below
+  // m_trigger_level_slider->bounds  (max_bounds, min_bounds);
+  // m_trigger_level_slider->value   (m_osc->trigger_level ());
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_gui_vertical_offset_slider ()
 {
-  if (m_osc->has_enabled_channels ())
-  {
-    unsigned trigger_source = m_osc->trigger_source ();
+  // if (m_osc->has_enabled_channels ())
+  // {
+  //   unsigned trigger_source = m_osc->trigger_source ();
     
-    m_vertical_offset_slider->show ();
-    m_vertical_offset_slider->selection_color 
-      (LABC::OSC_DISPLAY::CHANNEL_COLORS[m_selected_channel]);
+  //   m_vertical_offset_slider->show ();
+  //   m_vertical_offset_slider->selection_color 
+  //     (LABC::OSC_DISPLAY::CHANNEL_COLORS[m_selected_channel]);
     
-    // 2. calc values
-    double max_tpd_raw  = m_osc->chan_voltage_per_division (trigger_source) * 
-      LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF;
-    double min_tpd_raw  = -max_tpd_raw;
-    double max_bounds   = max_tpd_raw - m_osc->vertical_offset (trigger_source);
-    double min_bounds   = min_tpd_raw - m_osc->vertical_offset (trigger_source);
+  //   // 2. calc values
+  //   double max_tpd_raw  = m_osc->chan_voltage_per_division (trigger_source) * 
+  //     LABC::OSC_DISPLAY::NUMBER_OF_ROWS_HALF;
+  //   double min_tpd_raw  = -max_tpd_raw;
+  //   double max_bounds   = max_tpd_raw - m_osc->vertical_offset (trigger_source);
+  //   double min_bounds   = min_tpd_raw - m_osc->vertical_offset (trigger_source);
 
-    // 3. set values
-    // if fl_slider is vertical, minimum is above, max is below
-    m_vertical_offset_slider->bounds  (max_bounds, min_bounds);
-    m_vertical_offset_slider->value   (m_osc->trigger_level ());
-  }
+  //   // 3. set values
+  //   // if fl_slider is vertical, minimum is above, max is below
+  //   m_vertical_offset_slider->bounds  (max_bounds, min_bounds);
+  //   m_vertical_offset_slider->value   (m_osc->trigger_level ());
+  // }
 }
 
 double LABSoft_GUI_Oscilloscope_Display:: 
@@ -522,13 +524,13 @@ time_per_division (double value)
 void LABSoft_GUI_Oscilloscope_Display:: 
 samples (unsigned value)
 {
-  m_samples = samples;
+  m_samples = value;
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
-sampling_rate (unsigned value)
+sampling_rate (double value)
 {
-  m_sampling_rate = sampling_rate;
+  m_sampling_rate = value;
 }
 
 unsigned LABSoft_GUI_Oscilloscope_Display::
