@@ -77,7 +77,7 @@ class LAB_Logic_Analyzer : public LAB_Module
     double            sampling_rate     () const;
 
     // Get data/samples
-    void              load_data_samples ();
+    void              update_data_samples ();
     double            calc_samp_count   (double time_per_div, unsigned osc_disp_num_cols);
     double            calc_samp_rate    (double time_per_div, unsigned osc_disp_num_cols);
     LABE::LOGAN::MODE calc_mode         (double time_per_division);

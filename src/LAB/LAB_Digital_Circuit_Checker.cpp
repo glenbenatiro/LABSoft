@@ -1,11 +1,12 @@
 #include "LAB_Digital_Circuit_Checker.h"
 
-#include <fstream>
-#include <cstring>
-#include <sstream>
-#include <iostream>
+#include <bitset>
+#include <string>
 #include <algorithm>
 #include <sys/stat.h>
+
+// delete soon
+#include <iostream>
 
 #include "LAB.h"
 
@@ -19,7 +20,8 @@ LAB_Digital_Circuit_Checker (LAB& _LAB)
                   LABC::DIGITAL_CIRCUIT_CHECKER::IC_FREQUENCY,
                   0)
 {
-  init_hw_expander ();
+  init_hw_expander  ();
+  init_gpio_pins    ();
 }
 
 LAB_Digital_Circuit_Checker:: 
@@ -31,6 +33,15 @@ LAB_Digital_Circuit_Checker::
   }
 }
 
+void LAB_Digital_Circuit_Checker:: 
+init_gpio_pins ()
+{
+  rpi ().gpio.set (LABC::PIN::DCC::BUFFER_OE, AP::GPIO::FUNC::OUTPUT,
+    AP::GPIO::PULL::DOWN, 0);
+  
+  buffer_enable_output (true);
+}
+
 void LAB_Digital_Circuit_Checker::
 init_hw_expander ()
 {
@@ -39,6 +50,8 @@ init_hw_expander ()
 
   m_hw_expander.direction (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT,
     LAB_MCP23S17::DIRECTION::OUTPUT);
+
+  m_hw_expander.write (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT, 0x00);
 }
 
 bool LAB_Digital_Circuit_Checker:: 
@@ -110,12 +123,12 @@ load_data_pairs ()
     raw = data_pair.child_value ("input");
     m_char_inputs.emplace_back (std::vector<char> (raw.begin (), raw.end ()));
     std::replace (raw.begin (), raw.end (), 'X', '0');    
-    m_inputs.emplace_back (std::stoi (raw));
+    m_inputs.emplace_back (std::bitset<8>(raw).to_ulong ());
 
     raw = data_pair.child_value ("output");
     m_char_outputs.emplace_back (std::vector<char> (raw.begin (), raw.end ()));
     std::replace (raw.begin (), raw.end (), 'X', '0');    
-    m_outputs.emplace_back (std::stoi (raw));
+    m_outputs.emplace_back (std::bitset<8>(raw).to_ulong ());
   }
 }
 
@@ -173,11 +186,15 @@ perform_check ()
 
   for (size_t i = 0; i < m_inputs.size (); i++)
   {
-    m_hw_expander.write (LABC::DIGITAL_CIRCUIT_CHECKER::INPUT_PORT, m_inputs[i]);
+    m_hw_expander.write (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT, m_inputs[i]);
+
+    //std::cout << i << ". xpander write : " << static_cast<int>(m_inputs[i]) << "\n";
 
     std::this_thread::sleep_for (std::chrono::milliseconds (100));
 
-    m_actual_outputs[i] = m_hw_expander.read (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT);
+    m_actual_outputs[i] = m_hw_expander.read (LABC::DIGITAL_CIRCUIT_CHECKER::INPUT_PORT);
+
+    std::cout << i << ". xpander read : " << static_cast<int>(m_actual_outputs[i]) << "\n";
 
     std::this_thread::sleep_for (std::chrono::milliseconds (100));
   }
@@ -191,10 +208,18 @@ calculate_scores ()
 
   for (size_t i = 0; i < m_outputs.size (); ++i)
   {
+    std::cout << "i : " << i << "\n";
+    std::cout << "m_actual_outputs[i] : " << static_cast<int>(m_actual_outputs[i]) << "\n";
+    std::cout << "m_outputs[i]        : " << static_cast<int>(m_outputs[i]) << "\n";
+
     if (m_actual_outputs[i] == m_outputs[i])
     {
       m_score_current++;
+
+      std::cout << "score added!" << "\n";
     }
+
+    std::cout << "\n";
   }
 
   m_score_percent = (static_cast<double>(m_score_current) / m_score_total) * 100.0;
@@ -214,11 +239,17 @@ generate_char_actual_outputs_vec ()
     {
       char c = ((row_val >> a) & 1) ? '1' : '0';
     
-      vec.push_back (c);
+      vec.emplace (vec.begin (), c);
     }
 
     m_char_actual_outputs[row] = vec;
   }
+}
+
+void LAB_Digital_Circuit_Checker:: 
+buffer_enable_output (bool state)
+{
+  rpi ().gpio.write (LABC::PIN::DCC::BUFFER_OE, !state);
 }
 
 void LAB_Digital_Circuit_Checker:: 
@@ -233,6 +264,8 @@ run_checker ()
 
   //
 
+  buffer_enable_output (false);
+
   m_are_results_ready = false;
 
   m_xml_doc.load_file               (m_file_path.c_str ());
@@ -242,6 +275,8 @@ run_checker ()
   generate_char_actual_outputs_vec  ();
 
   m_are_results_ready = true;
+
+  buffer_enable_output (true);
 }
 
 LAB_Digital_Circuit_Checker::ScoreData LAB_Digital_Circuit_Checker:: 

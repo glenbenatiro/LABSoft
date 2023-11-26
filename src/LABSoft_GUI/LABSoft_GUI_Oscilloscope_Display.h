@@ -106,9 +106,10 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     LABSoft_GUI_Oscilloscope_Display (int X, int Y, int W, int H, const char* label = 0);
 
     void load_presenter       (const LABSoft_Controller& presenter);  
+    void load_pixel_points    (const PixelPoints& pixel_points);
     void update_display       ();
-    void draw_channels        (PixelPoints& pixel_points);
 
+    void mark_samples                     (bool state);
     void channel_enable_disable           (unsigned channel, bool state);
     void vertical_offset                  (unsigned channel, double value);
     void voltage_per_division             (unsigned channel, double value);

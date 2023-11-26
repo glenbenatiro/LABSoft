@@ -12,8 +12,8 @@ class LAB_Function_Generator : public LAB_Module
 {
   private: 
     LAB_AD9833  m_func_gen_ic       [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
-    LAB_MCP4XXX m_digipot_amplitude [2 * LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
-    LAB_MCP4XXX m_digipot_offset    [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    // LAB_MCP4XXX m_digipot_amplitude [2 * LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
+    // LAB_MCP4XXX m_digipot_offset    [LABC::FUNC_GEN::NUMBER_OF_CHANNELS];
   
   private:
     void init_gpio_pins ();

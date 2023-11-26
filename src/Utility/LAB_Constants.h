@@ -331,17 +331,11 @@ namespace LABC
       constexpr unsigned PWG_MISO    = 5;
       constexpr unsigned PWG_MOSI    = 4;
       constexpr unsigned PWG_SCLK    = 6;
-
-      constexpr unsigned DPOTS_SCLK  = 21;
-      constexpr unsigned DPOTS_MOSI  = 20;
-      constexpr unsigned DPOTS_MISO  = 19;
-      constexpr unsigned DPOT0_CS    = 18; 
-      constexpr unsigned DPOT1_CS    = 17; 
-      constexpr unsigned DPOT2_CS    = 16;
     };
 
     namespace DCC
     {
+      constexpr unsigned BUFFER_OE  = 7;
       constexpr unsigned XPAND_CS   = 25;
       constexpr unsigned XPAND_MISO = 12;
       constexpr unsigned XPAND_MOSI = 3;

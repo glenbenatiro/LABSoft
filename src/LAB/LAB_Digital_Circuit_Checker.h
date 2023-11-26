@@ -56,6 +56,7 @@ class LAB_Digital_Circuit_Checker : public LAB_Module
     double                          m_score_percent     = 0.0;
 
   private:
+    void        init_gpio_pins                    ();
     void        init_hw_expander                  (); 
     bool        acquire_file_lock                 (const std::string& path);
     bool        release_file_lock                 (const std::string& path);
@@ -66,6 +67,7 @@ class LAB_Digital_Circuit_Checker : public LAB_Module
     void        perform_check                     ();
     void        calculate_scores                  ();
     void        generate_char_actual_outputs_vec  ();
+    void        buffer_enable_output              (bool state);
 
   public:
     LAB_Digital_Circuit_Checker (LAB& _LAB);

@@ -2,6 +2,9 @@
 
 #include <cmath>
 
+// delete soon
+#include <iostream>
+
 #include <FL/Fl.H>
 
 #include "../LABSoft_Presenter/LABSoft_Controller.h"
@@ -22,6 +25,11 @@ draw ()
 {
   draw_box  (FL_FLAT_BOX, m_background_color);
   draw_grid ();
+
+  if (m_pixel_points != nullptr)
+  {
+    draw_channels (*m_pixel_points);
+  }
 }
 
 int LABSoft_GUI_Oscilloscope_Internal_Display::
@@ -169,7 +177,7 @@ draw_grid ()
 }
 
 void LABSoft_GUI_Oscilloscope_Internal_Display::
-draw_channels (LABSoft_GUI_Oscilloscope_Internal_Display::PixelPoints& pixel_points)
+draw_channels (const LABSoft_GUI_Oscilloscope_Internal_Display::PixelPoints& pixel_points)
 {
   fl_push_clip (x (), y (), w (), h ());
 
@@ -177,7 +185,7 @@ draw_channels (LABSoft_GUI_Oscilloscope_Internal_Display::PixelPoints& pixel_poi
   {
     if (m_channel_enabled[chan])
     {
-      std::vector<std::array<int, 2>>& pp = pixel_points[chan];
+      const std::vector<std::array<int, 2>>& pp = pixel_points[chan];
 
       fl_color (LABC::OSC_DISPLAY::CHANNEL_COLORS[chan]);
 
@@ -185,15 +193,26 @@ draw_channels (LABSoft_GUI_Oscilloscope_Internal_Display::PixelPoints& pixel_poi
       {
         for (unsigned i = 0; i < (pp.size () - 1); i++)
         {
-          fl_line             (pp[i][0], pp[i][1], pp[i + 1][0], pp[i + 1][1]);
-          draw_sample_marker  (pp[i][0], pp[i][1]);
+          fl_line (
+            pp[i][0]      + x (), 
+            pp[i][1]      + y (), 
+            pp[i + 1][0]  + x (), 
+            pp[i + 1][1]  + y ()
+          );
+
+          draw_sample_marker  (pp[i][0] + x (), pp[i][1] + y ());
         }
       }
       else 
-      {
-        for (unsigned i = 0; i < (pp.size () - 1); i++)
-        {
-          fl_line (pp[i][0], pp[i][1], pp[i + 1][0], pp[i + 1][1]);
+      {       
+        for (int i = 0; i < (pp.size () - 1); i++)
+        {         
+          fl_line (
+            pp[i][0]      + x (), 
+            pp[i][1]      + y (), 
+            pp[i + 1][0]  + x (), 
+            pp[i + 1][1]  + y ()
+          );
         }
       }
     }
@@ -276,9 +295,22 @@ cb_mouse_drag (int x)
 }
 
 void LABSoft_GUI_Oscilloscope_Internal_Display::
+channel_enable_disable (unsigned channel,
+                        bool     state)
+{
+  m_channel_enabled.at (channel) = state;
+}
+
+void LABSoft_GUI_Oscilloscope_Internal_Display::
 load_presenter (const LABSoft_Controller& presenter)
 {
   m_presenter = &presenter;
+}
+
+void LABSoft_GUI_Oscilloscope_Internal_Display:: 
+load_pixel_points (const LABSoft_GUI_Oscilloscope_Internal_Display::PixelPoints& pixel_points)
+{
+  m_pixel_points = &pixel_points;
 }
 
 double LABSoft_GUI_Oscilloscope_Internal_Display:: 
@@ -297,4 +329,10 @@ void LABSoft_GUI_Oscilloscope_Internal_Display::
 mark_samples (bool state)
 {
   m_mark_samples = state;
+}
+
+void LABSoft_GUI_Oscilloscope_Internal_Display:: 
+update_display ()
+{
+  redraw ();
 }

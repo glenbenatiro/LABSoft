@@ -17,17 +17,24 @@ load_gui ()
   LAB_Oscilloscope&                 osc           = lab ().m_Oscilloscope;
   LAB_Oscilloscope_Display&         osc_disp      = lab ().m_Oscilloscope_Display;
   LABSoft_GUI_Oscilloscope_Display& osc_disp_gui  = *(gui ().oscilloscope_labsoft_gui_oscilloscope_display);
+  
+  osc_disp_gui.channel_enable_disable (0, osc.is_channel_enabled    (0));
+  osc_disp_gui.channel_enable_disable (0, osc.is_channel_enabled    (1));
+  osc_disp_gui.voltage_per_division   (0, osc.voltage_per_division  (0));
+  osc_disp_gui.voltage_per_division   (1, osc.voltage_per_division  (1));
+  osc_disp_gui.vertical_offset        (1, osc.vertical_offset       (1));
+  osc_disp_gui.vertical_offset        (1, osc.vertical_offset       (1));
+  osc_disp_gui.horizontal_offset      (osc.horizontal_offset        ( ));
+  osc_disp_gui.time_per_division      (osc.time_per_division        ( ));
+  osc_disp_gui.load_presenter         (m_controller);
+  osc_disp_gui.load_pixel_points      (osc_disp.pixel_points ());
 
-  osc_disp_gui.load_presenter (m_controller);
-
-  osc_disp.dimensions (osc_disp_gui.display_width (), osc_disp_gui.display_height ());
-
-  osc_disp_gui.voltage_per_division (0, osc.voltage_per_division (0));
-  osc_disp_gui.voltage_per_division (1, osc.voltage_per_division (1));
-  osc_disp_gui.vertical_offset      (1, osc.vertical_offset (1));
-  osc_disp_gui.vertical_offset      (1, osc.vertical_offset (1));
-  osc_disp_gui.horizontal_offset    (osc.horizontal_offset ());
-  osc_disp_gui.time_per_division    (osc.time_per_division ());
+  osc_disp.display_parameters (
+    osc_disp_gui.display_width (),
+    osc_disp_gui.display_height (),
+    LABC::OSC_DISPLAY::NUMBER_OF_ROWS,
+    LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS
+  );
 }
 
 void LABSoft_Presenter_Oscilloscope_Display:: 
@@ -48,7 +55,6 @@ update_display ()
   LAB_Oscilloscope_Display&         osc_disp      = lab ().m_Oscilloscope_Display; 
   LABSoft_GUI_Oscilloscope_Display& osc_disp_gui  = *(gui ().oscilloscope_labsoft_gui_oscilloscope_display);
 
-  osc_disp.load_pixel_points ();
-
-  osc_disp_gui.draw_channels (osc_disp.pixel_points ());
+  osc_disp    .update_pixel_points  ();
+  osc_disp_gui.update_display       ();
 }

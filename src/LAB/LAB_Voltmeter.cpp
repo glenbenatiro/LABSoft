@@ -52,7 +52,7 @@ stop ()
 double LAB_Voltmeter:: 
 read_voltage (unsigned chan)
 {
-  lab ().m_Oscilloscope.load_data_samples ();
+  lab ().m_Oscilloscope.update_data_samples ();
   
   return (lab ().m_Oscilloscope.parent_data ().channel_data[chan].samples[0]);
 }

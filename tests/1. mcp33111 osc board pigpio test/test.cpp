@@ -21,8 +21,8 @@ int main ()
 
   int fd = spiOpen (0, 50'000, 0);
 
-  char txd[4] {0xFF, 0xFF, 0x00, 0x00};
-  char rxd[4] {0x00, 0x00, 0x00, 0x00};
+  char txd[2] {0x00, 0x00};
+  char rxd[2] {0x00, 0x00};
 
   spiXfer (fd, txd, rxd, sizeof (txd));
 

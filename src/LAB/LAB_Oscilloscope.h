@@ -38,7 +38,6 @@ class LAB_Oscilloscope : public LAB_Module
     double              calc_time_per_division          (unsigned samples, double sampling_rate);
     double              calc_samples_displayed          (double sampling_rate, double time_per_division);
     double              calc_sampling_rate              (unsigned samples, double time_per_division);
-    void                set_time_per_division           (unsigned samples, double sampling_rate);
     void                set_time_per_division           (double value);
     void                set_samples                     (unsigned value);
     void                set_sampling_rate               (double value);
@@ -64,8 +63,7 @@ class LAB_Oscilloscope : public LAB_Module
     void                config_dma_cb_record            ();
 
     // Other
-    bool                is_raw_buffer_being_written     (unsigned buff);
-    void                clear_dma_interrupt_flag        (unsigned dma_chan);
+    void debug ();
 
     // Data and conversion
     void                fill_raw_sample_buffer_from_dma_buffer          ();
@@ -116,6 +114,7 @@ class LAB_Oscilloscope : public LAB_Module
     unsigned              samples                 () const;
     void                  sampling_rate           (double value);
     double                sampling_rate           () const;
+    unsigned              samples_displayed       () const;
     
     // trigger 
     void                  trigger_mode            (LABE::OSC::TRIG::MODE value);
@@ -144,7 +143,7 @@ class LAB_Oscilloscope : public LAB_Module
     LABE::OSC::STATUS     status                  () const;
 
     // for display update
-    void                  load_data_samples       (); 
+    void                  update_data_samples       (); 
 
     
     // Data

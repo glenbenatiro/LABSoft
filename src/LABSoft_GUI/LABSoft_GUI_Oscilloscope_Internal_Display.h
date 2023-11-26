@@ -33,7 +33,8 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
     double  m_display_height_midline    = 0;
 
     // connections
-    const LABSoft_Controller* m_presenter = nullptr;
+    const LABSoft_Controller* m_presenter     = nullptr;
+    const PixelPoints*        m_pixel_points  = nullptr;
     
     // cached values for mouse drag horizontal offset change
     int     m_mouse_drag_start_x                  = 0;
@@ -48,6 +49,7 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
 
     // draw functions
     void    draw_grid          ();
+    void    draw_channels      (const PixelPoints& pixel_points);
     void    draw_sample_marker (int x, int y);
     void    calc_cached_values ();  
     double  calc_mouse_drag_time_per_division_delta_scaler (int drag_x) const;     
@@ -60,11 +62,13 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
   public:
     LABSoft_GUI_Oscilloscope_Internal_Display (int X, int Y, int W, int H, const char* label = 0);
 
-    void    load_presenter  (const LABSoft_Controller& controller);
-    void    draw_channels   (PixelPoints& pixel_points);
-    double  row_height      () const;
-    double  column_width    () const;
-    void    mark_samples    (bool state);
+    void    channel_enable_disable  (unsigned channel, bool state);
+    void    load_presenter          (const LABSoft_Controller& controller);
+    void    load_pixel_points       (const PixelPoints& pixel_points);
+    double  row_height              () const;
+    double  column_width            () const;
+    void    mark_samples            (bool state);
+    void    update_display          ();
 };
 
 #endif

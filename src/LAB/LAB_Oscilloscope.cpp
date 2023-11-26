@@ -432,47 +432,44 @@ coupling (unsigned channel)
 
 
 void LAB_Oscilloscope:: 
-load_data_samples ()
+update_data_samples ()
 {
-  if (m_parent_data.is_backend_running)
+  switch (m_parent_data.trigger_mode)
   {
-    switch (m_parent_data.trigger_mode)
+    case (LABE::OSC::TRIG::MODE::NONE):
     {
-      case (LABE::OSC::TRIG::MODE::NONE):
-      {
-        fill_raw_sample_buffer_from_dma_buffer  ();
-        parse_raw_sample_buffer                 ();
+      fill_raw_sample_buffer_from_dma_buffer  ();
+      parse_raw_sample_buffer                 ();
 
-        break;
-      }
-
-      case (LABE::OSC::TRIG::MODE::NORMAL):
-      {
-        if (m_parent_data.trigger_frame_ready)
-        {
-          parse_raw_sample_buffer ();
-        }
-
-        break;
-      }
-
-      case (LABE::OSC::TRIG::MODE::AUTO):
-      {
-        if (m_parent_data.auto_mode_frame_ready)
-        {
-          parse_raw_sample_buffer ();
-        }
-
-        break;
-      }
-    }  
-
-    if (m_parent_data.single)
-    {
-      m_parent_data.single = false;
-
-      stop ();
+      break;
     }
+
+    case (LABE::OSC::TRIG::MODE::NORMAL):
+    {
+      if (m_parent_data.trigger_frame_ready)
+      {
+        parse_raw_sample_buffer ();
+      } 
+
+      break;
+    }
+
+    case (LABE::OSC::TRIG::MODE::AUTO):
+    {
+      if (m_parent_data.auto_mode_frame_ready)
+      {
+        parse_raw_sample_buffer ();
+      }
+
+      break;
+    }
+  }
+
+  if (m_parent_data.single)
+  {
+    m_parent_data.single = false;
+
+    stop ();
   }
 }
 
@@ -531,14 +528,14 @@ fill_raw_sample_buffer_from_dma_buffer ()
       break;
     }
   }
-
-  record_raw_sample_buffer_metadata ();
 }
 
 void LAB_Oscilloscope:: 
 parse_raw_sample_buffer ()
 {
-  LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;
+  record_raw_sample_buffer_metadata ();
+
+  LAB_Parent_Data_Oscilloscope& pdata = m_parent_data;  
 
   for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
@@ -741,18 +738,9 @@ calc_sampling_rate (unsigned  samples,
 }
 
 void LAB_Oscilloscope:: 
-set_time_per_division (unsigned samples,
-                       double   sampling_rate)
-{
-  set_time_per_division (calc_time_per_division (samples, sampling_rate));
-}
-
-void LAB_Oscilloscope:: 
 set_time_per_division (double value)
 {
   m_parent_data.time_per_division = value;
-
-  std::cout << "tpd: " << time_per_division () << "\n";
 
   set_mode (calc_mode (value));
 
@@ -828,15 +816,21 @@ horizontal_offset () const
 void LAB_Oscilloscope:: 
 time_per_division (double value)
 {
-  if (LABF::is_within_range (value, LABC::OSC::MIN_TIME_PER_DIVISION,
-    LABC::OSC::MAX_TIME_PER_DIVISION, LABC::LABSOFT::EPSILON))
+  if (LABF::is_within_range (
+    value,
+    LABC::OSC::MIN_TIME_PER_DIVISION,
+    LABC::OSC::MAX_TIME_PER_DIVISION,
+    LABC::LABSOFT::EPSILON
+  ))
   {
-    double new_sampling_rate      = calc_sampling_rate      (m_parent_data.samples, value);
-    double new_samples_displayed  = calc_samples_displayed  (new_sampling_rate, value); 
+    double new_sampling_rate = calc_sampling_rate (m_parent_data.samples, value);
 
     set_sampling_rate     (new_sampling_rate);
-    set_samples_displayed (new_samples_displayed);
+    set_samples_displayed (calc_samples_displayed (new_sampling_rate, value));
     set_time_per_division (value);
+
+    // delete soon
+    debug ();
   }
 }
 
@@ -858,16 +852,20 @@ samples (unsigned value)
   // 
 
   set_samples           (value);
-  set_time_per_division (value, m_parent_data.sampling_rate);
+  set_time_per_division (calc_time_per_division (value, m_parent_data.sampling_rate));
 }
 
 void LAB_Oscilloscope:: 
 sampling_rate (double value)
 {
-  if (LABF::is_within_range (value, LABC::OSC::MIN_SAMPLING_RATE,
-    LABC::OSC::MAX_SAMPLING_RATE, LABC::LABSOFT::EPSILON))
+  if (LABF::is_within_range (
+    value,
+    LABC::OSC::MIN_SAMPLING_RATE,
+    LABC::OSC::MAX_SAMPLING_RATE, 
+    LABC::LABSOFT::EPSILON
+  ))
   {
-    set_time_per_division (m_parent_data.samples, value);
+    set_time_per_division (calc_time_per_division (m_parent_data.samples, value));
     set_sampling_rate     (value);
   }
 }
@@ -1343,6 +1341,17 @@ config_dma_cb_record ()
 }
 
 void LAB_Oscilloscope:: 
+debug ()
+{
+  std::cout << "*** Oscilloscope ***" << "\n";
+  std::cout << "horizontal_offset: "  << m_parent_data.horizontal_offset  << "\n";
+  std::cout << "time_per_division: "  << m_parent_data.time_per_division  << "\n";
+  std::cout << "samples: "            << m_parent_data.samples            << "\n";
+  std::cout << "samples_displayed: "  << m_parent_data.samples_displayed  << "\n";
+  std::cout << "sampling_rate: "      << m_parent_data.sampling_rate      << "\n";
+}
+
+void LAB_Oscilloscope:: 
 trigger_mode (LABE::OSC::TRIG::MODE value)
 {
   m_parent_data.trigger_mode = value;
@@ -1622,6 +1631,12 @@ double LAB_Oscilloscope::
 sampling_rate () const
 {
   return (m_parent_data.sampling_rate);
+}
+
+unsigned LAB_Oscilloscope:: 
+samples_displayed () const
+{
+  return (m_parent_data.samples_displayed);
 }
 
 const LAB_Parent_Data_Oscilloscope& LAB_Oscilloscope:: 

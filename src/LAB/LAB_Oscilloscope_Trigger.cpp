@@ -142,7 +142,7 @@ class LAB_Oscilloscope : public LAB_Module
     LABE::OSC::STATUS     status                  () const;
 
     // for display update
-    void                  load_data_samples       (); 
+    void                  update_data_samples       (); 
     
     // Data
     const LAB_Parent_Data_Oscilloscope&                     parent_data     ();

@@ -13,7 +13,7 @@ LABSoft_Controller_Digital_Circuit_Checker::
 LABSoft_Controller_Digital_Circuit_Checker (LABSoft_Controller& _LABSoft_Controller)
  : LABSoft_Controller_Unit (_LABSoft_Controller)
 {
-   gui ().digital_circuit_checker_fl_output_results->value ("4/4 - 100%");
+   gui ().digital_circuit_checker_fl_output_results->value ("-");
 }
 
 std::string LABSoft_Controller_Digital_Circuit_Checker:: 
@@ -64,7 +64,7 @@ cb_load_file (Fl_Button*  w,
 
   chooser.title   ("Open Circuit Checker File");
   chooser.type    (Fl_Native_File_Chooser::BROWSE_FILE);
-  chooser.filter  ("LAB Circuit Checker\t*.labcc");
+  chooser.filter  ("LAB Circuit Checker\t*.labdcc");
 
   //
 
@@ -87,7 +87,7 @@ cb_load_file (Fl_Button*  w,
         {
           std::string file_extension = path.substr (dot_pos + 1);
 
-          if (file_extension == "labcc")
+          if (file_extension == "labdcc")
           {
             update_gui_reset ();
 

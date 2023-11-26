@@ -872,7 +872,7 @@ reset_dma_process ()
 }
 
 void LAB_Logic_Analyzer:: 
-load_data_samples ()
+update_data_samples ()
 {
   if (is_running ())
   {

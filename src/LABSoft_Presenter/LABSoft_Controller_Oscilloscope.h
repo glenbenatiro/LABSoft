@@ -32,9 +32,9 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void update_gui_vertical_offset             (unsigned channel) const;
     void update_gui_voltage_per_division        (unsigned channel) const;
     void update_gui_horizontal_offset           () const;
-    void update_gui_time_per_division           () const;
-    void update_gui_samples                     () const;
-    void update_gui_sampling_rate               () const;
+    void update_gui_time_per_division           ();
+    void update_gui_samples                     ();
+    void update_gui_sampling_rate               ();
     void update_gui_horizontal_elements         () const;
     void update_gui_mode                        () const;
     void update_gui_trigger_level               () const;
@@ -57,10 +57,10 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     
     // horizontal
     void cb_horizontal_offset         (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data) const;
-    void cb_time_per_division         (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data) const;
+    void cb_time_per_division         (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, void* data);
     void cb_time_per_division_steps   (int steps);
-    void cb_samples                   (Fl_Input_Choice*   w, void* data) const;
-    void cb_sampling_rate             (Fl_Input_Choice*   w, void* data) const;
+    void cb_samples                   (Fl_Input_Choice*   w, void* data);
+    void cb_sampling_rate             (Fl_Input_Choice*   w, void* data);
 
     // Trigger
     void cb_trigger_mode              (Fl_Choice*             w, void* data);

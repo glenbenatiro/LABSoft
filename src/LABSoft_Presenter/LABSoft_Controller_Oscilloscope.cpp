@@ -305,34 +305,43 @@ update_gui_horizontal_offset () const
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->
     horizontal_offset (lab ().m_Oscilloscope.horizontal_offset ());  
 
-  // lab ().m_Oscilloscope_Display.update_cached_values ();
+  lab ().m_Oscilloscope_Display.update_cached_values ();
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-update_gui_time_per_division () const
+update_gui_time_per_division () 
 {
   update_gui_horizontal_elements ();  
 
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->
     time_per_division (lab ().m_Oscilloscope.time_per_division ());  
 
-  // lab ().m_Oscilloscope_Display.update_cached_values (); 
+  lab ().m_Oscilloscope_Display.update_cached_values (); 
+  
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->
+    mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-update_gui_samples () const
+update_gui_samples () 
 {
   update_gui_horizontal_elements ();
 
-  // lab ().m_Oscilloscope_Display.update_cached_values ();
+  lab ().m_Oscilloscope_Display.update_cached_values ();
+
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->
+    mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
 void LABSoft_Controller_Oscilloscope:: 
-update_gui_sampling_rate () const
+update_gui_sampling_rate () 
 {
   update_gui_horizontal_elements ();
 
-  // lab ().m_Oscilloscope_Display.update_cached_values ();
+  lab ().m_Oscilloscope_Display.update_cached_values ();
+
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->
+    mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
 void LABSoft_Controller_Oscilloscope:: 
@@ -497,7 +506,7 @@ cb_horizontal_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_time_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
-                      void*                                    data) const
+                      void*                                    data)
 {
   LABSoft_GUI_Label label (
     w->value (),
@@ -515,7 +524,7 @@ cb_time_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_samples (Fl_Input_Choice*  w,
-            void*             data) const
+            void*             data)
 {
   LABSoft_GUI_Label label (
     w->value (), 
@@ -533,7 +542,7 @@ cb_samples (Fl_Input_Choice*  w,
 
 void LABSoft_Controller_Oscilloscope:: 
 cb_sampling_rate (Fl_Input_Choice*  w,
-                  void*             data) const
+                  void*             data)
 {
   LABSoft_GUI_Label label (
     w->value (),
@@ -724,26 +733,17 @@ cb_export (Fl_Menu_Item*  w,
 void LABSoft_Controller_Oscilloscope:: 
 display_update_cycle ()
 { 
-  LAB_Oscilloscope& osc = lab ().m_Oscilloscope;
-
-  if (osc.is_frontend_running () || osc.is_backend_running ())
+  if (lab ().m_Oscilloscope.is_backend_running ())
   {
-    osc.load_data_samples ();
-
-    // presenter ().m_Oscilloscope_Display.update_display ();
-
-    // TO-DO
-    // this is not ideal as the trigger_found flag should not be changed
-    // outside of LAB_Oscilloscope as much as possible.
-    // but in the meantime, i am putting this here for possible performance
-    // improvement. with this, the LAB_Oscilloscope does not have to find
-    // for the next trigger as long as the current trigger has not yet been displayed
+    lab ().m_Oscilloscope.update_data_samples ();
 
     if (lab ().m_Oscilloscope.trigger_found ())
     {
       lab ().m_Oscilloscope.trigger_serviced ();
-    }  
+    } 
   }
+
+  presenter ().m_Oscilloscope_Display.update_display ();
 }
 
 // EOF

@@ -31,6 +31,12 @@ load_presenter (const LABSoft_Controller& presenter)
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
+load_pixel_points (const LABSoft_GUI_Oscilloscope_Display::PixelPoints& pixel_points)
+{
+  m_internal_display->load_pixel_points (pixel_points);
+}
+
+void LABSoft_GUI_Oscilloscope_Display:: 
 init_child_widgets ()
 {
   // ! The order of initialization here is important!
@@ -60,13 +66,7 @@ draw ()
 void LABSoft_GUI_Oscilloscope_Display:: 
 update_display ()
 {
-  redraw ();
-}
-
-void LABSoft_GUI_Oscilloscope_Display:: 
-draw_channels (PixelPoints& pixel_points)
-{
-  m_internal_display->draw_channels (pixel_points);
+  m_internal_display->update_display ();
 }
 
 void LABSoft_GUI_Oscilloscope_Display::
@@ -481,10 +481,16 @@ calc_col_time_per_division (unsigned col)
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
+mark_samples (bool state) 
+{
+  m_internal_display->mark_samples (state);
+}
+
+void LABSoft_GUI_Oscilloscope_Display:: 
 channel_enable_disable (unsigned channel,
                         bool     state)
 {
-  
+  m_internal_display->channel_enable_disable (channel, state);
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 

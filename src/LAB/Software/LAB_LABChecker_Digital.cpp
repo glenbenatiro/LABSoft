@@ -29,7 +29,7 @@ create_circuit_checker_xml_stringstream (const std::vector<std::vector<char>>& i
   pugi::xml_node      root      = doc.append_child ("root");
   pugi::xml_node      metadata  = root.append_child ("metadata");
 
-  metadata.append_child ("inputs_bits")
+  metadata.append_child ("input_bits")
           .append_child (pugi::node_pcdata)
           .set_value    (std::to_string (inputs[0].size ()).c_str ());
 
