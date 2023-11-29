@@ -1,5 +1,8 @@
 #include <iostream>
 #include <bitset>
+#include <chrono>
+#include <thread>
+
 #include <pigpio.h>
 
 // compile with
@@ -26,12 +29,12 @@ int main ()
 
   spiXfer (fd, txd, rxd, sizeof (txd));
 
-  std::cout << "txd: "; printCharArr (txd, sizeof (txd));
-  std::cout << "rxd: "; printCharArr (rxd, sizeof (rxd));
+  while (true)
+  {
+    std::cout << "rxd: "; printCharArr (rxd, sizeof (rxd));
 
-  std::cout << "\nPress any key to exit.";
-  
-  std::cin.get ();
+    std::this_thread::sleep_for (std::chrono::milliseconds (10));
+  }
 
   spiClose (fd);
 

@@ -299,8 +299,8 @@ namespace LABC
 
   namespace DIGITAL_CIRCUIT_CHECKER
   {
-    constexpr MCP23S17::PORT  INPUT_PORT    = MCP23S17::PORT::B;
-    constexpr MCP23S17::PORT  OUTPUT_PORT   = MCP23S17::PORT::A;
+    constexpr MCP23S17::PORT  INPUT_PORT    = MCP23S17::PORT::A; // pov sa expander
+    constexpr MCP23S17::PORT  OUTPUT_PORT   = MCP23S17::PORT::B; // pov sa expander
     constexpr double          IC_FREQUENCY  = 100'000.0; // Hz
   };
 

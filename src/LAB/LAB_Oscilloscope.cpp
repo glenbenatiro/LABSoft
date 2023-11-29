@@ -716,7 +716,11 @@ double LAB_Oscilloscope::
 calc_samples_displayed (double sampling_rate, 
                         double time_per_division)
 {
-  if (time_per_division < LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM)
+  if (LABF::is_less_than (
+    time_per_division, 
+    LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM,
+    LABC::LABSOFT::EPSILON
+  ))
   {
     return (sampling_rate * time_per_division * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
   }
@@ -730,11 +734,20 @@ double LAB_Oscilloscope::
 calc_sampling_rate (unsigned  samples,
                     double    time_per_division)
 {
-  double new_sampling_rate = samples / (time_per_division * 
-    LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
-  
-  return (new_sampling_rate > LABC::OSC::MAX_SAMPLING_RATE ? 
-    LABC::OSC::MAX_SAMPLING_RATE : new_sampling_rate);
+  double new_sampling_rate = samples / (time_per_division * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
+
+  if (LABF::is_greater_than (
+    new_sampling_rate, 
+    LABC::OSC::MAX_SAMPLING_RATE,
+    LABC::LABSOFT::EPSILON
+  ))
+  {
+    LABC::OSC::MAX_SAMPLING_RATE;
+  }
+  else 
+  {
+    new_sampling_rate;
+  }
 }
 
 void LAB_Oscilloscope:: 

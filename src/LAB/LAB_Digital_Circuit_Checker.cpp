@@ -45,13 +45,16 @@ init_gpio_pins ()
 void LAB_Digital_Circuit_Checker::
 init_hw_expander ()
 {
-  m_hw_expander.direction (LABC::DIGITAL_CIRCUIT_CHECKER::INPUT_PORT,
-    LAB_MCP23S17::DIRECTION::INPUT);
+  m_hw_expander.direction (
+    LABC::DIGITAL_CIRCUIT_CHECKER::INPUT_PORT,
+    LAB_MCP23S17::DIRECTION::INPUT
+  );
 
-  m_hw_expander.direction (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT,
-    LAB_MCP23S17::DIRECTION::OUTPUT);
-
-  m_hw_expander.write (LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT, 0x00);
+  m_hw_expander.direction (
+    LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT,
+    LAB_MCP23S17::DIRECTION::INPUT 
+    // change to input so that pins become high impedance, doesnt interfere with LEDs
+  );
 }
 
 bool LAB_Digital_Circuit_Checker:: 
@@ -190,13 +193,13 @@ perform_check ()
 
     //std::cout << i << ". xpander write : " << static_cast<int>(m_inputs[i]) << "\n";
 
-    std::this_thread::sleep_for (std::chrono::milliseconds (100));
+    std::this_thread::sleep_for (std::chrono::milliseconds (200));
 
     m_actual_outputs[i] = m_hw_expander.read (LABC::DIGITAL_CIRCUIT_CHECKER::INPUT_PORT);
 
     std::cout << i << ". xpander read : " << static_cast<int>(m_actual_outputs[i]) << "\n";
 
-    std::this_thread::sleep_for (std::chrono::milliseconds (100));
+    std::this_thread::sleep_for (std::chrono::milliseconds (200));
   }
 }
 
@@ -265,6 +268,11 @@ run_checker ()
   //
 
   buffer_enable_output (false);
+  
+  m_hw_expander.direction (
+    LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT,
+    LAB_MCP23S17::DIRECTION::OUTPUT 
+  );
 
   m_are_results_ready = false;
 
@@ -276,6 +284,10 @@ run_checker ()
 
   m_are_results_ready = true;
 
+  m_hw_expander.direction (
+    LABC::DIGITAL_CIRCUIT_CHECKER::OUTPUT_PORT,
+    LAB_MCP23S17::DIRECTION::INPUT 
+  );
   buffer_enable_output (true);
 }
 
