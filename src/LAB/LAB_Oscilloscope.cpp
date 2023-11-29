@@ -246,7 +246,8 @@ config_dma_cb ()
     .spi_cs             = (1 <<  7) | // SPI CS TA
                           (1 << 11) | // SPI CS ADCS
                           (1 <<  8) | // SPI CS DMAEN
-                          (1 <<  2) | // SPI CS CPHA = 1 (samp in on falling edge)
+                          (0 <<  3) | // SPI POLARITY
+                          (0 <<  2) | // SPI PHASE
                           LABC::OSC::ADC_SPI_CHIP_ENABLE,
     .spi_cs_fifo_reset  = 0x00000030,
     .pwm_duty_cycle     = 0x0,
@@ -555,6 +556,11 @@ parse_raw_sample_buffer ()
       //   //std::cout << " - " << conv_raw_chan_adc_bits_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
       //   std::cout << "\n";
       // }
+
+      // if (samp == 0 && chan == 0)
+      // {
+      //   std::cout << std::bitset<32> (pdata.raw_data_buffer[samp]) << "\n";
+      // }
     }
   }
 
@@ -737,16 +743,16 @@ calc_sampling_rate (unsigned  samples,
   double new_sampling_rate = samples / (time_per_division * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
 
   if (LABF::is_greater_than (
-    new_sampling_rate, 
+    new_sampling_rate,
     LABC::OSC::MAX_SAMPLING_RATE,
     LABC::LABSOFT::EPSILON
   ))
   {
-    LABC::OSC::MAX_SAMPLING_RATE;
+    return (LABC::OSC::MAX_SAMPLING_RATE);
   }
   else 
   {
-    new_sampling_rate;
+    return (new_sampling_rate);
   }
 }
 
