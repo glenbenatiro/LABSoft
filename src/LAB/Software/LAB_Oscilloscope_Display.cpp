@@ -112,7 +112,7 @@ calc_horizontal_offset_start_offset (unsigned display_width) const
   double horiz_off_scaler = display_width / (m_osc.raw_buffer_time_per_division () * 
                             LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
 
-  return (std::round (horiz_off_delta * horiz_off_scaler));
+  return (std::round (horiz_off_delta * horiz_off_scaler * -1));
 }
 
 int LAB_Oscilloscope_Display:: 
@@ -231,12 +231,63 @@ update_pixel_points ()
     {
       std::vector<std::array<int, 2>>& pp = m_pixel_points[chan];
 
-      for (int i = 0; i < pp.size (); i++)
+      if (m_draw_mode == LAB_Oscilloscope_Display::DRAW_MODE::STRETCH)
       {
-        double sample = m_osc.chan_samples (chan)[i];
+        int prev      = calc_sample_x_coord (0);
+        int curr      = prev;
+        bool left_ok  = false;
+        bool right_ok = false;
 
-        pp[i][0] = calc_sample_x_coord (i);
-        pp[i][1] = calc_sample_y_coord (sample, chan);
+        for (int i = 0; i < pp.size (); i++)
+        {
+          //
+          curr = calc_sample_x_coord (i);
+
+          // 1. register left and right post display pixel hooks
+          if ((curr >= 0 && prev < 0) && !left_ok)
+          {
+            pp[i - 1][0] = calc_sample_x_coord (i - 1);
+        
+            left_ok = true;
+          }
+
+          if ((curr >= m_width && prev >= m_width) && !right_ok)
+          {
+            pp[i - 1][0] = calc_sample_x_coord (i - 1);
+      
+            right_ok = true;
+          }
+
+          // 2.
+          if (curr < 0)
+          {
+            pp[i][0] = -100;
+          }
+          else if (curr >= m_width)
+          {
+            pp[i][0] = m_width + 100;
+          }
+          else 
+          {
+            pp[i][0] = calc_sample_x_coord (i);
+          }
+
+          prev = curr;
+          //
+
+          double sample = m_osc.chan_samples  (chan)[i];
+          pp[i][1]      = calc_sample_y_coord (sample, chan);
+        }
+      }
+      else 
+      {
+        for (int i = 0; i < pp.size (); i++)
+        {
+          double sample = m_osc.chan_samples (chan)[i];
+
+          pp[i][0] = calc_sample_x_coord (i);
+          pp[i][1] = calc_sample_y_coord (sample, chan);
+        }
       }
     }
   }
