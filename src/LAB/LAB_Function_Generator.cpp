@@ -92,6 +92,8 @@ wave_type (unsigned                  channel,
 
     case (LABE::FUNC_GEN::WAVE_TYPE::DC):
     {
+      this->wave_type (channel, LABE::FUNC_GEN::WAVE_TYPE::SINE);
+
       type = AD9833::WAVE_TYPE::DC;
       break;
     }

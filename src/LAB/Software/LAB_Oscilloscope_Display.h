@@ -28,7 +28,7 @@ class LAB_Oscilloscope_Display : public LAB_Module
   private:
     LAB_Oscilloscope& m_osc;
 
-    // cached values for drawing channels
+    // cached display values
     unsigned    m_height                          = 0;
     unsigned    m_width                           = 0; 
     unsigned    m_rows                            = 0;
@@ -38,8 +38,8 @@ class LAB_Oscilloscope_Display : public LAB_Module
 
     double      m_time_per_division_delta_scaler  = 0.0;
     DRAW_MODE   m_draw_mode                       = DRAW_MODE::FIT;
-    unsigned    m_draw_window_width               = 0.0;
     unsigned    m_samples_to_display              = 0;
+    unsigned    m_draw_window_width               = 0.0;
     unsigned    m_x_coord_draw_start              = 0;
     unsigned    m_samples_start_index             = 0;
     double      m_samp_skipper                    = 0;
@@ -69,6 +69,7 @@ class LAB_Oscilloscope_Display : public LAB_Module
     
     void      resize_pixel_points                 (PixelPoints& pixel_points, unsigned samples_to_display, unsigned draw_window_width);
     void      update_cached_display_values        ();
+    void      debug                               () const;
 
   public:
     LAB_Oscilloscope_Display (LAB& _LAB, LAB_Oscilloscope& _LAB_Oscilloscope);

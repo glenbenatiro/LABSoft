@@ -84,22 +84,6 @@ LAB_Module.h
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.cpp
-LAB_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
-cmath
--
-cstring
--
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-../Utility/LAB_Utility_Functions.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
-iostream
--
-bitset
--
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
 thread
 -
@@ -133,6 +117,20 @@ string
 -
 vector
 -
+
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.cpp
+LAB_Oscilloscope_Display.h
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.h
+cmath
+-
+iostream
+-
+../LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
+../LAB_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
+../../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
 
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.h
 array

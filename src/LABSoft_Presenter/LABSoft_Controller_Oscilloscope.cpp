@@ -402,6 +402,11 @@ cb_run_stop (Fl_Light_Button* w,
   {
     lab ().m_Oscilloscope.stop ();
   }
+
+  lab ().m_Oscilloscope_Display.update_cached_values (); 
+  
+  gui ().oscilloscope_labsoft_gui_oscilloscope_display->
+    mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
 void LABSoft_Controller_Oscilloscope:: 

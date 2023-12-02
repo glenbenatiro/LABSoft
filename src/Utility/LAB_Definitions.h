@@ -34,7 +34,7 @@ struct LAB_Parent_Data_Oscilloscope
     
     // mode
     LABE::OSC::MODE mode                      = LABD::OSC::MODE;
-    LABE::OSC::MODE last_mode_before_repeated = mode; 
+    LABE::OSC::MODE last_mode_before_repeated = LABE::OSC::MODE::SCREEN; 
     bool            auto_mode_frame_ready     = false;
 
     // horizontal

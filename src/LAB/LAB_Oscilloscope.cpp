@@ -439,8 +439,8 @@ update_data_samples ()
   {
     case (LABE::OSC::TRIG::MODE::NONE):
     {
-      fill_raw_sample_buffer_from_dma_buffer  ();
-      parse_raw_sample_buffer                 ();
+      fill_raw_osc_samp_buff_from_dma_buff  ();
+      parse_raw_osc_samp_buff               ();
 
       break;
     }
@@ -449,7 +449,7 @@ update_data_samples ()
     {
       if (m_parent_data.trigger_frame_ready)
       {
-        parse_raw_sample_buffer ();
+        parse_raw_osc_samp_buff ();
       } 
 
       break;
@@ -459,7 +459,7 @@ update_data_samples ()
     {
       if (m_parent_data.auto_mode_frame_ready)
       {
-        parse_raw_sample_buffer ();
+        parse_raw_osc_samp_buff ();
       }
 
       break;
@@ -475,7 +475,7 @@ update_data_samples ()
 }
 
 void LAB_Oscilloscope:: 
-fill_raw_sample_buffer_from_dma_buffer ()
+fill_raw_osc_samp_buff_from_dma_buff ()
 {
   LAB_DMA_Data_Oscilloscope& dma_data = *(
     static_cast<LAB_DMA_Data_Oscilloscope*>(m_uncached_memory.virt ())
@@ -532,7 +532,7 @@ fill_raw_sample_buffer_from_dma_buffer ()
 }
 
 void LAB_Oscilloscope:: 
-parse_raw_sample_buffer ()
+parse_raw_osc_samp_buff ()
 {
   record_raw_sample_buffer_metadata ();
 
@@ -542,24 +542,20 @@ parse_raw_sample_buffer ()
   {
     for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
     {
-      pdata.channel_data[chan].samples[samp] = 
-        conv_raw_chan_adc_bits_to_actual_value (pdata.raw_data_buffer[samp], chan);
-
-      // // For debug
-      // if (samp == 10 && chan == 0)
-      // {
-      //   //uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (m_parent_data.raw_data_buffer[samp], chan);
-
-      //   // std::cout << std::bitset <32> (raw_chan_bits);
-      //   std::cout << std::bitset <32> (pdata.raw_data_buffer[samp]);
-      //   //std::cout << " - " << (arrange_raw_chan_adc_bits (raw_chan_bits));
-      //   //std::cout << " - " << conv_raw_chan_adc_bits_to_actual_value (m_parent_data.raw_data_buffer[samp], chan);
-      //   std::cout << "\n";
-      // }
-
+      // pdata.channel_data[chan].samples[samp] = 
+      //   conv_raw_osc_samp_to_actual_chan_value (pdata.raw_data_buffer[samp], chan);
+      
+      // FOR DEBUG!!
+      double x = 2.5 * sin (2.0 * 3.14159265358 * (10.0 / 2000.0) * (samp));
+      pdata.channel_data[chan].samples[samp] = x;
+              
       // if (samp == 0 && chan == 0)
       // {
-      //   std::cout << std::bitset<32> (pdata.raw_data_buffer[samp]) << "\n";
+      //   // std::cout << std::hex <<
+      //   //   conv_raw_osc_samp_to_recon_chan_adc_data (pdata.raw_data_buffer[samp], chan) << "\n";
+
+      //   // std::cout << 
+      //   //   conv_raw_osc_samp_to_recon_chan_adc_data (pdata.channel_data[chan].samples[samp], chan) << "\n";
       // }
     }
   }
@@ -570,72 +566,77 @@ parse_raw_sample_buffer ()
   }
 }
 
-constexpr double LAB_Oscilloscope:: 
-conv_raw_chan_adc_bits_to_actual_value (uint32_t  raw_buff_samp,
-                                        unsigned  channel)
+double LAB_Oscilloscope:: 
+conv_raw_osc_samp_to_actual_chan_value (uint32_t raw_osc_samp,
+                                        unsigned channel)
 {
-  uint32_t  raw_chan_adc_bits     = extract_raw_chan_adc_bits_from_raw_buff_samp (raw_buff_samp, channel);
-  uint32_t  arranged_bits         = arrange_raw_chan_adc_bits (raw_chan_adc_bits, channel);
-  bool      arranged_bits_sign    = (arranged_bits >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
-  uint32_t  arranged_bits_abs_val = arranged_bits & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
-  double    actual_value          = conv_arranged_raw_chan_adc_bits_to_actual_value (arranged_bits_abs_val, arranged_bits_sign); 
+  uint32_t  raw_osc_chan_samp = extract_raw_osc_chan_samp_from_raw_osc_samp (raw_osc_samp, channel);
+  uint32_t  adc_data          = reconstruct_adc_data_from_raw_osc_chan_samp (raw_osc_chan_samp, channel);
+
+  // if (channel == 0)
+  // {
+  //   std::cout << "recon adc data: " << std::hex << adc_data << "\n";
+  // }
+
+  double    actual_value      = conv_adc_data_to_actual_value               (adc_data, channel);
 
   return (actual_value);
 }
 
-constexpr uint32_t LAB_Oscilloscope::
-extract_raw_chan_adc_bits_from_raw_buff_samp (uint32_t raw_buff_samp,
-                                              unsigned channel)
+uint32_t LAB_Oscilloscope::
+extract_raw_osc_chan_samp_from_raw_osc_samp (uint32_t raw_osc_samp,
+                                             unsigned channel)
 {
-  return ((raw_buff_samp >> (LABC::OSC::RAW_DATA_BIT_SHIFT_COUNT * channel)) &
-      LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
+  return ((raw_osc_samp >> (LABC::OSC::RAW_DATA_BIT_SHIFT_COUNT * channel)) & 
+    LABC::OSC::RAW_DATA_POST_SHIFT_MASK);
 }
 
-constexpr uint32_t LAB_Oscilloscope:: 
-arrange_raw_chan_adc_bits (uint32_t raw_chan_bits, unsigned channel)
+uint32_t LAB_Oscilloscope:: 
+reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,
+                                             unsigned channel)
 {
-  // if you update this function, please also update 
-  // reverse_arrange_raw_chan_adc_bits (), which is just 
-  // the reverse of this function
+  // if you update this function, please also update
+  // reconstruct_adc_data_from_raw_osc_chan_samp ()
+  // found below this function
+  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0xFF) << 8) | ((raw_osc_chan_samp & 0xFF00) >> 8);
 
-  // uint32_t ret = ((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4);
-
-  // if (channel == 0)
-  // {
-  //   std::cout << std::bitset <12> (ret) << "\n";
-  // }
-
-  return (((raw_chan_bits & 0xF000) >> 12) | ((raw_chan_bits & 0x00FF) << 4)); 
+  return (recon_adc_data);
 }
 
-constexpr uint32_t LAB_Oscilloscope:: 
-reverse_arrange_raw_chan_adc_bits (uint32_t arranged_bits)
+uint32_t LAB_Oscilloscope::
+reconstruct_raw_osc_chan_samp_from_adc_data (uint32_t adc_data)
 {
-  return (((arranged_bits & 0x000F) << 12) | ((arranged_bits & 0x0FF0) >> 4));
+  return (reconstruct_adc_data_from_raw_osc_chan_samp (adc_data, 0));
 }
 
-constexpr double LAB_Oscilloscope::
-conv_arranged_raw_chan_adc_bits_to_actual_value (uint32_t arranged_bits_abs_val, 
-                                                 bool     arranged_bits_sign)
+double LAB_Oscilloscope:: 
+conv_adc_data_to_actual_value (uint32_t adc_data,
+                               unsigned channel)
 {
-  if (arranged_bits_sign)
+  //debug
+  adc_data <<= 1;
+
+  bool      sign    = (adc_data >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
+  uint32_t  abs_val = adc_data & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
+  double    act_val = abs_val * m_parent_data.calibration.conversion_constant;
+
+  if (sign)
   {
-    return (arranged_bits_abs_val * m_parent_data.calibration.conversion_constant);
+    return (act_val);
   }
   else 
   {
-    return ((arranged_bits_abs_val * m_parent_data.calibration.conversion_constant) - 
-      m_parent_data.calibration.conversion_reference_voltage);
+    return (act_val - m_parent_data.calibration.conversion_reference_voltage);
   }
 }
 
-constexpr uint32_t LAB_Oscilloscope:: 
-conv_raw_buff_get_arranged_bits (uint32_t sample,
-                                 unsigned channel)
+uint32_t LAB_Oscilloscope:: 
+conv_raw_osc_samp_to_recon_chan_adc_data (uint32_t raw_osc_samp,
+                                          unsigned channel)
 {
-  uint32_t raw_chan_bits = extract_raw_chan_adc_bits_from_raw_buff_samp (sample, channel);
+  uint32_t raw_osc_chan_samp = extract_raw_osc_chan_samp_from_raw_osc_samp (raw_osc_samp, channel);
 
-  return (arrange_raw_chan_adc_bits (raw_chan_bits, channel));
+  return (reconstruct_adc_data_from_raw_osc_chan_samp (raw_osc_chan_samp, channel));
 }
 
 void LAB_Oscilloscope:: 
@@ -694,11 +695,11 @@ reset_uncached_rx_buffer ()
   LAB_DMA_Data_Oscilloscope& dma_data = *(static_cast<LAB_DMA_Data_Oscilloscope*>
     (m_uncached_memory.virt ()));
 
-  std::memset (
-    const_cast<void*>(static_cast<volatile void*>(dma_data.rxd)),
-    reverse_arrange_raw_chan_adc_bits (LABC::OSC::ADC_RESOLUTION_INT / 2),
-    sizeof (dma_data.rxd)
-  );
+  // std::memset (
+  //   const_cast<void*>(static_cast<volatile void*>(dma_data.rxd)),
+  //   reconstruct_raw_osc_chan_samp_from_adc_data (LABC::OSC::ADC_RESOLUTION_INT / 2),
+  //   sizeof (dma_data.rxd)
+  // );
 }
 
 void LAB_Oscilloscope:: 
@@ -713,32 +714,14 @@ record_raw_sample_buffer_metadata ()
 
 double LAB_Oscilloscope::
 calc_time_per_division (unsigned  samples, 
-                        double    sampling_rate)
+                        double    sampling_rate) const
 {
   return (samples / (sampling_rate * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS));
 }
 
 double LAB_Oscilloscope:: 
-calc_samples_displayed (double sampling_rate, 
-                        double time_per_division)
-{
-  if (LABF::is_less_than (
-    time_per_division, 
-    LABC::OSC::MIN_TIME_PER_DIVISION_NO_ZOOM,
-    LABC::LABSOFT::EPSILON
-  ))
-  {
-    return (sampling_rate * time_per_division * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
-  }
-  else 
-  {
-    return (LABC::OSC::MAX_SAMPLES);
-  }
-}
-
-double LAB_Oscilloscope:: 
 calc_sampling_rate (unsigned  samples,
-                    double    time_per_division)
+                    double    time_per_division) const
 {
   double new_sampling_rate = samples / (time_per_division * LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS);
 
@@ -795,17 +778,21 @@ set_sampling_rate (double value)
   m_parent_data.sampling_rate = value;
 }
 
-void LAB_Oscilloscope:: 
-set_samples_displayed (double value)
-{
-  m_parent_data.samples_displayed = value;
-}
-
 LABE::OSC::MODE LAB_Oscilloscope:: 
 calc_mode (double time_per_division)
 {
-  return (time_per_division < LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN ?
-    LABE::OSC::MODE::REPEATED : m_parent_data.last_mode_before_repeated);
+  if (LABF::is_less_than (
+    time_per_division,
+    LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN,
+    LABC::LABSOFT::EPSILON
+  ))
+  {
+    return (LABE::OSC::MODE::REPEATED);
+  }
+  else 
+  {
+    return (m_parent_data.last_mode_before_repeated);
+  }
 }
 
 // --- Horizontal ---
@@ -845,11 +832,7 @@ time_per_division (double value)
     double new_sampling_rate = calc_sampling_rate (m_parent_data.samples, value);
 
     set_sampling_rate     (new_sampling_rate);
-    set_samples_displayed (calc_samples_displayed (new_sampling_rate, value));
     set_time_per_division (value);
-
-    // delete soon
-    debug ();
   }
 }
 
@@ -1075,7 +1058,7 @@ find_trigger_point ()
       for (int a = 0; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
         trigger_buffer_index].size (); a += m_parent_data.find_trig_sample_skip)
       {
-        uint32_t samp  = conv_raw_buff_get_arranged_bits (
+        uint32_t samp  = conv_raw_osc_samp_to_recon_chan_adc_data (
           m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a], 
           m_parent_data.trigger_source
         );
@@ -1094,7 +1077,7 @@ find_trigger_point ()
 
     case (LABE::OSC::TRIG::TYPE::EDGE):
     {
-      uint32_t prev = conv_raw_buff_get_arranged_bits (
+      uint32_t prev = conv_raw_osc_samp_to_recon_chan_adc_data (
         m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][0],
         m_parent_data.trigger_source
       );
@@ -1106,7 +1089,7 @@ find_trigger_point ()
           for (int a = 1; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
             trigger_buffer_index].size (); a += m_parent_data.find_trig_sample_skip)
           {
-            uint32_t samp = conv_raw_buff_get_arranged_bits (
+            uint32_t samp = conv_raw_osc_samp_to_recon_chan_adc_data (
               m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a],
               m_parent_data.trigger_source
             );
@@ -1132,7 +1115,7 @@ find_trigger_point ()
           for (int a = 1; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
             trigger_buffer_index].size (); a += m_parent_data.find_trig_sample_skip)
           {
-            uint32_t samp = conv_raw_buff_get_arranged_bits (
+            uint32_t samp = conv_raw_osc_samp_to_recon_chan_adc_data (
               m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a],
               m_parent_data.trigger_source
             );
@@ -1158,7 +1141,7 @@ find_trigger_point ()
           for (int a = 1; a < m_parent_data.trig_buffs.pre_trigger[m_parent_data.
             trigger_buffer_index].size (); a += 4)
           {
-            uint32_t samp = conv_raw_buff_get_arranged_bits (
+            uint32_t samp = conv_raw_osc_samp_to_recon_chan_adc_data (
               m_parent_data.trig_buffs.pre_trigger[m_parent_data.trigger_buffer_index][a],
               m_parent_data.trigger_source
             );
@@ -1293,7 +1276,7 @@ calc_trigger_level_raw_bits (double trigger_level)
     LABC::LABSOFT::EPSILON
   ))
   {
-    return (reverse_arrange_raw_chan_adc_bits (std::round (trigger_level)));
+    return (reconstruct_raw_osc_chan_samp_from_adc_data (std::round (trigger_level)));
   }
   else 
   {
@@ -1363,11 +1346,12 @@ void LAB_Oscilloscope::
 debug ()
 {
   std::cout << "*** Oscilloscope ***" << "\n";
-  std::cout << "horizontal_offset: "  << m_parent_data.horizontal_offset  << "\n";
-  std::cout << "time_per_division: "  << m_parent_data.time_per_division  << "\n";
-  std::cout << "samples: "            << m_parent_data.samples            << "\n";
-  std::cout << "samples_displayed: "  << m_parent_data.samples_displayed  << "\n";
-  std::cout << "sampling_rate: "      << m_parent_data.sampling_rate      << "\n";
+  std::cout << "horizontal_offset : " << m_parent_data.horizontal_offset  << "\n";
+  std::cout << "time_per_division : " << m_parent_data.time_per_division  << "\n";
+  std::cout << "samples           : " << m_parent_data.samples            << "\n";
+  std::cout << "sampling_rate     : " << m_parent_data.sampling_rate      << "\n";
+  std::cout << "mode              : " << static_cast<int>(m_parent_data.mode) << "\n";;
+  std::cout << "********************" << "\n\n";
 }
 
 void LAB_Oscilloscope:: 
@@ -1535,7 +1519,11 @@ set_mode (LABE::OSC::MODE mode)
 {
   if (m_parent_data.mode != mode)
   {
-    if (time_per_division () >= LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN)
+    if (LABF::is_greater_than_or_equal_to (
+      time_per_division (),
+      LABC::OSC::MIN_TIME_PER_DIVISION_SCREEN,
+      LABC::LABSOFT::EPSILON
+    ))
     {
       m_parent_data.last_mode_before_repeated = mode;
     }
@@ -1650,12 +1638,6 @@ double LAB_Oscilloscope::
 sampling_rate () const
 {
   return (m_parent_data.sampling_rate);
-}
-
-unsigned LAB_Oscilloscope:: 
-samples_displayed () const
-{
-  return (m_parent_data.samples_displayed);
 }
 
 const LAB_Parent_Data_Oscilloscope& LAB_Oscilloscope:: 

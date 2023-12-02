@@ -2,6 +2,7 @@
 #include <bitset>
 #include <chrono>
 #include <thread>
+#include <cmath>
 
 #include <pigpio.h>
 
@@ -22,18 +23,29 @@ int main ()
 {
   gpioInitialise ();
 
-  int fd = spiOpen (0, 50'000, 0);
+  int fd = spiOpen (0, 100'000, 0);
 
-  char txd[2] {0x00, 0x00};
-  char rxd[2] {0x00, 0x00};
-
-  spiXfer (fd, txd, rxd, sizeof (txd));
+  char txd[4] {0x00, 0x00, 0x00, 0x00};
+  char rxd[4] {0x00, 0x00, 0x00, 0x00};
 
   while (true)
   {
-    std::cout << "rxd: "; printCharArr (rxd, sizeof (rxd));
+    spiXfer (fd, txd, rxd, sizeof (txd));
 
-    std::this_thread::sleep_for (std::chrono::milliseconds (10));
+    uint32_t raw_adc_data = (rxd[0] << 8) | rxd[1];
+
+    // make it 11 bits
+    raw_adc_data <<= 1;
+
+    uint32_t adc_value = (raw_adc_data >> 5) & 0x7FF;
+
+    // get actual value
+    double actual_value = (adc_value) * (5.0 / 2048);
+
+    std::cout << "rxd         : "; printCharArr (rxd, sizeof (rxd));
+    std::cout << "actual value: " << actual_value << "\n\n";
+
+    std::this_thread::sleep_for (std::chrono::milliseconds (250));    
   }
 
   spiClose (fd);

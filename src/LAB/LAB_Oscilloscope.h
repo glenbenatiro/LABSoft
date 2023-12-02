@@ -35,13 +35,11 @@ class LAB_Oscilloscope : public LAB_Module
     void                dma_buffer_count                (LABE::OSC::BUFFER_COUNT buffer_count);
   
     // Horizontal 
-    double              calc_time_per_division          (unsigned samples, double sampling_rate);
-    double              calc_samples_displayed          (double sampling_rate, double time_per_division);
-    double              calc_sampling_rate              (unsigned samples, double time_per_division);
+    double              calc_time_per_division          (unsigned samples, double sampling_rate)          const;
+    double              calc_sampling_rate              (unsigned samples, double time_per_division)      const;
     void                set_time_per_division           (double value);
     void                set_samples                     (unsigned value);
     void                set_sampling_rate               (double value);
-    void                set_samples_displayed           (double value);
     
     // mode
     LABE::OSC::MODE     calc_mode                       (double time_per_division);    
@@ -66,14 +64,27 @@ class LAB_Oscilloscope : public LAB_Module
     void debug ();
 
     // Data and conversion
-    void                fill_raw_sample_buffer_from_dma_buffer          ();
-    void                parse_raw_sample_buffer                         ();
-    constexpr double    conv_raw_chan_adc_bits_to_actual_value          (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  extract_raw_chan_adc_bits_from_raw_buff_samp    (uint32_t raw_buff_samp, unsigned channel);
-    constexpr uint32_t  arrange_raw_chan_adc_bits                       (uint32_t raw_chan_bits, unsigned channel);
-    constexpr double    conv_arranged_raw_chan_adc_bits_to_actual_value (uint32_t arranged_bits_abs_val, bool arranged_bits_sign);    
-    constexpr uint32_t  reverse_arrange_raw_chan_adc_bits               (uint32_t arranged_bits);
-    constexpr uint32_t  conv_raw_buff_get_arranged_bits                 (uint32_t sample, unsigned channel);
+    void                fill_raw_osc_samp_buff_from_dma_buff   ();
+    void                parse_raw_osc_samp_buff                ();
+
+     double    
+    conv_raw_osc_samp_to_actual_chan_value      (uint32_t raw_osc_samp,       unsigned channel);
+
+     uint32_t  
+    extract_raw_osc_chan_samp_from_raw_osc_samp (uint32_t raw_osc_samp,       unsigned channel);
+
+     uint32_t  
+    reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,  unsigned channel);
+
+     uint32_t  
+    reconstruct_raw_osc_chan_samp_from_adc_data (uint32_t adc_data);
+
+     double
+    conv_adc_data_to_actual_value               (uint32_t adc_data,           unsigned channel);
+
+     uint32_t
+    conv_raw_osc_samp_to_recon_chan_adc_data    (uint32_t raw_osc_samp,       unsigned channel);
+    
     void                reset_dma_process                               ();
     void                reset_uncached_rx_buffer                        ();
     void                record_raw_sample_buffer_metadata               ();
