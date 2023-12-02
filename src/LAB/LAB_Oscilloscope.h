@@ -107,7 +107,7 @@ class LAB_Oscilloscope : public LAB_Module
     // vertical
     void                  channel_enable_disable  (unsigned channel, bool enable);
     void                  voltage_per_division    (unsigned channel, double value);
-    double                voltage_per_division    (unsigned channel);
+    double                voltage_per_division    (unsigned channel) const;
     void                  vertical_offset         (unsigned channel, double value);
     double                vertical_offset         (unsigned channel) const;
     void                  coupling                (unsigned channel, LABE::OSC::COUPLING coupling);

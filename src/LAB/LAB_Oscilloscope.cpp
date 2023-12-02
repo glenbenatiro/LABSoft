@@ -1611,7 +1611,7 @@ status () const
 }
 
 double LAB_Oscilloscope::  
-voltage_per_division (unsigned channel)
+voltage_per_division (unsigned channel) const
 {
   return (m_parent_data.channel_data[channel].voltage_per_division);
 }

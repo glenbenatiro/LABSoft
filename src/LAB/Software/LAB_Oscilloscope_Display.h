@@ -36,16 +36,18 @@ class LAB_Oscilloscope_Display : public LAB_Module
     double      m_column_width                    = 0.0;
     double      m_display_height_midline          = 0.0;  
 
+    //
     double      m_time_per_division_delta_scaler  = 0.0;
     DRAW_MODE   m_draw_mode                       = DRAW_MODE::FIT;
     unsigned    m_samples_to_display              = 0;
-    unsigned    m_draw_window_width               = 0.0;
-    unsigned    m_x_coord_draw_start              = 0;
-    unsigned    m_samples_start_index             = 0;
-    double      m_samp_skipper                    = 0;
-    double      m_x_skipper                       = 0;      
-    unsigned    m_sample_x_offset                 = 0;
+    unsigned    m_graphing_area_width             = 0.0;
     bool        m_mark_samples                    = false;
+
+    // 
+    double      m_x_coord_scaling                 = 0;
+    int         m_x_coord_start_offset            = 0;
+    int         m_horizontal_offset_start_offset  = 0;
+    int         m_mid_sample_to_center_offset     = 0;
 
     std::array<double, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> 
       m_sample_y_scaler = {0.0};
@@ -54,20 +56,19 @@ class LAB_Oscilloscope_Display : public LAB_Module
     PixelPoints m_pixel_points;
   
   private: 
-    double    calc_time_per_division_delta_scaler ()                                                        const;
-    DRAW_MODE calc_draw_mode                      (double tpd_ds)                                           const;
-    unsigned  calc_samples_to_display             (double tpd_ds, DRAW_MODE draw_mode)                      const;
-    unsigned  calc_draw_window_width              (double tpd_ds, DRAW_MODE draw_mode)                      const;
-    unsigned  calc_x_coord_draw_start             (double tpd_ds, DRAW_MODE draw_mode)                      const;
-    unsigned  calc_samples_start_index            (double tpd_ds, unsigned samples_to_display)              const;
-    double    calc_samp_skipper                   (unsigned samples_to_display, unsigned draw_window_width) const;
-    double    calc_x_skipper                      (unsigned samples_to_display, unsigned draw_window_width) const;
-    bool      calc_mark_samples                   (double tpd_ds, unsigned samples_to_display)              const;
-    Scalers   calc_sample_y_scaler                ()                                                        const;
-    int       calc_sample_y_coord                 (double sample, unsigned channel)                         const;
-    double    calc_sample_x_offset                (double tpd_ds)                                           const;
-    
-    void      resize_pixel_points                 (PixelPoints& pixel_points, unsigned samples_to_display, unsigned draw_window_width);
+    double    calc_time_per_division_delta_scaler ()                                                          const;
+    DRAW_MODE calc_draw_mode                      (double tpd_ds)                                             const;
+    unsigned  calc_samples_to_display             (double tpd_ds)                                             const;
+    unsigned  calc_graphing_area_width            (double tpd_ds, unsigned display_width)                     const;
+    double    calc_x_coord_scaling                (unsigned graphing_area_width, unsigned number_of_samples)  const;
+    int       calc_x_coord_start_offset           (unsigned graphing_area_width, unsigned display_width)      const;
+    int       calc_horizontal_offset_start_offset (unsigned display_width)                                    const;
+    int       calc_mid_sample_to_center_offset    ()                                                          const;
+    Scalers   calc_sample_y_scaler                ()                                                          const;
+    bool      calc_mark_samples                   (double tpd_ds, unsigned samples_to_display)                const;
+    int       calc_sample_x_coord                 (unsigned index)                                            const;
+    int       calc_sample_y_coord                 (double sample, unsigned channel)                           const;
+    void      resize_pixel_points                 (PixelPoints& pixel_points, unsigned size);
     void      update_cached_display_values        ();
     void      debug                               () const;
 
