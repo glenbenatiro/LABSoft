@@ -58,7 +58,7 @@ class LAB_Oscilloscope_Display : public LAB_Module
   private: 
     double    calc_time_per_division_delta_scaler ()                                                          const;
     DRAW_MODE calc_draw_mode                      (double tpd_ds)                                             const;
-    unsigned  calc_samples_to_display             (double tpd_ds)                                             const;
+    unsigned  calc_samples_to_display             ()                                                          const;
     unsigned  calc_graphing_area_width            (double tpd_ds, unsigned display_width)                     const;
     double    calc_x_coord_scaling                (unsigned graphing_area_width, unsigned number_of_samples)  const;
     int       calc_x_coord_start_offset           (unsigned graphing_area_width, unsigned display_width)      const;

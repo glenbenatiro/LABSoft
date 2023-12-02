@@ -58,14 +58,24 @@ calc_draw_mode (double tpd_ds) const
 }
 
 unsigned LAB_Oscilloscope_Display::
-calc_samples_to_display (double tpd_ds) const
+calc_samples_to_display () const
 {
-  double new_samples_to_display = (m_osc.sampling_rate () * m_osc.time_per_division () * 
-                                  LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS) / tpd_ds;
-
-  if (LABF::is_less_than (new_samples_to_display, 3.0, LABC::LABSOFT::EPSILON))
+  double new_samples_to_display;
+  
+  if (m_osc.is_running ())
   {
-    return (3);
+    new_samples_to_display  = (m_osc.sampling_rate () * m_osc.time_per_division () * 
+                              LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+  }
+  else 
+  {
+    new_samples_to_display  = (m_osc.raw_buffer_sampling_rate () * m_osc.time_per_division () * 
+                              LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+  }
+
+  if (LABF::is_less_than (new_samples_to_display, 1.0, LABC::LABSOFT::EPSILON))
+  {
+    return (1);
   }
   else 
   {
@@ -106,19 +116,26 @@ calc_x_coord_start_offset (unsigned graphing_area_width,
 int LAB_Oscilloscope_Display:: 
 calc_horizontal_offset_start_offset (unsigned display_width) const
 {
-  double horiz_off_delta  = m_osc.horizontal_offset () - 
-                            m_osc.raw_buffer_horizontal_offset ();                            
+  if (m_osc.is_running ())
+  {
+    return (0);
+  }
+  else 
+  {
+    double horiz_off_delta  = m_osc.horizontal_offset () - 
+                              m_osc.raw_buffer_horizontal_offset ();                            
 
-  double horiz_off_scaler = display_width / (m_osc.raw_buffer_time_per_division () * 
-                            LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
+    double horiz_off_scaler = display_width / (m_osc.time_per_division () * 
+                              LABC::OSC_DISPLAY::NUMBER_OF_COLUMNS);
 
-  return (std::round (horiz_off_delta * horiz_off_scaler * -1));
+    return (std::round (horiz_off_delta * horiz_off_scaler * -1));
+  }
 }
 
 int LAB_Oscilloscope_Display:: 
 calc_mid_sample_to_center_offset () const
 {
-  return (0);
+  return (std::round ((m_graphing_area_width / m_osc.samples ()) / (-2.0)));
 }
 
 LAB_Oscilloscope_Display::Scalers LAB_Oscilloscope_Display::
@@ -194,7 +211,7 @@ update_cached_values ()
   double tpd_ds                     = 
   m_time_per_division_delta_scaler  = calc_time_per_division_delta_scaler ();
   m_draw_mode                       = calc_draw_mode                      (tpd_ds);
-  m_samples_to_display              = calc_samples_to_display             (tpd_ds);
+  m_samples_to_display              = calc_samples_to_display             ();
   m_graphing_area_width             = calc_graphing_area_width            (tpd_ds, m_width);
   m_x_coord_scaling                 = calc_x_coord_scaling                (m_graphing_area_width, m_osc.samples ());
   m_x_coord_start_offset            = calc_x_coord_start_offset           (m_graphing_area_width, m_width);
