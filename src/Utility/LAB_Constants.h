@@ -181,8 +181,8 @@ namespace LABC
     constexpr unsigned  Y_AXIS_SEMI_MAJOR_TICK_LENGTH       = Y_AXIS_MAJOR_TICK_LENGTH / 2;
     constexpr unsigned  Y_AXIS_MINOR_TICK_LENGTH            = Y_AXIS_SEMI_MAJOR_TICK_LENGTH / 2;
     constexpr unsigned  SAMPLE_MARKING_THRESHOLD            = 50;
-    constexpr unsigned  SAMPLE_MARKING_AMPLITUDE            = 5;
-    constexpr unsigned  SAMPLE_MARKING_THICKNESS            = 1;
+    constexpr unsigned  SAMPLE_MARKING_AMPLITUDE            = 6;
+    constexpr unsigned  SAMPLE_MARKING_THICKNESS            = 2;
     constexpr unsigned  INTERNAL_DISPLAY_LEFT_MARGIN        = 80;
     constexpr unsigned  INTERNAL_DISPLAY_TOP_MARGIN         = 20;
     constexpr unsigned  INTERNAL_DISPLAY_RIGHT_MARGIN       = 10;

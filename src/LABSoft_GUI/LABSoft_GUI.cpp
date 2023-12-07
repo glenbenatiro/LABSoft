@@ -1433,6 +1433,7 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_function_generator_tab->color(FL_LIGHT3);
         main_fl_group_function_generator_tab->selection_color(FL_LIGHT2);
         main_fl_group_function_generator_tab->labelsize(12);
+        main_fl_group_function_generator_tab->hide();
         { function_generator_fl_choice_wave_type = new LABSoft_GUI_Fl_Choice_With_Scroll(190, 200, 240, 60, "Wave Type");
           function_generator_fl_choice_wave_type->box(FL_NO_BOX);
           function_generator_fl_choice_wave_type->down_box(FL_BORDER_BOX);
@@ -1484,19 +1485,10 @@ LABSoft_GUI::LABSoft_GUI() {
           function_generator_fl_input_choice_period->menubutton ()->box (FL_GTK_UP_BOX);
           function_generator_fl_input_choice_period->menubutton ()->color (54);
         } // LABSoft_GUI_Fl_Input_Choice_With_Scroll* function_generator_fl_input_choice_period
-        { Fl_Box* o = new Fl_Box(410, 290, 400, 17, "Change the amplitude and vertical offset using the potentiometers on the func\
-tion generator board.");
-          o->color((Fl_Color)42);
+        { Fl_Box* o = new Fl_Box(410, 320, 400, 17, "The amplitude and vertical offset can be adjusted using the potentiomters on \
+the function generator module.");
           o->labelsize(12);
           o->align(Fl_Align(FL_ALIGN_WRAP));
-          o->deactivate();
-        } // Fl_Box* o
-        { Fl_Box* o = new Fl_Box(410, 340, 400, 17, "The function generator chip outputs ~0.6Vpp for sine and triangle waves, ~5Vp\
-p for square waves, and ~325mV for DC");
-          o->color((Fl_Color)42);
-          o->labelsize(12);
-          o->align(Fl_Align(FL_ALIGN_WRAP));
-          o->deactivate();
         } // Fl_Box* o
         { function_generator_fl_light_button_run_stop = new Fl_Light_Button(520, 400, 180, 60, "Run");
           function_generator_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
@@ -1512,7 +1504,6 @@ p for square waves, and ~325mV for DC");
         main_fl_group_power_supply_tab->color(FL_LIGHT3);
         main_fl_group_power_supply_tab->selection_color(FL_LIGHT2);
         main_fl_group_power_supply_tab->labelsize(12);
-        main_fl_group_power_supply_tab->hide();
         { Fl_Box* o = new Fl_Box(460, 250, 300, 100, "+3.3V, +5V, +12V, and -12V power rails are available to use on the power supp\
 ly board.");
           o->color(FL_LIGHT3);

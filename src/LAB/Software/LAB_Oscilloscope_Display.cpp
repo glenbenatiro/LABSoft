@@ -222,7 +222,7 @@ update_cached_values ()
 
   resize_pixel_points (m_pixel_points, m_osc.samples ());
 
-  debug ();
+  // debug ();
 }
 
 void LAB_Oscilloscope_Display::

@@ -1288,7 +1288,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_voltmeter_tab {
-          label Voltmeter
+          label Voltmeter open
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Output voltmeter_fl_output_chan_0_value {
@@ -1314,7 +1314,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_function_generator_tab {
           label {Function Generator} open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Choice function_generator_fl_choice_wave_type {
             label {Wave Type}
@@ -1505,12 +1505,8 @@ class LABSoft_GUI {open
             }
           }
           Fl_Box {} {
-            label {Change the amplitude and vertical offset using the potentiometers on the function generator board.}
-            xywh {410 290 400 17} color 42 labelsize 12 align 128 deactivate
-          }
-          Fl_Box {} {
-            label {The function generator chip outputs ~0.6Vpp for sine and triangle waves, ~5Vpp for square waves, and ~325mV for DC}
-            xywh {410 340 400 17} color 42 labelsize 12 align 128 deactivate
+            label {The amplitude and vertical offset can be adjusted using the potentiomters on the function generator module.}
+            xywh {410 320 400 17} labelsize 12 align 128
           }
           Fl_Light_Button function_generator_fl_light_button_run_stop {
             label Run
@@ -1520,8 +1516,8 @@ class LABSoft_GUI {open
           }
         }
         Fl_Group main_fl_group_power_supply_tab {
-          label {Power Supply}
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          label {Power Supply} selected
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Box {} {
             label {+3.3V, +5V, +12V, and -12V power rails are available to use on the power supply board.}

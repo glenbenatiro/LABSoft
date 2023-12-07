@@ -540,14 +540,29 @@ parse_raw_osc_samp_buff ()
 
   for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
+    if (samp == 0)
+    {
+      uint32_t  rsamp = pdata.raw_data_buffer[samp];
+      uint16_t  chan1 = (rsamp & 0xFFFF);
+      uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
+
+      std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp)  << "\n";
+      std::cout << "raw chan 1              : " << std::bitset<16> (chan1) << "\n";
+      std::cout << "raw chan 2              : " << std::bitset<16> (chan2) << "\n";
+      std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
+      std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
+
+      std::cout << "\n";
+    }
+
     for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
     {
-      // pdata.channel_data[chan].samples[samp] = 
-      //   conv_raw_osc_samp_to_actual_chan_value (pdata.raw_data_buffer[samp], chan);
+      pdata.channel_data[chan].samples[samp] = 
+        conv_raw_osc_samp_to_actual_chan_value (pdata.raw_data_buffer[samp], chan);
       
-      // FOR DEBUG!!
-      double x = 2.5 * sin (2.0 * 3.14159265358 * (10.0 / 2000.0) * (samp));
-      pdata.channel_data[chan].samples[samp] = x;
+      // // FOR DEBUG!!
+      // double x = 2.5 * sin (2.0 * 3.14159265358 * (10.0 / 2000.0) * (samp));
+      // pdata.channel_data[chan].samples[samp] = x;
               
       // if (samp == 0 && chan == 0)
       // {
@@ -572,12 +587,6 @@ conv_raw_osc_samp_to_actual_chan_value (uint32_t raw_osc_samp,
 {
   uint32_t  raw_osc_chan_samp = extract_raw_osc_chan_samp_from_raw_osc_samp (raw_osc_samp, channel);
   uint32_t  adc_data          = reconstruct_adc_data_from_raw_osc_chan_samp (raw_osc_chan_samp, channel);
-
-  // if (channel == 0)
-  // {
-  //   std::cout << "recon adc data: " << std::hex << adc_data << "\n";
-  // }
-
   double    actual_value      = conv_adc_data_to_actual_value               (adc_data, channel);
 
   return (actual_value);
@@ -598,7 +607,12 @@ reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,
   // if you update this function, please also update
   // reconstruct_adc_data_from_raw_osc_chan_samp ()
   // found below this function
-  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0xFF) << 8) | ((raw_osc_chan_samp & 0xFF00) >> 8);
+
+  // 1. supposed original and correct
+  // uint32_t recon_adc_data = ((raw_osc_chan_samp & 0xFF) << 8) | ((raw_osc_chan_samp & 0xFF00) >> 8);
+
+  // 2. idk why lahi jud ang bits
+  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0x3F) << 6) | ((raw_osc_chan_samp & 0xFC00) >> 10);
 
   return (recon_adc_data);
 }
@@ -606,7 +620,13 @@ reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,
 uint32_t LAB_Oscilloscope::
 reconstruct_raw_osc_chan_samp_from_adc_data (uint32_t adc_data)
 {
-  return (reconstruct_adc_data_from_raw_osc_chan_samp (adc_data, 0));
+  // 1. supposed original and correct
+  // uint32_t recon_raw_osc_chan_samp = (reconstruct_adc_data_from_raw_osc_chan_samp (adc_data, 0));
+
+  // 2. idk why lahi jud ang bits
+  uint32_t recon_raw_osc_chan_samp = ((adc_data & 0x003F) << 10) | ((adc_data & 0x0FC0) >> 6);
+
+  return (recon_raw_osc_chan_samp);
 }
 
 double LAB_Oscilloscope:: 
