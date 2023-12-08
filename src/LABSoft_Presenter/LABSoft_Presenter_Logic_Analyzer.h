@@ -1,5 +1,5 @@
-#ifndef LABSOFT_CONTROLLER_LOGIC_ANALYZER_H
-#define LABSOFT_CONTROLLER_LOGIC_ANALYZER_H
+#ifndef LABSOFT_PRESENTER_LOGIC_ANALYZER_H
+#define LABSOFT_PRESENTER_LOGIC_ANALYZER_H
 
 #include <thread>
 
@@ -9,10 +9,10 @@
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Light_Button.H>
 
-#include "LABSoft_Controller_Unit.h"
+#include "LABSoft_Presenter_Unit.h"
 #include "../LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window.h"
 
-class LABSoft_Controller_Logic_Analyzer : public LABSoft_Controller_Unit
+class LABSoft_Presenter_Logic_Analyzer : public LABSoft_Presenter_Unit
 {
   private:
     std::thread* m_thread_update_display;
@@ -22,7 +22,7 @@ class LABSoft_Controller_Logic_Analyzer : public LABSoft_Controller_Unit
     void init_gui_values  ();
     
   public:
-    LABSoft_Controller_Logic_Analyzer (LABSoft_Controller& _LABSoft_Controller);
+    LABSoft_Presenter_Logic_Analyzer (LABSoft_Presenter& _LABSoft_Presenter);
 
     // master controls
     void cb_run_stop              (Fl_Light_Button* w, void* data);

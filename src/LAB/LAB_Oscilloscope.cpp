@@ -67,12 +67,13 @@ init_gpio_pins ()
   // scaling
   for (int chan = 0; chan < m_parent_data.channel_data.size (); chan++)
   {
-    int mux_a = static_cast<int>(m_parent_data.channel_data[chan].scaling);
-
     for (int a = 0; a < 2; a++)
     {
-      rpi ().gpio.set (LABC::PIN::OSC::MUX[chan][a],
-        AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN, (mux_a >> a) & 0x1);
+      rpi ().gpio.set (
+        LABC::PIN::OSC::MUX[chan][a],
+        AP::GPIO::FUNC::OUTPUT, AP::GPIO::PULL::DOWN,
+        1
+      );
     }
   }
 
@@ -402,7 +403,35 @@ void LAB_Oscilloscope::
 scaling (unsigned           channel, 
          LABE::OSC::SCALING scaling)
 {
-  int mux_a = static_cast<int>(scaling);
+  int mux_a = 0;
+
+  switch (scaling)
+  {
+    case (LABE::OSC::SCALING::DOUBLE):
+    case (LABE::OSC::SCALING::UNITY):
+    {
+      mux_a = 0;
+      break;
+    }
+
+    case (LABE::OSC::SCALING::HALF):
+    {
+      mux_a = 1;
+      break;
+    }
+
+    case (LABE::OSC::SCALING::FOURTH):
+    {
+      mux_a = 2;
+      break;
+    }
+
+    case (LABE::OSC::SCALING::EIGHTH):
+    {
+      mux_a = 3;
+      break;
+    }
+  }
 
   for (int a = 0; a < 2; a++)
   {
@@ -411,6 +440,8 @@ scaling (unsigned           channel,
   }
 
   m_parent_data.channel_data[channel].scaling = scaling;
+
+  // add software scaling compensation code here
 }
 
 LABE::OSC::SCALING LAB_Oscilloscope:: 

@@ -7,7 +7,7 @@
 
 #include <FL/Fl.H>
 
-#include "../LABSoft_Presenter/LABSoft_Controller.h"
+#include "../LABSoft_Presenter/LABSoft_Presenter.h"
 
 LABSoft_GUI_Oscilloscope_Internal_Display::
 LABSoft_GUI_Oscilloscope_Internal_Display (int         X,
@@ -302,7 +302,7 @@ channel_enable_disable (unsigned channel,
 }
 
 void LABSoft_GUI_Oscilloscope_Internal_Display::
-load_presenter (const LABSoft_Controller& presenter)
+load_presenter (const LABSoft_Presenter& presenter)
 {
   m_presenter = &presenter;
 }

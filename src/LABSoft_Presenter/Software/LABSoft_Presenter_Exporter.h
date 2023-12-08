@@ -1,11 +1,11 @@
-#ifndef LABSOFT_CONTROLLER_EXPORTER
-#define LABSOFT_CONTROLLER_EXPORTER
+#ifndef LABSOFT_PRESENTER_EXPORTER
+#define LABSOFT_PRESENTER_EXPORTER
 
-#include "../LABSoft_Controller_Unit.h"
+#include "../LABSoft_Presenter_Unit.h"
 
 #include <FL/Fl_Light_Button.H>
 
-class LABSoft_Controller_Exporter : public LABSoft_Controller_Unit 
+class LABSoft_Presenter_Exporter : public LABSoft_Presenter_Unit 
 {
   private:
     void        show_window_as_modal ();
@@ -18,7 +18,7 @@ class LABSoft_Controller_Exporter : public LABSoft_Controller_Unit
     void        show_file_chooser_export_window ();
     
   public:
-    LABSoft_Controller_Exporter (LABSoft_Controller& _LABSoft_Controller);
+    LABSoft_Presenter_Exporter (LABSoft_Presenter& _LABSoft_Presenter);
 
     void cb_show_window ();
     void cb_cancel      ();

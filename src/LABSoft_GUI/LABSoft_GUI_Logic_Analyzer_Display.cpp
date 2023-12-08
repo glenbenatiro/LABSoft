@@ -7,7 +7,7 @@
 #include "../Utility/LAB_Defaults.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
-#include "../LABSoft_Presenter/LABSoft_Controller.h"
+#include "../LABSoft_Presenter/LABSoft_Presenter.h"
 
 Fl_Menu_Item ChanWidget::menu_m_fl_menu_button_trigger_mode[] = {
  {"X Ignore", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -248,7 +248,7 @@ cb_fl_menu_button_trigger_mode (Fl_Widget* w, void* data)
   ChanWidget* chan = static_cast<ChanWidget*>(data);
   Disp*       disp = static_cast<Disp*>(chan->parent ()->parent ()->parent ());
 
-  disp->controller ().m_Logic_Analyzer.
+  disp->presenter ().m_Logic_Analyzer.
     cb_trigger_condition (menu_button, static_cast<void*>(chan));
 }
 
@@ -770,15 +770,15 @@ load_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 
-load_controller (LABSoft_Controller& controller)
+load_presenter (LABSoft_Presenter& presenter)
 {
-  m_LABSoft_Controller = &controller;
+  m_LABSoft_Presenter = &presenter;
 }
 
-LABSoft_Controller& LABSoft_GUI_Logic_Analyzer_Display:: 
-controller () const 
+LABSoft_Presenter& LABSoft_GUI_Logic_Analyzer_Display:: 
+presenter () const 
 {
-  return (*m_LABSoft_Controller);
+  return (*m_LABSoft_Presenter);
 }
 
 void LABSoft_GUI_Logic_Analyzer_Display:: 

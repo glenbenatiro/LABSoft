@@ -13,7 +13,7 @@
 #include "../Utility/LAB_Constants.h"
 #include "../Utility/LAB_Enumerations.h"
 
-class LABSoft_Controller;
+class LABSoft_Presenter;
 class LABSoft_GUI_Oscilloscope_Internal_Display;
 
 class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
@@ -32,7 +32,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
     unsigned  m_selected_channel  = 0;
 
     // connections
-    const LABSoft_Controller* m_presenter  = nullptr;
+    const LABSoft_Presenter* m_presenter  = nullptr;
 
     // widgets
     Fl_Box*                                     m_status                    = nullptr;
@@ -105,7 +105,7 @@ class LABSoft_GUI_Oscilloscope_Display : public Fl_Group
   public:
     LABSoft_GUI_Oscilloscope_Display (int X, int Y, int W, int H, const char* label = 0);
 
-    void load_presenter       (const LABSoft_Controller& presenter);  
+    void load_presenter       (const LABSoft_Presenter& presenter);  
     void load_pixel_points    (const PixelPoints& pixel_points);
     void update_display       ();
 

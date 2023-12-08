@@ -1,4 +1,4 @@
-#include "LABSoft_Controller.h"
+#include "LABSoft_Presenter.h"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Tabs.H>
@@ -7,8 +7,8 @@
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 // #include "../Utility/LAB_Constants.h"
 
-LABSoft_Controller:: 
-LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
+LABSoft_Presenter:: 
+LABSoft_Presenter (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
   : m_LAB                     (_LAB),
     m_LABSoft_GUI             (_LABSoft_GUI),
     m_Oscilloscope            (*this),
@@ -22,21 +22,21 @@ LABSoft_Controller (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
     m_Calibration             (*this),
     m_Oscilloscope_Display    (*this)
 {
-  load_controller_to_gui ();
+  load_presenter_to_gui ();
 
   Fl::add_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, this);
 }
 
-void LABSoft_Controller::
-load_controller_to_gui ()
+void LABSoft_Presenter::
+load_presenter_to_gui ()
 {
-  m_LABSoft_GUI.m_LABSoft_Controller = this;
+  m_LABSoft_GUI.m_LABSoft_Presenter = this;
 
   m_LABSoft_GUI.logic_analyzer_labsoft_gui_logic_analyzer_display-> 
-    load_controller (*this);
+    load_presenter (*this);
 }
 
-void LABSoft_Controller:: 
+void LABSoft_Presenter:: 
 update_gui_tab_colors ()
 {
   // 63 is green
@@ -75,33 +75,33 @@ update_gui_tab_colors ()
   tabs.redraw           ();
 }
 
-void LABSoft_Controller::
+void LABSoft_Presenter::
 update_display (void *data)
 {
-  LABSoft_Controller& controller = *(reinterpret_cast<LABSoft_Controller*>(data));
+  LABSoft_Presenter& presenter = *(reinterpret_cast<LABSoft_Presenter*>(data));
 
-  controller.update_gui_tab_colors                  ();
+  presenter.update_gui_tab_colors                  ();
   
-  controller.m_Oscilloscope   .display_update_cycle ();
-  controller.m_Voltmeter      .display_update_cycle (); 
-  controller.m_Logic_Analyzer .display_update_cycle ();
+  presenter.m_Oscilloscope   .display_update_cycle ();
+  presenter.m_Voltmeter      .display_update_cycle (); 
+  presenter.m_Logic_Analyzer .display_update_cycle ();
 
   Fl::repeat_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, data);  
 }
 
-void LABSoft_Controller:: 
+void LABSoft_Presenter:: 
 cb_tabs (Fl_Group* w, void* data)
 {
   update_gui_tab_colors ();
 }
 
-LAB& LABSoft_Controller:: 
+LAB& LABSoft_Presenter:: 
 lab () const
 {
   return (m_LAB);
 }
 
-LABSoft_GUI& LABSoft_Controller::
+LABSoft_GUI& LABSoft_Presenter::
 gui () const
 {
   return (m_LABSoft_GUI);

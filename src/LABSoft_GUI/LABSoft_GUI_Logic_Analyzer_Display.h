@@ -18,7 +18,7 @@
 #include "../Utility/LAB_Definitions.h"
 #include "../Utility/LAB_Defaults.h"
 
-class LABSoft_Controller;
+class LABSoft_Presenter;
 
 using ChanGraph   = class LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph;
 using ChanWidget  = class LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget;
@@ -181,7 +181,7 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
     // data
     DisplayData                     m_display_data;
     LAB_Parent_Data_Logic_Analyzer* m_parent_data;
-    LABSoft_Controller*             m_LABSoft_Controller;
+    LABSoft_Presenter*             m_LABSoft_Presenter;
 
     // gui
     Fl_Pack*                        m_pack;           
@@ -221,8 +221,8 @@ class LABSoft_GUI_Logic_Analyzer_Display : public Fl_Group
    ~LABSoft_GUI_Logic_Analyzer_Display ();
 
     void load_parent_data             (LAB_Parent_Data_Logic_Analyzer& pdata);
-    void load_controller              (LABSoft_Controller& controller);
-    LABSoft_Controller& controller    () const;
+    void load_presenter              (LABSoft_Presenter& presenter);
+    LABSoft_Presenter& presenter    () const;
     void add_channel                  (unsigned channel, const char* name = 0);
     void clear_all_channels           ();
     void update_gui_time_per_division ();

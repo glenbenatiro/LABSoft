@@ -1,21 +1,21 @@
-#include "LABSoft_Controller_Oscilloscope.h"
+#include "LABSoft_Presenter_Oscilloscope.h"
 
 #include <cmath>
 
 #include "../LAB/LAB.h"
-#include "LABSoft_Controller.h"
+#include "LABSoft_Presenter.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LABSoft_GUI_Label_Values.h"
 
-LABSoft_Controller_Oscilloscope::
-LABSoft_Controller_Oscilloscope (LABSoft_Controller& _LABSoft_Controller)
-  : LABSoft_Controller_Unit  (_LABSoft_Controller)
+LABSoft_Presenter_Oscilloscope::
+LABSoft_Presenter_Oscilloscope (LABSoft_Presenter& _LABSoft_Presenter)
+  : LABSoft_Presenter_Unit  (_LABSoft_Presenter)
 {
   init_gui_values ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 init_gui_values () const
 {
   LAB_Oscilloscope& osc = lab ().m_Oscilloscope;
@@ -145,7 +145,7 @@ init_gui_values () const
   }
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_vertical_offset (unsigned channel) const
 {
   LABSoft_GUI_Label label (
@@ -165,7 +165,7 @@ update_gui_panel_vertical_offset (unsigned channel) const
   }  
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_voltage_per_division (unsigned channel) const
 {
   LABSoft_GUI_Label label (
@@ -185,7 +185,7 @@ update_gui_panel_voltage_per_division (unsigned channel) const
   } 
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 update_gui_panel_horizontal_offset () const
 {
   LABSoft_GUI_Label label (
@@ -197,7 +197,7 @@ update_gui_panel_horizontal_offset () const
     value (label.to_text ().c_str ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_time_per_division () const
 {
   LABSoft_GUI_Label label (
@@ -209,7 +209,7 @@ update_gui_panel_time_per_division () const
     value (label.to_text ().c_str ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_samples () const
 {
   LABSoft_GUI_Label label (
@@ -221,7 +221,7 @@ update_gui_panel_samples () const
     value (label.to_text ().c_str ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_sampling_rate () const
 {
   LABSoft_GUI_Label label (
@@ -233,7 +233,7 @@ update_gui_panel_sampling_rate () const
     value (label.to_text ().c_str ());
 }
   
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_mode () const
 {
   LABE::OSC::MODE mode = lab ().m_Oscilloscope.mode ();
@@ -263,7 +263,7 @@ update_gui_panel_mode () const
   w.value (w.find_index (LABS_GUI_VALUES::OSC::MODE_s.at (mode).c_str ()));
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_panel_trigger_level () const
 {
   LABSoft_GUI_Label label (
@@ -275,7 +275,7 @@ update_gui_panel_trigger_level () const
     value (label.to_text ().c_str ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_vertical_offset (unsigned channel) const
 {
   update_gui_panel_vertical_offset (channel);
@@ -286,7 +286,7 @@ update_gui_vertical_offset (unsigned channel) const
   // lab ().m_Oscilloscope_Display.update_cached_values ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_voltage_per_division (unsigned channel) const
 { 
   update_gui_panel_voltage_per_division (channel);
@@ -297,7 +297,7 @@ update_gui_voltage_per_division (unsigned channel) const
   // lab ().m_Oscilloscope_Display.update_cached_values ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_horizontal_offset () const
 {
   update_gui_panel_horizontal_offset ();
@@ -308,7 +308,7 @@ update_gui_horizontal_offset () const
   lab ().m_Oscilloscope_Display.update_cached_values ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_time_per_division () 
 {
   update_gui_horizontal_elements ();  
@@ -322,7 +322,7 @@ update_gui_time_per_division ()
     mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_samples () 
 {
   update_gui_horizontal_elements ();
@@ -333,7 +333,7 @@ update_gui_samples ()
     mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_sampling_rate () 
 {
   update_gui_horizontal_elements ();
@@ -344,7 +344,7 @@ update_gui_sampling_rate ()
     mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_horizontal_elements () const
 {
   update_gui_panel_horizontal_offset  ();
@@ -354,13 +354,13 @@ update_gui_horizontal_elements () const
   update_gui_panel_mode               ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_mode () const
 {
   update_gui_panel_mode ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_trigger_level () const
 {
   update_gui_panel_trigger_level ();
@@ -369,7 +369,7 @@ update_gui_trigger_level () const
     trigger_level (lab ().m_Oscilloscope.trigger_level ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 update_gui_trigger_panel () const
 {
   if (lab ().m_Oscilloscope.trigger_mode () == LABE::OSC::TRIG::MODE::NONE)
@@ -388,7 +388,7 @@ update_gui_trigger_panel () const
   }
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_run_stop (Fl_Light_Button* w, 
              void*            data)
 {
@@ -409,7 +409,7 @@ cb_run_stop (Fl_Light_Button* w,
     mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_single (Fl_Button* w,
            void*      data)
 {
@@ -418,7 +418,7 @@ cb_single (Fl_Button* w,
   lab ().m_Oscilloscope.single ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_channel_enable_disable (Fl_Light_Button* w,
                            long             channel)
 {
@@ -427,7 +427,7 @@ cb_channel_enable_disable (Fl_Light_Button* w,
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->channel_enable_disable (channel, w->value ());
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_ac_coupling (Fl_Light_Button*  w, 
                 long              channel)
 {
@@ -437,7 +437,7 @@ cb_ac_coupling (Fl_Light_Button*  w,
   );
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_scaling (LABSoft_GUI_Fl_Choice_With_Scroll*  w,
             long                                channel)
 {
@@ -447,7 +447,7 @@ cb_scaling (LABSoft_GUI_Fl_Choice_With_Scroll*  w,
   );
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_vertical_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll*  w, 
                     long                                      channel)
 { 
@@ -465,7 +465,7 @@ cb_vertical_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll*  w,
   update_gui_vertical_offset (channel);
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_voltage_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, 
                         long                                      channel)
 {
@@ -483,7 +483,7 @@ cb_voltage_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   update_gui_voltage_per_division (channel);
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_vertical_offset_slider (LABSoft_GUI_Fl_Slider* w,
                            void*                  data)
 {
@@ -491,7 +491,7 @@ cb_vertical_offset_slider (LABSoft_GUI_Fl_Slider* w,
 }
 
 // horizontal
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_horizontal_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, 
                       void*                                    data) const
 {
@@ -509,7 +509,7 @@ cb_horizontal_offset (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   update_gui_horizontal_offset ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_time_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
                       void*                                    data)
 {
@@ -527,7 +527,7 @@ cb_time_per_division (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   update_gui_time_per_division ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_samples (Fl_Input_Choice*  w,
             void*             data)
 {
@@ -545,7 +545,7 @@ cb_samples (Fl_Input_Choice*  w,
   update_gui_samples ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_sampling_rate (Fl_Input_Choice*  w,
                   void*             data)
 {
@@ -563,7 +563,7 @@ cb_sampling_rate (Fl_Input_Choice*  w,
   update_gui_sampling_rate ();
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_mode (Fl_Choice* w,  
          void*      data)
 {
@@ -593,7 +593,7 @@ cb_mode (Fl_Choice* w,
   update_gui_mode ();
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_trigger_mode (Fl_Choice* w,
                  void*      data)
 {
@@ -606,7 +606,7 @@ cb_trigger_mode (Fl_Choice* w,
   update_gui_trigger_panel ();
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_trigger_source (Fl_Choice* w, 
                    void*      data)
 {
@@ -617,7 +617,7 @@ cb_trigger_source (Fl_Choice* w,
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->trigger_source (trigger_source);
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_trigger_type (Fl_Choice* w,
                  void*      data)
 {
@@ -640,7 +640,7 @@ cb_trigger_type (Fl_Choice* w,
   lab ().m_Oscilloscope.trigger_type (type);
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_trigger_condition (Fl_Choice* w,
                       void*      data)
 {
@@ -667,7 +667,7 @@ cb_trigger_condition (Fl_Choice* w,
   lab ().m_Oscilloscope.trigger_condition (cnd);
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_trigger_level (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w, 
                   void*            data)
 {
@@ -685,7 +685,7 @@ cb_trigger_level (LABSoft_GUI_Fl_Input_Choice_With_Scroll* w,
   update_gui_trigger_level ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_trigger_level_slider (LABSoft_GUI_Fl_Slider* w, 
                          void*                  data)
 {
@@ -698,14 +698,14 @@ cb_trigger_level_slider (LABSoft_GUI_Fl_Slider* w,
   );
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_record (Fl_Button*  w, 
            void*       data)
 {
 
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_record_config (Fl_Button* w, 
                   void*      data)
 {
@@ -713,14 +713,14 @@ cb_record_config (Fl_Button* w,
   gui ().main_fl_tabs->deactivate ();
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_record_config_start (Fl_Button*  w,
                         void*       data)
 {
 
 }
 
-void LABSoft_Controller_Oscilloscope::
+void LABSoft_Presenter_Oscilloscope::
 cb_record_config_cancel (Fl_Button* w,
                          void*      data)
 {
@@ -728,14 +728,14 @@ cb_record_config_cancel (Fl_Button* w,
   gui ().main_fl_tabs->activate ();
 }
 
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 cb_export (Fl_Menu_Item*  w,
            void*          data)
 {
 
 }
     
-void LABSoft_Controller_Oscilloscope:: 
+void LABSoft_Presenter_Oscilloscope:: 
 display_update_cycle ()
 { 
   if (lab ().m_Oscilloscope.is_backend_running ())

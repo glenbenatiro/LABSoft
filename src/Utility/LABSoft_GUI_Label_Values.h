@@ -25,18 +25,22 @@ namespace LABS_GUI_VALUES
   {
     static std::unordered_map<std::string, LABE::OSC::SCALING> SCALING = 
     {
-      {"x4"   , LABE::OSC::SCALING::QUADRUPLE},
-      {"x1"   , LABE::OSC::SCALING::UNITY},
-      {"x0.5" , LABE::OSC::SCALING::HALF},
-      {"x0.25", LABE::OSC::SCALING::FOURTH}
+      {"x4"     , LABE::OSC::SCALING::QUADRUPLE},
+      {"x2"     , LABE::OSC::SCALING::DOUBLE},
+      {"x1"     , LABE::OSC::SCALING::UNITY},
+      {"x0.5"   , LABE::OSC::SCALING::HALF},
+      {"x0.25"  , LABE::OSC::SCALING::FOURTH},
+      {"x0.125" , LABE::OSC::SCALING::EIGHTH}
     };
 
     static std::unordered_map<LABE::OSC::SCALING, std::string> SCALING_s = 
     {
       {LABE::OSC::SCALING::QUADRUPLE, "x4"},
+      {LABE::OSC::SCALING::DOUBLE   , "x2"},
       {LABE::OSC::SCALING::UNITY    , "x1"},
       {LABE::OSC::SCALING::HALF     , "x0.5"},
-      {LABE::OSC::SCALING::FOURTH   , "x0.25"}
+      {LABE::OSC::SCALING::FOURTH   , "x0.25"},
+      {LABE::OSC::SCALING::EIGHTH   , "x0.125"}
     };
 
     static std::unordered_map<std::string, LABE::OSC::MODE> MODE = 

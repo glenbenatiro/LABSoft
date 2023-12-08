@@ -1,4 +1,4 @@
-#include "LABSoft_Controller_Exporter.h"
+#include "LABSoft_Presenter_Exporter.h"
 
 #include <cstdio>
 #include <sstream>
@@ -8,32 +8,32 @@
 #include <FL/Fl_Native_File_Chooser.H>
 
 #include "../../LAB/LAB.h"
-#include "../LABSoft_Controller.h"
+#include "../LABSoft_Presenter.h"
 #include "../../LABSoft_GUI/LABSoft_GUI.h"
 #include "../../Utility/LABSoft_GUI_Label_Values.h"
 
-LABSoft_Controller_Exporter::
-LABSoft_Controller_Exporter (LABSoft_Controller& _LABSoft_Controller)
-  : LABSoft_Controller_Unit  (_LABSoft_Controller)
+LABSoft_Presenter_Exporter::
+LABSoft_Presenter_Exporter (LABSoft_Presenter& _LABSoft_Presenter)
+  : LABSoft_Presenter_Unit  (_LABSoft_Presenter)
 {
 
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 show_window_as_modal ()
 {
   gui ().main_fl_window_exporter->set_modal ();
   gui ().main_fl_window_exporter->show ();
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 hide_window_as_modal ()
 {
   gui ().main_fl_window_exporter->hide ();
   gui ().main_fl_window_exporter->clear_modal_states ();
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 load_window_label ()
 {
   char label[50];
@@ -44,19 +44,19 @@ load_window_label ()
   gui ().main_fl_window_exporter->label (label);
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 load_table_data ()
 {
   lab ().m_Exporter.update_data_table ();
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 load_image_data ()
 {
 
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 store_displayed_instrument ()
 {
   const char* lbl = gui ().main_fl_tabs->value ()->label ();
@@ -70,11 +70,11 @@ store_displayed_instrument ()
   }
   else 
   {
-    throw (std::runtime_error ("LABSoft_Controller_Exporter::store_displayed_instrument ()"));
+    throw (std::runtime_error ("LABSoft_Presenter_Exporter::store_displayed_instrument ()"));
   }
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 update_data_display ()
 {
   std::string label = std::string (gui ().exporter_fl_tabs->value ()->label ());
@@ -89,11 +89,11 @@ update_data_display ()
   }
   else 
   {
-    throw (std::runtime_error ("LABSoft_Controller_Exporter::update_data_display ()"));
+    throw (std::runtime_error ("LABSoft_Presenter_Exporter::update_data_display ()"));
   }
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 show_file_chooser_export_window ()
 {
   Fl_Native_File_Chooser chooser;
@@ -123,7 +123,7 @@ show_file_chooser_export_window ()
   }
 }
 
-void LABSoft_Controller_Exporter::
+void LABSoft_Presenter_Exporter::
 cb_show_window ()
 {
   show_window_as_modal        ();
@@ -132,31 +132,31 @@ cb_show_window ()
   update_data_display         ();
 }
 
-void LABSoft_Controller_Exporter::
+void LABSoft_Presenter_Exporter::
 cb_cancel ()
 {
   hide_window_as_modal ();
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 cb_save ()
 {
   show_file_chooser_export_window ();
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 cb_comments (Fl_Light_Button* w)
 {
   lab ().m_Exporter.comments (w->value ());
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 cb_headers (Fl_Light_Button* w)
 {
   lab ().m_Exporter.headers (w->value ());
 }
 
-void LABSoft_Controller_Exporter:: 
+void LABSoft_Presenter_Exporter:: 
 cb_labels (Fl_Light_Button* w)
 {
   lab ().m_Exporter.labels (w->value ());

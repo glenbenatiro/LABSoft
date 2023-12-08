@@ -7,7 +7,7 @@
 
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
-#include "../LABSoft_Presenter/LABSoft_Controller.h"
+#include "../LABSoft_Presenter/LABSoft_Presenter.h"
 #include "LABSoft_GUI_Oscilloscope_Internal_Display.h"
 #include "../Utility/LABSoft_GUI_Label_Values.h"
 
@@ -23,7 +23,7 @@ LABSoft_GUI_Oscilloscope_Display (int         X,
 }
 
 void LABSoft_GUI_Oscilloscope_Display:: 
-load_presenter (const LABSoft_Controller& presenter)
+load_presenter (const LABSoft_Presenter& presenter)
 {
   m_presenter = &presenter;
 

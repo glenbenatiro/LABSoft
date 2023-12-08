@@ -17,7 +17,7 @@ namespace LABD
     constexpr bool                  IS_ENABLED                    = true;
     constexpr double                VOLTAGE_PER_DIVISION          = 1.0;
     constexpr double                VERTICAL_OFFSET               = 0.0;
-    constexpr LABE::OSC::SCALING    SCALING                       = LABE::OSC::SCALING::UNITY;
+    constexpr LABE::OSC::SCALING    SCALING                       = LABE::OSC::SCALING::HALF;
     constexpr LABE::OSC::COUPLING   COUPLING                      = LABE::OSC::COUPLING::DC;
 
     // horizontal

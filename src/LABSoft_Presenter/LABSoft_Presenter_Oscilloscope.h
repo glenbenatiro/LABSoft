@@ -1,5 +1,5 @@
-#ifndef LABSOFT_CONTROLLER_OSCILLOSCOPE_H
-#define LABSOFT_CONTROLLER_OSCILLOSCOPE_H
+#ifndef LABSOFT_PRESENTER_OSCILLOSCOPE_H
+#define LABSOFT_PRESENTER_OSCILLOSCOPE_H
 
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Slider.H>
@@ -11,9 +11,9 @@
 #include "../LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.h"
 #include "../LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 
-#include "LABSoft_Controller_Unit.h"
+#include "LABSoft_Presenter_Unit.h"
 
-class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
+class LABSoft_Presenter_Oscilloscope : public LABSoft_Presenter_Unit
 {
   private:
     void init_gui_values                        () const;
@@ -41,7 +41,7 @@ class LABSoft_Controller_Oscilloscope : public LABSoft_Controller_Unit
     void update_gui_trigger_panel               () const;
 
   public:
-    LABSoft_Controller_Oscilloscope (LABSoft_Controller& _LABSoft_Controller);
+    LABSoft_Presenter_Oscilloscope (LABSoft_Presenter& _LABSoft_Presenter);
     
     // Master controls
     void cb_run_stop                  (Fl_Light_Button*   w, void* data);

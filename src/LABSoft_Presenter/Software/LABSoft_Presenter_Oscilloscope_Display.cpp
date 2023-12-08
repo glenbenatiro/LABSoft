@@ -1,12 +1,12 @@
 #include "LABSoft_Presenter_Oscilloscope_Display.h"
 
 #include "../../LAB/LAB.h"
-#include "../LABSoft_Controller.h"
+#include "../LABSoft_Presenter.h"
 #include "../../LABSoft_GUI/LABSoft_GUI.h"
 
 LABSoft_Presenter_Oscilloscope_Display:: 
-LABSoft_Presenter_Oscilloscope_Display (LABSoft_Controller& _LABSoft_Controller)
-  : LABSoft_Controller_Unit (_LABSoft_Controller)
+LABSoft_Presenter_Oscilloscope_Display (LABSoft_Presenter& _LABSoft_Presenter)
+  : LABSoft_Presenter_Unit (_LABSoft_Presenter)
 {
   load_gui ();
 }
@@ -26,7 +26,7 @@ load_gui ()
   osc_disp_gui.vertical_offset        (1, osc.vertical_offset       (1));
   osc_disp_gui.horizontal_offset      (osc.horizontal_offset        ( ));
   osc_disp_gui.time_per_division      (osc.time_per_division        ( ));
-  osc_disp_gui.load_presenter         (m_controller);
+  osc_disp_gui.load_presenter         (m_presenter);
   osc_disp_gui.load_pixel_points      (osc_disp.pixel_points ());
 
   osc_disp.display_parameters (

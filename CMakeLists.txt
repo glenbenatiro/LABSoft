@@ -43,18 +43,18 @@ ADD_EXECUTABLE(LABSoft
   src/LAB/Software/LAB_LABChecker_Digital.cpp
   src/LAB/Software/LAB_Oscilloscope_Display.cpp
 
-  src/LABSoft_Presenter/LABSoft_Controller_Unit.cpp
-  src/LABSoft_Presenter/LABSoft_Controller.cpp
-  src/LABSoft_Presenter/LABSoft_Controller_Oscilloscope.cpp
-  src/LABSoft_Presenter/LABSoft_Controller_Voltmeter.cpp
-  src/LABSoft_Presenter/LABSoft_Controller_Function_Generator.cpp
-  src/LABSoft_Presenter/LABSoft_Controller_Logic_Analyzer.cpp
-  src/LABSoft_Presenter/LABSoft_Controller_Digital_Circuit_Checker.cpp
-  src/LABSoft_Presenter/LABSoft_Controller_Main_Window.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Unit.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Voltmeter.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Function_Generator.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp
 
-  src/LABSoft_Presenter/Software/LABSoft_Controller_Exporter.cpp
-  src/LABSoft_Presenter/Software/LABSoft_Controller_Calibration.cpp
-  src/LABSoft_Presenter/Software/LABSoft_Controller_LABChecker_Digital.cpp
+  src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp
+  src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp
+  src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp
   src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp
 
   src/LABSoft_GUI/LABSoft_GUI.cpp

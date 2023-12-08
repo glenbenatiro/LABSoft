@@ -1,19 +1,19 @@
-#ifndef LABSOFT_CONTROLLER_FUNCTION_GENERATOR_H
-#define LABSOFT_CONTROLLER_FUNCTION_GENERATOR_H
+#ifndef LABSOFT_PRESENTER_FUNCTION_GENERATOR_H
+#define LABSOFT_PRESENTER_FUNCTION_GENERATOR_H
 
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Input_Choice.H>
 
-#include "LABSoft_Controller_Unit.h"
+#include "LABSoft_Presenter_Unit.h"
 
-class LABSoft_Controller_Function_Generator : public LABSoft_Controller_Unit
+class LABSoft_Presenter_Function_Generator : public LABSoft_Presenter_Unit
 {
   private:
     void init_gui_values (); 
 
   public:
-    LABSoft_Controller_Function_Generator (LABSoft_Controller& _LABSoft_Controller);
+    LABSoft_Presenter_Function_Generator (LABSoft_Presenter& _LABSoft_Presenter);
 
     void update_gui_frequency_elements    ();
 

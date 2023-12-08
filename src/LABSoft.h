@@ -3,14 +3,14 @@
 
 #include "LAB/LAB.h"
 #include "LABSoft_GUI/LABSoft_GUI.h"
-#include "LABSoft_Presenter/LABSoft_Controller.h"
+#include "LABSoft_Presenter/LABSoft_Presenter.h"
 
 class LABSoft 
 {
   private:
     LAB                m_LAB;
     LABSoft_GUI        m_LABSoft_GUI;
-    LABSoft_Controller m_LABSoft_Controller;
+    LABSoft_Presenter m_LABSoft_Presenter;
     
   public:
     LABSoft (int argc, char** argv);

@@ -5,7 +5,7 @@
 #include <FL/Fl.H>
 #include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 #include "LABSoft_GUI_Fl_Choice_With_Scroll.h"
-class LABSoft_Controller;
+class LABSoft_Presenter;
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Tabs.H>
@@ -28,7 +28,7 @@ class LABSoft_Controller;
 
 class LABSoft_GUI {
 public:
-  LABSoft_Controller *m_LABSoft_Controller; 
+  LABSoft_Presenter *m_LABSoft_Presenter; 
   LABSoft_GUI();
   Fl_Double_Window *main_fl_window;
   static Fl_Menu_Item menu_[];

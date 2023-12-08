@@ -9,7 +9,7 @@
 
 #include "../Utility/LAB_Constants.h"
 
-class LABSoft_Controller;
+class LABSoft_Presenter;
 
 class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
 {
@@ -33,7 +33,7 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
     double  m_display_height_midline    = 0;
 
     // connections
-    const LABSoft_Controller* m_presenter     = nullptr;
+    const LABSoft_Presenter* m_presenter     = nullptr;
     const PixelPoints*        m_pixel_points  = nullptr;
     
     // cached values for mouse drag horizontal offset change
@@ -63,7 +63,7 @@ class LABSoft_GUI_Oscilloscope_Internal_Display : public Fl_Widget
     LABSoft_GUI_Oscilloscope_Internal_Display (int X, int Y, int W, int H, const char* label = 0);
 
     void    channel_enable_disable  (unsigned channel, bool state);
-    void    load_presenter          (const LABSoft_Controller& controller);
+    void    load_presenter          (const LABSoft_Presenter& presenter);
     void    load_pixel_points       (const PixelPoints& pixel_points);
     double  row_height              () const;
     double  column_width            () const;

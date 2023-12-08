@@ -1,30 +1,30 @@
-#include "LABSoft_Controller_Logic_Analyzer.h"
+#include "LABSoft_Presenter_Logic_Analyzer.h"
 
 #include <cmath>
 
 #include "../LAB/LAB.h"
-#include "LABSoft_Controller.h"
+#include "LABSoft_Presenter.h"
 #include "../Utility/LAB_Constants.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LABSoft_GUI_Label_Values.h"
 
-LABSoft_Controller_Logic_Analyzer:: 
-LABSoft_Controller_Logic_Analyzer (LABSoft_Controller& _LABSoft_Controller)
-  : LABSoft_Controller_Unit (_LABSoft_Controller)
+LABSoft_Presenter_Logic_Analyzer:: 
+LABSoft_Presenter_Logic_Analyzer (LABSoft_Presenter& _LABSoft_Presenter)
+  : LABSoft_Presenter_Unit (_LABSoft_Presenter)
 {
   init ();
   init_gui_values ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 init ()
 {
   gui ().logic_analyzer_labsoft_gui_logic_analyzer_display->
     load_parent_data (lab ().m_Logic_Analyzer.parent_data ());
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 init_gui_values ()
 {
   LAB_Logic_Analyzer& logan = lab ().m_Logic_Analyzer;
@@ -60,7 +60,7 @@ init_gui_values ()
   }
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_run_stop (Fl_Light_Button* w,
              void*            data)
 {
@@ -74,7 +74,7 @@ cb_run_stop (Fl_Light_Button* w,
   }
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_single (Fl_Button* w,
            void*      data)
 {
@@ -83,7 +83,7 @@ cb_single (Fl_Button* w,
   lab ().m_Logic_Analyzer.single ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_horizontal_offset (Fl_Input_Choice *w,
                       void            *data)
 {
@@ -98,7 +98,7 @@ cb_horizontal_offset (Fl_Input_Choice *w,
   update_gui_horizontal ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_time_per_division (Fl_Input_Choice *w,
                       void            *data)
 {
@@ -113,7 +113,7 @@ cb_time_per_division (Fl_Input_Choice *w,
   update_gui_horizontal ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_samples (Fl_Input_Choice*  w,
             void*             data)
 {
@@ -131,7 +131,7 @@ cb_samples (Fl_Input_Choice*  w,
   update_gui_horizontal ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_sampling_rate (Fl_Input_Choice*  w,
                   void*             data)
 {
@@ -149,7 +149,7 @@ cb_sampling_rate (Fl_Input_Choice*  w,
   update_gui_horizontal ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_trigger_mode (Fl_Choice* w, 
                  void*      data)
 {
@@ -159,7 +159,7 @@ cb_trigger_mode (Fl_Choice* w,
     (LABS_GUI_VALUES::LOGAN::TRIG_MODE_s[choice]);
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_trigger_condition (Fl_Menu_Button* w,
                       void*           data)
 {
@@ -172,7 +172,7 @@ cb_trigger_condition (Fl_Menu_Button* w,
   lab ().m_Logic_Analyzer.trigger_condition (channel, trig_cnd);
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_mode (Fl_Choice  *w,
                  void       *data)
 {
@@ -202,7 +202,7 @@ cb_mode (Fl_Choice  *w,
   update_gui_mode ();
 }
 
-void LABSoft_Controller_Logic_Analyzer::
+void LABSoft_Presenter_Logic_Analyzer::
 display_update_cycle ()
 {
   lab ().m_Logic_Analyzer.update_data_samples ();
@@ -211,7 +211,7 @@ display_update_cycle ()
     update_display ();
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 update_gui_horizontal ()
 {
   LABSoft_GUI_Label horizontal_offset  (lab ().m_Logic_Analyzer.horizontal_offset ());
@@ -251,7 +251,7 @@ update_gui_horizontal ()
     update_gui_time_per_division ();
 }
 
-void LABSoft_Controller_Logic_Analyzer::
+void LABSoft_Presenter_Logic_Analyzer::
 update_gui_mode ()
 {
   LABE::LOGAN::MODE mode = lab ().m_Logic_Analyzer.mode ();
@@ -280,14 +280,14 @@ update_gui_mode ()
   }
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_add_channel_selection (Fl_Menu_* w, void* data)
 {
   gui ().logic_analyzer_labsoft_gui_logic_analyzer_add_channel_signal_window
     ->show_as_modal ();
 }
 
-void LABSoft_Controller_Logic_Analyzer::
+void LABSoft_Presenter_Logic_Analyzer::
 cb_add_channel_signal (LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* w, void* data)
 {
   Fl_Input&         i = *(w->m_name);
@@ -329,7 +329,7 @@ cb_add_channel_signal (LABSoft_GUI_Logic_Analyzer_Add_Channel_Signal_Window* w, 
   }
 }
 
-void LABSoft_Controller_Logic_Analyzer:: 
+void LABSoft_Presenter_Logic_Analyzer:: 
 cb_clear_channels (Fl_Menu_* w, void* data)
 {
   gui ().logic_analyzer_labsoft_gui_logic_analyzer_display->clear_all_channels ();

@@ -1,20 +1,20 @@
-#include "LABSoft_Controller_Calibration.h"
+#include "LABSoft_Presenter_Calibration.h"
 
 #include <cstdio>
 #include <string>
 
 #include "../../LAB/LAB.h"
-#include "../LABSoft_Controller.h"
+#include "../LABSoft_Presenter.h"
 #include "../../LABSoft_GUI/LABSoft_GUI.h"
 
-LABSoft_Controller_Calibration::
-LABSoft_Controller_Calibration (LABSoft_Controller& _LABSoft_Controller)
-  : LABSoft_Controller_Unit  (_LABSoft_Controller)
+LABSoft_Presenter_Calibration::
+LABSoft_Presenter_Calibration (LABSoft_Presenter& _LABSoft_Presenter)
+  : LABSoft_Presenter_Unit  (_LABSoft_Presenter)
 {
 
 }
 
-void LABSoft_Controller_Calibration:: 
+void LABSoft_Presenter_Calibration:: 
 update_data ()
 {
   char label[20];
@@ -27,7 +27,7 @@ update_data ()
   gui ().calibration_fl_input_osc_adc_ref_voltage->value (label);
 }
 
-void LABSoft_Controller_Calibration::
+void LABSoft_Presenter_Calibration::
 cb_show_window ()
 {
   gui ().main_fl_window_calibration->set_modal ();
@@ -36,20 +36,20 @@ cb_show_window ()
   update_data ();
 }
 
-void LABSoft_Controller_Calibration::
+void LABSoft_Presenter_Calibration::
 cb_cancel ()
 {
   gui ().main_fl_window_calibration->hide ();
   gui ().main_fl_window_calibration->clear_modal_states ();
 }
 
-void LABSoft_Controller_Calibration::
+void LABSoft_Presenter_Calibration::
 cb_save ()
 {
 
 }
 
-void LABSoft_Controller_Calibration:: 
+void LABSoft_Presenter_Calibration:: 
 cb_osc_adc_ref_voltage (Fl_Input* w, 
                         void*     data)
 {

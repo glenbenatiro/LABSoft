@@ -1,27 +1,27 @@
-#include "LABSoft_Controller_Voltmeter.h"
+#include "LABSoft_Presenter_Voltmeter.h"
 
 #include "../LAB/LAB.h"
-#include "LABSoft_Controller.h"
+#include "LABSoft_Presenter.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
 
-LABSoft_Controller_Voltmeter:: 
-LABSoft_Controller_Voltmeter (LABSoft_Controller& _LABSoft_Controller)
-  : LABSoft_Controller_Unit (_LABSoft_Controller)
+LABSoft_Presenter_Voltmeter:: 
+LABSoft_Presenter_Voltmeter (LABSoft_Presenter& _LABSoft_Presenter)
+  : LABSoft_Presenter_Unit (_LABSoft_Presenter)
 {
   init_gui_values ();
 }
 
-void LABSoft_Controller_Voltmeter:: 
+void LABSoft_Presenter_Voltmeter:: 
 init_gui_values ()
 {
-  LABSoft_GUI& gui = m_controller.gui ();
+  LABSoft_GUI& gui = m_presenter.gui ();
 
   gui.voltmeter_fl_output_chan_0_value->value ("- . - -");
   gui.voltmeter_fl_output_chan_1_value->value ("- . - -");
 }
 
-void LABSoft_Controller_Voltmeter:: 
+void LABSoft_Presenter_Voltmeter:: 
 cb_run_stop  (Fl_Light_Button* w, 
               void*            data)
 {
@@ -37,7 +37,7 @@ cb_run_stop  (Fl_Light_Button* w,
   }
 }
 
-void LABSoft_Controller_Voltmeter:: 
+void LABSoft_Presenter_Voltmeter:: 
 display_update_cycle ()
 {
   if (lab ().m_Voltmeter.is_running ())
