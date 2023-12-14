@@ -29,13 +29,16 @@ run ()
   {
     osc.osc_core_run_stop (true);
   }
-
+  
+  // load voltmeter settings
+  lab ().m_Oscilloscope.trigger_mode  (LABE::OSC::TRIG::MODE::NONE);   
   lab ().m_Oscilloscope.samples       (LABC::OSC::MAX_SAMPLES);
   lab ().m_Oscilloscope.sampling_rate (LABC::VOLTMETER::SAMPLING_RATE);
 
   for (int a = 0; a < LABC::VOLTMETER::NUMBER_OF_CHANNELS; a++)
   {
-    lab ().m_Oscilloscope.coupling (a, LABE::OSC::COUPLING::DC);
+    lab ().m_Oscilloscope.coupling  (a, LABE::OSC::COUPLING::DC);
+    lab ().m_Oscilloscope.scaling   (a, LABC::VOLTMETER::SCALING);
   }
   
   m_is_running = true;
@@ -53,6 +56,8 @@ double LAB_Voltmeter::
 read_voltage (unsigned chan)
 {
   lab ().m_Oscilloscope.update_data_samples ();
+
+  constexpr double factor = 2.0;
   
-  return (lab ().m_Oscilloscope.parent_data ().channel_data[chan].samples[0]);
+  return ((lab ().m_Oscilloscope.parent_data ().channel_data[chan].samples[0]) * factor);
 }

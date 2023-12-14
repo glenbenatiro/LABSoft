@@ -138,17 +138,17 @@ calc_mid_sample_to_center_offset () const
   return (std::round ((m_graphing_area_width / m_osc.samples ()) / (-2.0)));
 }
 
-LAB_Oscilloscope_Display::Scalers LAB_Oscilloscope_Display::
+LAB_Oscilloscope_Display::ChanDoubles LAB_Oscilloscope_Display::
 calc_sample_y_scaler () const
 {
-  LAB_Oscilloscope_Display::Scalers scalers;
+  LAB_Oscilloscope_Display::ChanDoubles doubles;
 
-  for (int chan = 0; chan < scalers.size (); chan++)
+  for (int chan = 0; chan < doubles.size (); chan++)
   {
-    scalers[chan] = (m_height / 2.0) / ((m_rows / 2.0) * m_osc.voltage_per_division (chan));
+    doubles[chan] = (m_height / 2.0) / ((m_rows / 2.0) * m_osc.voltage_per_division (chan));
   }
 
-  return (scalers);
+  return (doubles);
 }
 
 bool LAB_Oscilloscope_Display:: 
@@ -170,7 +170,22 @@ int LAB_Oscilloscope_Display::
 calc_sample_y_coord (double   sample, 
                      unsigned channel) const
 {
-  return (std::round (m_display_height_midline - (sample * m_sample_y_scaler[channel])));
+  double samp_with_offset = sample + m_vertical_offset[channel];
+
+  return (std::round (m_display_height_midline - (samp_with_offset * m_sample_y_scaler[channel])));
+}
+
+LAB_Oscilloscope_Display::ChanDoubles LAB_Oscilloscope_Display:: 
+calc_vertical_offset () const
+{
+  LAB_Oscilloscope_Display::ChanDoubles doubles;
+
+  for (int chan = 0; chan < m_vertical_offset.size (); chan++)
+  {
+    doubles[chan] = m_osc.vertical_offset (chan);
+  }
+
+  return (doubles);
 }
 
 void LAB_Oscilloscope_Display:: 
@@ -219,6 +234,7 @@ update_cached_values ()
   m_mid_sample_to_center_offset     = calc_mid_sample_to_center_offset    ();
   m_sample_y_scaler                 = calc_sample_y_scaler                ();
   m_mark_samples                    = calc_mark_samples                   (tpd_ds, m_samples_to_display);
+  m_vertical_offset                 = calc_vertical_offset                ();
 
   resize_pixel_points (m_pixel_points, m_osc.samples ());
 

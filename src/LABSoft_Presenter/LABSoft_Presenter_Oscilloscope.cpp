@@ -283,7 +283,7 @@ update_gui_vertical_offset (unsigned channel) const
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->
     vertical_offset (channel, lab ().m_Oscilloscope.vertical_offset (channel));
 
-  // lab ().m_Oscilloscope_Display.update_cached_values ();
+  lab ().m_Oscilloscope_Display.update_cached_values ();
 }
 
 void LABSoft_Presenter_Oscilloscope:: 
@@ -294,7 +294,7 @@ update_gui_voltage_per_division (unsigned channel) const
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->
     voltage_per_division (channel, lab ().m_Oscilloscope.voltage_per_division (channel));
 
-  // lab ().m_Oscilloscope_Display.update_cached_values ();
+  lab ().m_Oscilloscope_Display.update_cached_values ();
 }
 
 void LABSoft_Presenter_Oscilloscope:: 

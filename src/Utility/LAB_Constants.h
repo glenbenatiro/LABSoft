@@ -44,7 +44,7 @@ namespace LABC
     // last to be initialized, after Function Generator. 
     // So LAB_Logic_Analyzer's GPIO pin init is called last.
 
-    constexpr unsigned LOGAN[] = {1, 5, 19, 26};
+    constexpr unsigned LOGAN[] = {17, 18, 5, 26};
   };
 
   namespace DMA
@@ -222,8 +222,9 @@ namespace LABC
   
   namespace VOLTMETER
   {
-    constexpr unsigned  NUMBER_OF_CHANNELS  = OSC::NUMBER_OF_CHANNELS;
-    constexpr double    SAMPLING_RATE       = 50'000.0; // Hz
+    constexpr unsigned            NUMBER_OF_CHANNELS  = OSC::NUMBER_OF_CHANNELS;
+    constexpr double              SAMPLING_RATE       = 1'000.0; // Hz
+    constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::HALF;
   };
 
   namespace FUNC_GEN
@@ -267,7 +268,7 @@ namespace LABC
   {
     // General
     constexpr unsigned                NUMBER_OF_CHANNELS              = sizeof (PIN::LOGAN) / sizeof (PIN::LOGAN[0]);
-    constexpr unsigned                MAX_NUMBER_OF_SAMPLES               = 2'000;
+    constexpr unsigned                MAX_NUMBER_OF_SAMPLES           = 2'000;
     constexpr unsigned                SAMPLE_SIZE                     = sizeof (uint32_t); // bytes
 
     // Uncached Oscilloscope DMA Data Info

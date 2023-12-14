@@ -271,12 +271,14 @@ run ()
     lab ().m_Voltmeter.stop ();
   }
 
+  trigger_mode    (m_parent_data.trigger_mode);
   samples         (m_parent_data.samples);
   sampling_rate   (m_parent_data.sampling_rate);
 
   for (int a = 0; a < m_parent_data.channel_data.size (); a++)
   {
-    coupling (a, m_parent_data.channel_data[a].coupling);
+    coupling  (a, m_parent_data.channel_data[a].coupling);
+    scaling   (a, m_parent_data.channel_data[a].scaling);
   }
 
   master_run_stop (true);
@@ -571,38 +573,31 @@ parse_raw_osc_samp_buff ()
 
   for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
-    if (samp == 0)
-    {
-      uint32_t  rsamp = pdata.raw_data_buffer[samp];
-      uint16_t  chan1 = (rsamp & 0xFFFF);
-      uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
+    // DEBUG!
+    // if (samp == 0)
+    // {
+    //   uint32_t  rsamp = pdata.raw_data_buffer[samp];
+    //   uint16_t  chan1 = (rsamp & 0xFFFF);
+    //   uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
 
-      std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp)  << "\n";
-      std::cout << "raw chan 1              : " << std::bitset<16> (chan1) << "\n";
-      std::cout << "raw chan 2              : " << std::bitset<16> (chan2) << "\n";
-      std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
-      std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
+    //   std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp)  << "\n";
+    //   std::cout << "raw chan 1              : " << std::bitset<16> (chan1) << "\n";
+    //   std::cout << "raw chan 2              : " << std::bitset<16> (chan2) << "\n";
+    //   std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
+    //   std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
 
-      std::cout << "\n";
-    }
+    //   std::cout << "\n";
+    // }
 
     for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
     {
       pdata.channel_data[chan].samples[samp] = 
         conv_raw_osc_samp_to_actual_chan_value (pdata.raw_data_buffer[samp], chan);
       
-      // // FOR DEBUG!!
+      // // FOR DEBUG TO GENERATE DUMMY SINE DATA!!
       // double x = 2.5 * sin (2.0 * 3.14159265358 * (10.0 / 2000.0) * (samp));
       // pdata.channel_data[chan].samples[samp] = x;
-              
-      // if (samp == 0 && chan == 0)
-      // {
-      //   // std::cout << std::hex <<
-      //   //   conv_raw_osc_samp_to_recon_chan_adc_data (pdata.raw_data_buffer[samp], chan) << "\n";
 
-      //   // std::cout << 
-      //   //   conv_raw_osc_samp_to_recon_chan_adc_data (pdata.channel_data[chan].samples[samp], chan) << "\n";
-      // }
     }
   }
 
@@ -642,8 +637,11 @@ reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,
   // 1. supposed original and correct
   // uint32_t recon_adc_data = ((raw_osc_chan_samp & 0xFF) << 8) | ((raw_osc_chan_samp & 0xFF00) >> 8);
 
-  // 2. idk why lahi jud ang bits
-  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0x3F) << 6) | ((raw_osc_chan_samp & 0xFC00) >> 10);
+  // 2. idk why lahi jud ang bits (IF 7 BITS ANG MSB NAA SA PINAKA RIGHT)
+  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0x007F) << 5) | ((raw_osc_chan_samp & 0xF800) >> 11);
+
+  // debug, MSB off by one clock...?
+  recon_adc_data <<= 1;
 
   return (recon_adc_data);
 }
@@ -654,8 +652,11 @@ reconstruct_raw_osc_chan_samp_from_adc_data (uint32_t adc_data)
   // 1. supposed original and correct
   // uint32_t recon_raw_osc_chan_samp = (reconstruct_adc_data_from_raw_osc_chan_samp (adc_data, 0));
 
-  // 2. idk why lahi jud ang bits
-  uint32_t recon_raw_osc_chan_samp = ((adc_data & 0x003F) << 10) | ((adc_data & 0x0FC0) >> 6);
+  // debug, MSB off by one clock...?
+  uint32_t temp = adc_data >>= 1;
+
+  // 2. idk why lahi jud ang bits (IF 7 BITS ANG MSB NAA SA PINAKA RIGHT)
+  uint32_t recon_raw_osc_chan_samp = ((temp & 0x0FE0) >> 5) | ((temp & 0x001F) << 11);
 
   return (recon_raw_osc_chan_samp);
 }
@@ -664,9 +665,6 @@ double LAB_Oscilloscope::
 conv_adc_data_to_actual_value (uint32_t adc_data,
                                unsigned channel)
 {
-  //debug
-  adc_data <<= 1;
-
   bool      sign    = (adc_data >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
   uint32_t  abs_val = adc_data & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
   double    act_val = abs_val * m_parent_data.calibration.conversion_constant;

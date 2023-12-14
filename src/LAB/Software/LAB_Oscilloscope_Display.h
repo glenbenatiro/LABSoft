@@ -16,7 +16,7 @@ class LAB_Oscilloscope_Display : public LAB_Module
     using PixelPoints = std::array<std::vector<std::array<int, 2>>, 
                       LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS>;
 
-    using Scalers     = std::array<double, LABC::OSC::NUMBER_OF_CHANNELS>;
+    using ChanDoubles = std::array<double, LABC::OSC::NUMBER_OF_CHANNELS>;
 
     enum class DRAW_MODE
     {
@@ -49,28 +49,29 @@ class LAB_Oscilloscope_Display : public LAB_Module
     int         m_horizontal_offset_start_offset  = 0;
     int         m_mid_sample_to_center_offset     = 0;
 
-    std::array<double, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> 
-      m_sample_y_scaler = {0.0};
+    ChanDoubles m_sample_y_scaler = {0.0};
+    ChanDoubles m_vertical_offset = {0.0};
     
     // data
     PixelPoints m_pixel_points;
   
   private: 
-    double    calc_time_per_division_delta_scaler ()                                                          const;
-    DRAW_MODE calc_draw_mode                      (double tpd_ds)                                             const;
-    unsigned  calc_samples_to_display             ()                                                          const;
-    unsigned  calc_graphing_area_width            (double tpd_ds, unsigned display_width)                     const;
-    double    calc_x_coord_scaling                (unsigned graphing_area_width, unsigned number_of_samples)  const;
-    int       calc_x_coord_start_offset           (unsigned graphing_area_width, unsigned display_width)      const;
-    int       calc_horizontal_offset_start_offset (unsigned display_width)                                    const;
-    int       calc_mid_sample_to_center_offset    ()                                                          const;
-    Scalers   calc_sample_y_scaler                ()                                                          const;
-    bool      calc_mark_samples                   (double tpd_ds, unsigned samples_to_display)                const;
-    int       calc_sample_x_coord                 (unsigned index)                                            const;
-    int       calc_sample_y_coord                 (double sample, unsigned channel)                           const;
-    void      resize_pixel_points                 (PixelPoints& pixel_points, unsigned size);
-    void      update_cached_display_values        ();
-    void      debug                               () const;
+    double      calc_time_per_division_delta_scaler ()                                                          const;
+    DRAW_MODE   calc_draw_mode                      (double tpd_ds)                                             const;
+    unsigned    calc_samples_to_display             ()                                                          const;
+    unsigned    calc_graphing_area_width            (double tpd_ds, unsigned display_width)                     const;
+    double      calc_x_coord_scaling                (unsigned graphing_area_width, unsigned number_of_samples)  const;
+    int         calc_x_coord_start_offset           (unsigned graphing_area_width, unsigned display_width)      const;
+    int         calc_horizontal_offset_start_offset (unsigned display_width)                                    const;
+    int         calc_mid_sample_to_center_offset    ()                                                          const;
+    ChanDoubles calc_sample_y_scaler                ()                                                          const;
+    bool        calc_mark_samples                   (double tpd_ds, unsigned samples_to_display)                const;
+    int         calc_sample_x_coord                 (unsigned index)                                            const;
+    int         calc_sample_y_coord                 (double sample, unsigned channel)                           const;
+    ChanDoubles calc_vertical_offset                ()                                                          const;
+    void        resize_pixel_points                 (PixelPoints& pixel_points, unsigned size);
+    void        update_cached_display_values        ();
+    void        debug                               () const;
 
   public:
     LAB_Oscilloscope_Display (LAB& _LAB, LAB_Oscilloscope& _LAB_Oscilloscope);
