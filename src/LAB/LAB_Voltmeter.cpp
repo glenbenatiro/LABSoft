@@ -57,7 +57,7 @@ read_voltage (unsigned chan)
 {
   lab ().m_Oscilloscope.update_data_samples ();
 
-  constexpr double factor = 2.0;
+  constexpr double factor = 1.0;
   
   return ((lab ().m_Oscilloscope.parent_data ().channel_data[chan].samples[0]) * factor);
 }

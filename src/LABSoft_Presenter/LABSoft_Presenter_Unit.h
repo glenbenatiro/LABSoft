@@ -15,7 +15,7 @@ class LABSoft_Presenter_Unit
 
     LAB&                lab       () const;
     LABSoft_GUI&        gui       () const;
-    LABSoft_Presenter& presenter () const;
+    LABSoft_Presenter&  presenter () const;
 };
 
 #endif

@@ -30,6 +30,7 @@ struct LAB_Parent_Data_Oscilloscope
     bool              is_backend_running      = false; 
     bool              is_frontend_running     = false;
     bool              single                  = false;
+    bool              do_measurements         = false;
     LABE::OSC::STATUS status                  = LABE::OSC::STATUS::READY;
     
     // mode
@@ -101,6 +102,14 @@ struct LAB_Parent_Data_Oscilloscope
       double conversion_reference_voltage = LABD::OSC::CONVERSION_REFERENCE_VOLTAGE;
       double conversion_constant          = LABD::OSC::CONVERSION_CONSTANT;
     } calibration;
+
+    struct Measurements 
+    {
+      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> min   = {0.0};
+      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> max   = {0.0};
+      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> avg   = {0.0};
+      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> trms  = {0.0};
+    } measurements;
 
   public:
     bool has_enabled_channels () const

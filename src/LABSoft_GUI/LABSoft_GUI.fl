@@ -22,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {1920 292 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {0 0 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -77,13 +77,18 @@ class LABSoft_GUI {open
           label Oscilloscope open
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
+          Fl_Light_Button oscilloscope_fl_light_button_debug_measurements {
+            label {DEBUG: Measurements}
+            callback {m_LABSoft_Presenter->m_Oscilloscope.cb_debug_measurements (o, v);}
+            xywh {1070 280 120 40} color 172 labelsize 12 align 144
+          }
           Fl_Group oscilloscope_labsoft_gui_oscilloscope_display {
             xywh {20 70 700 510} box FLAT_BOX color 0 labelsize 12
             code0 {\#include "LABSoft_GUI_Oscilloscope_Display.h"}
             class LABSoft_GUI_Oscilloscope_Display
           } {}
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
-            label {Channel 1} open
+            label {Channel 1}
             xywh {740 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_0_enable {
@@ -101,7 +106,7 @@ class LABSoft_GUI {open
             Fl_Choice oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling {
               label Scaling
               user_data 0 user_data_type long
-              callback {m_LABSoft_Presenter->m_Oscilloscope.cb_scaling (o, v);} open
+              callback {m_LABSoft_Presenter->m_Oscilloscope.cb_scaling (o, v);}
               xywh {760 205 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 11
               code0 {oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling->box (FL_FLAT_BOX);}
               class LABSoft_GUI_Fl_Choice_With_Scroll
@@ -213,7 +218,7 @@ class LABSoft_GUI {open
             Fl_Input_Choice oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset {
               label Offset
               user_data 0 user_data_type long
-              callback {m_LABSoft_Presenter->m_Oscilloscope.cb_vertical_offset (o, v);} selected
+              callback {m_LABSoft_Presenter->m_Oscilloscope.cb_vertical_offset (o, v);}
               xywh {760 295 100 25} box NO_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 12
               code0 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
               code1 {oscilloscope_labsoft_gui_fl_input_choice_with_scroll_channel_0_vertical_offset->input ()->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
@@ -340,7 +345,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_1 {
-            label {Channel 2} open
+            label {Channel 2}
             xywh {900 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
@@ -1291,23 +1296,77 @@ class LABSoft_GUI {open
           label Voltmeter
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
-          Fl_Output voltmeter_fl_output_chan_0_value {
-            label {Channel 1 DC}
-            user_data 0 user_data_type long
-            xywh {250 200 320 60} box GTK_DOWN_BOX color 55 labelsize 12 align 1 textsize 36
+          Fl_Box {} {
+            label {Channel 1}
+            xywh {390 90 35 17} labelsize 12
           }
-          Fl_Output voltmeter_fl_output_chan_1_value {
-            label {Channel 2 DC}
-            user_data 1 user_data_type long
-            xywh {650 200 320 60} box GTK_DOWN_BOX color 55 labelsize 12 align 1 textsize 36
+          Fl_Output voltmeter_fl_output_chan_0_dc {
+            label DC
+            user_data 0 user_data_type long
+            xywh {250 120 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
+          }
+          Fl_Output voltmeter_fl_output_chan_0_trms {
+            label {True RMS}
+            user_data 0 user_data_type long
+            xywh {250 190 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
+          }
+          Fl_Output voltmeter_fl_output_chan_0_high {
+            label High
+            user_data 0 user_data_type long
+            xywh {250 260 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
+          }
+          Fl_Output voltmeter_fl_output_chan_0_low {
+            label Low
+            user_data 0 user_data_type long
+            xywh {250 330 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
           Fl_Box {} {
-            label {This instrument can only measure DC voltages.}
-            xywh {592 320 35 17} labelsize 12
+            label {Channel 2}
+            xywh {795 90 35 17} labelsize 12
+          }
+          Fl_Output voltmeter_fl_output_chan_1_dc {
+            label DC
+            user_data 1 user_data_type long
+            xywh {650 120 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
+          }
+          Fl_Output voltmeter_fl_output_chan_1_trms {
+            label {True RMS}
+            user_data 0 user_data_type long
+            xywh {650 190 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
+          }
+          Fl_Output voltmeter_fl_output_chan_1_high {
+            label High
+            user_data 0 user_data_type long
+            xywh {650 260 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
+          }
+          Fl_Output voltmeter_fl_output_chan_1_low {
+            label {True RMS}
+            user_data 0 user_data_type long
+            xywh {650 330 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
           Fl_Light_Button voltmeter_fl_light_button_run_stop {
             label Run
             callback {m_LABSoft_Presenter->m_Voltmeter.cb_run_stop (o, v);}
+            comment {					}
+            xywh {520 430 180 60} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
+          }
+        }
+        Fl_Group main_fl_group_ohmmeter_tab {
+          label Ohmmeter
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+        } {
+          Fl_Output ohmmeter_fl_output_resistance {
+            label Resistance
+            user_data 0 user_data_type long
+            xywh {450 200 320 60} box GTK_DOWN_BOX color 55 labelsize 12 align 1 textsize 36
+          }
+          Fl_Box {} {
+            label {Connect the ohmmeter reading header to the Channel 1 input of the oscilloscope.}
+            xywh {510 320 200 17} labelsize 12
+          }
+          Fl_Light_Button ohmmeter_fl_light_button_run_stop {
+            label Run
+            callback {m_LABSoft_Presenter->m_Ohmmeter.cb_run_stop (o, v);}
             comment {					}
             xywh {520 400 180 60} box GTK_UP_BOX color 54 selection_color 63 labelsize 12 align 16
           }

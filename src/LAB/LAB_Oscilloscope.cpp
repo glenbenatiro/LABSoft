@@ -6,6 +6,9 @@
 #include "LAB.h"
 #include "../Utility/LAB_Utility_Functions.h"
 
+#include "Software/LAB_Data_Measurer.h"
+#include "Software/LAB_Data_Measurer.cpp"
+
 // delete soon
 #include <iostream>
 #include <bitset>
@@ -306,11 +309,15 @@ osc_core_run_stop (bool value)
 {
   if (value)
   {
+    do_measurements (false);
+
     rpi ().pwm.start (LABC::PWM::DMA_PACING_CHAN);
     m_parent_data.is_backend_running = true;
   }
   else
   {
+    do_measurements (false);
+
     rpi ().pwm.stop (LABC::PWM::DMA_PACING_CHAN);
     m_parent_data.is_backend_running = false;
   }
@@ -325,6 +332,8 @@ osc_frontend_run_stop (bool value)
 void LAB_Oscilloscope:: 
 single ()
 {
+  do_measurements (false);
+
   if (!is_backend_running ())
   {
     osc_core_run_stop (true);
@@ -334,6 +343,14 @@ single ()
   rpi ().dma.clear_interrupt (LABC::DMA::CHAN::OSC_RX);
 
   m_parent_data.single = true;
+}
+
+void LAB_Oscilloscope::
+do_measurements (bool value)
+{
+  std::cout << "measurements toggled: " << value << "\n";
+
+  m_parent_data.do_measurements = value;
 }
 
 void LAB_Oscilloscope:: 
@@ -589,15 +606,47 @@ parse_raw_osc_samp_buff ()
     //   std::cout << "\n";
     // }
 
-    for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
+    int chan = 0;
+
+    for (chan = 0; chan < pdata.channel_data.size (); chan++)
     {
+      if (!is_channel_enabled (chan))
+      {
+        continue;
+      }
+
       pdata.channel_data[chan].samples[samp] = 
         conv_raw_osc_samp_to_actual_chan_value (pdata.raw_data_buffer[samp], chan);
-      
-      // // FOR DEBUG TO GENERATE DUMMY SINE DATA!!
-      // double x = 2.5 * sin (2.0 * 3.14159265358 * (10.0 / 2000.0) * (samp));
-      // pdata.channel_data[chan].samples[samp] = x;
 
+      // FOR DEBUG TO GENERATE DUMMY SINE DATA
+      // double y = 2 * sin (2 * 3.141592653 * (1.0 / 0.005) * (samp / 2000.0));
+      double y = 2 * sin (2 * 3.141592653 * (1.0 / 0.005) * (samp / 2000.0) * rpi ().st.low ());
+
+      // double x = 2.5 * sin (2.0 * 3.141592 * (10.0 / 2000.0) * (samp));
+      pdata.channel_data[chan].samples[samp] = y + 1.234;
+    }
+  }
+
+  for (int chan = 0; chan < pdata.channel_data.size(); chan++)
+  {
+    if (is_channel_enabled (chan))
+    {
+      if (pdata.do_measurements)
+      {
+        std::tuple<double, double, double> min_max_avg = 
+          LAB_Data_Measurer::min_max_avg (pdata.channel_data[chan].samples);
+        
+        pdata.measurements.min[chan] = std::get<0> (min_max_avg);
+        pdata.measurements.max[chan] = std::get<1> (min_max_avg);
+        pdata.measurements.avg[chan] = std::get<2> (min_max_avg);
+
+        pdata.measurements.trms[chan] = LAB_Data_Measurer::true_rms<double> (pdata.channel_data[chan].samples);
+
+        std::cout << "chan " << chan << "min: " <<  pdata.measurements.min[chan] << "\n";
+        std::cout << "chan " << chan << "max: " <<  pdata.measurements.max[chan] << "\n";
+        std::cout << "chan " << chan << "avg: " <<  pdata.measurements.avg[chan] << "\n";
+        std::cout << "chan " << chan << "trms: " <<  pdata.measurements.trms[chan] << "\n";
+      }
     }
   }
 

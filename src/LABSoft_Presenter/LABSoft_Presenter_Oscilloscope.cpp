@@ -751,4 +751,10 @@ display_update_cycle ()
   presenter ().m_Oscilloscope_Display.update_display ();
 }
 
+void LABSoft_Presenter_Oscilloscope:: 
+cb_debug_measurements (Fl_Light_Button* w, void* data)
+{
+  lab ().m_Oscilloscope.do_measurements (w->value ());
+}
+
 // EOF

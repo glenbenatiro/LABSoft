@@ -82,6 +82,9 @@ class LABSoft_Presenter_Oscilloscope : public LABSoft_Presenter_Unit
 
     // GUI update
     void display_update_cycle         ();
+
+    // debug
+    void cb_debug_measurements (Fl_Light_Button* w, void* data);
 };
 
 #endif

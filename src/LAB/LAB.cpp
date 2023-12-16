@@ -6,6 +6,7 @@ LAB::LAB ()
 : m_LAB_Core                (AikaPi::get_instance ()),
   m_Oscilloscope            (*this),
   m_Voltmeter               (*this),
+  m_Ohmmeter                (*this),
   m_Function_Generator      (*this),
   m_Logic_Analyzer          (*this),
   m_Digital_Circuit_Checker (*this),

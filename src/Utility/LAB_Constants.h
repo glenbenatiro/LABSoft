@@ -25,7 +25,7 @@ namespace LABC
   {
     constexpr double EPSILON = 1e-9;
 
-    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 15.0; // 25 fps
+    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 15.0; // 15 fps
 
     enum class FL_TAB_GROUP_COLOR : uint32_t
     {
@@ -223,7 +223,7 @@ namespace LABC
   namespace VOLTMETER
   {
     constexpr unsigned            NUMBER_OF_CHANNELS  = OSC::NUMBER_OF_CHANNELS;
-    constexpr double              SAMPLING_RATE       = 1'000.0; // Hz
+    constexpr double              SAMPLING_RATE       = 100'000.0; // Hz
     constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::HALF;
   };
 
@@ -279,7 +279,7 @@ namespace LABC
     // Horizontal
     constexpr unsigned                DISPLAY_NUMBER_OF_COLUMNS       = 10;
     constexpr double                  MAX_SAMPLING_RATE               = 100;  // Hz
-    constexpr double                  MIN_SAMPLING_RATE               = 1.0;        // Hz
+    constexpr double                  MIN_SAMPLING_RATE               = 0.1;        // Hz
     constexpr unsigned                MAX_SAMPLES                     = MAX_NUMBER_OF_SAMPLES;
     constexpr unsigned                MAX_SAMPLES_RECORDING           = 1'000'000;  
     constexpr unsigned                MIN_SAMPLES                     = 2;

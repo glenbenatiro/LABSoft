@@ -99,6 +99,7 @@ class LAB_Oscilloscope : public LAB_Module
     void                  osc_core_run_stop       (bool value);
     void                  osc_frontend_run_stop   (bool value);
     void                  single                  ();
+    void                  do_measurements         (bool value);
 
     // mode 
     void                  mode                    (LABE::OSC::MODE mode);
@@ -175,6 +176,9 @@ class LAB_Oscilloscope : public LAB_Module
     double raw_buffer_sampling_rate     () const;
     
     const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>& chan_samples (unsigned channel) const;
+    
+    // measurements
+
 };
 
 #endif

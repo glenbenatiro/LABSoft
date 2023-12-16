@@ -10,11 +10,11 @@ class LABSoft_Presenter;
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
-#include "LABSoft_GUI_Oscilloscope_Display.h"
 #include <FL/Fl_Light_Button.H>
+#include "LABSoft_GUI_Oscilloscope_Display.h"
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Output.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Output.H>
 #include <FL/Fl_Menu_Button.H>
 #include "LABSoft_GUI_Logic_Analyzer_Display.h"
 #include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"
@@ -51,6 +51,11 @@ private:
   static void cb_main_fl_tabs(Fl_Tabs*, void*);
 public:
   Fl_Group *main_fl_group_oscilloscope_tab;
+  Fl_Light_Button *oscilloscope_fl_light_button_debug_measurements;
+private:
+  inline void cb_oscilloscope_fl_light_button_debug_measurements_i(Fl_Light_Button*, void*);
+  static void cb_oscilloscope_fl_light_button_debug_measurements(Fl_Light_Button*, void*);
+public:
   LABSoft_GUI_Oscilloscope_Display *oscilloscope_labsoft_gui_oscilloscope_display;
   Fl_Group *oscilloscope_fl_group_vertical_channel_0;
   Fl_Light_Button *oscilloscope_fl_light_button_channel_0_enable;
@@ -194,12 +199,25 @@ private:
   static Fl_Menu_Item menu_oscilloscope_labsoft_gui_fl_input_choice_with_scroll_trigger_level[];
 public:
   Fl_Group *main_fl_group_voltmeter_tab;
-  Fl_Output *voltmeter_fl_output_chan_0_value;
-  Fl_Output *voltmeter_fl_output_chan_1_value;
+  Fl_Output *voltmeter_fl_output_chan_0_dc;
+  Fl_Output *voltmeter_fl_output_chan_0_trms;
+  Fl_Output *voltmeter_fl_output_chan_0_high;
+  Fl_Output *voltmeter_fl_output_chan_0_low;
+  Fl_Output *voltmeter_fl_output_chan_1_dc;
+  Fl_Output *voltmeter_fl_output_chan_1_trms;
+  Fl_Output *voltmeter_fl_output_chan_1_high;
+  Fl_Output *voltmeter_fl_output_chan_1_low;
   Fl_Light_Button *voltmeter_fl_light_button_run_stop;
 private:
   inline void cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
   static void cb_voltmeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
+public:
+  Fl_Group *main_fl_group_ohmmeter_tab;
+  Fl_Output *ohmmeter_fl_output_resistance;
+  Fl_Light_Button *ohmmeter_fl_light_button_run_stop;
+private:
+  inline void cb_ohmmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
+  static void cb_ohmmeter_fl_light_button_run_stop(Fl_Light_Button*, void*);
 public:
   Fl_Group *main_fl_group_function_generator_tab;
   LABSoft_GUI_Fl_Choice_With_Scroll *function_generator_fl_choice_wave_type;

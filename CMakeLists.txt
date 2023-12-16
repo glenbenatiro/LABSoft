@@ -34,12 +34,14 @@ ADD_EXECUTABLE(LABSoft
   src/LAB/LAB.cpp
   src/LAB/LAB_Oscilloscope.cpp
   src/LAB/LAB_Voltmeter.cpp
+  src/LAB/LAB_Ohmmeter.cpp
   src/LAB/LAB_Function_Generator.cpp
   src/LAB/LAB_Logic_Analyzer.cpp
   src/LAB/LAB_Digital_Circuit_Checker.cpp
 
   src/LAB/Software/LAB_Exporter.cpp
   src/LAB/Software/LAB_Calibration.cpp
+  src/LAB/Software/LAB_Data_Measurer.cpp
   src/LAB/Software/LAB_LABChecker_Digital.cpp
   src/LAB/Software/LAB_Oscilloscope_Display.cpp
 
@@ -47,6 +49,7 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Presenter/LABSoft_Presenter.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Voltmeter.cpp
+  src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Function_Generator.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp

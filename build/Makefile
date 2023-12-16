@@ -385,6 +385,33 @@ src/LAB/LAB_Module.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Module.cpp.s
 .PHONY : src/LAB/LAB_Module.cpp.s
 
+src/LAB/LAB_Ohmmeter.o: src/LAB/LAB_Ohmmeter.cpp.o
+
+.PHONY : src/LAB/LAB_Ohmmeter.o
+
+# target to build an object file
+src/LAB/LAB_Ohmmeter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o
+.PHONY : src/LAB/LAB_Ohmmeter.cpp.o
+
+src/LAB/LAB_Ohmmeter.i: src/LAB/LAB_Ohmmeter.cpp.i
+
+.PHONY : src/LAB/LAB_Ohmmeter.i
+
+# target to preprocess a source file
+src/LAB/LAB_Ohmmeter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.i
+.PHONY : src/LAB/LAB_Ohmmeter.cpp.i
+
+src/LAB/LAB_Ohmmeter.s: src/LAB/LAB_Ohmmeter.cpp.s
+
+.PHONY : src/LAB/LAB_Ohmmeter.s
+
+# target to generate assembly for a file
+src/LAB/LAB_Ohmmeter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.s
+.PHONY : src/LAB/LAB_Ohmmeter.cpp.s
+
 src/LAB/LAB_Oscilloscope.o: src/LAB/LAB_Oscilloscope.cpp.o
 
 .PHONY : src/LAB/LAB_Oscilloscope.o
@@ -465,6 +492,33 @@ src/LAB/Software/LAB_Calibration.s: src/LAB/Software/LAB_Calibration.cpp.s
 src/LAB/Software/LAB_Calibration.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Calibration.cpp.s
 .PHONY : src/LAB/Software/LAB_Calibration.cpp.s
+
+src/LAB/Software/LAB_Data_Measurer.o: src/LAB/Software/LAB_Data_Measurer.cpp.o
+
+.PHONY : src/LAB/Software/LAB_Data_Measurer.o
+
+# target to build an object file
+src/LAB/Software/LAB_Data_Measurer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Data_Measurer.cpp.o
+.PHONY : src/LAB/Software/LAB_Data_Measurer.cpp.o
+
+src/LAB/Software/LAB_Data_Measurer.i: src/LAB/Software/LAB_Data_Measurer.cpp.i
+
+.PHONY : src/LAB/Software/LAB_Data_Measurer.i
+
+# target to preprocess a source file
+src/LAB/Software/LAB_Data_Measurer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Data_Measurer.cpp.i
+.PHONY : src/LAB/Software/LAB_Data_Measurer.cpp.i
+
+src/LAB/Software/LAB_Data_Measurer.s: src/LAB/Software/LAB_Data_Measurer.cpp.s
+
+.PHONY : src/LAB/Software/LAB_Data_Measurer.s
+
+# target to generate assembly for a file
+src/LAB/Software/LAB_Data_Measurer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LAB/Software/LAB_Data_Measurer.cpp.s
+.PHONY : src/LAB/Software/LAB_Data_Measurer.cpp.s
 
 src/LAB/Software/LAB_Exporter.o: src/LAB/Software/LAB_Exporter.cpp.o
 
@@ -1006,6 +1060,33 @@ src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s
 .PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s
 
+src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.o: src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.o
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.o
+
+# target to build an object file
+src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.o
+.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.o
+
+src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.i: src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.i
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.i
+.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.i
+
+src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.s: src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.s
+
+.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.s
+.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.s
+
 src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.o: src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.cpp.o
 
 .PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.o
@@ -1420,6 +1501,9 @@ help:
 	@echo "... src/LAB/LAB_Module.o"
 	@echo "... src/LAB/LAB_Module.i"
 	@echo "... src/LAB/LAB_Module.s"
+	@echo "... src/LAB/LAB_Ohmmeter.o"
+	@echo "... src/LAB/LAB_Ohmmeter.i"
+	@echo "... src/LAB/LAB_Ohmmeter.s"
 	@echo "... src/LAB/LAB_Oscilloscope.o"
 	@echo "... src/LAB/LAB_Oscilloscope.i"
 	@echo "... src/LAB/LAB_Oscilloscope.s"
@@ -1429,6 +1513,9 @@ help:
 	@echo "... src/LAB/Software/LAB_Calibration.o"
 	@echo "... src/LAB/Software/LAB_Calibration.i"
 	@echo "... src/LAB/Software/LAB_Calibration.s"
+	@echo "... src/LAB/Software/LAB_Data_Measurer.o"
+	@echo "... src/LAB/Software/LAB_Data_Measurer.i"
+	@echo "... src/LAB/Software/LAB_Data_Measurer.s"
 	@echo "... src/LAB/Software/LAB_Exporter.o"
 	@echo "... src/LAB/Software/LAB_Exporter.i"
 	@echo "... src/LAB/Software/LAB_Exporter.s"
@@ -1489,6 +1576,9 @@ help:
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.o"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.i"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.s"
+	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.o"
+	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.i"
+	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.s"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.o"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.i"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Oscilloscope.s"

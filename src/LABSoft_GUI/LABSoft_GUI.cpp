@@ -61,6 +61,13 @@ void LABSoft_GUI::cb_main_fl_tabs(Fl_Tabs* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_main_fl_tabs_i(o,v);
 }
 
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_debug_measurements_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Presenter->m_Oscilloscope.cb_debug_measurements (o, v);
+}
+void LABSoft_GUI::cb_oscilloscope_fl_light_button_debug_measurements(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_oscilloscope_fl_light_button_debug_measurements_i(o,v);
+}
+
 void LABSoft_GUI::cb_oscilloscope_fl_light_button_channel_0_enable_i(Fl_Light_Button* o, long v) {
   m_LABSoft_Presenter->m_Oscilloscope.cb_channel_enable_disable (o, v);
 }
@@ -535,6 +542,13 @@ void LABSoft_GUI::cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button* o, vo
 }
 void LABSoft_GUI::cb_voltmeter_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_voltmeter_fl_light_button_run_stop_i(o,v);
+}
+
+void LABSoft_GUI::cb_ohmmeter_fl_light_button_run_stop_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Presenter->m_Ohmmeter.cb_run_stop (o, v);
+}
+void LABSoft_GUI::cb_ohmmeter_fl_light_button_run_stop(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->parent()->user_data()))->cb_ohmmeter_fl_light_button_run_stop_i(o,v);
 }
 
 void LABSoft_GUI::cb_function_generator_fl_choice_wave_type_i(LABSoft_GUI_Fl_Choice_With_Scroll* o, long v) {
@@ -1013,6 +1027,12 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
+        { oscilloscope_fl_light_button_debug_measurements = new Fl_Light_Button(1070, 280, 120, 40, "DEBUG: Measurements");
+          oscilloscope_fl_light_button_debug_measurements->color((Fl_Color)172);
+          oscilloscope_fl_light_button_debug_measurements->labelsize(12);
+          oscilloscope_fl_light_button_debug_measurements->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_debug_measurements);
+          oscilloscope_fl_light_button_debug_measurements->align(Fl_Align(FL_ALIGN_WRAP|FL_ALIGN_INSIDE));
+        } // Fl_Light_Button* oscilloscope_fl_light_button_debug_measurements
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
           oscilloscope_labsoft_gui_oscilloscope_display->color(FL_FOREGROUND_COLOR);
@@ -1398,27 +1418,70 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_voltmeter_tab->selection_color(FL_LIGHT2);
         main_fl_group_voltmeter_tab->labelsize(12);
         main_fl_group_voltmeter_tab->hide();
-        { voltmeter_fl_output_chan_0_value = new Fl_Output(250, 200, 320, 60, "Channel 1 DC");
-          voltmeter_fl_output_chan_0_value->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan_0_value->color((Fl_Color)55);
-          voltmeter_fl_output_chan_0_value->labelsize(12);
-          voltmeter_fl_output_chan_0_value->textsize(36);
-          voltmeter_fl_output_chan_0_value->user_data((void*)(0));
-          voltmeter_fl_output_chan_0_value->align(Fl_Align(FL_ALIGN_TOP));
-        } // Fl_Output* voltmeter_fl_output_chan_0_value
-        { voltmeter_fl_output_chan_1_value = new Fl_Output(650, 200, 320, 60, "Channel 2 DC");
-          voltmeter_fl_output_chan_1_value->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan_1_value->color((Fl_Color)55);
-          voltmeter_fl_output_chan_1_value->labelsize(12);
-          voltmeter_fl_output_chan_1_value->textsize(36);
-          voltmeter_fl_output_chan_1_value->user_data((void*)(1));
-          voltmeter_fl_output_chan_1_value->align(Fl_Align(FL_ALIGN_TOP));
-        } // Fl_Output* voltmeter_fl_output_chan_1_value
-        { Fl_Box* o = new Fl_Box(592, 320, 35, 17, "This instrument can only measure DC voltages.");
+        { Fl_Box* o = new Fl_Box(390, 90, 35, 17, "Channel 1");
           o->labelsize(12);
         } // Fl_Box* o
+        { voltmeter_fl_output_chan_0_dc = new Fl_Output(250, 120, 320, 60, "DC");
+          voltmeter_fl_output_chan_0_dc->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_dc->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_dc->labelsize(12);
+          voltmeter_fl_output_chan_0_dc->textsize(36);
+          voltmeter_fl_output_chan_0_dc->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_0_dc
+        { voltmeter_fl_output_chan_0_trms = new Fl_Output(250, 190, 320, 60, "True RMS");
+          voltmeter_fl_output_chan_0_trms->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_trms->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_trms->labelsize(12);
+          voltmeter_fl_output_chan_0_trms->textsize(36);
+          voltmeter_fl_output_chan_0_trms->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_0_trms
+        { voltmeter_fl_output_chan_0_high = new Fl_Output(250, 260, 320, 60, "High");
+          voltmeter_fl_output_chan_0_high->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_high->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_high->labelsize(12);
+          voltmeter_fl_output_chan_0_high->textsize(36);
+          voltmeter_fl_output_chan_0_high->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_0_high
+        { voltmeter_fl_output_chan_0_low = new Fl_Output(250, 330, 320, 60, "Low");
+          voltmeter_fl_output_chan_0_low->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_low->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_low->labelsize(12);
+          voltmeter_fl_output_chan_0_low->textsize(36);
+          voltmeter_fl_output_chan_0_low->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_0_low
+        { Fl_Box* o = new Fl_Box(795, 90, 35, 17, "Channel 2");
+          o->labelsize(12);
+        } // Fl_Box* o
+        { voltmeter_fl_output_chan_1_dc = new Fl_Output(650, 120, 320, 60, "DC");
+          voltmeter_fl_output_chan_1_dc->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_dc->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_dc->labelsize(12);
+          voltmeter_fl_output_chan_1_dc->textsize(36);
+          voltmeter_fl_output_chan_1_dc->user_data((void*)(1));
+        } // Fl_Output* voltmeter_fl_output_chan_1_dc
+        { voltmeter_fl_output_chan_1_trms = new Fl_Output(650, 190, 320, 60, "True RMS");
+          voltmeter_fl_output_chan_1_trms->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_trms->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_trms->labelsize(12);
+          voltmeter_fl_output_chan_1_trms->textsize(36);
+          voltmeter_fl_output_chan_1_trms->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_1_trms
+        { voltmeter_fl_output_chan_1_high = new Fl_Output(650, 260, 320, 60, "High");
+          voltmeter_fl_output_chan_1_high->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_high->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_high->labelsize(12);
+          voltmeter_fl_output_chan_1_high->textsize(36);
+          voltmeter_fl_output_chan_1_high->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_1_high
+        { voltmeter_fl_output_chan_1_low = new Fl_Output(650, 330, 320, 60, "True RMS");
+          voltmeter_fl_output_chan_1_low->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_low->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_low->labelsize(12);
+          voltmeter_fl_output_chan_1_low->textsize(36);
+          voltmeter_fl_output_chan_1_low->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_1_low
         { // 					
-          voltmeter_fl_light_button_run_stop = new Fl_Light_Button(520, 400, 180, 60, "Run");
+          voltmeter_fl_light_button_run_stop = new Fl_Light_Button(520, 430, 180, 60, "Run");
           voltmeter_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
           voltmeter_fl_light_button_run_stop->color(FL_LIGHT3);
           voltmeter_fl_light_button_run_stop->selection_color(FL_GREEN);
@@ -1428,6 +1491,34 @@ LABSoft_GUI::LABSoft_GUI() {
         } // Fl_Light_Button* voltmeter_fl_light_button_run_stop
         main_fl_group_voltmeter_tab->end();
       } // Fl_Group* main_fl_group_voltmeter_tab
+      { main_fl_group_ohmmeter_tab = new Fl_Group(0, 50, 1220, 550, "Ohmmeter");
+        main_fl_group_ohmmeter_tab->color(FL_LIGHT3);
+        main_fl_group_ohmmeter_tab->selection_color(FL_LIGHT2);
+        main_fl_group_ohmmeter_tab->labelsize(12);
+        main_fl_group_ohmmeter_tab->hide();
+        { ohmmeter_fl_output_resistance = new Fl_Output(450, 200, 320, 60, "Resistance");
+          ohmmeter_fl_output_resistance->box(FL_GTK_DOWN_BOX);
+          ohmmeter_fl_output_resistance->color((Fl_Color)55);
+          ohmmeter_fl_output_resistance->labelsize(12);
+          ohmmeter_fl_output_resistance->textsize(36);
+          ohmmeter_fl_output_resistance->user_data((void*)(0));
+          ohmmeter_fl_output_resistance->align(Fl_Align(FL_ALIGN_TOP));
+        } // Fl_Output* ohmmeter_fl_output_resistance
+        { Fl_Box* o = new Fl_Box(510, 320, 200, 17, "Connect the ohmmeter reading header to the Channel 1 input of the oscilloscop\
+e.");
+          o->labelsize(12);
+        } // Fl_Box* o
+        { // 					
+          ohmmeter_fl_light_button_run_stop = new Fl_Light_Button(520, 400, 180, 60, "Run");
+          ohmmeter_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
+          ohmmeter_fl_light_button_run_stop->color(FL_LIGHT3);
+          ohmmeter_fl_light_button_run_stop->selection_color(FL_GREEN);
+          ohmmeter_fl_light_button_run_stop->labelsize(12);
+          ohmmeter_fl_light_button_run_stop->callback((Fl_Callback*)cb_ohmmeter_fl_light_button_run_stop);
+          ohmmeter_fl_light_button_run_stop->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+        } // Fl_Light_Button* ohmmeter_fl_light_button_run_stop
+        main_fl_group_ohmmeter_tab->end();
+      } // Fl_Group* main_fl_group_ohmmeter_tab
       { main_fl_group_function_generator_tab = new Fl_Group(0, 50, 1220, 550, "Function Generator");
         main_fl_group_function_generator_tab->color(FL_LIGHT3);
         main_fl_group_function_generator_tab->selection_color(FL_LIGHT2);

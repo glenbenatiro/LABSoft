@@ -29,6 +29,8 @@ LAB_Oscilloscope.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
 LAB_Voltmeter.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
+LAB_Ohmmeter.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Ohmmeter.h
 LAB_Function_Generator.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
 LAB_Logic_Analyzer.h
@@ -84,6 +86,30 @@ LAB_Module.h
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
 
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Ohmmeter.h
+LAB_Module.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
+
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.cpp
+LAB_Oscilloscope.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
+cmath
+-
+cstring
+-
+LAB.h
+/home/glen/Desktop/LABSoft/src/LAB/LAB.h
+../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+Software/LAB_Data_Measurer.h
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Data_Measurer.h
+Software/LAB_Data_Measurer.cpp
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Data_Measurer.cpp
+iostream
+-
+bitset
+-
+
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
 thread
 -
@@ -94,12 +120,6 @@ LAB_Module.h
 ../Utility/LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.cpp
-LAB_Voltmeter.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
 LAB_Module.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
@@ -107,6 +127,26 @@ LAB_Module.h
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.h
 ../LAB_Module.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
+
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Data_Measurer.cpp
+LAB_Data_Measurer.h
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Data_Measurer.h
+cmath
+-
+iostream
+-
+../../Utility/LAB_Constants.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+../../Utility/LAB_Utility_Functions.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+
+/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Data_Measurer.h
+array
+-
+tuple
+-
+cstddef
+-
 
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Exporter.h
 string
@@ -191,6 +231,10 @@ LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+string
+-
 
 /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
 

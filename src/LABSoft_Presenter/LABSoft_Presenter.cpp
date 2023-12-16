@@ -13,6 +13,7 @@ LABSoft_Presenter (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
     m_LABSoft_GUI             (_LABSoft_GUI),
     m_Oscilloscope            (*this),
     m_Voltmeter               (*this),
+    m_Ohmmeter                (*this),
     m_Function_Generator      (*this),
     m_Logic_Analyzer          (*this),
     m_Digital_Circuit_Checker (*this),
@@ -83,7 +84,7 @@ update_display (void *data)
   presenter.update_gui_tab_colors                  ();
   
   presenter.m_Oscilloscope   .display_update_cycle ();
-  presenter.m_Voltmeter      .display_update_cycle (); 
+  // presenter.m_Voltmeter      .display_update_cycle (); 
   presenter.m_Logic_Analyzer .display_update_cycle ();
 
   Fl::repeat_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, data);  
