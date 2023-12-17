@@ -18,6 +18,11 @@ struct LAB_Calibration_Data_Oscilloscope
   double half_scaling_to_unity_corrector  = LABC::OSC::HALF_TO_UNITY_SCALING_CORRECTOR;
 };
 
+struct LAB_Calibration_Data_Voltmeter
+{
+
+};
+
 struct LAB_Calibration_Data_Ohmmeter
 {
   double r1   = LABC::OHMMETER::R1_RESISTOR_VALUE;
@@ -49,6 +54,11 @@ struct LAB_Channel_Data_Oscilloscope
 
   LAB_Calibration_Data_Oscilloscope   calibration;
   LAB_Measurements_Data_Oscilloscope  measurements;
+};
+
+struct LAB_Channel_Data_Voltmeter
+{
+
 };
 
 struct LAB_Channel_Data_Ohmmeter
@@ -171,6 +181,17 @@ struct LAB_Parent_Data_Oscilloscope
 
       return (false);
     }
+};
+
+struct LAB_Parent_Data_Voltmeter
+{
+  bool is_backend_running   = false;
+  bool is_frontend_running  = false;
+
+  std::array<
+    LAB_Channel_Data_Voltmeter,
+    LABC::VOLTMETER::NUMBER_OF_CHANNELS
+  > channel_data;
 };
 
 struct LAB_Parent_Data_Ohmmeter

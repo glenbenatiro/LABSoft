@@ -649,13 +649,13 @@ parse_raw_osc_samp_buff ()
       // double y = (0.5 * sin (2 * 3.141592653 * (1.0 / 0.005) * (samp / 16'000.0))) + 0.001;
       
       // RANDOM NOISE -2 to +2
-      double y = 0.5 * sin (2 * 3.141592653 * (1.0 / 0.005) * (samp / 2000.0) * rpi ().st.low ());
+      // double y = 0.5 * sin (2 * 3.141592653 * (1.0 / 0.005) * (samp / 2000.0) * rpi ().st.low ());
 
       // DC
-      // double y = 1.23;
+      // double y = 0;
 
       // double x = 2.5 * sin (2.0 * 3.141592 * (10.0 / 2000.0) * (samp));
-      pdata.channel_data[chan].samples[samp] =  (y * m_parent_data.channel_data[chan].scaling_corrector) + 0.001;
+      // pdata.channel_data[chan].samples[samp] =  (y * m_parent_data.channel_data[chan].scaling_corrector);
     }
   }
 

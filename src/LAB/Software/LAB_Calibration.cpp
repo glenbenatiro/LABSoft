@@ -16,7 +16,7 @@ LAB_Calibration (LAB& _LAB)
   apply_calibration_file    ();
   apply_calibration_values  ();
 
-  print_map_contents ();
+  // print_map_contents ();
 }
 
 void LAB_Calibration:: 
@@ -36,14 +36,22 @@ load_calibration_file (const std::string& filename)
       std::string         key;
       double              value;
 
-      size_t equal_sign_pos = line.find ('=');
-
-      if (equal_sign_pos != std::string::npos)
+      // skip lines starting with pound sign, it is a comment
+      if (line[0] == '#')
       {
-        key   = line.substr (0, equal_sign_pos);
-        value = std::stod (line.substr (equal_sign_pos + 1));
+        continue;
+      }
+      else 
+      {
+        size_t equal_sign_pos = line.find ('=');
 
-        calibration_data[key] = value;
+        if (equal_sign_pos != std::string::npos)
+        {
+          key   = line.substr (0, equal_sign_pos);
+          value = std::stod (line.substr (equal_sign_pos + 1));
+
+          calibration_data[key] = value;
+        }
       }
     }
 

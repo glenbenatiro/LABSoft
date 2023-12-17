@@ -29,13 +29,13 @@ load_oscilloscope_voltmeter_mode_settings ()
 bool LAB_Voltmeter:: 
 is_frontend_running () const
 {
-  return (m_is_frontend_running);
+  return (m_parent_data.is_frontend_running);
 }
 
 bool LAB_Voltmeter:: 
 is_backend_running () const
 {
-  return (m_is_backend_running);
+  return (m_parent_data.is_backend_running);
 }
 
 void LAB_Voltmeter:: 
@@ -63,7 +63,7 @@ stop ()
 void LAB_Voltmeter:: 
 frontend_run_stop (bool value)
 {
-  m_is_frontend_running = value;
+  m_parent_data.is_frontend_running = value;
 }
 
 void LAB_Voltmeter:: 
@@ -71,7 +71,9 @@ backend_run_stop (bool value)
 {
   lab ().m_Oscilloscope.backend_run_stop (value);
 
-  m_is_backend_running = value;
+  if (value) load_oscilloscope_voltmeter_mode_settings ();
+
+  m_parent_data.is_backend_running = value;
 }
 
 double LAB_Voltmeter:: 

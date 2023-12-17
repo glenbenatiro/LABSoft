@@ -2,12 +2,12 @@
 #define LAB_VOLTMETER_H
 
 #include "LAB_Module.h"
+#include "../Utility/LAB_Definitions.h"
 
 class LAB_Voltmeter : public LAB_Module
 {
   private:
-    bool m_is_backend_running   = false;
-    bool m_is_frontend_running  = false;
+    LAB_Parent_Data_Voltmeter m_parent_data;
   
   private:
     void load_oscilloscope_voltmeter_mode_settings ();
