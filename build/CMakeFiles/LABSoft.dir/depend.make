@@ -149,9 +149,32 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Module.cpp.o: ../src/Utility/LAB_Enumerations
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Module.cpp.o: ../src/Utility/pugiconfig.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Module.cpp.o: ../src/Utility/pugixml.hpp
 
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../lib/AD9833/AD9833.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../lib/AikaPi/AikaPi.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../lib/MCP23S17/MCP23S17.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../lib/MCP4XXX/MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Digital_Circuit_Checker.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Function_Generator.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Logic_Analyzer.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Module.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Ohmmeter.cpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Ohmmeter.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Oscilloscope.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/LAB_Voltmeter.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/Software/LAB_Calibration.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/Software/LAB_Exporter.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/Software/LAB_LABChecker_Digital.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB/Software/LAB_Oscilloscope_Display.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB_Libraries/LAB_AD9833.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB_Libraries/LAB_MCP23S17.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/LAB_Libraries/LAB_MCP4XXX.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/Utility/LAB_Constants.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/Utility/LAB_Defaults.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/Utility/LAB_Definitions.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/Utility/LAB_Enumerations.h
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/Utility/pugiconfig.hpp
+CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o: ../src/Utility/pugixml.hpp
 
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../lib/AD9833/AD9833.h
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o: ../lib/AikaPi/AikaPi.h

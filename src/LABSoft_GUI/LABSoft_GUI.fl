@@ -22,7 +22,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {0 0 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {665 935 1220 600} type Double color 53 selection_color 53 labelsize 12 hide
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -69,12 +69,12 @@ class LABSoft_GUI {open
         }
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Presenter->cb_tabs (o, v);} open
+        callback {m_LABSoft_Presenter->cb_tabs (o, v);}
         xywh {0 20 1220 580} box FLAT_BOX color 54 selection_color 54 labelsize 12
         code0 {main_fl_tabs->value (main_fl_group_oscilloscope_tab);}
       } {
         Fl_Group main_fl_group_oscilloscope_tab {
-          label Oscilloscope open
+          label Oscilloscope
           xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Light_Button oscilloscope_fl_light_button_debug_measurements {
@@ -88,7 +88,7 @@ class LABSoft_GUI {open
             class LABSoft_GUI_Oscilloscope_Display
           } {}
           Fl_Group oscilloscope_fl_group_vertical_channel_0 {
-            label {Channel 1}
+            label {Channel 1} open
             xywh {740 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_0_enable {
@@ -106,7 +106,7 @@ class LABSoft_GUI {open
             Fl_Choice oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling {
               label Scaling
               user_data 0 user_data_type long
-              callback {m_LABSoft_Presenter->m_Oscilloscope.cb_scaling (o, v);}
+              callback {m_LABSoft_Presenter->m_Oscilloscope.cb_scaling (o, v);} open
               xywh {760 205 100 25} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 11
               code0 {oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling->box (FL_FLAT_BOX);}
               class LABSoft_GUI_Fl_Choice_With_Scroll
@@ -114,6 +114,10 @@ class LABSoft_GUI {open
               MenuItem {} {
                 label x2
                 xywh {760 40 36 25} selection_color 229 labelsize 12
+              }
+              MenuItem {} {
+                label x1
+                xywh {770 50 36 25} selection_color 229 labelsize 12
               }
               MenuItem {} {
                 label {x0.5}
@@ -345,7 +349,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Group oscilloscope_fl_group_vertical_channel_1 {
-            label {Channel 2}
+            label {Channel 2} open
             xywh {900 80 140 255} box ROUNDED_FRAME color 52 labelsize 12
           } {
             Fl_Light_Button oscilloscope_fl_light_button_channel_1_enable {
@@ -370,6 +374,10 @@ class LABSoft_GUI {open
               MenuItem {} {
                 label x2
                 xywh {920 217 100 25} color 54 selection_color 229 labelsize 12
+              }
+              MenuItem {} {
+                label x1
+                xywh {780 60 36 25} selection_color 229 labelsize 12
               }
               MenuItem {} {
                 label {x0.5}
@@ -1305,18 +1313,18 @@ class LABSoft_GUI {open
             user_data 0 user_data_type long
             xywh {250 120 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
-          Fl_Output voltmeter_fl_output_chan_0_trms {
-            label {True RMS}
+          Fl_Output voltmeter_fl_output_chan_0_min {
+            label Min
             user_data 0 user_data_type long
             xywh {250 190 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
-          Fl_Output voltmeter_fl_output_chan_0_high {
-            label High
+          Fl_Output voltmeter_fl_output_chan_0_max {
+            label Max
             user_data 0 user_data_type long
             xywh {250 260 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
-          Fl_Output voltmeter_fl_output_chan_0_low {
-            label Low
+          Fl_Output voltmeter_fl_output_chan_0_trms {
+            label {True RMS}
             user_data 0 user_data_type long
             xywh {250 330 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
@@ -1329,17 +1337,17 @@ class LABSoft_GUI {open
             user_data 1 user_data_type long
             xywh {650 120 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
-          Fl_Output voltmeter_fl_output_chan_1_trms {
-            label {True RMS}
+          Fl_Output voltmeter_fl_output_chan_1_min {
+            label Min
             user_data 0 user_data_type long
             xywh {650 190 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
-          Fl_Output voltmeter_fl_output_chan_1_high {
-            label High
+          Fl_Output voltmeter_fl_output_chan_1_max {
+            label Max
             user_data 0 user_data_type long
             xywh {650 260 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
           }
-          Fl_Output voltmeter_fl_output_chan_1_low {
+          Fl_Output voltmeter_fl_output_chan_1_trms {
             label {True RMS}
             user_data 0 user_data_type long
             xywh {650 330 320 60} box GTK_DOWN_BOX color 55 labelsize 12 textsize 36
@@ -2407,8 +2415,8 @@ class LABSoft_GUI {open
       }
     }
     Fl_Window main_fl_window_calibration {
-      label {Device Calibration}
-      xywh {2920 460 800 500} type Double color 54 hide
+      label {Device Calibration} open
+      xywh {899 194 800 500} type Double color 54 visible
     } {
       Fl_Menu_Bar {} {
         xywh {0 0 800 20} box FLAT_BOX color 54
@@ -2431,16 +2439,52 @@ class LABSoft_GUI {open
         callback {m_LABSoft_Presenter->m_Calibration.cb_cancel ();}
         xywh {690 450 90 30} box GTK_UP_BOX color 54 labelsize 12
       }
-      Fl_Button calibration_fl_button_save {
-        label Save
-        callback {m_LABSoft_Presenter->m_Calibration.cb_save ();}
+      Fl_Button calibration_fl_button_save_to_file {
+        label {Save to File}
+        callback {m_LABSoft_Presenter->m_Calibration.cb_save_to_file ();}
         xywh {580 450 90 30} box GTK_UP_BOX color 54 labelsize 12
       }
-      Fl_Input calibration_fl_input_osc_adc_ref_voltage {
-        label {Oscilloscope ADC Reference Voltage}
-        callback {m_LABSoft_Presenter->m_Calibration.cb_osc_adc_ref_voltage (o, v);}
-        xywh {20 50 100 30} labelsize 12 align 5 textsize 12
-        code0 {calibration_fl_input_osc_adc_ref_voltage->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+      Fl_Input calibration_fl_input_osc_chan_0_adc_vref {
+        label {Osc Chan 1 ADC Vref}
+        user_data 0 user_data_type long
+        callback {m_LABSoft_Presenter->m_Calibration.cb_osc_adc_vref (o, v);}
+        xywh {20 100 100 30} labelsize 12 align 5 textsize 12
+        code0 {calibration_fl_input_osc_chan_0_adc_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+      }
+      Fl_Input calibration_fl_input_osc_chan_1_adc_vref {
+        label {Osc Chan 2 ADC Vref}
+        user_data 1 user_data_type long
+        callback {m_LABSoft_Presenter->m_Calibration.cb_osc_adc_vref (o, v);}
+        xywh {250 100 100 30} labelsize 12 align 5 textsize 12
+        code0 {calibration_fl_input_osc_chan_1_adc_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+      }
+      Fl_Input calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity {
+        label {Osc Chan 1 x0.5 Corrector}
+        user_data 0 user_data_type long
+        callback {m_LABSoft_Presenter->m_Calibration.cb_osc_scaling_corrector_half_to_unity (o, v);}
+        xywh {20 170 100 30} labelsize 12 align 5 textsize 12
+        code0 {calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+      }
+      Fl_Input calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity {
+        label {Osc Chan 2 x0.5 Corrector}
+        user_data 1 user_data_type long
+        callback {m_LABSoft_Presenter->m_Calibration.cb_osc_scaling_corrector_half_to_unity (o, v);}
+        xywh {250 170 100 30} labelsize 12 align 5 textsize 12
+        code0 {calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+      }
+      Fl_Input calibration_fl_input_chan_0_ohm_vref {
+        label {Ohmmeter Vref (Volts)}
+        user_data 0 user_data_type long
+        callback {m_LABSoft_Presenter->m_Calibration.cb_ohm_vref (o, v);}
+        xywh {20 240 100 30} labelsize 12 align 5 textsize 12
+        code0 {calibration_fl_input_chan_0_ohm_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
+      }
+      Fl_Input calibration_fl_input_chan_0_ohm_r1 {
+        label {Ohmmeter R1 (Ohms)}
+        user_data 0 user_data_type long
+        callback {m_LABSoft_Presenter->m_Calibration.cb_ohm_r1 (o, v);}
+        xywh {250 240 100 30} labelsize 12 align 5 textsize 12
+        code0 {calibration_fl_input_chan_0_ohm_r1->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);}
       }
     }
   }

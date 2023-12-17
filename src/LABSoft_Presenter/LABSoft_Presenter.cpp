@@ -49,12 +49,16 @@ update_gui_tab_colors ()
 
   // 1. oscilloscope
   gui.main_fl_group_oscilloscope_tab->selection_color (
-    m_LAB.m_Oscilloscope.is_running () ? 63 : 52
+    m_LAB.m_Oscilloscope.is_frontend_running () ? 63 : 52
   );
 
   // 2. voltmeter
   gui.main_fl_group_voltmeter_tab->selection_color (
-    m_LAB.m_Voltmeter.is_running () ? 63 : 52
+    m_LAB.m_Voltmeter.is_frontend_running () ? 63 : 52
+  );
+
+  gui.main_fl_group_ohmmeter_tab->selection_color (
+    m_LAB.m_Ohmmeter.is_frontend_running () ? 63 : 52
   );
 
   // 3. function generator
@@ -81,11 +85,12 @@ update_display (void *data)
 {
   LABSoft_Presenter& presenter = *(reinterpret_cast<LABSoft_Presenter*>(data));
 
-  presenter.update_gui_tab_colors                  ();
+  presenter.update_gui_tab_colors ();
   
-  presenter.m_Oscilloscope   .display_update_cycle ();
-  // presenter.m_Voltmeter      .display_update_cycle (); 
-  presenter.m_Logic_Analyzer .display_update_cycle ();
+  presenter.m_Oscilloscope  .display_update_cycle ();
+  presenter.m_Voltmeter     .display_update_cycle ();
+  presenter.m_Ohmmeter      .display_update_cycle ();
+  presenter.m_Logic_Analyzer.display_update_cycle ();
 
   Fl::repeat_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, data);  
 }

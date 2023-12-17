@@ -9,55 +9,73 @@ LAB_Voltmeter (LAB& _LAB)
 
 }
 
-bool LAB_Voltmeter:: 
-is_running ()
-{
-  return (m_is_running);
-}
-
 void LAB_Voltmeter:: 
-run ()
+load_oscilloscope_voltmeter_mode_settings ()
 {
-  LAB_Oscilloscope& osc = lab ().m_Oscilloscope;
-
-  if (osc.is_frontend_running ())
-  {
-    osc.osc_frontend_run_stop (false);
-  }
-
-  if (!osc.is_backend_running ())
-  {
-    osc.osc_core_run_stop (true);
-  }
-  
-  // load voltmeter settings
-  lab ().m_Oscilloscope.trigger_mode  (LABE::OSC::TRIG::MODE::NONE);   
-  lab ().m_Oscilloscope.samples       (LABC::OSC::MAX_SAMPLES);
-  lab ().m_Oscilloscope.sampling_rate (LABC::VOLTMETER::SAMPLING_RATE);
+  lab ().m_Oscilloscope.trigger_mode    (LABE::OSC::TRIG::MODE::NONE); 
+  lab ().m_Oscilloscope.samples         (LABC::OSC::MAX_SAMPLES);
+  lab ().m_Oscilloscope.sampling_rate   (LABC::VOLTMETER::SAMPLING_RATE);
+  lab ().m_Oscilloscope.do_measurements (true);
 
   for (int a = 0; a < LABC::VOLTMETER::NUMBER_OF_CHANNELS; a++)
   {
     lab ().m_Oscilloscope.coupling  (a, LABE::OSC::COUPLING::DC);
     lab ().m_Oscilloscope.scaling   (a, LABC::VOLTMETER::SCALING);
   }
-  
-  m_is_running = true;
+
+  lab ().m_Oscilloscope.do_measurements (true);
+}
+
+bool LAB_Voltmeter:: 
+is_frontend_running () const
+{
+  return (m_is_frontend_running);
+}
+
+bool LAB_Voltmeter:: 
+is_backend_running () const
+{
+  return (m_is_backend_running);
+}
+
+void LAB_Voltmeter:: 
+run ()
+{
+  lab ().m_Oscilloscope .stop ();
+  lab ().m_Voltmeter    .stop ();
+  lab ().m_Ohmmeter     .stop ();
+
+  //
+
+  frontend_run_stop (true);
+  backend_run_stop  (true);
+
+  load_oscilloscope_voltmeter_mode_settings ();
 }
 
 void LAB_Voltmeter:: 
 stop ()
 {
-  m_LAB.m_Oscilloscope.osc_core_run_stop (false);
+  frontend_run_stop (false);
+  backend_run_stop  (false);
+}
 
-  m_is_running = false;
+void LAB_Voltmeter:: 
+frontend_run_stop (bool value)
+{
+  m_is_frontend_running = value;
+}
+
+void LAB_Voltmeter:: 
+backend_run_stop (bool value)
+{
+  lab ().m_Oscilloscope.backend_run_stop (value);
+
+  m_is_backend_running = value;
 }
 
 double LAB_Voltmeter:: 
-read_voltage (unsigned chan)
+get_reading (unsigned chan)
 {
-  lab ().m_Oscilloscope.update_data_samples ();
-
-  constexpr double factor = 1.0;
-  
-  return ((lab ().m_Oscilloscope.parent_data ().channel_data[chan].samples[0]) * factor);
+  return (lab ().m_Oscilloscope.measurements ().avg (chan));
 }

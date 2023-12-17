@@ -16,6 +16,7 @@ std::unordered_map<LABSoft_GUI_Label::UNIT, std::string> LABSoft_GUI_Label::m_un
   {UNIT::VOLT_PER_DIVISION  , "V/div"},
   {UNIT::SECOND             , "s"},
   {UNIT::SECOND_PER_DIVISION, "s/div"},
+  {UNIT::OHM                , "Ω"},
   {UNIT::HERTZ              , "Hz"},
   {UNIT::DEGREE             , "deg"},
   {UNIT::NONE               , ""},

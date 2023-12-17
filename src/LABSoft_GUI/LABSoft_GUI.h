@@ -200,13 +200,13 @@ private:
 public:
   Fl_Group *main_fl_group_voltmeter_tab;
   Fl_Output *voltmeter_fl_output_chan_0_dc;
+  Fl_Output *voltmeter_fl_output_chan_0_min;
+  Fl_Output *voltmeter_fl_output_chan_0_max;
   Fl_Output *voltmeter_fl_output_chan_0_trms;
-  Fl_Output *voltmeter_fl_output_chan_0_high;
-  Fl_Output *voltmeter_fl_output_chan_0_low;
   Fl_Output *voltmeter_fl_output_chan_1_dc;
+  Fl_Output *voltmeter_fl_output_chan_1_min;
+  Fl_Output *voltmeter_fl_output_chan_1_max;
   Fl_Output *voltmeter_fl_output_chan_1_trms;
-  Fl_Output *voltmeter_fl_output_chan_1_high;
-  Fl_Output *voltmeter_fl_output_chan_1_low;
   Fl_Light_Button *voltmeter_fl_light_button_run_stop;
 private:
   inline void cb_voltmeter_fl_light_button_run_stop_i(Fl_Light_Button*, void*);
@@ -419,14 +419,39 @@ private:
   inline void cb_calibration_fl_button_cancel_i(Fl_Button*, void*);
   static void cb_calibration_fl_button_cancel(Fl_Button*, void*);
 public:
-  Fl_Button *calibration_fl_button_save;
+  Fl_Button *calibration_fl_button_save_to_file;
 private:
-  inline void cb_calibration_fl_button_save_i(Fl_Button*, void*);
-  static void cb_calibration_fl_button_save(Fl_Button*, void*);
+  inline void cb_calibration_fl_button_save_to_file_i(Fl_Button*, void*);
+  static void cb_calibration_fl_button_save_to_file(Fl_Button*, void*);
 public:
-  Fl_Input *calibration_fl_input_osc_adc_ref_voltage;
+  Fl_Input *calibration_fl_input_osc_chan_0_adc_vref;
 private:
-  inline void cb_calibration_fl_input_osc_adc_ref_voltage_i(Fl_Input*, void*);
-  static void cb_calibration_fl_input_osc_adc_ref_voltage(Fl_Input*, void*);
+  inline void cb_calibration_fl_input_osc_chan_0_adc_vref_i(Fl_Input*, long);
+  static void cb_calibration_fl_input_osc_chan_0_adc_vref(Fl_Input*, long);
+public:
+  Fl_Input *calibration_fl_input_osc_chan_1_adc_vref;
+private:
+  inline void cb_calibration_fl_input_osc_chan_1_adc_vref_i(Fl_Input*, long);
+  static void cb_calibration_fl_input_osc_chan_1_adc_vref(Fl_Input*, long);
+public:
+  Fl_Input *calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity;
+private:
+  inline void cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity_i(Fl_Input*, long);
+  static void cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity(Fl_Input*, long);
+public:
+  Fl_Input *calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity;
+private:
+  inline void cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity_i(Fl_Input*, long);
+  static void cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity(Fl_Input*, long);
+public:
+  Fl_Input *calibration_fl_input_chan_0_ohm_vref;
+private:
+  inline void cb_calibration_fl_input_chan_0_ohm_vref_i(Fl_Input*, long);
+  static void cb_calibration_fl_input_chan_0_ohm_vref(Fl_Input*, long);
+public:
+  Fl_Input *calibration_fl_input_chan_0_ohm_r1;
+private:
+  inline void cb_calibration_fl_input_chan_0_ohm_r1_i(Fl_Input*, long);
+  static void cb_calibration_fl_input_chan_0_ohm_r1(Fl_Input*, long);
 };
 #endif

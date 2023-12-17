@@ -1,1 +1,6 @@
-OSC_ADC_REFERENCE_VOLTAGE=5.000
+osc_chan_0_adc_vref=5
+ohm_chan_0_r1=20000
+osc_chan_1_adc_vref=5
+osc_chan_0_scaling_corrector_half_to_unity=2
+osc_chan_1_scaling_corrector_half_to_unity=2
+ohm_chan_0_vref=5

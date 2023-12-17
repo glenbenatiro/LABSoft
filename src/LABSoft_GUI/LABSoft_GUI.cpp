@@ -91,6 +91,7 @@ void LABSoft_GUI::cb_oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_sc
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_0_scaling[] = {
  {"x2", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"x1", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"x0.5", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"x0.25", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"x0.125", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -186,6 +187,7 @@ void LABSoft_GUI::cb_oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_1_sc
 
 Fl_Menu_Item LABSoft_GUI::menu_oscilloscope_labsoft_gui_fl_choice_with_scroll_channel_1_scaling[] = {
  {"x2", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"x1", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"x0.5", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"x0.25", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"x0.125", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
@@ -990,18 +992,53 @@ void LABSoft_GUI::cb_calibration_fl_button_cancel(Fl_Button* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_cancel_i(o,v);
 }
 
-void LABSoft_GUI::cb_calibration_fl_button_save_i(Fl_Button*, void*) {
-  m_LABSoft_Presenter->m_Calibration.cb_save ();
+void LABSoft_GUI::cb_calibration_fl_button_save_to_file_i(Fl_Button*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_save_to_file ();
 }
-void LABSoft_GUI::cb_calibration_fl_button_save(Fl_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_save_i(o,v);
+void LABSoft_GUI::cb_calibration_fl_button_save_to_file(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_save_to_file_i(o,v);
 }
 
-void LABSoft_GUI::cb_calibration_fl_input_osc_adc_ref_voltage_i(Fl_Input* o, void* v) {
-  m_LABSoft_Presenter->m_Calibration.cb_osc_adc_ref_voltage (o, v);
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_adc_vref_i(Fl_Input* o, long v) {
+  m_LABSoft_Presenter->m_Calibration.cb_osc_adc_vref (o, v);
 }
-void LABSoft_GUI::cb_calibration_fl_input_osc_adc_ref_voltage(Fl_Input* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_adc_ref_voltage_i(o,v);
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_adc_vref(Fl_Input* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_0_adc_vref_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_adc_vref_i(Fl_Input* o, long v) {
+  m_LABSoft_Presenter->m_Calibration.cb_osc_adc_vref (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_adc_vref(Fl_Input* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_1_adc_vref_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity_i(Fl_Input* o, long v) {
+  m_LABSoft_Presenter->m_Calibration.cb_osc_scaling_corrector_half_to_unity (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity(Fl_Input* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity_i(Fl_Input* o, long v) {
+  m_LABSoft_Presenter->m_Calibration.cb_osc_scaling_corrector_half_to_unity (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity(Fl_Input* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_vref_i(Fl_Input* o, long v) {
+  m_LABSoft_Presenter->m_Calibration.cb_ohm_vref (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_vref(Fl_Input* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_chan_0_ohm_vref_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_r1_i(Fl_Input* o, long v) {
+  m_LABSoft_Presenter->m_Calibration.cb_ohm_r1 (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_r1(Fl_Input* o, long v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_chan_0_ohm_r1_i(o,v);
 }
 
 LABSoft_GUI::LABSoft_GUI() {
@@ -1428,27 +1465,27 @@ LABSoft_GUI::LABSoft_GUI() {
           voltmeter_fl_output_chan_0_dc->textsize(36);
           voltmeter_fl_output_chan_0_dc->user_data((void*)(0));
         } // Fl_Output* voltmeter_fl_output_chan_0_dc
-        { voltmeter_fl_output_chan_0_trms = new Fl_Output(250, 190, 320, 60, "True RMS");
+        { voltmeter_fl_output_chan_0_min = new Fl_Output(250, 190, 320, 60, "Min");
+          voltmeter_fl_output_chan_0_min->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_min->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_min->labelsize(12);
+          voltmeter_fl_output_chan_0_min->textsize(36);
+          voltmeter_fl_output_chan_0_min->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_0_min
+        { voltmeter_fl_output_chan_0_max = new Fl_Output(250, 260, 320, 60, "Max");
+          voltmeter_fl_output_chan_0_max->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_0_max->color((Fl_Color)55);
+          voltmeter_fl_output_chan_0_max->labelsize(12);
+          voltmeter_fl_output_chan_0_max->textsize(36);
+          voltmeter_fl_output_chan_0_max->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_0_max
+        { voltmeter_fl_output_chan_0_trms = new Fl_Output(250, 330, 320, 60, "True RMS");
           voltmeter_fl_output_chan_0_trms->box(FL_GTK_DOWN_BOX);
           voltmeter_fl_output_chan_0_trms->color((Fl_Color)55);
           voltmeter_fl_output_chan_0_trms->labelsize(12);
           voltmeter_fl_output_chan_0_trms->textsize(36);
           voltmeter_fl_output_chan_0_trms->user_data((void*)(0));
         } // Fl_Output* voltmeter_fl_output_chan_0_trms
-        { voltmeter_fl_output_chan_0_high = new Fl_Output(250, 260, 320, 60, "High");
-          voltmeter_fl_output_chan_0_high->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan_0_high->color((Fl_Color)55);
-          voltmeter_fl_output_chan_0_high->labelsize(12);
-          voltmeter_fl_output_chan_0_high->textsize(36);
-          voltmeter_fl_output_chan_0_high->user_data((void*)(0));
-        } // Fl_Output* voltmeter_fl_output_chan_0_high
-        { voltmeter_fl_output_chan_0_low = new Fl_Output(250, 330, 320, 60, "Low");
-          voltmeter_fl_output_chan_0_low->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan_0_low->color((Fl_Color)55);
-          voltmeter_fl_output_chan_0_low->labelsize(12);
-          voltmeter_fl_output_chan_0_low->textsize(36);
-          voltmeter_fl_output_chan_0_low->user_data((void*)(0));
-        } // Fl_Output* voltmeter_fl_output_chan_0_low
         { Fl_Box* o = new Fl_Box(795, 90, 35, 17, "Channel 2");
           o->labelsize(12);
         } // Fl_Box* o
@@ -1459,27 +1496,27 @@ LABSoft_GUI::LABSoft_GUI() {
           voltmeter_fl_output_chan_1_dc->textsize(36);
           voltmeter_fl_output_chan_1_dc->user_data((void*)(1));
         } // Fl_Output* voltmeter_fl_output_chan_1_dc
-        { voltmeter_fl_output_chan_1_trms = new Fl_Output(650, 190, 320, 60, "True RMS");
+        { voltmeter_fl_output_chan_1_min = new Fl_Output(650, 190, 320, 60, "Min");
+          voltmeter_fl_output_chan_1_min->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_min->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_min->labelsize(12);
+          voltmeter_fl_output_chan_1_min->textsize(36);
+          voltmeter_fl_output_chan_1_min->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_1_min
+        { voltmeter_fl_output_chan_1_max = new Fl_Output(650, 260, 320, 60, "Max");
+          voltmeter_fl_output_chan_1_max->box(FL_GTK_DOWN_BOX);
+          voltmeter_fl_output_chan_1_max->color((Fl_Color)55);
+          voltmeter_fl_output_chan_1_max->labelsize(12);
+          voltmeter_fl_output_chan_1_max->textsize(36);
+          voltmeter_fl_output_chan_1_max->user_data((void*)(0));
+        } // Fl_Output* voltmeter_fl_output_chan_1_max
+        { voltmeter_fl_output_chan_1_trms = new Fl_Output(650, 330, 320, 60, "True RMS");
           voltmeter_fl_output_chan_1_trms->box(FL_GTK_DOWN_BOX);
           voltmeter_fl_output_chan_1_trms->color((Fl_Color)55);
           voltmeter_fl_output_chan_1_trms->labelsize(12);
           voltmeter_fl_output_chan_1_trms->textsize(36);
           voltmeter_fl_output_chan_1_trms->user_data((void*)(0));
         } // Fl_Output* voltmeter_fl_output_chan_1_trms
-        { voltmeter_fl_output_chan_1_high = new Fl_Output(650, 260, 320, 60, "High");
-          voltmeter_fl_output_chan_1_high->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan_1_high->color((Fl_Color)55);
-          voltmeter_fl_output_chan_1_high->labelsize(12);
-          voltmeter_fl_output_chan_1_high->textsize(36);
-          voltmeter_fl_output_chan_1_high->user_data((void*)(0));
-        } // Fl_Output* voltmeter_fl_output_chan_1_high
-        { voltmeter_fl_output_chan_1_low = new Fl_Output(650, 330, 320, 60, "True RMS");
-          voltmeter_fl_output_chan_1_low->box(FL_GTK_DOWN_BOX);
-          voltmeter_fl_output_chan_1_low->color((Fl_Color)55);
-          voltmeter_fl_output_chan_1_low->labelsize(12);
-          voltmeter_fl_output_chan_1_low->textsize(36);
-          voltmeter_fl_output_chan_1_low->user_data((void*)(0));
-        } // Fl_Output* voltmeter_fl_output_chan_1_low
         { // 					
           voltmeter_fl_light_button_run_stop = new Fl_Light_Button(520, 430, 180, 60, "Run");
           voltmeter_fl_light_button_run_stop->box(FL_GTK_UP_BOX);
@@ -2125,19 +2162,54 @@ ly board.");
       calibration_fl_button_cancel->labelsize(12);
       calibration_fl_button_cancel->callback((Fl_Callback*)cb_calibration_fl_button_cancel);
     } // Fl_Button* calibration_fl_button_cancel
-    { calibration_fl_button_save = new Fl_Button(580, 450, 90, 30, "Save");
-      calibration_fl_button_save->box(FL_GTK_UP_BOX);
-      calibration_fl_button_save->color(FL_LIGHT3);
-      calibration_fl_button_save->labelsize(12);
-      calibration_fl_button_save->callback((Fl_Callback*)cb_calibration_fl_button_save);
-    } // Fl_Button* calibration_fl_button_save
-    { calibration_fl_input_osc_adc_ref_voltage = new Fl_Input(20, 50, 100, 30, "Oscilloscope ADC Reference Voltage");
-      calibration_fl_input_osc_adc_ref_voltage->labelsize(12);
-      calibration_fl_input_osc_adc_ref_voltage->textsize(12);
-      calibration_fl_input_osc_adc_ref_voltage->callback((Fl_Callback*)cb_calibration_fl_input_osc_adc_ref_voltage);
-      calibration_fl_input_osc_adc_ref_voltage->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_osc_adc_ref_voltage->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_osc_adc_ref_voltage
+    { calibration_fl_button_save_to_file = new Fl_Button(580, 450, 90, 30, "Save to File");
+      calibration_fl_button_save_to_file->box(FL_GTK_UP_BOX);
+      calibration_fl_button_save_to_file->color(FL_LIGHT3);
+      calibration_fl_button_save_to_file->labelsize(12);
+      calibration_fl_button_save_to_file->callback((Fl_Callback*)cb_calibration_fl_button_save_to_file);
+    } // Fl_Button* calibration_fl_button_save_to_file
+    { calibration_fl_input_osc_chan_0_adc_vref = new Fl_Input(20, 100, 100, 30, "Osc Chan 1 ADC Vref");
+      calibration_fl_input_osc_chan_0_adc_vref->labelsize(12);
+      calibration_fl_input_osc_chan_0_adc_vref->textsize(12);
+      calibration_fl_input_osc_chan_0_adc_vref->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_0_adc_vref, (void*)(0));
+      calibration_fl_input_osc_chan_0_adc_vref->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_osc_chan_0_adc_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_osc_chan_0_adc_vref
+    { calibration_fl_input_osc_chan_1_adc_vref = new Fl_Input(250, 100, 100, 30, "Osc Chan 2 ADC Vref");
+      calibration_fl_input_osc_chan_1_adc_vref->labelsize(12);
+      calibration_fl_input_osc_chan_1_adc_vref->textsize(12);
+      calibration_fl_input_osc_chan_1_adc_vref->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_1_adc_vref, (void*)(1));
+      calibration_fl_input_osc_chan_1_adc_vref->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_osc_chan_1_adc_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_osc_chan_1_adc_vref
+    { calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity = new Fl_Input(20, 170, 100, 30, "Osc Chan 1 x0.5 Corrector");
+      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->labelsize(12);
+      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->textsize(12);
+      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity, (void*)(0));
+      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity
+    { calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity = new Fl_Input(250, 170, 100, 30, "Osc Chan 2 x0.5 Corrector");
+      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->labelsize(12);
+      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->textsize(12);
+      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity, (void*)(1));
+      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity
+    { calibration_fl_input_chan_0_ohm_vref = new Fl_Input(20, 240, 100, 30, "Ohmmeter Vref (Volts)");
+      calibration_fl_input_chan_0_ohm_vref->labelsize(12);
+      calibration_fl_input_chan_0_ohm_vref->textsize(12);
+      calibration_fl_input_chan_0_ohm_vref->callback((Fl_Callback*)cb_calibration_fl_input_chan_0_ohm_vref, (void*)(0));
+      calibration_fl_input_chan_0_ohm_vref->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_chan_0_ohm_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_chan_0_ohm_vref
+    { calibration_fl_input_chan_0_ohm_r1 = new Fl_Input(250, 240, 100, 30, "Ohmmeter R1 (Ohms)");
+      calibration_fl_input_chan_0_ohm_r1->labelsize(12);
+      calibration_fl_input_chan_0_ohm_r1->textsize(12);
+      calibration_fl_input_chan_0_ohm_r1->callback((Fl_Callback*)cb_calibration_fl_input_chan_0_ohm_r1, (void*)(0));
+      calibration_fl_input_chan_0_ohm_r1->align(Fl_Align(FL_ALIGN_TOP_LEFT));
+      calibration_fl_input_chan_0_ohm_r1->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
+    } // Fl_Input* calibration_fl_input_chan_0_ohm_r1
     main_fl_window_calibration->end();
   } // Fl_Double_Window* main_fl_window_calibration
 }

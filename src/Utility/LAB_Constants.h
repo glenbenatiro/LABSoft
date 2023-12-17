@@ -25,7 +25,7 @@ namespace LABC
   {
     constexpr double EPSILON = 1e-9;
 
-    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 15.0; // 15 fps
+    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 20.0; // ideally 20 FPS
 
     enum class FL_TAB_GROUP_COLOR : uint32_t
     {
@@ -161,6 +161,9 @@ namespace LABC
     constexpr double    MAX_TRIGGER_LEVEL               = MAX_VERTICAL_OFFSET;
     constexpr double    MIN_TRIGGER_LEVEL               = MIN_VERTICAL_OFFSET;
     constexpr double    FIND_TRIGGER_TIMEOUT            = 2; // seconds
+    
+    // scaling correctors
+    constexpr double HALF_TO_UNITY_SCALING_CORRECTOR = 2.0;
   };
 
   namespace OSC_DISPLAY
@@ -223,8 +226,15 @@ namespace LABC
   namespace VOLTMETER
   {
     constexpr unsigned            NUMBER_OF_CHANNELS  = OSC::NUMBER_OF_CHANNELS;
-    constexpr double              SAMPLING_RATE       = 100'000.0; // Hz
-    constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::HALF;
+    constexpr double              SAMPLING_RATE       = 40'000.0; // Hz
+    constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::UNITY;
+  };
+
+  namespace OHMMETER
+  {
+    constexpr unsigned  NUMBER_OF_CHANNELS  = 1;
+    constexpr double    R1_RESISTOR_VALUE   = 20'000.0; // 20k ohms
+    constexpr double    VIN_VOLTAGE_VALUE   = 5.0; // +5.0 volts
   };
 
   namespace FUNC_GEN

@@ -15,6 +15,35 @@ class LAB_Oscilloscope : public LAB_Module
     AikaPi::Uncached              m_uncached_memory;   
     LAB_Parent_Data_Oscilloscope  m_parent_data; 
 
+    class Measurements
+    {
+      private:
+        LAB_Parent_Data_Oscilloscope& m_pdata;
+      
+      public:
+        Measurements (LAB_Parent_Data_Oscilloscope& _LAB_Parent_Data_Oscilloscope);
+
+        double avg  (unsigned chan);
+        double max  (unsigned chan);
+        double min  (unsigned chan);
+        double trms (unsigned chan);
+    } m_measurements;
+
+    class Calibration
+    {
+      private:
+        LAB_Parent_Data_Oscilloscope& m_pdata;
+      
+      public:
+        Calibration (LAB_Parent_Data_Oscilloscope& _LAB_Parent_Data_Oscilloscope);
+        
+        void    adc_reference_voltage           (unsigned channel, double value);
+        double  adc_reference_voltage           (unsigned channel) const;
+        void    scaling_corrector_half_to_unity (unsigned channel, double value);
+        double  scaling_corrector_half_to_unity (unsigned channel) const;
+        
+    } m_calibration;
+
   private:
     // Setup
     void init_spi       ();
@@ -29,6 +58,7 @@ class LAB_Oscilloscope : public LAB_Module
 
     // State 
     void                status                          (LABE::OSC::STATUS _STATUS);
+    void                reload_settings                 ();
 
     // Mode
     void                set_mode                        (LABE::OSC::MODE mode);
@@ -96,8 +126,8 @@ class LAB_Oscilloscope : public LAB_Module
     // master controls
     void                  run                     ();
     void                  stop                    ();  
-    void                  osc_core_run_stop       (bool value);
-    void                  osc_frontend_run_stop   (bool value);
+    void                  frontend_run_stop       (bool value);
+    void                  backend_run_stop        (bool value);
     void                  single                  ();
     void                  do_measurements         (bool value);
 
@@ -162,10 +192,6 @@ class LAB_Oscilloscope : public LAB_Module
     const LAB_Parent_Data_Oscilloscope&                     parent_data     ();
 
 
-    // calibration
-    void    adc_reference_voltage (double value);
-    double  adc_reference_voltage () const;
-
     // channel data getter
     double chan_voltage_per_division  (unsigned channel) const;
     double chan_vertical_offset       (unsigned channel) const;
@@ -176,9 +202,10 @@ class LAB_Oscilloscope : public LAB_Module
     double raw_buffer_sampling_rate     () const;
     
     const std::array<double, LABC::OSC::NUMBER_OF_SAMPLES>& chan_samples (unsigned channel) const;
-    
-    // measurements
 
+  public:
+    Measurements& measurements  ();
+    Calibration&  calibration   ();
 };
 
 #endif

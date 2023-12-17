@@ -32,8 +32,8 @@ class LAB
     LAB_LABChecker_Digital      m_LABChecker_Digital;
 
     LAB_Exporter                m_Exporter;
-    LAB_Calibration             m_Calibration;
     LAB_Oscilloscope_Display    m_Oscilloscope_Display;
+    LAB_Calibration             m_Calibration;
 
     AikaPi& rpi () const;
 };

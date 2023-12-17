@@ -13,6 +13,7 @@ class LABSoft_GUI_Label
       VOLT_PER_DIVISION,
       SECOND,
       SECOND_PER_DIVISION,
+      OHM,
       HERTZ,
       DEGREE,
       NONE,

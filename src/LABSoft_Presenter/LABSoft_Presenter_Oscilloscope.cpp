@@ -394,19 +394,39 @@ cb_run_stop (Fl_Light_Button* w,
 {
   if (w->value ())
   {
-    gui ().voltmeter_fl_light_button_run_stop->clear ();
-    
+    presenter ().m_Oscilloscope.stop_gui ();
+    presenter ().m_Voltmeter   .stop_gui ();
+    presenter ().m_Ohmmeter    .stop_gui ();
+
+    //
+
     lab ().m_Oscilloscope.run ();
+
+    presenter ().m_Oscilloscope.run_gui ();
   }
   else 
   {
     lab ().m_Oscilloscope.stop ();
-  }
 
-  lab ().m_Oscilloscope_Display.update_cached_values (); 
-  
+    presenter ().m_Oscilloscope.stop_gui ();
+  }
+}
+
+void LABSoft_Presenter_Oscilloscope:: 
+run_gui ()
+{
+  lab ().m_Oscilloscope_Display.update_cached_values ();
+
   gui ().oscilloscope_labsoft_gui_oscilloscope_display->
     mark_samples (lab ().m_Oscilloscope_Display.mark_samples ());
+
+  gui ().oscilloscope_fl_light_button_run_stop->set ();
+}
+
+void LABSoft_Presenter_Oscilloscope::
+stop_gui ()
+{
+  gui ().oscilloscope_fl_light_button_run_stop->clear ();
 }
 
 void LABSoft_Presenter_Oscilloscope:: 
@@ -745,10 +765,13 @@ display_update_cycle ()
     if (lab ().m_Oscilloscope.trigger_found ())
     {
       lab ().m_Oscilloscope.trigger_serviced ();
-    } 
+    }
   }
 
-  presenter ().m_Oscilloscope_Display.update_display ();
+  if (lab ().m_Oscilloscope.is_frontend_running ())
+  {
+    presenter ().m_Oscilloscope_Display.update_display ();
+  }
 }
 
 void LABSoft_Presenter_Oscilloscope:: 

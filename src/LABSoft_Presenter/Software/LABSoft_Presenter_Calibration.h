@@ -8,16 +8,22 @@
 class LABSoft_Presenter_Calibration : public LABSoft_Presenter_Unit 
 {
   private: 
-    void update_data ();
+    void update_data_display ();
 
   public:
     LABSoft_Presenter_Calibration (LABSoft_Presenter& _LABSoft_Presenter);
 
-    void cb_show_window ();
-    void cb_cancel      ();
-    void cb_save        ();
+    void cb_show_window   ();
+    void cb_cancel        ();
+    void cb_save_to_file  ();
 
-    void cb_osc_adc_ref_voltage (Fl_Input* w, void* data);
+    // oscilloscope
+    void cb_osc_adc_vref                        (Fl_Input* w, long data);
+    void cb_osc_scaling_corrector_half_to_unity (Fl_Input* w, long data);
+
+    // ohmmeter
+    void cb_ohm_vref  (Fl_Input* w, long data);
+    void cb_ohm_r1    (Fl_Input* w, long data);
 };
 
 #endif 

@@ -150,9 +150,32 @@ CMakeFiles/LABSoft.dir/src/LAB/LAB_Module.cpp.o
  /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
  /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Ohmmeter.cpp.o
+ /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
+ /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
+ /home/glen/Desktop/LABSoft/lib/MCP23S17/MCP23S17.h
+ /home/glen/Desktop/LABSoft/lib/MCP4XXX/MCP4XXX.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Ohmmeter.cpp
  /home/glen/Desktop/LABSoft/src/LAB/LAB_Ohmmeter.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
+ /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
+ /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.h
+ /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Exporter.h
+ /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_LABChecker_Digital.h
+ /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.h
+ /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_AD9833.h
+ /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
+ /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Defaults.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
+ /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
+ /home/glen/Desktop/LABSoft/src/Utility/pugiconfig.hpp
+ /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 CMakeFiles/LABSoft.dir/src/LAB/LAB_Oscilloscope.cpp.o
  /home/glen/Desktop/LABSoft/lib/AD9833/AD9833.h
  /home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h

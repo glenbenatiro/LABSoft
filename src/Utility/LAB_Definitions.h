@@ -8,21 +8,83 @@
 #include "LAB_Defaults.h"
 #include "LAB_Enumerations.h"
 
+// Calibration Data
+struct LAB_Calibration_Data_Oscilloscope
+{
+  double adc_reference_voltage            = LABD::OSC::ADC_REFERENCE_VOLTAGE;
+  double conversion_reference_voltage     = LABD::OSC::CONVERSION_REFERENCE_VOLTAGE;
+  double conversion_constant              = LABD::OSC::CONVERSION_CONSTANT;
+  
+  double half_scaling_to_unity_corrector  = LABC::OSC::HALF_TO_UNITY_SCALING_CORRECTOR;
+};
+
+struct LAB_Calibration_Data_Ohmmeter
+{
+  double r1   = LABC::OHMMETER::R1_RESISTOR_VALUE;
+  double vref = LABC::OHMMETER::VIN_VOLTAGE_VALUE;
+};
+
+// Measurements Data
+struct LAB_Measurements_Data_Oscilloscope
+{
+  double min  = 0.0;
+  double max  = 0.0;
+  double avg  = 0.0;
+  double trms = 0.0;
+};
+
+// Channel Data
 struct LAB_Channel_Data_Oscilloscope
 {
-  // state
   bool                is_enabled            = LABD::OSC::IS_ENABLED;
 
-  // vertical
+  double              scaling_corrector     = 1.0;
+
   double              voltage_per_division  = LABD::OSC::VOLTAGE_PER_DIVISION;
   double              vertical_offset       = LABD::OSC::VERTICAL_OFFSET;
   LABE::OSC::SCALING  scaling               = LABD::OSC::SCALING;
   LABE::OSC::COUPLING coupling              = LABD::OSC::COUPLING;
 
-  // data
-  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> samples = {0};
+  std::array<double, LABC::OSC::NUMBER_OF_SAMPLES> samples = {0.0};
+
+  LAB_Calibration_Data_Oscilloscope   calibration;
+  LAB_Measurements_Data_Oscilloscope  measurements;
 };
 
+struct LAB_Channel_Data_Ohmmeter
+{
+  LAB_Calibration_Data_Ohmmeter calibration;
+};
+
+struct LAB_Channel_Data_Function_Generator
+{
+  // Channel
+  bool is_enabled = false;
+
+  // Parameters
+  LABE::FUNC_GEN::WAVE_TYPE wave_type       = LABC::FUNC_GEN::WAVE_TYPE;
+  double                    frequency       = LABC::FUNC_GEN::FREQUENCY;
+  double                    period          = LABC::FUNC_GEN::PERIOD;
+  double                    amplitude       = LABC::FUNC_GEN::AMPLITUDE;
+  double                    vertical_offset = LABC::FUNC_GEN::VERTICAL_OFFSET;
+  double                    phase           = LABC::FUNC_GEN::PHASE;
+  double                    Rf              = LABC::FUNC_GEN::RF_RESISTANCE;
+};
+
+struct LAB_Channel_Data_Logic_Analyzer
+{
+  bool      is_enabled                      = true;
+  unsigned  raw_sample_buffer_working_size  = 0;
+
+  // triggre
+  LABE::LOGAN::TRIG::CND trigger_condition = LABD::LOGAN::TRIGGER_CONDITION;
+
+  // Data/Samples
+  std::vector <std::array<int, 2>> pixel_points;
+  std::array  <bool, LABC::LOGAN::MAX_NUMBER_OF_SAMPLES> samples;
+};
+
+// Parent Data
 struct LAB_Parent_Data_Oscilloscope
 {
   public:    
@@ -96,21 +158,6 @@ struct LAB_Parent_Data_Oscilloscope
       std::array<uint32_t, LABC::OSC::NUMBER_OF_SAMPLES> assembled_block;
     } trig_buffs;      
 
-    struct Calibration
-    {
-      double adc_reference_voltage        = LABD::OSC::ADC_REFERENCE_VOLTAGE;
-      double conversion_reference_voltage = LABD::OSC::CONVERSION_REFERENCE_VOLTAGE;
-      double conversion_constant          = LABD::OSC::CONVERSION_CONSTANT;
-    } calibration;
-
-    struct Measurements 
-    {
-      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> min   = {0.0};
-      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> max   = {0.0};
-      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> avg   = {0.0};
-      std::array<double, LABC::OSC::NUMBER_OF_CHANNELS> trms  = {0.0};
-    } measurements;
-
   public:
     bool has_enabled_channels () const
     {
@@ -126,34 +173,15 @@ struct LAB_Parent_Data_Oscilloscope
     }
 };
 
-struct LAB_DMA_Data_Oscilloscope
+struct LAB_Parent_Data_Ohmmeter
 {
-  AP::DMA::CTL_BLK cbs[15];
+  bool is_backend_running   = false;
+  bool is_frontend_running  = false;
 
-  uint32_t spi_samp_size      = 0,
-           spi_cs             = 0,
-           spi_cs_fifo_reset  = 0,
-           pwm_duty_cycle     = 0,
-           txd                = 0;
-
-  volatile uint32_t status[LABC::OSC::NUMBER_OF_CHANNELS];
-
-  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES] = {{0}};
-};
-
-struct LAB_Channel_Data_Function_Generator
-{
-  // Channel
-  bool is_enabled = false;
-
-  // Parameters
-  LABE::FUNC_GEN::WAVE_TYPE wave_type       = LABC::FUNC_GEN::WAVE_TYPE;
-  double                    frequency       = LABC::FUNC_GEN::FREQUENCY;
-  double                    period          = LABC::FUNC_GEN::PERIOD;
-  double                    amplitude       = LABC::FUNC_GEN::AMPLITUDE;
-  double                    vertical_offset = LABC::FUNC_GEN::VERTICAL_OFFSET;
-  double                    phase           = LABC::FUNC_GEN::PHASE;
-  double                    Rf              = LABC::FUNC_GEN::RF_RESISTANCE;
+  std::array<
+    LAB_Channel_Data_Ohmmeter,
+    LABC::OHMMETER::NUMBER_OF_CHANNELS
+  > channel_data;
 };
 
 class LAB_Parent_Data_Function_Generator
@@ -174,19 +202,6 @@ class LAB_Parent_Data_Function_Generator
 
       return (false);
     }
-};
-
-struct LAB_Channel_Data_Logic_Analyzer
-{
-  bool      is_enabled                      = true;
-  unsigned  raw_sample_buffer_working_size  = 0;
-
-  // triggre
-  LABE::LOGAN::TRIG::CND trigger_condition = LABD::LOGAN::TRIGGER_CONDITION;
-
-  // Data/Samples
-  std::vector <std::array<int, 2>> pixel_points;
-  std::array  <bool, LABC::LOGAN::MAX_NUMBER_OF_SAMPLES> samples;
 };
 
 struct LAB_Parent_Data_Logic_Analyzer
@@ -248,6 +263,22 @@ struct LAB_Parent_Data_Logic_Analyzer
         LABC::OSC::NUMBER_OF_SAMPLES
       > assembled_frame;
     } trigger_buffers; 
+};
+
+// DMA Data
+struct LAB_DMA_Data_Oscilloscope
+{
+  AP::DMA::CTL_BLK cbs[15];
+
+  uint32_t spi_samp_size      = 0,
+           spi_cs             = 0,
+           spi_cs_fifo_reset  = 0,
+           pwm_duty_cycle     = 0,
+           txd                = 0;
+
+  volatile uint32_t status[LABC::OSC::NUMBER_OF_CHANNELS];
+
+  volatile uint32_t rxd[2][LABC::OSC::NUMBER_OF_SAMPLES] = {{0}};
 };
 
 struct LAB_DMA_Data_Logic_Analyzer

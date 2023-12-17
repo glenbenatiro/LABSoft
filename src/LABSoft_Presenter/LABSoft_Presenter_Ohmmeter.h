@@ -13,6 +13,9 @@ class LABSoft_Presenter_Ohmmeter : public LABSoft_Presenter_Unit
   public:
     LABSoft_Presenter_Ohmmeter (LABSoft_Presenter& _LABSoft_Presenter);
 
+    void run_gui ();
+    void stop_gui ();
+
     void cb_run_stop          (Fl_Light_Button *w, void *data);
     void display_update_cycle ();
 };

@@ -16,7 +16,9 @@
 class LABSoft_Presenter_Oscilloscope : public LABSoft_Presenter_Unit
 {
   private:
-    void init_gui_values                        () const;
+    void init_gui_values  () const;
+    void run              ();
+    void stop             ();              
 
     //
     void update_gui_panel_vertical_offset       (unsigned channel) const;
@@ -82,6 +84,8 @@ class LABSoft_Presenter_Oscilloscope : public LABSoft_Presenter_Unit
 
     // GUI update
     void display_update_cycle         ();
+    void run_gui ();
+    void stop_gui ();    
 
     // debug
     void cb_debug_measurements (Fl_Light_Button* w, void* data);
