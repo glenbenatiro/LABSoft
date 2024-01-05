@@ -30,6 +30,7 @@ class LAB_Calibration : public LAB_Module
     void apply_calibration_data           ();
     void discard_calibration_data_changes ();
     void save_calibration_data_to_file    (const std::string& file_path);
+    void save_calibration_data_to_default ();
 
     const LAB_Calibration_Data  current_calibration_data  () const;
     const LAB_Calibration_Data& calibration_data_incoming () const;

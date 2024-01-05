@@ -985,10 +985,17 @@ void LABSoft_GUI::cb_Open(Fl_Menu_* o, void* v) {
 }
 
 void LABSoft_GUI::cb_Save_i(Fl_Menu_*, void*) {
-  m_LABSoft_Presenter->m_Calibration.cb_save ();
+  m_LABSoft_Presenter->m_Calibration.cb_save_to_file ();
 }
 void LABSoft_GUI::cb_Save(Fl_Menu_* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Save_i(o,v);
+}
+
+void LABSoft_GUI::cb_Save1_i(Fl_Menu_*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_save_as_default ();
+}
+void LABSoft_GUI::cb_Save1(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Save1_i(o,v);
 }
 
 void LABSoft_GUI::cb_Discard_i(Fl_Menu_*, void*) {
@@ -1008,7 +1015,8 @@ void LABSoft_GUI::cb_Load(Fl_Menu_* o, void* v) {
 Fl_Menu_Item LABSoft_GUI::menu_1[] = {
  {"File", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"Open", 0,  (Fl_Callback*)LABSoft_GUI::cb_Open, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"Save", 0,  (Fl_Callback*)LABSoft_GUI::cb_Save, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Save to File", 0,  (Fl_Callback*)LABSoft_GUI::cb_Save, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Save as Default", 0,  (Fl_Callback*)LABSoft_GUI::cb_Save1, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
  {"Reset", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"Discard changes", 0,  (Fl_Callback*)LABSoft_GUI::cb_Discard, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},

@@ -2440,9 +2440,14 @@ class LABSoft_GUI {open
             xywh {0 0 36 21} labelsize 12
           }
           MenuItem {} {
-            label Save
-            callback {m_LABSoft_Presenter->m_Calibration.cb_save ();}
+            label {Save to File}
+            callback {m_LABSoft_Presenter->m_Calibration.cb_save_to_file ();}
             xywh {10 10 36 21} labelsize 12
+          }
+          MenuItem {} {
+            label {Save as Default}
+            callback {m_LABSoft_Presenter->m_Calibration.cb_save_as_default ();}
+            xywh {20 20 36 21} labelsize 12
           }
         }
         Submenu {} {

@@ -19,7 +19,8 @@ class LABSoft_Presenter_Calibration : public LABSoft_Presenter_Unit
     LABSoft_Presenter_Calibration (LABSoft_Presenter& _LABSoft_Presenter);
 
     void cb_open            ();
-    void cb_save            ();
+    void cb_save_to_file    ();
+    void cb_save_as_default ();
     void cb_apply           ();
     void cb_discard_changes ();
     void cb_load_factory    ();

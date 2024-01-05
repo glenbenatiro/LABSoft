@@ -416,7 +416,7 @@ cb_open ()
 }
 
 void LABSoft_Presenter_Calibration:: 
-cb_save ()
+cb_save_to_file ()
 {
   Fl_Native_File_Chooser fnfc;
 
@@ -460,6 +460,28 @@ cb_save ()
       break;
     }
   }
+}
+
+void LABSoft_Presenter_Calibration:: 
+cb_save_as_default ()
+{
+  switch (fl_choice ("Do you want to save the calibration values as the default?", "No", "Yes", 0))
+  {
+    case 1: // Yes
+    {
+      lab ().m_Calibration.save_calibration_data_to_default ();
+
+      fl_message ("Calibration values saved as the default.");
+
+      break;
+    }
+
+    case 0: // No
+    {
+      break;
+    }
+  }
+
 }
 
 void LABSoft_Presenter_Calibration::

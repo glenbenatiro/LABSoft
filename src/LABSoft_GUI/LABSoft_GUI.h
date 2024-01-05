@@ -421,6 +421,8 @@ private:
   static void cb_Open(Fl_Menu_*, void*);
   inline void cb_Save_i(Fl_Menu_*, void*);
   static void cb_Save(Fl_Menu_*, void*);
+  inline void cb_Save1_i(Fl_Menu_*, void*);
+  static void cb_Save1(Fl_Menu_*, void*);
   inline void cb_Discard_i(Fl_Menu_*, void*);
   static void cb_Discard(Fl_Menu_*, void*);
   inline void cb_Load_i(Fl_Menu_*, void*);

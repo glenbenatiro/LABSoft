@@ -308,6 +308,12 @@ save_calibration_data_to_file (const std::string& file_path)
   }
 }
 
+void LAB_Calibration:: 
+save_calibration_data_to_default ()
+{
+  save_calibration_data_to_file (LABC::LABSOFT::DEFAULT_CALIBRATION_FILE_PATH);
+}
+
 const LAB_Calibration_Data LAB_Calibration:: 
 current_calibration_data () const
 {
