@@ -3,8 +3,10 @@
 #ifndef LABSoft_GUI_h
 #define LABSoft_GUI_h
 #include <FL/Fl.H>
-#include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
+#include "LABSoft_GUI_Sheet.h"
+#include "LABSoft_GUI_Fl_Input.h"
 #include "LABSoft_GUI_Fl_Choice_With_Scroll.h"
+#include "LABSoft_GUI_Fl_Input_Choice_With_Scroll.h"
 class LABSoft_Presenter;
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Menu_Bar.H>
@@ -414,44 +416,27 @@ private:
 public:
   Fl_Double_Window *main_fl_window_calibration;
   static Fl_Menu_Item menu_1[];
-  Fl_Button *calibration_fl_button_cancel;
 private:
-  inline void cb_calibration_fl_button_cancel_i(Fl_Button*, void*);
-  static void cb_calibration_fl_button_cancel(Fl_Button*, void*);
+  inline void cb_Open_i(Fl_Menu_*, void*);
+  static void cb_Open(Fl_Menu_*, void*);
+  inline void cb_Save_i(Fl_Menu_*, void*);
+  static void cb_Save(Fl_Menu_*, void*);
+  inline void cb_Discard_i(Fl_Menu_*, void*);
+  static void cb_Discard(Fl_Menu_*, void*);
+  inline void cb_Load_i(Fl_Menu_*, void*);
+  static void cb_Load(Fl_Menu_*, void*);
 public:
-  Fl_Button *calibration_fl_button_save_to_file;
+  LABSoft_GUI_Sheet *calibration_labsoft_gui_sheet_oscilloscope_calibration_table;
+  LABSoft_GUI_Fl_Input *calibration_labsoft_gui_fl_input_ohm_vref_chan_0;
+  LABSoft_GUI_Fl_Input *calibration_labsoft_gui_fl_input_ohm_r1_chan_0;
+  Fl_Button *calibration_fl_button_apply;
 private:
-  inline void cb_calibration_fl_button_save_to_file_i(Fl_Button*, void*);
-  static void cb_calibration_fl_button_save_to_file(Fl_Button*, void*);
+  inline void cb_calibration_fl_button_apply_i(Fl_Button*, void*);
+  static void cb_calibration_fl_button_apply(Fl_Button*, void*);
 public:
-  Fl_Input *calibration_fl_input_osc_chan_0_adc_vref;
+  Fl_Button *calibration_fl_button_close;
 private:
-  inline void cb_calibration_fl_input_osc_chan_0_adc_vref_i(Fl_Input*, long);
-  static void cb_calibration_fl_input_osc_chan_0_adc_vref(Fl_Input*, long);
-public:
-  Fl_Input *calibration_fl_input_osc_chan_1_adc_vref;
-private:
-  inline void cb_calibration_fl_input_osc_chan_1_adc_vref_i(Fl_Input*, long);
-  static void cb_calibration_fl_input_osc_chan_1_adc_vref(Fl_Input*, long);
-public:
-  Fl_Input *calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity;
-private:
-  inline void cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity_i(Fl_Input*, long);
-  static void cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity(Fl_Input*, long);
-public:
-  Fl_Input *calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity;
-private:
-  inline void cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity_i(Fl_Input*, long);
-  static void cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity(Fl_Input*, long);
-public:
-  Fl_Input *calibration_fl_input_chan_0_ohm_vref;
-private:
-  inline void cb_calibration_fl_input_chan_0_ohm_vref_i(Fl_Input*, long);
-  static void cb_calibration_fl_input_chan_0_ohm_vref(Fl_Input*, long);
-public:
-  Fl_Input *calibration_fl_input_chan_0_ohm_r1;
-private:
-  inline void cb_calibration_fl_input_chan_0_ohm_r1_i(Fl_Input*, long);
-  static void cb_calibration_fl_input_chan_0_ohm_r1(Fl_Input*, long);
+  inline void cb_calibration_fl_button_close_i(Fl_Button*, void*);
+  static void cb_calibration_fl_button_close(Fl_Button*, void*);
 };
 #endif

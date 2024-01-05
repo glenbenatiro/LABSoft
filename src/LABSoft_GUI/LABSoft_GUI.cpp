@@ -2,6 +2,7 @@
 
 #include "LABSoft_GUI.h"
 #include "../LABSoft_Presenter/LABSoft_Presenter.h"
+#include "../Utility/LAB_Enumerations.h"
 
 void LABSoft_GUI::cb_main_menuitem_export_i(Fl_Menu_*, void*) {
   m_LABSoft_Presenter->m_Exporter.cb_show_window ();
@@ -976,69 +977,58 @@ void LABSoft_GUI::cb_exporter_fl_light_button_labels(Fl_Light_Button* o, void* v
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_exporter_fl_light_button_labels_i(o,v);
 }
 
+void LABSoft_GUI::cb_Open_i(Fl_Menu_*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_open ();
+}
+void LABSoft_GUI::cb_Open(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Open_i(o,v);
+}
+
+void LABSoft_GUI::cb_Save_i(Fl_Menu_*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_save ();
+}
+void LABSoft_GUI::cb_Save(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Save_i(o,v);
+}
+
+void LABSoft_GUI::cb_Discard_i(Fl_Menu_*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_discard_changes ();
+}
+void LABSoft_GUI::cb_Discard(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Discard_i(o,v);
+}
+
+void LABSoft_GUI::cb_Load_i(Fl_Menu_*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_load_factory ();
+}
+void LABSoft_GUI::cb_Load(Fl_Menu_* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Load_i(o,v);
+}
+
 Fl_Menu_Item LABSoft_GUI::menu_1[] = {
- {"File", 0,  0, 0, 65, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"File", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Open", 0,  (Fl_Callback*)LABSoft_GUI::cb_Open, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Save", 0,  (Fl_Callback*)LABSoft_GUI::cb_Save, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
- {"Reset", 0,  0, 0, 65, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Reset", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Discard changes", 0,  (Fl_Callback*)LABSoft_GUI::cb_Discard, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
+ {"Load factory", 0,  (Fl_Callback*)LABSoft_GUI::cb_Load, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
- {"Wizard", 0,  0, 0, 1, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0}
 };
 
-void LABSoft_GUI::cb_calibration_fl_button_cancel_i(Fl_Button*, void*) {
-  m_LABSoft_Presenter->m_Calibration.cb_cancel ();
+void LABSoft_GUI::cb_calibration_fl_button_apply_i(Fl_Button*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_apply ();
 }
-void LABSoft_GUI::cb_calibration_fl_button_cancel(Fl_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_cancel_i(o,v);
-}
-
-void LABSoft_GUI::cb_calibration_fl_button_save_to_file_i(Fl_Button*, void*) {
-  m_LABSoft_Presenter->m_Calibration.cb_save_to_file ();
-}
-void LABSoft_GUI::cb_calibration_fl_button_save_to_file(Fl_Button* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_save_to_file_i(o,v);
+void LABSoft_GUI::cb_calibration_fl_button_apply(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_apply_i(o,v);
 }
 
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_adc_vref_i(Fl_Input* o, long v) {
-  m_LABSoft_Presenter->m_Calibration.cb_osc_adc_vref (o, v);
+void LABSoft_GUI::cb_calibration_fl_button_close_i(Fl_Button*, void*) {
+  m_LABSoft_Presenter->m_Calibration.cb_close ();
 }
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_adc_vref(Fl_Input* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_0_adc_vref_i(o,v);
-}
-
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_adc_vref_i(Fl_Input* o, long v) {
-  m_LABSoft_Presenter->m_Calibration.cb_osc_adc_vref (o, v);
-}
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_adc_vref(Fl_Input* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_1_adc_vref_i(o,v);
-}
-
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity_i(Fl_Input* o, long v) {
-  m_LABSoft_Presenter->m_Calibration.cb_osc_scaling_corrector_half_to_unity (o, v);
-}
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity(Fl_Input* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity_i(o,v);
-}
-
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity_i(Fl_Input* o, long v) {
-  m_LABSoft_Presenter->m_Calibration.cb_osc_scaling_corrector_half_to_unity (o, v);
-}
-void LABSoft_GUI::cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity(Fl_Input* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity_i(o,v);
-}
-
-void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_vref_i(Fl_Input* o, long v) {
-  m_LABSoft_Presenter->m_Calibration.cb_ohm_vref (o, v);
-}
-void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_vref(Fl_Input* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_chan_0_ohm_vref_i(o,v);
-}
-
-void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_r1_i(Fl_Input* o, long v) {
-  m_LABSoft_Presenter->m_Calibration.cb_ohm_r1 (o, v);
-}
-void LABSoft_GUI::cb_calibration_fl_input_chan_0_ohm_r1(Fl_Input* o, long v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_input_chan_0_ohm_r1_i(o,v);
+void LABSoft_GUI::cb_calibration_fl_button_close(Fl_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_calibration_fl_button_close_i(o,v);
 }
 
 LABSoft_GUI::LABSoft_GUI() {
@@ -1069,6 +1059,8 @@ LABSoft_GUI::LABSoft_GUI() {
           oscilloscope_fl_light_button_debug_measurements->labelsize(12);
           oscilloscope_fl_light_button_debug_measurements->callback((Fl_Callback*)cb_oscilloscope_fl_light_button_debug_measurements);
           oscilloscope_fl_light_button_debug_measurements->align(Fl_Align(FL_ALIGN_WRAP|FL_ALIGN_INSIDE));
+          oscilloscope_fl_light_button_debug_measurements->hide();
+          oscilloscope_fl_light_button_debug_measurements->deactivate();
         } // Fl_Light_Button* oscilloscope_fl_light_button_debug_measurements
         { oscilloscope_labsoft_gui_oscilloscope_display = new LABSoft_GUI_Oscilloscope_Display(20, 70, 700, 510);
           oscilloscope_labsoft_gui_oscilloscope_display->box(FL_FLAT_BOX);
@@ -2148,7 +2140,7 @@ ly board.");
     } // Fl_Light_Button* exporter_fl_light_button_labels
     main_fl_window_exporter->end();
   } // Fl_Double_Window* main_fl_window_exporter
-  { main_fl_window_calibration = new Fl_Double_Window(800, 500, "Device Calibration");
+  { main_fl_window_calibration = new Fl_Double_Window(980, 500, "Device Calibration");
     main_fl_window_calibration->color(FL_LIGHT3);
     main_fl_window_calibration->user_data((void*)(this));
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 800, 20);
@@ -2156,60 +2148,61 @@ ly board.");
       o->color(FL_LIGHT3);
       o->menu(menu_1);
     } // Fl_Menu_Bar* o
-    { calibration_fl_button_cancel = new Fl_Button(690, 450, 90, 30, "Cancel");
-      calibration_fl_button_cancel->box(FL_GTK_UP_BOX);
-      calibration_fl_button_cancel->color(FL_LIGHT3);
-      calibration_fl_button_cancel->labelsize(12);
-      calibration_fl_button_cancel->callback((Fl_Callback*)cb_calibration_fl_button_cancel);
-    } // Fl_Button* calibration_fl_button_cancel
-    { calibration_fl_button_save_to_file = new Fl_Button(580, 450, 90, 30, "Save to File");
-      calibration_fl_button_save_to_file->box(FL_GTK_UP_BOX);
-      calibration_fl_button_save_to_file->color(FL_LIGHT3);
-      calibration_fl_button_save_to_file->labelsize(12);
-      calibration_fl_button_save_to_file->callback((Fl_Callback*)cb_calibration_fl_button_save_to_file);
-    } // Fl_Button* calibration_fl_button_save_to_file
-    { calibration_fl_input_osc_chan_0_adc_vref = new Fl_Input(20, 100, 100, 30, "Osc Chan 1 ADC Vref");
-      calibration_fl_input_osc_chan_0_adc_vref->labelsize(12);
-      calibration_fl_input_osc_chan_0_adc_vref->textsize(12);
-      calibration_fl_input_osc_chan_0_adc_vref->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_0_adc_vref, (void*)(0));
-      calibration_fl_input_osc_chan_0_adc_vref->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_osc_chan_0_adc_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_osc_chan_0_adc_vref
-    { calibration_fl_input_osc_chan_1_adc_vref = new Fl_Input(250, 100, 100, 30, "Osc Chan 2 ADC Vref");
-      calibration_fl_input_osc_chan_1_adc_vref->labelsize(12);
-      calibration_fl_input_osc_chan_1_adc_vref->textsize(12);
-      calibration_fl_input_osc_chan_1_adc_vref->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_1_adc_vref, (void*)(1));
-      calibration_fl_input_osc_chan_1_adc_vref->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_osc_chan_1_adc_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_osc_chan_1_adc_vref
-    { calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity = new Fl_Input(20, 170, 100, 30, "Osc Chan 1 x0.5 Corrector");
-      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->labelsize(12);
-      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->textsize(12);
-      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity, (void*)(0));
-      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_osc_chan_0_scaling_corrector_half_to_unity
-    { calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity = new Fl_Input(250, 170, 100, 30, "Osc Chan 2 x0.5 Corrector");
-      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->labelsize(12);
-      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->textsize(12);
-      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->callback((Fl_Callback*)cb_calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity, (void*)(1));
-      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_osc_chan_1_scaling_corrector_half_to_unity
-    { calibration_fl_input_chan_0_ohm_vref = new Fl_Input(20, 240, 100, 30, "Ohmmeter Vref (Volts)");
-      calibration_fl_input_chan_0_ohm_vref->labelsize(12);
-      calibration_fl_input_chan_0_ohm_vref->textsize(12);
-      calibration_fl_input_chan_0_ohm_vref->callback((Fl_Callback*)cb_calibration_fl_input_chan_0_ohm_vref, (void*)(0));
-      calibration_fl_input_chan_0_ohm_vref->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_chan_0_ohm_vref->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_chan_0_ohm_vref
-    { calibration_fl_input_chan_0_ohm_r1 = new Fl_Input(250, 240, 100, 30, "Ohmmeter R1 (Ohms)");
-      calibration_fl_input_chan_0_ohm_r1->labelsize(12);
-      calibration_fl_input_chan_0_ohm_r1->textsize(12);
-      calibration_fl_input_chan_0_ohm_r1->callback((Fl_Callback*)cb_calibration_fl_input_chan_0_ohm_r1, (void*)(0));
-      calibration_fl_input_chan_0_ohm_r1->align(Fl_Align(FL_ALIGN_TOP_LEFT));
-      calibration_fl_input_chan_0_ohm_r1->when (FL_WHEN_RELEASE | FL_WHEN_ENTER_KEY);
-    } // Fl_Input* calibration_fl_input_chan_0_ohm_r1
+    { calibration_labsoft_gui_sheet_oscilloscope_calibration_table = new LABSoft_GUI_Sheet(20, 40, 400, 400, "Oscilloscope");
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->box(FL_THIN_DOWN_FRAME);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->color(FL_BACKGROUND_COLOR);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->selection_color(FL_BACKGROUND_COLOR);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labeltype(FL_NORMAL_LABEL);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelfont(0);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelsize(12);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelcolor(FL_FOREGROUND_COLOR);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->align(Fl_Align(FL_ALIGN_TOP));
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->when(FL_WHEN_RELEASE);
+      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->end();
+    } // LABSoft_GUI_Sheet* calibration_labsoft_gui_sheet_oscilloscope_calibration_table
+    { Fl_Group* o = new Fl_Group(440, 40, 140, 150, "Ohmmeter");
+      o->box(FL_ROUNDED_FRAME);
+      o->labelsize(12);
+      { calibration_labsoft_gui_fl_input_ohm_vref_chan_0 = new LABSoft_GUI_Fl_Input(460, 70, 100, 30, "Vref (Volts)");
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->box(FL_DOWN_BOX);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->color(FL_BACKGROUND2_COLOR);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->selection_color(FL_SELECTION_COLOR);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->labeltype(FL_NORMAL_LABEL);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->labelfont(0);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->labelsize(12);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->labelcolor(FL_FOREGROUND_COLOR);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->textsize(12);
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->user_data((void*)(0));
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->align(Fl_Align(133));
+        calibration_labsoft_gui_fl_input_ohm_vref_chan_0->when(FL_WHEN_RELEASE);
+      } // LABSoft_GUI_Fl_Input* calibration_labsoft_gui_fl_input_ohm_vref_chan_0
+      { calibration_labsoft_gui_fl_input_ohm_r1_chan_0 = new LABSoft_GUI_Fl_Input(460, 140, 100, 30, "R1 (Ohms)");
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->box(FL_DOWN_BOX);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->color(FL_BACKGROUND2_COLOR);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->selection_color(FL_SELECTION_COLOR);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->labeltype(FL_NORMAL_LABEL);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->labelfont(0);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->labelsize(12);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->labelcolor(FL_FOREGROUND_COLOR);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->textsize(12);
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->user_data((void*)(0));
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->align(Fl_Align(133));
+        calibration_labsoft_gui_fl_input_ohm_r1_chan_0->when(FL_WHEN_RELEASE);
+      } // LABSoft_GUI_Fl_Input* calibration_labsoft_gui_fl_input_ohm_r1_chan_0
+      o->end();
+    } // Fl_Group* o
+    { calibration_fl_button_apply = new Fl_Button(760, 450, 90, 30, "Apply");
+      calibration_fl_button_apply->box(FL_GTK_UP_BOX);
+      calibration_fl_button_apply->color(FL_LIGHT3);
+      calibration_fl_button_apply->labelsize(12);
+      calibration_fl_button_apply->callback((Fl_Callback*)cb_calibration_fl_button_apply);
+    } // Fl_Button* calibration_fl_button_apply
+    { calibration_fl_button_close = new Fl_Button(870, 450, 90, 30, "Close");
+      calibration_fl_button_close->box(FL_GTK_UP_BOX);
+      calibration_fl_button_close->color(FL_LIGHT3);
+      calibration_fl_button_close->labelsize(12);
+      calibration_fl_button_close->callback((Fl_Callback*)cb_calibration_fl_button_close);
+    } // Fl_Button* calibration_fl_button_close
     main_fl_window_calibration->end();
   } // Fl_Double_Window* main_fl_window_calibration
 }

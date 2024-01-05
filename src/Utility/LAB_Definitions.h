@@ -6,16 +6,18 @@
 
 #include "LAB_Constants.h"
 #include "LAB_Defaults.h"
-#include "LAB_Enumerations.h"
+#include "LAB_Enumerations.h" 
 
 // Calibration Data
 struct LAB_Calibration_Data_Oscilloscope
 {
-  double adc_reference_voltage            = LABD::OSC::ADC_REFERENCE_VOLTAGE;
-  double conversion_reference_voltage     = LABD::OSC::CONVERSION_REFERENCE_VOLTAGE;
-  double conversion_constant              = LABD::OSC::CONVERSION_CONSTANT;
+  double adc_reference_voltage        = LABD::OSC::ADC_REFERENCE_VOLTAGE;
+  double conversion_reference_voltage = LABD::OSC::CONVERSION_REFERENCE_VOLTAGE;
+  double conversion_constant          = LABD::OSC::CONVERSION_CONSTANT;
   
-  double half_scaling_to_unity_corrector  = LABC::OSC::HALF_TO_UNITY_SCALING_CORRECTOR;
+  std::unordered_map <LABE::OSC::SCALING, double> vertical_offset_corrector   = LABD::OSC::VERTICAL_OFFSET_CORRECTOR;
+  std::unordered_map <LABE::OSC::SCALING, double> scaling_corrector_to_unity  = LABD::OSC::SCALING_CORRECTOR_TO_UNITY;
+  std::unordered_map <LABE::OSC::SCALING, double> scaling_corrector_to_actual = LABD::OSC::SCALING_CORRECTOR_TO_ACTUAL;
 };
 
 struct LAB_Calibration_Data_Voltmeter
@@ -311,6 +313,13 @@ struct LAB_DMA_Data_Logic_Analyzer
 
   volatile  uint32_t status[LABC::LOGAN::NUMBER_OF_CHANNELS];
   volatile  uint32_t rxd[2][LABC::LOGAN::MAX_NUMBER_OF_SAMPLES];
+};
+
+//
+struct Oscilloscope_Calibration_GUI_Info
+{
+  unsigned            channel;
+  LABE::OSC::SCALING  scaling;
 };
 
 #endif

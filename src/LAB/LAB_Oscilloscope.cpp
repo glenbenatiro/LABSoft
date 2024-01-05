@@ -399,12 +399,38 @@ coupling (unsigned            channel,
 {
   if (channel < m_parent_data.channel_data.size ())
   {
-    rpi ().gpio.set (
-      LABC::PIN::OSC::RELAY[channel],
-      AP::GPIO::FUNC::OUTPUT, 
-      AP::GPIO::PULL::OFF,
-      (coupling == LABE::OSC::COUPLING::AC) ? 1 : 0
-    );
+    switch (coupling)
+    {
+      case (LABE::OSC::COUPLING::DC):
+      {
+        rpi ().gpio.set (
+          LABC::PIN::OSC::RELAY[channel],
+          AP::GPIO::FUNC::OUTPUT,
+          AP::GPIO::PULL::OFF,
+          0
+        );
+
+        break;
+      }
+
+      case (LABE::OSC::COUPLING::AC):
+      {
+        rpi ().gpio.set (
+          LABC::PIN::OSC::RELAY[channel],
+          AP::GPIO::FUNC::INPUT,
+          AP::GPIO::PULL::OFF
+        );
+        
+        break;
+      }
+    }
+
+    // rpi ().gpio.set (
+    //   LABC::PIN::OSC::RELAY[channel],
+    //   AP::GPIO::FUNC::OUTPUT, 
+    //   AP::GPIO::PULL::OFF,
+    //   (coupling == LABE::OSC::COUPLING::AC) ? 1 : 0
+    // );
 
     m_parent_data.channel_data[channel].coupling = coupling;
   }
@@ -452,41 +478,41 @@ scaling (unsigned           channel,
 
   m_parent_data.channel_data[channel].scaling = scaling;
 
-  // add software scaling compensation code here
-  switch (scaling)
-  {
-    case (LABE::OSC::SCALING::DOUBLE):
-    {
-      m_parent_data.channel_data[channel].scaling_corrector = 1.0;
-      break;
-    }
+  // // add software scaling compensation code here
+  // switch (scaling)
+  // {
+  //   case (LABE::OSC::SCALING::DOUBLE):
+  //   {
+  //     m_parent_data.channel_data[channel].scaling_corrector = 1.0;
+  //     break;
+  //   }
 
-    case (LABE::OSC::SCALING::UNITY):
-    {
-      m_parent_data.channel_data[channel].scaling_corrector =
-        m_parent_data.channel_data[channel].calibration.half_scaling_to_unity_corrector;
+  //   case (LABE::OSC::SCALING::UNITY):
+  //   {
+  //     m_parent_data.channel_data[channel].scaling_corrector =
+  //       m_parent_data.channel_data[channel].calibration.half_scaling_to_unity_corrector;
 
-      break;
-    }
+  //     break;
+  //   }
 
-    case (LABE::OSC::SCALING::HALF):
-    {
-      m_parent_data.channel_data[channel].scaling_corrector = 1.0;
-      break;
-    }
+  //   case (LABE::OSC::SCALING::HALF):
+  //   {
+  //     m_parent_data.channel_data[channel].scaling_corrector = 1.0;
+  //     break;
+  //   }
 
-    case (LABE::OSC::SCALING::FOURTH):
-    {
-      m_parent_data.channel_data[channel].scaling_corrector = 1.0;
-      break;
-    }
+  //   case (LABE::OSC::SCALING::FOURTH):
+  //   {
+  //     m_parent_data.channel_data[channel].scaling_corrector = 1.0;
+  //     break;
+  //   }
 
-    case (LABE::OSC::SCALING::EIGHTH):
-    {
-      m_parent_data.channel_data[channel].scaling_corrector = 1.0;
-      break;
-    }
-  }
+  //   case (LABE::OSC::SCALING::EIGHTH):
+  //   {
+  //     m_parent_data.channel_data[channel].scaling_corrector = 1.0;
+  //     break;
+  //   }
+  // }
 }
 
 LABE::OSC::SCALING LAB_Oscilloscope:: 
@@ -617,20 +643,20 @@ parse_raw_osc_samp_buff ()
   for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
     // DEBUG!
-    // if (samp == 0)
-    // {
-    //   uint32_t  rsamp = pdata.raw_data_buffer[samp];
-    //   uint16_t  chan1 = (rsamp & 0xFFFF);
-    //   uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
+    if (samp == 0)
+    {
+      uint32_t  rsamp = pdata.raw_data_buffer[samp];
+      uint16_t  chan1 = (rsamp & 0xFFFF);
+      uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
 
-    //   std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp)  << "\n";
-    //   std::cout << "raw chan 1              : " << std::bitset<16> (chan1) << "\n";
-    //   std::cout << "raw chan 2              : " << std::bitset<16> (chan2) << "\n";
-    //   std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
-    //   std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
+      std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp) << "\n";
+      std::cout << "chan 1 adc              : " << std::bitset<12> (reconstruct_adc_data_from_raw_osc_chan_samp (chan1, 0)) << "\n";
+      std::cout << "chan 2 adc              : " << std::bitset<12> (reconstruct_adc_data_from_raw_osc_chan_samp (chan2, 1)) << "\n";
+      std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
+      std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
 
-    //   std::cout << "\n";
-    // }
+      std::cout << std::endl;
+    }
 
     int chan = 0;
 
@@ -655,15 +681,15 @@ parse_raw_osc_samp_buff ()
       // double y = 0;
 
       // double x = 2.5 * sin (2.0 * 3.141592 * (10.0 / 2000.0) * (samp));
-      // pdata.channel_data[chan].samples[samp] =  (y * m_parent_data.channel_data[chan].scaling_corrector);
+      // pdata.channel_data[chan].samples[samp] =  (y * m_parent_data.channel_data[chan].scaling_corrector) + 0.322;
     }
   }
 
-  for (int chan = 0; chan < pdata.channel_data.size(); chan++)
+  if (pdata.do_measurements)
   {
-    if (is_channel_enabled (chan))
+    for (int chan = 0; chan < pdata.channel_data.size(); chan++)
     {
-      if (pdata.do_measurements)
+      if (is_channel_enabled (chan))
       {
         std::tuple<double, double, double> min_max_avg = 
           LAB_Data_Measurer::min_max_avg (pdata.channel_data[chan].samples);
@@ -676,7 +702,7 @@ parse_raw_osc_samp_buff ()
         // std::cout << "chan " << chan << "min: " <<  pdata.channel_data[chan].measurements.min   << "\n";
         // std::cout << "chan " << chan << "max: " <<  pdata.channel_data[chan].measurements.max   << "\n";
         // std::cout << "chan " << chan << "avg: " <<  pdata.channel_data[chan].measurements.avg   << "\n";
-        // std::cout << "chan " << chan << "trms: " << pdata.channel_data[chan].measurements.trms  << "\n";
+        // std::cout << "chan " << chan << "trms: " << pdata.channel_data[chan].measurements.trms  << "\n";  
       }
     }
   }
@@ -710,33 +736,21 @@ uint32_t LAB_Oscilloscope::
 reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,
                                              unsigned channel)
 {
-  // if you update this function, please also update
-  // reconstruct_adc_data_from_raw_osc_chan_samp ()
-  // found below this function
-
-  // 1. supposed original and correct
-  // uint32_t recon_adc_data = ((raw_osc_chan_samp & 0xFF) << 8) | ((raw_osc_chan_samp & 0xFF00) >> 8);
-
-  // 2. idk why lahi jud ang bits (IF 7 BITS ANG MSB NAA SA PINAKA RIGHT)
+  // disarranged bits (idk why, maybe in DMA SPI transfer?)
   uint32_t recon_adc_data = ((raw_osc_chan_samp & 0x007F) << 5) | ((raw_osc_chan_samp & 0xF800) >> 11);
 
-  // debug, MSB off by one clock...?
+  // MSB off by one clock (idk why)
   recon_adc_data <<= 1;
 
   return (recon_adc_data);
 }
 
-uint32_t LAB_Oscilloscope::
+uint32_t LAB_Oscilloscope:: 
 reconstruct_raw_osc_chan_samp_from_adc_data (uint32_t adc_data)
 {
-  // 1. supposed original and correct
-  // uint32_t recon_raw_osc_chan_samp = (reconstruct_adc_data_from_raw_osc_chan_samp (adc_data, 0));
+  adc_data >>= 1;
 
-  // debug, MSB off by one clock...?
-  uint32_t temp = adc_data >>= 1;
-
-  // 2. idk why lahi jud ang bits (IF 7 BITS ANG MSB NAA SA PINAKA RIGHT)
-  uint32_t recon_raw_osc_chan_samp = ((temp & 0x0FE0) >> 5) | ((temp & 0x001F) << 11);
+  uint32_t recon_raw_osc_chan_samp = ((adc_data & 0x0FE0) >> 5) | ((adc_data & 0x001F) << 11);
 
   return (recon_raw_osc_chan_samp);
 }
@@ -745,15 +759,20 @@ double LAB_Oscilloscope::
 conv_adc_data_to_actual_value (uint32_t adc_data,
                                unsigned channel)
 {
-  bool      sign        = (adc_data >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
-  uint32_t  abs_val     = adc_data & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
-  double    abs_act_val = abs_val * m_parent_data.channel_data[channel].calibration.conversion_constant;
-  double    act_val     = sign ? abs_act_val : (abs_act_val - 
-                          m_parent_data.channel_data[channel].calibration.conversion_reference_voltage);
+  LAB_Channel_Data_Oscilloscope cdata = m_parent_data.channel_data[channel];
 
-  double scaled_act_val = act_val * m_parent_data.channel_data[channel].scaling_corrector;
+  bool      sign                  = (adc_data >> (LABC::OSC::ADC_RESOLUTION_BITS - 1)) & 0x1;
+  uint32_t  adc_data_without_sign = adc_data & ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1);
+  double    actual_value_absolute = adc_data_without_sign * cdata.calibration.conversion_constant;
+  double    actual_value          = sign ? actual_value_absolute : (actual_value_absolute - 
+                                    cdata.calibration.conversion_reference_voltage);
 
-  return (scaled_act_val);
+  // calibrations
+  actual_value += cdata.calibration.vertical_offset_corrector.at (cdata.scaling);
+  
+  // actual_value *= cdata.calibration.scaling_corrector_to_unity.at (cdata.scaling);
+
+  return (actual_value);
 }
 
 uint32_t LAB_Oscilloscope:: 
@@ -1867,23 +1886,62 @@ adc_reference_voltage (unsigned channel, double value)
                                         ((LABC::OSC::ADC_RESOLUTION_INT - 1) >> 1); 
 }
 
+void LAB_Oscilloscope::Calibration:: 
+vertical_offset_corrector (unsigned          channel, 
+                          LABE::OSC::SCALING scaling,
+                          double             value)
+{
+  m_pdata.channel_data.at (channel).calibration.
+    vertical_offset_corrector.at (scaling) = value;
+}
+
+void LAB_Oscilloscope::Calibration:: 
+scaling_corrector_to_unity (unsigned           channel, 
+                            LABE::OSC::SCALING scaling,
+                            double             value)
+{
+  m_pdata.channel_data.at (channel).calibration.
+    scaling_corrector_to_unity.at (scaling) = value;
+}
+
+void LAB_Oscilloscope::Calibration:: 
+scaling_corrector_to_actual (unsigned          channel, 
+                                    LABE::OSC::SCALING scaling,
+                                    double             value)
+{
+  m_pdata.channel_data.at (channel).calibration.
+    scaling_corrector_to_actual.at (scaling) = value;
+}
+
 double LAB_Oscilloscope::Calibration:: 
 adc_reference_voltage (unsigned channel) const
 {
-  return (m_pdata.channel_data[channel].calibration.adc_reference_voltage);
-}
-
-void   LAB_Oscilloscope::Calibration:: 
-scaling_corrector_half_to_unity (unsigned channel, double value)
-{
-  m_pdata.channel_data[channel].calibration.half_scaling_to_unity_corrector = value;
+  return (m_pdata.channel_data.at (channel).calibration.adc_reference_voltage);
 }
 
 double LAB_Oscilloscope::Calibration:: 
-scaling_corrector_half_to_unity (unsigned channel) const
+vertical_offset_corrector (unsigned           channel, 
+                           LABE::OSC::SCALING scaling) const
 {
-  return (m_pdata.channel_data[channel].calibration.half_scaling_to_unity_corrector);
-}        
+  return (m_pdata.channel_data.at (channel).calibration.
+    vertical_offset_corrector.at (scaling));
+}
+
+double LAB_Oscilloscope::Calibration:: 
+scaling_corrector_to_unity (unsigned           channel, 
+                            LABE::OSC::SCALING scaling) const
+{
+  return (m_pdata.channel_data.at (channel).calibration.
+    scaling_corrector_to_unity.at (scaling));
+}      
+
+double LAB_Oscilloscope::Calibration:: 
+scaling_corrector_to_actual (unsigned           channel, 
+                             LABE::OSC::SCALING scaling) const
+{
+  return (m_pdata.channel_data.at (channel).calibration.
+    scaling_corrector_to_actual.at (scaling));
+}  
 
 LAB_Oscilloscope::Calibration& LAB_Oscilloscope:: 
 calibration ()

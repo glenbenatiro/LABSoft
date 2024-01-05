@@ -709,6 +709,33 @@ src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.cpp.s
 
+src/LABSoft_GUI/LABSoft_GUI_Fl_Input.o: src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_Fl_Input.i: src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_Fl_Input.s: src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input.cpp.s
+
 src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.o: src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.cpp.o
 
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.o
@@ -871,6 +898,33 @@ src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.cpp.s
 
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.o: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.i: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.s: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.cpp.s
+
 src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o: src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.cpp.o
 
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o
@@ -924,6 +978,33 @@ src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.s: src/LABSoft_GUI/LAB
 src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s
 .PHONY : src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.cpp.s
+
+src/LABSoft_GUI/LABSoft_GUI_Sheet.o: src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.o
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Sheet.o
+
+# target to build an object file
+src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.o
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.o
+
+src/LABSoft_GUI/LABSoft_GUI_Sheet.i: src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.i
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Sheet.i
+
+# target to preprocess a source file
+src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.i
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.i
+
+src/LABSoft_GUI/LABSoft_GUI_Sheet.s: src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.s
+
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Sheet.s
+
+# target to generate assembly for a file
+src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.s
+.PHONY : src/LABSoft_GUI/LABSoft_GUI_Sheet.cpp.s
 
 src/LABSoft_Presenter/LABSoft_Presenter.o: src/LABSoft_Presenter/LABSoft_Presenter.cpp.o
 
@@ -1384,6 +1465,33 @@ src/Utility/LABSoft_GUI_Label.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LABSoft_GUI_Label.cpp.s
 .PHONY : src/Utility/LABSoft_GUI_Label.cpp.s
 
+src/Utility/LAB_Defaults.o: src/Utility/LAB_Defaults.cpp.o
+
+.PHONY : src/Utility/LAB_Defaults.o
+
+# target to build an object file
+src/Utility/LAB_Defaults.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_Defaults.cpp.o
+.PHONY : src/Utility/LAB_Defaults.cpp.o
+
+src/Utility/LAB_Defaults.i: src/Utility/LAB_Defaults.cpp.i
+
+.PHONY : src/Utility/LAB_Defaults.i
+
+# target to preprocess a source file
+src/Utility/LAB_Defaults.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_Defaults.cpp.i
+.PHONY : src/Utility/LAB_Defaults.cpp.i
+
+src/Utility/LAB_Defaults.s: src/Utility/LAB_Defaults.cpp.s
+
+.PHONY : src/Utility/LAB_Defaults.s
+
+# target to generate assembly for a file
+src/Utility/LAB_Defaults.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/Utility/LAB_Defaults.cpp.s
+.PHONY : src/Utility/LAB_Defaults.cpp.s
+
 src/Utility/LAB_Utility_Functions.o: src/Utility/LAB_Utility_Functions.cpp.o
 
 .PHONY : src/Utility/LAB_Utility_Functions.o
@@ -1537,6 +1645,9 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Choice_With_Scroll.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Fl_Input_Choice_With_Scroll.s"
@@ -1555,12 +1666,18 @@ help:
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Logic_Analyzer_Display.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Calibration_Table.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Display.s"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.o"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.i"
 	@echo "... src/LABSoft_GUI/LABSoft_GUI_Oscilloscope_Internal_Display.s"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Sheet.o"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Sheet.i"
+	@echo "... src/LABSoft_GUI/LABSoft_GUI_Sheet.s"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter.o"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter.i"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter.s"
@@ -1612,6 +1729,9 @@ help:
 	@echo "... src/Utility/LABSoft_GUI_Label.o"
 	@echo "... src/Utility/LABSoft_GUI_Label.i"
 	@echo "... src/Utility/LABSoft_GUI_Label.s"
+	@echo "... src/Utility/LAB_Defaults.o"
+	@echo "... src/Utility/LAB_Defaults.i"
+	@echo "... src/Utility/LAB_Defaults.s"
 	@echo "... src/Utility/LAB_Utility_Functions.o"
 	@echo "... src/Utility/LAB_Utility_Functions.i"
 	@echo "... src/Utility/LAB_Utility_Functions.s"

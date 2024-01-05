@@ -8,31 +8,13 @@
 #include "../LAB/LAB.h"
 #include "LABSoft_Presenter.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LABSoft_Presenter_Digital_Circuit_Checker:: 
 LABSoft_Presenter_Digital_Circuit_Checker (LABSoft_Presenter& _LABSoft_Presenter)
  : LABSoft_Presenter_Unit (_LABSoft_Presenter)
 {
    gui ().digital_circuit_checker_fl_output_results->value ("-");
-}
-
-std::string LABSoft_Presenter_Digital_Circuit_Checker:: 
-get_filename_from_path (const std::string& path)
-{
-  // 1. Get position of the last separator slash
-  size_t last_separator_pos = path.find_last_of ("/\\");
-
-  // 2. Extract the substring starting from the last separator
-  std::string filename = path.substr (last_separator_pos + 1);
-
-  // 3. Get position of the last dot (before the extension)
-  size_t last_dot_pos = filename.find_last_of (".");
-
-  // 4. Extract the substring until before the last dot, to get 
-  //    actual filename
-  filename = filename.substr (0, last_dot_pos);
-
-  return (filename);
 }
 
 void LABSoft_Presenter_Digital_Circuit_Checker:: 
@@ -81,24 +63,18 @@ cb_load_file (Fl_Button*  w,
       {
         std::string path (chooser.filename ());
 
-        size_t dot_pos = path.find_last_of (".");
-
-        if (dot_pos != std::string::npos)
+        if (LABF::has_filename_this_extension (path, 
+          LABC::LABSOFT::DIGITAL_CIRCUIT_CHECKER_FILENAME_EXTENSION))
         {
-          std::string file_extension = path.substr (dot_pos + 1);
+          update_gui_reset ();
 
-          if (file_extension == "labdcc")
-          {
-            update_gui_reset ();
+          selected_file.value (LABF::get_filename_from_path (path).c_str ());
 
-            selected_file.value (get_filename_from_path (path).c_str ());
-
-            m_presenter.lab ().m_Digital_Circuit_Checker.load_file (path);
-          }
-          else 
-          {
-            throw (std::domain_error ("Selected file is not a LAB Circuit Checker file."));
-          }
+          m_presenter.lab ().m_Digital_Circuit_Checker.load_file (path);
+        }
+        else 
+        {
+          throw (std::runtime_error ("Invalid file selected."));
         }
 
         break;

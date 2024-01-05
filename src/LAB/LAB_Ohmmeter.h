@@ -6,9 +6,7 @@
 
 class LAB_Ohmmeter : public LAB_Module 
 {
-  private:
-    LAB_Parent_Data_Ohmmeter m_parent_data;
-
+  public:
     class Calibration
     {
       private:
@@ -22,7 +20,11 @@ class LAB_Ohmmeter : public LAB_Module
 
         double r1   (unsigned channel) const;
         double vref (unsigned channel) const;
-    } m_calibration;
+    };
+
+  private:
+    LAB_Parent_Data_Ohmmeter  m_parent_data;
+    Calibration               m_calibration;
   
   public:
     LAB_Ohmmeter (LAB& LAB);

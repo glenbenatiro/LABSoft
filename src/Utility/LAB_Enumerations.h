@@ -66,12 +66,11 @@ namespace LABE
 
     enum class SCALING
     {
-      QUADRUPLE,
-      DOUBLE,
-      UNITY,
-      HALF,
-      FOURTH,
-      EIGHTH
+      DOUBLE,     // attenuator stage + x4 scaling at mux stage
+      UNITY,      // software implemented, half scaling multiplied by 2
+      HALF,       // attenuator stage + x1 scaling at mux stage
+      FOURTH,     // attenuator stage + x0.5 scaling at mux stage0
+      EIGHTH      // attenuator stage + x0.25 scaling at mux stage
     };
 
     enum class COUPLING

@@ -9,11 +9,25 @@
 
 class LAB_Oscilloscope : public LAB_Module
 {
-  private:
-    std::thread                   m_thread_trigger;
-    std::thread                   m_find_trigger_timer;
-    AikaPi::Uncached              m_uncached_memory;   
-    LAB_Parent_Data_Oscilloscope  m_parent_data; 
+  public:
+    class Calibration
+    {
+      private:
+        LAB_Parent_Data_Oscilloscope& m_pdata;
+      
+      public:
+        Calibration (LAB_Parent_Data_Oscilloscope& _LAB_Parent_Data_Oscilloscope);
+        
+        void    adc_reference_voltage       (unsigned channel, double value);
+        void    vertical_offset_corrector   (unsigned channel, LABE::OSC::SCALING scaling, double value);
+        void    scaling_corrector_to_unity  (unsigned channel, LABE::OSC::SCALING scaling, double value);
+        void    scaling_corrector_to_actual (unsigned channel, LABE::OSC::SCALING scaling, double value);
+
+        double  adc_reference_voltage       (unsigned channel) const;
+        double  vertical_offset_corrector   (unsigned channel, LABE::OSC::SCALING scaling) const;
+        double  scaling_corrector_to_unity  (unsigned channel, LABE::OSC::SCALING scaling) const;
+        double  scaling_corrector_to_actual (unsigned channel, LABE::OSC::SCALING scaling) const;
+    };
 
     class Measurements
     {
@@ -27,22 +41,15 @@ class LAB_Oscilloscope : public LAB_Module
         double max  (unsigned chan);
         double min  (unsigned chan);
         double trms (unsigned chan);
-    } m_measurements;
-
-    class Calibration
-    {
-      private:
-        LAB_Parent_Data_Oscilloscope& m_pdata;
-      
-      public:
-        Calibration (LAB_Parent_Data_Oscilloscope& _LAB_Parent_Data_Oscilloscope);
-        
-        void    adc_reference_voltage           (unsigned channel, double value);
-        double  adc_reference_voltage           (unsigned channel) const;
-        void    scaling_corrector_half_to_unity (unsigned channel, double value);
-        double  scaling_corrector_half_to_unity (unsigned channel) const;
-        
-    } m_calibration;
+    };
+  
+  private:
+    std::thread                   m_thread_trigger;
+    std::thread                   m_find_trigger_timer;
+    AikaPi::Uncached              m_uncached_memory;   
+    LAB_Parent_Data_Oscilloscope  m_parent_data; 
+    Measurements                  m_measurements;
+    Calibration                   m_calibration;
 
   private:
     // Setup

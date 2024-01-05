@@ -2,28 +2,29 @@
 #define LABSOFT_PRESENTER_CALIBRATION
 
 #include "../LABSoft_Presenter_Unit.h"
+#include "../../LAB/Software/LAB_Calibration.h"
+#include "../../LABSoft_GUI/LABSoft_GUI_Fl_Input.h"
 
 #include <FL/Fl_Input.H>
 
 class LABSoft_Presenter_Calibration : public LABSoft_Presenter_Unit 
 {
   private: 
-    void update_data_display ();
+    void  init_gui_oscilloscope_calibration_table ();
+    void  apply_calibration_data_to_gui           (const LAB_Calibration_Data& data);
+
+    LAB_Calibration_Data get_calibration_data_from_gui () const;
 
   public:
     LABSoft_Presenter_Calibration (LABSoft_Presenter& _LABSoft_Presenter);
 
-    void cb_show_window   ();
-    void cb_cancel        ();
-    void cb_save_to_file  ();
-
-    // oscilloscope
-    void cb_osc_adc_vref                        (Fl_Input* w, long data);
-    void cb_osc_scaling_corrector_half_to_unity (Fl_Input* w, long data);
-
-    // ohmmeter
-    void cb_ohm_vref  (Fl_Input* w, long data);
-    void cb_ohm_r1    (Fl_Input* w, long data);
+    void cb_open            ();
+    void cb_save            ();
+    void cb_apply           ();
+    void cb_discard_changes ();
+    void cb_load_factory    ();
+    void cb_show_window     (); 
+    void cb_close           ();
 };
 
 #endif 

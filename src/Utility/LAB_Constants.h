@@ -1,8 +1,8 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 #include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
@@ -33,7 +33,10 @@ namespace LABC
       DEFAULT = 54
     };
 
-    constexpr const char* DEFAULT_CALIBRATION_FILE_PATH = "../data/default.labcalib";
+    constexpr const char* DIGITAL_CIRCUIT_CHECKER_FILENAME_EXTENSION  = ".labdcc";
+    constexpr const char* CALIBRATION_FILENAME_EXTENSION              = ".labcalibration";
+    constexpr const char* DEFAULT_CALIBRATION_FILE_PATH               = "../data/default.labcalibration";
+    constexpr const char* FACTORY_CALIBRATION_FILE_PATH               = "../data/FACTORY.labcalibration";
   }
 
   namespace PIN
@@ -162,8 +165,8 @@ namespace LABC
     constexpr double    MIN_TRIGGER_LEVEL               = MIN_VERTICAL_OFFSET;
     constexpr double    FIND_TRIGGER_TIMEOUT            = 2; // seconds
     
-    // scaling correctors
-    constexpr double HALF_TO_UNITY_SCALING_CORRECTOR = 2.0;
+    // calibration
+    constexpr unsigned  NUMBER_OF_CALIBRATION_PARAMETERS  = 13;
   };
 
   namespace OSC_DISPLAY

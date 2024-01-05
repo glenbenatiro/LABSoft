@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
 
 bool LABF::
 is_equal (double a,
@@ -107,3 +108,95 @@ get_now_timestamp ()
 
   return (ss.str ());
 }
+
+void LABF::
+str_ltrim (std::string& s)
+{
+  s.erase (s.begin (), std::find_if (s.begin (), s.end (), [] (unsigned char ch) {
+    return (!std::isspace (ch));
+  }));
+}
+
+void LABF::
+str_rtrim (std::string& s)
+{
+  s.erase (std::find_if (s.rbegin (), s.rend (), [] (unsigned char ch) {
+    return (!std::isspace (ch));
+  }).base (), s.end ());
+}
+
+void LABF::
+str_trim (std::string& s)
+{
+  str_ltrim (s);
+  str_rtrim (s);
+}
+
+void LABF::
+str_remove_whitespaces (std::string& s)
+{
+  s.erase (std::remove_if (s.begin (), s.end (), [] (unsigned char ch) {
+      return (std::isspace (ch));
+  }), s.end ());
+}
+
+bool LABF:: 
+has_filename_this_extension (const std::string& filename,
+                             const std::string& extension)
+{
+  // 1. take into account ".filename" or "filename" for extension argument
+  size_t ext_dot_pos = extension.find_first_of (".");
+
+  std::string ext;
+
+  if (ext_dot_pos == std::string::npos)
+  {
+    ext = extension;
+  }
+  else 
+  {
+    ext = extension.substr (ext_dot_pos + 1);
+  }
+
+  // 2. actual comparison
+  size_t dot_pos = filename.find_last_of (".");
+
+  if (dot_pos == std::string::npos)
+  {
+    return (false);
+  }
+  else 
+  {
+    return (filename.substr (dot_pos + 1) == ext);
+  }
+}
+
+std::string LABF::
+get_filename_from_path (const std::string& path)
+{
+  // 1. Get position of the last separator slash
+  size_t last_separator_pos = path.find_last_of ("/\\");
+
+  std::string filename;
+
+  if (last_separator_pos == std::string::npos)
+  {
+    filename = path;
+  }
+  else 
+  {
+    // 2. Extract the substring starting from the last separator
+    filename = path.substr (last_separator_pos + 1);    
+  }
+
+  // 3. Get position of the last dot (before the extension)
+  size_t last_dot_pos = filename.find_last_of (".");
+
+  // 4. Extract the substring until before the last dot
+  //    to get the actual filename
+  filename = filename.substr (0, last_dot_pos);
+
+  return (filename);
+}
+
+  

@@ -39,6 +39,11 @@ namespace LABD
     
     constexpr double                MAX_OSC_HARDWARE_TRIGGER_LEVEL  = CONVERSION_REFERENCE_VOLTAGE;
     constexpr double                MIN_OSC_HARDWARE_TRIGGER_LEVEL  = -1 * CONVERSION_REFERENCE_VOLTAGE;
+  
+    // calibration data
+    extern const std::unordered_map <LABE::OSC::SCALING, double> VERTICAL_OFFSET_CORRECTOR;
+    extern const std::unordered_map <LABE::OSC::SCALING, double> SCALING_CORRECTOR_TO_UNITY;
+    extern const std::unordered_map <LABE::OSC::SCALING, double> SCALING_CORRECTOR_TO_ACTUAL; 
   };
 
   namespace OSC_DISPLAY

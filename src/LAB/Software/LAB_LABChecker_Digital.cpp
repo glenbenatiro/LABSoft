@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "../../Utility/pugixml.hpp"
+#include "../../Utility/LAB_Constants.h"
 
 // #include "../../Utility/LAB_Encryptor.h"
 
@@ -75,15 +76,14 @@ void LAB_LABChecker_Digital::
 save_stringstream_to_file (const std::stringstream& ss,
                            const std::string&       file_path)
 {
-  std::string extension = ".labdcc";
-  std::string path      = file_path;
-
-  if (file_path.length () < extension.length () || file_path.compare (
-    file_path.length () - extension.length (), extension.length (), 
-    extension) != 0)
-  {
-    path += extension;
-  }
+  std::string path = file_path;
+  
+  // if (file_path.length () < extension.length () || file_path.compare (
+  //   file_path.length () - extension.length (), extension.length (), 
+  //   extension) != 0)
+  // {
+  //   path += LABC::LABSOFT::DIGITAL_CIRCUIT_CHECKER_FILENAME_EXTENSION;
+  // }
 
   std::ofstream file (path);
 
