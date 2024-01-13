@@ -53,10 +53,11 @@ ADD_EXECUTABLE(LABSoft
   src/LABSoft_Presenter/LABSoft_Presenter_Function_Generator.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp
   src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp
-  src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp
+
 
   src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp
   src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp
+  src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp
   src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp
   src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp
 

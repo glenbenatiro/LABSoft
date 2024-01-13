@@ -12,7 +12,7 @@ void LABSoft_GUI::cb_main_menuitem_export(Fl_Menu_* o, void* v) {
 }
 
 void LABSoft_GUI::cb_Exit_i(Fl_Menu_* o, void* v) {
-  m_LABSoft_Presenter->m_Main_Window.cb_workspace_exit (o, v);
+  m_LABSoft_Presenter->m_Main_Window.cb_exit (o, v);
 }
 void LABSoft_GUI::cb_Exit(Fl_Menu_* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Exit_i(o,v);
@@ -23,13 +23,6 @@ void LABSoft_GUI::cb_Calibration_i(Fl_Menu_*, void*) {
 }
 void LABSoft_GUI::cb_Calibration(Fl_Menu_* o, void* v) {
   ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Calibration_i(o,v);
-}
-
-void LABSoft_GUI::cb_Browse_i(Fl_Menu_* o, void* v) {
-  m_LABSoft_Presenter->m_Main_Window.cb_help_about (o, v);
-}
-void LABSoft_GUI::cb_Browse(Fl_Menu_* o, void* v) {
-  ((LABSoft_GUI*)(o->parent()->user_data()))->cb_Browse_i(o,v);
 }
 
 void LABSoft_GUI::cb_About_i(Fl_Menu_* o, void* v) {
@@ -48,7 +41,6 @@ Fl_Menu_Item LABSoft_GUI::menu_[] = {
  {"Calibration", 0,  (Fl_Callback*)LABSoft_GUI::cb_Calibration, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
  {"Help", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
- {"Browse", 0,  (Fl_Callback*)LABSoft_GUI::cb_Browse, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {"About", 0,  (Fl_Callback*)LABSoft_GUI::cb_About, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 12, 0},
  {0,0,0,0,0,0,0,0,0},
  {0,0,0,0,0,0,0,0,0}
@@ -2041,11 +2033,11 @@ ly board.");
       o->labelsize(70);
       o->labelcolor((Fl_Color)220);
     } // Fl_Box* o
-    { Fl_Box* o = new Fl_Box(210, 110, 0, 0, "Lab in a Box Companion App");
+    { Fl_Box* o = new Fl_Box(210, 110, 0, 0, "Lab in a Box Complementary Software");
       o->labelsize(16);
       o->labelcolor((Fl_Color)34);
     } // Fl_Box* o
-    { new Fl_Box(192, 180, 35, 0, "Version 1.0 | For Raspberry Pi Zero");
+    { new Fl_Box(192, 180, 35, 0, "Version 0.1");
     } // Fl_Box* o
     { new Fl_Box(210, 200, 0, 0, "Contact: glenbenatiro@@gmail.com");
     } // Fl_Box* o

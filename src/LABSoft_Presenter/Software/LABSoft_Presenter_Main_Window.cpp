@@ -2,9 +2,9 @@
 
 #include <FL/Fl.H>
 
-#include "../LAB/LAB.h"
-#include "LABSoft_Presenter.h"
-#include "../LABSoft_GUI/LABSoft_GUI.h"
+#include "../../LAB/LAB.h"
+#include "../LABSoft_Presenter.h"
+#include "../../LABSoft_GUI/LABSoft_GUI.h"
 
 LABSoft_Presenter_Main_Window:: 
 LABSoft_Presenter_Main_Window (LABSoft_Presenter& _LABSoft_Presenter)
@@ -14,7 +14,7 @@ LABSoft_Presenter_Main_Window (LABSoft_Presenter& _LABSoft_Presenter)
 }
 
 void LABSoft_Presenter_Main_Window:: 
-cb_workspace_exit (Fl_Widget* w, 
+cb_exit (Fl_Widget* w, 
                    void*      data)
 {
   if (Fl::modal () == m_presenter.gui ().main_fl_window)

@@ -42,8 +42,6 @@ private:
   static void cb_Exit(Fl_Menu_*, void*);
   inline void cb_Calibration_i(Fl_Menu_*, void*);
   static void cb_Calibration(Fl_Menu_*, void*);
-  inline void cb_Browse_i(Fl_Menu_*, void*);
-  static void cb_Browse(Fl_Menu_*, void*);
   inline void cb_About_i(Fl_Menu_*, void*);
   static void cb_About(Fl_Menu_*, void*);
 public:

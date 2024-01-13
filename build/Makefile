@@ -1114,33 +1114,6 @@ src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp.s
 .PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp.s
 
-src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.o: src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o
-
-.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.o
-
-# target to build an object file
-src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o
-.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o
-
-src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.i: src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i
-
-.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.i
-
-# target to preprocess a source file
-src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i
-.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i
-
-src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.s: src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s
-
-.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.s
-
-# target to generate assembly for a file
-src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s
-.PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s
-
 src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.o: src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.cpp.o
 
 .PHONY : src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.o
@@ -1329,6 +1302,33 @@ src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.s: src/LABSo
 src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.s
 .PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.s
+
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.o: src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.o
+
+# target to build an object file
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o
+
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.i: src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.i
+
+# target to preprocess a source file
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i
+
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.s: src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s
+
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.s
+
+# target to generate assembly for a file
+src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LABSoft.dir/build.make CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s
+.PHONY : src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s
 
 src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.o: src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o
 
@@ -1690,9 +1690,6 @@ help:
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.o"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.i"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.s"
-	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.o"
-	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.i"
-	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.s"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.o"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.i"
 	@echo "... src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter.s"
@@ -1714,6 +1711,9 @@ help:
 	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.o"
 	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.i"
 	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.s"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.o"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.i"
+	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.s"
 	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.o"
 	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.i"
 	@echo "... src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.s"

@@ -9,10 +9,10 @@
 #include "LABSoft_Presenter_Function_Generator.h"
 #include "LABSoft_Presenter_Logic_Analyzer.h"
 #include "LABSoft_Presenter_Digital_Circuit_Checker.h"
-#include "LABSoft_Presenter_Main_Window.h"
 
 #include "Software/LABSoft_Presenter_Exporter.h"
 #include "Software/LABSoft_Presenter_Calibration.h"
+#include "Software/LABSoft_Presenter_Main_Window.h"
 #include "Software/LABSoft_Presenter_LABChecker_Digital.h"
 #include "Software/LABSoft_Presenter_Oscilloscope_Display.h"
 

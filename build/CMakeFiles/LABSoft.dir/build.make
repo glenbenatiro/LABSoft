@@ -375,22 +375,9 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_C
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp.s
 
-CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o: CMakeFiles/LABSoft.dir/flags.make
-CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o: ../src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.i
-
-CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.s
-
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o: ../src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.i: cmake_force
@@ -403,7 +390,7 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o: ../src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.i: cmake_force
@@ -413,6 +400,19 @@ CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibrat
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.s
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o: CMakeFiles/LABSoft.dir/flags.make
+CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o: ../src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/glen/Desktop/LABSoft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o -c /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp > CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.i
+
+CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp -o CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.s
 
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.o: CMakeFiles/LABSoft.dir/flags.make
 CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.o: ../src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp
@@ -790,9 +790,9 @@ LABSoft_OBJECTS = \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Function_Generator.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp.o" \
-"CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o" \
+"CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o" \
 "CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o" \
@@ -847,9 +847,9 @@ LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Ohmmeter
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Function_Generator.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Logic_Analyzer.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Digital_Circuit_Checker.cpp.o
-LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/LABSoft_Presenter_Main_Window.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.cpp.o
+LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Main_Window.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_LABChecker_Digital.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_Presenter/Software/LABSoft_Presenter_Oscilloscope_Display.cpp.o
 LABSoft: CMakeFiles/LABSoft.dir/src/LABSoft_GUI/LABSoft_GUI.cpp.o

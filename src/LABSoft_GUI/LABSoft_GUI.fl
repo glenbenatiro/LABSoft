@@ -30,10 +30,10 @@ class LABSoft_GUI {open
   Function {LABSoft_GUI()} {open
   } {
     Fl_Window main_fl_window {
-      label {LABSoft (for Educators)}
-      xywh {1976 186 1220 600} type Double color 53 selection_color 53 labelsize 12 hide
+      label {LABSoft (for Educators)} open
+      xywh {1976 186 1220 600} type Double color 53 selection_color 53 labelsize 12 visible
     } {
-      Fl_Menu_Bar {} {
+      Fl_Menu_Bar {} {open
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
       } {
         Submenu {} {
@@ -47,7 +47,7 @@ class LABSoft_GUI {open
           }
           MenuItem {} {
             label Exit
-            callback {m_LABSoft_Presenter->m_Main_Window.cb_workspace_exit (o, v);}
+            callback {m_LABSoft_Presenter->m_Main_Window.cb_exit (o, v);}
             xywh {0 0 10 10} labelsize 12
           }
         }
@@ -62,14 +62,9 @@ class LABSoft_GUI {open
           }
         }
         Submenu {} {
-          label Help
+          label Help open
           xywh {0 0 10 10} labelsize 12
         } {
-          MenuItem {} {
-            label Browse
-            callback {m_LABSoft_Presenter->m_Main_Window.cb_help_about (o, v);}
-            xywh {0 0 10 10} labelsize 12
-          }
           MenuItem {} {
             label About
             callback {m_LABSoft_Presenter->m_Main_Window.cb_help_about (o, v);}
@@ -78,7 +73,7 @@ class LABSoft_GUI {open
         }
       }
       Fl_Tabs main_fl_tabs {
-        callback {m_LABSoft_Presenter->cb_tabs (o, v);} open
+        callback {m_LABSoft_Presenter->cb_tabs (o, v);}
         xywh {0 20 1220 580} box FLAT_BOX color 54 selection_color 54 labelsize 12
         code0 {main_fl_tabs->value (main_fl_group_oscilloscope_tab);}
       } {
@@ -2341,18 +2336,18 @@ class LABSoft_GUI {open
     }
     Fl_Window main_fl_window_about {
       label LABSoft
-      xywh {8 31 420 300} type Double color 54 hide
+      xywh {1066 253 420 300} type Double color 54 hide
     } {
       Fl_Box {} {
         label LABSoft
         xywh {192 70 35 0} labelfont 1 labelsize 70 labelcolor 220
       }
       Fl_Box {} {
-        label {Lab in a Box Companion App}
+        label {Lab in a Box Complementary Software}
         xywh {210 110 0 0} labelsize 16 labelcolor 34
       }
       Fl_Box {} {
-        label {Version 1.0 | For Raspberry Pi Zero}
+        label {Version 0.1}
         xywh {192 180 35 0}
       }
       Fl_Box {} {
@@ -2424,8 +2419,8 @@ class LABSoft_GUI {open
       }
     }
     Fl_Window main_fl_window_calibration {
-      label {Device Calibration} open
-      xywh {635 143 980 500} type Double color 54 visible
+      label {Device Calibration}
+      xywh {635 143 980 500} type Double color 54 hide
     } {
       Fl_Menu_Bar {} {open
         xywh {0 0 800 20} box FLAT_BOX color 54

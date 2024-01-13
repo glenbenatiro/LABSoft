@@ -1,6 +1,7 @@
 #include "LAB_Ohmmeter.h"
 
 #include "LAB.h"
+#include "../Utility/LAB_Utility_Functions.h"
 
 LAB_Ohmmeter:: 
 LAB_Ohmmeter (LAB& _LAB)
@@ -59,10 +60,11 @@ backend_run_stop (bool value)
 double LAB_Ohmmeter:: 
 get_reading (unsigned channel) 
 {
-  double num  = lab ().m_Voltmeter.get_reading (0) * m_calibration.r1 (0);
-  double den  = m_calibration.vref (0) - lab ().m_Voltmeter.get_reading (0); 
+  double num = lab ().m_Voltmeter.get_reading (0) * m_calibration.r1 (0);
+  double den = m_calibration.vref (0) - lab ().m_Voltmeter.get_reading (0);
+  double ret = num / den;
 
-  return (num / den);
+  return ((LABF::is_less_than (ret, 0.0, LABC::LABSOFT::EPSILON)) ? 0.0 : ret); 
 }
 
 LAB_Ohmmeter::Calibration::

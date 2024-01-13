@@ -643,20 +643,20 @@ parse_raw_osc_samp_buff ()
   for (unsigned samp = 0; samp < pdata.samples; samp++)
   {
     // DEBUG!
-    if (samp == 0)
-    {
-      uint32_t  rsamp = pdata.raw_data_buffer[samp];
-      uint16_t  chan1 = (rsamp & 0xFFFF);
-      uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
+    // if (samp == 0)
+    // {
+    //   uint32_t  rsamp = pdata.raw_data_buffer[samp];
+    //   uint16_t  chan1 = (rsamp & 0xFFFF);
+    //   uint16_t  chan2 = (rsamp & 0xFFFF0000) >> 16; 
 
-      std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp) << "\n";
-      std::cout << "chan 1 adc              : " << std::bitset<12> (reconstruct_adc_data_from_raw_osc_chan_samp (chan1, 0)) << "\n";
-      std::cout << "chan 2 adc              : " << std::bitset<12> (reconstruct_adc_data_from_raw_osc_chan_samp (chan2, 1)) << "\n";
-      std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
-      std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
+    //   std::cout << "raw spi dma buffer bits : " << std::bitset<32> (rsamp) << "\n";
+    //   std::cout << "chan 1 adc              : " << std::bitset<12> (reconstruct_adc_data_from_raw_osc_chan_samp (chan1, 0)) << "\n";
+    //   std::cout << "chan 2 adc              : " << std::bitset<12> (reconstruct_adc_data_from_raw_osc_chan_samp (chan2, 1)) << "\n";
+    //   std::cout << "act chan 1              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 0) << "\n";
+    //   std::cout << "act chan 2              : " << conv_raw_osc_samp_to_actual_chan_value (rsamp, 1) << "\n";
 
-      std::cout << std::endl;
-    }
+    //   std::cout << std::endl;
+    // }
 
     int chan = 0;
 
@@ -768,9 +768,9 @@ conv_adc_data_to_actual_value (uint32_t adc_data,
                                     cdata.calibration.conversion_reference_voltage);
 
   // calibrations
-  actual_value += cdata.calibration.vertical_offset_corrector.at (cdata.scaling);
-  
-  // actual_value *= cdata.calibration.scaling_corrector_to_unity.at (cdata.scaling);
+  actual_value += cdata.calibration.vertical_offset_corrector.at    (cdata.scaling);
+  actual_value *= cdata.calibration.scaling_corrector_to_unity.at   (cdata.scaling);
+  actual_value *= cdata.calibration.scaling_corrector_to_actual.at  (cdata.scaling);
 
   return (actual_value);
 }
