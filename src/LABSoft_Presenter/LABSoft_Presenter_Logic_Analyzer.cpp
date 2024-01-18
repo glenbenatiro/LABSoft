@@ -205,10 +205,13 @@ cb_mode (Fl_Choice  *w,
 void LABSoft_Presenter_Logic_Analyzer::
 display_update_cycle ()
 {
-  lab ().m_Logic_Analyzer.update_data_samples ();
+  if (lab ().m_Logic_Analyzer.is_running ())
+  {
+    lab ().m_Logic_Analyzer.update_data_samples ();
 
-  gui ().logic_analyzer_labsoft_gui_logic_analyzer_display->
-    update_display ();
+    gui ().logic_analyzer_labsoft_gui_logic_analyzer_display->
+      update_display ();
+  }
 }
 
 void LABSoft_Presenter_Logic_Analyzer:: 

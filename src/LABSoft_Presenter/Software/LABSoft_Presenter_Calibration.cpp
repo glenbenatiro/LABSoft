@@ -16,13 +16,31 @@ LABSoft_Presenter_Calibration::
 LABSoft_Presenter_Calibration (LABSoft_Presenter& _LABSoft_Presenter)
   : LABSoft_Presenter_Unit  (_LABSoft_Presenter)
 {
-  init_gui_oscilloscope_calibration_table ();
-  apply_calibration_data_to_gui           (lab ().m_Calibration.current_calibration_data ());
+  init_gui_values               ();
+  apply_calibration_data_to_gui (lab ().m_Calibration.current_calibration_data ());
 }
 
 void LABSoft_Presenter_Calibration:: 
-init_gui_oscilloscope_calibration_table ()
+init_gui_values ()
 {
+  init_gui_oscilloscope_calibration ();
+  init_gui_ohmmeter_calibration     ();
+}
+
+void LABSoft_Presenter_Calibration:: 
+init_gui_oscilloscope_calibration ()
+{
+  // light button
+  if (lab ().m_Oscilloscope.calibration ().is_enabled ())
+  {
+    gui ().calibration_fl_light_button_oscilloscope_enable_calibration->set ();
+  }
+  else 
+  {
+    gui ().calibration_fl_light_button_oscilloscope_enable_calibration->clear ();
+  }
+
+  // table
   LABSoft_GUI_Sheet& table = 
     *(gui ().calibration_labsoft_gui_sheet_oscilloscope_calibration_table);
   
@@ -50,6 +68,20 @@ init_gui_oscilloscope_calibration_table ()
   table.range (11, 0) .value ("Scaling Corrector\nto Actual x0.5");
   table.range (12, 0) .value ("Scaling Corrector\nto Actual x0.25");
   table.range (13, 0) .value ("Scaling Corrector\nto Actual x0.125");
+}
+
+void LABSoft_Presenter_Calibration:: 
+init_gui_ohmmeter_calibration ()
+{
+  // light button
+  if (lab ().m_Ohmmeter.calibration ().is_enabled ())
+  {
+    gui ().calibration_fl_light_button_ohmmeter_enable_calibration->set ();
+  }
+  else 
+  {
+    gui ().calibration_fl_light_button_ohmmeter_enable_calibration->clear ();
+  }
 }
 
 void LABSoft_Presenter_Calibration:: 
@@ -573,6 +605,34 @@ cb_close ()
 {
   gui ().main_fl_window_calibration->clear_modal_states ();
   gui ().main_fl_window_calibration->hide ();
+}
+
+void LABSoft_Presenter_Calibration:: 
+cb_oscilloscope_enable_calibration (Fl_Light_Button* w, 
+                                    void*            data)
+{
+  if (w->value ())
+  {
+    lab ().m_Oscilloscope.calibration ().enable ();
+  }
+  else 
+  {
+    lab ().m_Oscilloscope.calibration ().disable ();
+  }
+}
+
+void LABSoft_Presenter_Calibration:: 
+cb_ohmmeter_enable_calibration (Fl_Light_Button* w, 
+                                void*            data)
+{
+  if (w->value ())
+  {
+    lab ().m_Ohmmeter.calibration ().enable ();
+  }
+  else 
+  {
+    lab ().m_Ohmmeter.calibration ().disable ();
+  }
 }
 
 // eof

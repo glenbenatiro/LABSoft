@@ -345,8 +345,20 @@ reload_settings ()
   {
     coupling  (a, m_parent_data.channel_data[a].coupling);
     scaling   (a, m_parent_data.channel_data[a].scaling);
+
+    lab ().m_Oscilloscope.calibration ().scaling_corrector_to_actual (
+      a, 
+      LABC::VOLTMETER::SCALING, 
+      calibration ().scaling_corrector_to_actual (a, LABC::VOLTMETER::SCALING)
+    );
+    
+    lab ().m_Oscilloscope.calibration ().scaling_corrector_to_actual (
+      a,
+      LABC::OHMMETER::SCALING,
+      calibration ().scaling_corrector_to_actual (a, LABC::OHMMETER::SCALING)
+    );
   }
-  
+
   //
   do_measurements (false);
 }
@@ -713,7 +725,7 @@ parse_raw_osc_samp_buff ()
   }
 }
 
-double LAB_Oscilloscope:: 
+double LAB_Oscilloscope::
 conv_raw_osc_samp_to_actual_chan_value (uint32_t raw_osc_samp,
                                         unsigned channel)
 {
@@ -736,21 +748,26 @@ uint32_t LAB_Oscilloscope::
 reconstruct_adc_data_from_raw_osc_chan_samp (uint32_t raw_osc_chan_samp,
                                              unsigned channel)
 {
-  // disarranged bits (idk why, maybe in DMA SPI transfer?)
-  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0x007F) << 5) | ((raw_osc_chan_samp & 0xF800) >> 11);
+  // MCP33111
+  // uint32_t recon_adc_data =    ((raw_osc_chan_samp & 0x007F) << 5) | ((raw_osc_chan_samp & 0xF800) >> 11);
+  //          recon_adc_data <<=  1;
 
-  // MSB off by one clock (idk why)
-  recon_adc_data <<= 1;
-
+  // ADS7883
+  uint32_t recon_adc_data = ((raw_osc_chan_samp & 0xFE00) >> 9) | ((raw_osc_chan_samp & 0x001F) << 7);
+ 
   return (recon_adc_data);
 }
 
 uint32_t LAB_Oscilloscope:: 
 reconstruct_raw_osc_chan_samp_from_adc_data (uint32_t adc_data)
 {
-  adc_data >>= 1;
+  // MCP33111
+  //          adc_data                >>= 1;
+  // uint32_t recon_raw_osc_chan_samp =   ((adc_data & 0x0FE0) >> 5) | ((adc_data & 0x001F) << 11);
 
-  uint32_t recon_raw_osc_chan_samp = ((adc_data & 0x0FE0) >> 5) | ((adc_data & 0x001F) << 11);
+  // ADS7883
+  uint32_t recon_raw_osc_chan_samp = ((adc_data & 0x007F) << 9) | ((adc_data & 0x0F800) >> 7);
+
 
   return (recon_raw_osc_chan_samp);
 }
@@ -767,10 +784,12 @@ conv_adc_data_to_actual_value (uint32_t adc_data,
   double    actual_value          = sign ? actual_value_absolute : (actual_value_absolute - 
                                     cdata.calibration.conversion_reference_voltage);
 
-  // calibrations
-  actual_value += cdata.calibration.vertical_offset_corrector.at    (cdata.scaling);
-  actual_value *= cdata.calibration.scaling_corrector_to_unity.at   (cdata.scaling);
-  actual_value *= cdata.calibration.scaling_corrector_to_actual.at  (cdata.scaling);
+  if (m_parent_data.is_calibration_enabled)
+  {
+    actual_value += cdata.calibration.vertical_offset_corrector.at    (cdata.scaling);
+    actual_value *= cdata.calibration.scaling_corrector_to_unity.at   (cdata.scaling);
+    actual_value *= cdata.calibration.scaling_corrector_to_actual.at  (cdata.scaling);
+  }
 
   return (actual_value);
 }
@@ -1873,6 +1892,24 @@ Calibration (LAB_Parent_Data_Oscilloscope& _LAB_Parent_Data_Oscilloscope)
   : m_pdata (_LAB_Parent_Data_Oscilloscope)
 {
 
+}
+
+void LAB_Oscilloscope::Calibration:: 
+enable ()
+{
+  m_pdata.is_calibration_enabled = true;
+}
+
+void LAB_Oscilloscope::Calibration:: 
+disable ()
+{
+  m_pdata.is_calibration_enabled = false;
+}
+
+bool LAB_Oscilloscope::Calibration:: 
+is_enabled () const
+{
+  return (m_pdata.is_calibration_enabled);
 }
 
 void LAB_Oscilloscope::Calibration:: 

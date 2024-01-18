@@ -21,6 +21,7 @@ load_oscilloscope_voltmeter_mode_settings ()
   {
     lab ().m_Oscilloscope.coupling  (a, LABE::OSC::COUPLING::DC);
     lab ().m_Oscilloscope.scaling   (a, LABC::VOLTMETER::SCALING);
+    lab ().m_Oscilloscope.calibration ().scaling_corrector_to_actual (a, LABC::VOLTMETER::SCALING, 1.0);
   }
 
   lab ().m_Oscilloscope.do_measurements (true);

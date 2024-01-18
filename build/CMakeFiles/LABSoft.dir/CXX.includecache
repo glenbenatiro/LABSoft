@@ -24,12 +24,6 @@ cstdint
 cstdint
 -
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB.cpp
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-../../lib/AikaPi/AikaPi.h
-/home/glen/Desktop/LABSoft/lib/AikaPi/AikaPi.h
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB.h
 LAB_Oscilloscope.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
@@ -52,22 +46,6 @@ Software/LAB_LABChecker_Digital.h
 Software/LAB_Oscilloscope_Display.h
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.h
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.cpp
-LAB_Digital_Circuit_Checker.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
-bitset
--
-string
--
-algorithm
--
-sys/stat.h
--
-iostream
--
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Digital_Circuit_Checker.h
 string
 -
@@ -81,12 +59,6 @@ LAB_Module.h
 /home/glen/Desktop/LABSoft/src/Utility/pugixml.hpp
 ../LAB_Libraries/LAB_MCP23S17.h
 /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP23S17.h
-
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.cpp
-LAB_Function_Generator.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Function_Generator.h
 LAB_Module.h
@@ -102,24 +74,6 @@ LAB_Module.h
 ../LAB_Libraries/LAB_MCP4XXX.h
 /home/glen/Desktop/LABSoft/src/LAB_Libraries/LAB_MCP4XXX.h
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.cpp
-LAB_Logic_Analyzer.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
-bitset
--
-thread
--
-cstring
--
-iostream
--
-algorithm
--
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-../Utility/LAB_Utility_Functions.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Logic_Analyzer.h
 thread
 -
@@ -130,12 +84,6 @@ LAB_Module.h
 ../Utility/LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Module.cpp
-LAB_Module.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Ohmmeter.cpp
@@ -145,6 +93,8 @@ LAB.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB.h
 ../Utility/LAB_Utility_Functions.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
+iostream
+-
 
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Ohmmeter.h
 LAB_Module.h
@@ -182,39 +132,11 @@ LAB_Module.h
 ../Utility/LAB_Enumerations.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.cpp
-LAB_Voltmeter.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
-LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Voltmeter.h
 LAB_Module.h
 /home/glen/Desktop/LABSoft/src/LAB/LAB_Module.h
 ../Utility/LAB_Definitions.h
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Definitions.h
-
-/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.cpp
-LAB_Calibration.h
-/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.h
-cctype
--
-locale
--
-string
--
-fstream
--
-sstream
--
-algorithm
--
-../LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-../../Utility/LAB_Constants.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Constants.h
-../../Utility/LAB_Utility_Functions.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
 
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.h
 string
@@ -244,18 +166,6 @@ tuple
 cstddef
 -
 
-/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Exporter.cpp
-LAB_Exporter.h
-/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Exporter.h
-fstream
--
-sstream
--
-iostream
--
-../LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Exporter.h
 string
 -
@@ -271,20 +181,6 @@ string
 -
 vector
 -
-
-/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.cpp
-LAB_Oscilloscope_Display.h
-/home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.h
-cmath
--
-iostream
--
-../LAB.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB.h
-../LAB_Oscilloscope.h
-/home/glen/Desktop/LABSoft/src/LAB/LAB_Oscilloscope.h
-../../Utility/LAB_Utility_Functions.h
-/home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
 
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Oscilloscope_Display.h
 array
@@ -309,6 +205,14 @@ LABSoft_GUI/LABSoft_GUI.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.h
 LABSoft_Presenter/LABSoft_Presenter.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter.h
+
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.cpp
+LABSoft_GUI.h
+/home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.h
+../LABSoft_Presenter/LABSoft_Presenter.h
+/home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter.h
+../Utility/LAB_Enumerations.h
+/home/glen/Desktop/LABSoft/src/Utility/LAB_Enumerations.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI.h
 FL/Fl.H
@@ -699,14 +603,16 @@ FL/Fl_Native_File_Chooser.H
 /home/glen/Desktop/LABSoft/src/Utility/LAB_Utility_Functions.h
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Calibration.h
+FL/Fl_Input.H
+-
+FL/Fl_Light_Button.H
+-
 ../LABSoft_Presenter_Unit.h
 /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/LABSoft_Presenter_Unit.h
 ../../LAB/Software/LAB_Calibration.h
 /home/glen/Desktop/LABSoft/src/LAB/Software/LAB_Calibration.h
 ../../LABSoft_GUI/LABSoft_GUI_Fl_Input.h
 /home/glen/Desktop/LABSoft/src/LABSoft_GUI/LABSoft_GUI_Fl_Input.h
-FL/Fl_Input.H
--
 
 /home/glen/Desktop/LABSoft/src/LABSoft_Presenter/Software/LABSoft_Presenter_Exporter.cpp
 LABSoft_Presenter_Exporter.h

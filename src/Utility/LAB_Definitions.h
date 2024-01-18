@@ -106,6 +106,7 @@ struct LAB_Parent_Data_Oscilloscope
     bool              single                  = false;
     bool              do_measurements         = false;
     LABE::OSC::STATUS status                  = LABE::OSC::STATUS::READY;
+    bool              is_calibration_enabled  = true;
     
     // mode
     LABE::OSC::MODE mode                      = LABD::OSC::MODE;
@@ -198,9 +199,10 @@ struct LAB_Parent_Data_Voltmeter
 
 struct LAB_Parent_Data_Ohmmeter
 {
-  bool is_backend_running   = false;
-  bool is_frontend_running  = false;
-
+  bool is_backend_running     = false;
+  bool is_frontend_running    = false;
+  bool is_calibration_enabled = true;
+  
   std::array<
     LAB_Channel_Data_Ohmmeter,
     LABC::OHMMETER::NUMBER_OF_CHANNELS

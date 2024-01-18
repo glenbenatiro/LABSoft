@@ -3,6 +3,9 @@
 #include "LAB.h"
 #include "../Utility/LAB_Utility_Functions.h"
 
+// delete soon
+#include <iostream>
+
 LAB_Ohmmeter:: 
 LAB_Ohmmeter (LAB& _LAB)
   : LAB_Module    (_LAB),
@@ -54,6 +57,16 @@ backend_run_stop (bool value)
 {
   lab ().m_Voltmeter.backend_run_stop (value);
 
+  if (value)
+  {
+    for (int a = 0; a < LABC::VOLTMETER::NUMBER_OF_CHANNELS; a++)
+    {
+      lab ().m_Oscilloscope.coupling  (a, LABE::OSC::COUPLING::DC);
+      lab ().m_Oscilloscope.scaling   (a, LABC::OHMMETER::SCALING);
+      lab ().m_Oscilloscope.calibration ().scaling_corrector_to_actual (a, LABC::OHMMETER::SCALING, 1.0);
+    }
+  }
+
   m_parent_data.is_backend_running = value;
 }
 
@@ -64,7 +77,13 @@ get_reading (unsigned channel)
   double den = m_calibration.vref (0) - lab ().m_Voltmeter.get_reading (0);
   double ret = num / den;
 
-  return ((LABF::is_less_than (ret, 0.0, LABC::LABSOFT::EPSILON)) ? 0.0 : ret); 
+  // std::cout << "lab ().m_Voltmeter.get_reading (0): " << lab ().m_Voltmeter.get_reading (0) << "\n";
+  // std::cout << "m_calibration.r1 (0): " << m_calibration.r1 (0) << "\n";
+  // std::cout << "m_calibration.vref (0: " << m_calibration.vref (0) << "\n\n";
+
+  // return ((LABF::is_less_than (ret, 0.0, LABC::LABSOFT::EPSILON)) ? 0.0 : ret); 
+
+  return (ret);
 }
 
 LAB_Ohmmeter::Calibration::
@@ -72,6 +91,24 @@ Calibration (LAB_Parent_Data_Ohmmeter& _LAB_Parent_Data_Ohmmeter)
   : m_pdata (_LAB_Parent_Data_Ohmmeter)
 {
  
+}
+
+void LAB_Ohmmeter::Calibration:: 
+enable ()
+{
+  m_pdata.is_calibration_enabled = true;
+}
+
+void LAB_Ohmmeter::Calibration:: 
+disable ()
+{
+  m_pdata.is_calibration_enabled = false;
+}
+
+bool LAB_Ohmmeter::Calibration:: 
+is_enabled () const
+{
+  return (m_pdata.is_calibration_enabled);
 }
 
 void LAB_Ohmmeter::Calibration:: 

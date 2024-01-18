@@ -1017,6 +1017,20 @@ Fl_Menu_Item LABSoft_GUI::menu_1[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
+void LABSoft_GUI::cb_calibration_fl_light_button_oscilloscope_enable_calibration_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Presenter->m_Calibration.cb_oscilloscope_enable_calibration (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_light_button_oscilloscope_enable_calibration(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->user_data()))->cb_calibration_fl_light_button_oscilloscope_enable_calibration_i(o,v);
+}
+
+void LABSoft_GUI::cb_calibration_fl_light_button_ohmmeter_enable_calibration_i(Fl_Light_Button* o, void* v) {
+  m_LABSoft_Presenter->m_Calibration.cb_ohmmeter_enable_calibration (o, v);
+}
+void LABSoft_GUI::cb_calibration_fl_light_button_ohmmeter_enable_calibration(Fl_Light_Button* o, void* v) {
+  ((LABSoft_GUI*)(o->parent()->parent()->user_data()))->cb_calibration_fl_light_button_ohmmeter_enable_calibration_i(o,v);
+}
+
 void LABSoft_GUI::cb_calibration_fl_button_apply_i(Fl_Button*, void*) {
   m_LABSoft_Presenter->m_Calibration.cb_apply ();
 }
@@ -1054,6 +1068,7 @@ LABSoft_GUI::LABSoft_GUI() {
         main_fl_group_oscilloscope_tab->color(FL_LIGHT3);
         main_fl_group_oscilloscope_tab->selection_color(FL_LIGHT2);
         main_fl_group_oscilloscope_tab->labelsize(12);
+        main_fl_group_oscilloscope_tab->hide();
         { oscilloscope_fl_light_button_debug_measurements = new Fl_Light_Button(1070, 280, 120, 40, "DEBUG: Measurements");
           oscilloscope_fl_light_button_debug_measurements->color((Fl_Color)172);
           oscilloscope_fl_light_button_debug_measurements->labelsize(12);
@@ -1533,9 +1548,11 @@ LABSoft_GUI::LABSoft_GUI() {
           ohmmeter_fl_output_resistance->user_data((void*)(0));
           ohmmeter_fl_output_resistance->align(Fl_Align(FL_ALIGN_TOP));
         } // Fl_Output* ohmmeter_fl_output_resistance
-        { Fl_Box* o = new Fl_Box(510, 320, 200, 17, "Connect the ohmmeter reading header to the Channel 1 input of the oscilloscop\
-e.");
+        { Fl_Box* o = new Fl_Box(320, 320, 580, 17, "Connect the resistive load between the provided ohmmeter input and ground hea\
+der pins. Then connect the oscilloscope channel 1 input to the same ohmmeter i\
+nput header pin.");
           o->labelsize(12);
+          o->align(Fl_Align(FL_ALIGN_WRAP));
         } // Fl_Box* o
         { // 					
           ohmmeter_fl_light_button_run_stop = new Fl_Light_Button(520, 400, 180, 60, "Run");
@@ -1818,7 +1835,6 @@ ly board.");
         main_fl_group_digital_circuit_checker_tab->color(FL_LIGHT3);
         main_fl_group_digital_circuit_checker_tab->selection_color(FL_LIGHT2);
         main_fl_group_digital_circuit_checker_tab->labelsize(12);
-        main_fl_group_digital_circuit_checker_tab->hide();
         { Fl_Group* o = new Fl_Group(20, 70, 220, 320);
           o->box(FL_ROUNDED_FRAME);
           o->labelsize(12);
@@ -2148,22 +2164,42 @@ ly board.");
       o->color(FL_LIGHT3);
       o->menu(menu_1);
     } // Fl_Menu_Bar* o
-    { calibration_labsoft_gui_sheet_oscilloscope_calibration_table = new LABSoft_GUI_Sheet(20, 40, 400, 400, "Oscilloscope");
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->box(FL_THIN_DOWN_FRAME);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->color(FL_BACKGROUND_COLOR);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->selection_color(FL_BACKGROUND_COLOR);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labeltype(FL_NORMAL_LABEL);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelfont(0);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelsize(12);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelcolor(FL_FOREGROUND_COLOR);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->align(Fl_Align(FL_ALIGN_TOP));
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->when(FL_WHEN_RELEASE);
-      calibration_labsoft_gui_sheet_oscilloscope_calibration_table->end();
-    } // LABSoft_GUI_Sheet* calibration_labsoft_gui_sheet_oscilloscope_calibration_table
-    { Fl_Group* o = new Fl_Group(440, 40, 140, 150, "Ohmmeter");
+    { Fl_Group* o = new Fl_Group(20, 40, 440, 440, "Oscilloscope");
       o->box(FL_ROUNDED_FRAME);
       o->labelsize(12);
-      { calibration_labsoft_gui_fl_input_ohm_vref_chan_0 = new LABSoft_GUI_Fl_Input(460, 70, 100, 30, "Vref (Volts)");
+      { calibration_labsoft_gui_sheet_oscilloscope_calibration_table = new LABSoft_GUI_Sheet(40, 110, 400, 350);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->box(FL_THIN_DOWN_FRAME);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->color(FL_BACKGROUND_COLOR);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->selection_color(FL_BACKGROUND_COLOR);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labeltype(FL_NORMAL_LABEL);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelfont(0);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelsize(12);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->labelcolor(FL_FOREGROUND_COLOR);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->align(Fl_Align(FL_ALIGN_TOP));
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->when(FL_WHEN_RELEASE);
+        calibration_labsoft_gui_sheet_oscilloscope_calibration_table->end();
+      } // LABSoft_GUI_Sheet* calibration_labsoft_gui_sheet_oscilloscope_calibration_table
+      { calibration_fl_light_button_oscilloscope_enable_calibration = new Fl_Light_Button(40, 60, 100, 30, "Enable");
+        calibration_fl_light_button_oscilloscope_enable_calibration->box(FL_GTK_UP_BOX);
+        calibration_fl_light_button_oscilloscope_enable_calibration->color(FL_LIGHT3);
+        calibration_fl_light_button_oscilloscope_enable_calibration->labelsize(12);
+        calibration_fl_light_button_oscilloscope_enable_calibration->callback((Fl_Callback*)cb_calibration_fl_light_button_oscilloscope_enable_calibration);
+        calibration_fl_light_button_oscilloscope_enable_calibration->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+      } // Fl_Light_Button* calibration_fl_light_button_oscilloscope_enable_calibration
+      o->end();
+    } // Fl_Group* o
+    { Fl_Group* o = new Fl_Group(480, 40, 140, 190, "Ohmmeter");
+      o->box(FL_ROUNDED_FRAME);
+      o->labelsize(12);
+      { calibration_fl_light_button_ohmmeter_enable_calibration = new Fl_Light_Button(500, 60, 100, 30, "Enable");
+        calibration_fl_light_button_ohmmeter_enable_calibration->box(FL_GTK_UP_BOX);
+        calibration_fl_light_button_ohmmeter_enable_calibration->color(FL_LIGHT3);
+        calibration_fl_light_button_ohmmeter_enable_calibration->labelsize(12);
+        calibration_fl_light_button_ohmmeter_enable_calibration->callback((Fl_Callback*)cb_calibration_fl_light_button_ohmmeter_enable_calibration);
+        calibration_fl_light_button_ohmmeter_enable_calibration->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+        calibration_fl_light_button_ohmmeter_enable_calibration->deactivate();
+      } // Fl_Light_Button* calibration_fl_light_button_ohmmeter_enable_calibration
+      { calibration_labsoft_gui_fl_input_ohm_vref_chan_0 = new LABSoft_GUI_Fl_Input(500, 120, 100, 30, "Vref (Volts)");
         calibration_labsoft_gui_fl_input_ohm_vref_chan_0->box(FL_DOWN_BOX);
         calibration_labsoft_gui_fl_input_ohm_vref_chan_0->color(FL_BACKGROUND2_COLOR);
         calibration_labsoft_gui_fl_input_ohm_vref_chan_0->selection_color(FL_SELECTION_COLOR);
@@ -2176,7 +2212,7 @@ ly board.");
         calibration_labsoft_gui_fl_input_ohm_vref_chan_0->align(Fl_Align(133));
         calibration_labsoft_gui_fl_input_ohm_vref_chan_0->when(FL_WHEN_RELEASE);
       } // LABSoft_GUI_Fl_Input* calibration_labsoft_gui_fl_input_ohm_vref_chan_0
-      { calibration_labsoft_gui_fl_input_ohm_r1_chan_0 = new LABSoft_GUI_Fl_Input(460, 140, 100, 30, "R1 (Ohms)");
+      { calibration_labsoft_gui_fl_input_ohm_r1_chan_0 = new LABSoft_GUI_Fl_Input(500, 180, 100, 30, "R1 (Ohms)");
         calibration_labsoft_gui_fl_input_ohm_r1_chan_0->box(FL_DOWN_BOX);
         calibration_labsoft_gui_fl_input_ohm_r1_chan_0->color(FL_BACKGROUND2_COLOR);
         calibration_labsoft_gui_fl_input_ohm_r1_chan_0->selection_color(FL_SELECTION_COLOR);
@@ -2189,6 +2225,24 @@ ly board.");
         calibration_labsoft_gui_fl_input_ohm_r1_chan_0->align(Fl_Align(133));
         calibration_labsoft_gui_fl_input_ohm_r1_chan_0->when(FL_WHEN_RELEASE);
       } // LABSoft_GUI_Fl_Input* calibration_labsoft_gui_fl_input_ohm_r1_chan_0
+      o->end();
+    } // Fl_Group* o
+    { Fl_Group* o = new Fl_Group(640, 40, 140, 130, "Calibration Wizard");
+      o->box(FL_ROUNDED_FRAME);
+      o->labelsize(12);
+      { Fl_Button* o = new Fl_Button(660, 60, 100, 30, "Oscilloscope");
+        o->box(FL_GTK_UP_BOX);
+        o->color(FL_LIGHT3);
+        o->labelsize(12);
+        o->deactivate();
+      } // Fl_Button* o
+      { Fl_Button* o = new Fl_Button(660, 120, 100, 30, "Function Generator");
+        o->box(FL_GTK_UP_BOX);
+        o->color(FL_LIGHT3);
+        o->labelsize(12);
+        o->align(Fl_Align(FL_ALIGN_WRAP));
+        o->deactivate();
+      } // Fl_Button* o
       o->end();
     } // Fl_Group* o
     { calibration_fl_button_apply = new Fl_Button(760, 450, 90, 30, "Apply");

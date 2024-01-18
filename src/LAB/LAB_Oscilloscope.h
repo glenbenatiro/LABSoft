@@ -18,6 +18,10 @@ class LAB_Oscilloscope : public LAB_Module
       public:
         Calibration (LAB_Parent_Data_Oscilloscope& _LAB_Parent_Data_Oscilloscope);
 
+        void    enable      ();
+        void    disable     ();
+        bool    is_enabled  () const;
+
         bool    do_auto_calibration_vertical_offset_corrector ();
         bool    do_auto_calibration_scaling_correctors        ();
         

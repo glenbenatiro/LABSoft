@@ -15,6 +15,10 @@ class LAB_Ohmmeter : public LAB_Module
       public:
         Calibration (LAB_Parent_Data_Ohmmeter& _LAB_Parent_Data_Ohmmeter);
 
+        void        enable      ();
+        void        disable     ();
+        bool        is_enabled  () const;
+
         void r1     (unsigned channel, double value);
         void vref   (unsigned channel, double value);
 

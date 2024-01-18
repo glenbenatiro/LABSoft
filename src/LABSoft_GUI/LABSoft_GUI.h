@@ -427,6 +427,16 @@ private:
   static void cb_Load(Fl_Menu_*, void*);
 public:
   LABSoft_GUI_Sheet *calibration_labsoft_gui_sheet_oscilloscope_calibration_table;
+  Fl_Light_Button *calibration_fl_light_button_oscilloscope_enable_calibration;
+private:
+  inline void cb_calibration_fl_light_button_oscilloscope_enable_calibration_i(Fl_Light_Button*, void*);
+  static void cb_calibration_fl_light_button_oscilloscope_enable_calibration(Fl_Light_Button*, void*);
+public:
+  Fl_Light_Button *calibration_fl_light_button_ohmmeter_enable_calibration;
+private:
+  inline void cb_calibration_fl_light_button_ohmmeter_enable_calibration_i(Fl_Light_Button*, void*);
+  static void cb_calibration_fl_light_button_ohmmeter_enable_calibration(Fl_Light_Button*, void*);
+public:
   LABSoft_GUI_Fl_Input *calibration_labsoft_gui_fl_input_ohm_vref_chan_0;
   LABSoft_GUI_Fl_Input *calibration_labsoft_gui_fl_input_ohm_r1_chan_0;
   Fl_Button *calibration_fl_button_apply;

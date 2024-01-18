@@ -28,8 +28,6 @@ min_max_avg (const std::array<T, N>& arr)
     {
       min = x;
     }
-
-    // std::cout << "x is: " << x << "\n";
   }
 
   avg = sum / arr.size ();

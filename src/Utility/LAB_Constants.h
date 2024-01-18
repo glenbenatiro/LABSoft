@@ -23,9 +23,9 @@ namespace LABC
 
   namespace LABSOFT
   {
-    constexpr double EPSILON = 1e-9;
+    constexpr double EPSILON = 1e-12;
 
-    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 20.0; // ideally 20 FPS
+    constexpr float DISPLAY_UPDATE_RATE = 1.0 / 15.0; // ideally 20 FPS
 
     enum class FL_TAB_GROUP_COLOR : uint32_t
     {
@@ -230,14 +230,15 @@ namespace LABC
   {
     constexpr unsigned            NUMBER_OF_CHANNELS  = OSC::NUMBER_OF_CHANNELS;
     constexpr double              SAMPLING_RATE       = 40'000.0; // Hz
-    constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::UNITY;
+    constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::FOURTH;
   };
 
   namespace OHMMETER
   {
-    constexpr unsigned  NUMBER_OF_CHANNELS  = 1;
-    constexpr double    R1_RESISTOR_VALUE   = 20'000.0; // 20k ohms
-    constexpr double    VIN_VOLTAGE_VALUE   = 5.0; // +5.0 volts
+    constexpr LABE::OSC::SCALING  SCALING             = LABE::OSC::SCALING::DOUBLE;
+    constexpr unsigned            NUMBER_OF_CHANNELS  = 1;
+    constexpr double              R1_RESISTOR_VALUE   = 750'000.0; // 20k ohms
+    constexpr double              VIN_VOLTAGE_VALUE   = 12.0; // +5.0 volts
   };
 
   namespace FUNC_GEN
