@@ -248,6 +248,7 @@ struct LAB_Parent_Data_Logic_Analyzer
   unsigned  samples                       = LABD::LOGAN::SAMPLES;
   unsigned  samples_raw_buffer            = samples;
   double    sampling_rate                 = LABD::LOGAN::SAMPLING_RATE;
+  double    sampling_rate_raw_buffer      = sampling_rate;
   double    sampling_period               = LABD::LOGAN::SAMPLING_PERIOD;
 
   std::array <
@@ -299,6 +300,7 @@ struct LAB_Parent_Data_Software_Navigation
   uint8_t SCLK_PIN      = LABC::PIN::SNM::SCLK_PIN;
 
   uint8_t TRANSFER_SIZE = LABC::PIN::SNM::TRANSFER_SIZE;
+  bool    SNM_ATTACHED  = true;
 };
 
 // DMA Data

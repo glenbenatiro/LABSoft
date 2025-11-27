@@ -7,6 +7,7 @@
 #include "../Utility/LAB_Enumerations.h"
 
 #include <FL/Fl_Group.H>
+#include <string_view>
 #include <cstdio>
 #include <chrono>
 #include <unordered_map>
@@ -47,6 +48,7 @@ class LABSoft_Presenter_Software_Navigation : public LABSoft_Presenter_Unit
     void highlight_tab           ();
     void highlight_group         (Fl_Group* group);
     void highlight_widget        (Fl_Widget* widget);
+    void refresh_widget_list     ();
 
   private:
     void clear_tab_focus               ();
@@ -57,9 +59,9 @@ class LABSoft_Presenter_Software_Navigation : public LABSoft_Presenter_Unit
 
     std::vector<Fl_Group*>  get_groups_in_tab          (Fl_Group* tab)   const;
     std::vector<Fl_Widget*> get_widgets_in_group       (Fl_Group* group) const;
-    LABE::SNM::TAB_ID       get_current_tab_id         ()                const;
+    LABE::LAB::INSTRUMENT   get_current_tab_id         ()                const;
 
-    std::unordered_map<LABE::SNM::TAB_ID, std::vector<Fl_Group*>> get_focusable_groups_map() const;
+    std::unordered_map<LABE::LAB::INSTRUMENT, std::vector<Fl_Group*>> get_focusable_groups_map() const;
 };
 
 #endif

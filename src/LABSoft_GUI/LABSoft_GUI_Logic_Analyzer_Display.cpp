@@ -1,51 +1,50 @@
 #include "LABSoft_GUI_Logic_Analyzer_Display.h"
 
 #include <cmath>
-#include <cstring>
-#include <iostream>
 #include <sstream>
+#include <iostream>
+#include <cstring>
 
-#include "../LABSoft_Presenter/LABSoft_Presenter.h"
-#include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Defaults.h"
+#include "../Utility/LABSoft_GUI_Label.h"
 #include "../Utility/LAB_Utility_Functions.h"
+#include "../LABSoft_Presenter/LABSoft_Presenter.h"
 
 Fl_Menu_Item ChanWidget::menu_m_fl_menu_button_trigger_mode[] = {
-  { "X Ignore", 0, 0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0 },
-  { "0 Low", 0, 0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0 },
-  { "1 High", 0, 0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0 },
-  { "\342\226\262 Rise", 0, 0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0 },
-  { "\342\226\274 Fall", 0, 0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0 },
-  { "\342\206\225 Edge", 0, 0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+ {"X Ignore", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"0 Low", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"1 High", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"\342\226\262 Rise", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"\342\226\274 Fall", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"\342\206\225 Edge", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0}
 };
 
 // ========== LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph ==========
 
 LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
-  LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph(int X,
-                                                   int Y,
-                                                   int W,
-                                                   int H,
-                                                   const char* label)
-  : Fl_Widget(X, Y, W, H, label)
+LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph (int X, int Y, int W, int H, const char* label)
+  : Fl_Widget (X, Y, W, H, label)
 {
+
 }
 
 LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
-  ~LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph()
+~LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph ()
 {
+
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
+draw ()
+{
+  draw_box    (LOGAN_DISPLAY::GRAPH_BOX, LOGAN_DISPLAY::GRAPH_BG_COLOR);
+  draw_signal ();
 }
 
 void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::draw()
-{
-  draw_box(LOGAN_DISPLAY::GRAPH_BOX, LOGAN_DISPLAY::GRAPH_BG_COLOR);
-  draw_signal();
-}
-
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::draw_signal()
+LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
+draw_signal()
 {
   std::vector<std::array<int, 2>>& pp = m_display_data->pixel_points[m_channel];
 
@@ -57,35 +56,72 @@ LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::draw_signal()
 
   fl_color(LOGAN_DISPLAY::GRAPH_LINE_COLOR);
 
-  fl_line_style(LOGAN_DISPLAY::GRAPH_LINE_STYLE,
-                LOGAN_DISPLAY::GRAPH_LINE_WIDTH,
-                LOGAN_DISPLAY::GRAPH_LINE_DASHES);
+  if (LOGAN_DISPLAY::ENABLE_DIAGONAL_RENDERING)
+  {
+    // Enhanced rendering with different line styles for different segment types
+    for (unsigned a = 0; a < (pp.size() - 1); a++) {
+      int x1 = pp[a][0];
+      int y1 = pp[a][1] + m_graph_offset;
+      int x2 = pp[a + 1][0];
+      int y2 = pp[a + 1][1] + m_graph_offset;
 
-  for (unsigned a = 0; a < (pp.size() - 1); a++) {
-    fl_line(pp[a][0],
-            pp[a][1] + m_graph_offset,
-            pp[a + 1][0],
-            pp[a + 1][1] + m_graph_offset);
+      // Determine segment type based on coordinates
+      bool is_horizontal = (y1 == y2);
+      bool is_vertical = (x1 == x2);
+      bool is_diagonal = !is_horizontal && !is_vertical;
+
+      if (is_horizontal) {
+        // Horizontal segments - use main line style
+        fl_line_style(LOGAN_DISPLAY::GRAPH_LINE_STYLE,
+                      LOGAN_DISPLAY::GRAPH_LINE_WIDTH,
+                      LOGAN_DISPLAY::GRAPH_LINE_DASHES);
+      } else if (is_vertical) {
+        // Vertical segments - use main line style
+        fl_line_style(LOGAN_DISPLAY::GRAPH_LINE_STYLE,
+                      LOGAN_DISPLAY::GRAPH_LINE_WIDTH,
+                      LOGAN_DISPLAY::GRAPH_LINE_DASHES);
+      } else if (is_diagonal) {
+        // Diagonal segments - use diagonal line style
+        fl_line_style(LOGAN_DISPLAY::DIAGONAL_LINE_STYLE,
+                      LOGAN_DISPLAY::DIAGONAL_LINE_WIDTH,
+                      0);
+      }
+
+      fl_line(x1, y1, x2, y2);
+    }
+  }
+  else
+  {
+    // Original rendering - uniform line style
+    fl_line_style(LOGAN_DISPLAY::GRAPH_LINE_STYLE,
+                  LOGAN_DISPLAY::GRAPH_LINE_WIDTH,
+                  LOGAN_DISPLAY::GRAPH_LINE_DASHES);
+
+    for (unsigned a = 0; a < (pp.size() - 1); a++) {
+      fl_line(pp[a][0],
+              pp[a][1] + m_graph_offset,
+              pp[a + 1][0],
+              pp[a + 1][1] + m_graph_offset);
+    }
   }
 
   fl_line_style(0);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::load_display_data(
-  DisplayData* display_data)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
+load_display_data (DisplayData* display_data)
 {
   m_display_data = display_data;
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::channel(int channel)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
+channel (int channel)
 {
   m_channel = channel;
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::graph_offset(int offset)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::
+graph_offset (int offset)
 {
   m_graph_offset = offset;
 }
@@ -93,693 +129,1288 @@ LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph::graph_offset(int offset)
 // ========== LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget ==========
 
 LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
-  LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget(int X,
-                                                    int Y,
-                                                    int W,
-                                                    int H,
-                                                    const char* label)
-  : Fl_Group(X, Y, W, H, label)
+LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget (int X, int Y, int W, int H, const char* label)
+  : Fl_Group (X, Y, W, H, label)
 {
-  init_child_widgets();
+  init_child_widgets ();
 }
 
 LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
-  ~LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget()
+~LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget ()
 {
+
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::init_child_widgets()
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+init_child_widgets ()
 {
-  m_fl_group_channel_info = new Fl_Group(
-    0, 0, LOGAN_DISPLAY::CHANNEL_INFO_WIDTH, LOGAN_DISPLAY::CHANNEL_HEIGHT);
+  m_fl_group_channel_info = new Fl_Group (
+    0,
+    0,
+    LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
+    LOGAN_DISPLAY::CHANNEL_HEIGHT
+  );
 
-  m_fl_group_channel_info->box(FL_THIN_DOWN_BOX);
-  m_fl_group_channel_info->color(53);
+  m_fl_group_channel_info->box    (FL_THIN_DOWN_BOX);
+  m_fl_group_channel_info->color  (53);
   {
     {
-      m_fl_box_dragger = new Fl_Button(0,
-                                       0,
-                                       LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH,
-                                       LOGAN_DISPLAY::CHANNEL_HEIGHT);
+      m_fl_box_dragger = new Fl_Button (
+        0,
+        0,
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
+      );
 
-      m_fl_box_dragger->box(FL_GTK_UP_BOX);
-      m_fl_box_dragger->color(53);
+      m_fl_box_dragger->box (FL_GTK_UP_BOX);
+      m_fl_box_dragger->color (53);
     }
     {
-      m_fl_output_name = new Fl_Output(LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH,
-                                       0,
-                                       LOGAN_DISPLAY::CHANNEL_NAME_WIDTH,
-                                       LOGAN_DISPLAY::CHANNEL_HEIGHT);
+      m_fl_output_name = new Fl_Output (
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH,
+        0,
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
+      );
     }
     {
-      m_fl_button_channel_info_setting =
-        new Fl_Button(LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
-                        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH,
-                      0,
-                      LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
-                      LOGAN_DISPLAY::CHANNEL_HEIGHT);
+      m_fl_button_channel_info_setting = new Fl_Button  (
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH,
+        0,
+        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
+      );
 
-      m_fl_button_channel_info_setting->box(FL_GTK_UP_BOX);
-      m_fl_button_channel_info_setting->color(53);
+      m_fl_button_channel_info_setting->box   (FL_GTK_UP_BOX);
+      m_fl_button_channel_info_setting->color (53);
     }
     {
-      m_fl_output_dio_pin =
-        new Fl_Output(LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
-                        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH +
-                        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
-                      0,
-                      LOGAN_DISPLAY::CHANNEL_DIO_WIDTH,
-                      LOGAN_DISPLAY::CHANNEL_HEIGHT);
+      m_fl_output_dio_pin = new Fl_Output (
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH,
+        0,
+        LOGAN_DISPLAY::CHANNEL_DIO_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT
+      );
 
-      m_fl_output_dio_pin->color(79);
+      m_fl_output_dio_pin->color (79);
     }
     {
-      m_fl_menu_button_trigger_mode =
-        new Fl_Menu_Button(LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
-                             LOGAN_DISPLAY::CHANNEL_NAME_WIDTH +
-                             LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH +
-                             LOGAN_DISPLAY::CHANNEL_DIO_WIDTH,
-                           0,
-                           LOGAN_DISPLAY::CHANNEL_TRIGGER_WIDTH,
-                           LOGAN_DISPLAY::CHANNEL_HEIGHT,
-                           "x");
+      m_fl_menu_button_trigger_mode = new Fl_Menu_Button  (
+        LOGAN_DISPLAY::CHANNEL_DRAGGER_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_NAME_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_SETTING_WIDTH +
+        LOGAN_DISPLAY::CHANNEL_DIO_WIDTH,
+        0,
+        LOGAN_DISPLAY::CHANNEL_TRIGGER_WIDTH,
+        LOGAN_DISPLAY::CHANNEL_HEIGHT,
+        "x"
+      );
 
-      m_fl_menu_button_trigger_mode->box(FL_GTK_UP_BOX);
-      m_fl_menu_button_trigger_mode->color(53);
-      m_fl_menu_button_trigger_mode->menu(menu_m_fl_menu_button_trigger_mode);
-      m_fl_menu_button_trigger_mode->callback(
-        cb_fl_menu_button_trigger_mode_static, this);
+      m_fl_menu_button_trigger_mode->box      (FL_GTK_UP_BOX);
+      m_fl_menu_button_trigger_mode->color    (53);
+      m_fl_menu_button_trigger_mode->menu     (menu_m_fl_menu_button_trigger_mode);
+      m_fl_menu_button_trigger_mode->callback (cb_fl_menu_button_trigger_mode_static, this);
     }
   }
 
-  m_fl_group_channel_info->end();
+  m_fl_group_channel_info->end ();
 
-  m_fl_widget_channel_graph =
-    new LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph(
-      LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
-      0,
-      LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
-      LOGAN_DISPLAY::CHANNEL_HEIGHT);
+  m_fl_widget_channel_graph = new LABSoft_GUI_Logic_Analyzer_Display_Channel_Graph (
+    LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
+    0,
+    LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
+    LOGAN_DISPLAY::CHANNEL_HEIGHT
+  );
 
-  m_fl_widget_channel_graph->box(FL_THIN_DOWN_BOX);
-  m_fl_widget_channel_graph->color((Fl_Color)53);
-  m_fl_widget_channel_graph->load_display_data(m_display_data);
-  m_fl_widget_channel_graph->channel(m_channel);
+  m_fl_widget_channel_graph->box                (FL_THIN_DOWN_BOX);
+  m_fl_widget_channel_graph->color              ((Fl_Color)53);
+  m_fl_widget_channel_graph->load_display_data  (m_display_data);
+  m_fl_widget_channel_graph->channel            (m_channel);
 
-  end();
+  end ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::draw()
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+draw ()
 {
-  draw_box();
-  draw_children();
+  draw_box ();
+  draw_children ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
-  cb_fl_menu_button_trigger_mode(Fl_Widget* w, void* data)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+cb_fl_menu_button_trigger_mode (Fl_Widget* w, void* data)
 {
   Fl_Menu_Button* menu_button = static_cast<Fl_Menu_Button*>(w);
 
-  const char* new_label = "";
-  std::string text{ menu_button->text() };
+  const char* new_label = "x"; // safe default
+  const char* text = menu_button->text ();
 
-  if (text == "X Ignore") {
-    new_label = "X";
-  } else if (text == "0 Low") {
-    new_label = "0";
-  } else if (text == "1 High") {
-    new_label = "1";
-  } else if (text == "\342\226\262 Rise") {
-    new_label = "\342\226\262";
-  } else if (text == "\342\226\274 Fall") {
-    new_label = "\342\226\274";
-  } else if (text == "\342\206\225 Edge") {
-    new_label = "\342\206\225";
+  if (text)
+  {
+    if (std::strcmp(text, "X Ignore") == 0)
+    {
+      new_label = "X";
+    }
+    else if (std::strcmp(text, "0 Low") == 0)
+    {
+      new_label = "0";
+    }
+    else if (std::strcmp(text, "1 High") == 0)
+    {
+      new_label = "1";
+    }
+    else if (std::strcmp(text, "\342\226\262 Rise") == 0)
+    {
+      new_label = "\342\226\262";
+    }
+    else if (std::strcmp(text, "\342\226\274 Fall") == 0)
+    {
+      new_label = "\342\226\274";
+    }
+    else if (std::strcmp(text, "\342\206\225 Edge") == 0)
+    {
+      new_label = "\342\206\225";
+    }
   }
 
-  menu_button->copy_label(new_label);
+  menu_button->copy_label (new_label);
 
   // parent hierarchy from fl menu button
-  // m_fl_group_channel_info ->
-  // LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget -> m_pack -> m_scroll ->
-  // Disp
+  // m_fl_group_channel_info -> LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget ->
+  // m_pack -> m_scroll -> Disp
 
   ChanWidget* chan = static_cast<ChanWidget*>(data);
-  Disp* disp = static_cast<Disp*>(chan->parent()->parent()->parent());
+  Disp*       disp = static_cast<Disp*>(chan->parent ()->parent ()->parent ());
 
-  disp->presenter().m_Logic_Analyzer.cb_trigger_condition(
-    menu_button, static_cast<void*>(chan));
+  disp->presenter ().m_Logic_Analyzer.
+    cb_trigger_condition (menu_button, static_cast<void*>(chan));
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
-  cb_fl_menu_button_trigger_mode_static(Fl_Widget* w, void* data)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+cb_fl_menu_button_trigger_mode_static (Fl_Widget* w, void* data)
 {
   ChanWidget* chan_widget = static_cast<ChanWidget*>(data);
 
-  chan_widget->cb_fl_menu_button_trigger_mode(w, data);
+  chan_widget->cb_fl_menu_button_trigger_mode (w, data);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::select()
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+select ()
 {
   m_is_selected = true;
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::deselect()
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+deselect ()
 {
   m_is_selected = false;
 }
 
-bool
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::selected()
+bool LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+selected ()
 {
   return (m_is_selected);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::load_display_data(
-  DisplayData& display_data)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+load_display_data (DisplayData& display_data)
 {
   m_display_data = &display_data;
 
-  m_fl_widget_channel_graph->load_display_data(m_display_data);
+  m_fl_widget_channel_graph->load_display_data (m_display_data);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::channel(int channel)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+channel (int channel)
 {
   m_channel = channel;
 
-  m_fl_widget_channel_graph->channel(m_channel);
+  m_fl_widget_channel_graph->channel (m_channel);
 }
 
-int
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::channel() const
+int LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+channel () const
 {
   return (m_channel);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::graph_offset(int offset)
+void LABSoft_GUI_Logic_Analyzer_Display_Channel_Widget::
+graph_offset (int offset)
 {
-  m_fl_widget_channel_graph->graph_offset(offset);
+  m_fl_widget_channel_graph->graph_offset (offset);
 }
 
 // ========== LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay ==========
 
 LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::
-  LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay(int X,
-                                                   int Y,
-                                                   int W,
-                                                   int H,
-                                                   const char* label)
-  : Fl_Widget(X, Y, W, H, label)
+LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay (int X, int Y, int W, int H, const char* label)
+  : Fl_Widget (X, Y, W, H, label)
 {
+
 }
 
 LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::
-  ~LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay()
+~LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay ()
 {
+
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::draw()
+void LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::
+draw ()
 {
-  draw_grid();
+  draw_grid ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::draw_grid()
+void LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::
+draw_grid ()
 {
-  double col_width =
-    static_cast<double>(w()) / LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  const unsigned cols = LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  const int gx = x ();
+  const int gy = y ();
+  const int gw = w ();
+  const int gh = h ();
 
-  fl_color(LOGAN_DISPLAY::GRID_COLOR);
+  fl_color (LOGAN_DISPLAY::GRID_COLOR);
 
-  // Columns
-  for (unsigned col = 0; col < LOGAN_DISPLAY::NUMBER_OF_COLUMNS; col++) {
-    if (col == 0) {
-      fl_line_style(FL_SOLID);
-    } else if (col == (LOGAN_DISPLAY::NUMBER_OF_COLUMNS / 2)) {
-      fl_line_style(FL_DASH);
-    } else {
-      fl_line_style(FL_DOT);
+  // Columns (inclusive of both edges)
+  for (unsigned col = 0; col <= cols; col++)
+  {
+    if (col == 0)
+    {
+      fl_line_style (FL_SOLID);
+    }
+    else if (col == (cols / 2))
+    {
+      fl_line_style (FL_DASH);
+    }
+    else
+    {
+      fl_line_style (FL_DOT);
     }
 
-    fl_line(static_cast<int>(x() + (col * col_width)),
-            y(),
-            static_cast<int>(x() + (col * col_width)),
-            y() + h());
+    // Integer-rounded pixel to avoid drift; clamp to rightmost pixel
+    int col_x = gx + static_cast<int>(std::llround((static_cast<double>(col) * gw) /
+                                                   static_cast<double>(cols)));
+    int right_edge = gx + gw - 1;
+    if (col_x > right_edge) col_x = right_edge;
+
+    fl_line (col_x, gy, col_x, gy + gh);
   }
 
-  fl_line_style(0);
+  fl_line_style (0);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::display_data(
-  DisplayData& display_data)
+void LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay::
+display_data (DisplayData& display_data)
 {
   m_display_data = &display_data;
 }
 
 // ========== Disp ==========
 
-LABSoft_GUI_Logic_Analyzer_Display::LABSoft_GUI_Logic_Analyzer_Display(
-  int X,
-  int Y,
-  int W,
-  int H,
-  const char* label)
-  : Fl_Group(X, Y, W, H, label)
+LABSoft_GUI_Logic_Analyzer_Display::
+LABSoft_GUI_Logic_Analyzer_Display (int X, int Y, int W, int H, const char* label)
+  : Fl_Group (X, Y, W, H, label)
 {
-  init_child_widgets();
-  reserve_pixel_points();
-  calc_graph_base_line_coords();
+  m_display_data.graph_width = LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH;
+
+  init_child_widgets          ();
+  reserve_pixel_points        ();
+  calc_graph_base_line_coords ();
 }
 
-LABSoft_GUI_Logic_Analyzer_Display::~LABSoft_GUI_Logic_Analyzer_Display() {}
+LABSoft_GUI_Logic_Analyzer_Display::
+~LABSoft_GUI_Logic_Analyzer_Display ()
+{
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::init_child_widgets()
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+init_child_widgets ()
 {
   // ! The order of initialization here is important!
   // ! The order of initialization here is important!
   // ! The order of initialization here is important!
 
   // 1. fl_scroll
-  m_scroll =
-    new Fl_Scroll(x(),
-                  y() + LOGAN_DISPLAY::STATUS_HEIGHT,
-                  w(),
-                  h() - LOGAN_DISPLAY::STATUS_HEIGHT -
-                    LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT);
+  m_scroll = new Fl_Scroll (
+    x (),
+    y () + LOGAN_DISPLAY::STATUS_HEIGHT,
+    w (),
+    h () - LOGAN_DISPLAY::STATUS_HEIGHT -
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
+  );
 
-  m_scroll->type(Fl_Scroll::VERTICAL);
+  m_scroll->type (Fl_Scroll::VERTICAL);
   {
-    m_pack =
-      new Fl_Pack(m_scroll->x(), m_scroll->y(), m_scroll->w(), m_scroll->h());
+    m_pack = new Fl_Pack (
+      m_scroll->x (),
+      m_scroll->y (),
+      m_scroll->w (),
+      m_scroll->h ()
+    );
 
-    m_pack->type(Fl_Pack::VERTICAL);
+    m_pack->type (Fl_Pack::VERTICAL);
   }
-  m_scroll->end();
+  m_scroll->end ();
 
-  m_overlay = new LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay(
-    x() + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
-    y() + LOGAN_DISPLAY::STATUS_HEIGHT,
-    LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
-    h() - LOGAN_DISPLAY::STATUS_HEIGHT -
-      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT);
+  m_overlay = new LABSoft_GUI_Logic_Analyzer_Display_Graph_Overlay (
+    x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
+    y () + LOGAN_DISPLAY::STATUS_HEIGHT,
+      LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH,
+    h () - LOGAN_DISPLAY::STATUS_HEIGHT -
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT
+  );
 
-  m_overlay->display_data(m_display_data);
+  m_overlay->display_data (m_display_data);
 
   // x. status
-  init_child_widgets_status();
+  init_child_widgets_status ();
 
   // x. time per division labels
-  init_child_widgets_time_per_division_labels();
+  init_child_widgets_time_per_division_labels ();
 
   // x. top info
-  init_child_widgets_top_info();
+  init_child_widgets_top_info ();
 
-  end();
+  end ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::init_child_widgets_status()
+void LABSoft_GUI_Logic_Analyzer_Display::
+init_child_widgets_status ()
 {
-  m_status = new Fl_Box(m_overlay->x(),
-                        m_overlay->y() - LOGAN_DISPLAY::STATUS_HEIGHT,
-                        80,
-                        LOGAN_DISPLAY::STATUS_HEIGHT,
-                        "Ready");
+  m_status = new Fl_Box (
+    m_overlay->x (),
+    m_overlay->y () - LOGAN_DISPLAY::STATUS_HEIGHT,
+    80,
+    LOGAN_DISPLAY::STATUS_HEIGHT,
+    "Ready"
+  );
 
-  m_status->box(FL_BORDER_FRAME);
-  m_status->color(1);
-  m_status->labelfont(1);
-  m_status->labelsize(LOGAN_DISPLAY::AXIS_LABEL_SIZE);
-  m_status->labelcolor(FL_BLACK);
+  m_status->box         (FL_BORDER_FRAME);
+  m_status->color       (1);
+  m_status->labelfont   (1);
+  m_status->labelsize   (LOGAN_DISPLAY::AXIS_LABEL_SIZE);
+  m_status->labelcolor  (FL_BLACK);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::
-  init_child_widgets_time_per_division_labels()
+void LABSoft_GUI_Logic_Analyzer_Display::
+init_child_widgets_time_per_division_labels ()
 {
-  unsigned disp_internal_width = w() - LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
-  double col_width = static_cast<double>(disp_internal_width) /
-                     LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  const unsigned cols = LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  const int gx = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+  const int disp_internal_width = w () - LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
 
-  for (unsigned col = 0; col <= m_time_per_division_labels.size(); col++) {
-    double x_coord =
-      x() + (LOGAN_DISPLAY::CHANNEL_INFO_WIDTH) + (col * col_width);
+  // Width per division; ensure at least 1px to avoid zero-width boxes
+  const int per_col_width = std::max(
+    1,
+    static_cast<int>(std::floor(
+      static_cast<double>(disp_internal_width) / static_cast<double>(cols)
+    ))
+  );
 
-    if (col == LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS) {
-      x_coord -= LOGAN_DISPLAY::TIME_PER_DIVSION_LABELS_LAST_OFFSET;
+  for (unsigned col = 0; col < m_time_per_division_labels.size (); col++)
+  {
+    // Integer-aligned tick position identical to grid calculation
+    int tick_x = gx + static_cast<int>(
+      std::llround((static_cast<double>(col) * disp_internal_width) /
+                   static_cast<double>(cols))
+    );
+
+    int y_coord = y () + h () -
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT +
+      LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_TOP_MARGIN;
+
+    // Compute a bounding box that always remains inside the graph area
+    int box_x = tick_x;
+    int box_w = per_col_width;
+    int align = FL_ALIGN_CENTER | FL_ALIGN_INSIDE;
+
+    if (col == 0)
+    {
+      // Leftmost label: keep inside by left-aligning after the tick
+      box_x = tick_x + 2;
+      box_w = std::max(5, per_col_width / 2);
+      align = FL_ALIGN_LEFT | FL_ALIGN_INSIDE;
+    }
+    else if (col == cols)
+    {
+      // Rightmost label: right-align so text ends at the tick position
+      int half_cell = std::max(5, per_col_width / 2);
+      int desired_w = std::max(static_cast<int>(LOGAN_DISPLAY::TIME_PER_DIVSION_LABELS_LAST_OFFSET), half_cell);
+      box_x = tick_x - desired_w;
+      box_w = desired_w;
+      align = FL_ALIGN_RIGHT | FL_ALIGN_INSIDE;
+    }
+    else
+    {
+      // Middle labels: center around the tick
+      box_x = tick_x - (per_col_width / 2);
+      box_w = std::max(5, per_col_width);
+      align = FL_ALIGN_CENTER | FL_ALIGN_INSIDE;
     }
 
-    double y_coord = y() + h() -
-                     LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_STRIP_HEIGHT +
-                     LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_TOP_MARGIN;
+    // Clamp within internal display area
+    int min_x = gx;
+    int max_x = gx + disp_internal_width - 1;
+    if (box_x < min_x) box_x = min_x;
+    if ((box_x + box_w) > (max_x + 1))
+    {
+      box_w = (max_x + 1) - box_x;
+    }
+    if (box_w < 5) box_w = 5;
 
-    Fl_Box* box = new Fl_Box(
-      static_cast<int>(x_coord), static_cast<int>(y_coord), 5, 5, "0.00 s");
+    Fl_Box* box = new Fl_Box (
+      box_x,
+      y_coord,
+      box_w,
+      5,
+      "0.00 s"
+    );
 
-    box->labelcolor(LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_COLOR);
-    box->labelsize(LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_SIZE);
-    box->align(FL_ALIGN_TEXT_OVER_IMAGE);
+    box->labelcolor (LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_COLOR);
+    box->labelsize  (LOGAN_DISPLAY::TIME_PER_DIVISION_LABELS_SIZE);
+    box->align      (align);
 
     m_time_per_division_labels[col] = box;
   }
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::init_child_widgets_top_info()
+void LABSoft_GUI_Logic_Analyzer_Display::
+init_child_widgets_top_info ()
 {
-  m_top_info = new Fl_Box(m_status->x() + m_status->w() + 10,
-                          m_status->y(),
-                          3,
-                          m_status->h(),
-                          "2000 samples");
+  m_top_info = new Fl_Box (
+    m_status->x () + m_status->w () + 10,
+    m_status->y (),
+    3,
+    m_status->h (),
+    "2000 samples"
+  );
 
-  m_top_info->box(FL_NO_BOX);
-  m_top_info->align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
-  m_top_info->labelsize(LOGAN_DISPLAY::AXIS_LABEL_SIZE);
-  m_top_info->labelcolor(FL_BLACK);
+  m_top_info->box         (FL_NO_BOX);
+  m_top_info->align       (FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
+  m_top_info->labelsize   (LOGAN_DISPLAY::AXIS_LABEL_SIZE);
+  m_top_info->labelcolor  (FL_BLACK);
 }
 
-ChanWidget*
-LABSoft_GUI_Logic_Analyzer_Display::create_channel_widget(unsigned channel,
-                                                          const char* name)
+ChanWidget* LABSoft_GUI_Logic_Analyzer_Display::
+create_channel_widget (unsigned channel, const char* name)
 {
-  ChanWidget* widget = new ChanWidget(0,
-                                      0,
-                                      LOGAN_DISPLAY::CHANNEL_INFO_WIDTH +
-                                        m_display_data.graph_width,
-                                      LOGAN_DISPLAY::CHANNEL_HEIGHT);
+  ChanWidget* widget = new ChanWidget (
+    0,
+    0,
+    LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + m_display_data.graph_width,
+    LOGAN_DISPLAY::CHANNEL_HEIGHT
+  );
 
   char label[20];
-  std::snprintf(label, sizeof(label), "DIO %d", channel);
+  std::snprintf (label, sizeof (label), "DIO %d", channel);
 
-  if (std::strcmp(name, "\0") == 0 || name == nullptr) {
-    widget->m_fl_output_name->value(label);
-  } else {
-    widget->m_fl_output_name->value(name);
+  if (name == "\0" || name == nullptr)
+  {
+    widget->m_fl_output_name->value (label);
+  }
+  else
+  {
+    widget->m_fl_output_name->value (name);
   }
 
-  widget->m_fl_output_dio_pin->value(label);
-  widget->m_fl_output_dio_pin->color(LOGAN_DISPLAY::CHANNEL_COLORS[channel]);
-  widget->load_display_data(m_display_data);
-  widget->channel(channel);
+  widget->m_fl_output_dio_pin->value  (label);
+  widget->m_fl_output_dio_pin->color  (LOGAN_DISPLAY::CHANNEL_COLORS[channel]);
+  widget->load_display_data           (m_display_data);
+  widget->channel                     (channel);
 
   return (widget);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::fill_pixel_points()
+void LABSoft_GUI_Logic_Analyzer_Display::
+fill_pixel_points ()
 {
-  // if (m_parent_data->is_backend_running)
-  // {
-  //   fill_pixel_points_backend_running ();
-  // }
-  // else
-  // {
-  //   fill_pixel_points_backend_stopped ();
-  // }
+  if (!m_parent_data) { return; }
 
-  fill_pixel_points_backend_running();
+  if (m_parent_data->is_backend_running)
+  {
+    fill_pixel_points_backend_running ();
+  }
+  else
+  {
+    fill_pixel_points_backend_stopped ();
+  }
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::fill_pixel_points_backend_running()
+void LABSoft_GUI_Logic_Analyzer_Display::
+fill_pixel_points_backend_running ()
 {
   LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data;
 
-  for (unsigned chan = 0; chan < pdata.channel_data.size(); chan++) {
-    if (is_chan_present_in_chan_widget_array(chan)) {
-      LAB_Channel_Data_Logic_Analyzer& cdata = pdata.channel_data[chan];
-      std::vector<std::array<int, 2>>& pp = m_display_data.pixel_points[chan];
+  for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
+  {
+    if (is_chan_present_in_chan_widget_array (chan))
+    {
+      LAB_Channel_Data_Logic_Analyzer& cdata  = pdata.channel_data[chan];
+      std::vector<std::array<int, 2>>& pp     = m_display_data.pixel_points[chan];
 
-      pp.clear();
+      pp.clear ();
 
-      bool curr_samp;
-      bool next_samp;
-      int next_x;
-      int i;
+      bool  curr_samp, next_samp;
+      int   next_x, i;
 
-      if (pdata.samples >= m_display_data.graph_width) {
-        double samp_skipper =
-          (pdata.samples - 1) /
+      if (pdata.samples >= m_display_data.graph_width)
+      {
+        double samp_skipper = (pdata.samples - 1) /
           static_cast<double>(m_display_data.graph_width - 1);
 
-        for (i = 0; i < static_cast<int>((m_display_data.graph_width - 1));
-             i++) {
-          curr_samp =
-            cdata
-              .samples[static_cast<std::size_t>(std::round(i * samp_skipper))];
-          next_samp = cdata.samples[static_cast<std::size_t>(
-            std::round((i + 1) * samp_skipper))];
-          next_x = x() + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + i;
+        for (i = 0; i < (m_display_data.graph_width - 1); i++)
+        {
+          curr_samp = cdata.samples[std::round (i * samp_skipper)];
+          next_samp = cdata.samples[std::round ((i + 1) * samp_skipper)];
+          next_x    = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + (i + 1);
 
-          calc_pp_coords(curr_samp, next_samp, next_x, i, pp);
+          calc_pp_coords (curr_samp, next_samp, next_x, i, pp);
         }
-      } else {
-        double pxl_skipper =
-          static_cast<double>(m_display_data.graph_width - 1) /
+      }
+      else
+      {
+        double pxl_skipper = static_cast<double>(m_display_data.graph_width - 1) /
           (pdata.samples - 1);
 
-        for (i = 0; i < static_cast<int>((pdata.samples - 1)); i++) {
+        for (i = 0; i < (pdata.samples - 1); i++)
+        {
           curr_samp = cdata.samples[i];
           next_samp = cdata.samples[i + 1];
-          next_x = static_cast<int>(x() + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH +
-                                    std::round((i + 1) * pxl_skipper));
+          next_x    = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH + std::round ((i + 1) * pxl_skipper);
 
-          calc_pp_coords(curr_samp, next_samp, next_x, i, pp);
+          calc_pp_coords (curr_samp, next_samp, next_x, i, pp);
+        }
+      }
+
+      // When zooming in (pixels > samples), extend to edges; else cutoff
+      if (pdata.samples < m_display_data.graph_width)
+      {
+        if (!pp.empty ())
+        {
+          const int left_edge  = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+          const int right_edge = left_edge + static_cast<int>(m_display_data.graph_width) - 1;
+
+          if (pp.front ()[0] > left_edge)
+          {
+            pp.insert (pp.begin (), std::array<int, 2>{left_edge, pp.front ()[1]});
+          }
+          if (pp.back ()[0] < right_edge)
+          {
+            pp.emplace_back (std::array<int, 2>{right_edge, pp.back ()[1]});
+          }
         }
       }
     }
   }
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::fill_pixel_points_backend_stopped()
+void LABSoft_GUI_Logic_Analyzer_Display::
+fill_pixel_points_backend_stopped ()
 {
-}
+  LAB_Parent_Data_Logic_Analyzer& pdata = *m_parent_data;
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::calc_pp_coords(
-  bool curr_samp,
-  bool next_samp,
-  int next_x,
-  int curr_index,
-  std::vector<std::array<int, 2>>& pp)
-{
-  if (curr_index == 0) {
-    pp.emplace_back(std::array<int, 2>{ x() + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
-                                        m_graph_base_line_coords[curr_samp] });
-  } else {
-    if (curr_samp == next_samp) {
-      pp.emplace_back(
-        std::array<int, 2>{ next_x, m_graph_base_line_coords[next_samp] });
-    } else {
-      pp.emplace_back(
-        std::array<int, 2>{ next_x, m_graph_base_line_coords[next_samp ^ 1] });
+  // Use raw-buffer metadata for stopped-mode rendering (fixed capture)
+  const double sr_capture = (pdata.sampling_rate_raw_buffer > 0.0)
+    ? pdata.sampling_rate_raw_buffer
+    : pdata.sampling_rate;
+  const unsigned samples_capture = (pdata.samples_raw_buffer > 0)
+    ? pdata.samples_raw_buffer
+    : pdata.samples;
 
-      pp.emplace_back(
-        std::array<int, 2>{ next_x, m_graph_base_line_coords[next_samp] });
+  // Compute how many samples to display based on time/div and capture sampling rate
+  const double time_window_seconds = pdata.time_per_division * LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+  unsigned samples_to_display = 1;
+  if (sr_capture > 0.0)
+  {
+    double want = sr_capture * time_window_seconds;
+    samples_to_display = (want < 1.0) ? 1u : static_cast<unsigned>(std::round(want));
+  }
+
+  // Center index from horizontal_offset (time), relative to middle of buffer
+  const double center_index_f = (static_cast<double>(samples_capture) / 2.0) - 1.0 +
+                                (pdata.horizontal_offset * sr_capture);
+  long long center_index = static_cast<long long>(std::llround(center_index_f));
+
+  // Desired window [start, end], then clamp while preserving width when possible
+  long long half_window = static_cast<long long>(samples_to_display) / 2;
+  long long start_index = center_index - half_window;
+  long long end_index   = start_index + static_cast<long long>(samples_to_display) - 1;
+
+  // If left clamped, slide right side to keep full window
+  if (start_index < 0)
+  {
+    start_index = 0;
+    end_index   = start_index + static_cast<long long>(samples_to_display) - 1;
+  }
+  // If right clamped, slide left side to keep full window
+  if (end_index >= static_cast<long long>(samples_capture))
+  {
+    end_index   = static_cast<long long>(samples_capture) - 1;
+    start_index = end_index - static_cast<long long>(samples_to_display) + 1;
+    if (start_index < 0) start_index = 0; // when requested > capture size
+  }
+  if (start_index > end_index)
+  {
+    start_index = 0;
+    end_index   = 0;
+  }
+
+  unsigned window_start = static_cast<unsigned>(start_index);
+  unsigned window_end   = static_cast<unsigned>(end_index);
+  unsigned window_size = (window_end - window_start + 1);
+  if (window_size == 0) window_size = 1;
+
+  // For each channel, map only the selected window to graph width
+  for (unsigned chan = 0; chan < pdata.channel_data.size (); chan++)
+  {
+    if (is_chan_present_in_chan_widget_array (chan))
+    {
+      LAB_Channel_Data_Logic_Analyzer& cdata  = pdata.channel_data[chan];
+      std::vector<std::array<int, 2>>& pp     = m_display_data.pixel_points[chan];
+
+      pp.clear ();
+
+      bool  curr_samp, next_samp;
+      int   next_x;
+
+      // Precompute anchor mapping around exact center pixel to avoid drift
+      const unsigned graph_w = m_display_data.graph_width;
+      const int graph_left_x = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+      const int center_x = graph_left_x + static_cast<int>(
+        std::llround(static_cast<double>(graph_w) / 2.0)
+      );
+      // Map time to pixels over [0 .. graph_w-1] to avoid right-edge overflow
+      const double time_per_pixel = (graph_w > 1)
+        ? (time_window_seconds / static_cast<double>(graph_w - 1))
+        : 0.0;
+      const int left_edge  = graph_left_x;
+      const int right_edge = graph_left_x + static_cast<int>(graph_w) - 1;
+
+      if (window_size >= graph_w)
+      {
+        // More samples than pixels: sample -> pixel downsampling
+        const double samp_skipper = (window_size - 1) /
+          static_cast<double>(graph_w - 1);
+
+        for (unsigned i = 0; i < (graph_w - 1); i++)
+        {
+          unsigned si = window_start + static_cast<unsigned>(std::llround(i * samp_skipper));
+          unsigned sj = window_start + static_cast<unsigned>(std::llround((i + 1) * samp_skipper));
+          if (sj > window_end) sj = window_end;
+
+          curr_samp = cdata.samples[si];
+          next_samp = cdata.samples[sj];
+          // Anchor x positions to exact center pixel via time mapping
+          int xi = center_x;
+          int xj = center_x;
+          if (sr_capture > 0.0 && time_per_pixel > 0.0)
+          {
+            double dti = (static_cast<double>(si) - static_cast<double>(center_index)) / sr_capture;
+            double dtj = (static_cast<double>(sj) - static_cast<double>(center_index)) / sr_capture;
+            xi = center_x + static_cast<int>(std::llround(dti / time_per_pixel));
+            xj = center_x + static_cast<int>(std::llround(dtj / time_per_pixel));
+          }
+
+          // Clamp to graph bounds
+          if (xi < left_edge)  xi = left_edge;
+          if (xi > right_edge) xi = right_edge;
+          if (xj < left_edge)  xj = left_edge;
+          if (xj > right_edge) xj = right_edge;
+
+          next_x = xj;
+
+          if (i == 0)
+          {
+            // Seed first point at exact pixel position for current sample
+            pp.emplace_back(std::array<int, 2>{xi, m_graph_base_line_coords[curr_samp]});
+
+            if (curr_samp == next_samp)
+            {
+              pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+            }
+            else
+            {
+              if (LOGAN_DISPLAY::ENABLE_DIAGONAL_RENDERING)
+              {
+                int x_distance = next_x - xi;
+                int diagonal_length = calc_optimal_diagonal_length(x_distance, time_per_pixel);
+
+                if (diagonal_length >= LOGAN_DISPLAY::MIN_DIAGONAL_LENGTH)
+                {
+                  int diagonal_start_x = next_x - diagonal_length;
+                  pp.emplace_back(std::array<int, 2>{diagonal_start_x, m_graph_base_line_coords[curr_samp]});
+                  pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+                }
+                else
+                {
+                  pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp ^ 1]});
+                  pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+                }
+              }
+              else
+              {
+                pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp ^ 1]});
+                pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+              }
+            }
+          }
+          else
+          {
+            // Subsequent points: use shared transition logic
+            calc_pp_coords (curr_samp, next_samp, next_x, static_cast<int>(i), pp);
+          }
+        }
+
+        // When zooming in (pixels > samples_to_display), extend to edges; else cutoff
+        if (samples_to_display < graph_w && !pp.empty ())
+        {
+          const int left_edge  = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+          const int right_edge = left_edge + static_cast<int>(graph_w) - 1;
+
+          if (pp.front ()[0] > left_edge)
+          {
+            pp.insert (pp.begin (), std::array<int, 2>{left_edge, pp.front ()[1]});
+          }
+          if (pp.back ()[0] < right_edge)
+          {
+            pp.emplace_back (std::array<int, 2>{right_edge, pp.back ()[1]});
+          }
+        }
+      }
+      else
+      {
+        // More pixels than samples overall — upsample across full graph width, anchored to center
+        if (samples_to_display < 2)
+        {
+          // Degenerate case
+          continue;
+        }
+
+        for (unsigned i = 0; i < (window_size - 1); i++)
+        {
+          unsigned si = window_start + i;
+          unsigned sj = si + 1;
+          curr_samp = cdata.samples[si];
+          next_samp = cdata.samples[sj];
+          // Anchor x positions to exact center pixel via time mapping
+          int xi = center_x;
+          int xj = center_x;
+          if (sr_capture > 0.0 && time_per_pixel > 0.0)
+          {
+            double dti = (static_cast<double>(si) - static_cast<double>(center_index)) / sr_capture;
+            double dtj = (static_cast<double>(sj) - static_cast<double>(center_index)) / sr_capture;
+            xi = center_x + static_cast<int>(std::llround(dti / time_per_pixel));
+            xj = center_x + static_cast<int>(std::llround(dtj / time_per_pixel));
+          }
+          // Clamp to graph bounds
+          if (xi < left_edge)  xi = left_edge;
+          if (xi > right_edge) xi = right_edge;
+          if (xj < left_edge)  xj = left_edge;
+          if (xj > right_edge) xj = right_edge;
+          next_x = xj;
+
+          if (i == 0)
+          {
+            // Seed first point at its exact pixel position
+            pp.emplace_back(std::array<int, 2>{xi, m_graph_base_line_coords[curr_samp]});
+
+            if (curr_samp == next_samp)
+            {
+              pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+            }
+            else
+            {
+              if (LOGAN_DISPLAY::ENABLE_DIAGONAL_RENDERING)
+              {
+                int x_distance = next_x - xi;
+                int diagonal_length = calc_optimal_diagonal_length(x_distance, time_per_pixel);
+
+                if (diagonal_length >= LOGAN_DISPLAY::MIN_DIAGONAL_LENGTH)
+                {
+                  int diagonal_start_x = next_x - diagonal_length;
+                  pp.emplace_back(std::array<int, 2>{diagonal_start_x, m_graph_base_line_coords[curr_samp]});
+                  pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+                }
+                else
+                {
+                  pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp ^ 1]});
+                  pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+                }
+              }
+              else
+              {
+                pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp ^ 1]});
+                pp.emplace_back(std::array<int, 2>{next_x, m_graph_base_line_coords[next_samp]});
+              }
+            }
+          }
+          else
+          {
+            // For subsequent points, reuse existing transition logic
+            calc_pp_coords (curr_samp, next_samp, next_x, static_cast<int>(i), pp);
+          }
+        }
+
+        // When zooming in (pixels > samples_to_display), extend to edges; else cutoff
+        if (samples_to_display < graph_w && !pp.empty ())
+        {
+          const int left_edge  = x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH;
+          const int right_edge = left_edge + static_cast<int>(graph_w) - 1;
+
+          if (pp.front ()[0] > left_edge)
+          {
+            pp.insert (pp.begin (), std::array<int, 2>{left_edge, pp.front ()[1]});
+          }
+          if (pp.back ()[0] < right_edge)
+          {
+            pp.emplace_back (std::array<int, 2>{right_edge, pp.back ()[1]});
+          }
+        }
+      }
     }
   }
 }
 
-bool
-LABSoft_GUI_Logic_Analyzer_Display::is_chan_present_in_chan_widget_array(
-  unsigned channel) const
+int LABSoft_GUI_Logic_Analyzer_Display::
+calc_optimal_diagonal_length (int x_distance, double time_per_pixel) const
 {
-  for (const ChanWidget* w : m_channel_widgets) {
-    if (channel == static_cast<unsigned>(w->channel())) {
-      return true;
+  if (!LOGAN_DISPLAY::ENABLE_DIAGONAL_RENDERING) {
+    return 0;
+  }
+
+  // Calculate optimal diagonal length based on timing and distance
+  int base_length = LOGAN_DISPLAY::DIAGONAL_TRANSITION_LENGTH;
+
+  // Adjust based on time per pixel (higher resolution = shorter transitions)
+  if (time_per_pixel > 0) {
+    double timing_factor = std::min(1.0, time_per_pixel * 1000.0); // Scale factor
+    base_length = static_cast<int>(base_length * (1.0 - LOGAN_DISPLAY::DIAGONAL_SMOOTHING_FACTOR * timing_factor));
+  }
+
+  // Ensure minimum and maximum bounds
+  int optimal_length = std::max(LOGAN_DISPLAY::MIN_DIAGONAL_LENGTH,
+                               std::min(base_length, x_distance / 2));
+
+  return optimal_length;
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+calc_pp_coords (bool      curr_samp,
+                bool      next_samp,
+                int       next_x,
+                int       curr_index,
+                std::vector<std::array<int, 2>>& pp)
+{
+  if (curr_index == 0)
+  {
+    pp.emplace_back (
+      std::array<int, 2> {x () + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH,
+        m_graph_base_line_coords[curr_samp]}
+    );
+
+    // Handle transition from first point
+    if (curr_samp == next_samp)
+    {
+      pp.emplace_back (
+        std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+      );
+    }
+    else
+    {
+      if (LOGAN_DISPLAY::ENABLE_DIAGONAL_RENDERING)
+      {
+        // Calculate optimal diagonal transition length
+        int x_distance = next_x - (x() + LOGAN_DISPLAY::CHANNEL_INFO_WIDTH);
+        double time_per_pixel = 0.0;
+        if (m_parent_data && m_display_data.graph_width > 0)
+        {
+          // time_per_division is per grid division; convert to per pixel using LOGAN columns
+          const double total_time_window = m_parent_data->time_per_division * LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+          time_per_pixel = total_time_window / static_cast<double>(m_display_data.graph_width);
+        }
+        int diagonal_length = calc_optimal_diagonal_length(x_distance, time_per_pixel);
+
+        if (diagonal_length >= LOGAN_DISPLAY::MIN_DIAGONAL_LENGTH)
+        {
+          // Start diagonal transition
+          int diagonal_start_x = next_x - diagonal_length;
+          pp.emplace_back (
+            std::array<int, 2> {diagonal_start_x, m_graph_base_line_coords[curr_samp]}
+          );
+
+          // End diagonal transition
+          pp.emplace_back (
+            std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+          );
+        }
+        else
+        {
+          // Fallback to vertical transition for very short distances
+          pp.emplace_back (
+            std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp ^ 1]}
+          );
+          pp.emplace_back (
+            std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+          );
+        }
+      }
+      else
+      {
+        // Original vertical transition behavior
+        pp.emplace_back (
+          std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp ^ 1]}
+        );
+        pp.emplace_back (
+          std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+        );
+      }
+    }
+  }
+  else
+  {
+    if (curr_samp == next_samp)
+    {
+      pp.emplace_back (
+        std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+      );
+    }
+    else
+    {
+      if (LOGAN_DISPLAY::ENABLE_DIAGONAL_RENDERING)
+      {
+        // Calculate diagonal transition for subsequent points
+        int prev_x = pp.back()[0];
+        int x_distance = next_x - prev_x;
+        double time_per_pixel = 0.0;
+        if (m_parent_data && m_display_data.graph_width > 0)
+        {
+          const double total_time_window = m_parent_data->time_per_division * LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS;
+          time_per_pixel = total_time_window / static_cast<double>(m_display_data.graph_width);
+        }
+        int diagonal_length = calc_optimal_diagonal_length(x_distance, time_per_pixel);
+
+        if (diagonal_length >= LOGAN_DISPLAY::MIN_DIAGONAL_LENGTH)
+        {
+          // Start diagonal transition from current level
+          int diagonal_start_x = next_x - diagonal_length;
+          pp.emplace_back (
+            std::array<int, 2> {diagonal_start_x, m_graph_base_line_coords[curr_samp]}
+          );
+
+          // End diagonal transition at new level
+          pp.emplace_back (
+            std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+          );
+        }
+        else
+        {
+          // Fallback to vertical transition for very short distances
+          pp.emplace_back (
+            std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp ^ 1]}
+          );
+          pp.emplace_back (
+            std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+          );
+        }
+      }
+      else
+      {
+        // Original vertical transition behavior
+        pp.emplace_back (
+          std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp ^ 1]}
+        );
+        pp.emplace_back (
+          std::array<int, 2> {next_x, m_graph_base_line_coords[next_samp]}
+        );
+      }
+    }
+  }
+}
+
+bool LABSoft_GUI_Logic_Analyzer_Display::
+is_chan_present_in_chan_widget_array (unsigned channel) const
+{
+  for (const ChanWidget* w : m_channel_widgets)
+  {
+    if (channel == w->channel ())
+    {
+      return (true);
     }
   }
 
-  return false;
+  return (false);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::calc_graph_base_line_coords()
+void LABSoft_GUI_Logic_Analyzer_Display::
+calc_graph_base_line_coords ()
 {
-  int main_y_offset =
-    y() + LOGAN_DISPLAY::STATUS_HEIGHT + (LOGAN_DISPLAY::CHANNEL_HEIGHT / 2);
+  int main_y_offset = y () + LOGAN_DISPLAY::STATUS_HEIGHT +
+    (LOGAN_DISPLAY::CHANNEL_HEIGHT / 2);
 
   int graph_y_offset = ((LOGAN_DISPLAY::CHANNEL_HEIGHT *
-                         LOGAN_DISPLAY::CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD) /
-                        (100.0)) /
-                       2;
+    LOGAN_DISPLAY::CHANNEL_GRAPH_PEAK_TO_PEAK_SPREAD) / (100.0)) / 2;
 
   m_graph_base_line_coords[0] = main_y_offset + graph_y_offset;
   m_graph_base_line_coords[1] = main_y_offset - graph_y_offset;
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::calc_chan_widget_graph_offset_last()
+void LABSoft_GUI_Logic_Analyzer_Display::
+calc_chan_widget_graph_offset_last ()
 {
-  int graph_offset = (static_cast<int>(m_channel_widgets.size()) - 1) *
-                     LOGAN_DISPLAY::CHANNEL_HEIGHT;
+  int graph_offset = (m_channel_widgets.size () - 1) *
+    LOGAN_DISPLAY::CHANNEL_HEIGHT;
 
-  m_channel_widgets.back()->graph_offset(graph_offset);
+  m_channel_widgets.back ()->graph_offset (graph_offset);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::reserve_pixel_points()
+void LABSoft_GUI_Logic_Analyzer_Display::
+reserve_pixel_points ()
 {
-  for (std::vector<std::array<int, 2>>& pp : m_display_data.pixel_points) {
-    pp.reserve(LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH * 2);
+  for (std::vector<std::array<int, 2>>& pp : m_display_data.pixel_points)
+  {
+    pp.reserve (LOGAN_DISPLAY::CHANNEL_GRAPH_WIDTH * 2);
   }
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::update_gui_status()
+void LABSoft_GUI_Logic_Analyzer_Display::
+update_gui_status ()
 {
-  switch (m_parent_data->status) {
-    case (LABE::LOGAN::STATUS::READY): {
-      m_status->copy_label("Ready");
-      m_status->color(1);
+  switch (m_parent_data->status)
+  {
+    case (LABE::LOGAN::STATUS::READY):
+    {
+      m_status->copy_label ("Ready");
+      m_status->color (1);
 
       break;
     }
 
-    case (LABE::LOGAN::STATUS::STOP): {
-      m_status->copy_label("Stop");
-      m_status->color(1);
+    case (LABE::LOGAN::STATUS::STOP):
+    {
+      m_status->copy_label ("Stop");
+      m_status->color (1);
 
       break;
     }
 
-    case (LABE::LOGAN::STATUS::AUTO): {
-      m_status->copy_label("Auto");
-      m_status->color(2);
+    case (LABE::LOGAN::STATUS::AUTO):
+    {
+      m_status->copy_label ("Auto");
+      m_status->color (2);
 
       break;
     }
 
-    case (LABE::LOGAN::STATUS::DONE): {
-      m_status->copy_label("Done");
-      m_status->color(1);
-
-      break;
+    case (LABE::LOGAN::STATUS::DONE):
+    {
+      m_status->copy_label ("Done");
+      m_status->color (1);
     }
 
-    case (LABE::LOGAN::STATUS::CONFIG): {
-      m_status->copy_label("Config");
-      m_status->color(3);
-
-      break;
+    case (LABE::LOGAN::STATUS::CONFIG):
+    {
+      m_status->copy_label ("Config");
+      m_status->color (3);
     }
-
-    default:
-      // to-do
-      break;
   }
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::update_gui_top_info()
+void LABSoft_GUI_Logic_Analyzer_Display::
+update_gui_top_info ()
 {
-  LABSoft_GUI_Label lbl(m_parent_data->sampling_rate,
-                        LABSoft_GUI_Label::UNIT::HERTZ);
+  LABSoft_GUI_Label lbl (m_parent_data->sampling_rate, LABSoft_GUI_Label::UNIT::HERTZ);
 
   std::stringstream ss;
 
-  ss << m_parent_data->samples << " samples at " << lbl.to_text() << " | "
-     << LABF::get_now_timestamp();
+  ss  << m_parent_data->samples
+      << " samples at "
+      << lbl.to_text ()
+      << " | "
+      << LABF::get_now_timestamp ();
 
-  m_top_info->copy_label(ss.str().c_str());
+  m_top_info->copy_label (ss.str ().c_str ());
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::draw()
+void LABSoft_GUI_Logic_Analyzer_Display::
+draw ()
 {
-  if (m_parent_data->is_backend_running) {
-    update_gui_top_info();
+  if (m_parent_data->is_backend_running)
+  {
+    update_gui_top_info ();
   }
 
-  update_gui_status();
+  // Always update time-per-division labels before drawing
+  update_gui_time_per_division();
+  update_gui_status ();
 
-  draw_box(FL_FLAT_BOX, LOGAN_DISPLAY::BG_COLOR);
-  draw_children();
-  draw_box(FL_BORDER_FRAME, 0);
+  draw_box      (FL_FLAT_BOX, LOGAN_DISPLAY::BG_COLOR);
+  draw_children ();
+  draw_box      (FL_BORDER_FRAME, 0);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::load_parent_data(
-  LAB_Parent_Data_Logic_Analyzer& pdata)
+void LABSoft_GUI_Logic_Analyzer_Display::
+load_parent_data (LAB_Parent_Data_Logic_Analyzer& pdata)
 {
   m_parent_data = &pdata;
 
-  update_gui_time_per_division();
+  update_gui_time_per_division ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::load_presenter(LABSoft_Presenter& presenter)
+void LABSoft_GUI_Logic_Analyzer_Display::
+load_presenter (LABSoft_Presenter& presenter)
 {
   m_LABSoft_Presenter = &presenter;
 }
 
-LABSoft_Presenter&
-LABSoft_GUI_Logic_Analyzer_Display::presenter() const
+LABSoft_Presenter& LABSoft_GUI_Logic_Analyzer_Display::
+presenter () const
 {
   return (*m_LABSoft_Presenter);
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::add_channel(unsigned channel,
-                                                const char* name)
+void LABSoft_GUI_Logic_Analyzer_Display::
+add_channel (unsigned channel, const char* name)
 {
-  ChanWidget* w = create_channel_widget(channel, name);
+  ChanWidget* w = create_channel_widget (channel, name);
 
-  m_pack->add(w);
-  m_channel_widgets.push_back(w);
+  m_pack->add (w);
+  m_channel_widgets.push_back (w);
 
-  calc_chan_widget_graph_offset_last();
+  calc_chan_widget_graph_offset_last ();
 
-  redraw();
+  redraw ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::clear_all_channels()
+void LABSoft_GUI_Logic_Analyzer_Display::
+clear_all_channels ()
 {
-  for (ChanWidget* ptr : m_channel_widgets) {
+  for (ChanWidget* ptr : m_channel_widgets)
+  {
     delete ptr;
   }
 
-  m_channel_widgets.clear();
+  m_channel_widgets.clear ();
 
-  redraw();
+  redraw ();
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::update_gui_time_per_division()
+bool LABSoft_GUI_Logic_Analyzer_Display::
+has_channel (unsigned channel) const
 {
-  double col_half = (LABC::OSC::DISPLAY_NUMBER_OF_COLUMNS / 2.0) * -1;
+  return is_chan_present_in_chan_widget_array (channel);
+}
 
-  for (unsigned a = 0; a < m_time_per_division_labels.size(); a++) {
+void LABSoft_GUI_Logic_Analyzer_Display::
+remove_channel (unsigned channel)
+{
+  // Find widget with given channel and remove it
+  for (auto it = m_channel_widgets.begin (); it != m_channel_widgets.end (); ++it)
+  {
+    if ((*it)->channel () == static_cast<int>(channel))
+    {
+      ChanWidget* ptr = *it;
+      m_channel_widgets.erase (it);
+      delete ptr;
+      break;
+    }
+  }
+
+  redraw ();
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+update_gui_time_per_division ()
+{
+  // Use LOGAN display columns for logic analyzer
+  double col_half = (LABC::LOGAN::DISPLAY_NUMBER_OF_COLUMNS / 2.0) * -1;
+
+  for (unsigned a = 0; a < m_time_per_division_labels.size (); a++)
+  {
     double col_tpd = (a + col_half) * (m_parent_data->time_per_division) +
-                     (m_parent_data->horizontal_offset);
+      (m_parent_data->horizontal_offset);
 
-    LABSoft_GUI_Label lbl(col_tpd, LABSoft_GUI_Label::UNIT::SECOND);
+    LABSoft_GUI_Label lbl (col_tpd, LABSoft_GUI_Label::UNIT::SECOND);
 
-    m_time_per_division_labels[a]->copy_label(lbl.to_text().c_str());
+    m_time_per_division_labels[a]->copy_label (lbl.to_text ().c_str ());
   }
 }
 
-void
-LABSoft_GUI_Logic_Analyzer_Display::update_display()
+void LABSoft_GUI_Logic_Analyzer_Display::
+update_gui_trigger_modes ()
 {
-  fill_pixel_points();
+  if (m_parent_data == nullptr)
+  {
+    return;
+  }
 
-  redraw();
+  for (ChanWidget* w : m_channel_widgets)
+  {
+    int ch = w->channel ();
+    if (ch < 0)
+    {
+      continue;
+    }
+
+    LABE::LOGAN::TRIG::CND cnd = m_parent_data->channel_data[ch].trigger_condition;
+
+    const char* new_label = "x";
+    switch (cnd)
+    {
+      case (LABE::LOGAN::TRIG::CND::IGNORE):
+      {
+        new_label = "x";
+        break;
+      }
+      case (LABE::LOGAN::TRIG::CND::LOW):
+      {
+        new_label = "0";
+        break;
+      }
+      case (LABE::LOGAN::TRIG::CND::HIGH):
+      {
+        new_label = "1";
+        break;
+      }
+      case (LABE::LOGAN::TRIG::CND::RISING_EDGE):
+      {
+        new_label = "\342\226\262";
+        break;
+      }
+      case (LABE::LOGAN::TRIG::CND::FALLING_EDGE):
+      {
+        new_label = "\342\226\274";
+        break;
+      }
+      case (LABE::LOGAN::TRIG::CND::EITHER_EDGE):
+      {
+        new_label = "\342\206\225";
+        break;
+      }
+    }
+
+    w->m_fl_menu_button_trigger_mode->copy_label (new_label);
+  }
+
+  redraw ();
+}
+
+void LABSoft_GUI_Logic_Analyzer_Display::
+update_display ()
+{
+  fill_pixel_points ();
+
+  redraw ();
+}
+
+unsigned LABSoft_GUI_Logic_Analyzer_Display::
+active_channel_count () const
+{
+  return static_cast<unsigned>(m_channel_widgets.size ());
 }
 
 // EOF

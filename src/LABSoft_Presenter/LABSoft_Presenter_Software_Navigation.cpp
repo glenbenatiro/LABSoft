@@ -1,12 +1,12 @@
 #include "LABSoft_Presenter_Software_Navigation.h"
 #include <string>
+#include <cstring>
+#include <cmath>
 
 #include "../LAB/LAB.h"
 #include "LABSoft_Presenter.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
-
-#define LOG(msg) fprintf(stdout, "%s\n", msg)
 
 LABSoft_Presenter_Software_Navigation::
 LABSoft_Presenter_Software_Navigation(LABSoft_Presenter& _LABSoft_Presenter)
@@ -33,75 +33,39 @@ void
 LABSoft_Presenter_Software_Navigation::
 update_data_cycle()
 {
-  auto data = lab().m_Software_Navigation.update_spi_data();
-  if (data[0] == 0 && data[1] == 0 && data[2] == 0) return;
-
-  // Macro Keys
-  if (data[0] == 1)
+  // If Logic Analyzer is running, publish any completed streamed LOGAN block
+  if (lab().m_Logic_Analyzer.is_running())
   {
-    // Customizable Key 1
-    if (data[1] == 1 && data[2] == 0)
-    {
-      LOG("Customizable Key 1 Pressed");
-      handle_customizable_macro_key(1);
-    }
+    lab().m_Software_Navigation.publish_completed_logan_block();
+  }
 
-    // Customizable Key 2
-    if (data[1] == 2 && data[2] == 0)
-    {
-      LOG("Customizable Key 2 Pressed");
-      handle_customizable_macro_key(2);
-    }
+  auto process_one = [&](const std::array<uint8_t, 3>& data)
+  {
+    if (data[0] == 0 && data[1] == 0 && data[2] == 0) return;
 
-    // Back Key
-    if (data[1] == 3 && data[2] == 0)
+    // Macro Keys
+    if (data[0] == 1)
     {
-      LOG("Back Key Pressed");
-
-      if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
+      // Customizable Key 1
+      if (data[1] == 1 && data[2] == 0)
       {
-        widget_index = -1;
-        clear_widget_focus();
-
-        auto tab_id = get_current_tab_id();
-        auto focusable_map = get_focusable_groups_map();
-        auto it = focusable_map.find(tab_id);
-        current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
-
-        group_index = 0;
-        if (previous_focused_group && !current_groups_in_tab.empty())
-        {
-          for (int gi = 0; gi < static_cast<int>(current_groups_in_tab.size()); ++gi)
-          {
-            if (current_groups_in_tab[gi] == previous_focused_group)
-            {
-              group_index = gi;
-              break;
-            }
-          }
-        }
-
-        if (!current_groups_in_tab.empty() && group_index > 0)
-        {
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::GROUP;
-          group_index--;
-          auto* group = current_groups_in_tab[group_index];
-          group->take_focus();
-          highlight_group(group);
-        }
-        else
-        {
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
-          group_index = 0;
-          current_widgets_in_group.clear();
-          clear_group_focus();
-          highlight_tab();
-        }
+        handle_customizable_macro_key(1);
       }
-      else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP)
+
+      // Customizable Key 2
+      if (data[1] == 2 && data[2] == 0)
       {
-        if (current_groups_in_tab.size() <= 1)
+        handle_customizable_macro_key(2);
+      }
+
+      // Back Key
+      if (data[1] == 3 && data[2] == 0)
+      {
+        if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
         {
+          widget_index = -1;
+          clear_widget_focus();
+
           auto tab_id = get_current_tab_id();
           auto focusable_map = get_focusable_groups_map();
           auto it = focusable_map.find(tab_id);
@@ -119,16 +83,189 @@ update_data_cycle()
               }
             }
           }
-        }
 
-        if (!current_groups_in_tab.empty())
-        {
-          if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
-            group_index = static_cast<int>(current_groups_in_tab.size()) - 1;
-
-          if (group_index > 0)
+          if (!current_groups_in_tab.empty() && group_index > 0)
           {
+            current_focus_level = LABE::SNM::FOCUS_LEVEL::GROUP;
             group_index--;
+            auto* group = current_groups_in_tab[group_index];
+            group->take_focus();
+            highlight_group(group);
+          }
+          else
+          {
+            current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
+            group_index = 0;
+            current_widgets_in_group.clear();
+            clear_group_focus();
+            highlight_tab();
+          }
+        }
+        else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP)
+        {
+          if (current_groups_in_tab.size() <= 1)
+          {
+            auto tab_id = get_current_tab_id();
+            auto focusable_map = get_focusable_groups_map();
+            auto it = focusable_map.find(tab_id);
+            current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
+
+            group_index = 0;
+            if (previous_focused_group && !current_groups_in_tab.empty())
+            {
+              for (int gi = 0; gi < static_cast<int>(current_groups_in_tab.size()); ++gi)
+              {
+                if (current_groups_in_tab[gi] == previous_focused_group)
+                {
+                  group_index = gi;
+                  break;
+                }
+              }
+            }
+          }
+
+          if (!current_groups_in_tab.empty())
+          {
+            if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
+              group_index = static_cast<int>(current_groups_in_tab.size()) - 1;
+
+            if (group_index > 0)
+            {
+              group_index--;
+              auto* group = current_groups_in_tab[group_index];
+              group->take_focus();
+              highlight_group(group);
+              current_widgets_in_group = get_widgets_in_group(group);
+              widget_index = -1;
+              clear_widget_focus();
+            }
+            else
+            {
+              current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
+              group_index = 0;
+              widget_index = -1;
+              current_groups_in_tab.clear();
+              current_widgets_in_group.clear();
+              clear_group_focus();
+              clear_widget_focus();
+              highlight_tab();
+            }
+          }
+          else
+          {
+            current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
+            group_index = 0;
+            widget_index = -1;
+            clear_group_focus();
+            clear_widget_focus();
+            highlight_tab();
+          }
+        }
+      }
+
+      // Next Key
+      if (data[1] == 4 && data[2] == 0)
+      {
+        if (current_focus_level == LABE::SNM::FOCUS_LEVEL::TAB)
+        {
+          auto tab_id = get_current_tab_id();
+
+          if (tab_id == LABE::LAB::INSTRUMENT::OHMMETER ||
+              tab_id == LABE::LAB::INSTRUMENT::VOLTMETER ||
+              tab_id == LABE::LAB::INSTRUMENT::POWER_SUPPLY)
+          {
+            return;
+          }
+
+          auto focusable_map = get_focusable_groups_map();
+          auto it = focusable_map.find(tab_id);
+
+          current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
+          group_index = 0;
+
+          clear_tab_focus();
+
+          if (!current_groups_in_tab.empty())
+          {
+            auto* group = current_groups_in_tab[group_index];
+            group->take_focus();
+            highlight_group(group);
+            current_widgets_in_group = get_widgets_in_group(group);
+            widget_index = -1;
+            current_focus_level = LABE::SNM::FOCUS_LEVEL::GROUP;
+          }
+        }
+        else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
+        {
+          widget_index = -1;
+          clear_widget_focus();
+
+          auto tab_id = get_current_tab_id();
+          auto focusable_map = get_focusable_groups_map();
+          auto it = focusable_map.find(tab_id);
+          current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
+
+          group_index = 0;
+          if (previous_focused_group && !current_groups_in_tab.empty())
+          {
+            for (int gi = 0; gi < static_cast<int>(current_groups_in_tab.size()); ++gi)
+            {
+              if (current_groups_in_tab[gi] == previous_focused_group)
+              {
+                group_index = gi;
+                break;
+              }
+            }
+          }
+
+          if (!current_groups_in_tab.empty() && group_index < static_cast<int>(current_groups_in_tab.size()) - 1)
+          {
+            current_focus_level = LABE::SNM::FOCUS_LEVEL::GROUP;
+            group_index++;
+            auto* group = current_groups_in_tab[group_index];
+            group->take_focus();
+            highlight_group(group);
+          }
+          else
+          {
+            current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
+            group_index = 0;
+            current_widgets_in_group.clear();
+            clear_group_focus();
+            highlight_tab();
+          }
+        }
+        else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP)
+        {
+          if (current_groups_in_tab.size() <= 1)
+          {
+          auto tab_id = get_current_tab_id();
+          auto focusable_map = get_focusable_groups_map();
+            auto it = focusable_map.find(tab_id);
+            current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
+
+            group_index = 0;
+            if (previous_focused_group && !current_groups_in_tab.empty())
+            {
+              for (int gi = 0; gi < static_cast<int>(current_groups_in_tab.size()); ++gi)
+              {
+                if (current_groups_in_tab[gi] == previous_focused_group)
+                {
+                  group_index = gi;
+                  break;
+                }
+              }
+            }
+          }
+
+          if (current_groups_in_tab.empty()) return;
+
+          if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
+            group_index = 0;
+
+          if (group_index < static_cast<int>(current_groups_in_tab.size()) - 1)
+          {
+            group_index++;
             auto* group = current_groups_in_tab[group_index];
             group->take_focus();
             highlight_group(group);
@@ -148,224 +285,60 @@ update_data_cycle()
             highlight_tab();
           }
         }
-        else
-        {
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
-          group_index = 0;
-          widget_index = -1;
-          clear_group_focus();
-          clear_widget_focus();
-          highlight_tab();
-        }
       }
-    }
 
-    // Next Key
-    if (data[1] == 4 && data[2] == 0)
-    {
-      LOG("Next Key Pressed");
-
-      if (current_focus_level == LABE::SNM::FOCUS_LEVEL::TAB)
+      // Run Key
+      if (data[1] == 5 && data[2] == 0)
       {
         auto tab_id = get_current_tab_id();
 
-        if (tab_id == LABE::SNM::TAB_ID::OHMMETER ||
-            tab_id == LABE::SNM::TAB_ID::VOLTMETER ||
-            tab_id == LABE::SNM::TAB_ID::POWER_SUPPLY)
+        if (tab_id == LABE::LAB::INSTRUMENT::LABCHECKER_DIGITAL)
         {
-          return;
-        }
-
-        auto focusable_map = get_focusable_groups_map();
-        auto it = focusable_map.find(tab_id);
-
-        current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
-        group_index = 0;
-
-        clear_tab_focus();
-
-        if (!current_groups_in_tab.empty())
-        {
-          auto* group = current_groups_in_tab[group_index];
-          group->take_focus();
-          highlight_group(group);
-          current_widgets_in_group = get_widgets_in_group(group);
-          widget_index = -1;
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::GROUP;
-        }
-      }
-      else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
-      {
-        widget_index = -1;
-        clear_widget_focus();
-
-        auto tab_id = get_current_tab_id();
-        auto focusable_map = get_focusable_groups_map();
-        auto it = focusable_map.find(tab_id);
-        current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
-
-        group_index = 0;
-        if (previous_focused_group && !current_groups_in_tab.empty())
-        {
-          for (int gi = 0; gi < static_cast<int>(current_groups_in_tab.size()); ++gi)
+          auto* table = gui().labchecker_digital_labsoft_gui_labchecker_digital_input_table;
+          if (table && previous_focused_widget == table && current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
           {
-            if (current_groups_in_tab[gi] == previous_focused_group)
-            {
-              group_index = gi;
-              break;
-            }
+            char curr = table->get_selected_cell_value();
+            char next = (curr == '1') ? '0' : '1';
+            table->set_selected_cell_value(next);
+            table->set_show_selection(true);
+            table->redraw();
+            return;
           }
         }
 
-        if (!current_groups_in_tab.empty() && group_index < static_cast<int>(current_groups_in_tab.size()) - 1)
-        {
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::GROUP;
-          group_index++;
-          auto* group = current_groups_in_tab[group_index];
-          group->take_focus();
-          highlight_group(group);
-        }
-        else
-        {
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
-          group_index = 0;
-          current_widgets_in_group.clear();
-          clear_group_focus();
-          highlight_tab();
-        }
-      }
-      else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP)
-      {
-        if (current_groups_in_tab.size() <= 1)
-        {
-          auto tab_id = get_current_tab_id();
-          auto focusable_map = get_focusable_groups_map();
-          auto it = focusable_map.find(tab_id);
-          current_groups_in_tab = (it != focusable_map.end()) ? it->second : std::vector<Fl_Group*>{};
-
-          group_index = 0;
-          if (previous_focused_group && !current_groups_in_tab.empty())
-          {
-            for (int gi = 0; gi < static_cast<int>(current_groups_in_tab.size()); ++gi)
-            {
-              if (current_groups_in_tab[gi] == previous_focused_group)
-              {
-                group_index = gi;
-                break;
-              }
-            }
-          }
-        }
-
-        if (current_groups_in_tab.empty()) return;
-
-        if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
-          group_index = 0;
-
-        if (group_index < static_cast<int>(current_groups_in_tab.size()) - 1)
-        {
-          group_index++;
-          auto* group = current_groups_in_tab[group_index];
-          group->take_focus();
-          highlight_group(group);
-          current_widgets_in_group = get_widgets_in_group(group);
-          widget_index = -1;
-          clear_widget_focus();
-        }
-        else
-        {
-          current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
-          group_index = 0;
-          widget_index = -1;
-          current_groups_in_tab.clear();
-          current_widgets_in_group.clear();
-          clear_group_focus();
-          clear_widget_focus();
-          highlight_tab();
-        }
+        std::string_view label = gui().main_fl_tabs->value()->label();
+        if (auto it = run_key_actions.find(label); it != run_key_actions.end())
+          it->second();
       }
     }
 
-    // Run Key
-    if (data[1] == 5 && data[2] == 0)
+    // Encoder Rotation
+    if (data[0] == 2)
     {
-      LOG("Run Key Pressed");
-      auto tab_id = get_current_tab_id();
-
-      if (tab_id == LABE::SNM::TAB_ID::LABCHECKER_DIGITAL)
-      {
-        auto* table = gui().labchecker_digital_labsoft_gui_labchecker_digital_input_table;
-        if (table && previous_focused_widget == table && current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
-        {
-          char curr = table->get_selected_cell_value();
-          char next = (curr == '1') ? '0' : '1';
-          table->set_selected_cell_value(next);
-          table->set_show_selection(true);
-          table->redraw();
-          return;
-        }
-      }
-
-      std::string_view label = gui().main_fl_tabs->value()->label();
-      if (auto it = run_key_actions.find(label); it != run_key_actions.end())
-        it->second();
-    }
-  }
-
-  // Encoder Rotation
-  if (data[0] == 2)
-  {
-    auto now = std::chrono::steady_clock::now();
-    if (now - last_nav_time >= nav_debounce_delay)
-    {
-      last_nav_time = now;
       int dir = (data[1] == 1) ? +1 : -1;
-
       Fl_Widget* widget = previous_focused_widget;
 
-      if (is_encoder_switch_pressed && widget)
+      if (widget && get_current_tab_id() == LABE::LAB::INSTRUMENT::LOGIC_ANALYZER)
       {
-        if (auto* custom_choice = dynamic_cast<LABSoft_GUI_Fl_Input_Choice_With_Scroll*>(widget))
+        if (auto* menu_btn = dynamic_cast<Fl_Menu_Button*>(widget))
         {
-          Fl_Menu_Button* menu = custom_choice->menubutton();
-          int n = menu->size();
-
-          if (n > 0)
+          if (!is_encoder_switch_pressed)
           {
-            const char* current = custom_choice->input()->value();
-            int curr_index = menu->find_index(current);
-            if (curr_index < 0) curr_index = -1;
-
-            int next_index = (curr_index + dir + n) % n;
-
-            int attempts = 0;
-            while (attempts < n)
-            {
-              const Fl_Menu_Item* item = menu->menu() + next_index;
-
-              if (item && item->text && !(item->flags & FL_MENU_INACTIVE))
-              {
-                custom_choice->input()->value(item->text);
-                custom_choice->value(item->text);
-                custom_choice->do_callback();
-                custom_choice->redraw();
-                break;
-              }
-
-              next_index = (next_index + dir + n) % n;
-              attempts++;
-            }
+            return;
           }
 
-          LOG(dir > 0 ? "Choice Scrolled CW (Scroll)" : "Choice Scrolled CCW (Scroll)");
-          return;
-        }
-        else if (auto* choice = dynamic_cast<Fl_Choice*>(widget))
-        {
-          int n = choice->size();
+          auto now = std::chrono::steady_clock::now();
+          if (now - last_nav_time < nav_debounce_delay)
+          {
+            return;
+          }
+          last_nav_time = now;
+
+          // Cycle the menu selection and invoke the widget's linked callback
+          int n = menu_btn->size();
           if (n > 0)
           {
-            int curr = choice->value();
+            int curr = menu_btn->value();
             if (curr < 0) curr = -1;
 
             int next = (curr + dir + n) % n;
@@ -373,167 +346,325 @@ update_data_cycle()
             int attempts = 0;
             while (attempts < n)
             {
-              const Fl_Menu_Item* item = choice->menu() + next;
-              if (!(item->flags & FL_MENU_INACTIVE))
+              const Fl_Menu_Item* item = menu_btn->menu() + next;
+              if (item && item->text && !(item->flags & FL_MENU_INACTIVE))
               {
-                choice->value(next);
-                choice->do_callback();
-                choice->redraw();
+                menu_btn->value(next);
+                menu_btn->do_callback();
+                refresh_widget_list();
+                menu_btn->redraw();
                 break;
               }
 
               next = (next + dir + n) % n;
               ++attempts;
             }
-          }
-          LOG(dir > 0 ? "Choice Rotated CW" : "Choice Rotated CCW");
-          return;
-        }
-        else if (auto* input = dynamic_cast<Fl_Input*>(widget))
-        {
-          if (input == gui().digital_fl_input_output_count)
-          {
-            auto* table = gui().labchecker_digital_labsoft_gui_labchecker_digital_input_table;
-            if (table)
-            {
-              int current = static_cast<int>(table->output_count());
-              int maximum = static_cast<int>(table->max_output_count());
-              if (maximum < 1) maximum = 1;
 
-              int next = current + dir;
-              if (next < 1) next = 1;
-              if (next > maximum) next = maximum;
-
-              if (next != current)
-              {
-                std::string value_string = std::to_string(next);
-                input->value(value_string.c_str());
-                input->do_callback();
-                input->redraw();
-              }
-            }
-
-            LOG(dir > 0 ? "Output count increased" : "Output count decreased");
+            highlight_widget(menu_btn);
             return;
           }
         }
       }
 
-      if (current_focus_level == LABE::SNM::FOCUS_LEVEL::TAB)
+      if (is_encoder_switch_pressed && widget)
       {
-        switch_tab_by_direction(dir);
-      }
-      else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP)
-      {
-        if (!current_groups_in_tab.empty())
+        if (auto* input = dynamic_cast<Fl_Input*>(widget))
         {
-          if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
-            group_index = 0;
-
-          auto* group = current_groups_in_tab[group_index];
-          current_widgets_in_group = get_widgets_in_group(group);
-
-          if (!current_widgets_in_group.empty())
+          if (input == gui().analog_fl_input_time_domain_similarity_threshold ||
+              input == gui().analog_fl_input_frequency_domain_similarity_threshold)
           {
-            widget_index = (widget_index == -1)
-              ? 0
-              : (widget_index + dir + current_widgets_in_group.size()) % current_widgets_in_group.size();
 
-            auto* widget = current_widgets_in_group[widget_index];
-            Fl::focus(nullptr);
-            highlight_widget(widget);
-            current_focus_level = LABE::SNM::FOCUS_LEVEL::WIDGET;
-          }
-        }
-      }
-      else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
-      {
-        if (!current_groups_in_tab.empty())
-        {
-          if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
-            group_index = 0;
-
-          auto* group = current_groups_in_tab[group_index];
-          if (current_widgets_in_group.empty())
-            current_widgets_in_group = get_widgets_in_group(group);
-
-          if (!current_widgets_in_group.empty())
-          {
-            if (widget_index < 0 || widget_index >= static_cast<int>(current_widgets_in_group.size()))
+            const char* current_str = input->value();
+            int current = 0;
+            if (current_str && strlen(current_str) > 0)
             {
-              int found = -1;
-              for (int i = 0; i < static_cast<int>(current_widgets_in_group.size()); ++i)
-              {
-                if (current_widgets_in_group[i] == previous_focused_widget)
-                {
-                  found = i;
-                  break;
+              try {
+                std::string str(current_str);
+                if (str.back() == '%') {
+                  str.pop_back();
                 }
+                current = std::stoi(str);
+              } catch (...) {
+                current = 0;
               }
-              widget_index = (found != -1) ? found : 0;
             }
 
-            widget_index = (widget_index + dir + current_widgets_in_group.size()) % current_widgets_in_group.size();
-            auto* w = current_widgets_in_group[widget_index];
-            Fl::focus(nullptr);
-            highlight_widget(w);
+            if (current == 0 && (current_str == nullptr || strlen(current_str) == 0))
+            {
+              current = 100;
+              input->value("100%");
+              input->redraw();
+            }
+
+            int next = current + dir;
+            if (next < 0) next = 0;
+            if (next > 100) next = 100;
+
+            if (next != current)
+            {
+              std::string value_string = std::to_string(next) + "%";
+              input->value(value_string.c_str());
+              input->do_callback();
+              input->redraw();
+            }
+
+            return;
           }
         }
       }
 
-      LOG(dir > 0 ? "Encoder Rotated CW" : "Encoder Rotated CCW");
-    }
-  }
+      auto now = std::chrono::steady_clock::now();
+      if (now - last_nav_time >= nav_debounce_delay)
+      {
+        last_nav_time = now;
 
-  // Encoder Switch
-  if (data[0] == 3)
+        if (is_encoder_switch_pressed && widget)
+        {
+          if (auto* custom_choice = dynamic_cast<LABSoft_GUI_Fl_Input_Choice_With_Scroll*>(widget))
+          {
+            Fl_Menu_Button* menu = custom_choice->menubutton();
+            int n = menu->size();
+
+            if (n > 0)
+            {
+              const char* current = custom_choice->input()->value();
+              int curr_index = -1;
+
+              // 1) Try exact string match first
+              if (current && *current)
+              {
+                curr_index = menu->find_index(current);
+              }
+
+              // 2) If not found, try numeric match using LABSoft_GUI_Label parsing
+              if (curr_index < 0 && current)
+              {
+                try {
+                  LABSoft_GUI_Label current_label(std::string(current), 0, LABSoft_GUI_Label::UNIT::ANY);
+                  if (current_label.is_valid())
+                  {
+                    double current_value = current_label.actual_value();
+                    for (int i = 0; i < n; ++i)
+                    {
+                      const Fl_Menu_Item* it = menu->menu() + i;
+                      if (!it || !it->text) continue;
+                      LABSoft_GUI_Label item_label(std::string(it->text), 0, LABSoft_GUI_Label::UNIT::ANY);
+                      if (!item_label.is_valid()) continue;
+                      if (std::fabs(item_label.actual_value() - current_value) < 0.5)
+                      {
+                        curr_index = i;
+                        break;
+                      }
+                    }
+                  }
+                } catch (...) {
+                }
+              }
+
+              if (curr_index < 0) curr_index = -1;
+
+              int next_index = (curr_index + dir + n) % n;
+
+              int attempts = 0;
+              while (attempts < n)
+              {
+                const Fl_Menu_Item* item = menu->menu() + next_index;
+
+                if (item && item->text && !(item->flags & FL_MENU_INACTIVE))
+                {
+                  custom_choice->input()->value(item->text);
+                  custom_choice->value(item->text);
+                  custom_choice->do_callback();
+                  refresh_widget_list();
+                  custom_choice->redraw();
+                  break;
+                }
+
+                next_index = (next_index + dir + n) % n;
+                attempts++;
+              }
+            }
+
+            return;
+          }
+          else if (auto* choice = dynamic_cast<Fl_Choice*>(widget))
+          {
+            int n = choice->size();
+            if (n > 0)
+            {
+              int curr = choice->value();
+              if (curr < 0) curr = -1;
+
+              int next = (curr + dir + n) % n;
+
+              int attempts = 0;
+              while (attempts < n)
+              {
+                const Fl_Menu_Item* item = choice->menu() + next;
+                if (!(item->flags & FL_MENU_INACTIVE))
+                {
+                  choice->value(next);
+                  choice->do_callback();
+                  refresh_widget_list();
+                  choice->redraw();
+                  break;
+                }
+
+                next = (next + dir + n) % n;
+                ++attempts;
+              }
+            }
+
+            return;
+          }
+          else if (auto* input = dynamic_cast<Fl_Input*>(widget))
+          {
+            if (input == gui().digital_fl_input_output_count)
+            {
+              auto* table = gui().labchecker_digital_labsoft_gui_labchecker_digital_input_table;
+              if (table)
+              {
+                int current = static_cast<int>(table->output_count());
+                int maximum = static_cast<int>(table->max_output_count());
+                if (maximum < 1) maximum = 1;
+
+                int next = current + dir;
+                if (next < 1) next = 1;
+                if (next > maximum) next = maximum;
+
+                if (next != current)
+                {
+                  std::string value_string = std::to_string(next);
+                  input->value(value_string.c_str());
+                  input->do_callback();
+                  input->redraw();
+                }
+              }
+
+              return;
+            }
+          }
+        }
+
+        if (current_focus_level == LABE::SNM::FOCUS_LEVEL::TAB)
+        {
+          switch_tab_by_direction(dir);
+        }
+        else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP)
+        {
+          if (!current_groups_in_tab.empty())
+          {
+            if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
+              group_index = 0;
+
+            auto* group = current_groups_in_tab[group_index];
+            current_widgets_in_group = get_widgets_in_group(group);
+
+            if (!current_widgets_in_group.empty())
+            {
+              widget_index = (widget_index == -1)
+                ? 0
+                : (widget_index + dir + current_widgets_in_group.size()) % current_widgets_in_group.size();
+
+              auto* widget = current_widgets_in_group[widget_index];
+              Fl::focus(nullptr);
+              highlight_widget(widget);
+              current_focus_level = LABE::SNM::FOCUS_LEVEL::WIDGET;
+            }
+          }
+        }
+        else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET)
+        {
+          if (!current_groups_in_tab.empty())
+          {
+            if (group_index < 0 || group_index >= static_cast<int>(current_groups_in_tab.size()))
+              group_index = 0;
+
+            auto* group = current_groups_in_tab[group_index];
+            current_widgets_in_group = get_widgets_in_group(group);
+
+            if (!current_widgets_in_group.empty())
+            {
+              if (widget_index < 0 || widget_index >= static_cast<int>(current_widgets_in_group.size()))
+              {
+                int found = -1;
+                for (int i = 0; i < static_cast<int>(current_widgets_in_group.size()); ++i)
+                {
+                  if (current_widgets_in_group[i] == previous_focused_widget)
+                  {
+                    found = i;
+                    break;
+                  }
+                }
+                widget_index = (found != -1) ? found : 0;
+              }
+
+              widget_index = (widget_index + dir + current_widgets_in_group.size()) % current_widgets_in_group.size();
+              auto* w = current_widgets_in_group[widget_index];
+              Fl::focus(nullptr);
+              highlight_widget(w);
+            }
+          }
+        }
+
+      }
+    }
+
+    // Encoder Switch
+    if (data[0] == 3)
+    {
+      if (data[1] == 1 && data[2] == 1) // Pressed
+      {
+        if (is_encoder_switch_pressed) return;
+        is_encoder_switch_pressed = true;
+
+        Fl_Widget* widget = previous_focused_widget;
+
+        if (!widget || !widget->visible() || !widget->active() || !widget->takesevents()) return;
+
+        const char* widget_type = typeid(*widget).name();
+
+        if (auto* lightBtn = dynamic_cast<Fl_Light_Button*>(widget))
+        {
+          int next = !lightBtn->value();
+          lightBtn->value(next);
+          lightBtn->do_callback();
+          lightBtn->redraw();
+        }
+        else if (auto* btn = dynamic_cast<Fl_Button*>(widget))
+        {
+          btn->set_changed();
+          btn->do_callback();
+          btn->redraw();
+          Fl::flush();
+        }
+        else if (auto* input = dynamic_cast<Fl_Input*>(widget))
+        {
+          input->take_focus();
+          input->position(input->size());
+          input->redraw();
+        }
+        else
+        {
+          Fl::focus(nullptr);
+          widget->do_callback();
+          refresh_widget_list();
+          widget->redraw();
+        }
+      }
+      else if (data[1] == 1 && data[2] == 0) // Released
+      {
+        is_encoder_switch_pressed = false;
+      }
+    }
+  };
+
+  // Drain the queue this frame
+  for (;;)
   {
-    if (data[1] == 1 && data[2] == 1) // Pressed
-    {
-      LOG("Encoder Switch Pressed");
-      if (is_encoder_switch_pressed) return;
-      is_encoder_switch_pressed = true;
-
-      Fl_Widget* widget = previous_focused_widget;
-
-      if (!widget || !widget->visible() || !widget->active() || !widget->takesevents()) return;
-
-      const char* widget_type = typeid(*widget).name();
-      LOG(("Focused Widget Type: " + std::string(widget_type)).c_str());
-      LOG(("Widget Label: " + std::string(widget->label() ? widget->label() : "<no label>")).c_str());
-
-      if (auto* lightBtn = dynamic_cast<Fl_Light_Button*>(widget))
-      {
-        int next = !lightBtn->value();
-        lightBtn->value(next);
-        lightBtn->do_callback();
-        lightBtn->redraw();
-      }
-      else if (auto* btn = dynamic_cast<Fl_Button*>(widget))
-      {
-        btn->set_changed();
-        btn->do_callback();
-        btn->redraw();
-        Fl::flush();
-      }
-      else if (auto* input = dynamic_cast<Fl_Input*>(widget))
-      {
-        input->take_focus();
-        input->position(input->size());
-        input->redraw();
-      }
-      else
-      {
-        Fl::focus(nullptr);
-        widget->do_callback();
-        widget->redraw();
-      }
-    }
-    else if (data[1] == 1 && data[2] == 0) // Released
-    {
-      LOG("Encoder Switch Released");
-      is_encoder_switch_pressed = false;
-    }
+    auto data = lab().m_Software_Navigation.update_spi_data();
+    if (data[0] == 0 && data[1] == 0 && data[2] == 0) break;
+    process_one(data);
   }
 }
 
@@ -548,6 +679,14 @@ switch_tab_by_direction(int direction)
   current_tab_index = new_index;
   gui().main_fl_tabs->value(tab_groups[current_tab_index]);
   gui().main_fl_tabs->redraw();
+
+  if (current_tab_index == 8)
+  {
+    gui().analog_fl_input_time_domain_similarity_threshold->value("100%");
+    gui().analog_fl_input_time_domain_similarity_threshold->redraw();
+    gui().analog_fl_input_frequency_domain_similarity_threshold->value("100%");
+    gui().analog_fl_input_frequency_domain_similarity_threshold->redraw();
+  }
 }
 
 void
@@ -597,7 +736,13 @@ highlight_widget(Fl_Widget* widget)
 {
   if (previous_focused_widget && previous_focused_widget != widget)
   {
-    // previous_focused_widget->color(Fl_Color(54));
+    // Revert special highlighting for inputs
+    if (auto* prev_input = dynamic_cast<Fl_Input*>(previous_focused_widget))
+    {
+      prev_input->color(FL_BLACK);
+      prev_input->redraw();
+    }
+
     previous_focused_widget->labelcolor(Fl_Color(0));
     previous_focused_widget->redraw();
   }
@@ -608,15 +753,27 @@ highlight_widget(Fl_Widget* widget)
   if (widget == gui().digital_circuit_checker_fl_output_selected_file ||
       widget == gui().digital_circuit_checker_fl_output_results ||
       widget == gui().analog_circuit_checker_fl_output_selected_file ||
-      widget == gui().analog_circuit_checker_fl_output_results)
+      widget == gui().analog_circuit_checker_fl_checkbutton_time_domain ||
+      widget == gui().analog_circuit_checker_fl_input_time_domain_similarity_threshold ||
+      widget == gui().analog_circuit_checker_fl_checkbutton_frequency_domain ||
+      widget == gui().analog_circuit_checker_fl_input_frequency_domain_similarity_threshold ||
+      widget == gui().logic_analyzer_fl_button_record_config ||
+      widget == gui().logic_analyzer_fl_button_record)
   {
     previous_focused_widget = widget;
     return;
   }
 
-  // widget->color(Fl_Color(221));
-  widget->labelcolor(Fl_Color(221));
-  widget->redraw();
+  if (auto* input = dynamic_cast<Fl_Input*>(widget))
+  {
+    input->color(Fl_Color(221));
+    input->redraw();
+  }
+  else
+  {
+    widget->labelcolor(Fl_Color(221));
+    widget->redraw();
+  }
   previous_focused_widget = widget;
 }
 
@@ -651,7 +808,12 @@ clear_widget_focus()
       t->set_show_selection(false);
       t->redraw();
     }
-    // previous_focused_widget->color(Fl_Color(54));
+    // Revert special highlighting for inputs
+    if (auto* prev_input = dynamic_cast<Fl_Input*>(previous_focused_widget))
+    {
+      prev_input->color(FL_BLACK);
+      prev_input->redraw();
+    }
     previous_focused_widget->labelcolor(Fl_Color(0));
     previous_focused_widget->redraw();
     previous_focused_widget = nullptr;
@@ -693,11 +855,21 @@ initialize_run_key_actions()
         btn->value(!btn->value());
         presenter().m_Digital_Circuit_Checker.cb_run_checker(btn, nullptr);
       }},
-    // { "LABChecker - Analog", [this]() {
-    //     auto* btn = gui().analog_fl_button_capture_signal;
-    //     btn->value(!btn->value());
-    //     presenter().m_LABChecker_Analog.cb_capture_signal(btn, nullptr);
-    //   }},
+    { "LABChecker - Digital", [this]() {
+        auto* btn = gui().digital_fl_button_create_file;
+        btn->value(!btn->value());
+        presenter().m_LABChecker_Digital.cb_digital_create_file(btn, nullptr);
+      }},
+    { "Analog Circuit Checker", [this]() {
+        auto* btn = gui().analog_circuit_checker_fl_button_run_checker;
+        btn->value(!btn->value());
+        presenter().m_Analog_Circuit_Checker.cb_run_checker_acc(btn, nullptr);
+      }},
+    { "LABChecker - Analog", [this]() {
+      auto* btn = gui().analog_fl_button_capture_signal;
+      btn->value(!btn->value());
+      presenter().m_LABChecker_Analog.cb_capture_signal(btn, nullptr);
+      }},
   };
 }
 
@@ -723,14 +895,14 @@ LABSoft_Presenter_Software_Navigation::
 handle_customizable_macro_key(int key_id)
 {
   using LABE::SNM::ACTION_TYPE;
-  using LABE::SNM::TAB_ID;
+  using LABE::LAB::INSTRUMENT;
   using LABE::SNM::tab_label_to_id;
 
   const auto config = lab().m_Shortcuts.get_config(key_id);
   auto tab_id = get_current_tab_id();
 
   // --- Oscilloscope tab override ---
-  if (tab_id == TAB_ID::OSCILLOSCOPE)
+  if (tab_id == INSTRUMENT::OSCILLOSCOPE)
   {
     switch (key_id)
     {
@@ -830,8 +1002,94 @@ handle_customizable_macro_key(int key_id)
     }
   }
 
+  // --- Logic Analyzer tab override ---
+  if (tab_id == INSTRUMENT::LOGIC_ANALYZER)
+  {
+    switch (key_id)
+    {
+      case 1: // previous channel trigger
+      case 2: // next channel trigger
+      {
+        auto* display_group = gui().logic_analyzer_fl_group_display;
+        auto* display = gui().logic_analyzer_labsoft_gui_logic_analyzer_display;
+        if (!display_group || !display) return;
+
+        // Collect trigger menu buttons within the Logic Analyzer display
+        std::vector<Fl_Widget*> all_widgets = get_widgets_in_group(static_cast<Fl_Group*>(display));
+        std::vector<Fl_Menu_Button*> trigger_buttons;
+        trigger_buttons.reserve(all_widgets.size());
+        for (auto* w : all_widgets)
+        {
+          if (auto* mb = dynamic_cast<Fl_Menu_Button*>(w))
+          {
+            trigger_buttons.push_back(mb);
+          }
+        }
+
+        if (trigger_buttons.empty()) return;
+
+        static int trigger_focus_index = -1;
+
+        bool already_on_trigger = false;
+        if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET && previous_focused_widget)
+        {
+          for (int i = 0; i < static_cast<int>(trigger_buttons.size()); ++i)
+          {
+            if (trigger_buttons[i] == previous_focused_widget)
+            {
+              trigger_focus_index = i;
+              already_on_trigger = true;
+              break;
+            }
+          }
+        }
+
+        if (!already_on_trigger)
+        {
+          clear_widget_focus();
+          clear_group_focus();
+          clear_tab_focus();
+
+          // Keep focus context within the Logic Analyzer display, but do not
+          // highlight the entire group; we only highlight the trigger widget.
+          previous_focused_group = display_group;
+          current_groups_in_tab = { display_group };
+          group_index = 0;
+
+          current_widgets_in_group = all_widgets;
+
+          // Initialize index based on key direction
+          if (key_id == 1) trigger_focus_index = static_cast<int>(trigger_buttons.size()) - 1;
+          else trigger_focus_index = 0;
+        }
+        else
+        {
+          int dir = (key_id == 2) ? +1 : -1;
+          int n = static_cast<int>(trigger_buttons.size());
+          trigger_focus_index = (trigger_focus_index + dir + n) % n;
+        }
+
+        // Map selected trigger button to widget_index within current_widgets_in_group
+        widget_index = -1;
+        for (int i = 0; i < static_cast<int>(current_widgets_in_group.size()); ++i)
+        {
+          if (current_widgets_in_group[i] == trigger_buttons[trigger_focus_index])
+          {
+            widget_index = i;
+            break;
+          }
+        }
+
+        current_focus_level = LABE::SNM::FOCUS_LEVEL::WIDGET;
+        Fl::focus(nullptr);
+        highlight_widget(trigger_buttons[trigger_focus_index]);
+        return;
+      }
+    }
+  }
+
   // --- LABChecker Digital tab override ---
-  if (tab_id == TAB_ID::LABCHECKER_DIGITAL)
+  if (tab_id == INSTRUMENT::LABCHECKER_DIGITAL)
   {
     switch (key_id)
     {
@@ -963,14 +1221,25 @@ handle_customizable_macro_key(int key_id)
   // --- Configuration File ---
   if (config.action == ACTION_TYPE::GOTO)
   {
-    if (std::holds_alternative<TAB_ID>(config.target))
+    if (std::holds_alternative<LABE::LAB::INSTRUMENT>(config.target))
     {
-      TAB_ID target_tab = std::get<TAB_ID>(config.target);
-      int tab_index = static_cast<int>(target_tab);
-
-      if (tab_index >= 0 && tab_index < tab_count)
+      auto instrument = std::get<LABE::LAB::INSTRUMENT>(config.target);
+      current_tab_index = static_cast<int>(instrument);
+      if (current_tab_index < 0) current_tab_index = 0;
+      if (current_tab_index >= tab_count) current_tab_index = tab_count - 1;
+      gui().main_fl_tabs->value(tab_groups[current_tab_index]);
+      gui().main_fl_tabs->redraw();
+    }
+    else
+    {
+      // Target provided as label string
+      auto label = std::get<std::string>(config.target);
+      auto it = LABE::SNM::tab_label_to_id.find(label);
+      if (it != LABE::SNM::tab_label_to_id.end())
       {
-        current_tab_index = tab_index;
+        current_tab_index = static_cast<int>(it->second);
+        if (current_tab_index < 0) current_tab_index = 0;
+        if (current_tab_index >= tab_count) current_tab_index = tab_count - 1;
         gui().main_fl_tabs->value(tab_groups[current_tab_index]);
         gui().main_fl_tabs->redraw();
       }
@@ -980,16 +1249,11 @@ handle_customizable_macro_key(int key_id)
   {
     std::string_view target_label;
 
-    if (std::holds_alternative<TAB_ID>(config.target))
+    if (std::holds_alternative<LABE::LAB::INSTRUMENT>(config.target))
     {
-      for (const auto& [label, id] : tab_label_to_id)
-      {
-        if (id == std::get<TAB_ID>(config.target))
-        {
-          target_label = label;
-          break;
-        }
-      }
+      auto instrument = std::get<LABE::LAB::INSTRUMENT>(config.target);
+      auto it2 = LABE::SNM::tab_id_to_label.find(instrument);
+      if (it2 != LABE::SNM::tab_id_to_label.end()) target_label = it2->second;
     }
     else
     {
@@ -1020,9 +1284,10 @@ get_widgets_in_group(Fl_Group* group) const
     if (w == gui().digital_circuit_checker_fl_output_selected_file ||
         w == gui().digital_circuit_checker_fl_output_results ||
         w == gui().analog_circuit_checker_fl_output_selected_file ||
-        w == gui().analog_circuit_checker_fl_output_results ||
         w == gui().analog_circuit_checker_fl_checkbutton_time_domain ||
+        w == gui().analog_circuit_checker_fl_input_time_domain_similarity_threshold ||
         w == gui().analog_circuit_checker_fl_checkbutton_frequency_domain ||
+        w == gui().analog_circuit_checker_fl_input_frequency_domain_similarity_threshold ||
         w == gui().logic_analyzer_fl_button_record_config ||
         w == gui().logic_analyzer_fl_button_record) continue;
 
@@ -1044,7 +1309,7 @@ get_widgets_in_group(Fl_Group* group) const
   return widgets;
 }
 
-LABE::SNM::TAB_ID
+LABE::LAB::INSTRUMENT
 LABSoft_Presenter_Software_Navigation::
 get_current_tab_id() const
 {
@@ -1054,14 +1319,14 @@ get_current_tab_id() const
   if (auto it = tab_label_to_id.find(label); it != tab_label_to_id.end())
     return it->second;
 
-  return LABE::SNM::TAB_ID::OSCILLOSCOPE;
+  return LABE::LAB::INSTRUMENT::OSCILLOSCOPE;
 }
 
-std::unordered_map<LABE::SNM::TAB_ID, std::vector<Fl_Group*>>
+std::unordered_map<LABE::LAB::INSTRUMENT, std::vector<Fl_Group*>>
 LABSoft_Presenter_Software_Navigation::
 get_focusable_groups_map() const
 {
-  using TAB = LABE::SNM::TAB_ID;
+  using TAB = LABE::LAB::INSTRUMENT;
 
   return {
     { TAB::OSCILLOSCOPE, {
@@ -1089,9 +1354,36 @@ get_focusable_groups_map() const
         gui().analog_circuit_checker_fl_group_1,
         gui().analog_circuit_checker_fl_group_2 }},
     { TAB::LABCHECKER_ANALOG, {
-        gui().labchecker_analog_fl_group_1,
-        gui().labchecker_analog_fl_group_2, }}
+        gui().labchecker_analog_fl_group }}
   };
+}
+
+void
+LABSoft_Presenter_Software_Navigation::
+refresh_widget_list()
+{
+  if (current_focus_level == LABE::SNM::FOCUS_LEVEL::GROUP &&
+      !current_groups_in_tab.empty() &&
+      group_index >= 0 &&
+      group_index < static_cast<int>(current_groups_in_tab.size()))
+  {
+    auto* group = current_groups_in_tab[group_index];
+    current_widgets_in_group = get_widgets_in_group(group);
+
+    if (widget_index >= static_cast<int>(current_widgets_in_group.size()))
+      widget_index = 0;
+  }
+  else if (current_focus_level == LABE::SNM::FOCUS_LEVEL::WIDGET &&
+           !current_groups_in_tab.empty() &&
+           group_index >= 0 &&
+           group_index < static_cast<int>(current_groups_in_tab.size()))
+  {
+    auto* group = current_groups_in_tab[group_index];
+    current_widgets_in_group = get_widgets_in_group(group);
+
+    if (widget_index >= static_cast<int>(current_widgets_in_group.size()))
+      widget_index = 0;
+  }
 }
 
 // EOF

@@ -7,6 +7,13 @@
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 // #include "../Utility/LAB_Constants.h"
 
+static void labsoft_nav_tick_timer(void* data)
+{
+  auto* self = static_cast<LABSoft_Presenter*>(data);
+  self->lab().m_Software_Navigation.tick();
+  Fl::repeat_timeout(0.002, labsoft_nav_tick_timer, data);
+}
+
 LABSoft_Presenter::
 LABSoft_Presenter (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
   : m_LAB                     (_LAB),
@@ -30,6 +37,16 @@ LABSoft_Presenter (LAB& _LAB, LABSoft_GUI& _LABSoft_GUI)
   load_presenter_to_gui ();
 
   Fl::add_timeout (LABC::LABSOFT::DISPLAY_UPDATE_RATE, update_display, this);
+
+  Fl::add_timeout(0.002, labsoft_nav_tick_timer, this);
+
+  if (lab().m_Software_Navigation.is_snm_config_enabled())
+  {
+    Fl::add_timeout(0.0, [](void* data){
+      auto* self = static_cast<LABSoft_Presenter*>(data);
+      self->lab().m_Software_Navigation.set_snm_attached(true);
+    }, this);
+  }
 }
 
 void LABSoft_Presenter::
@@ -44,7 +61,7 @@ load_presenter_to_gui ()
 void LABSoft_Presenter::
 update_gui_tab_colors ()
 {
-  // 63 is green
+  // 60 is green
   // 52 is inactive tab gray
   // 54 is active tab gray
 
@@ -53,34 +70,34 @@ update_gui_tab_colors ()
 
   // 1. oscilloscope
   gui.main_fl_group_oscilloscope_tab->selection_color (
-    m_LAB.m_Oscilloscope.is_frontend_running () ? 63 : 52
+    m_LAB.m_Oscilloscope.is_frontend_running () ? 60 : 52
   );
 
   // 2. voltmeter
   gui.main_fl_group_voltmeter_tab->selection_color (
-    m_LAB.m_Voltmeter.is_frontend_running () ? 63 : 52
+    m_LAB.m_Voltmeter.is_frontend_running () ? 60 : 52
   );
 
   gui.main_fl_group_ohmmeter_tab->selection_color (
-    m_LAB.m_Ohmmeter.is_frontend_running () ? 63 : 52
+    m_LAB.m_Ohmmeter.is_frontend_running () ? 60 : 52
   );
 
   // 3. function generator
   gui.main_fl_group_function_generator_tab->selection_color (
-    m_LAB.m_Function_Generator.is_running () ? 63 : 52
+    m_LAB.m_Function_Generator.is_running () ? 60 : 52
   );
 
   // 4. logic analyzer
   gui.main_fl_group_logic_analyzer_tab->selection_color (
-    m_LAB.m_Logic_Analyzer.is_running () ? 63 : 52
+    m_LAB.m_Logic_Analyzer.is_running () ? 60 : 52
   );
 
   // 5. digital circuit checker
   gui.main_fl_group_digital_circuit_checker_tab->selection_color (
-    m_LAB.m_Digital_Circuit_Checker.is_running () ? 63 : 52
+    m_LAB.m_Digital_Circuit_Checker.is_running () ? 60 : 52
   );
 
-  tabs.selection_color  (tabs.value ()->selection_color () == 63 ? 63 : 54);
+  tabs.selection_color  (tabs.value ()->selection_color () == 60 ? 60 : 54);
   tabs.redraw           ();
 }
 

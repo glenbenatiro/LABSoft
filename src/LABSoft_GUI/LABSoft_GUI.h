@@ -20,7 +20,6 @@ class LABSoft_Presenter;
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Output.H>
-#include <FL/Fl_Menu_Button.H>
 #include "LABSoft_GUI_Logic_Analyzer_Display.h"
 #include "LABSoft_GUI_LABChecker_Digital_Output_Table.h"
 #include <FL/Fl_Choice.H>
@@ -281,17 +280,15 @@ private:
   static Fl_Menu_Item menu_logic_analyzer_fl_choice_trigger_mode[];
 public:
   Fl_Group *logic_analyzer_fl_group_add_remove_channels;
-  Fl_Menu_Button *logic_analyzer_fl_menu_button_add_channel;
-  static Fl_Menu_Item menu_logic_analyzer_fl_menu_button_add_channel[];
+  Fl_Button *logic_analyzer_fl_menu_button_add_channel;
 private:
-  inline void cb_Signal_i(Fl_Menu_*, void*);
-  static void cb_Signal(Fl_Menu_*, void*);
+  inline void cb_logic_analyzer_fl_menu_button_add_channel_i(Fl_Button*, void*);
+  static void cb_logic_analyzer_fl_menu_button_add_channel(Fl_Button*, void*);
 public:
-  Fl_Menu_Button *logic_analyzer_fl_menu_button_remove_channel;
-  static Fl_Menu_Item menu_logic_analyzer_fl_menu_button_remove_channel[];
+  Fl_Button *logic_analyzer_fl_menu_button_remove_channel;
 private:
-  inline void cb_Clear_i(Fl_Menu_*, void*);
-  static void cb_Clear(Fl_Menu_*, void*);
+  inline void cb_logic_analyzer_fl_menu_button_remove_channel_i(Fl_Button*, void*);
+  static void cb_logic_analyzer_fl_menu_button_remove_channel(Fl_Button*, void*);
 public:
   Fl_Group *logic_analyzer_fl_group_horizontal;
   LABSoft_GUI_Fl_Input_Choice_With_Scroll *logic_analyzer_fl_input_choice_horizontal_offset;
@@ -371,26 +368,57 @@ public:
   LABSoft_GUI_Analog_Circuit_Checker_Display *analog_circuit_checker_labsoft_gui_analog_circuit_checker_display;
   Fl_Group *analog_circuit_checker_fl_group_1;
   Fl_Button *analog_circuit_checker_fl_button_load_file;
+private:
+  inline void cb_analog_circuit_checker_fl_button_load_file_i(Fl_Button*, void*);
+  static void cb_analog_circuit_checker_fl_button_load_file(Fl_Button*, void*);
+public:
   Fl_Output *analog_circuit_checker_fl_output_selected_file;
-  Fl_Check_Button *analog_circuit_checker_fl_checkbutton_time_domain;
-  Fl_Check_Button *analog_circuit_checker_fl_checkbutton_frequency_domain;
   Fl_Button *analog_circuit_checker_fl_button_run_checker;
+private:
+  inline void cb_analog_circuit_checker_fl_button_run_checker_i(Fl_Button*, void*);
+  static void cb_analog_circuit_checker_fl_button_run_checker(Fl_Button*, void*);
+public:
   Fl_Group *analog_circuit_checker_fl_group_2;
-  Fl_Output *analog_circuit_checker_fl_output_results;
+  Fl_Check_Button *analog_circuit_checker_fl_checkbutton_time_domain;
+  Fl_Output *analog_circuit_checker_fl_input_time_domain_similarity_threshold;
+  Fl_Check_Button *analog_circuit_checker_fl_checkbutton_frequency_domain;
+  Fl_Output *analog_circuit_checker_fl_input_frequency_domain_similarity_threshold;
+  Fl_Button *analog_circuit_checker_fl_button_toggle_view;
+private:
+  inline void cb_analog_circuit_checker_fl_button_toggle_view_i(Fl_Button*, void*);
+  static void cb_analog_circuit_checker_fl_button_toggle_view(Fl_Button*, void*);
+public:
   Fl_Button *analog_circuit_checker_fl_button_export_results;
+private:
+  inline void cb_analog_circuit_checker_fl_button_export_results_i(Fl_Button*, void*);
+  static void cb_analog_circuit_checker_fl_button_export_results(Fl_Button*, void*);
+public:
+  Fl_Text_Display *analog_circuit_checker_domain_label;
   Fl_Group *main_fl_group_labchecker_analog_tab;
   LABSoft_GUI_LABChecker_Analog_Checker_Display *analog_labsoft_gui_analog_checker_display;
-  Fl_Group *labchecker_analog_fl_group_1;
+  Fl_Group *labchecker_analog_fl_group;
   Fl_Check_Button *analog_fl_checkbutton_time_domain;
+private:
+  inline void cb_analog_fl_checkbutton_time_domain_i(Fl_Check_Button*, void*);
+  static void cb_analog_fl_checkbutton_time_domain(Fl_Check_Button*, void*);
+public:
+  Fl_Input *analog_fl_input_time_domain_similarity_threshold;
   Fl_Check_Button *analog_fl_checkbutton_frequency_domain;
+private:
+  inline void cb_analog_fl_checkbutton_frequency_domain_i(Fl_Check_Button*, void*);
+  static void cb_analog_fl_checkbutton_frequency_domain(Fl_Check_Button*, void*);
+public:
+  Fl_Input *analog_fl_input_frequency_domain_similarity_threshold;
   Fl_Button *analog_fl_button_capture_signal;
 private:
   inline void cb_analog_fl_button_capture_signal_i(Fl_Button*, void*);
   static void cb_analog_fl_button_capture_signal(Fl_Button*, void*);
 public:
-  Fl_Group *labchecker_analog_fl_group_2;
-  Fl_Input *analog_fl_input_similarity_threshold;
   Fl_Button *analog_fl_button_create_file;
+private:
+  inline void cb_analog_fl_button_create_file_i(Fl_Button*, void*);
+  static void cb_analog_fl_button_create_file(Fl_Button*, void*);
+public:
   Fl_Double_Window *oscilloscope_fl_window_record_config;
   Fl_Group *oscilloscope_fl_group_record_config;
   static Fl_Menu_Item menu_Samples[];
