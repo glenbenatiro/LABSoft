@@ -2,17 +2,106 @@
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <unordered_map>
 
 #include "../LAB/LAB.h"
 #include "LABSoft_Presenter.h"
 #include "../LABSoft_GUI/LABSoft_GUI.h"
 #include "../Utility/LABSoft_GUI_Label.h"
+#include <FL/fl_draw.H>
+
+namespace
+{
+  struct Input_Edit_Style_Backup
+  {
+    Fl_Font  textfont  = FL_HELVETICA;
+    Fl_Color textcolor = FL_BLACK;
+  };
+
+  // Only used for the two LABChecker-Analog similarity threshold inputs.
+  std::unordered_map<Fl_Input*, Input_Edit_Style_Backup> g_input_edit_style_backup;
+
+  struct Input_Focus_Color_Backup
+  {
+    Fl_Color color = FL_BACKGROUND2_COLOR;
+  };
+
+  // Used for restoring normal Fl_Input backgrounds after focus highlight.
+  std::unordered_map<Fl_Input*, Input_Focus_Color_Backup> g_input_focus_color_backup;
+
+  struct Special_Input_Base_Style
+  {
+    Fl_Boxtype box      = FL_DOWN_BOX;
+    Fl_Color   color    = FL_BACKGROUND2_COLOR;
+    Fl_Color   textcolor= FL_BLACK;
+    Fl_Font    textfont = FL_HELVETICA;
+  };
+
+  std::unordered_map<Fl_Input*, Special_Input_Base_Style> g_special_input_base_style;
+
+  static std::chrono::steady_clock::time_point g_last_threshold_adjust_time{};
+  static constexpr auto g_threshold_adjust_debounce = std::chrono::milliseconds(15);
+
+  static Fl_Boxtype g_box_black_border = FL_BORDER_BOX;
+  static Fl_Boxtype g_box_blue_border  = FL_BORDER_BOX;
+
+  static void draw_black_border_box(int x, int y, int w, int h, Fl_Color c)
+  {
+    fl_color(c);
+    fl_rectf(x, y, w, h);
+    fl_color(FL_BLACK);
+    fl_rect(x, y, w, h);
+  }
+
+  static void draw_blue_border_box(int x, int y, int w, int h, Fl_Color c)
+  {
+    fl_color(c);
+    fl_rectf(x, y, w, h);
+    fl_color(Fl_Color(221));
+    fl_rect(x, y, w, h);
+  }
+
+  static void ensure_custom_boxtypes_initialized()
+  {
+    static bool initialized = false;
+    if (initialized) return;
+
+    // Reserve two custom box types for border-only styling (fill uses widget color).
+    g_box_black_border = static_cast<Fl_Boxtype>(FL_FREE_BOXTYPE);
+    g_box_blue_border  = static_cast<Fl_Boxtype>(FL_FREE_BOXTYPE + 1);
+
+    Fl::set_boxtype(g_box_black_border, draw_black_border_box, 1, 1, 2, 2);
+    Fl::set_boxtype(g_box_blue_border,  draw_blue_border_box,  1, 1, 2, 2);
+
+    initialized = true;
+  }
+
+  static bool is_special_threshold_input(LABSoft_GUI& gui, const Fl_Input* input)
+  {
+    return input &&
+           (input == gui.analog_fl_input_time_domain_similarity_threshold ||
+            input == gui.analog_fl_input_frequency_domain_similarity_threshold);
+  }
+
+  static void ensure_special_base_style(LABSoft_GUI& gui, Fl_Input* input)
+  {
+    if (!is_special_threshold_input(gui, input)) return;
+    if (g_special_input_base_style.find(input) != g_special_input_base_style.end()) return;
+    g_special_input_base_style[input] = Special_Input_Base_Style{
+      input->box(),
+      input->color(),
+      input->textcolor(),
+      input->textfont()
+    };
+  }
+}
 
 LABSoft_Presenter_Software_Navigation::
 LABSoft_Presenter_Software_Navigation(LABSoft_Presenter& _LABSoft_Presenter)
   : LABSoft_Presenter_Unit(_LABSoft_Presenter)
 {
   Fl::visible_focus(0);
+  ensure_custom_boxtypes_initialized();
 
   tab_groups[0] = gui().main_fl_group_oscilloscope_tab;
   tab_groups[1] = gui().main_fl_group_voltmeter_tab;
@@ -26,14 +115,154 @@ LABSoft_Presenter_Software_Navigation(LABSoft_Presenter& _LABSoft_Presenter)
   tab_groups[9] = gui().main_fl_group_labchecker_analog_tab;
 
   sync_current_tab_index();
+  last_tab_group = static_cast<Fl_Group*>(gui().main_fl_tabs->value());
   initialize_run_key_actions();
+}
+
+Fl_Font
+LABSoft_Presenter_Software_Navigation::
+make_bold_font(Fl_Font f)
+{
+  switch (f)
+  {
+    case FL_HELVETICA: return FL_HELVETICA_BOLD;
+    case FL_COURIER:   return FL_COURIER_BOLD;
+    case FL_TIMES:     return FL_TIMES_BOLD;
+    case FL_SCREEN:    return FL_SCREEN_BOLD;
+    default:           return f;
+  }
+}
+
+bool
+LABSoft_Presenter_Software_Navigation::
+is_rotary_editable(Fl_Widget* widget) const
+{
+  if (!widget) return false;
+
+  // Value-adjustable widgets supported by rotation handlers below.
+  if (dynamic_cast<LABSoft_GUI_Fl_Input_Choice_With_Scroll*>(widget)) return true;
+  if (dynamic_cast<Fl_Choice*>(widget)) return true;
+
+  if (auto* input = dynamic_cast<Fl_Input*>(widget))
+  {
+    if (input == gui().digital_fl_input_output_count) return true;
+    if (input == gui().analog_fl_input_time_domain_similarity_threshold) return true;
+    if (input == gui().analog_fl_input_frequency_domain_similarity_threshold) return true;
+  }
+
+  // Logic Analyzer trigger menu buttons.
+  if (get_current_tab_id() == LABE::LAB::INSTRUMENT::LOGIC_ANALYZER &&
+      dynamic_cast<Fl_Menu_Button*>(widget))
+  {
+    return true;
+  }
+
+  return false;
+}
+
+bool
+LABSoft_Presenter_Software_Navigation::
+begin_rotary_edit(Fl_Widget* widget)
+{
+  if (!widget || !widget->visible() || !widget->active() || !widget->takesevents()) return false;
+  if (!is_rotary_editable(widget)) return false;
+
+  // If we're already editing something else, cleanly exit first.
+  if (is_rotary_edit_active) end_rotary_edit();
+
+  is_rotary_edit_active = true;
+  rotary_selected_widget = widget;
+  rotary_selected_labelfont = widget->labelfont();
+
+  // For the two LABChecker-Analog similarity threshold inputs, "edit mode"
+  // styling is applied to the *text inside* the widget, not the label.
+  if (auto* input = dynamic_cast<Fl_Input*>(widget))
+  {
+    if (input == gui().analog_fl_input_time_domain_similarity_threshold ||
+        input == gui().analog_fl_input_frequency_domain_similarity_threshold)
+    {
+      ensure_custom_boxtypes_initialized();
+      ensure_special_base_style(gui(), input);
+
+      // Backup once per edit session.
+      g_input_edit_style_backup[input] = Input_Edit_Style_Backup{input->textfont(), input->textcolor()};
+
+      input->textfont(make_bold_font(input->textfont()));
+      input->textcolor(Fl_Color(221));
+      input->redraw();
+      return true;
+    }
+  }
+
+  // Default rotary-edit highlighting: bold label.
+  {
+    Fl_Font bold = make_bold_font(rotary_selected_labelfont);
+    widget->labelfont(bold);
+    widget->redraw();
+  }
+  return true;
+}
+
+void
+LABSoft_Presenter_Software_Navigation::
+end_rotary_edit()
+{
+  if (auto* input = dynamic_cast<Fl_Input*>(rotary_selected_widget))
+  {
+    if (input == gui().analog_fl_input_time_domain_similarity_threshold ||
+        input == gui().analog_fl_input_frequency_domain_similarity_threshold)
+    {
+      auto it = g_input_edit_style_backup.find(input);
+      if (it != g_input_edit_style_backup.end())
+      {
+        input->textfont(it->second.textfont);
+        input->textcolor(it->second.textcolor);
+        g_input_edit_style_backup.erase(it);
+      }
+      input->redraw();
+
+      is_rotary_edit_active = false;
+      rotary_selected_widget = nullptr;
+      rotary_selected_labelfont = 0;
+      return;
+    }
+  }
+
+  if (rotary_selected_widget)
+  {
+    rotary_selected_widget->labelfont(rotary_selected_labelfont);
+    rotary_selected_widget->redraw();
+  }
+
+  is_rotary_edit_active = false;
+  rotary_selected_widget = nullptr;
+  rotary_selected_labelfont = 0;
 }
 
 void
 LABSoft_Presenter_Software_Navigation::
 update_data_cycle()
 {
-  // If Logic Analyzer is running, publish any completed streamed LOGAN block
+  {
+    Fl_Group* current_tab = static_cast<Fl_Group*>(gui().main_fl_tabs->value());
+    if (current_tab != last_tab_group)
+    {
+      end_rotary_edit();
+      last_tab_group = current_tab;
+      sync_current_tab_index();
+
+      current_focus_level = LABE::SNM::FOCUS_LEVEL::TAB;
+      group_index = 0;
+      widget_index = -1;
+      current_groups_in_tab.clear();
+      current_widgets_in_group.clear();
+
+      clear_group_focus();
+      clear_widget_focus();
+      highlight_tab();
+    }
+  }
+
   if (lab().m_Logic_Analyzer.is_running())
   {
     lab().m_Software_Navigation.publish_completed_logan_block();
@@ -46,6 +275,16 @@ update_data_cycle()
     // Macro Keys
     if (data[0] == 1)
     {
+      // While editing a value, only allow "Back" to cancel.
+      if (is_rotary_edit_active)
+      {
+        if (data[1] == 3 && data[2] == 0) // Back key
+        {
+          end_rotary_edit();
+        }
+        return;
+      }
+
       // Customizable Key 1
       if (data[1] == 1 && data[2] == 0)
       {
@@ -316,17 +555,20 @@ update_data_cycle()
     if (data[0] == 2)
     {
       int dir = (data[1] == 1) ? +1 : -1;
-      Fl_Widget* widget = previous_focused_widget;
+      Fl_Widget* widget = is_rotary_edit_active ? rotary_selected_widget : previous_focused_widget;
 
-      if (widget && get_current_tab_id() == LABE::LAB::INSTRUMENT::LOGIC_ANALYZER)
+      // In edit mode, rotation should ONLY adjust the selected widget (no navigation).
+      if (is_rotary_edit_active && (!widget || widget != rotary_selected_widget))
+      {
+        return;
+      }
+
+      if (is_rotary_edit_active &&
+          widget &&
+          get_current_tab_id() == LABE::LAB::INSTRUMENT::LOGIC_ANALYZER)
       {
         if (auto* menu_btn = dynamic_cast<Fl_Menu_Button*>(widget))
         {
-          if (!is_encoder_switch_pressed)
-          {
-            return;
-          }
-
           auto now = std::chrono::steady_clock::now();
           if (now - last_nav_time < nav_debounce_delay)
           {
@@ -366,13 +608,19 @@ update_data_cycle()
         }
       }
 
-      if (is_encoder_switch_pressed && widget)
+      if (is_rotary_edit_active && widget)
       {
         if (auto* input = dynamic_cast<Fl_Input*>(widget))
         {
           if (input == gui().analog_fl_input_time_domain_similarity_threshold ||
               input == gui().analog_fl_input_frequency_domain_similarity_threshold)
           {
+            auto now = std::chrono::steady_clock::now();
+            if (now - g_last_threshold_adjust_time < g_threshold_adjust_debounce)
+            {
+              return;
+            }
+            g_last_threshold_adjust_time = now;
 
             const char* current_str = input->value();
             int current = 0;
@@ -396,7 +644,11 @@ update_data_cycle()
               input->redraw();
             }
 
-            int next = current + dir;
+            int step = 0;
+            if (dir > 0) step = 1;
+            else if (dir < 0) step = -1;
+
+            int next = current + step;
             if (next < 0) next = 0;
             if (next > 100) next = 100;
 
@@ -418,7 +670,7 @@ update_data_cycle()
       {
         last_nav_time = now;
 
-        if (is_encoder_switch_pressed && widget)
+        if (is_rotary_edit_active && widget)
         {
           if (auto* custom_choice = dynamic_cast<LABSoft_GUI_Fl_Input_Choice_With_Scroll*>(widget))
           {
@@ -544,7 +796,13 @@ update_data_cycle()
               return;
             }
           }
+
+          // In edit mode, rotation should not fall through into navigation.
+          return;
         }
+
+        // If editing, we should never navigate.
+        if (is_rotary_edit_active) return;
 
         if (current_focus_level == LABE::SNM::FOCUS_LEVEL::TAB)
         {
@@ -618,9 +876,22 @@ update_data_cycle()
         if (is_encoder_switch_pressed) return;
         is_encoder_switch_pressed = true;
 
+        // Press-to-confirm while editing.
+        if (is_rotary_edit_active)
+        {
+          end_rotary_edit();
+          return;
+        }
+
         Fl_Widget* widget = previous_focused_widget;
 
         if (!widget || !widget->visible() || !widget->active() || !widget->takesevents()) return;
+
+        // Press-to-select (enter edit mode) for value-adjustable widgets.
+        if (begin_rotary_edit(widget))
+        {
+          return;
+        }
 
         const char* widget_type = typeid(*widget).name();
 
@@ -672,6 +943,8 @@ void
 LABSoft_Presenter_Software_Navigation::
 switch_tab_by_direction(int direction)
 {
+  sync_current_tab_index();
+
   int new_index = current_tab_index + direction;
   if (new_index < 0) new_index = tab_count - 1;
   else if (new_index >= tab_count) new_index = 0;
@@ -734,12 +1007,43 @@ void
 LABSoft_Presenter_Software_Navigation::
 highlight_widget(Fl_Widget* widget)
 {
+  ensure_custom_boxtypes_initialized();
+
   if (previous_focused_widget && previous_focused_widget != widget)
   {
     // Revert special highlighting for inputs
     if (auto* prev_input = dynamic_cast<Fl_Input*>(previous_focused_widget))
     {
-      prev_input->color(FL_BLACK);
+      // Restore original background for inputs that were focus-highlighted.
+      if (auto it = g_input_focus_color_backup.find(prev_input); it != g_input_focus_color_backup.end())
+      {
+        prev_input->color(it->second.color);
+        g_input_focus_color_backup.erase(it);
+      }
+
+      // Restore border state for special threshold inputs.
+      if (is_special_threshold_input(gui(), prev_input))
+      {
+        ensure_special_base_style(gui(), prev_input);
+        if (prev_input->active())
+        {
+          // Active but unfocused => black border; leave background alone.
+          prev_input->box(g_box_black_border);
+          prev_input->textcolor(FL_BLACK);
+        }
+        else
+        {
+          // Deactivated => restore baseline box & colors.
+          auto it = g_special_input_base_style.find(prev_input);
+          if (it != g_special_input_base_style.end())
+          {
+            prev_input->box(it->second.box);
+            prev_input->color(it->second.color);
+            prev_input->textcolor(it->second.textcolor);
+            prev_input->textfont(it->second.textfont);
+          }
+        }
+      }
       prev_input->redraw();
     }
 
@@ -766,6 +1070,43 @@ highlight_widget(Fl_Widget* widget)
 
   if (auto* input = dynamic_cast<Fl_Input*>(widget))
   {
+    // For the LABChecker-Analog similarity threshold inputs, do NOT tint the
+    // background on focus; styling is handled by edit mode (rotary edit).
+    if (is_special_threshold_input(gui(), input))
+    {
+      ensure_special_base_style(gui(), input);
+
+      // Focused => blue border (only if active). When deactivated, keep baseline.
+      if (input->active())
+      {
+        input->box(g_box_blue_border);
+        // Not editing => normal black text; editing overrides via begin_rotary_edit().
+        if (g_input_edit_style_backup.find(input) == g_input_edit_style_backup.end())
+        {
+          input->textcolor(FL_BLACK);
+        }
+      }
+      else
+      {
+        auto it = g_special_input_base_style.find(input);
+        if (it != g_special_input_base_style.end())
+        {
+          input->box(it->second.box);
+          input->color(it->second.color);
+          input->textcolor(it->second.textcolor);
+          input->textfont(it->second.textfont);
+        }
+      }
+      input->redraw();
+      previous_focused_widget = widget;
+      return;
+    }
+
+    // Backup current background before tinting.
+    if (g_input_focus_color_backup.find(input) == g_input_focus_color_backup.end())
+    {
+      g_input_focus_color_backup[input] = Input_Focus_Color_Backup{input->color()};
+    }
     input->color(Fl_Color(221));
     input->redraw();
   }
@@ -801,6 +1142,11 @@ void
 LABSoft_Presenter_Software_Navigation::
 clear_widget_focus()
 {
+  if (is_rotary_edit_active)
+  {
+    end_rotary_edit();
+  }
+
   if (previous_focused_widget)
   {
     if (auto* t = dynamic_cast<LABSoft_GUI_LABChecker_Digital_Input_Table*>(previous_focused_widget))
@@ -811,7 +1157,34 @@ clear_widget_focus()
     // Revert special highlighting for inputs
     if (auto* prev_input = dynamic_cast<Fl_Input*>(previous_focused_widget))
     {
-      prev_input->color(FL_BLACK);
+      // Restore original background for inputs that were focus-highlighted.
+      if (auto it = g_input_focus_color_backup.find(prev_input); it != g_input_focus_color_backup.end())
+      {
+        prev_input->color(it->second.color);
+        g_input_focus_color_backup.erase(it);
+      }
+
+      // Restore border state for special threshold inputs.
+      if (is_special_threshold_input(gui(), prev_input))
+      {
+        ensure_special_base_style(gui(), prev_input);
+        if (prev_input->active())
+        {
+          prev_input->box(g_box_black_border);
+          prev_input->textcolor(FL_BLACK);
+        }
+        else
+        {
+          auto it = g_special_input_base_style.find(prev_input);
+          if (it != g_special_input_base_style.end())
+          {
+            prev_input->box(it->second.box);
+            prev_input->color(it->second.color);
+            prev_input->textcolor(it->second.textcolor);
+            prev_input->textfont(it->second.textfont);
+          }
+        }
+      }
       prev_input->redraw();
     }
     previous_focused_widget->labelcolor(Fl_Color(0));

@@ -10,6 +10,8 @@
 #include <cctype>
 #include <cstdlib>
 #include <limits>
+#include <thread>
+#include <chrono>
 #include <FL/Fl_Menu_.H>
 #include <FL/Fl_Menu_Button.H>
 
@@ -149,6 +151,67 @@ static void set_choice_index (LABSoft_GUI_Fl_Choice_With_Scroll* w, int desired_
   w->value(idx);
 }
 
+void LABSoft_Presenter_Analog_Circuit_Checker::
+reset_display_state_for_new_file()
+{
+  // Clear in-memory signal and analysis buffers
+  time_instructor.clear();
+  time_student.clear();
+  freq_instructor.clear();
+  freq_student.clear();
+  freq_instructor_complex.clear();
+  freq_student_complex.clear();
+  time_instructor_pixels.clear();
+  time_student_pixels.clear();
+
+  time_domain_result = AnalysisResult{};
+  frequency_domain_result = AnalysisResult{};
+
+  m_view_frequency = false;
+
+  LABSoft_GUI &gui_ref = m_presenter.gui();
+
+  // Reset Analog Circuit Checker display contents
+  if (auto *acc_disp_ptr = gui_ref.analog_circuit_checker_labsoft_gui_analog_circuit_checker_display)
+  {
+    LABSoft_GUI_Analog_Circuit_Checker_Display::PixelPoints empty_points{};
+    std::vector<std::array<int, 2>> empty_overlay;
+
+    acc_disp_ptr->set_frequency_view(false, 0.0);
+    acc_disp_ptr->load_pixel_points(empty_points);
+    acc_disp_ptr->load_overlay_points(empty_overlay, FL_RED, false);
+    acc_disp_ptr->channel_enable_disable(0, false);
+    acc_disp_ptr->channel_enable_disable(1, false);
+    acc_disp_ptr->update_display();
+  }
+
+  // Reset view toggle button and domain label to defaults
+  if (gui_ref.analog_circuit_checker_fl_button_toggle_view)
+  {
+    gui_ref.analog_circuit_checker_fl_button_toggle_view->copy_label("View Frequency Domain");
+    gui_ref.analog_circuit_checker_fl_button_toggle_view->redraw();
+  }
+  if (gui_ref.analog_circuit_checker_domain_label)
+  {
+    gui_ref.analog_circuit_checker_domain_label->label("Time Domain");
+    gui_ref.analog_circuit_checker_domain_label->redraw();
+  }
+
+  // Clear similarity output fields and reset their colors
+  if (gui_ref.analog_circuit_checker_fl_input_time_domain_similarity_threshold)
+  {
+    gui_ref.analog_circuit_checker_fl_input_time_domain_similarity_threshold->value("");
+    gui_ref.analog_circuit_checker_fl_input_time_domain_similarity_threshold->textcolor(FL_FOREGROUND_COLOR);
+    gui_ref.analog_circuit_checker_fl_input_time_domain_similarity_threshold->redraw();
+  }
+  if (gui_ref.analog_circuit_checker_fl_input_frequency_domain_similarity_threshold)
+  {
+    gui_ref.analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->value("");
+    gui_ref.analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->textcolor(FL_FOREGROUND_COLOR);
+    gui_ref.analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->redraw();
+  }
+}
+
 LABSoft_Presenter_Analog_Circuit_Checker::LABSoft_Presenter_Analog_Circuit_Checker(LABSoft_Presenter &_LABSoft_Presenter)
     : LABSoft_Presenter_Unit(_LABSoft_Presenter)
 {
@@ -182,6 +245,13 @@ import_metadata()
   m_metadata.trigger_type       = analog_checker.get_trigger_type();
   m_metadata.trigger_condition  = analog_checker.get_trigger_condition();
   m_metadata.trigger_level      = analog_checker.get_trigger_level();
+
+  // std::printf("[ACC] Imported trigger settings from .labacc file:\n");
+  // std::printf("  trigger_mode: %u\n", m_metadata.trigger_mode);
+  // std::printf("  trigger_source: %u\n", m_metadata.trigger_source);
+  // std::printf("  trigger_type: %u\n", m_metadata.trigger_type);
+  // std::printf("  trigger_condition: %u\n", m_metadata.trigger_condition);
+  // std::printf("  trigger_level: %.6f\n", m_metadata.trigger_level);
 
   // Persist comparison settings
   m_metadata.comparison.time_domain                   = analog_checker.get_cmp_time_domain();
@@ -222,6 +292,7 @@ prepare_instructor_data()
 {
   time_instructor.clear();
   freq_instructor.clear();
+  freq_instructor_complex.clear();
   time_instructor_pixels.clear();
 
   const auto &ch_data = lab().m_Analog_Circuit_Checker.get_channel_data();
@@ -231,6 +302,7 @@ prepare_instructor_data()
     time_instructor = ch_data[1].sample_data;
 
     const auto spectrum = lab().m_Analog_Circuit_Checker.compute_fft(time_instructor);
+    freq_instructor_complex = spectrum;
     freq_instructor.reserve(spectrum.size());
 
     for (const auto &c : spectrum)
@@ -274,6 +346,7 @@ prepare_student_data()
 {
   time_student.clear();
   freq_student.clear();
+  freq_student_complex.clear();
   time_student_pixels.clear();
 
   LAB_Oscilloscope &osc = lab().m_Oscilloscope;
@@ -288,6 +361,7 @@ prepare_student_data()
     time_student.push_back(arr[i]);
 
   const auto spectrum = lab().m_Analog_Circuit_Checker.compute_fft(time_student);
+  freq_student_complex = spectrum;
   freq_student.reserve(spectrum.size());
 
   for (const auto &c : spectrum)
@@ -476,7 +550,7 @@ update_gui_oscilloscope()
   osc.samples(m_metadata.samples);
   osc.sampling_rate(m_metadata.sampling_rate);
 
-  // Triggers
+  // Triggers - Apply from .labacc file
   auto clamp_mode = [](unsigned v) -> LABE::OSC::TRIG::MODE {
     if (v > 2) v = 2; return static_cast<LABE::OSC::TRIG::MODE>(v);
   };
@@ -487,11 +561,18 @@ update_gui_oscilloscope()
     if (v > 2) v = 2; return static_cast<LABE::OSC::TRIG::CND>(v);
   };
 
+  // std::printf("[ACC] Applying trigger settings to oscilloscope hardware:\n");
+  // std::printf("  Before: osc.trigger_mode() = %d, is_running() = %d\n",
+  //             static_cast<int>(osc.trigger_mode()), osc.is_running());
+
   osc.trigger_mode(clamp_mode(m_metadata.trigger_mode));
   osc.trigger_source((m_metadata.trigger_source == 0) ? 0u : 1u);
   osc.trigger_type(clamp_type(m_metadata.trigger_type));
   osc.trigger_condition(clamp_cnd(m_metadata.trigger_condition));
   osc.trigger_level(m_metadata.trigger_level);
+
+  // std::printf("  After: osc.trigger_mode() = %d, is_running() = %d\n",
+  //             static_cast<int>(osc.trigger_mode()), osc.is_running());
 
   if (m_metadata.channels.size() >= 1)
   {
@@ -578,12 +659,14 @@ update_gui_oscilloscope()
                               m_metadata.sampling_rate);
   }
 
-  // Triggers
+  // Triggers - Update GUI controls to reflect .labacc settings
   if (gui.oscilloscope_fl_choice_trigger_mode)
   {
+    // Map trigger_mode (0=NONE, 1=NORMAL, 2=AUTO) to menu index
+    // Since AUTO is disabled, only use NONE (0) and NORMAL (1)
     int mode_val = static_cast<int>(m_metadata.trigger_mode);
-    mode_val = (mode_val <= 0) ? 0 : 1;
-    int menu_index = (mode_val == 0) ? 0 : 1;
+    if (mode_val > 2) mode_val = 0; // Clamp invalid values
+    int menu_index = (mode_val == 0) ? 0 : 1; // 0->NONE, 1/2->NORMAL
     set_choice_index(gui.oscilloscope_fl_choice_trigger_mode, menu_index);
   }
 
@@ -710,6 +793,17 @@ perform_time_domain_analysis()
       char buf[64];
       std::snprintf(buf, sizeof(buf), "%.2f%%", time_domain_result.percentage);
       gui().analog_circuit_checker_fl_input_time_domain_similarity_threshold->value(buf);
+
+      // Color coding: Green if >= threshold, Red if < threshold
+      if (time_domain_result.percentage >= checker.get_cmp_time_similarity_threshold())
+      {
+        gui().analog_circuit_checker_fl_input_time_domain_similarity_threshold->textcolor(FL_DARK_GREEN);
+      }
+      else
+      {
+        gui().analog_circuit_checker_fl_input_time_domain_similarity_threshold->textcolor(FL_RED);
+      }
+      gui().analog_circuit_checker_fl_input_time_domain_similarity_threshold->redraw();
     }
   }
 }
@@ -722,10 +816,9 @@ perform_frequency_domain_analysis()
   if (!checker.is_file_loaded()) return;
   if (!checker.get_cmp_frequency_domain()) return;
 
-  if (!freq_instructor.empty() && !freq_student.empty())
+  if (!freq_instructor_complex.empty() && !freq_student_complex.empty())
   {
-    // Existing cross-correlation analysis
-    auto result = checker.signal_analysis(freq_instructor, freq_student);
+    auto result = checker.signal_analysis_complex(freq_instructor_complex, freq_student_complex);
     frequency_domain_result.lag = result.lag;
     frequency_domain_result.coefficient = result.coefficient;
     frequency_domain_result.percentage = result.percentage;
@@ -735,16 +828,19 @@ perform_frequency_domain_analysis()
       char buf[64];
       std::snprintf(buf, sizeof(buf), "%.2f%%", frequency_domain_result.percentage);
       gui().analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->value(buf);
+
+      // Color coding: Green if >= threshold, Red if < threshold
+      if (frequency_domain_result.percentage >= checker.get_cmp_frequency_similarity_threshold())
+      {
+        gui().analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->textcolor(FL_DARK_GREEN);
+      }
+      else
+      {
+        gui().analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->textcolor(FL_RED);
+      }
+      gui().analog_circuit_checker_fl_input_frequency_domain_similarity_threshold->redraw();
     }
 
-    // New magnitude-based error similarity analysis
-    double magnitude_similarity = checker.compute_magnitude_error_similarity(freq_instructor, freq_student);
-
-    // Print both similarity measures to terminal
-    std::printf("=== FREQUENCY DOMAIN ANALYSIS ===\n");
-    std::printf("Similarity Result (Cross-correlation): %.2f%%\n", frequency_domain_result.percentage);
-    std::printf("Similarity Result (MSE): %.2f%%\n", magnitude_similarity);
-    std::printf("==================================\n");
   }
 }
 
@@ -770,19 +866,14 @@ cb_load_file_acc(Fl_Button* w, void* data)
         if (LABF::has_filename_this_extension(path,
                                               LABC::LABSOFT::ANALOG_CIRCUIT_CHECKER_FILENAME_EXTENSION))
         {
-          update_gui_display();
+          // Ensure any previous ACC display state, settings, and signals are cleared
+          reset_display_state_for_new_file();
 
           selected_file.value(LABF::get_filename_from_path(path).c_str());
 
           // Load the .labacc file
           m_presenter.lab().m_Analog_Circuit_Checker.load_file(path);
           import_metadata();
-
-          // turn off oscilloscope and function generator run button
-          gui().oscilloscope_fl_light_button_run_stop->value(0);
-          gui().function_generator_fl_light_button_run_stop->value(0);
-          presenter().m_Oscilloscope.cb_run_stop(gui().oscilloscope_fl_light_button_run_stop, nullptr);
-          presenter().m_Function_Generator.cb_run_stop(gui().function_generator_fl_light_button_run_stop, 0);
 
           // prepare and configure sample data
           prepare_instructor_data           ();
@@ -792,6 +883,12 @@ cb_load_file_acc(Fl_Button* w, void* data)
           update_gui_function_generator     ();
           update_gui_acc_comparison         ();
           update_gui_analog_circuit_checker ();
+
+          // turn off oscilloscope and function generator run button
+          gui().oscilloscope_fl_light_button_run_stop->value(0);
+          gui().function_generator_fl_light_button_run_stop->value(0);
+          presenter().m_Oscilloscope.cb_run_stop(gui().oscilloscope_fl_light_button_run_stop, nullptr);
+          presenter().m_Function_Generator.cb_run_stop(gui().function_generator_fl_light_button_run_stop, 0);
 
           lab().m_Oscilloscope.sync_display_metadata_from_current_settings();
           lab().m_Oscilloscope_Display.update_cached_values();
@@ -829,40 +926,46 @@ cb_run_checker_acc(Fl_Button* w, void* data)
 {
   auto &checker = lab().m_Analog_Circuit_Checker;
 
-  std::printf("\n=== ANALOG CIRCUIT CHECKER - RUN CHECKER TRIGGERED ===\n");
+  if (!checker.is_file_loaded())
+  {
+    fl_message_title("Analog Circuit Checker");
+    fl_message("No file loaded. Please load a .labacc file first.");
+    return;
+  }
 
   LABSoft_GUI &gui_ref = m_presenter.gui();
   auto *acc_disp_ptr = gui_ref.analog_circuit_checker_labsoft_gui_analog_circuit_checker_display;
   if (!acc_disp_ptr) return;
+
   LAB_Oscilloscope &osc = lab().m_Oscilloscope;
+  LAB_Function_Generator &fg = lab().m_Function_Generator;
 
   osc.channel_enable_disable(1, true);
   prepare_student_data();
 
-  // Print student signals to terminal
-  std::printf("<samples>");
-  for (size_t i = 0; i < time_student.size(); ++i)
+  // Print student signals to terminal | DEBUG
+  // std::printf("<samples>");
+  // for (size_t i = 0; i < time_student.size(); ++i)
+  // {
+  //   std::printf("%.6f", time_student[i]);
+  //   if (i < time_student.size() - 1)
+  //     std::printf(",");
+  // }
+  // std::printf("</samples>\n");
+
+  if (osc.is_frontend_running() && fg.is_running())
   {
-    std::printf("%.6f", time_student[i]);
-    if (i < time_student.size() - 1)
-      std::printf(",");
+    perform_time_domain_analysis();
+    perform_frequency_domain_analysis();
+
+    // Update display based on current view mode (time or frequency)
+    update_gui_analog_circuit_checker();
   }
-  std::printf("</samples>\n");
-
-  LABSoft_GUI_Analog_Circuit_Checker_Display::PixelPoints acc_pixels{};
-  if (!time_student_pixels.empty())
-    acc_pixels[1] = time_student_pixels;
-
-  acc_disp_ptr->set_frequency_view(false, osc.sampling_rate());
-  acc_disp_ptr->load_pixel_points(acc_pixels);
-  acc_disp_ptr->channel_enable_disable(0, false);
-  acc_disp_ptr->channel_enable_disable(1, true);
-  acc_disp_ptr->update_display();
-
-  perform_time_domain_analysis();
-  perform_frequency_domain_analysis();
-
-  std::printf("\n=== ANALOG CIRCUIT CHECKER - COMPLETED ===\n\n");
+  else
+  {
+    fl_message_title ("Analog Circuit Checker");
+    fl_message("Must turn on both the Oscilloscope and Function Generator before running the checker.");
+  }
 }
 
 void LABSoft_Presenter_Analog_Circuit_Checker::
@@ -928,13 +1031,14 @@ cb_export_result(Fl_Button* w, void* data)
     std::string result_path = file_path + ".result";
     std::string message = "Results exported successfully to:\n" + result_path;
     fl_message(message.c_str());
-    std::printf("\n=== ANALOG CIRCUIT CHECKER - RESULT EXPORTED ===\n");
-    std::printf("File: %s\n", result_path.c_str());
-    std::printf("Time Domain Similarity: %.2f%% (Lag: %.0f samples)\n",
-                time_domain_result.percentage, time_domain_result.lag);
-    std::printf("Frequency Domain Similarity: %.2f%% (Lag: %.0f bins)\n",
-                frequency_domain_result.percentage, frequency_domain_result.lag);
-    std::printf("===============================================\n\n");
+    // debug
+    // std::printf("\n=== ANALOG CIRCUIT CHECKER - RESULT EXPORTED ===\n");
+    // std::printf("File: %s\n", result_path.c_str());
+    // std::printf("Time Domain Similarity: %.2f%% (Lag: %.0f samples)\n",
+    //             time_domain_result.percentage, time_domain_result.lag);
+    // std::printf("Frequency Domain Similarity: %.2f%% (Lag: %.0f bins)\n",
+    //             frequency_domain_result.percentage, frequency_domain_result.lag);
+    // std::printf("===============================================\n\n");
   }
   else
   {

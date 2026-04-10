@@ -40,7 +40,7 @@ class LABSoft_GUI {open
   } {
     Fl_Window main_fl_window {
       label {LABSoft (for Educators)} open
-      xywh {302 296 1220 595} type Double color 53 selection_color 53 labelsize 12 visible
+      xywh {237 103 1220 595} type Double color 53 selection_color 53 labelsize 12 hide
     } {
       Fl_Menu_Bar main_fl_menu {
         xywh {0 0 1220 20} box FLAT_BOX color 54 labelsize 12 textsize 12
@@ -1624,7 +1624,7 @@ class LABSoft_GUI {open
         }
         Fl_Group main_fl_group_logic_analyzer_tab {
           label {Logic Analyzer} open
-          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12
+          xywh {0 50 1220 550} color 54 selection_color 52 labelsize 12 hide
         } {
           Fl_Group logic_analyzer_fl_group_display {
             xywh {20 70 400 70} box ROUNDED_FRAME color 52
@@ -2007,7 +2007,7 @@ class LABSoft_GUI {open
               class LABSoft_GUI_Fl_Input_Choice_With_Scroll
             } {
               MenuItem {} {
-                label {1 kHz} selected
+                label {1 kHz}
                 xywh {120 120 36 21} labelsize 12
               }
               MenuItem {} {
@@ -2208,8 +2208,8 @@ class LABSoft_GUI {open
           } {}
         }
         Fl_Group main_fl_group_analog_circuit_checker {
-          label {Analog Circuit Checker}
-          xywh {1 50 1220 550} color 54 selection_color 52 labelsize 12 hide
+          label {Analog Circuit Checker} open
+          xywh {1 50 1220 550} color 54 selection_color 52 labelsize 12
         } {
           Fl_Group analog_circuit_checker_labsoft_gui_analog_circuit_checker_display {
             xywh {260 100 920 450} box FLAT_BOX color 32
@@ -2265,7 +2265,7 @@ class LABSoft_GUI {open
             }
           }
           Fl_Text_Display analog_circuit_checker_domain_label {
-            label {TIme Domain}
+            label {Time Domain} selected
             xywh {640 575 200 1}
           }
         }
@@ -2653,10 +2653,10 @@ class LABSoft_GUI {open
       }
     }
     Fl_Window main_fl_window_shortcuts {
-      label Shortcuts
+      label Shortcuts open
       xywh {1043 142 500 200} type Double color 54 hide
     } {
-      Fl_Group main_fl_shortcuts_window_group_1 {
+      Fl_Group main_fl_shortcuts_window_group_1 {open
         xywh {43 35 427 35}
       } {
         Fl_Box {} {
@@ -2714,6 +2714,14 @@ class LABSoft_GUI {open
             label {LABChecker - Digital}
             xywh {780 70 36 25} selection_color 229 labelsize 12
           }
+          MenuItem {} {
+            label {Analog Circuit Checker}
+            xywh {780 70 36 25} labelsize 12
+          }
+          MenuItem {} {
+            label {LABChecker - Analog}
+            xywh {780 70 36 25} labelsize 12
+          }
         }
       }
       Fl_Group main_fl_shortcuts_window_group_2 {open
@@ -2724,7 +2732,7 @@ class LABSoft_GUI {open
           xywh {43 112 35 0}
         }
         Fl_Choice shortcuts_labsoft_gui_fl_choice_with_scroll_key_2_action {
-          user_data 0 user_data_type long
+          user_data 0 user_data_type long open
           xywh {100 95 160 35} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 11
           class LABSoft_GUI_Fl_Choice_With_Scroll
         } {
@@ -2738,7 +2746,7 @@ class LABSoft_GUI {open
           }
         }
         Fl_Choice shortcuts_labsoft_gui_fl_choice_with_scroll_key_2_value {
-          user_data 0 user_data_type long
+          user_data 0 user_data_type long open
           xywh {280 95 190 35} box NO_BOX down_box BORDER_BOX color 54 selection_color 229 labelsize 12 align 1 textsize 11
           class LABSoft_GUI_Fl_Choice_With_Scroll
         } {
@@ -2773,6 +2781,14 @@ class LABSoft_GUI {open
           MenuItem {} {
             label {LABChecker - Digital}
             xywh {770 60 36 25} selection_color 229 labelsize 12
+          }
+          MenuItem {} {
+            label {Analog Circuit Checker}
+            xywh {770 60 36 25} labelsize 12
+          }
+          MenuItem {} {
+            label {LABChecker - Analog}
+            xywh {770 60 36 25} labelsize 12
           }
         }
       }

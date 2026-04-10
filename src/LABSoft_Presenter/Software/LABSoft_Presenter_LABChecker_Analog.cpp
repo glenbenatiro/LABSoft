@@ -27,21 +27,6 @@ load_gui()
   LABSoft_GUI_LABChecker_Analog_Checker_Display &analog_checker_disp_gui = *(gui().analog_labsoft_gui_analog_checker_display);
 
   analog_checker_disp_gui.load_presenter(m_presenter);
-
-  osc_disp.update_pixel_points();
-  const auto &raw_buf = osc_disp.pixel_points();
-  if (raw_buf.size() < 2 || raw_buf[1].empty()) return;
-
-  std::array<std::vector<std::array<int, 2>>, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> channel2_only_pixel_points;
-  channel2_only_pixel_points[1] = raw_buf[1];
-
-  analog_checker_disp_gui.load_pixel_points(channel2_only_pixel_points);
-  analog_checker_disp_gui.channel_enable_disable(0, false);
-  analog_checker_disp_gui.channel_enable_disable(1, true);
-  analog_checker_disp_gui.update_display();
-
-  // Ensure comparison threshold inputs reflect checkbox state
-  sync_comparison_inputs_enabled();
 }
 
 void LABSoft_Presenter_LABChecker_Analog::
@@ -52,7 +37,16 @@ update_display()
 
   osc_disp.update_pixel_points();
   const auto &raw_buf = osc_disp.pixel_points();
-  if (raw_buf.size() < 2 || raw_buf[1].empty()) return;
+  if (raw_buf.size() < 2 || raw_buf[1].empty())
+  {
+    // Explicitly clear so we don't keep showing stale traces.
+    std::array<std::vector<std::array<int, 2>>, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> empty_pixel_points{};
+    analog_checker_disp_gui.load_pixel_points(empty_pixel_points);
+    analog_checker_disp_gui.channel_enable_disable(0, false);
+    analog_checker_disp_gui.channel_enable_disable(1, true);
+    analog_checker_disp_gui.update_display();
+    return;
+  }
 
   std::array<std::vector<std::array<int, 2>>, LABC::OSC_DISPLAY::NUMBER_OF_CHANNELS> channel2_only_pixel_points;
   channel2_only_pixel_points[1] = raw_buf[1];
@@ -74,6 +68,11 @@ cb_capture_signal(Fl_Button *w,
   {
     capture_oscilloscope_and_function_generator_data();
     update_gui_with_captured_data();
+  }
+  else
+  {
+    fl_message_title ("LABChecker - Analog");
+    fl_message("Must turn on both the Oscilloscope and Function Generator before capturing data.");
   }
 }
 
@@ -167,18 +166,98 @@ update_gui_with_captured_data()
 void LABSoft_Presenter_LABChecker_Analog::
 sync_comparison_inputs_enabled()
 {
+  // Capture baseline style per-widget so activation/deactivation returns to the
+  // exact FLUID/theme defaults (and never falls back to 0/black).
+  struct BaselineOne
+  {
+    bool      captured = false;
+    Fl_Boxtype box{};
+    Fl_Color  color{};
+    Fl_Color  textcolor{};
+    Fl_Font   textfont{};
+  };
+  static BaselineOne time_base;
+  static BaselineOne freq_base;
+
+  if (gui().analog_fl_input_time_domain_similarity_threshold && !time_base.captured)
+  {
+    auto* w = gui().analog_fl_input_time_domain_similarity_threshold;
+    time_base.box       = w->box();
+    time_base.color     = w->color();
+    time_base.textcolor = w->textcolor();
+    time_base.textfont  = w->textfont();
+    time_base.captured  = true;
+  }
+  if (gui().analog_fl_input_frequency_domain_similarity_threshold && !freq_base.captured)
+  {
+    auto* w = gui().analog_fl_input_frequency_domain_similarity_threshold;
+    freq_base.box       = w->box();
+    freq_base.color     = w->color();
+    freq_base.textcolor = w->textcolor();
+    freq_base.textfont  = w->textfont();
+    freq_base.captured  = true;
+  }
+
   const int time_enabled = gui().analog_fl_checkbutton_time_domain ? gui().analog_fl_checkbutton_time_domain->value() : 0;
   const int freq_enabled = gui().analog_fl_checkbutton_frequency_domain ? gui().analog_fl_checkbutton_frequency_domain->value() : 0;
 
   if (gui().analog_fl_input_time_domain_similarity_threshold)
   {
-    if (time_enabled) gui().analog_fl_input_time_domain_similarity_threshold->activate();
-    else              gui().analog_fl_input_time_domain_similarity_threshold->deactivate();
+    if (time_enabled)
+    {
+      gui().analog_fl_input_time_domain_similarity_threshold->activate();
+      gui().analog_fl_input_time_domain_similarity_threshold->box(FL_BORDER_BOX);
+      gui().analog_fl_input_time_domain_similarity_threshold->color(FL_BACKGROUND2_COLOR);
+      gui().analog_fl_input_time_domain_similarity_threshold->textcolor(FL_BLACK);
+      // On enable, populate a sensible default if empty.
+      const char* v = gui().analog_fl_input_time_domain_similarity_threshold->value();
+      if (!v || *v == '\0')
+      {
+        gui().analog_fl_input_time_domain_similarity_threshold->value("100%");
+      }
+    }
+    else
+    {
+      gui().analog_fl_input_time_domain_similarity_threshold->deactivate();
+      // Fully restore baseline so the disabled look matches FLUID/theme.
+      if (time_base.captured)
+      {
+        gui().analog_fl_input_time_domain_similarity_threshold->box(time_base.box);
+        gui().analog_fl_input_time_domain_similarity_threshold->color(time_base.color);
+        gui().analog_fl_input_time_domain_similarity_threshold->textcolor(time_base.textcolor);
+        gui().analog_fl_input_time_domain_similarity_threshold->textfont(time_base.textfont);
+      }
+    }
+    gui().analog_fl_input_time_domain_similarity_threshold->redraw();
   }
   if (gui().analog_fl_input_frequency_domain_similarity_threshold)
   {
-    if (freq_enabled) gui().analog_fl_input_frequency_domain_similarity_threshold->activate();
-    else              gui().analog_fl_input_frequency_domain_similarity_threshold->deactivate();
+    if (freq_enabled)
+    {
+      gui().analog_fl_input_frequency_domain_similarity_threshold->activate();
+      gui().analog_fl_input_frequency_domain_similarity_threshold->box(FL_BORDER_BOX);
+      gui().analog_fl_input_frequency_domain_similarity_threshold->color(FL_BACKGROUND2_COLOR);
+      gui().analog_fl_input_frequency_domain_similarity_threshold->textcolor(FL_BLACK);
+      // On enable, populate a sensible default if empty.
+      const char* v = gui().analog_fl_input_frequency_domain_similarity_threshold->value();
+      if (!v || *v == '\0')
+      {
+        gui().analog_fl_input_frequency_domain_similarity_threshold->value("100%");
+      }
+    }
+    else
+    {
+      gui().analog_fl_input_frequency_domain_similarity_threshold->deactivate();
+      // Fully restore baseline so the disabled look matches FLUID/theme.
+      if (freq_base.captured)
+      {
+        gui().analog_fl_input_frequency_domain_similarity_threshold->box(freq_base.box);
+        gui().analog_fl_input_frequency_domain_similarity_threshold->color(freq_base.color);
+        gui().analog_fl_input_frequency_domain_similarity_threshold->textcolor(freq_base.textcolor);
+        gui().analog_fl_input_frequency_domain_similarity_threshold->textfont(freq_base.textfont);
+      }
+    }
+    gui().analog_fl_input_frequency_domain_similarity_threshold->redraw();
   }
 }
 
